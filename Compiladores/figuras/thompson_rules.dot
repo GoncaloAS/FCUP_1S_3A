@@ -1,0 +1,40 @@
+digraph thompson {
+  rankdir=LR;
+  fontname="Helvetica";
+  node [shape=circle, fontname="Helvetica", fontsize=11, width=0.3, fixedsize=true];
+  edge [fontname="Helvetica", fontsize=10];
+
+  subgraph cluster_concat {
+    label="Concatenação  A·B";
+    style=dashed; fontsize=12;
+    cA [label="A", shape=box, style=dashed, width=0.6];
+    cB [label="B", shape=box, style=dashed, width=0.6];
+    cin [label="", shape=point];
+    cin -> cA -> cB;
+  }
+
+  subgraph cluster_union {
+    label="União  A|B";
+    style=dashed; fontsize=12;
+    uin [label="", shape=circle, width=0.15];
+    uout [label="", shape=circle, width=0.15];
+    uA [label="A", shape=box, style=dashed, width=0.6];
+    uB [label="B", shape=box, style=dashed, width=0.6];
+    uin -> uA [label=" ε"];
+    uin -> uB [label=" ε"];
+    uA -> uout [label="ε "];
+    uB -> uout [label="ε "];
+  }
+
+  subgraph cluster_star {
+    label="Repetição  A*";
+    style=dashed; fontsize=12;
+    sin [label="", shape=circle, width=0.15];
+    sout [label="", shape=circle, width=0.15];
+    sA [label="A", shape=box, style=dashed, width=0.6];
+    sin -> sA [label=" ε"];
+    sin -> sout [label="ε (saltar)"];
+    sA -> sout [label="ε "];
+    sA -> sin [label="ε (repetir)" constraint=false];
+  }
+}

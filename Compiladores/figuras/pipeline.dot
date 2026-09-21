@@ -1,0 +1,39 @@
+digraph pipeline {
+  rankdir=TB;
+  node [shape=box, fontname="Helvetica", fontsize=11, margin="0.15,0.08"];
+  edge [fontname="Helvetica", fontsize=10];
+  compound=true;
+
+  texto [label="texto do programa", shape=plain];
+  lex [label="Análise lexical"];
+  toks [label="sequência de tokens", shape=plain];
+  syn [label="Análise sintática"];
+  ast [label="árvore sintática abstrata", shape=plain];
+  sem [label="Análise semântica"];
+  astf [label="AST + tabela de símbolos", shape=plain];
+
+  gc [label="Geração de código"];
+  ci [label="código intermédio", shape=plain];
+
+  si [label="Seleção de instruções"];
+  asm1 [label="assembly simbólico", shape=plain];
+  ar [label="Alocação de registos"];
+  asm2 [label="assembly concreto", shape=plain];
+  al [label="Assembler & linker"];
+  exe [label="código executável", shape=plain];
+
+  subgraph cluster_front {
+    label="Frontend";
+    style=dashed;
+    texto -> lex -> toks -> syn -> ast -> sem -> astf;
+  }
+  subgraph cluster_back {
+    label="Backend";
+    style=dashed;
+    si -> asm1 -> ar -> asm2 -> al -> exe;
+  }
+
+  astf -> gc [ltail=cluster_front];
+  gc -> ci;
+  ci -> si [lhead=cluster_back];
+}

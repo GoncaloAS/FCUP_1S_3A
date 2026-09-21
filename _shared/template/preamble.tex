@@ -1,0 +1,66 @@
+% Preambulo partilhado para todos os resumos de disciplinas.
+% Fontes/cores/caixas ficam todas aqui para manter os documentos visualmente consistentes.
+% NOTA: não carregar babel/fontenc/inputenc aqui — o template pandoc (via
+% -V lang=pt-PT, engine tectonic/xetex) já os configura; duplicá-los causa
+% "Option clash for package babel".
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning,arrows.meta,shapes,trees}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[colorlinks=true,linkcolor=DefBlue,urlcolor=DefBlue,citecolor=DefBlue]{hyperref}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\definecolor{DefBlue}{HTML}{1B4F72}
+\definecolor{DefBlueBg}{HTML}{EBF2FA}
+\definecolor{ExGreen}{HTML}{1E7A46}
+\definecolor{ExGreenBg}{HTML}{E9F7EF}
+\definecolor{WarnOrange}{HTML}{B9770E}
+\definecolor{WarnOrangeBg}{HTML}{FDF2E3}
+\definecolor{ExamRed}{HTML}{922B21}
+\definecolor{ExamRedBg}{HTML}{FDEDEC}
+
+% Caixas NÃO quebráveis de propósito (nobreak é o default do tcolorbox
+% quando "breakable" não é passado): uma caixa nunca deve partir-se entre
+% duas páginas — se não couber no espaço que resta, o LaTeX empurra-a
+% inteira para a página seguinte. Se um exemplo for demasiado longo para
+% caber numa página, divide-o em duas caixas mais pequenas em vez de
+% ativar "breakable" outra vez.
+% Caixa de Definicao
+\newtcolorbox{definicao}[1][]{colback=DefBlueBg,colframe=DefBlue,fonttitle=\bfseries,title={Definição\ #1},left=6pt,right=6pt,top=3pt,bottom=3pt}
+% Caixa de Exemplo resolvido
+\newtcolorbox{exemplo}[1][]{colback=ExGreenBg,colframe=ExGreen,fonttitle=\bfseries,title={Exemplo resolvido\ #1},left=6pt,right=6pt,top=3pt,bottom=3pt}
+% Caixa de Atencao / erro comum
+\newtcolorbox{atencao}[1][]{colback=WarnOrangeBg,colframe=WarnOrange,fonttitle=\bfseries,title={Atenção\ #1},left=6pt,right=6pt,top=3pt,bottom=3pt}
+% Caixa "sai muitas vezes em exame"
+\newtcolorbox{exame}[1][]{colback=ExamRedBg,colframe=ExamRed,fonttitle=\bfseries,title={Frequente em exame\ #1},left=6pt,right=6pt,top=3pt,bottom=3pt}
+
+% Cada "Aula" (heading de nível 1, "#" em markdown -> \section) começa
+% sempre numa página nova, para ficar fácil de encontrar a partir do índice.
+% Sub-secções ("##", \subsection) NÃO forçam página nova.
+\let\oldsection\section
+\renewcommand{\section}{\clearpage\oldsection}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{gray}{\leftmark}}
+\fancyhead[R]{\small\textcolor{gray}{\thepage}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=single,
+  columns=fullflexible,
+  backgroundcolor=\color{gray!8}
+}
+
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
