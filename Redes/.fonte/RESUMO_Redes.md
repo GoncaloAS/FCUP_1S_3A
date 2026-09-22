@@ -4,7 +4,7 @@ author: "Gonçalo Sousa"
 date: "Atualizado: Semana 1"
 ---
 
-<!-- processado: Teoricas/AboutRC.pdf, Teoricas/Cap1.pdf -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf -->
 
 # Informação da Disciplina
 

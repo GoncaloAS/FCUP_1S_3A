@@ -6,7 +6,7 @@ set -euo pipefail
 SUBJECT="$1"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/.."
 SUBJECT_DIR="$ROOT/$SUBJECT"
-MD="$SUBJECT_DIR/RESUMO_${SUBJECT}.md"
+MD="$SUBJECT_DIR/.fonte/RESUMO_${SUBJECT}.md"
 PDF="$SUBJECT_DIR/RESUMO_${SUBJECT}.pdf"
 PREAMBLE="$ROOT/_shared/template/preamble.tex"
 FILTER="$ROOT/_shared/template/div-envs.lua"

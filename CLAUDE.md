@@ -21,20 +21,35 @@ organiza mesmo os ficheiros — segue o que existe, não impõe a tua ordem):
 ```
 <Disciplina>/
   Teoricas/                <- todos os slides das aulas teóricas, um PDF por aula
-    <Disciplina>1.pdf        (numerados sequencialmente pela ordem das aulas)
-    <Disciplina>2.pdf
+    Aula_01.pdf               (nome fixo Aula_NN — não repete o nome da disciplina,
+    Aula_02.pdf                já está na pasta; numeração com zero à esquerda)
     ...
-  Semana_N/                <- material da(s) prática(s) dessa semana
-    <pasta-do-lab>/           (enunciado em PDF, código fornecido, testes, etc.)
+  Praticas/
+    Semana_1/                <- material da prática dessa semana
+      <pasta-do-lab>/           (enunciado em PDF, código fornecido, testes, etc.)
+    Semana_2/
+    ...
   figuras/                 <- diagramas gerados (graphviz/matplotlib) usados no resumo
-  RESUMO_<Disciplina>.md   <- fonte única do resumo (cresce, nunca é substituída)
-  RESUMO_<Disciplina>.pdf  <- compilado a partir do .md acima
+  .fonte/
+    RESUMO_<Disciplina>.md  <- fonte única do resumo (cresce, nunca é substituída;
+                                ESCONDIDA de propósito — o Gonçalo não quer ver .md
+                                ao navegar a pasta, só o PDF)
+  RESUMO_<Disciplina>.pdf  <- compilado a partir do .md acima, sempre visível
 ```
 
 O resumo cobre sempre as **teóricas** (`Teoricas/`). O material de
-`Semana_N/` (labs, enunciados práticos, código) não é reproduzido no resumo —
-serve para perceber a que se deve ligar a explicação teórica (ver regra em
-`SKILL.md`, secção "Ligação com a prática").
+`Praticas/Semana_N/` (labs, enunciados práticos, código) não é reproduzido no
+resumo — serve para perceber a que se deve ligar a explicação teórica (ver
+regra em `SKILL.md`, secção "Ligação com a prática").
+
+**Regra do `.md` escondido**: o Gonçalo não gosta de ver ficheiros `.md` —
+prefere só PDFs quando navega uma disciplina. Mas o `.md` é a fonte editável
+de que o workflow depende para continuar a estender o mesmo documento
+semana a semana — nunca apagar, só esconder em `.fonte/`. Isto aplica-se a
+**qualquer** `.md` de uma disciplina, não só ao `RESUMO_` — se precisares de
+criar outro documento (calendário, enunciado de trabalho, etc.), gera o PDF
+com o mesmo pipeline (`_shared/template/`) e esconde a fonte em `.fonte/`
+da mesma forma.
 
 _shared/template/
   preamble.tex   <- estilo LaTeX partilhado por todas as disciplinas (caixas, cores, fontes)

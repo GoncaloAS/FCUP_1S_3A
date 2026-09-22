@@ -4,7 +4,7 @@ author: "Gonçalo Sousa"
 date: "Atualizado: Semana 1 (Aulas 1--2, Módulos 01--02)"
 ---
 
-<!-- processado: Teoricas/IPM_M01.pdf, Teoricas/IPM_M02.pdf -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf -->
 
 # Aula 1 --- Enquadramento da disciplina e do projeto
 

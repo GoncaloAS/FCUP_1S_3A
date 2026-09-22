@@ -4,7 +4,7 @@ author: "Gonçalo Sousa"
 date: "Atualizado: Semana 2 (Aulas 1--4)"
 ---
 
-<!-- processado: Teoricas/Compiladores1.pdf, Teoricas/Compiladores2.pdf, Teoricas/Compiladores3.pdf, Teoricas/Compiladores-4.pdf -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf, Teoricas/Aula_04.pdf -->
 
 # Aula 1 --- Introdução e fases de um compilador
 

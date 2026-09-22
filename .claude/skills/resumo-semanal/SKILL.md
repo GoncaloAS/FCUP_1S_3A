@@ -1,6 +1,6 @@
 ---
 name: resumo-semanal
-description: Gera ou estende o resumo teórico cumulativo em PDF de uma disciplina a partir dos slides colocados numa pasta Semana_N. Usar sempre que o Gonçalo adiciona material novo de uma disciplina (teóricas novas) e pede para atualizar o resumo, ou quando começa uma disciplina nova.
+description: Gera ou estende o resumo teórico cumulativo em PDF de uma disciplina a partir dos slides colocados em Teoricas/. Usar sempre que o Gonçalo adiciona material novo de uma disciplina (teóricas novas) e pede para atualizar o resumo, ou quando começa uma disciplina nova.
 ---
 
 # Resumo semanal por disciplina
@@ -14,23 +14,42 @@ estudo em PDF, por disciplina, que se estende ao longo do semestre. Ver
 - O Gonçalo colocou slides novos em `<Disciplina>/Teoricas/` e pede para
   atualizar o resumo.
 - É a primeira vez que se processa uma disciplina (a pasta ainda não tem
-  `RESUMO_<Disciplina>.md`) — nesse caso, cria-se a estrutura de raiz.
+  `.fonte/RESUMO_<Disciplina>.md`) — nesse caso, cria-se a estrutura de raiz.
 
 ## Passo a passo
 
+### 0. Nomenclatura (aplica-se sempre, disciplina nova ou já existente)
+
+- Slides de teóricas: `<Disciplina>/Teoricas/Aula_NN.pdf` (zero à esquerda,
+  não repetir o nome da disciplina — já está na pasta). Ao receberes um PDF
+  novo do Gonçalo com outro nome qualquer, **abre a primeira página** para
+  confirmar o número/título real da aula (não assumas pela ordem de chegada
+  nem pelo nome do ficheiro original) e faz `git mv` para o nome certo antes
+  de processar. Se um PDF não for uma aula numerada (ex: um livro/apontamento
+  de referência do professor), não o forces no esquema `Aula_NN` — dá-lhe um
+  nome descritivo dentro de `Teoricas/` e sinaliza ao Gonçalo que foi uma
+  decisão tua.
+- Material de prática: `<Disciplina>/Praticas/Semana_N/`.
+- Fonte do resumo: `<Disciplina>/.fonte/RESUMO_<Disciplina>.md` — **sempre
+  escondida** (o Gonçalo não quer ver `.md` nenhum ao navegar a pasta), nunca
+  apagada. O PDF compilado (`RESUMO_<Disciplina>.pdf`) fica visível na raiz
+  da disciplina. Esta regra aplica-se a qualquer `.md` que cries para uma
+  disciplina, não só ao resumo — gera sempre o PDF correspondente e esconde
+  a fonte em `.fonte/`.
+
 ### 1. Descobrir o que é novo
 
-Abre `<Disciplina>/RESUMO_<Disciplina>.md` (se existir) e olha para o
+Abre `<Disciplina>/.fonte/RESUMO_<Disciplina>.md` (se existir) e olha para o
 cabeçalho HTML-comment `<!-- processado: ... -->` no topo do ficheiro — lista
 os ficheiros de origem já incorporados. Compara com o conteúdo de
 `<Disciplina>/Teoricas/`. Processa apenas os PDFs que ainda não constam dessa
 lista (evita reprocessar e duplicar secções). Se houver também uma
-`Semana_N/` nova com material de prática, não a "processes" para o resumo —
-usa-a só para escrever a secção "Ligação com a prática" (passo 8).
+`Praticas/Semana_N/` nova com material de prática, não a "processes" para o
+resumo — usa-a só para escrever a secção "Ligação com a prática" (passo 8).
 
-Se o ficheiro RESUMO ainda não existir, cria-o com o cabeçalho YAML +
-comentário de processados vazio (ver "Esqueleto do ficheiro" abaixo) antes de
-começar a escrever conteúdo.
+Se o ficheiro RESUMO ainda não existir, cria-o (dentro de `.fonte/`) com o
+cabeçalho YAML + comentário de processados vazio (ver "Esqueleto do
+ficheiro" abaixo) antes de começar a escrever conteúdo.
 
 **Antes de escrever, varre o documento inteiro à procura de sobreposição de
 tópicos** — não só o cabeçalho de processados (que só diz que ficheiros
@@ -51,7 +70,7 @@ quaisquer exercícios de prática incluídos.
 
 ### 3. Escrever/estender o Markdown
 
-Escreve diretamente no `RESUMO_<Disciplina>.md`, em português, denso mas
+Escreve diretamente no `.fonte/RESUMO_<Disciplina>.md`, em português, denso mas
 claro — o objetivo é que o Gonçalo NÃO precise de voltar aos slides. Regras:
 
 - **Não omitir informação.** Todas as definições, teoremas e algoritmos dos
@@ -143,6 +162,20 @@ parsing do fenced div inteiro (o bloco sai como texto em bruto, incluindo
 os `:::` literais, sem erro nenhum). Escreve sempre `title="--- X"` (traço
 colado às aspas), nunca `title=" --- X"`.
 
+**Outro bug de parsing (apanhado 2026-09-22):** nunca escrevas `(a)`, `(b)`,
+`(c)`... **sem negrito** no início de um parágrafo/linha, quando várias
+alíneas de um exercício partilham a mesma caixa. O pandoc reconhece isso
+como início de **lista ordenada alfabética** e renumera tudo
+sequencialmente a partir da primeira letra — se escreveres `(a)`, `(d)`,
+`(c)`, `(g)`, `(h)` (porque só selecionaste essas alíneas, saltando as
+outras), o PDF mostra `(a)`, `(b)`, `(c)`, `(d)`, `(e)` na ordem em que
+apareceram, **não** as letras reais do enunciado — silenciosamente errado,
+sem nenhum erro de build. Corrige sempre para `**(a)**`, `**(d)**`,
+`**(c)**` (com negrito) — isso já não é reconhecido como marcador de lista
+e mantém a letra literal. (Isto já era feito bem na maioria do documento;
+só falhou numa caixa nova com múltiplas alíneas legítimas mas não
+consecutivas.)
+
 Não uses `implicit_figures` — uma imagem numa caixa não deve ser a única
 coisa do parágrafo com legenda automática (isso parte a compilação, floats
 não cabem dentro de tcolorbox). Escreve `![](figuras/x.pdf){width=50%}` sem
@@ -192,24 +225,83 @@ PDF gerado e inspeciona visualmente pelo menos as páginas com caixas novas
 causa erro nenhum no tectonic, só faz a caixa sair como texto em bruto
 com `:::` literais. Isso só se apanha a olhar para o resultado.
 
-### 7. Ligação com a prática (sem resolver a prática)
+### 7. Ligação com a prática — mistura exercícios sugeridos e resolvidos
 
-Se a semana tiver uma pasta `Semana_N/` com enunciado/lab, acrescenta no fim
+Se a semana tiver uma pasta `Praticas/Semana_N/` com enunciado/lab, acrescenta no fim
 da secção da(s) aula(s) correspondente(s) um parágrafo curto "Ligação com a
 prática" a apontar que exercício usa que conceito (ex: "o Exercício 3 do lab
-usa a secção Flex acima"). **Não resolvas os exercícios da prática por ele**
-— o Gonçalo prefere tentar sozinho depois de ler o resumo. Se um exercício
-pede algo estruturalmente idêntico a um exemplo já resolvido no resumo (ex:
-escrever uma expressão regular parecida), usa um exemplo *análogo* com dados
-diferentes para ilustrar a técnica, não o mesmo enunciado.
+usa a secção Flex acima").
 
-### 8. Atualizar o cabeçalho de processados
+**Regra atualizada (2026-09-22, substitui a versão anterior "nunca resolvas
+a prática")**: o resumo deve conter uma **mistura** de:
+- **Exercícios sugeridos, para o Gonçalo tentar sozinho** — enuncia o
+  exercício (ou aponta para ele no enunciado da prática) mas não dás a
+  resposta; é para ele aplicar a técnica que acabou de ler.
+- **Exercícios totalmente resolvidos** — incluindo, quando isso ajudar a
+  fixar o mecanismo, **exercícios reais do próprio enunciado da prática**
+  (não só análogos inventados). Cita sempre a origem no título da caixa
+  (ex: `title="--- Exercício 1.3(a) (lab, proplogic.pdf)"`), para ficar
+  claro que aquilo é mesmo um exercício do lab e não um exemplo genérico.
+
+Não há uma proporção fixa — usa julgamento: um exercício mecânico e
+repetitivo (ex: "escreve a expressão regular para X, Y, Z, tal como para
+A e B acima") é melhor sugerido para ele tentar; um exercício que introduz
+uma dificuldade nova ou ilustra bem um mecanismo (ex: os casos mais
+complicados de uma prova de dedução) vale mais a pena resolver por
+completo. Sempre que resolveres um exercício real da prática, tenta
+manter pelo menos um exercício parecido (do mesmo enunciado) só sugerido,
+para ele não ficar com o enunciado inteiro já resolvido.
+
+**Regra adicional (2026-09-22) — não fazer o Gonçalo trabalhar 2 vezes na
+mesma coisa.** O tempo dele é limitado. Quando um exercício tem várias
+alíneas que testam **a mesma técnica** sem introduzir nada de novo (ex: 8
+alíneas todas do tipo "diz se esta frase é uma proposição"; 10 alíneas
+todas do tipo "classifica esta fórmula"), **não resolvas nem sugiras todas**
+— nem sequer as que ficam "por resolver". Isto aplica-se aos dois lados:
+
+- **Ao resolver**: escolhe só as alíneas que testam uma ideia
+  *diferente* umas das outras (ex: uma trivial-base, uma que mostra um erro
+  comum, um par que contrasta dois casos parecidos mas com respostas
+  opostas). Não resolvas 8 alíneas quando 4-5 já cobrem todas as ideias
+  distintas — as restantes são só repetição mecânica da mesma ideia com
+  números diferentes.
+- **Ao sugerir "tenta sozinho"**: nunca aponta "todas as alíneas restantes"
+  de um exercício com muitas alíneas repetitivas. Escolhe 2-3 das
+  **mais difíceis ou mais distintas** de entre as que sobraram, e diz
+  explicitamente que as outras ficam de fora por serem a mesma técnica
+  (ex: "as restantes alíneas são a mesma ideia repetida, não precisas de as
+  fazer todas"). Ele aprende a matéria da mesma forma com 3 bem escolhidas
+  como com 10 — mais do que isso é desperdiçar o tempo dele, não reforçar a
+  aprendizagem.
+
+Isto vale tanto para o que TU resolves como para o que RECOMENDAS — o
+objetivo final (resolvido + sugerido, somados) por exercício com muitas
+alíneas repetitivas costuma ficar por volta de 4-6 alíneas no total, não o
+enunciado inteiro.
+
+### 8. Materiais suplementares em `Teoricas/` (não numerados) — usa como inspiração
+
+Se `Teoricas/` tiver um ficheiro que não é uma aula numerada (ex: apontamentos
+de outro docente, um capítulo de referência) — normalmente identificado por
+não seguir o padrão `Aula_NN.pdf` (ver `CLAUDE.md`) — **não o ignores**: é
+uma fonte extra a consultar sempre que os slides oficiais das aulas
+estiverem incompletos, pouco claros, ou passarem por cima de um passo sem
+explicar. Usa esse material para preencher essas lacunas (marca a origem
+como nota adicional, tal como já fazes noutros casos), mas continua a
+seguir a estrutura/terminologia das aulas oficiais como principal — o
+suplementar é para desempatar dúvidas, não para substituir o que o
+professor da disciplina realmente ensina.
+
+### 9. Atualizar o cabeçalho de processados
 
 Depois de compilar com sucesso, atualiza o comentário no topo do `.md` com os
 novos ficheiros de origem incorporados (para a próxima invocação saber o que
 já está feito), e atualiza a data no cabeçalho YAML (`date:`).
 
 ## Esqueleto do ficheiro (nova disciplina)
+
+Cria em `<Disciplina>/.fonte/RESUMO_<Disciplina>.md` (a pasta `.fonte/` pode
+não existir ainda — cria-a):
 
 ```markdown
 ---
@@ -218,7 +310,7 @@ author: "Gonçalo Sousa"
 date: "Atualizado: Semana N"
 ---
 
-<!-- processado: Semana_1/Ficheiro1.pdf, Semana_1/Ficheiro2.pdf -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf -->
 
 # Aula 1 --- <título>
 
@@ -296,3 +388,39 @@ a não ser que sejam explicitamente substituídas por feedback mais recente.
   reforçada acima e o novo passo de "varrer o documento à procura de
   sobreposição" antes de escrever (passo 1). Aplica-se a todas as
   disciplinas, não só a Compiladores.
+- 2026-09-22: Reorganização de nomenclatura em todo o repositório (feedback
+  do Gonçalo: "isto está a ficar bastante confuso"). Duas mudanças
+  permanentes, aplicadas a Compiladores/IPM/Logica/Redes/TecnologiasWeb:
+  (1) slides de teóricas passam a `Teoricas/Aula_NN.pdf` sempre (antes
+  havia uma mistura: `Compiladores1.pdf`, `IPM_M01.pdf`, `aula1.pdf`,
+  `Cap1.pdf`, `AboutRC.pdf` — cada disciplina com o nome que o professor
+  lhe deu); (2) o Gonçalo não quer ver ficheiros `.md` a navegar as pastas,
+  mas apagar a fonte do resumo destruiria a capacidade de o continuar a
+  estender — resolvido escondendo-a em `<Disciplina>/.fonte/`, nunca
+  apagando (ver regra 0 acima e `CLAUDE.md`). `Semana_N/` também passou a
+  viver dentro de `Praticas/Semana_N/` em vez de à raiz da disciplina.
+  `_shared/template/build.sh` foi atualizado para ler de `.fonte/`. Nota
+  para casos como `Logica/nlc-4.pdf` (um livro de apontamentos do
+  professor, sem número de aula) e `Redes/AboutRC.pdf` (a apresentação
+  inicial, sem capítulo — tratada como Aula 1 por analogia com o padrão já
+  usado em Compiladores): quando um PDF de `Teoricas/` não é claramente uma
+  aula numerada, abre a primeira página antes de decidir o nome, nunca
+  assumas pela ordem alfabética do ficheiro original.
+- 2026-09-22: Duas mudanças de comportamento pedidas explicitamente pelo
+  Gonçalo (ver regras 7 e 8 acima): (1) o resumo pode e deve resolver
+  exercícios reais da prática, não só análogos — desde que também deixe
+  outros só sugeridos, para não entregar o enunciado todo feito; (2)
+  ficheiros suplementares em `Teoricas/` que não são aulas numeradas (ex:
+  apontamentos de outro professor) devem ser consultados como fonte extra
+  para preencher lacunas dos slides oficiais, não só arquivados com um nome
+  diferente. Também corrigido `TecnologiasWeb/CALENDARIO.md`: o crawl do
+  site (pedido numa sessão anterior) trouxe o `.mdown` com o calendário e
+  os sumários, mas esses dois ficheiros só continham um `<iframe>` para uma
+  Google Sheet publicada — o crawl de HTML nunca chega ao conteúdo da
+  folha (é renderizado por JS). Solução: a folha publicada
+  (`.../pubhtml?...`) tem sempre um endpoint irmão `.../pub?output=csv`
+  que devolve os dados em texto simples, sem JS — troca `pubhtml` por
+  `pub?output=csv` no mesmo URL e usa `curl`/`WebFetch` nesse. Padrão geral
+  para qualquer disciplina cujo site publique calendário/sumários como
+  Google Sheet embutida: não confiar num mirror de HTML estático para esse
+  tipo de conteúdo, ir sempre buscar a folha pelo endpoint CSV.

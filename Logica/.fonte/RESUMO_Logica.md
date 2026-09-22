@@ -4,7 +4,7 @@ author: "Gonçalo Sousa"
 date: "Atualizado: Semana 1 (Aulas 1--2)"
 ---
 
-<!-- processado: Teoricas/aula1.pdf, Teoricas/aula2.pdf -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf -->
 
 # Aula 1 --- Introdução à Lógica e Sintaxe da Lógica Proposicional
 
@@ -68,37 +68,42 @@ expressões sem verbo, ou frases com variáveis livres cujo valor de verdade
 depende de algo não especificado) **não são proposições**.
 :::
 
-::: {.exemplo title="--- Exercício 1.1 (lab, proplogic.pdf)"}
-Para cada frase, indicar se é proposição e, sendo, o seu valor de verdade:
+::: {.exemplo title="--- Exercício 1.1 (lab, proplogic.pdf) --- 5 das 8 alíneas, escolhidas para não repetir a mesma ideia"}
+Para cada frase, indicar se é proposição e, sendo, o seu valor de verdade
+(as 8 alíneas do enunciado testam só 5 ideias distintas — ver nota a
+seguir à caixa):
 
-(a) "O Porto é a capital de Portugal." — É proposição. **F** (a capital é
-    Lisboa).
+**(a)** "O Porto é a capital de Portugal." — É proposição. **F** (a capital é
+    Lisboa). *(caso base: frase factual simples, com valor de verdade
+    definido.)*
 
-(b) "Em 1910 foi proclamada a República Portuguesa." — É proposição. **V**
-    (5 de outubro de 1910).
-
-(c) "Hei de comparar-te a um dia de verão?" — **Não é proposição**: é uma
-    pergunta (interrogativa), não uma afirmação — não tem valor de verdade.
-
-(d) "$1+2+3$" — **Não é proposição**: é uma expressão/termo (um número), não
+**(d)** "$1+2+3$" — **Não é proposição**: é uma expressão/termo (um número), não
     uma afirmação. Não diz nada que possa ser verdadeiro ou falso.
 
-(e) "$1+2+3=6$" — É proposição. **V**.
+**(c)** "Hei de comparar-te a um dia de verão?" — **Não é proposição**: é uma
+    pergunta (interrogativa), não uma afirmação — não tem valor de verdade
+    (nota que isto é um motivo *diferente* do de (d): ali era por não ser
+    uma afirmação de todo, aqui é por ser uma pergunta).
 
-(f) "7 é um número par." — É proposição. **F**.
-
-(g) "$x+y$ é um número par." — **Não é proposição**: $x$ e $y$ são
+**(g)** "$x+y$ é um número par." — **Não é proposição**: $x$ e $y$ são
     *variáveis livres* — o valor de verdade depende de que valores lhes
     atribuirmos (é verdade para $x=1,y=1$, falso para $x=1,y=2$). A frase só
     passa a ter um valor de verdade fixo depois de fixarmos $x$ e $y$.
 
-(h) "Existe um $x$ tal que $7+x$ é um número par." — É proposição, e **V**:
+**(h)** "Existe um $x$ tal que $7+x$ é um número par." — É proposição, e **V**:
     apesar de ter uma variável, o quantificador "existe um $x$" **fecha** a
     variável — a frase inteira já não depende de nenhum $x$ externo (basta
     $x=1$: $7+1=8$ é par). Compara com (g): a diferença entre uma variável
     livre (não é proposição) e uma variável quantificada (é proposição) só
     fica completamente formal em lógica de primeira ordem, mais à frente no
     curso — mas já vale a pena notar a distinção agora.
+:::
+
+::: atencao
+As alíneas (b), (e) e (f) do Exercício 1.1 ficam de fora de propósito —
+testam exatamente a mesma ideia de (a) (frase factual simples, decidir V/F),
+só com outro assunto. Não precisas de as fazer; se quiseres confirmar que
+percebeste, é literalmente o mesmo passo de (a) com números diferentes.
 :::
 
 ## Conectivos lógicos
@@ -905,13 +910,33 @@ Este resumo cobre e resolve uma seleção dos exercícios de
 `Semana_1/proplogic.pdf` (exercícios 1.1, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9,
 1.10, 1.11, 1.13, 1.14, 1.16 e 1.19), escolhidos para cobrir todas as
 técnicas já dadas nas Aulas 1--2 sem repetir o mesmo tipo de raciocínio duas
-vezes. Ficam por fazer, sozinho, **para consolidar**: 1.2 (tradução
-mecânica, não precisa de exemplo resolvido), as restantes alíneas de 1.3,
-1.4, 1.5, 1.6, 1.8, 1.9, 1.10, 1.11 (mesma técnica das que já foram
-resolvidas acima — usa os exemplos como modelo), 1.12 (mesma técnica de
-modelação do Exercício 1.11, mas com regras de escolha de cadeiras em vez de
-culpados), 1.15 (mesma ideia do Exercício 1.16, com $\subseteq$ e
-$\Leftrightarrow$ em vez de $\subseteq$ e $\models$).
+vezes. Ficam por fazer, sozinho, **para consolidar** — e só as alíneas que
+acrescentam mesmo algo novo, não o resto do enunciado:
+
+- **1.2** (tradução mecânica, não precisa de exemplo resolvido).
+- **1.3**: as alíneas (b) e (d) — mesma técnica de (a)/(c)/(e) acima.
+- **1.4**: as alíneas (a) e (d) — mesma técnica de (b)/(c) acima.
+- **1.5**: as alíneas (a), (c) e (d) — mesma técnica de (b)/(e) acima.
+- **1.6**: as alíneas (b), (c) e (d) — mesma técnica de (a)/(e) acima.
+- **1.8**: só a alínea (c) — a mesma comparação válida/não-válida de (a)/(b).
+- **1.9**: só as alíneas **(c)** e **(h)** (das 7 que faltam) — (c) confirma
+  a técnica com 2 variáveis, (h) já usa 3 variáveis (mais parecida com o
+  nível do Exercício 1.14). As restantes ((a),(b),(e),(f),(g)) são a mesma
+  classificação repetida — não precisas de as fazer todas para saber a
+  matéria.
+- **1.10**: só as alíneas **(g)** e **(j)** (das 10 que faltam) — (g) é um
+  raciocínio indireto diferente (perguntar o que **C disse**, não o que A/B
+  disseram), (j) pede-te para **construir** a pergunta certa, não só
+  analisar uma frase dada (é uma habilidade diferente das outras). Se
+  quiseres um desafio extra opcional, o professor chama à (k) "um problema
+  invulgar" — mas não é preciso para a matéria. As restantes ((b),(c),(d),
+  (f),(h),(i),(l)) repetem a mesma técnica de (a)/(e).
+- **1.11**: nenhuma alínea extra — já resolvidas todas as 5 (usam a mesma
+  tabela, sem trabalho repetido).
+- **1.12** (mesma técnica de modelação do Exercício 1.11, mas com regras de
+  escolha de cadeiras em vez de culpados).
+- **1.15** (mesma ideia do Exercício 1.16, com $\subseteq$ e
+  $\Leftrightarrow$ em vez de $\subseteq$ e $\models$).
 
 Os exercícios **1.17, 1.18 (formas normais DNF/CNF)** e **1.20--1.23 (Horn,
 algoritmo de David-Putnam/DPLL)** ficam de fora deste resumo **de propósito**
