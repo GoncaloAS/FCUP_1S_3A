@@ -1,0 +1,47 @@
+## Preparar CORS (*preflight request*) ##
+
+
+
+<style>
+td { font-size: small; white-space: pre; border: 1px dotted orange;vertical-align: top;}
+th { font-size: large; vertical-align: top;}
+</style>
+
+
+<table style="width: 100%; margin-top: 0px; margin-bottom: 0px;">
+<tr>
+<th></th><th>Linha inicial</th><th>Cabeçalhos relevantes</th></tr>
+</tr>
+
+<tr>
+<th>Pedido</th>
+<td><span class=focus>OPTIONS</span> /recurso HTTP/1.1</td>
+<td><span class=focus>Access-Control-Request-Method: DELETE
+Access-Control-Request-Headers: origin, x-requested-with
+Origin: http://my.server.org
+</span></td>
+</tr>
+
+<tr>
+<th>Resposta</th>
+<td>HTTP/1.1 200 OK</td>
+<td><span class=focus>Access-Control-Allow-Origin: http://my.server.org
+Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE</span>
+</td>
+</tr>
+
+
+
+</table>
+
+
+* Pedidos *preflight* usados com CORS para
+    * Verificar métodos permitidos pelo servidor
+    * Indicar quais os cabeçalhos que serão usados
+* São pedidos com método <code class=focus>OPTIONS</code> e cabeçalhos
+    * <code class=focus>Access-Control-Request-Method</code> métodos requerido
+    * <code class=focus>Access-Control-Request-Headers</code> cabeçalhos a enviar
+    * <code class=focus>Origin</code> localização que fará o pedido
+* A resposta do servidor incluirá os cabeçalhos
+    * <code class=focus>Access-Control-Allow-Origin</code> localização aceite
+    * <code class=focus>Access-Control-Allow-Methods</code> lista métodos aceites <span class=litle>(incluindo o pedido)</span>

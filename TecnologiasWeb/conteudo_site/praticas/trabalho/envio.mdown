@@ -1,0 +1,19 @@
+## Envio para avaliação ##
+
+
+* Trabalho submetido **online** como arquivo **ZIP**
+    * Qualquer dos elementos do grupo pode submeter
+    * Podem fazer múltiplas submissões (só conta última)
+* O arquivo **ZIP**
+    * Terá obrigatoriamente extensão '.zip' e conterá
+        * um ficheiro `index.html` no topo (fora de diretoria)
+        * um ou mais ficheiros CSS, com extensão `.css`
+        * um ou mais ficheiros JavaScript. com extensão `.js`
+    * Pode ser criado com os comandos 
+        * `cd $PASTA_TRABALHO` 
+        * `zip trabalho.zip index.html *.{css,js}` 
+* Na <B><a href="https://mooshak.dcc.fc.up.pt/~tw/cgi-bin/execute?login" target=-blanck>submissão para avaliação</a></b>
+     * Dados de autenticação são os do LDAP do LabCC
+     * Se  ZIP estiver conforme pedido aparecerá
+<span style="color: green;">Accepted</span>
+     * Se aparecer <span style="color: red;">Compile Time Error</span> carregue nessa mensagem para obter a causa do erro.

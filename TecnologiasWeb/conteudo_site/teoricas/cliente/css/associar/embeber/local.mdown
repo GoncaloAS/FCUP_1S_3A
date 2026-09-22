@@ -1,0 +1,25 @@
+## Estilos inseridos em elementos ##
+
+<div class="example terminal cozy">&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>r
+  &lt;title>Olá mundo&lt;/title>
+  &lt;link rel="stylesheet" href="style.css" type="text/css">
+  &lt;style>
+     h1 { color: orange; }
+  &lt;/style>
+&lt;/head>
+&lt;body>
+    &lt;h1 <span class=focus>style="font-weight: 500;"</span>>Olá mundo&lt;/h1>
+&lt;/body>
+&lt;/html>
+</div>
+
+
+* **Sintaxe**
+    * <u>Atributo</u> <code class=focus>style</code> no elemento a formatar
+    * Valor contem pares nome valores para as sua propriedades
+    * Não deve ser incluído seletor <span class=litle>(aplica-se apenas ao elemento)</span>
+* **Aplicabilidade**
+    * Formatar um elemento sem recorrer a folhas de estilo
+    * Substituir valores atribuídos por regras gerais <span class=litle>(especificidade)</span>

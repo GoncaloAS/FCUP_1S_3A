@@ -1,0 +1,42 @@
+## 3XX - Redireção ##
+
+<script>
+
+window._update = function() {
+  var date = document.getElementById("date");
+
+  date.innerText = new Date().toUTCString();;
+}
+
+</script>
+
+<div class="col50p cozy" markdown=1>
+* <span class=focus>300</span> Multiple Choices
+* <span class=focus>301</span> Moved Permanently
+* <span class=focus>302</span> Found (&dagger;)
+* <span class=focus>303</span> See Other (&dagger;)
+* <span class=focus>307</span> Temporary Redirect(&dagger;)
+* ...
+</div>
+<div class="col50p example terminal cozy litle">
+HTTP/1.1 <span class=focus>301 Moved Permanently</span>
+Date: <span id="date"></span>
+Server: Apache/2.4.25 (Fedora)
+<span class=focus>Location: http://khato.dcc.fc.up.pt/~zp/</span>
+Content-Length: 238
+Connection: close
+Content-Type: text/html; charset=iso-8859-1
+
+
+</div>
+
+
+
+* Usados quando a resposta com sucesso requer um novo pedido 
+* Geralmente com outro URL indicado na resposta <span class=litle>(<code class=focus>Location</code>)</span>
+* Varios são temporários (&dagger;) &mdash; não podem ser retidos em *cache*
+* Usado para corrigir pedidos de diretorias <span class=litle>(acrescentar barra)</span><br>
+<code> http://localhost/~zp</code> &rarr; <code>http://localhost/~zp</code><span class=focus>/</span>
+
+
+<div class=foot>Existem mais códigos de redireção</div>

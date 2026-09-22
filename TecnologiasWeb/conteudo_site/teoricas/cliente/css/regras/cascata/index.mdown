@@ -1,0 +1,31 @@
+## Cascata ##
+
+
+<div class="col50p example terminal">/* author */
+h3.other   {
+      font-style:     italic;  }
+h1, h2, h3 {
+      font-family: san-serif; 
+      font-weight:      bold;
+      font-style:     normal;  }
+h1 {  font-size:    xx-large;  }
+h2 {  font-size:     x-large;  }
+h3 {  font-size:       large;  }
+h2 {  font-size:        110%;  }
+</div>
+<div class="col50p example terminal">/* user agent */
+h1, h2, h3 {
+
+    font-family: serif;
+    font-weight: 500 !important;
+}
+</div>
+<div class=endCols style="margin-bottom: -20px;"></div>
+
+* Propriedades dum elemento dispersas por múltiplas regras
+* Propriedade definida múltiplas vezes: **qual é que conta?**
+* Aplicação de regras em **cascata** resolve ambiguidade
+    1. Regras do autor mais importantes que as do leitor
+    2. Cálculo de especificidade: mais específicas prevalecem
+    3. Ordem de especificação: se iguais vale a última
+    4. Anotação !important

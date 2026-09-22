@@ -1,0 +1,18 @@
+## Métodos Idempotentes ##
+
+<div markdown=1 style="width: 50%; margin: auto;">
+* <span class=focus>GET</span> 
+* <span class=focus>HEAD</span> 
+* <span class=focus>PUT</span>
+* <span class=focus>DELETE</span>
+* <span class=focus>OPTIONS</span>
+* <span class=focus>TRACE</span> 
+</div>
+
+
+* Múltiplos pedidos idempotentes têm o mesmo resultado
+* Ao contrário do POST que pode alterar o estado  <span class=litle>(ex. transações)</span>
+* *Browsers* alertam na repetição de pedidos **não** idempotentes
+* Exemplo, método POST que submete dados para uma compra
+* Aplicações podem alterar a idempotência  <span class=litle>(ex: GET com parâmetros)</span>
+* É arriscado inferir idempotência baseando-se apenas no método 

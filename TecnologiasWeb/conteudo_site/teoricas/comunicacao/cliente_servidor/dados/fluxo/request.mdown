@@ -1,0 +1,21 @@
+## Request ##
+
+<div class="terminal example">
+fetch('http://some.site.org/authenticate', {
+    <span class=focus>method</span>: 'POST',
+    <span class=focus>headers</span>: {
+      'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    },
+    <span class=focus>body</span>: 'nick=cave&pass=word'
+})
+  .then(response => console.log(response))
+  .catch(console.log);    
+</div>
+
+Objecto com detalhes do pedido
+
+* `method` - *string* - método HTTP
+* `headers` -  objecto com cabechalhos HTTP
+* `body` - corpo da mensagem HTTP
+
+<div class=foot>Permite controlo total do pedido HTTP</div>

@@ -1,0 +1,23 @@
+## Controlo de fluxo ##
+
+
+<div class="terminal example cozy">
+for(<span class=focus>let</span> x = 1; x < 100; x++) {
+   document.write(x+" é ");
+   if(x % 2 == 0) {
+     document.writeln("par");
+   else 
+     document.writeln("impar");
+}
+</div>
+
+* Controlo de fluxo muito semelhante ao Java
+* Mesmas palavras-chave do Java
+    * <code class=focus>if then else</code>
+    * <code class=focus>while  do </code>    
+    * <code class=focus>switch case break</code>
+    * <code class=focus>for break continue</code>
+* Variáveis de controlo em ciclos devem usar `let`
+* Ciclos extendidos com sintaxe ligeiramente diferente
+    <div style="height: 20px;"> </div>
+   `for(`*variavel* <code class=focus>in</code> *objeto*`) { ... }`

@@ -1,0 +1,28 @@
+## Embeber ##
+
+<div class="col50p example terminal" style="font-size: large;">
+&lt;!DOCTYPE html>
+&lt;html>
+ &lt;head>
+   &lt;title>Olá&lt;/title>
+ &lt;/head>
+ &lt;body>
+  &lt;h1> Olá HTML 5 &lt;/h1>
+  <span class=focus>&lt;img alt="HTML5" src="logo.png"></span>
+  &lt;a href="https://www.w3.org/TR/html5/">
+    Mais informação
+  &lt;/a>
+&lt;/body>
+&lt;/html>
+</div>
+<div class="col50p">
+  <h1> Olá HTML 5</h1>
+   <img alt=HTML5 src=../../html5-logo.png style="width: 3cm;">
+  <a href=https://www.w3.org/TR/html5/ target=_blanc>
+  Mais informação</a>
+</div>
+
+
+* Multimédia &mdash; imagens e vídeos
+* Formatação em *Cascade Sytle Sheet* &mdash; CSS
+* *Scripts* em *JavaScript* &mdash; JS

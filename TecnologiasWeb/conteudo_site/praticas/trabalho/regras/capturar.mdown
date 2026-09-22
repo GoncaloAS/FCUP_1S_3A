@@ -1,0 +1,59 @@
+## Capturar peças ##
+
+
+<link rel="stylesheet" href="board.css">
+<link rel="stylesheet" href="stick-dice.css">
+
+<div style="display: flex;">
+<div id="gamePanel"></div><div id="dicePanel"></div>
+</div>
+
+<script>
+window._update = async function() {
+
+fetch("praticas/trabalho/regras/tab_board.js")
+  .then(response => response.text())
+  .then(src => {
+        eval((src));
+
+        const board = new Board({parent: 'gamePanel', size: 9});
+		
+		const n  = null;
+		const b  = { color: 'Blue' };
+        const r  = { color: 'Red' };
+		const B  = { color: 'Blue', inMotion: true };
+     	const R  = { color: 'Red', inMotion: true };
+
+
+         board.state({
+            board: [
+	b, b, b, b, b, b, b, b, n,
+	n, B, n, n, R, n, n, n,	n, 	   
+    n, n, n, n,	n, n, n, n,	n,			
+	r, r, r, r,	r, r, r, r,	r
+      ],
+	});
+	
+	
+
+	   const dicePanel = document.getElementById('dicePanel')
+	   const dice = new StickDice({div: dicePanel });
+
+       dice.setResult({
+	     stickValues: [ true, false, true, true ], 
+	     value: 3, 
+		 keepPlaying: false 
+	   });
+
+ 
+   })
+  .catch(console.error);
+
+}
+</script>
+
+* Se existir uma peça do adversário na casa de destino &hellip;
+* &hellip; esta é **capturada**
+* Peças capturadas desaparecem do tabuleiro
+* No tabuleiro acima, jogando a peça azul na 2ª linha &hellip;
+* &hellip; a peça vermelha será capturada

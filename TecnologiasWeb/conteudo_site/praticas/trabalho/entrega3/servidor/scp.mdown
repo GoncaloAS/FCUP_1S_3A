@@ -1,0 +1,12 @@
+
+## Copiar ficheiros ##
+
+Podem copiar ficherios usando o comando `scp`, *secure copy*.
+
+Para copiar todos os ficheiros da diretoria corrente para a diretoria `pasta` (por exemplo) no `twserver-be`, @ aluno@ `up999999999`terá de executar a seguinte linha de comando
+
+<pre style="font-size: 80%">
+scp -J up999999999@ssh.alunos.dcc.fc.up.pt * up999999999@twserver-be:pasta
+</pre>
+
+De notar que seguidamente terá de se autenticar 2 vezes, uma no *jump server* e outra no `twserver-be`

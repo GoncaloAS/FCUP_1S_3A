@@ -1,0 +1,48 @@
+## Notação de dados ##
+<div class="col75p terminal example" style="font-size: 70%; margin-top: -30px; margin-bottom: -20px;">const pessoa = {
+        nome : 'Fulano de tal',
+        idade : 99,
+        morada : {
+            endereco: 'Rua Nova', 
+            codPostal: '4000-001 PORTO'
+        },
+        hobbies : [ 'sky diving', 'graffiti' ]
+      };
+
+document.writeln(pessoa.nome);
+document.writeln(pessoa.idade);
+document.writeln(pessoa.morada.endereco);
+document.writeln(pessoa.morada.codPostal);
+document.writeln(pessoa.hobbies[0]);
+document.writeln(pessoa.hobbies[1]);</div>
+<div class=col25p style="font-size: 80%; margin-top: -30px; ">
+<pre>
+
+
+
+
+
+Fulano de tal
+99
+Rua Nova
+4000-001 PORTO
+sky diving
+graffiti
+</pre>
+</div>
+<div class=endCols></div>
+
+<ul>
+<li> Notação para estruturas de dados 
+<table width=100% style="margin: 10px;" rules=all border=yes>
+<tr><th style="text-align: center;"> Objetos </th> <th  style="text-align: center;"> <i>Arrays</i> </th></tr>
+<tr><td>
+<div style="text-align: center; margin: 0px;">
+<code class=focus>{</code> <i>nome</i> <code class=focus>:</code> <i>valor</i><code class=focus>,</code> ... </code> <i>nome</i> <code class=focus>:</code> <i>valor</i> <code class=focus>}</code>
+</div> </td><td> <div  style="text-align: center; margin: 0;">
+<code class=focus>[</code> <i>valor</i><code class=focus>,</code> ...  <i>valor</i> <code class=focus>}</code> 
+</div> </td></tr>
+</table>
+<li> Os <i>valores</i> estruturados têm de estar no mesmo formato
+<li> Acesso usando propriedades e índices
+</ul>

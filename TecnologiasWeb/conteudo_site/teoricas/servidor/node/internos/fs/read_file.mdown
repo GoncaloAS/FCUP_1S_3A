@@ -1,0 +1,19 @@
+## Leitura de ficheiros assíncrona ##
+
+<div class="terminal example cozy">  fs.readFile('dados.txt',<span class=focus>'utf8'</span>,function(err,data) {
+	if(! err) { /* processar data como string */ }
+  });</div><div class=litle>&nbsp;</div> 
+<div class="terminal example">  fsp.readFile('dados.txt',<span class=focus>'utf8'</span>).then( () => { /* processar ... */)})
+</div>
+
+* Objeto retornado por `require()` fornece função `readFile()`
+    * Nome caminho do ficheiro a ler
+    * Codificação <span class=litle>(opcional, por omissão retorna um <i>raw buffer</i>)</span>
+    * *Callback* ou *Promise* processa dados lidos
+* Sem codificação dados <span class=litle>(`utf8`)</span> são retornados como *buffer*
+* Processamento como ***Callback***
+    * Invocado depois da leitura com dois argumentos <span class=litle>(erro, dados)</span>
+    * Dados só devem ser processados se erro não for definido
+* Processamento como ***Promise***
+    * Dados lidos recebidos no argumento de `then()`
+	* Eventuais erros recebidos em `catch()`

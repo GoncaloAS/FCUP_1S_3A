@@ -1,0 +1,36 @@
+## Listas ##
+
+
+<div class="col50p example terminal cozy">
+
+&lt;ul>
+   &lt;li> primeiro item
+   &lt;li> segundo item
+   &lt;li> terceiro item    
+&lt;/ul>
+&lt;ol>
+   &lt;li> primeiro item
+   &lt;li> segundo item
+   &lt;li> terceiro item    
+&lt;/ol>
+
+</div>
+<div class="col50p" style="margin-top: -40px; margin-bottom: 10px;">
+<ul class=showBorder>
+   <li class=showBorder> primeiro item
+   <li class=showBorder> segundo item
+   <li class=showBorder> terceiro item    
+</ul>
+<ol class=showBorder>
+   <li class=showBorder> primeiro item
+   <li class=showBorder> segundo item
+   <li class=showBorder> terceiro item    
+</ol>
+</div>
+
+
+* **Tipos**  <span class=litle>(listas simples)</span>
+    * Itemizadas <class class=focus>ul</class>  <span class=litle>(Unordered List)</span>
+    * Ordenadas <class class=focus>ol</class>   <span class=litle>(Ordered List)</span>
+* Listas são blocos contendo itens  <span class=litle>(também blocos)</span>
+* Tipo de lista condiciona marcador do item  <span class=litle markdown=1>(*bullet* ou número)</span>

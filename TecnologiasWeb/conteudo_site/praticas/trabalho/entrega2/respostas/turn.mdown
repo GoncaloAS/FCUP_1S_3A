@@ -1,0 +1,4 @@
+## `turn` ##
+
+*String*  identificando o jogador (*nick*) com a vez de jogar.
+De imediato, apenas jogadas deste jogador serão aceites para este jogo.

@@ -1,0 +1,41 @@
+## Propriedades para  *callbacks* ##
+
+<script>
+
+window._update = function() {
+
+   const button = document.getElementById("button");
+
+   button.onclick = function() {
+	  const tmp = button.style.color; 
+	  button.style.color = button.style.background; 
+	  button.style.background = tmp;	     
+   }
+}
+
+</script>
+
+<div class="col75p terminal example" style="margin-bottom: -10px">
+<span class=focus>window.onload = function()</span> {
+   const button = document.getElementById("button");
+   <span class=focus>button.onclick = function()</span> {
+	  const tmp = button.style.color; 
+	  button.style.color = button.style.background; 
+	  button.style.background = tmp;	     
+    }
+};
+<div class=ruler> </div>
+&lt;div <span class=focus>id="button</span> ... > Don't click me! &lt;/div>
+</div>
+<div class=col25p>
+
+<div id="button" style="background: white; color: orange; text-align: center;" > Don't click me! </div>
+
+</div>
+
+* **Separar** apresentação <span class=litle>(HTML)</span> de interação <span class=litle>(JavaScript)</span>
+* ***Callbaks*** colocáveis nas propriedades dos elementos
+* **Nomes** das propriedades **iguais** aos atributos de eventos HTML
+* Geralmente usando **funções anónimas**
+* Referência ao elemento obtida pelo seu ID <span class=litle>(<code class=focus>getElementById</code>)</span>
+* Só possível depois da janela carregada <span class=litle>(evento <code class=focus>window.onload</code>)</span>

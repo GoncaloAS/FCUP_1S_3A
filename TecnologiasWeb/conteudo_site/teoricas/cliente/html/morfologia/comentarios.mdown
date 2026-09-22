@@ -1,0 +1,13 @@
+## Comentários ##
+
+
+
+<code class=focus><!-- Isto é um comentário --></code>
+
+
+
+
+* Podem conter anotações que assim ficam inactivas
+* Comentários não podem ocorrer *dentro* de anotações
+* A *string* <code class=focus>--</code> não pode acorrer no texto comentado
+* Donde, comentários não podem ser aninhados dentro de outros

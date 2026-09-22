@@ -1,0 +1,10 @@
+## Sintaxe ##
+
+* Tipos básicos
+* Variáveis
+* Controlo de fluxo
+* Declaração de funções
+* Âmbito de variáveis
+* Elevação de variáveis e funções
+* Funções anónimas
+* Modo estrito 

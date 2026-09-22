@@ -1,0 +1,47 @@
+## Classe `button` ##
+
+<link rel="stylesheet" href="dialogo.css" type="text/css">
+
+<div class="col50p terminal example">
+
+.button {
+       float: right;
+       <span class=focus>clear: right</span>;
+       
+       width: 145px;
+       height: 40px;
+       margin: 10px;
+       
+       <span class=focus>line-height: 40px;
+       text-align: center</span>;
+
+       background: orange;
+       color: white;
+
+       <span class=focus>border-radius: 15px</span>;
+       border-width: 2px;
+       border-style: outset;       
+}
+
+</div>
+<div  class=col50p >
+
+     <div class=dialog>
+           <div class=message>  Mesmo sair? </div>
+
+	   <div class=button> Ok </div>
+	   <div class=button> Cancelar </div> 
+     </div>
+
+<ul>
+
+<p>&nbsp;</p>
+<li> Dispor botões com <code class=focus>float</code>
+<li> <code class=focus>clear</code> evita sobreposição
+<li> Centragem da etiqueta
+<li> Bordos arredondados
+<li> Efeito 3D
+</ul>
+
+</div>
+

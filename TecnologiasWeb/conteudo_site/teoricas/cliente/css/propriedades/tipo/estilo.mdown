@@ -1,0 +1,27 @@
+## Estilo ##
+
+<div class="col50p terminal example">
+font-style: normal;
+
+
+font-style: italic;
+
+
+font-style: oblique;
+
+</div>
+<div class=col50p style="margin-bottom: -50px;">
+<p style="font-style: normal;">Lorem ipsum dolor sit amet</p>
+
+<p style="font-style: italic;">Lorem ipsum dolor sit amet</p>
+
+<p style="font-style: oblique;">Lorem ipsum dolor sit amet</p>
+
+</div>
+
+
+* Propriedade <code class=focus>font-style</code> controla inclinação
+* Pode tomar como valores
+    * <code class=focus>normal</code> - sem inclinação
+    * <code class=focus>italic</code> - versão da fonte com inclinação
+    * <code class=focus>oblique</code> - falsa inclinação gerada automaticamente 

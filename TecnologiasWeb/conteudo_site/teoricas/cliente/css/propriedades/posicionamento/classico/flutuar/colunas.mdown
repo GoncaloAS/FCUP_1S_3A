@@ -1,0 +1,31 @@
+## Colunas flutuantes ##
+
+<div class="col50p terminal example">
+
+float: left; ... 1
+float: left; ... 2
+float: left; ... 3
+
+float: right; ... 1
+float: right; ... 2
+float: left;  ... 3
+
+</div>
+<div class=col50p style="font-size: xx-large; color: white; text-align: center; line-height: 3cm; ">
+
+<div style="float: left; width: 3cm; height: 3cm; background: #228; opacity: .5; margin: 3px; ">1</div>
+<div style="float: left; width: 3cm; height: 3cm; background: #228; opacity: .5; margin: 3px;">2</div>
+<div style="float: left; width: 3cm; height: 3cm; background: #228; opacity: .5; margin: 3px;">3</div>
+<div class=endCols></div>
+<div style="float: right; width: 3cm; height: 3cm; background: #228; opacity: .5; margin: 3px;">1</div>
+<div style="float: right; width: 3cm; height: 3cm; background: #228; opacity: .5; margin: 3px;">2</div>
+<div style="float: left; width: 3cm; height: 3cm; background: #228; opacity: .5; margin: 3px;">3</div>
+
+
+</div>
+
+
+* Fazendo flutuar elementos `div` podem-se criar **colunas** 
+* Podem-se fazer flutuar em qualquer **direção**
+* ... o que afeta a sua **ordem**
+* Podem também **misturar**-se ambos os sentidos

@@ -1,0 +1,33 @@
+## Altura de linha##
+
+
+<style>
+p { margin: 5px; }
+</style>
+
+<div class="col50p terminal example">
+line-height: normal;
+
+
+line-height: 1.5;
+
+
+
+line-height: 80%;
+
+line-height: 15px;
+</div>
+<div class=col50p>
+<p style="width: 10cm; border: 1px dotted; line-height: normal;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+<p style="width: 10cm; border: 1px dotted; line-height: 1.5;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+<p style="width: 10cm; border: 1px dotted; line-height: 80%;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+<p style="width: 10cm; border: 1px dotted; line-height: 15px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+</div>
+
+
+* Altura de linha dada pela propriedade <code class=focus>line-height</code>
+* Os valores são
+    * O nome predefinido: <code class=focus>normal</code> 
+    * número  <span class=litle>(fator)</span> ou percentagem  <span class=litle>(sobre a altura corrente)</span>
+    * distância  <span class=litle>(com unidades)</span>
+    

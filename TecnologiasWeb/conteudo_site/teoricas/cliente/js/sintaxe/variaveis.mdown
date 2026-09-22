@@ -1,0 +1,37 @@
+## Variáveis e constantes ##
+
+
+
+
+<div class="col50p example terminal cozy">x = 1;
+
+<span class=focus>const</span> y = 2;
+<span class=focus>let</span> z;
+<span class=focus>var</span> w;
+
+z = 3;
+w = 4;
+
+console.log(x+y+z+w);
+</div>
+<div class="col50p example cozy">
+
+
+
+
+
+
+
+
+10
+</div>
+
+
+* Variaveis **não** necessitam de ser declaradas
+* Criadas <span class=litle>(mas não declaradas)</span> implicitamente pela **inicialização**
+* Podem **e devem** ser declaradas usando as palavras-chave
+    * `const` - não pode ser alterada - *usar sempre que possível*
+    * `let` - definida apenas num âmbito restrito <span class=litle>(bloco)</span>
+    * `var` - definida num âmbito alargado <span class=litle>(função ou "global")</span> - *evitar usar*
+* Podem ser inicializadas na declaração
+* **Tipos** das variáveis **inferidos** dinamicamente 

@@ -1,0 +1,23 @@
+##  Envio de dados e controlo de eventos ##
+
+
+<div class="terminal example">
+button.addEventListener("click",function(<span class=focus>event</span>) {
+     let x = event.x;
+     let y = event y
+      ...
+     event.preventDefault();
+},false);
+</div>
+
+
+
+* Eventos tem informação e a sua propagação pode ser controlada
+* Objeto passado como parâmetro cumpre essa função
+    * Propriedades <span class=litle>(exemplos)</span>
+        * <code class=focus>bubble</code> booleano - está na fase *bubbling*
+        * <code class=focus>cancelBubble</code> - cancelar fase *bubbling*
+    * Métodos <span class=litle>(exemplos)</span>
+        * <code class=focus>preventDefault()</code> - cancela o evento, se possível
+        * <code class=focus>stopPropagation()</code> - impede propagação
+* Classes especializadas com métodos e propriedades específicos

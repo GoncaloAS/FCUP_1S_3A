@@ -1,0 +1,52 @@
+##Conteúdo##
+
+<style>
+p:first-letter {
+   font-size: larger;
+   font-weight: bolder;
+}
+</style>
+
+
+<div class="col50p terminal example" style="margin-bottom: 40px;">
+p:first-letter {
+   font-size: larger;
+   font-weight: bolder;
+}
+</div>
+<div class=col50p>
+  <p>Lorem ipsum dolor sit amet</p>
+</div>
+<div>&nbsp;</div>
+
+<table rules="all" frame="box" cellpadding="5" cellspacing="5">
+
+
+  <tr>
+    <td> <code> <i>seletor</i>:first-letter </code> </td> 
+    <td> primeira letra do elemento selecionado </td>
+    <td>1</td>
+  </tr>
+
+  <tr>
+    <td> <code> <i>seletor</i>:first-line </code> </td> 
+    <td> primeira linha do elemento selecionado </td>
+    <td>1</td>
+  </tr>
+
+  <tr>
+    <td> <code> <i>seletor</i>::before </code> </td> 
+    <td> ponto antes do elemento selecionado </td>
+    <td>2</td>
+  </tr>
+
+  <tr>
+    <td> <code> <i>seletor</i>::after </code> </td> 
+    <td> ponto depois do elemento selecionado </td>
+    <td>2</td>   
+  </tr>
+
+</table>
+
+* Padrões <code class=focus>:first-letter</code> e <code class=focus>:first-line</code> selecionam conteúdo
+* Padrões <code class=focus>::before</code> e <code class=focus>::after</code> permitem introduzir conteúdo <span class=litle>(propriedade <code>content</code>)</span>

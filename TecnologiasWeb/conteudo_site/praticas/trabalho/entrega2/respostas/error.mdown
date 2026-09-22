@@ -1,0 +1,5 @@
+## `error` ##
+
+Mensagem de erro produzida sempre que a resposta HTTP for diferente de 200.
+
+Todas as funções podem produzir erros em diferentes situações.

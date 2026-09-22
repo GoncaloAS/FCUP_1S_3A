@@ -1,0 +1,34 @@
+## Relativo ##
+
+<div class="col50p terminal example">
+
+position: relative;
+top: -30px;
+left: 30px;
+
+</div>
+<div class=col50p style="margin-top: -30px; margin-bottom: -30px;">
+<div style="width: 200px; height: 300px; border: 2px dotted; margin: auto;">
+
+<div style="width: 170px; height: 270px; margin: 10px; background-color: orange; opacity: .5;">
+
+<div style="width: 150px; height: 50px; background-color: #228; opacity: .5;"></div>
+
+<div style="width: 150px; height: 50px;  background-color: #228; opacity: 1; position: relative; top: -30px; left: 30px;"></div>
+
+<div style="width: 150px; height: 50px; background-color: #228; opacity: .5;"></div>
+
+
+</div>
+
+</div>
+</div>
+
+<div>&nbsp;</div>
+
+
+* Elemento posicionado relativamente à posição estática
+* Valores de posicionamento referem-se a esta posição
+* Espaço do posicionamento estático é mantido
+* Caixa é deslocada face a esse espaço
+* Elementos <code class=focus>sub</code> e <code class=focus>sup</code> são posicionados relativamente

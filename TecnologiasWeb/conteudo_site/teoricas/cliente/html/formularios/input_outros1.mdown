@@ -1,0 +1,20 @@
+## Outros tipos de input ##
+
+<div class="terminal example">
+
+     &lt;input type=color>
+
+</div>
+
+
+* Tipos de *input* especializados em outros valores
+* Aceitam apenas apenas valores válidos 
+* Seletores para ajuda ao preenchimento <span class=litle>(ex: cor, intervalo)</span>
+* Selecção de valores especiais <span class=litle>(ex: posição numa imagem)</span>
+
+| Type                           | Tipo   | Exemplo               |   |
+| ------------------------------ | ------ | --------------------- | - |
+| <code class=focus>color</code>  | Cor   | <input type=color>    | |
+| <code class=focus>image</code> | Imagem | <input type=image src=termometro.png> | <span class=litle>(imagem data por <code>src</code>, recolhe coordenadas do ponto clicado)</span>   | |
+| <code class=focus>number</code>| Número  | <input type=number>  | |
+| <code class=focus>range</code> | Intervalo&nbsp; | <input type=range> | |

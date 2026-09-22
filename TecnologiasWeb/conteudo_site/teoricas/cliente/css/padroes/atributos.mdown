@@ -1,0 +1,38 @@
+##Atributos##
+
+<table rules="all" frame="box" cellpadding="5" cellspacing="5">
+
+  <tr>
+    <td> <code>[<i>atributo</i>]</code> </td> 
+    <td> elementos com um dado atributo </td>
+    <td>2</td>
+  </tr>
+
+  <tr>
+     <td> <code>[<i>atributo</i>=<i>valor</i>] </code> </td> 
+     <td> elementos com um dado valor de atributo </td> 
+     <td>2</td> 
+  </tr>
+
+ <tr>
+     <td> <code>[<i>atributo</i>~=<i>valor</i>] </code> </td> 
+     <td> elementos com um atributo contendo  valor  dado  </td>
+     <td>2</td>
+  </tr>
+
+  <tr>
+     <td> <code>[<i>atributo</i>^=<i>valor</i>] </code> </td> 
+     <td> elementos com um atributo cujo valor tem um dado prefixo </td>
+     <td>2</td>
+  </tr>
+
+  <tr>
+     <td> <code><i>elemento</i>:lang(<i>língua</i>) </code> </td> 
+     <td> elementos com um atributo <code>lang</code> dado </td>
+     <td>2</td>
+  </tr>
+
+</table>
+
+* Seleciona elementos em função dos seus atributos
+* Da presenção ou valor dos atributos

@@ -1,0 +1,23 @@
+## Usar ##
+
+
+<div class="col50p terminal example">
+
+$ node ola.js
+
+
+</div>
+<div class="col50p terminal example">
+
+$ <code class=focus>curl 'http://localhost:8008/'</code>
+Olá mundo
+$
+</div>
+
+* Servidor pode se testado a partir de outro emulador de terminal
+* Usando o comando <code class=focus>curl</code>
+* Argumento é o URL a testar
+    * *Host* `localhost` refere-se à própria máquina
+    * Porta é a definida no programa <span class=litle>(8008)</span>
+* Conveniente rodear URL por plicas <span class=litle>(<code class=focus>'</code>)</span>
+* Evita interpretação pela *shell*

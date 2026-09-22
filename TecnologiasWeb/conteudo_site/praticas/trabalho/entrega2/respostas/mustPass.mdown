@@ -1,0 +1,8 @@
+## `mustPass` ##
+
+Booleano indicado se o jogador terá de passar na vez, com os valores
+* `true` - se tiver de passar a vez
+* `false` - caso contrário 
+
+Se definida, o valor desta propriedade 
+poderá ser usado para ativar o botão de passar.

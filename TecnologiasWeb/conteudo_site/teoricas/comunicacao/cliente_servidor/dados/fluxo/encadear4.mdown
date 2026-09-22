@@ -1,0 +1,21 @@
+## Encadear com `async` e `await`##
+
+<div class="terminal example">
+async function combina(<span class=focus>x</span>) {
+    let <span class=focus>y</span> = <span class=focus>await</span> fetch(url1,{
+        method: 'POST',
+        body: JSON.stringify(<span class=focus>x</span>) });
+    let <span class=focus>z</span> = <span class=focus>await</span> fetch(url2,{
+        method: 'POST',
+        body: JSON.stringify(<span class=focus>y</span>) });
+
+   return z;
+}
+combina.then(continuar);
+</div>
+
+* Dentro de função assíncrona a sincronização é simplificada
+* Cada ponto de sincronização marcado com `await`
+* Resultado final é sempre uma `Promise`
+
+<div class=foot><code>await</code> apenas em funções assíncronas</div>

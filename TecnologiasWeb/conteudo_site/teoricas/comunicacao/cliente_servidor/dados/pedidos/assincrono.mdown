@@ -1,0 +1,24 @@
+## Pedidos assíncronos ##
+
+<div class="example terminal">do(command) {    // &hellip;
+    const xhr = new XMLHttpRequest();
+    const display = this.display;
+    
+    xhr.open('POST+,'http://'+host+':'+port+'/'+command,<span class=focus>true</span>);
+    <span class=focus>xhr.onreadystatechange</span> = function() {
+        if(<span class=focus>xhr.readyState</span> < 4)
+            return;
+        if(xhr.status == 200)
+            display.innerText = xhr.responseText;
+
+    }    
+    xhr.send();
+}
+</div>
+
+* Propriedades do estado de prontidão do ciclo pedido-resposta
+     * <code class=focus>onreadystatechange</code> função invocada nas alterações
+     * <code class=focus>readystate</code> estado de prontidão atual <span class=litle>(inteiro)</span><br>
+<span markdown=1 class=litle >  
+ 0 - por enviar; 1 - enviado; 2 - cabeçalhos; 3 - corpo; **4- completo**
+</span>

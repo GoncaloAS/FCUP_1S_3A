@@ -1,0 +1,12 @@
+## `group` ##
+
+Inteiro positivo identificando o grupo, para evitar que emparelhem com
+jogos de colegas durante a fase de desenvolvimento. É sugerida a
+utilização do número do grupo atribuído na primeira entrega <span class=litle>(ver pauta)</span>.
+
+Este argumento destina-se a facilitar o *debugging*. Como o
+servidor será partilhado por todos os alunos e poderão estar vários
+grupos a testar em simultâneo, desta forma garante-se que não há
+emparelhamentos inesperados. 
+
+São também mantidas tabelas classificativas distintas para os diferentes grupos.

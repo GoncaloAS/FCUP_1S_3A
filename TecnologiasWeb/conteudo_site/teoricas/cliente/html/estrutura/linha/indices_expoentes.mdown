@@ -1,0 +1,23 @@
+## Índices e Expoentes
+
+<div markdown=1 class="col75p terminal">
+
+e = m.c&lt;sup>2&lt;/sup>
+
+x&lt;sub>1&lt;/sub> &amp;hellip; x&lt;sub>n&lt;/sub>
+
+</div>
+<div class="col25p">
+<span class=showBorder>e = m.c</span><sup class=showBorder>2</sup>
+<p></p>
+<span class=showBorder>x</span><sub class=showBorder>1</sub> &hellip; <span class=showBorder>x</span><sub class=showBorder>n</sub>
+</div>
+<div>&nbsp;</div>
+
+
+* Texto é escrito sobre uma mesma linha <span class=litle>(imaginária)</span>
+* Posição dessa linha pode ser alterada com
+     * <code class=focus>sup</code> SUPerscript <span class=litle>(expoente)</span>
+     * <code class=focus>sub</code> SUBscript <span class=litle>(índice)</span>
+* Tamanho de letra é também reduzido <span class=litle>(cerca de 75%)</span>
+* Usado sobretudo em formatação de fórmulas

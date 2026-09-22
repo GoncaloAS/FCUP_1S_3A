@@ -1,0 +1,24 @@
+## Tipos de media ##
+
+<div class="terminal example" style="margin-top:-20px; margin-bottom: -20px;">
+function getMediaType(pathname) {
+    const pos = pathname.lastIndexOf('.');
+    let mediaType;
+    
+    if(pos !== -1) 
+       <span class=focus>mediaType = conf.mediaTypes[pathname.substring(pos+1)]</span>;
+       
+    if(mediaType === undefined)
+       mediaType = 'text/plain';
+    return mediaType;
+}
+
+function isText(mediaType) {
+    if(<span class=focus>mediaType.startsWith('image')</span>)
+      return false;
+    else
+      return true;
+}</div>
+
+* Determina tipo de média a partir de extensão do ficheiro
+* São considerados como texto <span class=litle>(utf8)</span> os que não forem imagens

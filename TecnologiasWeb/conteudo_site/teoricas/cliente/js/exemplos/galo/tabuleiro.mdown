@@ -1,0 +1,72 @@
+## Construtor - Tabuleiro ##
+
+
+<link rel="stylesheet" href="tictactoe.css" type="text/css"> 
+
+<script>
+
+window._update = function() {
+
+class TicTacToe {
+
+  constructor(id) {
+      const parent = document.getElementById(id);
+      const board  = document.createElement("div");
+      
+      board.className = "board";
+      parent.appendChild(board);
+      
+      this.content = new Array(9);
+      this.board = new Array(9);
+      this.current = "X";
+      
+      for(let i=0; i<9; i++) {
+	  let cell = document.createElement("div");
+	  cell.className = "cell";
+	  board.appendChild(cell);
+	  
+	  cell.onclick = () => this.play(i);
+	  
+	  this.board[i] = cell;
+      }    
+  }
+
+  play(pos) {
+      this.content[pos] = this.current;
+      this.board[pos].innerHTML = this.current;
+      
+      this.current = (this.current == "X" ? "O" : "X");
+  }
+
+    
+}
+
+var ticTacToe = new TicTacToe("base");
+
+}
+
+</script>
+
+
+
+<div class="col75p terminal example">
+constructor(id) {
+
+    const parent = document.getElementById(id);
+    const board  = document.createElement('div');
+
+    board.className = 'board';
+    parent.appendChild(board);
+
+    // ...
+}
+</div>
+<div class=col25p >
+
+<div id=base style="width: 100%;  transform: scale(.70,.70);"> </div>
+
+</div>
+
+
+* Tabuleiro construído no elemento com <code class=focus>id</code> em parâmetro
+* É um <code class=focus>div</code> com a classe CSS  <code class=focus>board</code>

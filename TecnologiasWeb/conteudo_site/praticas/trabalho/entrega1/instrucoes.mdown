@@ -1,0 +1,10 @@
+## Instruções ##
+
+Esta área servirá para apresentar ao jogador as
+[regras do jogo](../regras) e
+outras indicações de como o jogar nesta aplicação.
+
+Tal como as [classificações](classificacoes.mdown)
+Poderá ser um painel transitório que se sobrepõem aos restantes. Nesse caso,
+será necessário um [comando](comandos.mdown) que abra o painel,
+e também deverá forma de o remover do écran. 

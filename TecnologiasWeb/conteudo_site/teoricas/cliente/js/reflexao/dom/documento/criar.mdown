@@ -1,0 +1,46 @@
+## Criar ##
+
+
+
+<script>
+
+window.create = function (color) {
+  const base = document.getElementById("base");
+  const box =  document.createElement("div");
+  const space = document.createTextNode(" ");
+    
+  box.setAttribute("style","background: "+color+"; width: 1em; margin: auto;");
+  box.setAttribute("onclick","create('"+color+"');");
+  box.appendChild(space);
+  base.appendChild(box);
+  base.appendChild(document.createTextNode("\n"));
+}
+
+</script>
+
+<div class="col75p terminal example">
+function create(color) {
+  const base = document.getElementById("base");
+  const box =  <span class=focus>document.createElement("div")</span>;
+  const space = <span class=focus>document.createTextNode(" ")</span>;
+  
+  box.setAttribute("style","background: "+color+"; width: 1em; margin: auto;");
+  box.setAttribute("onclick","create('"+color+"');");
+  box.appendChild(space);
+  base.appendChild(box);
+  base.appendChild(<span class=focus>document.createTextNode("\n")</span>);
+}
+
+<div class=ruler>&nbsp;</div>
+&lt;div <span class=focus>id="base"</span> style="...">
+&lt;div style="background: #f90; width: 1em; margin: auto;"
+     onclick="create('#f90');">&nbsp;&lt;/div> ...
+</div>
+
+<div class="col25p example" id="base" style="padding: 20px; height: 280px; border: 1px dotted;">
+<div style="background: #f90; width: 1em; margin: auto;" onclick="create('#f90');"> </div>
+<div style="background: #228; width: 1em; margin: auto;" onclick="create('#228');"> </div>
+</div>
+
+* Funções de <span class=focus>document</span>  criam nós de diferentes tipo
+* Nós criados têm de ser pendurados em elementos

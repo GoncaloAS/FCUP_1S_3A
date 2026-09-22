@@ -1,0 +1,39 @@
+## Alinhamento vertical##
+
+<style>
+p { margin: 10px; }
+</style>
+
+<div class="col50p terminal example" ">
+vertical-align: sub;
+
+vertical-align: super;
+
+
+vertical-align: 20px;
+
+vertical-align: -20px;
+</div>
+<div class=col50p>
+<p>Lorem <span style="vertical-align: sub;">ipsum</span> dolor sit amet</p>
+<p>Lorem <span style="vertical-align: super;">ipsum</span> dolor sit amet</p>
+<p>Lorem <span style="vertical-align: 20px;">ipsum</span> dolor sit amet</p>
+<p>Lorem <span style="vertical-align: -20px;">ipsum</span> dolor sit amet</p>
+</div>
+
+
+
+* Propriedade <code class=focus>vertical-align</code> altera alinhamento vertical
+* Usada sobretudo em elementos em linha  <span class=litle>(como  <code class=focus>span</code>)</span>
+* Os valores podem ser
+    * nomes predifinidos: 
+     <code class=focus>baseline</code>,
+     <code class=focus>sub</code>,
+     <code class=focus>super</code>,
+     <code class=focus>top</code>,
+     <code class=focus>text-top</code>,
+     <code class=focus>middle</code>,
+     <code class=focus>bottom</code>,
+     <code class=focus>text-bottom</code>
+    * Valores numéricos: distâncias ou percentagens
+    

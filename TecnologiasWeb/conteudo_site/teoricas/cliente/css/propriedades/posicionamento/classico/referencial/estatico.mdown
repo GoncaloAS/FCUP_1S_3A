@@ -1,0 +1,29 @@
+## Estático ##
+
+<div class="col50p terminal example">
+
+position: static;
+
+</div>
+<div class=col50p style="margin-top: -30px; margin-bottom: -30px;">
+<div style="width: 200px; height: 300px; border: 2px dotted; margin: auto;">
+
+<div style="width: 170px; height: 270px; margin: 10px; background-color: orange; opacity: .5;">
+
+<div style="width: 150px; height: 50px; background-color: #228; opacity: .5;"></div>
+
+<div style="width: 150px; height: 50px; background-color: #228; opacity: 1; position: static; "></div>
+
+<div style="width: 150px; height: 50px; background-color: #228; opacity: .5;"></div>
+
+
+</div>
+
+</div>
+</div>
+
+<p>&nbsp;</b>
+
+* É a forma de posicionamento por **omissão**
+* Elementos posicionados de acordo com <code class=focus>display</code>
+* Valores de propriedades de posição são irrelevantes

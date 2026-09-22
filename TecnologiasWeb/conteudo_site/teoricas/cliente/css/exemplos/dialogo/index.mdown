@@ -1,0 +1,22 @@
+## Caixa de Dialogo ##
+
+<link rel="stylesheet" href="dialogo.css" type="text/css">
+
+<div style="width: 50%; margin: auto;">
+
+     <div class=dialog>
+
+          <div class=message>  Mesmo sair? </div>
+	   
+     	  <div class=button> Ok </div>
+	  <div class=button> Cancelar </div> 
+
+     </div>
+
+</div>
+
+<p>&nbsp;</p>
+
+* Caixa de diálogo personalizada
+* Botões também personalizados
+* Disposição do texto e dos botões

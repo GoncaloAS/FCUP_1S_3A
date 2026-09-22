@@ -1,0 +1,35 @@
+## Âmbito de variáveis##
+
+<div class="col50p terminal example">
+<span class=focus>var x = 1</span>;
+
+function getX() {
+    <span class=focus>var x = 2</span>;
+
+    return x;
+}
+
+document.writeln(x);
+document.writeln(getX());
+document.writeln(x);
+</div>
+<div class="col50p example">
+
+
+
+
+
+
+
+
+1
+2
+1
+</div>
+<div class=endCols></div>
+
+* Âmbito das variáveis pode ser
+    * **Local** a uma função onde foi declarada 
+    * **Global** se não for declarada numa função 
+* Cada definição de uma função cria um novo âmbito
+* Variáveis locais sobrepõem-se a globais com mesmo nome

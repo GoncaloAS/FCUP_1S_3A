@@ -1,0 +1,14 @@
+## Examinar HTTP no Browser ##
+
+<div markdown=1 style="position: relative; width: 100%; height: 80%;">
+![Browser HTTP](browser.png)
+
+<div markdown=1 style="position: absolute; right: 10px; top: 10px;">
+* **Navegador** <span class=litle>(ex. Chrome)</span>
+* *Developer tools*
+* Separador *Network*
+* Informação das linhas iniciais
+* Cabeçalhos de pedidos e respostas
+* Recursos recebidos <span class=litle>(texto)</span>
+</div>
+</div>

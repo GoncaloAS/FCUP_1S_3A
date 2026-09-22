@@ -1,0 +1,51 @@
+## Fluxos ##
+
+<style>
+
+.container {
+	   display: grid;
+	   grid-template-columns: auto auto auto;
+   	   grid-template-rows:    auto auto auto;
+	   grid-auto-flow: column;
+	   background: orange; 
+	   opacity: .5;
+}
+
+.item {
+ 	   border: 1px dotted white;
+	   background: #228;
+	   color: white;
+	   text-align: center;
+}
+
+</style>
+
+<div class="terminal example col50p">
+.container {
+       display: grid;
+	   grid-template-columns: 
+	        auto auto auto;
+   	   grid-template-rows:    
+	        auto auto auto;
+	   <code>grid-auto-flow: column;</code>
+}
+</div>
+<div class="col50p">
+	<div class=container>
+	     <div class=item> 1 </div>
+	     <div class=item> 2 </div>
+	     <div class=item> 3 </div>
+		 <div class=item> 4 </div>
+	     <div class=item> 5 </div>
+	     <div class=item> 6 </div>
+         <div class=item> 7 </div>
+	     <div class=item> 8 </div>
+	     <div class=item> 9 </div>
+	</div>
+</div>
+
+
+* Controlo do fluxo dos itens: `grid-auto-flow`
+* Valores possíveis:
+    * `row` <span class=litle>(omissão)</span> inserir por linha
+	* `column` inserir por coluna

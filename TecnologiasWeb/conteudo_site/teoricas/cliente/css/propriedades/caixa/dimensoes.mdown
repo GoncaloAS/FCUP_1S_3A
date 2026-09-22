@@ -1,0 +1,32 @@
+## Dimensões ##
+
+<div markdown=1 class="col50p terminal example">
+Antes
+&lt;div style="
+  <span class=focus>width:200px; 
+  height:100px;</span>
+  background:  #FFA500;"
+Conteúdo
+&lt;/div>
+Depois
+</div>
+<div class="col50p">
+Antes
+<div style="
+  width:200px; 
+  height:100px;
+  background:  #FFA500;">
+Conteúdo
+</div>
+Depois
+</div>
+
+
+* A caixa é caraterizada principalmente pela suas dimensões
+    * <code class=focus>width</code> - largura
+    * <code class=focus>height</code> - altura
+* No entanto, outras medidas influem na dimensão **total**
+    * espaço que envolve a caixa
+    * espaço que envolve o conteúdo da caixa
+    * desenho dos limites da própria caixa
+    

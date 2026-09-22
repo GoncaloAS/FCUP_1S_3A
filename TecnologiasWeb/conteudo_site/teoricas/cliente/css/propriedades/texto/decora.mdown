@@ -1,0 +1,27 @@
+## Decoração ##
+
+<style>
+p { margin: 14px; }
+</style>
+<div class="col50p terminal example">
+text-decoration: underline;
+
+text-decoration: overline;
+
+text-decoration: line-through ;
+
+</div>
+<div class=col50p>
+<p style="text-decoration: underline; ">Lorem ipsum dolor sit amet</p>
+<p style="text-decoration: overline; ">Lorem ipsum dolor sit amet</p>
+<p style="text-decoration: line-through ; ">Lorem ipsum dolor sit amet</p>
+</div>
+
+
+* Decoração de texto dada pela propriedade <code class=focus>text-decoration</code>
+* Os valores são nomes predifinidos: 
+     * <code class=focus>underline</code>
+     * <code class=focus>overline</code>
+     * <code class=focus>line-through</code>
+     * <code class=focus>blink</code> 
+     * <code class=focus>none</code>

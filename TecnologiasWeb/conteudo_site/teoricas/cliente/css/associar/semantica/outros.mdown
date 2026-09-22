@@ -1,0 +1,18 @@
+## Exemplos de outros elementos semânticos ##
+
+
+
+
+* Sem *look and feel* (contentores)
+    * `<figure>` - contem uma figura e sua legenda 
+    * `<figcaption>` - legenda de uma figura
+* Com  *look and feel* 
+    * `<mark>` - texto a  <mark>destacar</mark>
+	* `<button>` - <button>botão</button> para inicar uma ação
+    * `<details>`  - apresentação de informação <details><summary>complementar</summary>Aqui está ela!</details>
+    * `<summary>` - Parte visível do elemento detail
+
+
+
+
+

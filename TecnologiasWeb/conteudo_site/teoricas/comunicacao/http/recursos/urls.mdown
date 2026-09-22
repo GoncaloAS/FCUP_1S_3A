@@ -1,0 +1,67 @@
+## Uniform Resource Locator (URLs) ##
+
+
+
+<style>
+  .nt {
+     background: orange;
+     opacity: 0.50;	
+     border-radius: 3mm;
+     text-align: center;
+     padding : 2mm;
+  }
+
+
+  .c {
+	font-family: monospace;
+  }
+</style>
+
+<table>
+<tr>
+  <td class=nt>protocolo</td>
+  <td></td>
+  <td class=nt>servidor</td>
+  <td></td>
+  <td class=nt>porta</td>
+  <td class=nt>caminho</td>
+   <td></td>
+   <td class=nt><i>query string</i></td>
+</tr>
+<tr>
+	<td class=c style="text-align: right;">http</td>
+	<td class="c focus">://</td>
+	<td class=c>localhost</td>
+	<td class="c focus">:</td>
+	<td class=c>8080</td>	
+	<td class=c>/regista</td>
+	<td class="c focus">?</td>
+	<td class="c">nome=zp&id=123</td>
+</tr>
+<tr>
+	<td style="text-align: right;"></td>
+	<td></td>
+	<td></td>	
+	<td></td>
+	<td></td>	
+	<td class=c>/regista</td>
+	<td class="c focus">?</td>
+	<td class="c">nome=zp&id=123</td>
+
+</tr>
+</table>
+
+
+
+
+
+* Identificador de recursos transferidos pelo protocolo (<code class=focus>http</code>)
+* Além do **servidor** pode ser indicado a **porta** (omissão: 80)
+* URLs na linha inicial de pedidos HTTP
+     * Omitem protocolo, servidor e porta
+     * Excetuando pedidos a agentes intermediários (*proxy*)
+* **Caminho** localiza o recurso no servidor (como um ficheiro)
+* Existe um ***query string*** opcional
+    * Serve para enviar dados
+    * Separada por um <code class=focus>?</code>
+    * Se enviados de formulários seguem um **formato**

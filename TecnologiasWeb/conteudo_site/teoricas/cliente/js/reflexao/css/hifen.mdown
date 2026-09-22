@@ -1,0 +1,36 @@
+## Hífem ##
+
+
+<div class="col75p terminal example">...
+&lt;select onchange="
+   this.form.<span class=focus>style.fontSize</span> = this.value;">
+&lt;option>24pt
+&lt;option>36pt
+&lt;option>12pt
+&lt;/select>
+...
+</div>
+<div class=col25p>
+
+<form style="width: 200px; height: 200px; padding: 20px; font-size: 24pt;" onsubmit="return false;">
+
+<select onchange="this.form.style.fontSize = this.value;">
+<option>24pt
+<option>36pt
+<option>12pt
+</select>
+<br> Lorem ipsum dolor sit amet
+
+</select>
+
+</form>
+
+</div>
+
+* Nomes de propriedade CSS com palavras separadas por **hífen**
+* Exemplos
+    * <code class=focus>font-size</code>, <code class=focus>font-color</code>
+    * <code class=focus>border-style</code>, <code class=focus>border-width</code>
+* Na sintaxe CSS/javaScript convertidos em **lowerCamelCase**
+    * <code class=focus>fontSize</code>, <code class=focus>fontColor</code>
+    * <code class=focus>borderStyle</code>, <code class=focus>borderWidth</code>

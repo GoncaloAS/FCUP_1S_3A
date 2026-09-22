@@ -1,0 +1,48 @@
+## Item ##
+
+<style>
+
+.container {
+	   display: grid;
+	   grid-template-columns: auto auto auto;
+	   background: orange; 
+	   opacity: .5;
+}
+
+.item {
+ 	   border: 1px dotted white;
+	   background: #228;
+	   color: white;
+	   text-align: center;
+}
+
+
+</style>
+
+<div class="terminal example col50p">
+&lt;div class=<cpde>container</code>>
+  &lt;div class=item id=i1> 1 &lt;/div>
+  &lt;div class=item id=i2> 2 &lt;/div>
+  &lt;div class=item id=i3> 3 &lt;/div>
+  &lt;div class=item id=i4> 4 &lt;/div>
+	 &hellip;
+  &lt;div class=item id=i9> 9 &lt;/div>
+&lt;/div>
+
+</div>
+<div class="col50p">
+	<div class=container>
+	     <div class=item id=i1> 1 </div>
+	     <div class=item id=i2> 2 </div>
+	     <div class=item id=i3> 3 </div>
+		 <div class=item id=i4> 4 </div>
+	     <div class=item id=i5> 5 </div>
+	     <div class=item id=i6> 6 </div>
+         <div class=item id=i7> 7 </div>
+	     <div class=item id=i8> 8 </div>
+	     <div class=item id=i9> 9 </div>
+	</div>
+</div>
+
+* Existem propriedades específicas para item de grelhas
+* Permitem posicionar e expandir itens nas células

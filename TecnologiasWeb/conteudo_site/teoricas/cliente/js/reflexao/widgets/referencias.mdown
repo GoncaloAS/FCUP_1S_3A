@@ -1,0 +1,31 @@
+## Referências ##
+
+<div class="col75p example terminal">
+&lt;form>
+  &lt;input name=a</span> value=1 size=2> +
+  &lt;input name=b value=1 size=2>
+  &lt;input type=button value="="  onclick="
+     <span class=focus>this.form.c.value</span>. = 
+       parseInt(<span class=focus>this.form.a.value</span>) + 
+       parseInt(<span class=focus>this.form.b.value</span>);"> 
+  &lt;input name=c size=2>
+  &lt;/form>
+</div>
+<div class=col25p style="margin-top: 100px;">
+<form>
+
+<input name=a value=1 size=2> +
+<input name=b value=1 size=2>
+<input type=button value="="onclick="
+   this.form.c.value = 
+   parseInt(this.form.a.value) + 
+   parseInt(this.form.b.value);"> 
+<input name=c size=2>
+
+</form>
+</div>
+
+* Nome <code class=focus>this</code> refere objeto corrente <span class=litle>(<i>widget</i>, neste caso)</span>
+* *Widgets* têm a propriedade <code class=focus>form</code> referindo seu formulário
+* Formulários têm propriedade com *nome* de cada objeto
+* Cada objeto com propriedade <code class=focus>value</code> refletindo valor corrente

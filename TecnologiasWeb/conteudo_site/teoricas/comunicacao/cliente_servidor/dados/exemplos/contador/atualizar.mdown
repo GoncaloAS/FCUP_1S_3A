@@ -1,0 +1,16 @@
+## Atualizar contagem com SSE ##
+
+<div class="terminal example">    constructor(parentId) {
+        // &hellip;
+        const url = "http://"+<span class=focus>host</span>+":"+<span class=focus>port</span>+"/update";
+
+        // &hellip;
+        const source = new EventSource(url);
+        source.onmessage = event => <span class=focus>this</span>.display.innerText = <span class=focus>event.data</span>;	
+    }
+</div>
+
+* Definição da atualização no construtor
+* Atualizações por URL específico de servidor
+* Dados recebidos por eventos e colocados no visor
+* `this` refere-se a contador por estar em função `=>`

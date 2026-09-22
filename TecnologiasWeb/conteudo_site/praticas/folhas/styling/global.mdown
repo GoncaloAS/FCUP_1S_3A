@@ -1,0 +1,13 @@
+
+## Formatação global  ##
+
+* Coloque uma cor de fundo na página
+* Altere o tipo <span class=litle>(família, tamanho, etc)</span> de letra 
+* Formate o texto <span class=litle>(tamanho de linha, separação entre palavras)</span>
+* Formate características de elementos recorrentes, como:
+    * margens entre parágrafos
+    * letras iniciais de parágrafos
+    * decoração de cabeçalhos <span class=litle>(`h1` `h2`, ...)</span>
+    * âncoras
+    
+    

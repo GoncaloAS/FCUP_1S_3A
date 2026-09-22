@@ -1,0 +1,50 @@
+
+## Forma do dado de paus ##
+
+
+<link rel="stylesheet" href="../board.css">
+<link rel="stylesheet" href="../stick-dice.css">
+
+<div style="display: flex;" class=cozy>
+<div id="dicePanel1"></div>
+<div id="dicePanel2"></div>
+</div>
+
+<script>
+window._update = async function() {
+
+fetch("praticas/trabalho/regras/tab_board.js")
+  .then(response => response.text())
+  .then(src => {
+        eval((src));
+
+	   const dicePanel1 = document.getElementById('dicePanel1')
+	   const dice1 = new StickDice({div: dicePanel1 });
+
+       dice1.setResult({
+	     stickValues: [ false ], 
+	     value: "lado escuro e arredondado"
+	   });
+	   
+       const dicePanel2 = document.getElementById('dicePanel2')
+	   const dice2 = new StickDice({div: dicePanel2 });
+
+       dice2.setResult({
+	     stickValues: [ true ], 
+	     value: "lado claro e plano"
+	   });
+
+
+   })
+  .catch(console.error);
+
+}
+</script>
+
+* São usados 4 paus com duas faces distintas
+* Resultam de uma pau maior cortado a meio ao comprimento
+* Cada metade é cortada a meio longitudinalmente 
+* Os 4 paus são apertados num feixe com a mão
+* Depois de aberta a mão, cada pau fica numa de 2 faces
+    * plana e clara, o centro do pau
+	* escura e arredondada, a casca do pau

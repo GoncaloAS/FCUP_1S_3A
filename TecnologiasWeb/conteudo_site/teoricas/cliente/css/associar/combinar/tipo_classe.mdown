@@ -1,0 +1,24 @@
+##Tipo & classe##
+
+<div class="example terminal" >
+&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+  &lt;title>Seletores&lt;/title>
+  &lt;link rel="stylesheet" href="style.css" type="text/css">
+  &lt;style>
+      <span class=focus>p.</span>important { background: orange; }           
+      .important { color: red; }
+  &lt;/style>
+&lt;/head>
+&lt;body>
+    <span class=focus>&lt;<u>p class=important</u>> Lorem ipsum dolor sit amet, ...&lt;/p></span>
+    &lt;p> Praesent vel elementum nunc...  &lt;/p>
+    &lt;p> Donec <span class=focus>&lt;span <u>class=important</u>>cursus&lt;span></span> orci ...  &lt;/p></span>
+&lt;/body>
+&lt;/html>
+</div>
+
+
+* Classe pode ser restrita a um determinado tipo
+* Seletor combina tipo e classe, separados por **ponto** <span class=focus>.</span>

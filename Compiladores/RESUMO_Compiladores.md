@@ -1,10 +1,10 @@
 ---
 title: "Compiladores (CC3001) --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 1 (Aulas 1--3)"
+date: "Atualizado: Semana 2 (Aulas 1--4)"
 ---
 
-<!-- processado: Teoricas/Compiladores1.pdf, Teoricas/Compiladores2.pdf, Teoricas/Compiladores3.pdf -->
+<!-- processado: Teoricas/Compiladores1.pdf, Teoricas/Compiladores2.pdf, Teoricas/Compiladores3.pdf, Teoricas/Compiladores-4.pdf -->
 
 # Aula 1 --- Introdução e fases de um compilador
 
@@ -663,3 +663,352 @@ lexical em C incompleto (`CLexer.c`) para os tokens `ID`, `NUM`, `LPAREN`,
 - **Exercício 3** (reimplementar com `flex`): usa diretamente a secção
   "Flex" acima, incluindo a estrutura do ficheiro `.l` e o exemplo
   completo.
+
+# Aula 4 --- Análise sintática e gramáticas independentes de contexto
+
+As Aulas 2--3 cobriram a **análise lexical**: transformar texto em bruto
+numa sequência de *tokens*. Esta aula avança para o passo seguinte do
+*frontend* (ver o diagrama de fases na Aula 1, secção "Fases de um
+compilador" — a análise sintática é a fase logo a seguir à lexical): a
+**análise sintática**, que verifica se a sequência de tokens respeita a
+estrutura gramatical da linguagem e constrói uma **árvore sintática**.
+
+## O que é a análise sintática
+
+::: {.definicao title="--- Sintaxe"}
+*Sintaxe*: "estudo das regras e dos princípios que regem a organização dos
+constituintes das frases" (Dicionário Priberam). Aplicado a uma linguagem
+de programação: um programa é **sintaticamente bem formado** se respeitar
+regras de estrutura — chavetas `{ }` e parêntesis `( )` "casados",
+operadores com o número correto de operandos, instruções terminadas ou
+separadas corretamente (`;`), etc.
+:::
+
+Tal como na linguagem natural, um programa pode estar sintaticamente
+correto e ainda assim não fazer sentido — o exemplo clássico de Chomsky
+(1957) é a frase em inglês *"Colorless green ideas sleep furiously"*
+(gramaticalmente válida, semanticamente absurda). Verificar o "faz
+sentido" é trabalho da **análise semântica** (fase seguinte, fora do
+âmbito desta aula); a análise sintática só verifica estrutura.
+
+O **analisador sintático** (*parser*) constrói a árvore sintática a partir
+da sequência de tokens (ou reporta um erro, se a sequência não respeitar
+nenhuma estrutura válida). A ferramenta matemática usada para especificar
+essa estrutura é a **gramática independente de contexto**.
+
+## Gramáticas independentes de contexto
+
+::: {.definicao title="--- Gramática independente de contexto (CFG)"}
+Uma **gramática independente de contexto** é um quádruplo
+$G = (\Sigma, N, S, P)$:
+
+- $\Sigma$ --- conjunto de símbolos **terminais** (os tokens — os mesmos
+  que saem do analisador lexical);
+- $N$ --- conjunto de símbolos **não-terminais** (categorias sintáticas
+  abstratas, ex: "expressão", "instrução");
+- $S \in N$ --- símbolo **inicial**;
+- $P$ --- conjunto de **produções** da forma $X \to \alpha$, onde $X$ é um
+  não-terminal e $\alpha$ é uma sequência (possivelmente vazia) de
+  terminais e/ou não-terminais.
+:::
+
+Chama-se "independente de contexto" porque o lado esquerdo de cada
+produção é **sempre um único não-terminal isolado** (nunca depende do que
+está à sua volta na frase para saber se a produção se pode aplicar — ao
+contrário de gramáticas mais gerais, fora do âmbito deste curso).
+
+::: exemplo
+Gramática usada como fio condutor ao longo desta secção (é a gramática
+usada nos slides para introduzir derivações, árvores e ambiguidade — vai
+reaparecer várias vezes abaixo, sempre com a mesma numeração de produções):
+
+$$\Sigma = \{a, b\} \qquad N = \{S, B\} \qquad \text{inicial: } S$$
+
+Produções:
+
+| Nº | Produção |
+|---|---|
+| (1) | $S \to aSB$ |
+| (2) | $S \to \varepsilon$ |
+| (3) | $S \to B$ |
+| (4) | $B \to Bb$ |
+| (5) | $B \to b$ |
+:::
+
+## Derivações
+
+::: {.definicao title="--- Derivação"}
+A relação de **derivação** $\Rightarrow$ substitui um não-terminal pelo
+lado direito de alguma produção que o tenha como lado esquerdo.
+$\Rightarrow^*$ (fecho transitivo) representa zero ou mais passos de
+derivação.
+:::
+
+::: exemplo
+Derivação completa de $aabbb$ a partir de $S$, usando a gramática acima,
+anotando cada passo com o número da produção aplicada:
+
+$$S \overset{1}{\Rightarrow} aSB \overset{1}{\Rightarrow} aaSBB \overset{2}{\Rightarrow} aaBB \overset{4}{\Rightarrow} aaBbB \overset{5}{\Rightarrow} aabbB \overset{5}{\Rightarrow} aabbb$$
+
+Passo a passo: (1) $S\to aSB$ substitui o $S$ inicial → `aSB`. (1)
+novamente, no `S` que sobrou → `aaSBB` (repara que a produção acrescenta
+sempre um `a` à esquerda e um `B` à direita). (2) $S\to\varepsilon$ faz o
+`S` desaparecer → `aaBB` (dois `a`'s, dois `B`'s por resolver). (4)
+$B\to Bb$ no primeiro `B` → `aaBbB` (esse `B` vira `Bb`, ou seja um `B`
+novo seguido de `b`). (5) $B\to b$ no `B` que sobrou do passo anterior →
+`aabbB`. (5) outra vez, no último `B` → `aabbb`. Todos os não-terminais
+foram eliminados: `aabbb` é uma palavra da linguagem.
+:::
+
+## Linguagem descrita por uma gramática
+
+::: {.definicao title="--- L(G)"}
+Partindo do símbolo inicial e substituindo não-terminais pelas produções
+até só restarem terminais, obtemos uma **palavra** descrita pela
+gramática. Formalmente, para $G=(\Sigma,N,S,P)$:
+
+$$L(G) = \{\, w \in \Sigma^* : S \Rightarrow^* w \,\}$$
+:::
+
+::: exemplo
+**Exercício dos slides, resolvido por completo:** que linguagem descreve a
+gramática do exemplo acima ($S\to aSB \mid \varepsilon \mid B$;
+$B \to Bb \mid b$)? Onde podem ocorrer `a`'s e `b`'s numa palavra aceite,
+e qual a relação entre o número de `a`'s e de `b`'s?
+
+Primeiro, o que faz cada não-terminal:
+
+- $B$ só gera sequências de **um ou mais `b`'s**: $B\to b$ dá `b`; $B\to Bb$
+  acrescenta sempre mais um `b` à direita de um $B$ já formado. Logo $B$
+  gera exatamente a linguagem $b^+$ (nunca $b^0$, porque não há produção
+  $B\to\varepsilon$).
+- $S\to aSB$ aplicada $n$ vezes seguidas produz $a^n\,S\,B_1B_2\cdots B_n$
+  ($n$ cópias de $B$, cada uma independente das outras — ver a derivação
+  acima, onde duas aplicações de (1) geram exatamente dois `B`'s
+  pendentes). Cada $B_i$ resolve-se depois, independentemente, num
+  $b^{k_i}$ com $k_i \geq 1$.
+- O $S$ que sobra no meio tem de terminar de duas formas possíveis:
+  - via (2) $S\to\varepsilon$: não acrescenta mais nada. Com $n$ cópias de
+    $B$ já geradas, o total de `b`'s é $m=\sum_{i=1}^n k_i$, e como cada
+    $k_i\geq 1$, temos $m\geq n$ (com $m=n$ exatamente quando todos os
+    $k_i=1$, e $m$ pode crescer arbitrariamente aumentando qualquer
+    $k_i$ — logo **todos** os valores $m\geq n$ são atingíveis). Caso
+    particular $n=0$: dá a palavra vazia.
+  - via (3) $S\to B$: acrescenta mais **um** $B$ extra (o $(n{+}1)$-ésimo),
+    que por si só já gera $b^k$ com $k\geq1$. Isto dá $m\geq n+1$ — mas
+    este intervalo já está contido no anterior (para o mesmo $n$, a via
+    (2) já atinge qualquer $m\geq n$, incluindo $m=n+1,n+2,\dots$), por
+    isso não acrescenta palavras novas à linguagem, só dá origem a
+    **derivações alternativas** para palavras que já eram atingíveis —
+    é precisamente esta segunda via que torna a gramática **ambígua**
+    (ver secção seguinte).
+
+Juntando tudo: $n$ pode ser qualquer natural $\geq 0$, e para cada $n$,
+$m$ (número de `b`'s) pode ser qualquer natural $\geq n$. Logo:
+
+$$L(G) = \{\, a^n b^m : n \geq 0,\ m \geq n \,\}$$
+
+Em palavras (a resposta pedida "numa frase" pelo exercício): **a
+linguagem das palavras formadas por zero ou mais `a`'s seguidos de zero
+ou mais `b`'s, em que o número de `b`'s nunca é inferior ao número de
+`a`'s** (incluindo a palavra vazia, quando $n=m=0$). Todos os `a`'s
+aparecem sempre à esquerda de todos os `b`'s — a gramática nunca permite
+intercalar os dois símbolos.
+:::
+
+## Árvores sintáticas
+
+::: {.definicao title="--- Árvore sintática"}
+Cada passo de uma derivação pode representar-se como um nó numa **árvore
+sintática**: uma produção $X \to \alpha_1 \dots \alpha_n$ corresponde a um
+nó $X$ com $n$ sub-árvores, uma por cada símbolo de $\alpha_1,\dots,\alpha_n$
+(por ordem, da esquerda para a direita).
+:::
+
+::: exemplo
+Árvore sintática correspondente à derivação de $aabbb$ feita acima
+($S \overset{1}{\Rightarrow} aSB \overset{1}{\Rightarrow} aaSBB
+\overset{2}{\Rightarrow} aaBB \overset{4}{\Rightarrow} aaBbB
+\overset{5}{\Rightarrow} aabbB \overset{5}{\Rightarrow} aabbb$):
+
+![Árvore sintática de aabbb, usando (2) S→ε no S mais interno](figuras/arvore_aabbb_1.pdf){width=55%}
+
+Lendo a árvore de cima para baixo: a raiz $S$ usa a produção (1) e tem três
+filhos — `a`, o $S$ do meio, e o $B$ mais à direita (o "$B$ exterior").
+O $S$ do meio usa (1) outra vez — três filhos: `a`, o $S$ mais interno, e
+um segundo $B$ (o "$B$ do meio"). O $S$ mais interno usa (2) e resolve-se
+em $\varepsilon$ (fim da recursão). O "$B$ do meio" usa (4) $B\to Bb$ —
+dois filhos: um novo $B$, e `b`; esse novo $B$ usa (5) $B\to b$. O "$B$
+exterior" usa diretamente (5) $B \to b$. Lendo as folhas da esquerda para
+a direita: `a`, `a`, (nada, do $\varepsilon$), `b` (do $B$ novo dentro do
+$B$ do meio), `b` (do próprio $B$ do meio), `b` (do $B$ exterior) — dá
+exatamente `aabbb`.
+:::
+
+## Gramáticas ambíguas
+
+::: {.definicao title="--- Ambiguidade"}
+Uma gramática diz-se **ambígua** se existe pelo menos uma palavra da sua
+linguagem que admite **duas (ou mais) árvores sintáticas distintas**.
+Nota: derivações diferentes podem corresponder à **mesma** árvore
+(diferindo só na ordem em que os não-terminais são substituídos) — o que
+importa para a ambiguidade é a árvore, não a derivação.
+:::
+
+::: exemplo
+A mesma gramática do exemplo acima é **ambígua**: a palavra `aabbb` também
+se obtém pela derivação alternativa
+$S \overset{1}{\Rightarrow} aSB \overset{1}{\Rightarrow} aaSBB
+\overset{3}{\Rightarrow} aaBBB \overset{5}{\Rightarrow} aabBB
+\overset{5}{\Rightarrow} aabbB \overset{5}{\Rightarrow} aabbb$ — que usa
+(3) $S\to B$ no $S$ mais interno (em vez de (2) $S\to\varepsilon$), dando
+**três** $B$'s independentes, cada um resolvido diretamente por (5)
+$B\to b$, sem nenhum usar (4) $B\to Bb$:
+
+![Segunda árvore sintática de aabbb, usando (3) S→B](figuras/arvore_aabbb_2.pdf){width=55%}
+
+Esta árvore é **estruturalmente diferente** da anterior (a primeira tinha
+um $B$ que se expandia em `Bb`; esta tem três $B$'s todos "folha única"
+via (5)) apesar de produzir a mesma palavra `aabbb` — por definição, isto
+basta para a gramática ser ambígua. Esta é exatamente a razão, identificada
+na secção anterior, por que a via (3) $S\to B$ não alarga a linguagem: só
+dá um caminho alternativo para palavras já alcançáveis por (2).
+:::
+
+::: exame
+**Porque é que a ambiguidade importa?** Como modelo matemático para
+*descrever* uma linguagem, uma gramática ambígua é perfeitamente válida.
+Mas num compilador a gramática também serve para **atribuir significado**
+aos fragmentos do programa (é a árvore sintática que a análise semântica e
+a geração de código percorrem depois) — se a mesma palavra tem duas
+árvores possíveis, o compilador não sabe qual significado escolher. Por
+isso as linguagens de programação são desenhadas para que a sua gramática
+não seja ambígua (ou, quando é impraticável evitar completamente, para que
+existam regras explícitas de desambiguação — ver "dangling else" abaixo).
+Este é um tema clássico de exame: identificar que uma gramática é ambígua
+exibindo **duas árvores diferentes** para a mesma palavra (não basta
+exibir duas derivações — têm de corresponder a árvores diferentes).
+:::
+
+## Exemplo central: expressões aritméticas
+
+::: exemplo
+Gramática de expressões aritméticas (não-terminal $E$, terminais
+$\texttt{num}, +, *, (, )$):
+
+$$E \to E+E \mid E*E \mid \texttt{num} \mid (E)$$
+
+Esta gramática é **ambígua** — a palavra `1+2+3` admite duas árvores:
+
+![1+2+3 associado à direita: 1+(2+3)](figuras/arith_soma_dir.pdf){width=40%} ![1+2+3 associado à esquerda: (1+2)+3](figuras/arith_soma_esq.pdf){width=40%}
+
+Ambas as árvores calculam o mesmo resultado (6), mas são **árvores
+diferentes** — isso já basta para a gramática ser ambígua, mesmo sem
+nenhuma consequência prática neste caso particular.
+:::
+
+::: exemplo
+A palavra `1+2*3` já revela o problema **na prática**: as duas árvores
+possíveis dão **resultados diferentes**.
+
+![Árvore correta: 1+(2*3)=7 — * agrupado primeiro](figuras/arith_mix_correta.pdf){width=42%} ![Árvore errada: (1+2)*3=9 — + agrupado primeiro](figuras/arith_mix_errada.pdf){width=42%}
+
+Se um compilador usasse esta gramática tal como está, a árvore que
+calhasse ser construída determinaria se `1+2*3` valeria `7` ou `9` — um
+comportamento imprevisível e obviamente inaceitável para uma linguagem de
+programação.
+:::
+
+## Eliminar ambiguidade: associatividade e precedência
+
+Frequentemente consegue-se eliminar a ambiguidade **reescrevendo a
+gramática** (sem mudar a linguagem que ela descreve). Para expressões
+aritméticas há duas escolhas a fixar explicitamente:
+
+- **Associatividade** dos operadores: `1+2+3` interpretado à esquerda
+  $((1{+}2){+}3)$ ou à direita $(1{+}(2{+}3))$?
+- **Prioridade (precedência)** entre operadores: `1+2*3` interpretado
+  como $1+(2{\times}3)$ ou como $(1{+}2){\times}3$?
+
+::: {.definicao title="--- Gramática de expressões desambiguada"}
+$$E \to E+T \mid T \qquad T \to T*F \mid F \qquad F \to \texttt{num} \mid (E)$$
+
+Novos não-terminais e ideia da construção: uma **expressão** ($E$) é uma
+soma de **termos** ($T$); um **termo** é um produto de **fatores** ($F$);
+um **fator** é uma constante ou uma expressão entre parêntesis. As
+produções de $E$ e $T$ têm **recursão à esquerda** ($E\to E+T$, não
+$E \to T+E$) — é isso que força **associatividade à esquerda** para `+` e
+`*`. E como só se pode chegar a um `*` **através** de um $T$ (nunca
+diretamente a partir de $E$), um `*` "agarra" sempre o seu operando antes
+de ele poder ser usado numa soma — é isso que dá **precedência maior** ao
+`*` sobre o `+`.
+:::
+
+::: exemplo
+Com a gramática desambiguada, `1+2*3` só tem **uma** árvore possível:
+
+![Árvore única de 1+2*3 com a gramática desambiguada](figuras/arith_desambiguada.pdf){width=55%}
+
+$E$ (raiz) usa $E\to E+T$: filho esquerdo $E\to T\to F\to \texttt{1}$;
+filho direito $T$, que por sua vez usa $T\to T*F$: $T\to F\to\texttt{2}$
+à esquerda do `*`, $F\to\texttt{3}$ à direita. O `*` fica "preso" dentro
+do ramo direito do `+`, antes de esse ramo poder combinar-se com o `1` —
+por isso o resultado é sempre $1+(2\times3)=7$, nunca
+$(1+2)\times3$.
+:::
+
+::: atencao
+**Exercício dos slides (para tentar sozinho, técnica análoga à acima):**
+uma gramática de "programas sequenciais" com
+$S \to S;S \mid \texttt{ident}=E \mid \texttt{ident}{+}{+}$ e
+$E \to \texttt{ident} \mid \texttt{num} \mid E+E$ é ambígua em **dois**
+sítios distintos — não só nas expressões (`E`, mesmo problema do `E→E+E`
+acima, mesma técnica de correção com precedência/associatividade), mas
+também nas próprias instruções (`S→S;S` tem a mesma forma estrutural que
+`E→E+E`, logo sofre do mesmo tipo de ambiguidade de associatividade — a
+correção é a técnica de recursão à esquerda usada acima para `E→E+T|T`,
+aplicada agora a `S`).
+:::
+
+## O problema do "dangling else"
+
+Muitas linguagens de programação permitem `if`/`then` com `else`
+opcional:
+
+$$S \to \texttt{if } E \texttt{ then } S \texttt{ else } S \mid \texttt{if } E \texttt{ then } S \mid \dots$$
+
+::: {.atencao title="--- Dangling else"}
+Esta gramática é ambígua de uma forma particular: em
+
+```
+if e1 then if e2 then s1 else s2
+```
+
+o `else s2` pode ligar-se ao `if e1` **ou** ao `if e2` — duas
+interpretações válidas segundo a gramática:
+
+- `if e1 then { if e2 then s1 else s2 }` (else liga ao `if` mais próximo)
+- `if e1 then { if e2 then s1 } else s2` (else liga ao `if` mais afastado)
+
+Normalmente prefere-se a primeira: **o `else` associa-se sempre ao `if`
+mais próximo** (a convenção universal na maioria das linguagens).
+:::
+
+::: exame
+**Resolução formal**, para o caso de se preferir corrigir a gramática em
+vez de tratar isto no analisador: introduzir dois não-terminais, $M$
+(*matched statements* — instruções onde todo `if` já tem o seu `else`) e
+$U$ (*unmatched* — instruções com um `if` ainda por fechar):
+
+$$S \to M \mid U$$
+$$M \to \texttt{if } E \texttt{ then } M \texttt{ else } M \mid \dots$$
+$$U \to \texttt{if } E \texttt{ then } S \mid \texttt{if } E \texttt{ then } M \texttt{ else } U$$
+
+A ideia: um `if...then...else...` só pode ser $M$ (fechado) se **ambos**
+os ramos forem $M$ — isto impede que o `then` interno fique "por fechar"
+dentro de um `if...else` já completo, forçando o `else` externo a
+"descer" e agarrar o `if` mais próximo disponível. Na prática, contudo,
+**é frequente preferir não mexer na gramática** e resolver a ambiguidade
+diretamente na implementação do analisador sintático (técnica vista em
+aulas seguintes).
+:::

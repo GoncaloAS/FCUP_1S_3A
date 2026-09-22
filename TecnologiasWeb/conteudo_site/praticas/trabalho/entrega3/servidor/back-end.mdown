@@ -1,0 +1,6 @@
+## *Back-end* ##
+
+Por razões de segurança, o servidor na rede interna chama-se `twserver-be` (notar o `-be` no final) e tem de ser acedido por um *jump server* chamado `ssh.alunos.dcc.fc.up.pt`
+
+Cada alun@ tem uma conta `SSH` tanto no `twserver-be` como no *jump server*, sendo os dados de autenticação os do LDAP do LabCC.
+

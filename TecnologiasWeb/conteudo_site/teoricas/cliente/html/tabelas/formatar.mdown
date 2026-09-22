@@ -1,0 +1,26 @@
+## Formatar ##
+
+<div class="example" style="margin-top: -20px; margin-bottom: -20px; font-size: 60%; ">
+&lt;table>
+  <span class=focus>&lt;thead></span>
+      &lt;tr> &lt;th> NCD &lt;/th> &lt;th> Nome &lt;/th> &lt;th> Classificação &lt;/th> &lt;/tr>
+  <span class=focus>&lt;/thead></span>
+  <span class=focus>&lt;tbody></span>
+      &lt;tr>&lt;th>20999999&lt;/th>&lt;th>Fulano de Tal&lt;/th>&lt;th>18&lt;/th> &lt;/tr>
+      &lt;tr>&lt;th>20999999&lt;/th>&lt;th> Beltrano de Qual &lt;/th>&lt;th>17&lt;/th>&lt;/tr>
+      &lt;!-- ... --->
+  <span class=focus>&lt;/tbody></span>
+  <span class=focus>&lt;tfoot></span>
+      &lt;tr> &lt;th colspan=2>Média&lt;/th> &lt;td> 13.5 &lt;/td>
+      &lt;th> &lt;th colspan=2>Inscritos&lt;/th> &lt;td> 75 &lt;/td> &lt;/tr> 
+  <span class=focus>&lt;tfoot></span>
+&lt;/table>
+</div>
+
+* HTML 5 : A formatação de tabelas é feita em CSS<br>
+  <span class=litle>(no HTML 4 há muitos atributos de formatação)</span>
+* Existem elementos que agrupam *linhas* da tabela
+    * Cabeçalho  - <span class=focus>thead</span> <span class=litle>(Table HEAD) </span>
+    * Corpo - <span class=focus>tbody</span> <span class=litle>(Table BODY) </span>
+    * Rodapé - <span class=focus>tfoot</span> <span class=litle>(Table FOOT)</span>
+* Servem exclusivamente  para formatação <span class=litle>(em CSS)</span>

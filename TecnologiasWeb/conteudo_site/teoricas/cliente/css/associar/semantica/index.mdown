@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="style.css" type="text/css">
+
+## Contentores semânticos ##
+
+<div class="page cozy">
+    <div class=box style="background: hsl(39,100%,30%)">  &lt;header&gt;   </div>
+	<div class=box style="background: hsl(39,100%,30%);">  &lt;nav&gt;   </div>
+	<div style="display: flex; style="background: hsl(39,100%,40%);">
+		<div class=box style="flex:3; background: hsl(39,100%,50%);"> &lt;main&gt;
+			<div class="box" style="background: hsl(39,100%,70%)"> &lt;article&gt;
+				<div class="box" style="background: hsl(39,100%,70%)"> &lt;section&gt;</div>
+			    <div class="box" style="background: hsl(39,100%,70%)"> &lt;section&gt;</div>
+			</div>
+			<div class=box style="background: hsl(39,100%,60%)">  &lt;footer&gt; </div>
+		</div>
+		<div class=box style="flex:1; background: hsl(39,100%,50%)"> &lt;aside&gt; </div>
+	</div>
+	<div class=box  style="background: hsl(39,100%,30%)"> &lt;footer&gt; </div>
+</div>
+
+
+* Contentores com um significado pré-definido
+* Indicam o papel do seu conteúdo na página
+* Capturam papeis recorrentes na publicação eletrónica
+* Geralmente sem sintaxe gráfica associada <span class=litle>(tal como `div` ou `span`)</span>
+* Devem ser usados quando significado se adeque ao conteúdo
+* Melhoram a acessibilidade em *browsers* para deficientes visuais 

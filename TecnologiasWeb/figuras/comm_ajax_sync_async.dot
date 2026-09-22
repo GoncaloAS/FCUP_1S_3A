@@ -1,0 +1,32 @@
+digraph AjaxSyncAsync {
+  rankdir=TB;
+  fontname="Helvetica";
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=10];
+
+  subgraph cluster_sync {
+    label="Pedido SINCRONO — xhr.open(...,false)";
+    style="dashed";
+    fontname="Helvetica";
+    ClienteS [label="Cliente\n(thread principal)", fillcolor="#dbe9ff"];
+    ServidorS [label="Servidor", fillcolor="#ffe8cf"];
+
+    ClienteS -> ServidorS [label="1. open('POST',url,false)\n   send()"];
+    ServidorS -> ServidorS [label="2. thread do cliente BLOQUEADA\naté chegar resposta\n(nenhum outro evento é processado)", style=dotted, color="#aa0000", fontcolor="#aa0000"];
+    ServidorS -> ClienteS [label="3. resposta HTTP\n(status, responseText)", style=dashed];
+    ClienteS -> ClienteS [label="4. send() só agora retorna\ncódigo a seguir executa", style=dotted];
+  }
+
+  subgraph cluster_async {
+    label="Pedido ASSINCRONO — xhr.open(...,true)";
+    style="dashed";
+    fontname="Helvetica";
+    ClienteA [label="Cliente\n(thread principal)", fillcolor="#dbe9ff"];
+    ServidorA [label="Servidor", fillcolor="#ffe8cf"];
+
+    ClienteA -> ServidorA [label="1. open('POST',url,true)\n   send()"];
+    ClienteA -> ClienteA [label="2. send() retorna de IMEDIATO\nthread livre: UI continua\na responder a outros eventos", style=dotted, color="#006600", fontcolor="#006600"];
+    ServidorA -> ClienteA [label="3. resposta HTTP chega mais tarde\n(dispara onreadystatechange)", style=dashed];
+    ClienteA -> ClienteA [label="4. readyState==4 → callback\nprocessa responseText", style=dotted];
+  }
+}

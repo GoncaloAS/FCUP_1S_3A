@@ -1,0 +1,11 @@
+## Contador ##
+
+
+
+
+* Duas funções POST
+    * Incrementar
+    * Retornar a zero
+* Função GET
+    * Atualizar estado por difusão
+    * `Server-sent events`

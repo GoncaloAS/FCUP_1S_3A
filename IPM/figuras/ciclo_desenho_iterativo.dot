@@ -1,0 +1,15 @@
+digraph ciclo_iterativo {
+  layout=neato;
+  node [shape=box, style="rounded,filled", fillcolor="#e8eef7", color="#1f3864", fontname="Helvetica", fontsize=12, margin="0.25,0.15"];
+  edge [color="#1f3864", fontname="Helvetica", fontsize=10];
+
+  Analisar    [label="Analisar\n(utilizadores, tarefas,\ncontexto)", pos="0,2!"];
+  Conceptualizar [label="Conceptualizar\n(modelo mental,\nimagem do sistema)", pos="3,2!"];
+  Avaliar     [label="Avaliar", pos="0,0!"];
+  Prototipar  [label="Prototipar", pos="3,0!"];
+
+  Analisar -> Conceptualizar;
+  Conceptualizar -> Prototipar;
+  Prototipar -> Avaliar;
+  Avaliar -> Analisar [label="  itera até a evidência\n  dizer que chega"];
+}

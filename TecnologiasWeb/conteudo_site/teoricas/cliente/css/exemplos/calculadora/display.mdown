@@ -1,0 +1,33 @@
+## Classe `display` ##
+
+<link rel="stylesheet" href="calculadora.css" type="text/css">
+
+<div class="col50p terminal example">
+
+.display {
+  <code>flex-basis:    90%;
+  height:        1em;</code>
+  border-width:  2px;
+  border-style:  inset;
+  margin:        2px;
+  margin-bottom: 20px;
+  padding:       2px;
+  text-align:    right;
+  background:    white;
+  color:         orange;
+}
+
+</div>
+<div class=col50p>
+
+	<div class=calculator>
+	   <div class=display>0</div>
+	</div>
+
+
+</div>
+
+
+* Largura determinada usando `flex-basis` <span class=litle>(poderia ser <code>width`</code>)</span>
+* Altura calculada a partir do tamanho dos carateres
+* Definições para bordos, preenchimentos e cores

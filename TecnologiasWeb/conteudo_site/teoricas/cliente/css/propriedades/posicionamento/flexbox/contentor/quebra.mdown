@@ -1,0 +1,77 @@
+## Quebra ##
+
+
+
+<style>
+.container {
+	   display: flex;
+	   width: 75%;
+	   height: 200px;
+	   background:
+	   orange; opacity: .5;
+}
+
+.item {
+	   width: 100px;
+	   height: 50px;
+	   background: #228;
+	   color: white;
+	   margin: 5px;
+	   text-align: center;
+	   line-height: 50px;
+}
+
+</style>
+
+<div class=cozy>
+<div class="terminal example col50p">.container {
+    <code>flex-wrap: nowrap;</code>
+	   ...
+ }
+</div>
+<div class="col50p">
+	<div class=container style="flex-wrap: nowrap; height: 100px ">
+
+	     <div class=item> 1 </div>
+	     <div class=item> 2 </div>
+	     <div class=item> 3 </div>
+
+	</div>
+</div>
+
+<div class="terminal example col50p" style="margin-top:10px;">.container {
+    <code>flex-wrap: wrap;</code>
+	   ...
+ }
+</div>
+<div class="col50p">
+	<div class=container style="flex-wrap: wrap;  height: 130px">
+
+	     <div class=item> 1 </div>
+	     <div class=item> 2 </div>
+	     <div class=item> 3 </div>
+
+	</div>
+</div>
+<div class="terminal example col50p" style="margin-top:10px;">
+.container {
+    <code>flex-wrap: wrap-reverse;</code>
+	   ...
+ }
+</div>
+<div class="col50p">
+	<div class=container style="flex-wrap: wrap-reverse;  height: 130px; margin-top:10px;">
+
+	     <div class=item> 1 </div>
+	     <div class=item> 2 </div>
+	     <div class=item> 3 </div>
+
+	</div>
+</div>
+</div>
+
+* Quebra de linha quando items excedem espaço disponível
+* Controlado por propriedade `flex-wrap`
+    * `nowrap` - sem quebra <span class=litle>(itens encolhem)</span> *omissão*
+    * `wrap` - quebra para próxima linha 
+    * `wrap-reverse` - quebra para linha anterior

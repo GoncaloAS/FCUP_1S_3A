@@ -1,0 +1,20 @@
+## Variáveis originais ##
+
+<div class="terminal example">DOCUMENT_ROOT="/var/www/html"
+GATEWAY_INTERFACE="CGI/1.1"
+HOME="/home/www"
+PATH="/bin:/usr/bin"
+PATH_INFO="/teste"
+PATH_TRANSLATED="/var/www/cgi-bin/teste"
+QUERY_STRING="var1=value1&var2=em%20url%encoding"
+</div>
+
+* Variáveis originais da versão 1.0
+* **Informação genérica**
+    * `DOCUMENT_ROOT` - diretoria servida pelo servidor
+    * `GATEWAY_INTERFACE` - versão do CGI
+    * `HOME` - casa do utilizador do servidor
+* **Informação sobre o pedido**
+    * `PATH_INFO` - caminho pedido
+    * `PATH_TRANSLATED` - caminho no sistema de ficheiros
+    * `QUERY_STRING` - pedido depois de `?` no URL

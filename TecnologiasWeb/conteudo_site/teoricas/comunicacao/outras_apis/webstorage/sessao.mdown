@@ -1,0 +1,21 @@
+## Armazenamento temporário ##
+
+<div class="example terminal">
+
+sessionStorage.setItem('name', 'fulano de tal' );
+sessionStorage.setItem('age', 99 );
+
+
+sessionStorage.getItem('name'); // 'fulano de tal'
+sessionStorage.getItem('age');  // '99'
+
+
+</div>
+
+* Persistência **durante a sessão** com <code class=focus>sessionStorage</code>
+* Tempo de vida dos dados é o do separador da página
+* De resto é **idêntico** ao armazenamento persistente
+    * Valores indexados por uma chave
+	* Convertidos em *string*
+    * Guardados com  <span class=focus><code>setItem</code>(<i>chave</i>,<i>valor</i>)</code>
+    * Recuperados com <span class=focus><code>getItem</code>(<i>chave</i>)</code>

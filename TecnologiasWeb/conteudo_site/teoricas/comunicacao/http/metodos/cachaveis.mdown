@@ -1,0 +1,15 @@
+## Métodos *Cacháveis*##
+
+<div markdown=1 style="width: 50%; margin: auto;">
+* <span class=focus>GET</span> 
+* <span class=focus>HEAD</span> 
+* <span class=focus>POST</span>
+</div>
+
+
+* Uma *cache* evita pedidos redundantes ao servidor
+* Pode ser implementado por um intermediário <span class=litle>(<i>proxy</i>)</span>
+* Apenas respostas a pedidos por alguns métodos são guardadas
+* Caches são sobretudo úteis
+    * localmente <span class=litle>(<i>browser</i>)</span> para conteúdos que não gerados
+    * se houver muito tráfego partilhável entre utilizadores<br> <span class=litle>(ex: ISPs, grandes empresas)</span>

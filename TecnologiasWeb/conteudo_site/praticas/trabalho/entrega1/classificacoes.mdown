@@ -1,0 +1,15 @@
+## Classificações ##
+
+
+O jogador poderá ver uma tabela classificativa com os melhores resultados
+registados.
+
+Na primeira entrega, esta informação será apenas relativa aos jogos realizados
+contra o computador usado [IA](ia.mdown).
+
+Nas entregas seguintes, quando os adversários forem outros jogadores, as classificações serão obtidas do servidor.
+
+Tal como as [instruções](instrucoes.mdown),
+poderá ser um painel transitório que se sobrepõem aos restantes. Nesse caso,
+será necessário um [comando](comandos.mdown) que abra o painel,
+e também deverá forma de o remover do écran. 

@@ -1,0 +1,39 @@
+## Registo ##
+
+<link rel="stylesheet" href="../table.css" type="text/css">	
+
+<table width="100%" class="dense">
+
+<tr>
+	<th>URL</th>
+	<th>Objeto no pedido</th>
+	<th>Objeto na resposta </th>
+	<th>Observações
+</tr>	   
+
+<tr>
+	<td class=code>.../register
+	<td class=code>{"nick": "zp", "password": "secret"}
+	<td class=code><b>{}</b>
+	<td>Registo sucedido
+
+<tr>
+	<td class=code>.../register
+	<td class=code>{"nick": "zp", <b>"password": "just checking"</b>}
+	<td class=code>{ <b>"error": "User registered with a different password"</b>}
+	<td>Registo falhado
+
+<tr>
+	<td class=code>.../register
+	<td class=code>{"nick": "zp", <b>"password": "secret"</b>}
+	<td class=code>{}
+	<td>Confirmação da password
+
+<tr>
+	<td class=code>.../register
+	<td class=code>{<b>"nick": "jpleal"</b>, "password": "another"}
+	<td class=code>{}
+	<td>Outro registo
+
+
+</table>

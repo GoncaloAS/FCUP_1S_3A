@@ -1,0 +1,31 @@
+digraph PromiseChain {
+  rankdir=LR;
+  fontname="Helvetica";
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11];
+  edge [fontname="Helvetica", fontsize=10];
+
+  Fetch [label="fetch(url)\nretorna Promise<Response>", fillcolor="#dbe9ff"];
+  P1 [label="Promise #1\npendente", fillcolor="#fff2cc"];
+  Status [label=".then(status)\nvalida response.ok", fillcolor="#dbe9ff"];
+  P2 [label="Promise #2\npendente", fillcolor="#fff2cc"];
+  Json [label=".then(r => r.json())", fillcolor="#dbe9ff"];
+  P3 [label="Promise #3\npendente", fillcolor="#fff2cc"];
+  Display [label=".then(json => ...)\natualiza o DOM", fillcolor="#dbe9ff"];
+  Fim [label="cadeia terminada\ncom sucesso", fillcolor="#d5f5d5"];
+  Catch [label=".catch(console.log)", fillcolor="#f8d7da"];
+
+  Fetch -> P1 [label="resolve(Response)\nquando cabeçalhos chegam"];
+  P1 -> Status [label="microtask agendada"];
+  Status -> P2 [label="resolve(Response)\nse response.ok"];
+  P2 -> Json [label="microtask agendada"];
+  Json -> P3 [label="resolve(objeto JS)\nquando corpo é lido/parseado"];
+  P3 -> Display [label="microtask agendada"];
+  Display -> Fim;
+
+  Status -> Catch [label="reject(Error)\nse !response.ok", style=dashed, color="#aa0000", fontcolor="#aa0000"];
+  Fetch -> Catch [label="reject\n(erro de rede)", style=dashed, color="#aa0000", fontcolor="#aa0000"];
+  Json -> Catch [label="reject\n(JSON inválido)", style=dashed, color="#aa0000", fontcolor="#aa0000"];
+
+  { rank=same; Fetch; Status; Json; Display; }
+  { rank=same; P1; P2; P3; }
+}

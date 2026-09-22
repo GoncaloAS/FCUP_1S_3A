@@ -1,0 +1,35 @@
+## Apresentação ##
+
+<link rel="stylesheet" href="dialogo.css" type="text/css">
+
+<div class="col50p terminal example">
+
+&lt;div class=<code class=focus>dialog</code>>
+
+ &lt;div class=<code class=focus>message</code>>
+ 	 Mesmo sair?
+ &lt;/div>
+	   
+ &lt;div class=<code class=focus>button</code>>Ok&lt;/div>
+ &lt;div class=<code class=focus>button</code>>Cancelar&lt;/div> 
+
+&lt;/div>
+
+</div>
+<div class=col50p >
+
+     <div class=dialog>
+
+          <div class=message>  Mesmo sair? </div>
+	   
+     	  <div class=button> Ok </div>
+	  <div class=button> Cancelar </div> 
+
+     </div>
+
+</div>
+
+* Classes  para: caixa de diálogo, mensagem e botões    
+* Posicionamento dos elementos <span class=litle>(<code class=focus>div</code>)</span> de cada classe
+* Alinhamento dos textos
+* Outras formatações: bordos, cores, sombras

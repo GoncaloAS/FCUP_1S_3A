@@ -1,0 +1,17 @@
+## Fecho da comunicação ##
+
+<div class="example terminal">
+ const eventSource = new EventSource(url);
+ eventSource.onmessage = function(event) {
+    const data = JSON.parse(event.data);
+ }
+ ...
+ <span class=focus>eventSource.close()</span>
+</div>
+
+
+* Comunicação com servidor é mantida indefinidamente
+* Em caso de quebra  é automaticamente restablecida
+* Número de comunicações de *browser* por servidor é limitado
+* No final da utilização objecto deve ser fechado com <code class=focus>close()</code>
+* Propriedade <code class=focus>readyState</code> reflete estado da conexão

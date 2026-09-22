@@ -1,0 +1,78 @@
+## Classe ##
+
+<link rel="stylesheet" href="tictactoe.css" type="text/css"> 
+
+<script>
+
+window._update = function() {
+
+class TicTacToe {
+
+  constructor(id) {
+      const parent = document.getElementById(id);
+      const board  = document.createElement("div");
+      
+      board.className = "board";
+      parent.appendChild(board);
+      
+      this.content = new Array(9);
+      this.board = new Array(9);
+      this.current = "X";
+      
+      for(var i=0; i<9; i++) {
+	  var cell = document.createElement("div");
+	  cell.className = "cell"+(((i+1) % 3) == 0 ? " line" : "");
+	  board.appendChild(cell);
+	  cell.innerHTML = "&nbsp;";
+	  
+	  cell.onclick = ((pos) => {
+	      return () => { TicTacToe.prototype.play.call(this,pos); }
+	  })(i);
+	  
+	  this.board[i] = cell;
+      }    
+  }
+
+  play(pos) {
+      this.content[pos] = this.current;
+      this.board[pos].innerHTML = this.current;
+      
+      this.current = (this.current == "X" ? "O" : "X");
+  }
+
+    
+}
+
+const ticTacToe = new TicTacToe("base");
+
+}
+
+</script>
+
+
+
+<div class="col75p terminal example">class TicTacToe {
+  constructor(id) { //...      
+      this.content = new Array(9);
+      this.board = new Array(9);
+      this.current = 'X';
+      // ...
+  }
+  play(pos) {
+      this.content[pos] = this.current;
+      this.board[pos].innerHTML = this.current;
+      
+      this.current = (this.current == 'X'?'O':'X');
+  }   
+}
+</div>
+<div class=col25p >
+
+<div id=base style="width: 100%;  transform: scale(.70,.70);"> </div>
+
+</div>
+
+* Dados do tabuleiro como listas <span class=litle>(*arrays*  unidimensionais) </span>
+* Duas listas: conteúdo <span class=litle>(processar)</span> e tabuleiro <span class=litle>(interação)</span>
+* Método <code class=focus>play()</code> regista alterações nas listas
+* Valor corrente alterna entre "X" e "O"

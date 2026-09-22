@@ -1,0 +1,18 @@
+
+## Outros valores de `display` ##
+
+
+ Valores de <code class=focus>display</code> para posicionamento especializado do HTML 
+
+* Tabelas
+    * <code class=focus>table</code> - equivalente a `<table>`
+    * <code class=focus>table-cell</code> - equivalente a `<td>`
+    * <code class=focus>table-row</code> - equivalente a `<tr>`
+* Listas
+    * <code class=focus>list-item</code> equivalente a `<li>`
+* Caixas flexíveis <span class=litle>(CSS3)</span>
+    * <code class=focus>flex</code> 
+    * <code class=focus>inline-flex</code>
+* Grelha <span class=litle>(CSS3)</span>
+    * <code class=focus>grid</code> 
+    * <code class=focus>inline-grid</code>

@@ -1,0 +1,44 @@
+## Associar CSS ao HTML ##
+
+
+<div class="col75p" style="margin-top: -30px;">
+<ul>
+  <li><b>Aplicabilidade do CSS</b>
+  <ul>
+    <li> Vários formalismos <span class=litle>(ex: XML)</span>
+    <li> Também nas várias versões do HTML
+    <li> Particularmente no HTML5
+  </ul>
+  <li><B> Estilos embebidos em HTML</b>
+  <ul>
+     <li> Folha de estilo partilhada 
+     <li> Folha de estilo local
+     <li> Estilos inseridos em elementos
+  </ul>
+ <li> <b>Seletores aplicáveis ao HTML</b>
+   <ul>
+    <li> Identificadores
+    <li> Classes
+   </ul>
+ <li> <b>Contentores genéricos para  CSS</b>
+   <ul>
+    <li> Elemento <code>div</code>
+    <li> Elemento <code>span</code>
+   </ul>
+ </ul>
+</div>
+
+<div class="example col25p" style="margin-top: 150px; margin-left: -50px;">
+&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+  &lt;title>Olá mundo&lt;/title>
+  <span class=focus>&lt;style>
+     h1 { color: orange; }
+  &lt;/style></span>
+&lt;/head>
+&lt;body>
+    &lt;h1>Olá mundo&lt;/h1>
+&lt;/body>
+&lt;/html>
+</div>

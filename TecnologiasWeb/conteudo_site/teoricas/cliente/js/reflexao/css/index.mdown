@@ -1,0 +1,20 @@
+## CSS Object Model - CSSOM  ##
+
+<div class="terminal example">
+
+function paint(element) {
+
+    element.<span class=focus>style</span>.background = "orange";
+    element.<span class=focus>style</span>.color = "white";
+}
+
+</div>
+
+
+* Elementos têm propriedade <code class=focus>style</code>
+* Com objeto que reflete  as regras CSS aplicadas ao elemento 
+* Propriedades destes objetos equivalem a propriedades CSS 
+* Permitem **inspecionar** e **alterar** os valores dessas propriedades
+* **Sintaxe** JavaScript do CSS com correspondência para
+    * Nomes de propriedade simples
+    * Nomes separados por hífen  

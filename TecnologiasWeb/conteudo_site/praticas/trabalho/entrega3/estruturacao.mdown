@@ -1,0 +1,11 @@
+## Estruturação ##
+
+O servidor deverá estar estruturado em **módulos**. O ficheiro
+principal, que carrega os restantes módulos, define a função de
+processamento de pedido e inicia a sua escuta, deve chamar-se
+
+<pre>
+ index.js
+</pre>
+
+

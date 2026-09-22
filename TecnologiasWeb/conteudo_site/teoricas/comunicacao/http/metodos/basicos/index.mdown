@@ -1,0 +1,12 @@
+## Métodos básicos##
+
+<div markdown=1 style="width: 50%; margin: auto;">
+* <span class=focus>GET</span> 
+* <span class=focus>HEAD</span> 
+* <span class=focus>POST</span>
+* <span class=focus>OPTIONS</span>
+</div>
+
+
+* Estão disponíveis em todos servidores
+* São requeridos por todos os navegadores

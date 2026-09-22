@@ -1,0 +1,17 @@
+## Atributos como pares nome-valor##
+
+
+`<a`<code class=focus> href='http://www.up.pt/'</code>`>Universidade do Porto</a>`
+
+`<img`<code class=focus> src</code><code class=focus>=casa.png width=90 height=50 alt="Casa d'avó"</code>`>`
+
+* Separados por sinal de igual <span class=litle>(<span class="focus">=</span>)</span>
+* Nomes com uma única palavra <span class=litle>(sem espaços)</span>
+* Valores
+    * são *strings* podendo representar outros tipos (ex <code class=focus>50</code>)
+    * podem ser delimitados por **aspas** ou **plicas**
+    * não incluem caracteres de delimitação
+    * têm de ser delimitados se contiverem espaços
+    * podem conter aspas ou plicas, o que não for o delimitador
+* Apenas na anotação de início
+* Ordem dos atributos é irrelevante

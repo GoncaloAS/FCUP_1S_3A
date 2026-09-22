@@ -1,0 +1,9 @@
+## Tecnologias ##
+
+<img alt="Linha temporal das tecnologias web" 
+    src="TW-Timeline.png"
+    style="margin-left: auto; margin-right: auto; width: 80%;">
+
+
+* Criação ou co-evolução?
+* Profusão de versões, nem sempre alinhadas

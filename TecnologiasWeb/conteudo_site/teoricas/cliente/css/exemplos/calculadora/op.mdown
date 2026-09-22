@@ -1,0 +1,36 @@
+## Classe `op` ##
+
+<link rel="stylesheet" href="calculadora.css" type="text/css">
+
+<div class="col50p terminal example">
+
+.op {
+    background: white;
+    color: orange;
+}
+
+</div>
+<div class=col50p>
+
+
+	<div class=calculator>
+	<div class=display>0</div>
+	<div class=key>7</div> <div class=key>8</div> <div class=key>9</div>
+	<div class="key op"> / </div>
+	<div class=key>4</div> <div class=key>5</div> <div class=key>6</div>
+	<div class="key op"> * </div>
+	<div class=key>1</div> <div class=key>2</div> <div class=key>3</div>
+	<div class="key op"> + </div>
+	<div class=key>,</div> <div class=key>0</div> <div class=key>C</div>
+	<div class="key op"> = </div>
+	</div>
+
+</div>
+
+
+</div>
+
+* Classe <code class=focus>op</code> para operadores
+* Múltiplas classes <span class=litle>(<code class=focus>key</code> +  <code class=focus>op</code>)</span> permutem um tipo especial de tecla
+* Neste caso, simplesmente a troca de cores
+

@@ -1,0 +1,38 @@
+## Folgas ##
+
+<div class="col50p terminal example" style="margin-top: -10px">
+
+float: left; ... 
+float: left; ... 
+float: <span class=focus>none</span>; ... 
+
+
+
+float: left; ... 
+float: left; ... 
+<span class=focus>clear: both</span>; ... 
+
+
+</div>
+<div class=col50p style="font-size: xx-large; color: text-align: center; margin-top: -10px">
+
+<div style="float: left; width: 3cm; height: 3cm; background: #228; opacity: .5; margin: 3px; "></div>
+<div style="float: left; width: 3cm; height: 3cm; background: #228; opacity: .5; margin: 3px;"></div>
+<div style="float: none; width: 2cm; height: 2cm; background: #228; opacity: .5; margin: 3px;"></div>
+<div style="clear: both;">&nbsp;</div>
+<div style="float: left; width: 3cm; height: 3cm; background: #228; opacity: .5; margin: 3px; "></div>
+<div style="float: left; width: 3cm; height: 3cm; background: #228; opacity: .5; margin: 3px;"></div>
+<div style="clear: both; width: 2cm; height: 2cm; background: #228; opacity: .5; margin: 3px;"></div>
+
+
+</div>
+
+
+
+* Elementos *não* flutuantes podem-se **sobrepor** com flutuantes
+* Pode-se forçar uma "folga" usando a propriedade <code class=focus>clear</code>
+* Valor indica o(s) lado(s) **sem** elementos flutuantes<br>
+     <code class=focus>left</code>,
+     <code class=focus>right</code> ou
+     <code class=focus>both</code>
+     

@@ -1,0 +1,16 @@
+## Variáveis de ambiente: HTTP ##
+
+<div class="terminal example">
+HTTP_ACCEPT="text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+HTTP_ACCEPT_CHARSET="ISO-8859-1,utf-8;q=0.7,*;q=0.7"
+HTTP_ACCEPT_ENCODING="gzip, deflate"
+HTTP_ACCEPT_LANGUAGE="en-us,en;q=0.5"
+HTTP_CONNECTION="keep-alive"
+HTTP_HOST="exemplo.dcc.fc.up.pt"
+HTTP_USER_AGENT="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+</div>
+
+* Variáveis relacionadas com o protocolo de transporte
+* Refletem cabeçalhos do pedido HTTP
+* Introduzidas na versão 1.1
+* Tem em comum o prefixo `HTTP_`

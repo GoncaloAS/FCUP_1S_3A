@@ -1,0 +1,13 @@
+##Modo trabalho##
+
+
+* **Teóricas**
+    * Aulas presenciais
+    * Vídeos e slides disponíveis on-line <span class=litle>(aqui e em <a target=playlist href=https://www.youtube.com/playlist?list=PLZmJhNlbpQ7_SM7JwKPiZiFBatWcMeXoa><i>playlist</i> YouTube</a>)</span> <p>
+* **Práticas laboratoriais**
+    * Exercícios preparatórios
+    * Trabalhos práticos
+    * Testes em computador<P>
+* **Outros contactos**
+    * [Slack](slack.mdown)
+    * [Zoom](zoom.mdown)

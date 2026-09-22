@@ -1,0 +1,22 @@
+## Embeber CSS em documentos HTML ##
+
+
+<div class="example terminal">
+&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+  &lt;title>Olá mundo&lt;/title>
+  &lt;link rel="stylesheet" href="style.css" type="text/css">
+  &lt;style>
+     h1 { color: orange; }
+  &lt;/style>
+&lt;/head>
+&lt;body>
+    &lt;h1 style="font-weight: 500;">Olá mundo&lt;/h1>
+&lt;/body>
+&lt;/html>
+</div>
+
+* Folha de estilo partilhada 
+* Folha de estilo local
+* Estilos inseridos em elementos

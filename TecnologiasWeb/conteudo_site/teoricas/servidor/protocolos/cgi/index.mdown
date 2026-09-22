@@ -1,0 +1,13 @@
+## Common Gateway Interface ##
+
+![CGI logo](CGIlogo.jpg)
+
+* Primeira tentativa de normalizar interface servidor-aplicações
+* Inicialmente para CGIs escritos em linguagem C
+* Mas com suporte para virtualmente qualquer linguagem que
+    * Leia dados pela entrada standard  <span class=litle>(*stdin*)</span>
+    * Escreva resultados na saída standard  <span class=litle>(*stdout*)</span>
+    * Leia variáveis de ambiente
+* A generalidade dos servidores HTTP suportam CGI
+
+<div class=foot>Há um módulo Node.js para CGI</div>

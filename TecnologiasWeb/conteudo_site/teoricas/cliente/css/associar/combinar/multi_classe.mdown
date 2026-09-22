@@ -1,0 +1,25 @@
+## Multiplas classes ##
+
+
+<div class="example terminal" >
+&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+  &lt;title>Seletores&lt;/title>
+  &lt;link rel="stylesheet" href="style.css" type="text/css">
+  &lt;style>
+      .strong { font-weight: bold; }</span>
+      .important { color: red; }     
+  &lt;/style>
+&lt;/head>
+&lt;body>
+    <span class=focus>&lt;p <u>class=strong</u>> Lorem ipsum dolor sit amet, ...&lt;/p></span>
+    &lt;p> Praesent vel elementum nunc...  &lt;/p>
+    <span class=focus>&lt;p <u>class="strong important"</u>>  Donec cursus orci ...  &lt;/p></span>
+&lt;/body>
+&lt;/html>
+</div>
+
+
+* Um elemento pode pertencer a várias classes
+* Nomes de classes separadas por espaço no atributo <span class=focus>class</span>

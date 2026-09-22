@@ -1,0 +1,22 @@
+## Servidor ##
+
+
+<div class="terminal example">
+
+const http = require('http');
+<span class=focus>
+const server = http.createServer(function (request, response) {
+    response.writeHead(200, {'Content-Type': 'text/plain'});
+    response.end('Olá mundo\n');
+});</span>
+
+server.listen(8008);
+</div>
+
+
+* Servidor é configurado por uma função
+* Função processa cada pedido recebido pelo servidor
+* Parâmetros da função corporizam as 2 fases da comunicação
+    * Pedido
+    * Resposta
+* Estes objetos agregam métodos relativos a cada uma das fases

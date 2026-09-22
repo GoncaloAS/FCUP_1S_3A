@@ -1,0 +1,36 @@
+##Atribuir ícone em função da meteorologia##
+
+<div class="example litle">
+<a target=meteo href="http://api.geonames.org/findNearByWeatherJSON?formatted=true&lat=41.1&lng=-8.6&username=twlab&style=full">http://api.geonames.org/findNearByWeatherJSON?formatted=true&<span class=focus>lat=41.1&lng=-8.6</span>&username=twlab&style=full</a>
+</div>
+
+O URL acima retorna um JSON semelhante ao seguinte, com as condições meteorológicas do aeroporto do Porto, em Pedras Rubras
+
+<div class="terminal example litle">
+{"weatherObservation": {
+  "elevation": 73,
+  "lng": -8.666666666666666,
+  "observation": "LPPR 141130Z 11012KT CAVOK 14/07 Q1025",
+  "ICAO": "LPPR",
+  "clouds": "clouds and visibility OK",
+  "dewPoint": "7",
+  "cloudsCode": "CAVOK",
+  "datetime": "2021-12-14 11:30:00",
+  "countryCode": "PT",
+  "temperature": "14",
+  "humidity": 62,
+  "stationName": "Porto / Pedras Rubras",
+  "weatherCondition": "n/a",
+  "windDirection": 110,
+  "hectoPascAltimeter": 1025,
+  "windSpeed": "12",
+  "lat": 41.21666666666667
+}}
+</div>
+
+1. Construa uma função que receba como parametros `lat` e `lng`
+2. Obtenha meteorológia da região delimitada pelas coordenadas
+3. Coverta o texto obtido em JSON
+4. Extraia o valor da 1&ordf; ocorrência de `cloudsCode`
+5. Altere o ícone em conformidade
+

@@ -1,0 +1,10 @@
+## Mensagens ##
+
+Esta área destina-se a apresentar a mensagens durante o decorrer do jogo.
+Exemplos de situações do jogo irão requerer mensagens são:
+
+* É a vez do jogador de pôr  ou mover uma peça
+* Foi feita uma linha e deve capturar uma peça do adversário
+* A jogada não é possível <span class=litle>(é a vez do adversário)</span>
+* O jogo terminou com vitória de um dos jogadores
+* O jogador desistiu <span class=litle>(e perdeu)</span>

@@ -1,0 +1,11 @@
+## Respostas ##
+
+As respostas dessas funções devem também seguir a especificação da
+seção <a href="../entrega2/respostas">Respostas</a>.
+
+O servidor deverá produzir respostas linhas de estado apropriadas em
+cada caso, nomeadamente:
+* 200 - pedidos bem sucedidos
+* 400 - erro no pedido (ex: validação de argumentos)
+* 401 - pedido não autorizador (par `nick`/ `password` inválido)
+* 404 - pedido desconhecido

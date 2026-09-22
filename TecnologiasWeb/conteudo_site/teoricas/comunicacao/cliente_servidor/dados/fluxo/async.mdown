@@ -1,0 +1,18 @@
+## Funções assíncronas ##
+
+<div class="terminal example">
+
+<span class=focus>async</span> function status(response) {
+      if(response.ok)
+          <span class=focus>return response</span>;
+      else
+          <span class=focus>throw</span> new Error('Invalid status');      
+}
+</div>
+
+* Funções assíncronas declaradas com modificador `async`
+* Destinadas a simplificar uso de promessas, sobretudo em fluxo
+* Retornam automaticamente uma promessa, expressão em
+    * `return ` &hellip; converte em `Promise.resolve(`&hellip;`)`
+    * `throw ` &hellip; converte em `Promise.reject(`&hellip;`)`
+* Destinada a usar em conjunção modificador `await`

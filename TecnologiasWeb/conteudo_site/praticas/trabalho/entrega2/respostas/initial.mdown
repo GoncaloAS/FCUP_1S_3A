@@ -1,0 +1,11 @@
+## `initial`##
+
+*String* com o nick do jogador inicial, cujas peças no começo do jogo 
+estão nas psoições iniciais. 
+
+Se o tabuleiro tiver o número de colunas `size`, o *array* 
+[`pieces`](pieces.mdown) terá `4 * size` posições. 
+
+No início do jogo, as posições 0 a `size - 1` contêm as peças
+do jogador com o *nick* indicado por esta propriedade. As posições
+`3 * size` a `4 * size - 1` contêm as do adversário.

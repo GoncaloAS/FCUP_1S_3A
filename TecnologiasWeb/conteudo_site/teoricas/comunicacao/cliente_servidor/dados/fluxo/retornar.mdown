@@ -1,0 +1,38 @@
+## Retornar ##
+
+<div class="col50p example terminal cozy">function callRemote(value) {
+ let res = null;
+ const xhr = new XMLHttpRequest();
+
+ xhr.open('POST',url,<span class=focus>false</span>);
+ xhr.send(value);
+ if(xhr.status == 200)
+   res= xhr.resultText;
+ <span class=focus>return  res</span>;
+}
+
+//...
+
+   y = callRemote(x);
+   z = <span class=focus>continuar(y)</code>;</div>
+<div class="col50p example terminal cozy">function callRemote(value) {
+ var res = null;
+ var xhr = new XMLHttpRequest();
+
+ xhr.open('POST',url,<span class=focus>true</span>);
+ xhr.onreasystatechange =
+   function() {
+     if(xhr.readyState<4) return;
+     if(xhr.status == 200)
+       <code class=focus>continuar(xhr.resultText)</code>;
+   }
+ xhr.send(value);
+}
+//...
+   y = callRemote(x);</div>
+
+
+* Nas chamadas **síncronas** é possível circunscrever fluxo do XHR
+* E **retornar** valores nas invocações feitas em funções
+* Usando chamadas **assincronas** não é possível da mesma forma
+* É necessário invocar a continuação no <code class=focus>onreadystatechange</code>

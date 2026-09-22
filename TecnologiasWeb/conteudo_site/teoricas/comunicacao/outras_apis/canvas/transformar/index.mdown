@@ -1,0 +1,69 @@
+<script>
+
+var transforms = [
+    function(gc) { gc.rotate(.01); },
+    function(gc) { gc.rotate(-.01); },
+    function(gc) { gc.scale(.99,.99); },
+    function(gc) { gc.scale(-.99,-.99); },
+    function(gc) { gc.scale(1.01,1.01); },
+    function(gc) { gc.scale(-1.01,-1.01); },	        
+    function(gc) { gc.translate(1,1); },
+    function(gc) { gc.translate(1,-1); },
+    function(gc) { gc.translate(-1,1); },
+    function(gc) { gc.translate(-1,-1); },
+    function(gc) { gc.fillStyle = "orange"; },
+    function(gc) { gc.fillStyle = "#228"; },
+    ];
+
+function getTransform() {
+  return transforms[Math.floor(Math.random()*transforms.length)];
+}
+
+function init(tela,gc) {
+  tela.width = tela.width;
+
+  gc.translate(tela.width/2, tela.height/2);
+  gc.font = "42pt Times";
+  gc.textAlign = "center";
+  gc.textBaseline = "middle";
+  gc.fillStyle = "#228";
+}
+
+window._update = function() {
+
+  var tela = document.getElementById("tela");
+  var gc = tela.getContext("2d");
+  var transform = getTransform();
+  
+  init(tela,gc);
+
+  function play() {
+    if(Math.random() < 0.1) {
+       if(Math.random() < 0.1)
+          init(tela,gc);
+       transform = getTransform();
+    }
+
+    gc.clearRect(-1000,-1000,2000,2000);
+    transform(gc);
+    gc.fillText("Transformações",0,0);
+
+    requestAnimationFrame(play);
+  }
+  
+  play();
+}
+</script>
+
+<canvas id="tela" width="700" height="300"></canvas>
+
+
+* Alterar coordenadas do `canvas`
+    * Matriz de transformação
+    * Composição de transformações
+* Transformações básicas
+    * Translações
+    * Rotações
+    * Homotetias
+* Transformações à medida
+* Gravar e recuperar GC    

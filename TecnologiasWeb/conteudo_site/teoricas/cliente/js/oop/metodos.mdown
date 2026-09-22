@@ -1,0 +1,24 @@
+## Métodos ##
+
+
+<div class="terminal example cozy">
+class Pessoa {
+    constructor(nome,ano,mês,dia) { /* ... */ }
+
+    <span class=focus>saudação(outro)</span> {
+        <span class=focus>return</span> 'Olá '+<span class=focus>this.nome</span>+', eu sou o '+<span class=focus>outro.nome</span>;
+    }
+
+    <span class=focus>saudar(outro)</span> {
+        console.log(<span class=focus>this.saudação(outro)</span>);
+    }
+}
+// ...
+document.writeln(joão.saudar(maria)); <span style="color: grey">// Olá João, eu sou a Maria</span>
+</div>
+
+* Métodos são semelhantes a funções definidas na classe
+* Referem-se a **campos** e **métodos** do objeto corrente com `this`
+* Podem retornar valor com instrução `return`
+
+<div class=foot>Invocação de métodos entre objetos são <b><i>mensagens</i></b> </div>

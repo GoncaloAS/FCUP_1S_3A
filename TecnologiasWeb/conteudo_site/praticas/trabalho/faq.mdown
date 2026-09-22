@@ -1,0 +1,76 @@
+## FAQ ##
+
+<style>
+
+dt {
+  font-weight: bold;
+}
+
+</style>
+
+<div markdown=1 style="font-size: large">
+
+<dl>
+
+<dt>
+	Não consigo arranjar alguém para formar um grupo. Posso fazer sozinha/o? 
+</dt>
+<dd>
+	O ideal será arranjar alguém também sem grupo, mesmo que de outra turma.
+	Mas se não for de todo possível, podem fazer sozinhos.
+	Este ano, dado o grande número de inscrições, os grupos podem ter 3 
+	pessoas.
+</dd>
+
+
+<dt>
+   Os tamanhos de tabuleiro são definidos pelo jogador?
+   Ou devem ser tamanhos fixos de tabuleiro?
+</dt>
+<dd>
+
+Os tabuleiros devem ser definidos pelo jogador.
+Deve haver um seletor com vários tamanhos alternativos que façam sentido. Por exemplo, 2, 3, 4 e 5. 
+
+Os tabuleiros devem ser gerados em JavaScript, sendo o seu tamanho passado à função geradora. A geração dos tabuleiros deve ser feita em DOM.
+
+A formatação do tabuleiro em HTML pode ajudar numa fase inicial. Deste modo, podem ser estudadas as formatações das células, usando CSS para posicionamento e formatação gráfica.
+
+</dd>
+
+<dt>
+    Posso usar a <i>framework</i> XPTO no trabalho?
+</dt>
+<dd>
+   O trabalho deve ser realizado sem recorrer a <i>frameworks</i>p quer de JavaScript quer de CSS.
+</dd>
+
+
+<dt>
+	Quero usar a <i>feature</i> XPTO no CSS mas o validador reporta um erro! 
+</dt>
+<dd>
+A ser o caso, essa <i>feature</i>i> não é aconselhável porque não terá um comportamento consistente na generalidade dos navegadores. Por isso deve ser evitado.
+
+Convém lembrar que os erros de CSS serão penalizados na avaliação do trabalho.
+
+</dd>
+
+
+<dt>
+  Que informação deve conter a tabela de classificação?
+</dt>
+<dd>
+É necessário que exista uma tabela classificativa e ser consistente com o jogo. Quanto ao seu conteúdo, têm liberdade para decidir. Por exemplo, pode apresentar o número de vitórias e derrotas obtido pelo o jogador em cada tamanho de tabuleiro.  
+</dd>
+
+<dt>
+  A informação da tabela de classificação perde-se quando se reinicia o navegador!
+</dt>
+<dd>
+Sim, é mesmo assim. Neste entrega o ênfase vai para a formatação da tabela. Na próxima entrega poderão usar mecanismos de persistência, do lado do cliente, para os jogos locais. Para os jogos envolvendo o servidor será possível obter deste os dados da tabela de classificação.
+
+</dd>
+
+
+</div>

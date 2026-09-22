@@ -1,0 +1,10 @@
+## Aulas Práticas ##
+
+
+* [Folhas de trabalho individuais](folhas)
+* Enunciados do trabalho de grupo
+
+<!--
+    * [Enunciados do trabalho de grupo](trabalho)
+    -->
+

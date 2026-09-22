@@ -1,0 +1,20 @@
+## Node.js ##
+
+<img alt=Node.js src=node.js.png style=float:right>
+
+Ambiente *open source* de execução de JavaScript
+
+* **Casos de uso**
+    * Linha de comando <span class=litle>(CLI)</span>
+    * **Servidores web**
+* **Características distintivas**
+    * Multi plataforma 
+    * *Single threading*
+    * *non-blocking I/O* <span class=litle>(event driven)</span>
+    * Motor JavaScript V8 <span class=litle>(Chrome)</span>
+    * Gestão de pacotes    
+* **Tópicos**
+    * Servidor básico
+    * Sistema de módulos
+    * Alguns módulos internos <span class=litle>(relacionados com HTTP)</span>
+    * Exemplos de servidores

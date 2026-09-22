@@ -1,0 +1,23 @@
+## Contexto ##
+
+<div class="terminal example">class Counter {
+    <span class=focus>constructor</span>(parentId) {
+        const parent  = document.getElementById(parentId);
+        <span class=focus>const counter = document.createElement("div")</span>;
+        const display = document.createElement("div");
+        // &hellip;
+        document.counter.className = "counter"</span>;
+        // &hellip;
+        <span class=focus>incr.onclick = this.increment.bind(this)</span>;
+        reset.onclick = this.reset.bind(this);
+        // &hellip;
+   }
+
+   increment() {  /* &hellip; */ }
+   reset()     {  /* &hellip; */ }
+}
+</div>
+
+* Contador é criado por construtor
+    * Cria botões e visor usando divs e CSS
+    * Associa eventos de botões a métodos

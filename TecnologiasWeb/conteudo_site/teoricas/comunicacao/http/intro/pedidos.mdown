@@ -1,0 +1,38 @@
+## Estrutura dos pedidos HTTP ##
+
+
+
+<style>
+td { font-size: small; white-space: pre; border: 1px dotted orange;}
+th { font-size: large; vertical-align: top;}
+</style>
+
+<table style="width: 50%; margin-left: auto; margin-right: auto; margin-top: -30px;">
+<tr><th>Pedido</td><th> </th></tr>
+<tr><td>GET /~zp/about/index.html HTTP/1.1</td><th>Linha inicial</th></tr>
+<tr><td>Accept:*/*
+Accept-Encoding:gzip, deflate, sdch, br
+Accept-Language:en-US,en;q=0.8,pt;q=0.6,pt-PT;q=0.4
+Connection:keep-alive
+Host:localhost
+Referer:http://www.dcc.fc.up.pt/~zp/about/index.html
+User-Agent:Mozilla/5.0 (X11; Linux x86_64) 
+</td>
+<th>Cabeçalhos</th>
+</tr>
+<tr><td> </td><th>Linha vazia</th></tr>
+<tr><th> </th><th>Corpo</th>
+</tr>
+</table>
+
+
+
+* **Linha inicial**:
+    * **Método** do pedido - <span class=litle>(<i class=focus>verbo</i>)</span> ex. <code>GET</code>
+    * **URL** do recurso - <span class=litle>(<i class=focus>objeto</i>)</span> ex <code>/~zp/about/index.html</code>
+    * **Versão** HTTP : ex: <code>HTTP/1.1</code>
+* **Cabeçalhos**: metadados do pedidos
+    * Capacidade do navegador/utilizador <span class=litle>(<code class=focus>Accept*</code>)</span>
+    * Características do navegador <span class=litle>(<code class=focus>User-Agent</code>)</span>
+    * Página de onde apontador foi seguido <span class=litle>(<code class=focus>Referer</code>)</span>
+* **Corpo**: dados no pedidos <span class=litle>(ex: conteúdo de um formulário) </span>

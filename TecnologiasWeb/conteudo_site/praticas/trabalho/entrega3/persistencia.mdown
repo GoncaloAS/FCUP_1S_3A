@@ -1,0 +1,11 @@
+## Persistência ##
+
+
+Os dados da aplicação, devidamente serializados em JSON, serão persistidos em ficheiros usado o módulo `fs` (*file system*).
+
+Numa aplicação real os dados seriam persistidos numa base de dados.
+Tendo em conta a natureza dos dados, provavelmente seria `NoSQL` - como o Redis -  mas poderia também ser `SQL` - como o MySQL ou o MariaDB.
+
+
+O Node.js tem módulos para ligação ambos os tipos de bases de dados, mas
+este tópico sai fora do âmbito desta unidade curricular.

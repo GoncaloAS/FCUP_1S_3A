@@ -1,0 +1,28 @@
+## Elevação (*Hoisting*)##
+
+<div class="col50p terminal example">
+document.writeln(x);
+document.writeln(getX());
+<span class=focus>x = 1</span>;
+document.writeln(x);
+
+<span class=focus>function getX()</span> {
+    <span class=focus>var x = 2</span>;
+
+    return x;
+}
+
+<span class=focus>var x</span>;
+</div>
+<div class="col50p example">
+undefined
+2
+
+1
+</div>
+<div class=endCols></div>
+
+* Variáveis e funções podem ser usadas antes de declaradas 
+* Estas declarações são **elevadas** <span class=litle>(*hoisted*)</span> automaticamente
+* Como se tivessem ocorrido no início
+* Mas as declarações **não** podem ser **omitidas** <span class=litle>(erro de execução)</span>

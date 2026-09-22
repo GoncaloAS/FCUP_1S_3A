@@ -1,0 +1,8 @@
+##`ranking`##
+
+Lista contendo a tabela classificativa para o grupo e tamanho de tabuleiro dados. Cada elemento da lista é um objeto com as propriedades:
+* `nick` - do jogador
+* `games` - número de jogos
+* `victories` - número de vitórias
+
+A lista retornada está ordenada por ordem decrescente do número de vitórias e tem no máximo 10 registos.

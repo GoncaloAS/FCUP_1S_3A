@@ -1,0 +1,17 @@
+
+## Tabuleiro - modos ##
+
+Clicar sobre uma casa do tabuleiro deverá ter resultados diferentes
+consoante o momento do jogo. 
+
+Normalmente, carregar numa peça será suficiente para a jogar em função
+do valor do dado de paus. Nesse caso a jogada pode ser feita de imediato.
+
+No entanto, se a casa selecionada por na 3ª linha, poderá ser movida
+para a 4ª ou 2ª linhas. Neste caso, a seleção seguinte será a casa de destino. 
+
+Para implementar estes modos podem ser usadas variáveis de estado que
+são alteradas consoante a situação, e que controlam a interação.
+
+O utilizador deve saber sempre qual o modo atual, o que pode ser indicado
+com cursores e/ou [mensagens](../mensagens.mdown) .

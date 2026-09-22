@@ -1,0 +1,25 @@
+## Tipos de valores básicos ##
+
+<div class="col50p terminal example" style="margin-bottom: -50px;">
+document.writeln("&lt;pre>");
+document.writeln(123);
+document.writeln("Olá");
+document.writeln(true);
+document.writeln("&lt;/pre>");
+</div>
+<div class=col50p>
+<script>
+document.writeln("<pre>");
+document.writeln(123);
+document.writeln("Olá");
+document.writeln(true);
+document.writeln("</pre>");
+</script>
+</div>
+<div class=endCols>&nbsp;</div>
+
+
+* O JavaScript tem 3 tipos primitivos básicos
+    * <code class=focus>Number</code> - <span class=litle>(ex: `123`)</span>
+    * <code class=focus>String</code> - <span class=litle>(ex: `"Olá"`)</span>
+    * <code class=focus>Boolean</code> - <span class=litle>(ex: `true`)</span>

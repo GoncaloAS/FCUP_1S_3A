@@ -1,0 +1,18 @@
+## Pedido `pass`#
+
+Passa a vez. O pedido retorna de imediato, 
+sendo a mudança de vez enviada a ambos os jogadores por `update`.
+Os argumentos são:
+* <a alt=nick href="nick.mdown"><code>nick</code></a> - o identificador do jogador
+* <a alt=password href="password.mdown"><code>password</code></a> - que este escolheu
+* <a alt=game href="game.mdown"><code>game</code></a> - o identificador do jogo
+
+
+
+São reportados erros se:
+* algum argumento for omitido
+* os argumentos contiverem valores inválidos 
+* a autenticação falhar
+* tentar passar fora de vez
+* existirem jogadas válidas
+* for possível lançar o dado novamente 

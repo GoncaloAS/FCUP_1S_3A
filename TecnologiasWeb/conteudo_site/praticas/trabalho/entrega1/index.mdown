@@ -1,0 +1,25 @@
+
+## Primeira entrega ##
+
+O jogo deve ser uma [aplicação de página única](pagina_unica.mdown) (single-page application). A página deve ser dividida em varias áreas, para diferentes finalidades:
+
+<div class="col50p cozy" markdown=1>
+* [Logotipo](logotipo.mdown)
+* [Configuração](configuracao.mdown)
+* [Comandos](comandos.mdown)
+* [Identificação](identificacao.mdown)
+</div>
+<div class="col50p cozy" markdown=1>
+* [Dado](dado.mdown)
+* [Tabuleiro](tabuleiro.mdown)
+* [Instruções](instrucoes.mdown)
+* [Classificações](classificacoes.mdown)
+* [Mensagens](mensagens.mdown)
+</div>
+
+De notar que estas áreas não terão de estar sempre visíveis, e que
+algumas se poderão sobrepor temporariamente a outras.  
+
+Além do suporte para esta interface gráfica, deverá ainda ser
+implementada uma [IA](ia.mdown) 
+

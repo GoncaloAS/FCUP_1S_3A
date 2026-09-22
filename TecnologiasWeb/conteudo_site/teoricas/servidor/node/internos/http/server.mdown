@@ -1,0 +1,18 @@
+## Classe `Server` ##
+
+<div class="terminal example">
+const http = require('http');
+
+const server = <span class=focus>http.createServer(function (request, response)</span> {
+    response.writeHead(200, {'Content-Type': 'text/plain'});
+    response.write('Método: '+request.method+'\n');
+    response.write('URL: '+request.url+'\n');
+    response.end();
+});
+
+<span class=focus>server.listen(8008)</span>;
+</div>
+
+* Criação de uma instância com <code class=focus>http.createServer()</code>
+* Argumento é função que processa ciclo pedido-resposta
+* Inicia escuta de pedidos com <span class=focus><code>listen</code>(<i>porta</i>)</code>

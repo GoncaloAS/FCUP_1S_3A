@@ -1,0 +1,12 @@
+## Tipo `Element` ##
+
+<div style="width: 100%;">
+<img alt="DOM" src=../DOM.png style="margin: auto; width: 80%;">
+</div>
+
+
+* Elementos são os nós estruturais do HTML
+  <span class=litle>(os restantes são folhas da árvore)</span>
+* Objetos deste tipo são obtidos funções de pesquisa
+* Métodos permitem alterar estrutura <span class=litle>(ex: adicionar atributos)</span>
+* Propriedades permitem "configurar" elemento 

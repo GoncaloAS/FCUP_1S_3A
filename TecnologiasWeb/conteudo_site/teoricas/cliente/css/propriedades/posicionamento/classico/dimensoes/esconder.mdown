@@ -1,0 +1,14 @@
+## Esconder elementos ##
+
+
+
+
+* Propriedade <code class=focus>display</code> com valor <code class=focus>none</code> esconde elemento
+* É **ocultado** da formatação  <span class=litle>(como se não existisse)</span>
+* Com este valor as **dimensões** são **nulas**
+* Usado com JavaScript para elementos temporários <span class=litle>(ex: caixas de diálogo)</span>
+
+<div class=foot>
+Propriedade <code>visibility: hidden</code> esconde o elemento<br>
+mas as suas dimensões são preservadas  <span class=litle>(ocupa espaço)</span>
+</div>

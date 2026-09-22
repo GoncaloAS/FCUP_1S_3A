@@ -1,0 +1,30 @@
+## Arrays e índices ##
+
+<div class='col75p terminal example'>
+const array = new <span class=focus>Array(2)</span>;
+
+array[0] = 'Início';
+array[1] = 123;
+
+array[3] = true;
+
+for(let i=0; i<5; i++)
+  document.writeln(i+':'+array[i]);
+
+</div>
+<div class=col25p>
+<pre>
+0:Início
+1:123
+2:<span class=focus>undefined</span>
+3:true
+4:<span class=focus>undefined</span>
+</pre>
+</div>
+<div class=endCols></div>
+
+* *Arrays* são instâncias <span class=litle>(objetos)</span> da classe <code class=focus>Array</code>
+* Na construção **dimensão** passada como parâmetro <span class=litle>(ou omitida)</span>
+* Acedidos com índices <span class=litle>(expressões)</span> entre parêntesis retos <span class=focus>[ ]</span>
+* Podem-se criar/referir índices para lá da dimensão definida
+* Índices não inicializados retornam <code class=focus>undefined</code>

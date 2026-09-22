@@ -1,0 +1,19 @@
+## Propriedades ##
+
+* Propriedades de **elementos** <span class=litle>(nomes de anotação)</span>
+    * Afetam a sua visualização
+    * Valores de **omissão** se não especificadas
+    * Em alguns casos podem ser **herdadas** por descendentes
+* Alguns géneros de propriedades
+    * Caixa
+    * Cores
+    * Tipo de letra
+    * Texto
+    * Posicionamento
+
+
+<p class=foot>
+Existem muitas propriedades.<br>
+Não serão cobertas todas
+</p>
+

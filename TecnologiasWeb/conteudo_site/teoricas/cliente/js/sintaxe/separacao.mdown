@@ -1,0 +1,24 @@
+## Separação de instruções ##
+
+<div class="terminal example col50p">const a = 1
+const b = 2
+const c = a + b
+(a + b).toString()
+</div>
+<div class="example col50p">
+
+
+    <span style="color: grey">TypeError: b is not a function</span>
+</div>
+
+* Instruções separadas por ponto e virgula
+    * separador *não* é obrigatório
+    * inferido pelo compilador a partir da mudança de linha <span class=litle>(`\n`)</span> 
+    * necessário quando há confusão entre instruções
+* Inserção automática de ponto e virgula
+    * próxima linha tornaria instrução inválida
+    * próxima linha começa com `{`    
+    * linha contêm `return break throw continue`
+    * atingiu fim de ficheiro <span class=litle>(`EOF`)</span>
+
+<div class=foot><code>;</code> pode ser omitido mas boa prática usar como <b>terminador</b></div>

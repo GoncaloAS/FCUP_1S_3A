@@ -1,0 +1,22 @@
+## Response ##
+
+<div class="terminal example cozy">
+fetch('http://some.site.org/resource')
+    .then(function(<span class=focus>response</span>) {
+       if(<span class=focus>response.ok</span>) {
+          <span class=focus>response.text()</span>.then(console.log);
+       } else
+          console.log('erro: + <span class=focus>response.statusText</span>);
+    })
+    .catch(console.log);
+</div>
+
+* Propriedades
+    * `ok` - booleano - o estado está entre 200 <span class=litle>(inclusive)</span> e 300 <span class=litle>(exclusive)</span>
+    * `status`- inteiro - estado da resposta
+    * `statusText`- *string* mensagem de estado
+    * `headers` - cabeçalhos de resposta
+    * `type`- `basic` ou `cors`
+* Métodos
+    * `json()` - `Promise` com JSON da resposta
+    * `text()` - `Promise` com texto da resposta

@@ -1,0 +1,19 @@
+## Atributos simples##
+
+`<input`<code class="focus"> disabled</code>`>`
+
+<div style="font-family: monospace; white-space: pre;">
+&lt;select&gt;
+ &lt;option&gt;Grande&lt;option&gt;
+ &lt;option <code class="focus">selected</code>&gt; Médio&lt;/option&gt;
+ &lt;option&gt;Pequeno&lt;/option&gt;
+&lt;/select&gt;
+</div>
+
+* São uma espécie de *opções* das anotações <span class=litle>(como comandos)</span>
+* Podem aparecer em anotações de inicio <span class=litle>(não de fecho)</span>
+* Uma única palavra <span class=litle>(sem espaços)   </span>
+* Atributos simples têm valor binário
+    * *verdade* se presente
+    * *falsidade* se ausente
+    

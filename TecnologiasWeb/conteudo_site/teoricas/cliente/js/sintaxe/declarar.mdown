@@ -1,0 +1,23 @@
+## Declaração de funções ##
+
+
+<div class="terminal example cozy">
+
+<span class=focus>function soma(a,b) {
+    return a+b;
+}</span>
+
+document.writeln(soma(2,3));
+
+</div>
+
+
+* Declaração de funções
+<p markdown=1 style="text-align:center; margin: 0px;">
+<code class=focus>function</code> *nome(parâmetros) { definição }*
+</p>
+* Não carece de separador por ser declaração <span class=litle>(não é instrução)</span>
+* Nome associado à função
+* Lista de **parâmetros** <span class=litle>(sem tipo)</span>
+* Definição **pode** conter instrução <code class=focus>return</code>
+* Valor da expressão retornado à invocação

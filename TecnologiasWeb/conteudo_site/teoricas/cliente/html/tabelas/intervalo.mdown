@@ -1,0 +1,60 @@
+## Intervalos de linhas e colunhas ##
+
+
+   <link rel="stylesheet" href="table.css" type="text/css">	
+
+<div class="col50p example terminal" style="font-size: 90%;">
+&lt;table>
+ &lt;tr>
+   &lt;th <span class=focus>colspan=3</span>>Dados&lt;/th>
+ &lt;/tr>
+ &lt;tr>
+  <span>&lt;th>Sexo&lt;/th></span>
+  <span>&lt;th>Nome&lt;/th></span>
+  <span>&lt;th>Curso&lt;/th></span>
+ &lt;/tr>
+ &lt;tr>
+  &lt;td <span  class=focus>rowspan=2</span>>&amp;#9792;
+  &lt;td>Sofia Costa&lt;td>19
+ &lt;/tr>
+ &lt;tr>
+  &lt;td>Joana Dias&lt;td>20
+ &lt;/tr>
+&lt;/table>
+</div>
+<div class=col50p>
+
+<table>
+ <tr>
+   <th class=focus colspan=3>Dados</th>
+ </tr>
+ <tr>
+  <th>Sexo</th>
+  <th>Nome</th>
+  <th>Idade</th>
+ </tr>
+ <tr>
+  <td class=focus rowspan=2><span style="font-size: 300%">&#9792;</span></td>
+  <td>Sofia Costa<td>19
+ </tr>
+ <tr>
+  <td>Joana Dias<td>20
+ </tr>
+</table>
+
+
+<div style="height: 1cm;">&nbsp;</div>
+
+Célula expande em intervalo
+<ul style="margin-top: 10px; margin-bottom: 10px;">
+  <li> linhas - atributo <code class=focus>rowspan</code>
+  <li> colunas - atributo <code class=focus>colspan</code>
+</ul>
+
+valor de atributo é número de linhas/colunas contíguas
+</div>
+
+
+
+
+

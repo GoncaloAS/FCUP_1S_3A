@@ -1,0 +1,13 @@
+## Métodos de `NodeList` ##
+
+<dd>
+<dt><code class=focus>Node item(Number indice)</code> </dt>
+<dd>Nó na posição dada <span class=litle>(a começar em 0)</span></dd>
+</dd>
+
+## Propriedades de `NodeList` ##
+
+<dd>
+<dt><code class=focus>Number length</code> </dt>
+<dd>número de elementos da lista</dd>
+</dd>

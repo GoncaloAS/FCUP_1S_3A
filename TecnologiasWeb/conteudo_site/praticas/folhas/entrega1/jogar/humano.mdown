@@ -1,0 +1,8 @@
+## Jogador humano ##
+
+* Lançar o dado de paus antes de mover uma peça
+* Seleção de casa  a jogar <span class=litle>(pressionar uma casa inicia este processo)</span>
+* Acção varia consoante o **modo** <span class=litle>(definido por variável de estado)</span>
+    * inicialmente, escolher peça a mover 
+	* se necessário, escolher posição final <span class=litle>(geralmente não será necessário)</span>
+* Invocar jogador automático

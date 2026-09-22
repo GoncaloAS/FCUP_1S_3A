@@ -1,0 +1,27 @@
+## Seletores ##
+
+
+<div class="example terminal cozy">&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+  &lt;title>Seletores&lt;/title>
+  &lt;link rel="stylesheet" href="style.css" type="text/css">
+  &lt;style>
+     p { font-size: large; }
+     .strong { font-weight: bold; }
+     #important { color: red; }     
+  &lt;/style>
+&lt;/head>
+&lt;body>
+    &lt;p class=strong> Lorem ipsum dolor sit amet, ...&lt;/p>
+    &lt;p> Praesent vel elementum nunc...  &lt;/p>
+    &lt;p class=strong id=important>  Donec cursus orci ...  &lt;/p>
+&lt;/body>
+&lt;/html>
+</div>
+
+
+* Seletores permitem aplicar estilos a tipos de elementos
+* No HTML podem também ser selecionados para formatação
+    * Elementos específicos
+    * Conjuntos de elementos <span class=litle>(classes)</span>

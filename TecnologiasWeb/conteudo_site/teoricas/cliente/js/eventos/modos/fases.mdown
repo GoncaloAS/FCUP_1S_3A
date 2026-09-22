@@ -1,0 +1,50 @@
+## Fases de propagação de eventos ##
+
+
+<style>
+  .caixa {
+      font-size:20px;
+      color: white;
+      padding-left: 10px;
+      margin: auto;
+      clear: both;
+  }
+
+</style>
+
+<div style="margin: auto; position relative;">
+
+<div style="position: absolute; left: 350px; top: 160px; transform: rotate(90deg);  font-size: x-large; font-weight: bold;">
+ &rarr; Capturing &rarr; </div>
+
+<div style="position: absolute; left: 430px; top: 165px; transform: rotate(-90deg); font-size: x-large;  font-weight: bold;"> &rarr; Bubbling &rarr; </div>
+
+<div class=caixa style="background: hsl(39,100%,30%); width: 500px; height: 200px;">
+&nbsp;
+<div class=caixa style="background: hsl(39,100%,40%); width: 400px; height: 150px;">
+&nbsp;
+<div class=caixa style="background: hsl(39,100%,50%); width: 300px; height: 100px;">
+&nbsp;
+<div class=caixa style="background: hsl(39,100%,60%); width: 200px; height: 50px;">
+ 
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+* Eventos ocorrem numa posição específica do écran
+* Elementos sobrepõem-se com descendentes e ascendentes
+* Eventos enviados para todos, cada com seu *handlers*
+* A ordem de propagação poderá ser
+    * ***Capturing*** <span class=litle>(descendente, à lá Netscape)</span>
+    * ***Bubbling*** <span class=litle>(ascendente, à lá Microsoft)</span>
+* 3&ordm; argumento de <code class=focus>addEventListener()</code> permite controlar ordem
+

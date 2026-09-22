@@ -1,0 +1,20 @@
+## Construtor `EventSource`##
+
+<div class="example terminal">
+ const eventSource = <span class=focus>new EventSource(url)</span>;
+ eventSource.onmessage = function(event) {
+    const data = JSON.parse(event.data);
+ }
+ ...
+ eventSource.close()
+</div>
+
+* Construtor `EventSource()` cria objeto de comunicação
+    * Usando URL passado como parâmetro
+    * Utilizado o método `GET` do HTTP
+* Propriedades do objeto <span class=litle>(só de leitura)</span>
+    * <code class=focus>withCredentials</code> booleano enviar credenciais em CORS?
+    * <code class=focus>url</code>  usado na ligação
+    * <code class=focus>readyState</code> número:
+    <span style="font-size: x-large">0 - CONNECTING; 1 - OPEN; 2 - CLOSED</span>
+    

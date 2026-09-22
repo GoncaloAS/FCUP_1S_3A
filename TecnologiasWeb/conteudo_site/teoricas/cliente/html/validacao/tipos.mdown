@@ -1,0 +1,9 @@
+## Tipos ##
+
+* HTML tem um conjunto de tipos de anotações válidos
+* Cada tipo de anotação pode
+     * ter certos attributos
+     * conter certos tipos de anotações  <span class=litle>(eventualmente nenhum)</span>
+* Documento HTML tem uma única raíz 
+* HTML 5 não tem DTD <span class=litle>(Document Type Definition)</span>
+* ... ao contrário das versões anteriores do HTML

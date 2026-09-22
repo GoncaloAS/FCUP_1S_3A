@@ -1,0 +1,27 @@
+## Do `POST` ##
+
+<div class="col50p terminal example">function doPost(pathname) {
+ let answer = {};
+    
+ switch(pathname) {
+  case '/incr':
+   <span class=focus>counter.incr();
+   updater.update(counter.get());</span>
+   break;
+  case '/reset':
+   <span class=focus>counter.reset();
+   updater.update(counter.get());</span>
+    break;
+  default:
+    answer.status = 400;
+    break;
+  }
+
+ return answer;
+}</div>
+<div class=col50p markdown=1>
+* Mapeia os URLs métodos
+* URLs errados com erro 
+* Não há leitura de dados
+* Retorna objeto resposta
+</div>

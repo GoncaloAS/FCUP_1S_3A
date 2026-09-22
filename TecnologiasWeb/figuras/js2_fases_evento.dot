@@ -1,0 +1,27 @@
+digraph FasesEvento {
+  layout=neato;
+  fontname="Helvetica";
+  node [fontname="Helvetica", shape=box, style="rounded,filled"];
+  edge [fontname="Helvetica", fontsize=10];
+
+  html   [label="html", pos="3,5!", width=4.6, height=4.4, fixedsize=true, fillcolor="#e3f2fd", fontsize=11];
+  body   [label="body", pos="3,4.3!", width=3.6, height=3.2, fixedsize=true, fillcolor="#e8f5e9", fontsize=11];
+  outer  [label="div#outer", pos="3,3.5!", width=2.6, height=2.0, fixedsize=true, fillcolor="#fff9c4", fontsize=11];
+  inner  [label="div#inner", pos="3,2.9!", width=1.7, height=1.0, fixedsize=true, fillcolor="#ffe0b2", fontsize=11];
+  button [label="button\n(ALVO)", pos="3,2.55!", width=0.9, height=0.4, fixedsize=true, fillcolor="#ef9a9a", fontsize=10];
+
+  cap1 [shape=plaintext, pos="0.3,4.9!", label="1. CAPTURING", fontsize=12, fontcolor="#B9770E"];
+  cap2 [shape=point, width=0.01, pos="0.9,4.9!"];
+  cap3 [shape=point, width=0.01, pos="0.9,2.55!"];
+  cap2 -> cap3 [color="#B9770E", penwidth=2.5, label="html → body → #outer → #inner\n(desce até ao alvo)"];
+
+  bub2 [shape=point, width=0.01, pos="5.6,2.55!"];
+  bub3 [shape=point, width=0.01, pos="5.6,4.9!"];
+  bub2 -> bub3 [color="#1E7A46", penwidth=2.5, label="#inner → #outer → body → html\n(sobe a partir do alvo)"];
+  bub1 [shape=plaintext, pos="6.7,4.9!", label="3. BUBBLING", fontsize=12, fontcolor="#1E7A46"];
+
+  target [shape=plaintext, pos="3,1.9!", label="2. ALVO (target) — handlers do próprio elemento clicado são executados", fontsize=11, fontcolor="#922B21"];
+
+  nota [shape=plaintext, pos="3,1.4!",
+    label="addEventListener(tipo, callback, useCapture): useCapture=true regista na fase de captura; false (omisso) regista na fase de bubbling.\nevent.stopPropagation() interrompe a viagem; event.preventDefault() cancela a ação por omissão do evento.", fontsize=9];
+}

@@ -1,0 +1,61 @@
+## Ciclo Pedido - Resposta ##
+
+
+<style>
+.base {
+   position: relative;
+   width: 100%;
+}
+
+.wrapper {
+   display: inline-block;
+   margin: 25px;
+   text-align: center;
+   font-size: large;
+}
+
+.cliente {
+   display: inline-block;
+   background: white;
+   border: 4px solid black;
+   width: 200px;
+   height: 100px;
+}
+
+.server {
+   display: inline-block;
+   background: #228;
+   border: 1px solid black;
+   width: 100px;
+   height: 200px;
+}
+
+</style>
+
+<div class=base>
+
+<div style="position: absolute; top: 100px; left: 240px;"> &#10230; Pedido &#10230; </div>
+
+<div style="position: absolute; top: 150px; left: 240px;"> &#10229; Resposta &#10229; </div>
+
+<div class=wrapper style="vertical-align: top; padding-top: 50px;">
+<div class=cliente> </div><br>
+<i>browser</i>
+</div>
+
+<div class=wrapper style="opacity: .3;">
+<div class=server> </div><br>
+<i>proxy</i>
+</div>
+
+<div class=wrapper>
+<div class=server> </div><br>
+servidor
+</div>
+
+</div>
+
+* Ciclo pedido-reposta é o **átomo** da comunicação HTTP
+* Pedidos HTTP são iniciados pelo **cliente** <span class=litle>(*browser*)</span>
+* ... e de imediato respondidos pelo **servidor**
+* Podem haver *proxies* que são **transparentes** à comunicação

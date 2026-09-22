@@ -1,0 +1,24 @@
+digraph BoxModel {
+  rankdir=TB;
+  fontname="Helvetica";
+  labelloc=b;
+
+  subgraph cluster_margin {
+    label="margin: 10px  (transparente, afasta do progenitor/irmãos)";
+    style=filled; color="#B9770E"; fillcolor="#FDF2E3"; fontname="Helvetica"; fontsize=13; labeljust=l;
+
+    subgraph cluster_border {
+      label="border: 5px  (visível, desenhado à volta do padding)";
+      style=filled; color="#1E7A46"; fillcolor="#E9F7EF"; fontname="Helvetica"; fontsize=13; labeljust=l;
+
+      subgraph cluster_padding {
+        label="padding: 20px  (transparente, afasta o conteúdo do bordo)";
+        style=filled; color="#1B4F72"; fillcolor="#EBF2FA"; fontname="Helvetica"; fontsize=13; labeljust=l;
+
+        content [label="content\nwidth: 200px\nheight: 100px", shape=box,
+                 style=filled, fillcolor="#1B4F72", fontcolor=white,
+                 fontname="Helvetica", fontsize=13, width=2.4, height=1.1];
+      }
+    }
+  }
+}

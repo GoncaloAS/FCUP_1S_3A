@@ -1,0 +1,32 @@
+##Restrições##
+
+<link rel="stylesheet" href="../board.css">
+
+<div class=cozy id=gamePanel></div>
+
+<script>
+window._update = async function() {
+
+fetch("praticas/trabalho/regras/tab_board.js")
+  .then(response => response.text())
+  .then(src => {
+        eval((src));
+
+        const board = new Board({parent: 'gamePanel', size: 9})
+		const blue  = { color: 'Blue' };
+        const red   = { color: 'Red' };
+
+ 
+
+   })
+  .catch(console.error);
+
+}
+</script>
+
+
+* Só pode haver uma peça em cada casa
+* Peças entraram uma **única** vez na 4ª e última linha
+* Uma peça na 4ª linha só se pode mover &hellip;
+* &hellip; se **não** tiver peças da sua cor na sua linha inicial - primeira
+* Uma peça **não** pode regressar à linha inicial do jogador

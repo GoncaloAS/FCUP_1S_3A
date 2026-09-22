@@ -1,0 +1,22 @@
+## Lançar ##
+
+<div class="terminal example">
+const http = require('http');
+
+const server = http.createServer(function (request, response) {
+    response.writeHead(200, {'Content-Type': 'text/plain'});
+    response.end('Olá mundo\n');
+});
+
+server.listen(8008);
+
+<div class=ruler>&nbsp;</div>
+
+$ <code class=focus>node ola.js</code>
+
+</div>
+
+* Servidor é lançado a partir da linha de comando
+* Comando <code class=focus>node</code> - tem de ser instalado previamente 
+* Argumento com ficheiro contendo código JS <span class=litle>(ex: `ola.js`)</span>
+* Fica a executar indefinidamente <span class=litle>(`CTR+c` cancela execução)</span>

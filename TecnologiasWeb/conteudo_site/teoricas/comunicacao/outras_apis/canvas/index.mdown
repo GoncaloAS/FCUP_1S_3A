@@ -1,0 +1,44 @@
+## API Canvas ##
+
+
+<canvas id="tela" width="300" height="200"></canvas>
+
+
+<script>
+
+window._update = function() {
+
+  var tela = document.getElementById("tela");
+
+  var gc = tela.getContext("2d");
+  
+  gc.strokeStyle = "#228";
+  var sep = 6;
+
+  gc.strokeRect(1,1,tela.width-2*5,tela.height-2*5);
+  gc.beginPath();
+  gc.moveTo(1,tela.height-2*5);
+  gc.lineTo(sep,tela.height-sep);
+  gc.lineTo(tela.width-sep,tela.height-sep);
+  gc.lineTo(tela.width-sep,sep);
+  gc.lineTo(tela.width-2*5,1);
+  gc.stroke();
+
+  gc.beginPath();
+  gc.moveTo(50,150);
+  gc.bezierCurveTo(60,50,260,160,270,60);
+
+  gc.lineCap = "round";
+  gc.lineWidth = 10;
+  gc.strokeStyle = "orange";
+  gc.stroke();
+
+}
+
+</script>
+
+* Canvas fornece uma **tela** em branco para "pintar"
+* Utiliza o elemento <code class=focus>canvas</code> do **HTML 5**
+* A "pintura" é executada invocando função **JavaScript**
+* Controlada por propriedades com sintaxe inspirada no **CSS**
+ 

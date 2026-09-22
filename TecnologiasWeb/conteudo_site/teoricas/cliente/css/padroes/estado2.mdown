@@ -1,0 +1,46 @@
+##Estado *widgets* ##
+
+<table rules="all" frame="box" cellpadding="5" cellspacing="5">
+
+  <tr>
+    <td> <code><i>elemento</i>:focus </code> </td> 
+    <td> elementos com <i>focus</i>  <span class=litle>(digitação de carateres)</span> </td> 
+    <td>2</td>    
+  </tr>	  
+
+  <tr>
+    <td> <code>:target</code> </td> 
+    <td> elemento apontado por link interno  <span class=litle>(<code>#nome</code>)</span></td>
+    <td>3</td>
+  </tr>
+
+
+  <tr>
+    <td> <code>:enabled</code> </td> 
+    <td> objecto gráfico ativo  <span class=litle>(ex. botão)</span> </td>
+    <td>3</td>    
+  </tr>
+
+  <tr>
+    <td> <code>:disabled</code> </td> 
+    <td> objecto gráfico inativo  <span class=litle>(ex. botão)</span></td>
+    <td>3</td>    
+  </tr>
+
+  <tr>
+    <td> <code>:checked</code> </td> 
+    <td> objecto gráfico escolhido  <span class=litle>(check box)</span> </td>
+    <td>3</td>    
+  </tr>
+
+
+  <tr>
+    <td> <code>::selection</code> </td> 
+    <td> conteúdo selecionado pelo utilizador </td>
+    <td>3</td>    
+  </tr>
+
+</table>
+
+* Seleciona *widgets* em função do seu estado
+* Estado varia ao longo da interação

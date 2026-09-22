@@ -1,0 +1,17 @@
+## Exemplos de utilização  ##
+
+Exemplos de pedidos e respostas ilustrando a utilização da API
+
+
+* [Registo](register.mdown)
+* [Início](join.mdown)
+* [Saída](leave.mdown)
+* [Lançar dado](roll.mdown) 
+* [Passar a vez](pass.mdown)
+* Mover as peças
+    * [Jogadas inválidas](notify0.mdown)
+    * [Selecionar peça](notify1.mdown)
+    * [Escolher destino](notify2.mdown)
+    * [Reverter seleção](notify3.mdown)
+* [Ganhar](winner.mdown)
+* [Tabela](ranking.mdown)

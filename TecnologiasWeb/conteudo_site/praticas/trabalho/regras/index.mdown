@@ -1,0 +1,57 @@
+
+## Regras do Tâb ##
+
+<link rel="stylesheet" href="board.css">
+<link rel="stylesheet" href="stick-dice.css">
+
+<div style="display: flex;">
+<div id="gamePanel"></div><div id="dicePanel"></div>
+</div>
+
+<script>
+window._update = async function() {
+
+fetch("praticas/trabalho/regras/tab_board.js")
+  .then(response => response.text())
+  .then(src => {
+        eval((src));
+
+        const board = new Board({parent: 'gamePanel', size: 9})
+		const blue  = { color: 'Blue' };
+        const red   = { color: 'Red' };
+
+        board.state({
+            board: [
+			     blue,	blue,	blue,	blue,	blue,	blue,	blue,	blue,	blue,
+			     null,	null,	null,	null,	null,	null,	null,	null,	null,
+			     null,	null,	null,	null,	null,	null,	null,	null,	null,
+			     red,	red,	red,	red,	red,	red,	red,	red,	red,				 
+            ],
+        });
+
+	   const dicePanel = document.getElementById('dicePanel')
+	   const dice = new StickDice({div: dicePanel });
+
+       dice.setResult({
+	     stickValues: [ true, false, true, false ], 
+	     value: 2, 
+		 keepPlaying: false 
+	   });
+
+   })
+  .catch(console.error);
+
+}
+</script>
+
+<div class="col50p" markdown="1">
+* [Tabuleiro](tabuleiro.mdown)
+* [Peças](pecas)
+* [Dado de paus](dado_paus)
+</div><div class="col50p" markdown="1">
+* [Mover as peças](mover)
+* [Capturar peças](capturar.mdown)
+* [Fim do jogo](fim.mdown)
+</div>
+
+<div class=foot>Há variantes deste jogo. Considerem apenas estas regras</div>

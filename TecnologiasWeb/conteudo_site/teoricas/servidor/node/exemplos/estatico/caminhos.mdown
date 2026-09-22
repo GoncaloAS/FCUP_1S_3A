@@ -1,0 +1,22 @@
+## Processamento de caminhos ##
+
+<div class="terminal example">
+function doGetPathname(pathname,response) {
+    const mediaType = getMediaType(pathname);
+    const <span class=focus>encoding</span> = isText(mediaType) ? "utf8" : null;
+    
+    fs.readFile(pathname,<span class=focus>encoding</span>,(err,data) => {
+        if(<span class=focus>err</span>) {
+            response.writeHead(<span class=focus>404</span>); // Not Found
+            response.end();
+        } else {
+            response.writeHead(200, { <span class=focus>'Content-Type': mediaType</span> });
+            response.end(data);
+        }
+  });    
+}
+</div>
+
+* Leitura com diferentes codificações consoante é texto ou não
+* Gera estado 404  em caso de erro
+* Coloca tipo de media no `Content-type`

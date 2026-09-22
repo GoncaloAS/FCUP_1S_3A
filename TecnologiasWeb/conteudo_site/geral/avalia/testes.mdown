@@ -1,0 +1,24 @@
+## Testes ##
+
+* **Como**
+    * Em computador com avaliação automática
+    * Escolha múltipla <span class=litle>(respostas erradas descontam valor esperado)</span>
+    * Matéria das teóricas e trabalhos precedentes
+* **Quando**
+    * Nas práticas laboratoriais 
+    * Datas assinalada no [calendário da UC](../calendario.html)
+    * Excecionalmente em horário a combinar
+
+<!--
+											<br><br>
+* ***Terceiro teste***
+    * Dia 16 de dezembro &mdash; sexta-feira
+	* A partir das 
+	    * 16:00 para PL1 
+	    * 17:00 para PL2 
+    * No Lab8
+
+<!--
+    * Durante o período de reposição de aulas
+	* Data, local e hora a definir
+-->

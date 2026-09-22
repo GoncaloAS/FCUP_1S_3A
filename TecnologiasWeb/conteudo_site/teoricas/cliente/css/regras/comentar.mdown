@@ -1,0 +1,14 @@
+## Comentários ##
+
+<pre>
+/* Títulos tamanho 1 a negrito */
+   H1 { font-weight: bold }
+</pre>
+
+
+
+<div style="height: 2cm;">&nbsp;</span>
+
+* São delimitados por <code class=focus>/*</code>  e <code class=focus>*/</code>
+* Devem ser usados para documentação
+* Podem ser usados para inativação

@@ -1,0 +1,55 @@
+## Dimensões ##
+
+<style>
+
+.container {
+	   display: grid;
+	   grid-template-columns: 	        auto auto auto;
+   	   grid-template-rows: 	        	auto auto ;
+       grid-auto-rows: 2em;
+	   background: orange; 
+	   opacity: .5;
+}
+
+.item {
+ 	   border: 1px dotted white;
+	   background: #228;
+	   color: white;
+	   text-align: center;
+}
+
+</style>
+
+<div class="terminal example col50p cozy">
+.container {
+       display: grid;
+	   grid-template-columns: 
+	        auto auto auto;
+   	   grid-template-rows:
+	        auto auto; /*<code><s>auto</s></code>;*/
+	   <code>grid-auto-rows: 100px;</code>
+}
+</div>
+<div class="col50p cozy">
+	<div class=container>
+	     <div class=item> 1 </div>
+	     <div class=item> 2 </div>
+	     <div class=item> 3 </div>
+		 <div class=item> 4 </div>
+	     <div class=item> 5 </div>
+	     <div class=item> 6 </div>
+         <div class=item> 7 </div>
+	     <div class=item> 8 </div>
+	     <div class=item> 9 </div>
+	</div>
+</div>
+
+
+* Controlo do tamanho das linhas/colunas **implícitas**
+    * `grid-auto-rows`  linhas
+	* `grid-auto-columns` -  colunas
+* Valores possíveis:
+	* *comprimento* <span class=litle>(pode ser relativo)</span>
+    * `auto` - omissão - determinado pelo elemento maior
+    * `max-content` - maior elemento da linha/coluna 
+    * `min-content` - menor elemento da linha/coluna 	

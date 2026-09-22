@@ -1,0 +1,12 @@
+## Métodos HTTP ##
+
+
+
+* Existem vários métodos HTTP para **diferentes finalidades**
+* São o **verbo** associado ao pedido uma acção sobre o **recurso**
+* Nem todos são suportados <span class=litle>(por omissão)</span> pelos servidores
+* Métodos podem ser categorizados segundo as suas características
+    * **Seguros**
+    * **Idempotentes**
+    * ***Cacháveis***
+* No entanto, estas características não são forçadas pelo protocolo

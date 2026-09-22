@@ -1,0 +1,32 @@
+## Blocos ##
+
+
+<div class="col50p example terminal">
+
+
+&lt;h3>Um título&lt;/h3>
+
+&lt;p>Parágrafo de texto&lt;/p>
+
+&lt;ul>
+  &lt;li>Item 1
+  &lt;li>item 2
+  &lt;li>Item 3
+&lt;/ul>
+
+
+</div>
+<div class="col50p">
+<h3 class=showBorder>Um título</h3>
+<p class=showBorder>Parágrafo de texto</p>
+<ul class=showBorder>
+  <li class=showBorder>Item 1
+  <li class=showBorder>item 2
+  <li class=showBorder>Item 3
+</ul>
+</div>
+
+
+
+* Contentores que ocupam toda a largura disponível, como
+* Usados para organizar texto em  parágrafos, cabeçalhos e listas

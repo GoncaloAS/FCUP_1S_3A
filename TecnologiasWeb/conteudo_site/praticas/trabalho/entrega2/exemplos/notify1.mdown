@@ -1,0 +1,56 @@
+## Mover - começar##
+
+<link rel="stylesheet" href="../table.css" type="text/css">	
+
+<table width="100%" class=dense>
+
+<tr>
+	<th>URL</th>
+	<th>Objeto no pedido</th>
+	<th>Objeto na resposta </th>
+	<th>Observações
+</tr>	   
+
+
+<tr>
+	<td class=code>.../notify
+	<td class=code>{"nick": "zp", "password": "secret", "game": "2fd9d...", <b>"cell": 8 </b>  }
+	<td class=code>{}
+	<td>Jogada válida
+
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ <b>"cell": 8, "selected": [ 8, 9], "initial": "zp", dice: null</b>, "step": "from", turn: "zp" "pieces": [ ... ], ... }
+	<td>Mantém turno mas dado já foi usado
+
+<tr>
+	<td class=code>.../roll
+	<td class=code>{ <b>"nick": "zp"</b>, ... }
+	<td class=code>{}
+	<td>Novo lançamento
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ <b>{"dice":{"stickValues":[false,true,false,true], "value":2,"keepPlaying":false}</b>,"turn":"zp","mustPass":null} }
+	<td> Saiu 2 e só pode jogar a peça já movida.
+
+
+<tr>
+	<td class=code>.../notify
+	<td class=code>{"nick": "zp", "password": "secret", "game": "2fd9d...", <b>"cell": 9 </b>  }
+	<td class=code>{}
+	<td>Jogada válida
+
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ <b>"cell": 9, "selected: [9, 11], dice: null,</b> "initial": "jpleal", </b>, "step": "from", turn: "zp" "pieces": [ ... ], ... }
+	<td>Turno muda para adversário
+
+
+
+</table>

@@ -1,0 +1,17 @@
+## Invocação de funções ##
+
+
+<div class="terminal example">
+
+function soma(a,b) {
+    return a+b;
+}
+
+document.writeln(<span class=focus>soma(2,3)</span>);
+
+</div>
+
+* Função invocada pelo nome
+* **Argumentos** são atribuídos aos parâmetros
+* Definição é avaliada com valores dos argumentos
+* Valor de retorno substitui a invocação

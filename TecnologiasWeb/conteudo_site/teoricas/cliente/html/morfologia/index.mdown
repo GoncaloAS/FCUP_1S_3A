@@ -1,0 +1,15 @@
+## Morfologia do HTML##
+
+
+* **Formatação HTML**
+    * Baseada em documentos de texto <span class=litle>(por oposição a binários)</span>
+    * Produzida em editores de texto
+    * Constituintes especiais alteram formatação
+    * Mas são também definições com caracteres de texto
+* **Constituintes**
+    * Anotações 
+    * Atributos
+    * Entidades
+    * Textos
+    * Comentários
+    * Declaração

@@ -1,0 +1,19 @@
+## Pedido `notify` ##
+
+
+Notifica o servidor de uma jogada. O pedido retorna de imediato
+sendo o resultado da jogada enviado a ambos os jogadores por `update`.
+Os argumentos são:
+* <a alt=nick href="nick.mdown"><code>nick</code></a> - o identificador do jogador
+* <a alt=password href="password.mdown"><code>password</code></a> - que este escolheu
+* <a alt=game href="game.mdown"><code>game</code></a> - o identificador do jogo
+* <a alt=stack href="cell.mdown"><code>move</code></a> - uma casa do do tabuleiro que participa no movimento
+
+
+São reportados erros se:
+* algum argumento for omitido
+* os argumentos contiverem valores inválidos 
+* a autenticação não corresponder a um jogador registado
+* tentar jogar fora da vez
+* a jogada violar as regras do jogo
+

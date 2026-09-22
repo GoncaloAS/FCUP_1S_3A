@@ -1,0 +1,31 @@
+## Propriedades de objetos ##
+
+<div class="col75p terminal example">
+const obj1 = new Object();
+const obj2 = new Object();
+
+<span class=focus>obj1.nome = 'Objeto um'</span>;
+
+document.writeln(<span class=focus>obj1.nome</span>);
+document.writeln(<span class=focus>obj2.nome</span>);
+document.writeln('nome' <span class=focus>in</span> obj1);
+document.writeln('nome' <span class=focus>in</span> obj2);
+</div>
+<div class="col25p exemplo">
+<pre>
+
+
+
+Objeto um
+<code class=focus>undefined</code>
+true
+false
+<pre>
+</div>
+
+
+* Propriedades são criadas **dinamicamente** quando inicializadas
+* *Não* necessitam de ser **declaradas** <span class=litle>(na classe ou objeto)</span>
+* Existem apenas no objeto onde foram criadas
+* Referir um propriedade indefinida produz <code class=focus>undefined</code>
+* Operador <code class=focus>in</code> verifica se propriedade existe em objeto

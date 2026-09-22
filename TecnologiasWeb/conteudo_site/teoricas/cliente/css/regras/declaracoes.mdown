@@ -1,0 +1,45 @@
+## Agrupar declarações ##
+
+<style>
+  .nt {
+     background: orange;
+     opacity: 0.50;	
+     border-radius: 3mm;
+     text-align: center;
+     padding : 2mm;
+  }
+  
+</style>
+
+
+<table> 
+    <tr>
+    	<td rowspan=2 class=nt> Seletor </td>
+	<td rowspan=2> </td>
+	<td colspan=3 class=nt> Declarações </td>
+    </tr>
+    <tr>
+
+	<td class=nt> Declaração<sub>1</sub> </td>
+	<td> &hellip; </td>
+	<td class=nt> Declaração<sub>n</sub> </td>
+     </tr>
+     <tr>
+         <td><code> H1 </code></td>
+	 <td><code> { </code></td>
+	 <td><code> font-wight: bold </code></td>
+	 <td class=focus><span><code>;</code></td>
+	 <td><code> font-family: helvetica </code></td>
+	 <td class=focus><code>;</code></td>
+	 <td><code> }</code></td>  
+     </tr>
+</table>
+
+
+
+
+* Lista de declarações para mesmo(s) seletor(es)
+* Agrupadas dentro das chavetas
+* Declarações separadas por ponto e virgula <code class=focus>;</code>
+* É *boa prática* manter ponto e virgula na última declaração<br>
+  <span class=litle> (encarar <code class=focus>;</code> como **terminador** e não como separador)</span>

@@ -1,0 +1,44 @@
+## Examinar o HTTP ##
+
+<div style="width: 100%; height: 40%; position: relative;">
+<img src="browser.png" style="width: 260px; position: absolute; left: 10px;">
+
+<div class="terminal example" style="font-size: small; position: absolute; left: 250px; top: 20px;">
+$ <span class=focus>telnet www.up.pt 80</span>
+Trying 193.137.55.13...
+Connected to www.up.pt.
+Escape character is '^]'.
+OPTIONS / HTTP/1.0
+
+HTTP/1.1 200 OK
+Date: Tue, 24 Oct 2017 17:51:01 GMT
+Server: Apache
+Allow: OPTIONS,GET,HEAD,POST
+Content-Length: 0
+Connection: close
+Content-Type: text/html
+
+Connection closed by foreign host.
+</div>
+
+<div class="terminal example" style="font-size: small; position: absolute; left: 500px; top: -20px;">
+$ <span class=focus>curl -D - -X OPTIONS http://www.up.pt/</span>
+HTTP/1.1 200 OK
+Date: Tue, 24 Oct 2017 15:51:54 GMT
+Server: Apache
+Allow: OPTIONS,GET,HEAD,POST
+Content-Length: 0
+Content-Type: text/html
+
+</div>
+
+
+</div>
+
+
+* HTTP é  protocolo de transferência, não está diretament visível
+* Às vezes é necessário examinar as mensagens transacionadas
+* Isso pode ser feito de diferentes  formas
+    * **Navegador** <span class=litle>(ex. Chrome)</span>
+    * **Telnet** - serviço Internet
+    * **curl** - comando Linux

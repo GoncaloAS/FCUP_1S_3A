@@ -1,0 +1,26 @@
+## Formatação de texto ##
+
+
+<div markdown=1 class="col50p example terminal">
+
+&lt;b>Negrito&lt;/b>
+&lt;i>Itálico&lt;/i>
+&lt;u>Sublinhado&lt;/u>
+&lt;s>Cortado&lt;/s>
+
+</div>
+<div class="col50p">
+<b class=showBorder>Negrito</b>
+<i class=showBorder>Itálico</i>
+<u class=showBorder>Sublinhado</u>
+<s class=showBorder>Cortado</s>
+</div>
+
+<div>&nbsp;</div>
+
+* Formatação de texto usando contentores
+    * Negrito <span class=focus>b</span> <span class=litle>(Bold)</span>
+    * Itálico <span class=focus>i</span> <span class=litle>(Italic)</span>
+    * Sublinhado <span class=focus>u</span> <span class=litle>(Underlined)</span>
+    * Cortado <span class=focus>s</span> <span class=litle>(Striketrough)</span>
+* Formatação pode ser combinada encaixando contentores

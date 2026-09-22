@@ -1,0 +1,27 @@
+## Parágrafos ##
+
+
+<div class="col50p example terminal">
+
+&lt;p>Um parágrafo&lt;/p>
+
+&lt;p> Outro parágrafo
+mas contendo
+&lt;b>bastante&lt;/b>
+mais texto
+que o anterior&lt;/p>
+
+</div>
+<div class="col50p">
+<p class=showBorder>Um parágrafo</p>
+<p class=showBorder>Outro parágrafo mas contendo
+<b class=showBorder>bastante</b> mais texto
+que o anterior</p>
+</div>
+
+
+* Contêm o texto de um parágrafo
+* São delimitados por anotações <code class=focus>p</code>  <span class=litle>(Paragraph)</span>
+* Sendo <b>blocos</b> ocupam toda a largura disponível
+* Por omissão reservam espaço entre parágrafos
+* Parágrafos contêm texto e elementos em linha

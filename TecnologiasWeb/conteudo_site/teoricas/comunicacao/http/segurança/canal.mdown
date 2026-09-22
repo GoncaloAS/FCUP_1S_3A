@@ -1,0 +1,38 @@
+## Canal seguro ##
+
+<div style="padding: 0; margin: auto; width: 570px; position: relative;">
+
+<div style="background: #FD0;  display: inline-block; width: 50px; height: 50px; border-radius: 25px; margin-right: -35px; position: relative; z-index: 3;">
+&nbsp;
+</div>
+<div style="background: orange;  display: inline-block; width: 500px; height: 50px;">
+
+
+<span style="position: relative; top: 10px; margin-left: 30px;">&rarr;</span>
+<span style="position: relative; top: 5px; border: 1px solid; font-size: large; padding: 3px">pedido HTTP </span>
+<span style="position: relative; top: 10px;">&rarr;</span>
+
+<span style="position: relative; top: 10px; margin-left: 60px;">&larr;</span>
+<span style="position: relative; top: 5px; border: 1px solid; font-size: large; padding: 3px"> resposta HTTP </span>
+<span style="position: relative; top: 10px;">&larr;</span>
+
+
+</div>
+
+<div style="background: orange;  display: inline-block; width: 25px; height: 50px; border-top-right-radius: 25px; border-bottom-right-radius: 25px; margin-left: -10px;">
+&nbsp;
+</div>
+
+</div>
+
+* O protocolo HTTP é intrinsecamente **inseguro**
+    * As mensagens de texto são **visíveis** <span class=litle>(incluindo autenticação)</span>
+    * É vulnerável a ataques *man-in-the-middle*
+    * Linhas iniciais <span class=litle>(podem ter dados)</span> ficam registadas em logs<p>
+* <b>Cifragem</b> direcional das mensagem impossibilita
+    * leitura das mensagens no seu trajeto
+    * alteração das mensagens entre emissor e recetor</p>
+* <b>Utilizações</b> de canais seguros para proteção de
+    * Transações  financeiras <span class=litle>(inicialmente com SSL)</span>
+    * Dados de autenticação <span class=litle>(passwords)</span>
+    * Identidade e privacidade de utilizadores

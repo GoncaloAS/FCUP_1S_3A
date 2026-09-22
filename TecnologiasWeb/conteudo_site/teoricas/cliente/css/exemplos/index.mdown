@@ -1,0 +1,39 @@
+## Exemplos de CSS ##
+
+<link rel="stylesheet" href="dialogo/dialogo.css" type="text/css">
+<link rel="stylesheet" href="calculadora/calculadora.css" type="text/css">
+
+<div style="position: relative; width: 100%; height: 300px;">
+
+<div style="position: absolute; top: 50px; left: 0; width: 50%">
+
+     <div class=dialog>
+
+          <div class=message>  Mesmo sair? </div>
+	   
+     	  <div class=button> Ok </div>
+	  <div class=button> Cancelar </div> 
+
+     </div>
+
+
+</div>
+<div style="position: absolute; top: 0; left: 350px; width: 50%">
+
+	<div class=calculator>
+	<div class=display>0</div>
+	<div class=key>7</div> <div class=key>8</div> <div class=key>9</div>
+	<div class="key op"> / </div>
+	<div class=key>4</div> <div class=key>5</div> <div class=key>6</div>
+	<div class="key op"> * </div>
+	<div class=key>1</div> <div class=key>2</div> <div class=key>3</div>
+	<div class="key op"> + </div>
+	<div class=key>,</div> <div class=key>0</div> <div class=key>C</div>
+	<div class="key op"> = </div>
+	</div>
+
+</div>
+</div>
+
+* Caixa de diálogo
+* Calculadora básica

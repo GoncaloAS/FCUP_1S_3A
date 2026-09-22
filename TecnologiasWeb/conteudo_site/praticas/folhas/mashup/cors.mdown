@@ -1,0 +1,16 @@
+## Partilha de recursos entre origens (CORS) ##
+
+
+Para a aplicação funcionar é necessário que os serviços suportem CORS <span class=litle>(Cross-Origin Resource Sharing)</span>, já que estão em domínios diferentes.
+
+A aplicação cliente não tem de fazer nada, mas o servidor tem de
+autorizar o *browser* a usar o resultado 
+
+O objetivo deste exercício é constatar que que o cabeçalho correto está
+a ser enviado pelo servidor, usando as ferramentas dos *browser*
+
+ * Firebug no Firefox
+ * Inspect Element no Chrome
+
+Verifique que a resposta contém o cabeçalho<br>
+<code class=focus>Access-Control-Allow-Origin</code>.

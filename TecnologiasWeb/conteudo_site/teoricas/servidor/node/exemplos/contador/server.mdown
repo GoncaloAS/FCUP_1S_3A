@@ -1,0 +1,24 @@
+## Servidor ##
+
+<div class="terminal example cozy">http.createServer(function (request, response) {
+    const preq = url.parse(request.url,true);
+    const pathname = preq.pathname;
+    let answer = {};
+    
+    switch(request.method) {
+    case 'GET':
+        <span class=focus>answer = doGet(pathname,request,response);</span>
+        break;
+    case 'POST':
+        <span class=focus>answer = doPost(pathname);</span>
+		break;
+    default:
+        answer.status = 400;
+    }
+&hellip;
+}).listen(PORT);
+</div>
+
+* Processa distintamente pedidos `GET` e `POST`
+* Dados de resposta no objeto `answer`
+* Gera erro para outros métodos

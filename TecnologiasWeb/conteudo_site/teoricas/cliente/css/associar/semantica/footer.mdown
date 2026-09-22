@@ -1,0 +1,37 @@
+## `footer` ##
+
+<link rel="stylesheet" href="style.css" type="text/css">
+
+<div class="col50p terminal example">
+
+...
+&lt;footer>
+   &lt;p> ...  &lt;/p>
+&lt;/footer>
+...
+
+</div>
+<div class=col50p >
+<div class="page cozy">
+    <div class="box" style="background: hsl(39,100%,30%)">  &lt;header&gt;   </div>
+	<div class=box style="background: hsl(39,100%,30%);">  &lt;nav&gt;   </div>
+	<div style="display: flex; style="background: hsl(39,100%,40%);">
+		<div class=box style="flex:3; background: hsl(39,100%,50%);"> &lt;main&gt;
+			<div class="box" style="background: hsl(39,100%,70%)"> &lt;article&gt;
+				<div class="box" style="background: hsl(39,100%,70%)"> &lt;section&gt;</div>
+			    <div class="box " style="background: hsl(39,100%,70%)"> &lt;section&gt;</div>
+			</div>
+			<div class="box popout" style="background: hsl(39,100%,60%)">  &lt;footer&gt; </div>
+		</div>
+		<div class="box" style="flex:1; background: hsl(39,100%,50%)"> &lt;aside&gt; </div>
+	</div>
+	<div class="box popout"  style="background: hsl(39,100%,30%)"> &lt;footer&gt; </div>
+</div>
+</div>
+
+* Informação de fecho de uma parte
+* Do documento ou de um artigo, por exemplo
+* Podem existir vários no documento
+
+
+

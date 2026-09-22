@@ -1,0 +1,20 @@
+## Evento `error` ##
+
+<div class="terminal example">switch(request.method) {
+  let body = '';
+  case 'POST':	
+	request
+	    .on('data', (chunk) => { body += chunk;  })
+	    .on('end', () => {
+               try { query = JSON.parse(body);  /* processar query */ }
+               catch(err) {  /* erros de JSON */ }
+	    })
+	    <span class=focus>.on('error', (err) => { console.log(err.message); })</span>;
+	break;
+	...
+  }</div>
+
+* Evento <code class=focus>error</code> disparado em caso de erro
+* Pode ser usado simplesmente para registar no *log*  <span class=litle>(exemplo)</span>
+* Ou dar resposta HTTP adequada <span class=litle>(ex: linha de estado 400)</span>
+

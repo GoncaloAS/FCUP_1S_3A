@@ -1,0 +1,21 @@
+##API `fetch`##
+
+<div class="terminal example">
+
+<span class=focus>fetch</span>(url, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    },
+    body: 'de=zp&amp;para'
+})
+  .then(response => response.json())
+  .then(process)
+  .catch(console.log);
+</div>
+
+* Interface para obter recursos por HTTP
+* Invocado com 2 argumentos
+    * URL -  obrigatório
+    * `Request` - opcional - objecto configurando pedido HTTP
+* Retorna promessa de um `Response`

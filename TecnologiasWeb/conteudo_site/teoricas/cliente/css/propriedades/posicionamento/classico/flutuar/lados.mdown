@@ -1,0 +1,34 @@
+## Lados de flutuação ##
+
+<div class="col25p terminal example">
+&lt;div style="...
+ <span class=focus>float: left;</span>">
+&lt;/div>
+
+</div>
+<div class=col75p style="font-size: large; padding: 1px;">
+
+<div style="float: left; width: 3cm; height: 1cm; background: #228; opacity: .5;"> </div>
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at aliquam velit. Cras a nibh ultrices sapien venenatis suscipit. Nulla vitae sollicitudin nunc. Morbi venenatis luctus turpis. Aliquam venenatis lorem vel imperdiet dictum. Proin rutrum, tellus feugiat fringilla commodo, urna ipsum vehicula ante, sed consequat lacus mi sit amet eros.
+</div>
+
+
+<div class="col25p terminal example endCols">
+&lt;div style="...
+ <span class=focus>float: right;</span>">
+&lt;/div>
+
+</div>
+<div class=col75p style="font-size: large; padding: 1px;">
+
+<div style="float: right; width: 3cm; height: 1cm; background: #228; opacity: .5;"> </div>
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at aliquam velit. Cras a nibh ultrices sapien venenatis suscipit. Nulla vitae sollicitudin nunc. Morbi venenatis luctus turpis. Aliquam venenatis lorem vel imperdiet dictum. Proin rutrum, tellus feugiat fringilla commodo, urna ipsum vehicula ante, sed consequat lacus mi sit amet eros.
+</div>
+
+* Elementos flutuantes são geralmente **imagens** e **tabelas**
+* Estes elementos são **blocos** e ocupam todo o espaço à largura
+* Propriedade <code class=focus>float</code> obriga-os a flutuar
+* Valor da propriedade indica o lado para flutuam: <code class=focus>left</code>, <code class=focus>right</code>
+* Rodeado por restante formatação, como texto e el. em linha

@@ -1,0 +1,83 @@
+## Classe ##
+
+<script>
+
+window._update = function() {
+
+class Counter {
+
+    constructor(parentId) {
+	const parent  = document.getElementById(parentId);
+	const counter = document.createElement("div");
+	const incr = document.createElement("div");
+	const reset = document.createElement("div");
+
+	this.display = document.createElement("div");
+	this.count = 0;
+	
+	parent.appendChild(counter);
+	counter.appendChild(incr);
+	counter.appendChild(reset);
+	counter.appendChild(this.display);
+	
+	counter.className = "counter";
+	incr.className = "button";
+	reset.className = "button";
+	this.display.className = "display";
+	
+	incr.innerText = " Incr ";
+	reset.innerText = " Reset ";
+	this.display.innerText = this.count;
+	
+	incr.onclick = this.increment.bind(this);
+	reset.onclick = this.reset.bind(this);
+    }
+
+    increment() {
+	this.count ++;
+	
+	this.display.innerText = this.count;
+    }
+
+    reset() {
+	this.count = 0;
+
+	this.display.innerText = this.count;
+    }
+}
+
+var counter = new Counter("base");
+
+}
+
+</script>
+
+<link rel="stylesheet" href="counter.css" type="text/css">   
+
+
+<div class="col75p terminal example cozy" >class Counter {
+    constructor(parentId) { // ...
+       this.<span class=focus>count</span> = 0;
+       this.<span class=focus>display</span> = ... // ...;
+    }
+    <span class=focus>increment()</span> {
+        this.count ++;
+        this.display.innerText = this.count;
+    }
+    <span class=focus>reset()</span> {
+        this.count = 0;
+        this.display.innerText = this.count;
+    }
+}</div>
+<div class=col25p >
+
+<div id=base></div>
+
+</div>
+
+* Classe contador com 2 propriedades
+    * <code class=focus>count</code> a contagem atual
+    * <code class=focus>display</code> elemento onde é mostrada
+* e 2 métodos
+    * <code class=focus>increment</code> incrementa a contagem <span class=litle>(e mostra-a)</span>
+    * <code class=focus>reset</code> retorna a 0 contagem <span class=litle>(e mostra-a)</span>

@@ -1,0 +1,31 @@
+digraph ArvoreHTML {
+  rankdir=TB;
+  fontname="Helvetica";
+  node [shape=box, style="rounded,filled", fillcolor="#e8f5e9", fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=10];
+
+  DOCTYPE [label="<!DOCTYPE html>", shape=note, fillcolor="#fff9c4"];
+  html [label="html  (raiz)"];
+  head [label="head"];
+  body [label="body"];
+  title [label="title"];
+  h1 [label="h1"];
+  p [label="p"];
+  b [label="b"];
+  texto1 [label="\"Olá HTML 5\"", shape=plaintext, style=""];
+  texto2 [label="\"Este contentor tem um\"", shape=plaintext, style=""];
+  texto3 [label="\"pequeno\"", shape=plaintext, style=""];
+
+  DOCTYPE -> html [style=dashed, label="precede\n(não é elemento nem filho)"];
+  html -> head;
+  html -> body;
+  head -> title;
+  body -> h1;
+  body -> p;
+  h1 -> texto1;
+  p -> texto2;
+  p -> b;
+  b -> texto3;
+
+  { rank=same; DOCTYPE; html; }
+}

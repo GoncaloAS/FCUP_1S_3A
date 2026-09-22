@@ -1,0 +1,20 @@
+<img alt="Cliente Servidor" src=cliente-servidor.png style="width: 200px; float: right;"> 
+
+## Evitar atualizar formatação ##
+
+
+
+* Questões com atualização de formatação
+    * Ciclo pedido-resposta provoca mudanças abruptas no UI
+    * Usando DOM são possíveis mudancas localizadas
+    * Podem refletir dados  recebidos do servidor <br><br>
+* Alternativas aos mecanismos habituais
+    * Usar elementos <code class=focus>iframe</code> invisíveis com elementos <code class=focus>script</code>
+    * *JSON with padding* (JSONP)
+        * Gerar elementos <code class=focus>script</code> via DOM
+        * Atributo SRC com URL para pedidos de dados
+        * Recurso retornado com tipo <code class=focus>application/javascript</code>
+        * Invocação de função com objeto de dados <span class=litle>(JSON)</span>
+
+
+<div class=foot>Mas isto é um <i>hack</i>!</div>

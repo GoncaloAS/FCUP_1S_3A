@@ -1,0 +1,14 @@
+
+## Aplicação de página única ##
+
+A aplicação deve ter toda a apresentação numa única página HTML.
+Não devem ser carregadas outras páginas HTML. 
+
+A formatação gráfica e posicionamento de elementos em CSS deve
+estar num, ou mais, ficheiros independentes, embebidos nos ficheiro HTML
+
+Do mesmo modo, o código JavaScript também deve ser colocado num ficheiro
+independente.
+
+Os ficheiros HTML e CSS devem ser **validados** para garantir a sua
+interoperabilidade. 

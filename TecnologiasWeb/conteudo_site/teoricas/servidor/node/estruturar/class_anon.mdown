@@ -1,0 +1,29 @@
+## Partilha de classes anónimas ##
+
+<div class=col50p style="text-align: center">Aplicação</div>
+<div class=col50p style="text-align: center">Módulo</div>
+<div class="col50p terminal example">
+<span class=focus>const T =require('./modulo.js')</span>;
+
+
+<span class=focus>const t = new T()</span>;
+
+t.m();
+t.c;
+
+</div>
+<div class="col50p terminal example">
+<span class=focus>module.exports = class</span>  {
+    constructor(&hellip;) {
+       this.c = &hellip;
+    }
+
+    m() { &hellip;  }
+}
+
+</div>
+
+* Permite usar construtores e protótipos
+* Construtor é exportado com  `module.exports`
+* Instâncias podem ser criadas na aplicação com `new`
+* Está limitado a uma única classe por módulo

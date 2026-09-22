@@ -1,0 +1,19 @@
+## *Hash* e cifras ##
+
+
+O identificador do jogo (`game`) deve ser gerado a partir de dados que
+o caraterizem, incluindo o tempo. A maneira mais fácil  é usar o
+módulo `crypto` para criar um hash MD5 de um valor e codifica-lo em
+hexadecimal.   
+
+<pre>
+const crypto = require('crypto');
+
+const hash = crypto
+               .createHash('md5')
+               .update(value)
+               .digest('hex');
+</pre>
+
+Por questão de segurança as *passwords* devem ser cifradas antes de
+guardadas e a API `crypto` pode (e deve) ser usada para esse efeito.

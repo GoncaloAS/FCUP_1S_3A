@@ -1,0 +1,29 @@
+## Trabalho prático ##
+
+
+O objectivo deste trabalho é o desenvolvimento de uma aplicação web  em todas as suas vertentes.
+
+O trabalho será dividido em três fases, com entregas ao longo do semestre, correspondendo à sequência de tecnologias web apresentadas nas aulas teóricas.
+
+O trabalho consiste numa versão web do
+<a href="https://en.wikipedia.org/wiki/Tâb" target=_blank>Tâb</a>.
+
+<div markdown=1 class=col50p>
+
+* [Regras do Tâb](regras)
+* [Envio para avaliação](envio.mdown)
+
+</div>
+
+<div markdown=1 class=col50p>
+* [Primeira entrega](entrega1)
+* [Segunda entrega](entrega2)
+* [Terceira entrega](entrega3)
+
+<!--
+* Primeira entrega
+* Segunda entrega
+* Terceira entrega
+-->
+</div>
+

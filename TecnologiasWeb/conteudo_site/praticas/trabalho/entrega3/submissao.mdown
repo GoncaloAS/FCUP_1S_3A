@@ -1,0 +1,11 @@
+## Submissão ##
+
+O arquivo ZIP para a submissão deverá conter os vários módulos JS no servidor,
+bem como o ficheiro `index.js` na raiz.
+
+Deverá conter ainda o ficheiro `index.html`, bem como os ficheiros
+CSS e JS referentes à interface, desenvolvidos na entrega
+anterior. Os ficheiros JS do cliente deverão estar configurados para
+comunicar com servidor Node.js **do grupo** instalado no servidor.
+
+De notar que o trabalho feito na primeira entrega não será reavaliado.

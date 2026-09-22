@@ -1,0 +1,24 @@
+## Propriedade `query`##
+
+
+<div class="terminal example cozy">http.createServer(function (request, response) {
+    const parsedUrl = url.parse(request.url,true);    
+    <span class=focus>const query = parsedUrl.query</span>;
+    const name = <span class=focus>query.name</span> == undefined? 'amig@': <span class=focus>query.name</span>; 
+    const mensagem = 'Podes repetir?';
+
+    switch(parsedUrl.pathname) {
+    case '/hello':
+        mensagem = 'Olá '+name;
+	break;
+    case '/bye':
+        mensagem = 'Adeus '+name;
+	break;
+    }
+    ...
+}).listen(8003);
+</div>
+
+* Propriedade <code class=focus>query</code> reflete a *query string*
+* Valor dessa propriedade é um objeto
+* Cada uma das suas propriedades reflete um parâmetro

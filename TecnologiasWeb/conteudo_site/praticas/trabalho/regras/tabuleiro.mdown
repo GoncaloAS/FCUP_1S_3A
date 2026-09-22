@@ -1,0 +1,33 @@
+## Tabuleiro ##
+
+<link rel="stylesheet" href="board.css">
+
+<div id=gamePanel></div>
+
+<script>
+window._update = async function() {
+
+fetch("praticas/trabalho/regras/tab_board.js")
+  .then(response => response.text())
+  .then(src => {
+        eval((src));
+
+        const board = new Board({parent: 'gamePanel', size: 9})
+		const blue  = { color: 'Blue' };
+        const red   = { color: 'Red' };
+
+ 
+
+   })
+  .catch(console.error);
+
+}
+</script>
+
+
+* Tâb é um jogo de tabuleiro para dois jogadores
+* Joga-se num tabuleiro com 4 linhas
+* O número de colunas
+    * é sempre *impar*
+    * pode variar entre 7 e 15, sendo frequentemente 9
+

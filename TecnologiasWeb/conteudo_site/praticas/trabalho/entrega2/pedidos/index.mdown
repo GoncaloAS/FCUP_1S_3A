@@ -1,0 +1,57 @@
+## Pedidos ##
+
+
+<link rel="stylesheet" href="../table.css" type="text/css">	
+
+
+<table width="100%">
+<tr>
+	<th rowspan=2>Função
+	<th colspan=6>Argumentos
+	<th rowspan=2>Descrição
+<tr>
+	<td class=code><a alt=group href="group.mdown"><code>group</code></a>
+	<td class=code><a alt=nick href="nick.mdown"><code>nick</code></a>
+	<td class=code><a alt=pass href="password.mdown"><code>password</code></a>
+	<td class=code><a alt=size href="size.mdown"><code>size</code></a>
+	<td class=code><a alt=game href="game.mdown"><code>game</code></a>	
+	<td class=code><a alt=stack href="cell.mdown"><code>cell</code></a>
+	
+<tr>
+	<td class=code><a alt=register href="register.mdown">register</a>
+	<td>	<td>X	<td>X	<td>	<td>	<td>
+	<td class=desc>regista utilizador associado a senha
+<tr>
+	<td class=code><a alt=join href="join.mdown">join</a>
+	<td>X	<td>X	<td>X	<td>X	<td>	<td>
+	<td class=desc>junta jogadores para iniciar jogo 	
+<tr>
+	<td class=code><a alt=leave href="leave.mdown">leave</a>
+	<td>	<td>X	<td>X	<td>	<td>X	<td>
+	<td class=desc>desistir de jogo não terminado
+<tr>
+	<td class=code><a alt=notify href="roll.mdown">roll</a>
+	<td>	<td>X	<td>X	<td>	<td>X	<td>
+	<td class=desc>lança o dado de paus
+<tr>
+	<td class=code><a alt=notify href="pass.mdown">pass</a>
+	<td>	<td>X	<td>X	<td>	<td>X	<td>
+	<td class=desc>passar a vez de jogar	
+<tr>
+	<td class=code><a alt=notify href="notify.mdown">notify</a>
+	<td>	<td>X	<td>X	<td>	<td>X	<td>X
+	<td class=desc>notifica servidor duma jogada 
+<tr>
+	<td class=code><a alt=update href="update.mdown">update</a> &dagger;
+	<td>	<td>X	<td>	<td>	<td>X	<td>
+	<td class=desc>atualiza a situação do jogo 
+
+<tr>
+	<td class=code><a alt=ranking href="ranking.mdown">ranking</a>
+	<td>X	<td>	<td>	<td>X	<td>	<td>
+	<td class=desc>retorna tabela classificativa
+</table>
+
+&dagger; Server-Sent Events com `GET` e dados urlencoded
+
+Restantes são `fetch` <span class=litle>(ou <code>XMLHttpRequest</code>)</span> com `POST` e dados em JSON

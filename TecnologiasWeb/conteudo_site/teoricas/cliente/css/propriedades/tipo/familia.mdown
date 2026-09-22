@@ -1,0 +1,32 @@
+## Famíla ##
+
+
+<div class="col50p terminal example">
+font-family: serif;
+
+
+font-family: sans-serif;
+
+
+font-family: monospace;
+
+</div>
+<div class=col50p style="margin-bottom: -50px;">
+<p style="font-family: serif;">Lorem ipsum dolor sit amet</p>
+<p style="font-family: sans-serif;">Lorem ipsum dolor sit amet</p>
+<p style="font-family: monospace;">Lorem ipsum dolor sit amet</p>
+
+</div>
+
+
+* Propriedade <code class=focus>font-family</code> controla família de tipos
+* Pode tomar como valores
+    * família genérica
+        * <code class=focus>serif</code>,
+	<code class=focus>sans-serif</code>,
+	<code class=focus>cursive</code>,
+	<code class=focus>fantasy</code>,
+	<code class=focus>monospace</code>,
+    * nome de família	
+        * <code class=focus>time</code>, <code class=focus>courier</code>,
+	 <code class=focus>arial</code>, ...

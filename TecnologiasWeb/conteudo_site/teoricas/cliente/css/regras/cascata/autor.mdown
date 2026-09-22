@@ -1,0 +1,31 @@
+## Autor ##
+
+<div class="col50p example terminal">/* author */
+h3.other   {
+      font-style:     italic;  }
+h1, h2, h3 {
+      <span class=focus>font-family: san-serif; </span>
+      font-weight:      bold;
+      font-style:     normal;  }
+h1 {  font-size:    xx-large;  }
+h2 {  font-size:     x-large;  }
+h3 {  font-size:       large;  }
+h2 {  font-size:        110%;  }
+</div>
+<div class="col50p example terminal">/* user agent */
+h1, h2, h3 {
+
+    <span class=focus>font-family: serif;</span>
+    font-weight: 500 !important;
+}
+</div>
+<div style="margin-bottom: -50px;">&nbsp;</div>
+
+
+* Navegador <span class=litle>(<i>browser</i>)</span>
+    * define regras CSS
+    * configurações / preferências do **leitor**
+* Documentos
+    * carregam as suas próprias regras
+    * definidas pelo **autor** do documento
+* As do *autor* têm precedência sobre as do *leitor*

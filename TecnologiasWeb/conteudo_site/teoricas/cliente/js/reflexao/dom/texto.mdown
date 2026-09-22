@@ -1,0 +1,41 @@
+## Tipo `Text` ##
+
+
+<div class=col50p>
+
+<h3>Métodos</h3>
+
+<dl>
+<dt><code class=focus>substringData(<i>offset</i>,<i>count</i>)</code></dt>
+<dd>
+Parte da string </dd>
+<dt><code class=focus>appendData(<i>string</i>)</code></dt>
+<dd>concatena
+string</dd>
+<dt><code class=focus>insertData(<i>offset</i>,<i>string</i>)</code></dt>
+<dd>insere
+string na posição</dd>
+<dt><code class=focus>deleteData(<i>offset</i>,<i>count</i>)</code></dt>
+<dd>remove
+sub-string</dd>
+<dt><code class=focus>replaceData(<i>offset</i>,<i>count</i>,<i>string</i>)</code></dt>
+<dd>substituir sub-string</dd>
+<dt><code class=focus>splitText(<i>offset</i>)</code></dt>
+<dd> Divide o texto</dd>
+</dl>
+
+</div>
+
+
+<div class=col50p style="margin-left: 50px;">
+
+<h3>Propriedades</h3>
+
+<dl>
+<dt><code class=focus> String data</code></dt>
+<dd> o texto</dd>
+<dt><code class=focus> int length</code></dt>
+<dd> comprimento do texto</dd>
+</dl>
+
+</div>

@@ -1,0 +1,21 @@
+## Módulo `fs` - *file system* ##
+
+
+<div class="terminal example">
+   const fs = require('fs');
+   
+   const fsp = require('fs').promises;
+</div>
+
+* Módulo de interação com o sistema de ficheiros <span class=litle>(*file system*)</span>
+* Leitura e escrita de ficheiros
+* Duas formas de interação
+    * Assíncrona <span class=litle>(preferida)</span> - Possibilidade de utilizar *promises* 
+    * Síncrona 
+* Estatísticas sobre ficheiros e diretorias
+* Exemplos de outras funções sobre *file system* <span class=litle>(não cobertas)</span>
+    * Listagem do conteúdo de diretorias
+    * Gestão de ficheiros de diretorias
+	* Criação de ligações (*links*) entre *inodes*
+
+

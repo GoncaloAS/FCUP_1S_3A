@@ -1,0 +1,8 @@
+digraph G {
+  rankdir=TB; node [shape=plaintext, fontname="Helvetica", fontsize=14];
+  E1 [label="E"]; E2 [label="E"]; star1 [label="*"]; n3 [label="3"];
+  n1 [label="1"]; plus1 [label="+"]; n2 [label="2"];
+  E1 -> E2; E1 -> star1; E1 -> n3;
+  E2 -> n1; E2 -> plus1; E2 -> n2;
+  label="(1 + 2) * 3 = 9"; fontsize=13; labelloc=b;
+}

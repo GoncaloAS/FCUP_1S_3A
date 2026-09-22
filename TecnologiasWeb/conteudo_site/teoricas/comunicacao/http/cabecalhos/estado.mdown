@@ -1,0 +1,99 @@
+## Estado da comunicação ##
+
+
+
+<script>
+
+window._update = function() {
+   var date = document.getElementById("date");
+   var nextYear = new Date(new Date().getTime()+1000*60*60*24*365).toUTCString();
+
+  date.innerText = nextYear;
+}
+</script>
+
+
+<style>
+td { font-size: small; white-space: pre; border: 1px dotted orange;vertical-align: top;}
+th { font-size: large; vertical-align: top;}
+</style>
+
+
+<table style="width: 100%; margin-top: -40px; margin-bottom: -30px;">
+<tr>
+<th></th><th>Linha inicial</th><th>Cabeçalhos relevantes</th></tr>
+</tr>
+
+<tr>
+<th>Pedido</th>
+<td>GET /index.html HTTP/1.1</td>
+<td> </td>
+</tr>
+
+<tr>
+<th>Resposta</th>
+<td>200 OK</td>
+<td><span class=focus>Set-cookie: id=123; Expires=<span id=date> </span>
+Set-cookie: sessao=12345 </span>
+</td>
+</tr>
+
+<tr>
+
+<th>Pedido</th>
+<td>GET /loja/index.html HTTP/1.1</td>
+<td> Cookie: id=123; sessao=12345 </td>
+</tr>
+<tr>
+<th>Resposta</th>
+<td>200 OK</td>
+<td><span class=focus>Set-cookie: prefere=A; Path=/loja/ </span></td>
+</tr>
+
+<th>Pedido</th>
+<td>GET /loja/regista HTTP/1.1</td>
+<td> Cookie: id=123; sessao=12345; prefere=A </td>
+</tr>
+<tr>
+<th>Resposta</th>
+<td>200 OK</td>
+<td></td>
+</tr>
+<tr>
+<th>Pedido</th>
+<td>GET /index.html  HTTP/1.1</td>
+<td> Cookie: id=123; sessao=12345; </td>
+</tr>
+<tr>
+<th>Resposta</th>
+<td>200 OK</td>
+<td> </td>
+</tr>
+<tr>
+<th colspan=2><i>Desligar / Ligar</i></th>
+</tr>
+<th>Pedido</th>
+<td>GET /index.html  HTTP/1.1</td>
+<td> Cookie: id=123 </td>
+</tr>
+<tr>
+<th>Resposta</th>
+<td>200 OK</td>
+<td><span class=focus>Set-cookie: sessão 4321</span> </td>
+</tr>
+
+
+</table>
+
+
+
+
+
+* Estado da comunicação **não** é mantido pelo protocolo HTTP
+* *Cookies* permitem: rastrear utentes; personalizar; criar sessões
+* Usam os cabeçalhos
+    * <span class=focus><code>Set-Cookie:</code> <i>nome</i>=<i>valor</i></span> - na resposta, **primeiro!**
+    * <span class=focus><code>Cookie:</code> <i>nome</i>=<i>valor</i></span> - no pedido, **depois**
+* *Cookies* podem expirar <span class=litle>(<code class=focus>Expires</code>)</span> omissão: desligar *browser*
+* ... e ser aplicados apenas na árvore com raíz <span class=focus>Path</code>
+*  Múltiplos *cookies* em cabeçalho do pedido separados por <span class=focus>;</code>

@@ -1,0 +1,37 @@
+## Lados ##
+
+<div markdown=1 class="col50p terminal example" style="font-size: 70%; margin-top: -20px;">
+Antes
+&lt;div style="
+  width:200px; 
+  height:100px;
+  background:  #FFA500;
+  margin<span class=focus>-top</span>: 10mm;
+  border<span class=focus>-right</span>: 10mm;
+  padding<span class=focus>-left</span>: 10mm;
+  border-style: solid;">
+Conteúdo
+&lt;/div>
+Depois
+</div>
+<div class="col50p">
+Antes
+<div style="
+  width:200px; 
+  height:100px;
+  background:  #FFA500;
+  margin-top: 10mm;
+  border-right: 10mm;
+  padding-left: 10mm;
+  border-style: solid;">
+Conteúdo
+</div>
+Depois
+</div>
+
+* Medidas podem ser especificada apenas num dos lados
+    * <code class=focus>top</code> - topo
+    * <code class=focus>bottom</code> - fundo
+    * <code class=focus>left</code> - esquerda
+    * <code class=focus>right</code> - direita
+* Lados depois do nome da medida, separado por hífen

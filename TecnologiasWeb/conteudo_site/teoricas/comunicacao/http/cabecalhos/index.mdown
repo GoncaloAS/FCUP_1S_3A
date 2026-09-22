@@ -1,0 +1,15 @@
+## Cabeçalhos HTTP ##
+
+
+* Informação principal das mensagens transferida no corpo
+* Há outra informação importante nos cabeçalhos
+* Alguns destinam-se apenas a **pedidos**, ou **respostas**, ou **ambos**
+* Alguns casos fazem parte de um **diálogo** de pedidos e respostas
+* Exemplos de casos de uso e respetivos cabeçalhos
+    * Identificação
+    * Metadados
+    * Redireção
+    * Estado
+    * Partilha de recursos
+    * Autenticação
+

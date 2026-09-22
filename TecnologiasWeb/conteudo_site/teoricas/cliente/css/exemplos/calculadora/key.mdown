@@ -1,0 +1,41 @@
+## Classe `key` ##
+
+
+<link rel="stylesheet" href="calculadora.css" type="text/css">
+
+<div class="col50p terminal example">
+.key {
+     width: 40px;
+     height: 40px;
+     border-width: 2px;
+     margin-bottom: 4px;
+     border-style: outset;
+     text-align: center;
+     line-height: 40px;
+     background: orange;
+     color: white;
+}
+</div>
+<div class=col50p>
+
+	<div class=calculator>
+	<div class=display>0</div>
+	<div class=key>7</div> <div class=key>8</div> <div class=key>9</div>
+	<div class=key> / </div>
+	<div class=key>4</div> <div class=key>5</div> <div class=key>6</div>
+	<div class=key> * </div>
+	<div class=key>1</div> <div class=key>2</div> <div class=key>3</div>
+	<div class=key> + </div>
+	<div class=key>,</div> <div class=key>0</div> <div class=key>C</div>
+	<div class=key> = </div>
+	</div>
+
+</div>
+
+
+</div>
+
+
+
+* Quebras de linha definidas no contentor
+* Textos centrados e altura de linha igual à altura de tecla

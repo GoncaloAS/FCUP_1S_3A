@@ -1,0 +1,17 @@
+digraph WsSequencia {
+  rankdir=TB;
+  fontname="Helvetica";
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=10];
+
+  Cliente [label="Cliente\nnew WebSocket(url)", fillcolor="#dbe9ff"];
+  Servidor [label="Servidor", fillcolor="#ffe8cf"];
+
+  Cliente -> Servidor [label="1. GET / HTTP/1.1\nUpgrade: websocket\nSec-WebSocket-Key: ..."];
+  Servidor -> Cliente [label="2. 101 Switching Protocols\nUpgrade: websocket\nSec-WebSocket-Accept: ..."];
+  Cliente -> Cliente [label="3. readyState passa a 1 (OPEN)\nligação full-duplex estabelecida", style=dotted];
+  Cliente -> Servidor [label="4. webSocket.send('{\"command\":\"play\",\"pos\":2}')", style=dashed, color="#006600", fontcolor="#006600"];
+  Servidor -> Cliente [label="5. difunde a TODOS os clientes:\n'{\"pos\":2,\"piece\":\"X\"}' → onmessage", style=dashed];
+  Servidor -> Cliente [label="6. outro cliente joga:\n'{\"current\":\"O\"}' → onmessage", style=dashed];
+  Cliente -> Cliente [label="7. webSocket.close()\n(NÃO há reconexão automática)", style=dotted, color="#aa0000", fontcolor="#aa0000"];
+}

@@ -1,0 +1,36 @@
+## Fluxo de execução síncrono e assíncrono ##
+
+<div class="col50p example terminal cozy">const xhr = new XMLHtpRequest();
+
+xhr.open('POST',url,<span class=focus>false</span>);
+
+
+
+
+
+
+xhr.send();
+if(xhr.status == 200)
+   <span class=focus>process(xhr.responseText)</span>;
+</div>
+<div class="col50p example terminal cozy">const xhr = new XMLHtpRequest();
+
+xhr.open('POST',url,<span class=focus>true</span>);
+xhr.onreadystatechange =
+ function() {
+   if(xhr.readyState < 4) return;
+   if(xhr.status == 200)
+      <span class=focus>process(xhr.responseText)</span>;
+ }
+xhr.send();
+
+<span class=focus>continuar();
+</div>
+
+* A execução assíncrona cria dois fluxos de execução distintos
+      * um que continua logo apos o envio de dados `send()`
+      * outro que processa os dados quando são recebidos
+* Certos padrões de execução têm de ser adaptados como
+     * **Retorno** de valores de funções
+     * **Encadeamento** de chamadas remotas
+* API `fetch` e promessas <span class=litle>(`Promise`)</span> simplificam processamento

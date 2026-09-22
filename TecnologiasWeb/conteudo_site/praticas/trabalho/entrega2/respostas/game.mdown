@@ -1,0 +1,7 @@
+## `game` ##
+
+Identificador do jogo (*hash*) que é gerado quando um jogador pede
+para ser emparelhado (`join`). 
+
+Este identificador deve ser usado como argumento nas funções
+relacionadas com o jogo, como `leave`, `notify` e `update`. 

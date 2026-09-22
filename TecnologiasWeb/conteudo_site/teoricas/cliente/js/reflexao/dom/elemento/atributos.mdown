@@ -1,0 +1,46 @@
+## Atributos ##
+
+
+
+<script>
+
+window.create = function (color) {
+  const base = document.getElementById("base");
+  const box =  document.createElement("div");
+  const space = document.createTextNode(" ");
+    
+  box.setAttribute("style","background: "+color+"; width: 1em; margin: auto;");
+  box.setAttribute("onclick","create('"+color+"');");
+  box.appendChild(space);
+  base.appendChild(box);
+  base.appendChild(document.createTextNode("\n"));
+}
+
+</script>
+
+<div class="col75p terminal example"  style="margin-top: -20px; margin-bottom: -20px;">
+function create(color) {
+  const base = document.getElementById("base");
+  const box =  document.createElement("div");
+  const space = document.createTextNode(" ");
+  
+  <span class=focus>box.setAttribute("style","background: "+
+       color+"; width: 1em; margin: auto;")</span>;
+  <span class=focus>box.setAttribute("onclick",
+       "create('"+color+"');")</span>;
+  box.appendChild(space)</span>;
+  base.appendChild(box);
+  base.appendChild(document.createTextNode("\n");
+}
+
+</div>
+
+<div class="col25p example" id="base" style="padding: 20px; height: 280px;">
+<div style="background: #f90; width: 1em; margin: auto;" onclick="create('#f90');"> </div>
+<div style="background: #228; width: 1em; margin: auto;" onclick="create('#228');"> </div>
+</div>
+
+* Método <code class=focus>setAttribute()</code> invocado no elemento
+* Argumentos
+    * Nome do atributo
+    * Valor do atributo

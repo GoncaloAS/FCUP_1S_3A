@@ -1,0 +1,56 @@
+## Jogar - escolher##
+
+<link rel="stylesheet" href="../table.css" type="text/css">	
+
+<table width="100%" class=dense>
+
+<tr>
+	<th>URL</th>
+	<th>Objeto no pedido</th>
+	<th>Objeto na resposta </th>
+	<th>Observações
+</tr>	   
+	
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ "dice": { ...; <b>"value": 3</b>, ...}, "turn": "zp", <b>"step": "from"</b>, "mustPass": false }
+	<td> Está no passo de selecionar a peça (<i>from</i>).
+
+
+<tr>
+	<td class=code>.../notify
+	<td class=code>{"nick": "zp", ...,  "cell": 25 </b>  }
+	<td class=code>{}
+	<td>Jogada valida, mas incompleta.
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ "cell": 25, <b>"selected": [28,10]</b>"turn": "zp", <b>"step": "to"</b>, "pieces": [ ... ], ... }
+	<td> Pode selecionar 10 ou 28 como destino (<i>to</i>)
+
+
+<tr>
+	<td class=code>.../notify
+	<td class=code>{ "nick": "zp", ... , <b> "cell": 26 </b>  }
+	<td class=code>{ "error": <b>"Invalid move: must play the dice's value"</b> }
+	<td>Jogada inválida
+
+<tr>
+	<td class=code>.../notify
+	<td class=code>{ "nick": "zp", ... , <b> "cell": 28</b>  }
+	<td class=code>{}
+	<td>Jogada válida
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ <b>"cell": 25, "selected": [25, 28], "turn": "jpleal"</b>,  <b>"step": "from"</b>, ... }
+	<td> Muda a vez, selecionar peça a mover
+
+
+
+
+</table>

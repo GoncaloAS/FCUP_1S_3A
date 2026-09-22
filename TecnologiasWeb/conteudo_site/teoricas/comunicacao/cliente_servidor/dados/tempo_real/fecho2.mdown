@@ -1,0 +1,19 @@
+## Fecho da comunicação ##
+
+<div class="example terminal">
+ var url = "ws://"+host+":"+port+"/";
+ var webSocket = new WebSocket(url);
+ webSocket.onmessage = function(event) {
+     var data = JSON.parse(event.data);
+     ...
+ }
+ ...
+ webSocket.send(JSON.stringify(data))
+ ...
+ <span class=focus>webSocket.close()</span>;
+</div>
+
+
+* No final da utilização objecto deve ser fechado com <code class=focus>close()</code>
+* Comunicação WS quebrada **não** é automaticamente reiniciada
+* Propriedade <code class=focus>readyState</code> reflete estado da conexão

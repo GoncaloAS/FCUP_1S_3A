@@ -1,0 +1,13 @@
+## `dice` ##
+
+Representação do dado de paus 
+* `null` - se o último dado já tiver sido usado <span class=litle>(tem de ser lançado)</span>
+* objeto com as seguintes propriedades:
+    * `stickValues` - *array* de booleanos com a face de cada pau
+        * `true` -  interna <span class=litle>(clara e plana)</span>
+	    * `false` - externa <span class=litle>(escura e arredondada)</span>
+    * `value` - inteiro com o valor do dado: 1, 2, 3 , 4  ou 6 <span class=litle>(não há 5)</span>
+    * `keepPlaying` - booleano
+        * `true` se puder voltar a lançar o dado nesta jogada
+	    * `fase` caso contrário
+	

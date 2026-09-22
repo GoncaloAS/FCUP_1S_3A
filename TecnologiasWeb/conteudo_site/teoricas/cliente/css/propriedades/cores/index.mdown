@@ -1,0 +1,36 @@
+## Cores ##
+
+
+<div style="width: 300px; height: 300px; margin: auto;">
+
+<div style="background: red; opacity: .7;
+     width: 200px; 
+     height: 200px; 
+     border-radius: 100px;
+     margin: auto;
+     ">
+</div>
+<div style="background: green; opacity: .7;
+     width: 200px; 
+     height: 200px; 
+     border-radius: 100px;
+     margin-top: -100px;
+     margin-left: 100px;
+     ">
+</div>
+<div style="background: blue; opacity: .7;
+     width: 200px; 
+     height: 200px; 
+     border-radius: 100px;
+     margin-top: -200px;
+     margin-right: 100px;
+     ">
+</div>
+
+
+</div>
+
+
+* Várias propriedades têm cores como **valor**
+* Cores podem ser **representadas** de maneiras distintas
+* Podem ter diferentes graus de **opacidade**

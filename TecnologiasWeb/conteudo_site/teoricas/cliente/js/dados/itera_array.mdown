@@ -1,0 +1,32 @@
+## Iteração em *arrays*##
+
+<div class="terminal example col75p">
+const números = [ null,
+    'primeiro',
+    'segundo',
+    'terceiro' ];
+
+for(let cardinal <span class=focus>in</span> números)
+   document.writeln((cardinal);
+
+for(let ordinal <span class=focus>of</span> números)
+   document.writeln((ordinal);
+
+</div>
+<div class=col25p>
+<pre>
+
+
+1
+2
+3
+null
+primeiro
+segundo
+terceiro
+</pre>
+</div>
+
+* Nos *arrays* pode-se iterar quer com `in` quer com `of`
+* Com `in` itera sobre as chaves, que são inteiros
+* Com `of` itera sobre os valores

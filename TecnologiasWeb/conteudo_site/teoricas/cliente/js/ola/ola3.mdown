@@ -1,0 +1,31 @@
+## Olá com `console.log()` ##
+
+
+
+<div class="col50p terminal example">
+&lt;head>
+&lt;script>
+<span class=focus>console.log("Olá JavaScript");</span>
+&lt;/script>
+&lt;/head>
+</div>
+
+<div class=col50p>
+<script>
+console.log("Olá JavaScript");
+</script>
+
+</div>
+
+<div class=endCols>&nbsp;</div>
+
+* Elemento <code class=focus>script</code> também possível em <code class=focus>head</code>
+* Conteúdo é executados antes da formatação
+* Função para escrever na consola do navegador <code class=focus>console.log()</code> 
+* Também **não** suporta anotações HTML
+* **Não** é diretamente visível ao utilizador
+* Consola é uma das ferramentas do programador
+* Útil para depuração <span class=litle>(*debugging*) </span>
+* Consola permite executar comandos JS interativamente
+
+

@@ -1,0 +1,30 @@
+## Partilha de nomes globais ##
+
+<div class=col50p style="text-align: center">Aplicação</div>
+<div class=col50p style="text-align: center">Módulo</div>
+<div class="col50p terminal example">require('./modulo.js');
+
+f();
+x;
+
+
+</div>
+<div class="col50p terminal example">
+f = function() { ... }
+x = 1
+<span style="color: grey;">
+function g() { &hellip; }
+const y = 2; </span>
+</div>
+
+* Nomes **globais** partilhados entre módulo e aplicação, contendo
+    * Valores estáticos
+    * Funções anónimas
+* **Não** são partilhadas **declarações** 
+    * Variáveis 
+    * Funções
+	* Classes
+
+<div class=foot>Evitar nomes globais porque potenciam colisões</div>
+
+    

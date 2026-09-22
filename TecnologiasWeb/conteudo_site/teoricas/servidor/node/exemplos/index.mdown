@@ -1,0 +1,14 @@
+## Exemplos de servidores HTTP ##
+
+
+* <b>Servidor estático</b>
+    * Apenas métodos `GET` simples
+    * Esqueleto de um servidor <p>
+* <b>Contador multi utilizador</b>
+    * Métodos `POST` sem dados
+    * Métodos `GET` em *Server-Sent Events* <p>
+* <b>Jogo do Galo</b>
+    * WebSockets com mensagens em JSON
+    * Processamento e difusão de mensagens
+
+

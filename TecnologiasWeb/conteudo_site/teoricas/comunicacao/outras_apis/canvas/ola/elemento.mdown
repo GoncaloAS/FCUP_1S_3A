@@ -1,0 +1,41 @@
+## Elemento `canvas`##
+
+
+<script>
+
+window._update = function() {
+
+  var tela = document.getElementById("tela");
+  var gc = tela.getContext("2d");
+
+  gc.fillStyle ="#228";
+  gc.font = '48px serif';	
+  gc.fillText("Olá mundo",10,100);
+
+
+}
+
+</script>
+
+<div class="col75p terminal example"><span class=focus>
+  &lt;canvas id=tela width=300 height=200>
+  &lt;/canvas></span>
+
+<div class=ruler>&nbsp;</div>
+  <span class=focus>const tela = document.getElementById('tela')</span>;
+  const gc = tela.getContext('2d');
+
+  gc.fillStyle ='#228';
+  gc.font = '48px serif';
+  gc.fillText('Olá mundo!',100,100);
+  
+</div>
+<div class=col25p>
+<canvas id="tela" width="300" height="200"></canvas>
+</div>
+
+* Desenho de gráficos associada à área de elemento <code class=focus>canvas</code>
+* Canvas é um elemento vazio <span class=litle>(conteúdo é ignorado)</span>
+* Dimensões do bloco definidas com atributos <code class=focus>width</code> e <code class=focus>height</code>
+* Evitar dimensionar `canvas` usando propriedades CSS
+* Atributo <code class=focus>id</code> essencial para referenciar `canvas` do JS

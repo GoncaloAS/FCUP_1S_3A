@@ -1,0 +1,21 @@
+## Escrita de ficheiros assíncrona  &mdash; dados ##
+
+<div class="terminal example">
+  fs.writeFile('dados.json',JSON.stringify(dados),function(err) {
+	if(! err) {
+	    /* continuar */
+	} else {
+	   /* processar erro */
+	}
+  });
+</div><div class=litle>&nbsp;</div>
+<div class="terminal example">
+   fsp.writeFile('dados.json',JSON.stringify(dados))
+       .then( () => { /* continuar */ )
+	   .catch( () => { /* processar erro */ }
+</div>
+
+
+* Dados a escrever fornecidos como *string* ou *buffer*
+* <code class=focus>JSON.stringify()</code> serializa objeto JS em JSON
+* Continuação em função de erros de escrita

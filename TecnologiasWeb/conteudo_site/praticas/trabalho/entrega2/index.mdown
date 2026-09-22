@@ -1,0 +1,14 @@
+## Segunda entrega ##
+
+O objetivo da segunda entrega é tornar o jogo distribuído, permitindo
+a participação de jogadores em diferentes computadores. Para isso será
+usado um servidor que fornecerá um serviço web em
+
+`http://twserver.alunos.dcc.fc.up.pt:8008/`
+
+
+
+* [Pedidos](pedidos) a realizar ao servidor
+* [Respostas](respostas) respostas dadas pelo servidor
+* [Exemplos](exemplos) de sequências de pedidos/ respostas
+* [Valorizações](valorizacoes) ao trabalho

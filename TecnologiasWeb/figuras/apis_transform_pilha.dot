@@ -1,0 +1,21 @@
+digraph TransformPilha {
+  rankdir=BT;
+  fontname="Helvetica";
+  node [shape=box, style=filled, fontname="Helvetica", fontsize=11,
+        fillcolor="#EBF2FA", color="#1B4F72"];
+  edge [fontname="Helvetica", fontsize=10];
+
+  s0 [label="GC0 — estado inicial\lsem translate/rotate/scale\l"];
+  s1 [label="GC1 — topo da pilha após save() nº1\lGC0 copiado + translate(20,20)\l"];
+  s2 [label="GC2 — topo da pilha após save() nº2\lGC1 copiado + rotate(45°)\l"];
+
+  s0 -> s1 [color="#1E7A46", penwidth=2,
+    label="save()  empilha cópia de GC0\ndepois translate() altera só o topo"];
+  s1 -> s2 [color="#1E7A46", penwidth=2,
+    label="save()  empilha cópia de GC1\ndepois rotate() altera só o topo"];
+
+  s2 -> s1 [color="#922B21", penwidth=2, style=dashed,
+    label="restore()  descarta GC2\nGC1 volta a ser o topo"];
+  s1 -> s0 [color="#922B21", penwidth=2, style=dashed,
+    label="restore()  descarta GC1\nGC0 volta a ser o topo"];
+}

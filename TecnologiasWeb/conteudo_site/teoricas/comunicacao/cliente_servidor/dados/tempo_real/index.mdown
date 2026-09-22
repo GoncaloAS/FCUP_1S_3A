@@ -1,0 +1,12 @@
+## Comunicação em tempo real ##
+
+
+* Comunicação servidor cliente *quase* em tempo real
+* Alternativas antes do HTML 5
+* Tempo real em HTML5 + JavaScript
+    * *Server Sent Events* <span class=litle>(SSE)</span>
+    * WebSockets
+* Padrão de utilização semelhante
+    * Construtores de objetos de comunicação
+    * Propriedades com estado da comunicação
+    * Mensagens para receção de dados / alterações

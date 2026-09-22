@@ -1,0 +1,7 @@
+## Validação ##
+
+![HTML5 certified](W3C_HTML5_certified.png)
+
+* HTML como **tipo de documento** anotado
+* Validação aumenta **interoperabilidade**
+* **Verificar** a validade do HTML

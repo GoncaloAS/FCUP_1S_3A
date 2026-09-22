@@ -1,0 +1,21 @@
+
+## Texto ##
+
+<style>
+
+.texto {
+       color: orange;
+}
+
+</style>
+
+<div class=texto>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at aliquam velit. Cras a nibh ultrices sapien venenatis suscipit. Nulla vitae sollicitudin nunc. Morbi venenatis luctus turpis. Aliquam venenatis lorem vel imperdiet dictum. Proin rutrum, tellus feugiat fringilla commodo, urna ipsum vehicula ante, sed consequat lacus mi sit amet eros.
+</div>
+
+
+*  Propriedade de textos
+    * Espaçamento
+    * Alinhamento
+    * Decoração
+    * Altura de linha

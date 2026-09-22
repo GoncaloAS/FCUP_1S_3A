@@ -1,0 +1,18 @@
+## Escrita de ficheiros assíncrona ##
+
+<div class="terminal example">
+   fs.writeFile("dados.txt",dados_string,(err) => {
+	    if(err) { /* processa erro */ };
+	});
+</div><div class=litle>&nbsp;</div>
+<div class="terminal example">
+  fsp.writeFile("dados.txt")
+      .catch( () => { /* processa erro */ } );
+</div>
+
+* Objeto retornado por `require()` fornece função <code class=focus>writeFile</code>
+    * Nome caminho do ficheiro a escrever
+    * Dados a guardar no ficheiro
+    * *Callback* ou *Promise* continua em função do resultado
+* *Callback* invocado depois da escrita com eventual objeto de erro
+* *Promise* com `catch()` cumpre a mesma função

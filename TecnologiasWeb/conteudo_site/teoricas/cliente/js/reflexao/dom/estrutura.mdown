@@ -1,0 +1,25 @@
+## Estrutura de objetos ##
+
+
+<img alt=DOM src=DOM.png style="margin-top: -50px;">
+
+<div class="col50p example" style="margin-top: -100px;">
+<span class=focus>&lt;html></span>&#8233;
+&#8614;<span class=focus>&lt;head></span>&#8233;
+&#8614;&#8614;<span class=focus>&lt;title></span>Uma página<span class=focus>&lt;/title></span>&#8233;
+&#8614;<span class=focus>&lt;head></span>&#8233;
+&#8614;<span class=focus>&lt;body></span>&#8233;
+&#8614;&#8614;<span class=focus>&lt;h1></span>Uma página<span class=focus>&lt;/h1></span>&#8233;
+&#8614;&#8614;<span class=focus>&lt;p></span>Uma linha<span class=focus>&lt;/p></span>&#8233;
+&#8614;&#8614;<span class=focus>&lt;p></span>Ainda <span class=focus>&lt;b></span>outra<span class=focus>&lt;/b></span> linha<span class=focus>&lt;/p></span>&#8233;
+&#8614;<span class=focus>&lt;/body></span>&#8233;
+<span class=focus>&lt;/html></span>
+</div>
+<div markdown=1 class=col50p style="margin-left: 50px; margin-top: -20px;">
+
+* Cada nó um único pai
+* Pares de anotações &rarr; 1 nó
+* Textos &rarr; 1 nó
+* Nós de carateres brancos
+
+</div>

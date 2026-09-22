@@ -1,0 +1,28 @@
+## Espessura ##
+
+
+<div class="col50p terminal example">
+font-weight: normal;
+
+
+font-weight: bold;
+
+
+font-weight: 500;
+
+</div>
+<div class=col50p>
+<p style="font-weight: normal;">Lorem ipsum dolor sit amet</p>
+
+<p style="font-weight: bold;">Lorem ipsum dolor sit amet</p>
+
+<p style="font-weight: 900;">Lorem ipsum dolor sit amet</p>
+
+</div>
+
+
+* Propriedade <code class=focus>font-weight</code> controla espessura
+* Pode tomar como valores
+    * nomes predefinidos
+        * <code class=focus>normal</code>, <code class=focus>bold</code>, bolder  <code class=focus>lighter</code>		
+    * numéricos  <span class=litle>(100, 200, ... 900)</span>

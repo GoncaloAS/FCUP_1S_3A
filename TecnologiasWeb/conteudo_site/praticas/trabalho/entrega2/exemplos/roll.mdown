@@ -1,0 +1,51 @@
+## Lançar dado ##
+
+<link rel="stylesheet" href="../table.css" type="text/css">	
+
+<table width="100%" class=dense>
+
+<tr>
+	<th>URL</th>
+	<th>Objeto no pedido</th>
+	<th>Objeto na resposta </th>
+	<th>Observações
+</tr>	   
+
+
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ <b>"turn": "zp"</b>,  "pieces": [ ... ], ...  }
+	<td> Começou o jogo
+
+<tr>
+	<td class=code>.../roll
+	<td class=code>{ <b>"nick": "jpleal"</b>, "password": "another", "game": "2fd9d..." }
+	<td class=code>{ "error": "Not your turn to play" }
+	<td>Tentou lançar fora de vez
+
+<tr>
+	<td class=code>.../roll
+	<td class=code>{ <b>"nick": "zp"</b>, ... }
+	<td class=code>{}
+	<td>Lançamento válido
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ {<b>"dice":{"stickValues":[false,false,false,false], "value":6,"keepPlaying":true</b>},"turn":"zp","mustPass":null} }
+	<td> Não pode mover nenhuma peça, mas pode voltar a lançar
+
+<tr>
+	<td class=code>.../roll
+	<td class=code>{ <b>"nick": "zp"</b>, ... }
+	<td class=code>{}
+	<td>Lançamento válido
+
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ <b>{"dice":{"stickValues":[false,true,false,false], "value":1,"keepPlaying":true}</b>,"turn":"zp","mustPass":null} }
+	<td> Saiu 1 (Tâb) e pode jogar a peça mais à direita

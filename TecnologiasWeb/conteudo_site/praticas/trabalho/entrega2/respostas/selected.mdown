@@ -1,0 +1,14 @@
+## `selected` ##
+
+*Array* com inteiros, as posições das casas envolvidas na última modificação, 
+e que poderão ser destacadas no tabuleiro.
+
+As posições são índices no *array* de peças, 
+dadas pela propriedade [`pieces`](pieces.mdown), 
+onde a posição 0 pertence ao jogador indicado 
+pela propriedade [`initial`](initial.mdown).
+
+As posições selecionadas são geralmente a posição inicial e final da 
+peça movimentada. Se for necessário escolher uma posição final, as
+posições selecionadas são as opções válidas.
+

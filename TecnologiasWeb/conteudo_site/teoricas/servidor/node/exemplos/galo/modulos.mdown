@@ -1,0 +1,14 @@
+## Módulos ##
+
+<div class="terminal example">
+
+const WebSocketServer = require('websocket').server;
+const http     = require('http');
+
+const httpServer = http.createServer(() => {}).listen(PORT);
+<span class=focus>const webSocketServer = new WebSocketServer({ httpServer });</span>
+
+</div>
+
+* O módulo HTTP é necessário mas não processa pedidos
+* Classe `server` de `websocket` usa módulo HTTP <span class=litle>(`WebSocketServer`)</span>

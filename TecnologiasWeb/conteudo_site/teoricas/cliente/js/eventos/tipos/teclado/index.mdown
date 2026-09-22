@@ -1,0 +1,59 @@
+## Eventos de teclado ##
+
+<script>
+
+window._update = function() {
+
+   const dot = document.getElementById("dot");
+
+
+   document.onkeypress = function(event) {
+     let left = parseInt(dot.style.left);
+     let top = parseInt(dot.style.top);
+
+     switch(event.key) {
+        case "k": case "K":
+          left += 10;
+	  break;
+        case "j": case "J":
+          left -= 10;
+	  break;
+        case "i": case "I":
+          top -= 10;
+	  break;
+        case "m": case "m":
+          top += 10;
+	  break;	  
+     }
+     dot.style.left = left+"px";
+     dot.style.top  = top+"px";
+
+   };
+};
+
+</script>
+
+
+<div style="width: 100%; height: 100px; position: relative; font-size: x-large;">
+
+<div id="dot" style="background: orange; position: absolute; left: 400px; top: 50px; width: 50px; height: 50px; border-radius: 25px;"> </div>
+
+<div style="position: absolute; left: 420px; top: 20px;"> I </div>
+<div style="position: absolute; left: 380px; top: 60px;"> J </div>
+<div style="position: absolute; left: 460px; top: 60px;"> K </div>
+<div style="position: absolute; left: 410px; top: 100px;"> M </div>
+
+</div>
+
+
+
+* Tipos de eventos relacionados com teclado
+    * <code class=focus>keypress</code> - tecla pressionada
+    * <code class=focus>keydown</code> - início de pressão na tecla
+    * <code class=focus>keyup</code> - fim de pressão na tecla
+* Propriedades dos eventos de rato reportam informação como
+    * Caracter: <code class=focus>key</code>
+    * Código caracter: <code class=focus>keyCode</code>    
+    * Tecla *control* pressionada: <code class=focus>ctrlKey</code>
+    * Tecla *shift* pressionada: <code class=focus>shiftKey</code>
+    * Tecla *alt* pressionada: <code class=focus>altKey</code>        

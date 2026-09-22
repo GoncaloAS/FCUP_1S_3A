@@ -1,0 +1,48 @@
+## Jogar - reverter seleção##
+
+<link rel="stylesheet" href="../table.css" type="text/css">	
+
+<table width="100%" class=dense>
+
+<tr>
+	<th>URL</th>
+	<th>Objeto no pedido</th>
+	<th>Objeto na resposta </th>
+	<th>Observações
+</tr>	   
+	
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ <b>"turn": "zp", "step": "from"</b>, "pieces": [ ... ], ... }
+	<td> Mudou a vez, selecionar peça
+
+<tr>
+	<td class=code>.../notify
+	<td class=code>{"nick": "zp", "password": "secret", "game": "2fd9d...", <b>"cell": 25 </b>  }
+	<td class=code>{}
+	<td>Jogada válida de seleção de peça, mas requer o passo de escolha do destino
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ <b>"cell": 25</b>, ..., "turn": "zp", <b>"step": "to"</b>,  ... }
+	<td> Notificação da jogada, selecionar destino (tabuleiro não é modificado)
+
+<tr>
+	<td class=code>.../notify
+	<td class=code>{"nick": "zp", ..., <b>"cell": 25</b> } </b>  }
+	<td class=code>{}
+	<td>Escolheu peça correntemente selecionada, anulando a seleção
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ ..., "turn": "zp", <b>"step": "from"</b>,  ... }
+	<td> Notificação da reversão, tem de selecionar uma peça (novamente)
+
+
+
+
+</table>

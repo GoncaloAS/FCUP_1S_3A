@@ -1,0 +1,31 @@
+## Cabeçalhos ##
+
+
+
+<div class="col50p example terminal">
+
+
+&lt;h1>Cabeçalho 1&lt;/h1>
+
+
+
+&lt;h2>Cabeçalho 2&lt;/h2>
+
+
+&lt;h3>Cabeçalho 3&lt;/h3>
+
+
+</div>
+<div class="col50p">
+<h1 class=showBorder>Cabeçalho 1</h1>
+
+<h2 class=showBorder>Cabeçalho 2</h2>
+
+<h3 class=showBorder>Cabeçalho 3</h3>
+</div>
+
+
+
+* Cabeçalhos  <span class=litle>(Headings)</span> usados como títulos
+* Anotações <code class=focus>h#</code> onde # = 1, 2, ... 6
+* Formatam contentor com destaque proporcional a #

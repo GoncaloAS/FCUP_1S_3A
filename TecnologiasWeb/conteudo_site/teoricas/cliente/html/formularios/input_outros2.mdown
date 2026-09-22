@@ -1,0 +1,20 @@
+## Ainda outros tipos de input ##
+
+<div class="terminal example">
+
+     &lt;input type=email>
+
+</div>
+
+
+* Tipos de *input* especializados em outros valores
+* Nem todos funcionam no Chrome
+
+| Type                           | Tipo   | Exemplo               |   |
+| ------------------------------ | ------ | --------------------- | - |
+| <code class=focus>email</code> | Email  | <input type=email>    | |  
+| <code class=focus>search</code>&nbsp;| Procura | <input type=search>  | |
+| <code class=focus>tel</code>   | Telefone | <input type=tel>    |!|
+| <code class=focus>url</code>   | URL | <input type=url>         |!|
+
+! não suportado no chrome

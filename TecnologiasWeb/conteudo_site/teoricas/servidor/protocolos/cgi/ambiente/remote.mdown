@@ -1,0 +1,21 @@
+## Variáveis de ambiente: Cliente ##
+
+<div class="terminal example">
+
+REMOTE_ADDR="127.0.0.1"
+REMOTE_PORT="63555"
+REQUEST_METHOD="POST"
+REQUEST_URI="/cgi-bin/teste?var1=value1&var2=em%20url%encoding"
+CONTENT_TYPE="application/x-www-form-urlencoded"
+CONTENT_LENGTH="0"
+REMOTE_USER="zp"
+AUTH_TYPE="basic"
+</div>
+
+* Informação sobre o pedido
+* Reflete conexão e linha inicial de pedido
+    * Método HTTP do pedido
+    * Tipo e tamanho do conteúdo  <span class=litle>(ex: dados de formulário)</span>
+    * Nome de utilizador e tipo de autenticação  <span class=litle>(HTTP)</span>
+
+<span class=foot> REQUEST&lowbar;URI = PATH&lowbar;INFO + QUERY&lowbar;STRING</span>

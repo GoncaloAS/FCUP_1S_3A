@@ -1,0 +1,20 @@
+## Programação orientada por objetos ##
+
+
+
+
+* O paradigma de programação **orientada a objetos** <span class=litle>(oop)</span> 
+    * **Estruturação** - organização hierarquia de componentes
+    * **Reutilização** - reutilização controlada de componentes
+    * **Encapsulação** - controlo de acesso a componentes
+* ECMAScript 2015 - ES6 - suporta OOP
+    * É possível definir **classes** de objetos
+    * **Instanciar** objectos a partir de classes
+    * Associar **campos** e **métodos** a instâncias de classes
+    * **Estender** classes de objectos
+* Apesar disso
+    * É apenas um **açucar sintático** sobre versões anteriores 
+    * É **opcional** a organização código em classes
+    * Não existem mecanismos de **encapsulação**
+    * Não é possível **reutilizar declarações** <span class=litle>(só definições)</span>
+ 

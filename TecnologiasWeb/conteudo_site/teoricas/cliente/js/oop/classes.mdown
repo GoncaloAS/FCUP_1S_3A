@@ -1,0 +1,23 @@
+## Classes ##
+
+<div class="terminal example cozy"><span class=focus>class</span> Pessoa {
+    <span class=focus>constructor</span>(nome,ano,mês,dia) {
+        <span class=focus>this</span>.nome  = nome;
+        <span class=focus>this</span>.nasce = new Date(ano, mês-1,dia);
+    }
+}
+
+let joão  = <span class=focus>new Pessoa("João",1999,3,15)</span>;
+let maria = <span class=focus>new Pessoa("Maria",2000,5,21</span>);
+</div>
+
+* Classes criam objetos com **campos** & **métodos** semelhantes
+* Definidas por bloco iniciado por palavra chave `class` e **nome**
+* "Método" `constructor` inicializa novas instâncias
+* Referência `this` refere objecto construído / corrente 
+* Propriedades dos objetos <span class=litle>(campos)</span> atribuídas à referência `this`
+* Campos são propriedades inicializadas no construtor
+* Instâncias criadas com `new`, nome e argumentos <span class=litle>(do construtor)</span>
+
+
+<div class=foot>Não existe declaração explícita da campos da classe</div>

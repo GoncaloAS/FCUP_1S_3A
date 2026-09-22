@@ -1,0 +1,45 @@
+## Método OPTIONS ##
+
+<script>
+
+window._update = function() {
+  var date = document.getElementById("date");
+
+  date.innerText = new Date().toUTCString();;
+}
+
+</script>
+
+
+<style>
+td { font-size: small; white-space: pre; border: 1px dotted orange;vertical-align: top;}
+th { font-size: large; vertical-align: top;}
+</style>
+
+<table style="width: 100%; margin-top: -30px;">
+<tr><th>Pedido</td><th> </th><th>Resposta</th></tr>
+<tr><td><span class=focus>OPTIONS</span> / HTTP/1.1</td><th> </th><td>HTTP/1.1 200 OK</td></tr>
+<tr><td>Accept:*/*
+Accept-Encoding:gzip, deflate, sdch, br
+Accept-Language:en-US,en;q=0.8,pt;q=0.6,pt-PT;q=0.4
+Connection:keep-alive
+Host:localhost
+Referer:http://www.dcc.fc.up.pt/~zp/about/index.html
+User-Agent:Mozilla/5.0 (X11; Linux x86_64) 
+</td>
+<th> </th>
+<td>
+HTTP/1.1 200 OK
+Date: <span id=date></span>
+Server: Apache/2.4.25 (Fedora)
+<span class=focus>Allow: HEAD,HEAD,GET,HEAD,POST,OPTIONS,TRACE</span>
+Content-Length: 0
+Connection: close
+Content-Type: httpd/unix-directory
+</td>
+</tr>
+</table>
+
+* Retorna uma lista de métodos suportada pelo servidor
+* Métodos suportados retornados no cabeçalho <code>Allow</code>
+* Permite saber se métodos são suportados antes de os tentar usar

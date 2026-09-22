@@ -1,0 +1,10 @@
+## `winner` ##
+
+*String* identificando o jogador (*nick*) que venceu este jogo.
+
+Poderá ser `null` se o jogo tiver terminado sem um vencedor. Isto poderá
+acontecer também se o jogador sair enquanto estiver à espera de um
+adversário.
+
+Após iniciado o jogo, se um jogador o abandonar então concede a
+vitória ao adversário.

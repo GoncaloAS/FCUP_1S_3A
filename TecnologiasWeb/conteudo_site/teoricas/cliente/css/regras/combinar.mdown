@@ -1,0 +1,19 @@
+## Combinar seletores e declarações ##
+
+<div class="terminal example">
+H1, H2, H3 {
+		color:          gray;
+		text-transform: capitalize;
+		font-family:    arial, helvetica;	
+	}
+	
+</div>
+
+
+<din style="height: 1cm;">&nbsp;</div>
+
+* Regras mais compactas com **combinações** de
+    * grupos de seletores
+    * grupos de declarações
+* A qualquer dos seletores recebe as declarações
+* Todas as declarações atribuidas a cada seletor

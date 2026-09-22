@@ -1,0 +1,56 @@
+## Método `GET`##
+
+
+<script>
+
+window._update = function() {
+  var date = document.getElementById("date");
+
+  date.innerText = new Date().toUTCString();;
+}
+
+</script>
+
+
+<style>
+td { font-size: small; white-space: pre; border: 1px dotted orange; vertical-align: top;}
+th { font-size: large; vertical-align: top;}
+</style>
+
+<table style="width: 100%; margin-top: -30px;">
+<tr><th>Pedido</td><th> </th><th>Resposta</th></tr>
+<tr><td><span class=focus>GET</span> /~zp/about/index.html HTTP/1.1</td><th> </th><td>HTTP/1.1 200 OK</td></tr>
+<tr><td>Accept:*/*
+Accept-Encoding:gzip, deflate, sdch, br
+Accept-Language:en-US,en;q=0.8,pt;q=0.6,pt-PT;q=0.4
+Connection:keep-alive
+Host:localhost
+Referer:http://www.dcc.fc.up.pt/~zp/about/index.html
+User-Agent:Mozilla/5.0 (X11; Linux x86_64) 
+</td>
+<th> </th>
+<td>Connection:Keep-Alive
+Content-Type:  text/html; charset=UTF-8
+Date: <span id=date></span>
+Keep-Alive:timeout=5, max=100
+Server:Apache/2.4.25 (Fedora)
+Transfer-Encoding:chunked
+</td></tr>
+<tr><td> </td><th> </th><td> </td></tr>
+<tr><th> </td><th> </th>
+<td>&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+   &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   &lt;title>José Paulo Leal&lt;/title>
+   ...
+</td></tr>
+</table>
+
+
+
+* Método mais usado em HTTP
+* Pedido do recurso indicado no URL
+* Recurso é devolvido no corpo da resposta
+* Metadados e outras informações no cabeçalho
+* **Não** deve ter qualquer **efeito colateral**

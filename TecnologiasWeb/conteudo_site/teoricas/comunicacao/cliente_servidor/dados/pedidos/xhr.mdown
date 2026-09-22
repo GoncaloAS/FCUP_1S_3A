@@ -1,0 +1,21 @@
+## Objeto XMLHttpRequest ##
+
+<div class="example terminal">increment() {    this.do('incr');  }
+reset()     {    this.do('reset'); }
+
+do(command) {
+    <span class=focus>if(!XMLHttpRequest) { console.log('XHR não é suportado'); return; }
+
+    const xhr = new XMLHttpRequest();</span>
+
+    xhr.open('POST','http://'+host+':'+port+'/'+command,false);
+    xhr.send();
+
+    if(xhr.status == 200)
+        this.display.innerText = xhr.responseText;
+}</div>
+
+* *Browsers* desatualizados podem não disponibilizar construtor
+* Testar a sua existência antes na sua instanciação
+* Cada instância deve ser usada para **apenas uma** comunicação
+* Fornece contexto para métodos e propriedades da comunicação

@@ -1,0 +1,33 @@
+digraph CanvasCoords {
+  layout=neato;
+  fontname="Helvetica";
+  node [fontname="Helvetica"];
+  edge [fontname="Helvetica", fontsize=11];
+
+  canvas [shape=box, pos="3,2!", width=6.0, height=4.0, fixedsize=true,
+          label="", color="#B9770E", penwidth=2];
+
+  origem [shape=point, width=0.09, pos="0,4!", color="#1B4F72"];
+  origemLbl [shape=plaintext, pos="0.55,4.25!", fontsize=12,
+             label="(0,0) — canto superior esquerdo"];
+
+  xend [shape=point, width=0.01, pos="6,4!"];
+  yend [shape=point, width=0.01, pos="0,0!"];
+
+  origem -> xend [color="#922B21", penwidth=2.5,
+    label="eixo X — cresce para a direita"];
+  origem -> yend [color="#1E7A46", penwidth=2.5,
+    label="eixo Y — cresce para baixo"];
+
+  ponto [shape=point, width=0.09, pos="4,1!", color="#1B4F72"];
+  pontoLbl [shape=plaintext, pos="4.9,1!", fontsize=12,
+            label="P (200,150)"];
+
+  guiaX [shape=point, width=0.01, pos="4,4!"];
+  guiaY [shape=point, width=0.01, pos="0,1!"];
+  ponto -> guiaX [dir=none, style=dashed, color="#888888"];
+  ponto -> guiaY [dir=none, style=dashed, color="#888888"];
+
+  legenda [shape=plaintext, pos="3,-0.5!", fontsize=11,
+    label="canvas com 300×200 px (escala 1 unid. = 50 px) — origem sempre no canto superior esquerdo"];
+}

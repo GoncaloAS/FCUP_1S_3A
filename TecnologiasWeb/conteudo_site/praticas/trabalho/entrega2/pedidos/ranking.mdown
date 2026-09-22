@@ -1,0 +1,13 @@
+## Ranking ##
+
+Retorna uma tabela de classificação com um máximo de 10 jogadores,
+ordenados por ordem decrescente do número de vitórias. São mantidas 
+tabelas classificativas distintas para cada grupo. Os argumentos são:
+
+* <a alt=size href="group.mdown"><code>group</code></a> - número do grupo
+* <a alt=size href="size.mdown"><code>size</code></a> - tamanho do tabuleiro
+
+São retornados erros se:
+* algum argumento for omitido
+* os argumentos contiverem valores inválidos 
+

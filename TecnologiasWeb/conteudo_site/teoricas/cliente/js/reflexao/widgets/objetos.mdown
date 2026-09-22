@@ -1,0 +1,35 @@
+## Objectos ##
+
+<div class="col75p example terminal">
+&lt;form>
+  &lt;input <span class=focus>name=a value=1</span> size=2> +
+  &lt;input <span class=focus>name=b value=1</span> size=2>
+  &lt;input type=button value="="  onclick="
+     this.form.c.value = 
+       parseInt(this.form.a.value) + 
+       parseInt(this.form.b.value);"> 
+  &lt;input <span class=focus>name=c</span> size=2>
+  &lt;/form>
+</div>
+<div class=col25p style="margin-top: 100px;">
+<form>
+
+<input name=a value=1 size=2> +
+<input name=b value=1 size=2>
+<input type=button value="="onclick="
+   this.form.c.value = 
+   parseInt(this.form.a.value) + 
+   parseInt(this.form.b.value);"> 
+<input name=c size=2>
+
+</form>
+</div>
+
+
+* Objetos de formulários <span class=litle>(<i>widgets</i>)</span> de vários tipos
+    * <code class=focus>input</code>
+    * <code class=focus>select</code>
+    * <code class=focus>textarea</code>
+* Cada objeto pode ter os atributos 
+    * <code class=focus>name</code> nome pelo que é referido
+    * <code class=focus>value</code> valor corrente

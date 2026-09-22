@@ -1,0 +1,22 @@
+## Contentor Formulário ##
+
+
+<div markdown=1 class="example terminal cozy">
+<span class=focus>&lt;form action=registar method=post></span>
+  Nome &lt;input <span class=focus>name=Nome</span>>&lt;br>
+  Idade &lt;input type=number <span class=focus>name=Idade</span>> &lt;br>
+  Email &lt;input type=email <span class=focus>name=Email></span> &lt;br>
+  Data de nascimento &lt;input <span class=focus>name=Nasce</span> type=date> &lt;br>
+  <span class=focus>&lt;input type=reset>
+  &lt;input type=submit value=Registar></span>
+<span class=focus>&lt;/form></span>
+</div>
+
+*  <code class=focus>form</code> agrega *widgets* de submissão ao servidor
+* Pode ser omitido se *widgets* são apenas usados no cliente
+* Pode existir mais que um formulário na mesma página
+* Atributos <code class=focus>action</code> e <code class=focus>method</code> ligados à comunicação
+* Tipos de *widgets* com relevância para este contentor
+    * <code class=focus>reset</code> - reverte os valores para os iniciais
+    * <code class=focus>submit</code> - submete os pares nome-valor     ao servidor
+* Propriedades <code class=focus>name</code> e  <code class=focus>value</code> comuns a todos os *widgets* 

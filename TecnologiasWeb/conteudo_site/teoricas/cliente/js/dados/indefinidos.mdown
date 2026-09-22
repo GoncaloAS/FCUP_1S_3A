@@ -1,0 +1,22 @@
+## Objetos não definidos ##
+
+
+<div class="terminal example">
+
+const hoje   = new Date();
+let   amanhã = <span class=focus>null</span>;
+
+document.writeln(hoje.meteorologia); // -> <span class=focus>undefined</span>
+
+document.writeln(hoje == amanha);    // -> <span style="color: grey">true</span>
+document.writeln(hoje === amanha);   // -> <span style="color: grey">false</span>
+
+</div>
+<div>&nbsp;</div>
+
+
+* Formas de definir ausência de valor
+    * `undefined` - variável / propriedade não definida
+    * `null` - objeto não instanciado / inexistente
+* Valores nulos são *semelhantes* a indefinidos ...
+* ... embora sejam distinguíveis

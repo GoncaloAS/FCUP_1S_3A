@@ -1,0 +1,33 @@
+## Alinhamento horizontal ##
+
+
+<div class="col50p terminal example">
+
+
+
+
+text-align: center;
+
+
+text-align: right;
+
+
+text-align: justify;
+
+</div>
+<div class=col50p style="margin-bottom: -50px;">
+<p style="width: 10cm; border: 1px dotted;">Lorem ipsum </p>
+<p style="width: 10cm; border: 1px dotted; text-align: center;">Lorem ipsum </p>
+<p style="width: 10cm; border: 1px dotted; text-align: right;">Lorem ipsum </p>
+<p style="width: 10cm; border: 1px dotted; text-align: justify;">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+</div>
+
+
+* Propriedade <code class=focus>text-align</code> alinha texto dentro de um bloco
+* Deve ter largura definida num bloco
+* Valores possíveis são nomes predefinidos:<br>
+   <code class=focus>left</code>  <span class=litle>(omissão)</span>,
+   <code class=focus>right</code>,
+   <code class=focus>center</code> ou
+   <code class=focus>justify</code>   
+   

@@ -1,0 +1,21 @@
+## Remover propriedades / índices ##
+
+<div class='col75p terminal example'>
+const obj  = new Object();
+
+      
+obj.nome = 'Um objeto';
+obj['estado'] = 'ativo';
+
+<span class=focus>delete obj['nome']</span>;
+<span class=focus>delete obj.estado</span>;
+
+document.writeln(obj.nome);    // undefined
+document.writeln(obj.estado);  // undefined
+
+</div>
+
+* Propriedades podem ser removidas com instrução <code class=focus>delete</code>
+* Argumento é uma expressão que referencia uma **propriedade**
+* Pode ser usada a sintaxe de **índices** de *arrays*
+* A propriedade passa a estar  <code class=focus>undefined</code>

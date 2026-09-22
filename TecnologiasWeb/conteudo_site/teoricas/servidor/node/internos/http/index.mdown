@@ -1,0 +1,16 @@
+## Módulo `http` ##
+
+
+
+* Módulo fundamental porque implementa **protocolo HTTP**
+* Funciona **baixo nível** para permitir múltiplas utilizações
+    * Expõem cabeçalhos como objetos JS <span class=litle>(sem *parsing*)</span>
+    * Processa corpo como *streams*
+    * Suporta mensagens com corpo grande <span class=litle>(*chunked*)</span>
+    * Permite negociar protocolos <span class=litle>(ex: *Web Sockets*)</span>
+* Fornece **vários tipos** de objetos como
+    * Agent - gestão de conexões 
+    * Client - pedidos HTTP feitos como cliente
+    * **Server** - processamento de pedidos HTTP
+
+<div class=foot>Vamos focar apenas o tipo <code>Server</code></div>

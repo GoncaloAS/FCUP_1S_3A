@@ -32,6 +32,15 @@ Se o ficheiro RESUMO ainda não existir, cria-o com o cabeçalho YAML +
 comentário de processados vazio (ver "Esqueleto do ficheiro" abaixo) antes de
 começar a escrever conteúdo.
 
+**Antes de escrever, varre o documento inteiro à procura de sobreposição de
+tópicos** — não só o cabeçalho de processados (que só diz que ficheiros
+já foram incorporados, não onde cada tópico foi parar). Faz uma lista
+mental dos conceitos-chave da aula nova (ex: "autómatos", "FIRST/FOLLOW",
+"tabela de símbolos") e procura-os no resto do `.md` (`grep -i` pelo termo
+chega). Isto é o que permite decidir, no passo 3, se um tópico é
+genuinamente novo ou se é uma continuação/aprofundamento de algo já
+escrito noutra secção.
+
 ### 2. Ler o material de origem por completo
 
 Lê **todas as páginas** de cada PDF novo (usa `pages` do Read por blocos de
@@ -79,10 +88,21 @@ claro — o objetivo é que o Gonçalo NÃO precise de voltar aos slides. Regras
 - **Diagramas sempre que ajudarem**, mesmo que não existam nos slides
   (autómatos, árvores sintáticas, diagramas de fases, grafos de dependência).
   Ver secção "Diagramas" abaixo.
-- **Se houver sobreposição ou correção de conteúdo já escrito** (a aula nova
-  clarifica ou contradiz algo de uma aula anterior), reescreve/restrutura essa
-  secção antiga em vez de duplicar — o documento tem de ficar coerente como
-  um todo, não como um histórico de adições.
+- **Se houver sobreposição, aprofundamento ou correção de conteúdo já
+  escrito** (a aula nova volta a tocar num conceito de uma aula anterior —
+  clarifica-o, contradiz-o, ou simplesmente ensina mais sobre ele),
+  **funde tudo numa única secção contínua**, reestruturando a secção antiga
+  em vez de criar uma segunda explicação do mesmo tópico noutro sítio do
+  documento. O documento tem de se ler como **uma linha contínua de
+  estudo**, não como um histórico cronológico de adições — nunca podes ter,
+  por exemplo, autómatos DFA explicados de uma maneira na página 1 e o
+  mesmo tópico (DFA) explicado outra vez, de forma diferente ou só
+  parcialmente sobreposta, na página 20. Se a aula nova ensina mais sobre
+  um conceito já presente, o sítio certo para esse conteúdo novo é **dentro
+  da secção existente desse conceito** (reescrevendo-a para incorporar
+  tudo coerentemente), mesmo que isso signifique mover a secção de posição
+  ou reescrevê-la de raiz — nunca acrescentar uma secção nova com o mesmo
+  nome ou o mesmo assunto mais à frente no ficheiro.
 - Usa `#`/`##`/`###` para Aula / Tópico / Subtópico. Cada aula é uma secção
   `## Aula N — <título>` para o índice ficar navegável.
 - Usa as caixas semânticas (ver abaixo) com moderação — só quando o conteúdo
@@ -245,3 +265,34 @@ a não ser que sejam explicitamente substituídas por feedback mais recente.
   — o ideal é já escrever os exemplos ao nível de detalhe pedido (ver regra
   em "Escrever/estender o Markdown" acima) da primeira vez, não como
   correção a posteriori.
+- 2026-09-22: Primeira aplicação a IPM (Módulos 01--02) apanhou um novo bug
+  de parsing do pandoc, também silencioso (sem erro no build): dentro de
+  uma caixa (`::: definicao`/`atencao`/etc.), quando um parágrafo curto que
+  termina em ":" (ex: `**Evitar:**`) é imediatamente seguido, **sem linha em
+  branco**, por uma lista com `-`, o pandoc não reconhece a lista como bloco
+  novo — funde tudo num único parágrafo, e os `-` saem como texto corrido
+  ("- Item um. - Item dois.") em vez de bullets. Isto só acontece quando a
+  linha anterior é texto solto (um parágrafo); quando a linha anterior é a
+  própria abertura do fenced div (`::: {.definicao ...}`) a lista funciona
+  bem mesmo sem linha em branco a seguir — só entre "parágrafo → lista" é
+  preciso a linha em branco, não entre "abertura de caixa → lista" nem
+  entre "item de lista → item de lista seguinte". Regra a aplicar sempre:
+  sempre que escrever um mini-título em negrito dentro de uma caixa (ex:
+  `**Permitido:**`, `**Evitar:**`) seguido de uma lista, deixar sempre uma
+  linha em branco entre os dois. Tal como o bug do `title=" ---"`, isto só
+  se apanhou ao inspecionar visualmente o PDF gerado, não por nenhum erro
+  de build — reforça a regra já existente de ler sempre o PDF página a
+  página antes de dar a tarefa por concluída.
+- 2026-09-22: Feedback direto do Gonçalo, ao pedir a atualização de
+  Compiladores com a Aula 4: o documento tem de ser **uma linha contínua de
+  estudo**, nunca um histórico de adições. Se matéria nova toca num tópico
+  já tratado numa aula anterior (mesmo que só o aprofunde, sem o
+  contradizer), a secção antiga tem de ser reestruturada/fundida com o
+  novo conteúdo — nunca criar uma segunda explicação do mesmo tópico
+  noutra parte do documento (ex.: não vale ter autómatos DFA explicados na
+  página 1 e autómatos DFA outra vez, de forma diferente, na página 20).
+  Isto já estava implícito no processo (secção "Escrever/estender o
+  Markdown"), mas o Gonçalo pediu para ficar explícito — ver a regra
+  reforçada acima e o novo passo de "varrer o documento à procura de
+  sobreposição" antes de escrever (passo 1). Aplica-se a todas as
+  disciplinas, não só a Compiladores.

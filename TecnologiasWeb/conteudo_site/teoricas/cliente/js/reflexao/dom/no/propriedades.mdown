@@ -1,0 +1,22 @@
+## Propriedades de `Node` ##
+
+
+<dl>
+<dt><code class=focus>Node parentNode</code> </dt>
+<dd>Nó progenitor</dd>
+<dt><code class=focus>Node firstChild</code></dt>
+<dd>Primeiro filho</dd>
+<dt><code class=focus>Node lastChild</code></dt>
+<dd>Último filho</dd>
+<dt><code class=focus>Node nextSibling</code></dt>
+<dd>Próximo irmão</dd>
+<dt><code class=focus>Node previousSibling</code></dt>
+<dd>Irmão anterior</dd>
+<dt><code class=focus>NodeList childNodes</code> </dt>
+<dd>Lista de nós filhos</dd>
+<dt><code class=focus>String innerText</code> * </dt>
+<dd>texto do nó e dos seus descendentes</dd>
+
+</dl>
+
+<div class=foot>* específico do HTML</div>

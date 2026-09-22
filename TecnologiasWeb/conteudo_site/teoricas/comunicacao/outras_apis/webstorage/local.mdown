@@ -1,0 +1,19 @@
+## Armazenamento local ##
+
+<div class="example terminal">
+
+localStorage.setItem('name', 'fulano de tal' );
+localStorage.setItem('age', 99 );
+
+
+localStorage.getItem('name'); // 'fulano de tal'
+localStorage.getItem('age');  // '99'
+
+
+</div>
+
+* Persistência local por **tempo indefinido** com <code class=focus>localStorage</code>
+* Valores indexados por uma **chave**
+* Guardados com método <span class=focus><code>localStorage.setItem</code>(<i>chave</i>,<i>valor</i>)</code>
+* Recuperados método <span class=focus><code>localStorage.getItem</code>(<i>chave</i>)</code>
+* Valores guardados como *string* <span class=litle>(convertidos com <code>toString()</code>)</span>

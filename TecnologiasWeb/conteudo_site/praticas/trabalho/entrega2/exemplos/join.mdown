@@ -1,0 +1,58 @@
+## Início ##
+
+<link rel="stylesheet" href="../table.css" type="text/css">	
+
+<table width="100%" class=dense>
+
+<tr>
+	<th>URL</th>
+	<th>Objeto no pedido</th>
+	<th>Objeto na resposta </th>
+	<th>Observações
+</tr>	   
+
+
+<tr>
+	<td class=code>.../join
+	<td class=code>{"group": 99, "nick": "zp", "password": "secret" }
+	<td class=code>{<b>"error": "undefined size"</b>}
+	<td>Tamanho não definido
+<tr>
+	<td class=code>.../join
+	<td class=code>{ ... , <b>"size": "large"</b> }
+	<td class=code>{<b>"error": "invalid size 'large'"</b>}
+	<td>Tamanho tem de ser inteiro impar
+
+
+<tr>
+	<td class=code>.../join
+	<td class=code>{<b>"group": 99</b>, "nick": "zp", "password": "secret", <b>"size": 9</b> }
+	<td class=code>{<b>"game": "fa93b40..."</b>}
+	<td>Novo jogo criado com tamanho 9 para o grupo 99
+
+<tr>
+	<td class=code>.../update?nick=zp&<b>game=averseda</b>
+	<td class=code>
+	<td class=code>{ <b>"error": "Invalid game reference"</b>}
+	<td>Exemplo de possível erro
+
+<tr>
+	<td class=code>.../update?nick=zp&<b>game=fa93b40...</b>
+	<td class=code>
+	<td class=code>
+	<td>Primeiro jogador fica à espera
+
+<tr>
+	<td class=code>.../join
+	<td class=code>{<b>"group": 99</b>, "nick": "jpleal", "password": "another", <b>"size": 9</b> }
+	<td class=code>{<b>"game": "fa93b40..."</b>}
+	<td>Emparelhado com último jogo de tamanho 9 do grupo 99
+
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code><b>{"pieces":[{...}, ...],"initial":"zp", "step":"from", "turn":"zp", "players":{"zp":"Blue","jpleal":"Red"}}</b>
+	<td>Atualização quando jogadores são emparelhados
+	
+</table>

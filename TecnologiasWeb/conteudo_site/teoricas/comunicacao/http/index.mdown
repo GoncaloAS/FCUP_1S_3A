@@ -1,0 +1,10 @@
+## HTTP - HyperText Transfer Protocol ##
+
+![HTTP](http.jpg)
+
+* É o protocolo **aplicacional** usado pelo serviço WWW
+* Baseado no modelo **cliente-servidor** subjacente à Internet
+* Permite a troca de **mensagens** entre navegadores e servidores
+* Mensagens referem-se a representações de **recursos**
+* Características distintivas relativamente a congéneres <span class=litle>(ex: FTP)</span>
+* Evolui <span class=litle>(lentamente)</span> e está correntemente na versão 2

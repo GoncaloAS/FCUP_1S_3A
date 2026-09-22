@@ -1,0 +1,27 @@
+## Sobreposição ##
+
+<div class="col50p terminal example">
+
+z-index: 1;  ... 1
+z-index: 2;  ... 2
+z-index: 3;  ... 3
+
+</div>
+<div class=col50p style="font-size: large; padding: 1px; position: relative; color: white; line-height: 2cm; font-size: xx-large; text-align: center;">
+
+<div style="position: absolute; top: 1cm; left: 1cm;  width: 2cm; height: 2cm; background: #228; z-index: 1;"> 1 </div>
+
+<div style="position: absolute; top: 1.2cm; left: 2.5cm; width: 2cm; height: 2cm; background: orange; z-index: 2;"> 2 </div>
+
+<div style="position: absolute; top: 1.4cm; left: 3.7cm; width: 2cm; height: 2cm; background: #228; z-index: 3;"> 3 </div>
+
+
+</div>
+
+
+
+* Posicionamento permite sobreposição
+* Propriedade <code class=focus>z-index</code> controla ordem de sobreposição
+* Cada índice é a ordem numa pilha de níveis transparentes
+* Índices mais baixos são sobrepostos pelos maiores
+* Sobreposição **não** funciona com posicionamento estático

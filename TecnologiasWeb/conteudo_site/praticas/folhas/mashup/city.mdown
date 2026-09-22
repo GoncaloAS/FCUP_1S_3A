@@ -1,0 +1,35 @@
+##Obter meteorologia duma cidade##
+
+<div class="example litle">
+<a target=city href="http://api.geonames.org/searchJSON?formatted=true&q=port&username=twlab&style=full">http://api.geonames.org/searchJSON?formatted=true&<span class=focus>q=porto</span>&lang=pt&username=twlab&style=full</a>
+</div>
+
+O URL acima pesquisa o Porto em português e retorna um JSON como o seguinte
+
+<div class="terminal litle example">{
+  "totalResultsCount": 6925,
+  "geonames": [
+    {
+      "timezone": { &hellip;      },
+      "bbox": { &hellip; },
+	  "asciiName": "Porto",
+	  &hellip;
+	  "countryCode": "PT",
+      "adminCodes1": {"ISO3166_2": "13"},
+      "adminId1": "2735941",
+      <span class=focus>"lat": "41.14961"</span>,
+	  &hellip;
+      <span class=focus>"lng": "-8.61099"</span>
+      &hellip;
+   } ]
+}
+</div>
+
+Altere a sua aplicação para
+
+1. Incluir caixa texto para digitar nome de cidade
+2. Quando alterada, procurar dados sobre cidade
+3. Extrair a latitude e longitude da cidade
+4. Atualizar informação de nebulosidade dessa região
+
+Experimente com diferentes cidades: Porto, Lisboa, Paris, Madrid &hellip;

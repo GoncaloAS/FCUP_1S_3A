@@ -1,0 +1,84 @@
+## Passar a vez ##
+
+<link rel="stylesheet" href="../table.css" type="text/css">	
+
+<table width="100%" class=dense>
+
+<tr>
+	<th>URL</th>
+	<th>Objeto no pedido</th>
+	<th>Objeto na resposta </th>
+	<th>Observações
+</tr>	   
+
+
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ <b>"turn": "jpleal"</b>, "pieces": [ ... ], ...  }
+	<td> Começou o jogo
+
+<tr>
+	<td class=code>.../roll
+	<td class=code>{ <b>"nick": "jpleal"</b>, ... }
+	<td class=code>{}
+	<td>lançamento válido
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{"dice":{"stickValues":[false,true,false,true], <b>"value":2,"keepPlaying": false</b>},<b>"turn":"jpleal"</b>, <b>"mustPass":"jpleal"</b>}
+	<td> Ainda tem a vez mas tem de passar porque não pode mover nenhuma peça, nem pode voltar a lançar.
+
+"password": "another", "game": "2fd9d<tr>
+	<td class=code>.../pass
+	<td class=code>{ <b>"nick": "zp"</b>, "password": "another", "game": "2fd9d..." }
+	<td class=code>{}
+	<td> Passou a vez
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ <b>"turn": "zp"</b>,  ... ] }
+	<td> É a vez de jogar do adversário.
+
+<tr>
+	<td class=code>.../roll
+	<td class=code>{ <b>"nick": "zp"</b>, ..." }
+	<td class=code>{}
+	<td>lançamento válido
+
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{"dice":{"stickValues":[false,false,false,false], "value":6,"keepPlaying":true}, "turn":"zp", <b>"mustPass":null</b>}
+	<td> Saiu 6, não pode mover mas pode voltar a lançar
+
+<tr>
+	<td class=code>.../pass
+	<td class=code>{ <b>"nick": "zp"</b>, ... }
+	<td class=code>{ "error": "You already rolled the dice but can roll it again"}
+	<td>Não pode passar a vez
+
+
+<tr>
+	<td class=code>.../roll
+	<td class=code>{ <b>"nick": "zp"</b>, ..." }
+	<td class=code>{}
+	<td>
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{"dice":{"stickValues":[false,true,false,false], "value":1, "keepPlaying":true},"turn":"zp", <b>"mustPass": null </b>}
+	<td> Saiu 1 (Tâb) e pode jogar a peça mais à direita
+
+<tr>
+	<td class=code>.../pass
+	<td class=code>{ <b>"nick": "zp"</b>, "password": "another", "game": "2fd9d..." }
+	<td class=code>{ "error": "You already rolled the dice and have valid moves"}
+	<td>Não pode passar a vez
+
+</table>

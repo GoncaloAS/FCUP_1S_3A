@@ -1,0 +1,40 @@
+## Inline & Block ##
+
+<style>
+.coluna {
+	display: inline-block;
+	width: 100px;
+	height: 300px;
+	background:#228;
+	opacity: .5;
+	color: white;
+	line-height: 300px;
+	text-align: center;
+}
+</style>
+
+
+<div class="col50p terminal example">
+&lt;style>
+.coluna {
+	<span class=focus>display: inline-block</span>;
+	width: 100px;
+	height: 300px;
+	...
+}
+&lt;/style>
+&lt;div class=coluna> 1 &lt;/div>
+&lt;div class=coluna> 2 &lt;/div>
+&lt;div class=coluna> 3 &lt;/div>
+</div>
+<div class=col50p>
+<div class=coluna> 1 </div>
+<div class=coluna> 2 </div>
+<div class=coluna> 3 </div>
+</div>
+
+
+* Elementos <code class=focus>inline-block</code> são simultaneamente:
+    * <code class=focus>inline</code> - são colocados em fluxo
+    * <code class=focus>block</code> - podem ter dimensões fixas
+* Podem ser usados para criar colunas de forma mais simples

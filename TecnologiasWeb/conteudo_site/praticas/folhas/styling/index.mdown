@@ -1,0 +1,14 @@
+
+## Objetivo ##
+
+* Formatar características gráficas
+* Posicionar elementos
+* Validar folhas de estilo
+
+## Instruções ##
+
+* [Preparação](preparar.mdown)
+* [Global](global.mdown)
+* [Imagens](imagens) 
+* [Menus de navegação](menus.mdown)
+* <a target=_blanc href=https://jigsaw.w3.org/css-validator/>Validação</a>

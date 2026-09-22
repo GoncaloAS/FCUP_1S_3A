@@ -1,0 +1,21 @@
+## Propriedade `pathname`##
+
+
+<div class="terminal example">http.createServer(function (request, response) {
+    const parsedUrl = url.parse(request.url,true);
+    <span class=focus>const pathname = parsedUrl.pathname</span>;
+    &hellip;
+
+    switch(<span class=focus>pathname</span>) {
+    case '<span class=focus>/hello</span>':
+       &hellip;
+    case '<span class=focus>/bye</span>':
+       &hellip;
+    }
+    &hellip;
+}).listen(8003);
+</div>
+
+* Campo <code class=focus>pathname</code> reflete nome caminho do URL 
+* Pode ser usado para selecionar entre vários pedidos
+* Notar que se inicia por uma barra <span class=litle>("<code class=focus>/</code>")</span>

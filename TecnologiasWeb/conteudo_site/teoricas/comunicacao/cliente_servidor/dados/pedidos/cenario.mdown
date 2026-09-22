@@ -1,0 +1,77 @@
+## Cenário: contador distribuído ##
+
+<script>
+
+window._update = function() {
+
+Counter.prototype.count = 0;
+Counter.prototype.display = undefined;
+
+function Counter(parentId) {
+
+    var parent  = document.getElementById(parentId);
+    var counter = document.createElement("div");
+    var incr = document.createElement("div");
+    var reset = document.createElement("div");
+    this.display = document.createElement("div");
+
+    parent.appendChild(counter);
+    counter.appendChild(incr);
+    counter.appendChild(reset);
+    counter.appendChild(this.display);
+
+    counter.className = "counter";
+    incr.className = "button";
+    reset.className = "button";
+    this.display.className = "display";
+
+    incr.innerText = " Incr ";
+    reset.innerText = " Reset ";
+    this.display.innerText = this.count;
+    
+    incr.onclick = this.increment.bind(this);
+    reset.onclick = this.reset.bind(this);
+}
+
+Counter.prototype.increment = function() {
+    this.count ++;
+
+    this.display.innerText = this.count;
+}
+
+Counter.prototype.reset= function() {
+    this.count = 0;
+
+    this.display.innerText = this.count;
+}
+
+	var counter = new Counter("base");
+
+}
+
+</script>
+
+<link rel="stylesheet" href="../../../../cliente/js/exemplos/contador/counter.css" type="text/css">   
+
+<div class="col50p terminal example">
+class Counter {
+     //  &hellip;
+  increment() { /* &hellip; */ }
+
+  reset()     { /* &hellip; */ }
+}
+</div>
+<div class=col50p>
+<div id=base></div>
+</div>
+
+
+* Interface do <a href="../../../../cliente/js/exemplos/contador">exemplo JavaScript</a>    
+    * 2 botões e 1 visor
+    * Orientação a objetos
+    * Métodos *callback* dos botões
+* Contador distribuído com servidor central
+    * Dois métodos `POST` <span class=litle>(porque mudam estado)</span>
+        * `incr` incrementa o valor
+        * `reset` limpa a contagem
+    * Um método para obter o valor corrente

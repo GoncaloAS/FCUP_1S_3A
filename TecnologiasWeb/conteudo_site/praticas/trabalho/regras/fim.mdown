@@ -1,0 +1,36 @@
+## Fim do jogo
+
+
+<link rel="stylesheet" href="board.css">
+
+<div id=gamePanel></div>
+
+<script>
+window._update = async function() {
+
+fetch("praticas/trabalho/regras/tab_board.js")
+  .then(response => response.text())
+  .then(src => {
+        eval((src));
+
+        const board = new Board({parent: 'gamePanel', size: 9})
+		const blue  = { color: 'Blue', inMotion: true };
+	     
+        board.state({
+            board: [
+	null,  null,	null,	null,	null,	null,	null,	null,	null,
+	null,	blue, null,	null,	null,	null,	null,	null,	null,			
+    null, null, blue, null,	null,	null,	null,	null,	null,	null,			
+	null,  null,	null,	null,	null,	null,	null,	null,	null,
+      ],
+	})
+   }).catch(console.error);
+
+}
+</script>
+
+
+* Jogo termina quando um jogador não tiver peças
+* Ganha o jogador ainda com peças
+* No tabuleiro acima ganham as azuis
+

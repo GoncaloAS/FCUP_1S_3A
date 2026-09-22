@@ -1,0 +1,16 @@
+## Anotações ##
+
+<code class="focus"><br></code>
+
+
+<code class="focus"><hr></code>
+
+
+* Componente fundamental da formatação
+* Delimitadas por chavetas angulares: <code class="focus"><</code> e <code class="focus">></code> 
+* São iniciadas por um nome <span class=litle>(ex. <code class="focus">b</code> e <code class="focus">hr</code>)</span>
+* Anotações são uma espécie de *comando*
+* Nomes são o vocabulário do HTML
+* São frequentemente *mnemónicas* de uma palavra ou expressão
+    * <code class="focus">br</code> - BReak
+    * <code class="focus">hr</code> - Horizontal Rule

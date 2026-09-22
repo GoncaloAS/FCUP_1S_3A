@@ -1,0 +1,24 @@
+## Converter entre JSON e JS ##
+
+<div class="col50p terminal example">
+let objt = { a: 1, b: [ 2, 3] };
+let json = JSON.stringify(objt);
+let copy = JSON.parse(json)
+
+</div>
+<div class="col50p example">
+
+{ "a": 1, "b": [ 2, 3] }
+
+</div>
+
+* Conversão de texto para JS com <code class=focus>eval</code>
+    * Está disponível em todos os navegadores 
+    * Proteger com parêntesis <code class=focus>eval("("+jsonString+")")</code>
+    * Mais inseguro <span class=litle>(string pode não ser JSON!)</span>
+* Preferível usar métodos de objeto JSON
+    * <code class=focus>JSON.parse()</code> converte *string* em objeto JS
+    * <code class=focus>JSON.stringify()</code> converte objeto JS em *string*
+
+
+<div class=foot>Exemplo é uma forma simples de fazer cópia profunda</div>

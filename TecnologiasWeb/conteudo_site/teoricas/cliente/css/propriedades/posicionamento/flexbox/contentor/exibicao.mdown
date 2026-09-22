@@ -1,0 +1,59 @@
+## Display ##
+
+<style>
+.container {
+	   display: flex;
+	   background:
+	   orange; opacity: .5;
+}
+
+.item {
+	   width: 70px;
+	   height: 50px;
+	   background: #228;
+	   color: white;
+	   margin: 10px;
+	   text-align: center;
+	   line-height: 50px;
+}
+
+</style>
+
+<div class="terminal example col50p cozy">
+
+	.container {
+		   <code>display: flex;</code>
+		   ...
+        }
+
+</div>
+<div class="col50p cozy"> <span class=litle>Antes</span>
+	<div class=container>
+	     <div class=item> 1 </div>
+	     <div class=item> 2 </div>
+	     <div class=item> 3 </div>
+	</div> <span class=litle>Depois</span>
+</div>
+<p style="height:1em; margin: 0;">&nbsp;</p>
+<div class="terminal example col50p">
+
+	.container {
+		   display: <code>inline-</code>flex;
+		   ...
+        }
+
+</div>
+<div class="col50p"> <span class=litle>Antes</span>
+	<div class=container style="display: inline-flex;">
+	     <div class=item> 1 </div>
+	     <div class=item> 2 </div>
+	     <div class=item> 3 </div>
+	</div> <span class=litle>Depois</span>
+</div>
+
+
+
+* Atributo `display` identifica elemento como contentor
+    * `flex` - posicionado como como bloco <span class=litle>(como um `div`)</span>
+    * `flex-inline` - posicionado como *inline* <span class=litle>(como um `span`)</span>
+* Todos os descendentes são automaticamente itens

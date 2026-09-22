@@ -1,0 +1,27 @@
+digraph semantica {
+    rankdir=TB;
+    bgcolor="transparent";
+    node [shape=box, style=filled, fontname="Helvetica", fontsize=12, color="#666666"];
+    edge [color="#888888"];
+
+    page [label="documento HTML", fillcolor="#eeeeee"];
+    header [label="<header>", fillcolor="#ffe9c6"];
+    nav [label="<nav>", fillcolor="#ffe9c6"];
+    main [label="<main>", fillcolor="#ffd699"];
+    article [label="<article>", fillcolor="#ffcc80"];
+    sec1 [label="<section>", fillcolor="#ffdfb3"];
+    sec2 [label="<section>", fillcolor="#ffdfb3"];
+    footer1 [label="<footer>\n(fecho do article)", fillcolor="#ffd699"];
+    aside [label="<aside>", fillcolor="#ffe9c6"];
+    footer2 [label="<footer>\n(fecho da página)", fillcolor="#ffe9c6"];
+
+    page -> header;
+    page -> nav;
+    page -> main;
+    page -> aside;
+    page -> footer2;
+    main -> article;
+    main -> footer1;
+    article -> sec1;
+    article -> sec2;
+}

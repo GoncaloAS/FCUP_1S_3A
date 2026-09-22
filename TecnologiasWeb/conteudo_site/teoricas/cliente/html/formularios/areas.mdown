@@ -1,0 +1,28 @@
+## Áreas de texto ##
+
+<style>
+textarea {
+  font-size: xx-large;
+}
+</style>
+
+<div class="terminal example col50p">
+&lt;textarea rows=3 col=20>
+Isto é o texto inicial
+&lt;/textarea>
+
+
+</div>
+<div class=col50p>
+<br>
+<textarea rows=3 col=20>
+Isto é o texto inicial
+</textarea>
+</div>
+<div class=endCols>&nbsp;</div>
+
+* Definidas pela anotação <code class=focus>textarea</code>
+* São usadas para a introdução de textos multi linha
+* Atributos para definir
+    * <code class=focus>rows</code> número de linhas
+    * <code class=focus>cols</code> número de colunas 

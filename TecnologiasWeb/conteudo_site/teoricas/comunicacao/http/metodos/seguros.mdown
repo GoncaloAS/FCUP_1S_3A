@@ -1,0 +1,17 @@
+## Métodos Seguros##
+
+
+<div markdown=1 style="width: 50%; margin: auto;">
+* <span class=focus>GET</span> 
+* <span class=focus>HEAD</span> 
+* <span class=focus>OPTIONS</span>
+* <span class=focus>TRACE</span> 
+</div>
+
+* São usados para **obter** informação <span class=litle>(não para a alterar)</span>
+* Por princípio, não têm **efeitos laterais** quando processados
+* Em oposição a métodos como <code>POST, PUT, DELETE, PATCH</code>
+* Mesmo assim, nenhum método é **totalmente** seguro
+    * Um pedido <code>GET</code> pode invocar CGI que remove um recurso
+    * Muitos pedidos <code>GET</code> podem resultar num *denial of service*
+    * O método <code>TRACE</code> pode ser usado num *cross-site tracing*

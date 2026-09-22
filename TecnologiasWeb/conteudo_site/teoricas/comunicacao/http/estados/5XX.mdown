@@ -1,0 +1,37 @@
+## 5XX - Erros do Servidor ##
+
+<script>
+
+window._update = function() {
+  var date = document.getElementById("date");
+
+  date.innerText = new Date().toUTCString();;
+}
+
+</script>
+
+<div class=col50p markdown=1>
+* <span class=focus>500</span> Internal Server Error
+* <span class=focus>501</span> Not Implemented
+* <span class=focus>502</span> Bad Gateway
+* <span class=focus>503</span> Service Unavailable
+* <span class=focus>504</span> Gateway Timeout
+* ...
+</div>
+<div class="col50p example terminal" style="font-size: large">
+HTTP/1.1 <span class=focus>500 Internal Server Error</span>
+Date: <span id="date"></span>
+Server: Apache/2.4.25 (Fedora)
+Content-Length: 238
+Connection: close
+Content-Type: text/html; charset=iso-8859-1
+
+
+</div>
+
+* O servidor não conseguiu responder devido a erro interno
+* O famigerado erro <code class=focus>500</code> é o mais frequente
+* Existem outros códigos que fornecem informação mais precisa
+
+
+<div class=foot>Existem mais códigos para erros no servidor</div>

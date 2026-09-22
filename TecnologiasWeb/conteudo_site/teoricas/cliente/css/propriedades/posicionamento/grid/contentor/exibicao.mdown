@@ -1,0 +1,68 @@
+
+## Display ##
+
+<style>
+
+.container {
+	   display: grid;
+	   grid-template-columns: auto auto auto;
+	   background: orange; 
+	   opacity: .5;
+}
+
+.item {
+ 	   border: 1px dotted white;
+	   background: #228;
+	   color: white;
+	   text-align: center;
+}
+
+</style>
+
+<div class="terminal example col50p cozy">
+
+.container {
+  <code>display: grid;</code>
+}
+
+
+
+</div>
+<div class="col50p cozy"> <span class=litle>Antes</span>
+	<div class=container>
+	     <div class=item> 1 </div>
+	     <div class=item> 2 </div>
+	     <div class=item> 3 </div>
+		 <div class=item> 4 </div>
+	     <div class=item> 5 </div>
+	     <div class=item> 6 </div>
+         <div class=item> 7 </div>
+	     <div class=item> 8 </div>
+	     <div class=item> 9 </div>
+	</div>	<span class=litle>Depois</span>
+</div>
+<p style="height:1em; margin: 0;">&nbsp;</p>
+<div class="terminal example col50p">
+.container {
+  display: <code>inline-</code>grid;
+}
+
+</div>
+<div class="col50p"> <span class=litle>Antes</span>
+	<div class=container style="display: inline-grid">
+	     <div class=item> 1 </div>
+	     <div class=item> 2 </div>
+	     <div class=item> 3 </div>
+		 <div class=item> 4 </div>
+	     <div class=item> 5 </div>
+	     <div class=item> 6 </div>
+         <div class=item> 7 </div>
+	     <div class=item> 8 </div>
+	     <div class=item> 9 </div>
+	</div> <span class=litle>Depois</span>
+</div>
+
+* Atributo `display` identifica elemento como contentor
+    * `grid` - posicionado como  bloco <span class=litle>(como um `div`)</span>
+    * `inline-grid` - posicionado como inline <span class=litle>(como um `span`)</span>
+* Todos os descendentes são automaticamente itens

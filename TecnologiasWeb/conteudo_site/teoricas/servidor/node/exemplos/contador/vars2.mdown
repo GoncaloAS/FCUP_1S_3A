@@ -1,0 +1,22 @@
+## Cabeçalhos ##
+
+<div class="terminal example">
+const headers = {
+    plain: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache',
+        <span class=focus>'Access-Control-Allow-Origin': '*' </span>       
+    },
+    sse: {    
+        <span class=focus>'Content-Type': 'text/event-stream'</span>,
+        'Cache-Control': 'no-cache',
+        'Access-Control-Allow-Origin': '*',
+        <span class=focus>'Connection': 'keep-alive'</span>
+    }
+};
+</div>
+
+* Objeto contendo cabeçalhos das respostas
+* Dois tipos distintos de cabeçalhos
+    * Respostas a pedidos POST
+    * Respostas a pedidos GET de SSE

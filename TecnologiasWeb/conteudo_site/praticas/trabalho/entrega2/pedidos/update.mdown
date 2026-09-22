@@ -1,0 +1,11 @@
+## Função `update` ##
+
+Este é a único função que usa o método `GET`, o único método suportado
+pelos *Server Sent Events*. Os argumentos desta função são codificados
+em `urlencoded` e são:
+* <a alt=game href="game.mdown"><code>game</code></a> - identificador do jogo
+* <a alt=nick href="nick.mdown"><code>nick</code></a> - identificador do jogador
+
+No final de **cada** jogo o objecto `EventSource` deve ser fechado
+
+Será gerado um erro no pedido `GET` se a referência ao jogo for inválida.

@@ -1,0 +1,14 @@
+## Terceira entrega ##
+
+O objetivo da terceira entrega é o desenvolvimento em Node do servidor do jogo,
+replicando e substituindo o servidor usando na segunda entrega.
+
+* [Pedidos](pedidos.mdown)
+* [Respostas](respostas.mdown)
+* Notas sobre implementação
+    * [Estruturação](estruturacao.mdown)
+    * [Persistência](persistencia.mdown)
+    * [*Hash* e cifras](hash.mdown)
+* [Servidor](servidor)
+* [Valorização](minimo_valoriza.mdown)
+* [Submissão](submissao.mdown)

@@ -1,0 +1,71 @@
+## Tipo `keypress`
+
+<script>
+
+window._update = function() {
+
+   const dot = document.getElementById("dot");
+
+
+   document.onkeypress = function(event) {
+     let left = parseInt(dot.style.left);
+     let top = parseInt(dot.style.top);
+
+     switch(event.key) {
+        case "k": case "K":
+          left += 10;
+	  break;
+        case "j": case "J":
+          left -= 10;
+	  break;
+        case "i": case "I":
+          top -= 10;
+	  break;
+        case "m": case "m":
+          top += 10;
+	  break;	  
+     }
+     dot.style.left = left+"px";
+     dot.style.top  = top+"px";
+
+   };
+};
+
+</script>
+
+<div class="col75p terminal example" >
+   const dot = document.getElementById("dot");
+
+   <span class=focus>document.onkeypress</span> = function(<span class=focus>event</span>) {
+     let left = parseInt(dot.style.left);
+     let top = parseInt(dot.style.top);
+
+     switch(<span class=focus>event.key</span>) {
+        case "k": case "K": left += 10; break;
+        case "j": case "J": left -= 10; break;
+        case "i": case "I": top -= 10;  break;
+        case "m": case "M": top += 10;  break;	  
+     }
+     dot.style.left = left+"px";
+     dot.style.top  = top+"px";
+   };
+</div>
+<div class=col25p style="width: 200px; height: 200px; position: relative; border: 1px dotted;">
+
+<div style="width: 100%; height: 100px; position: relative; font-size: x-large;">
+
+<div id="dot" style="background: orange; position: absolute; left: 70px; top: 50px; width: 50px; height: 50px; border-radius: 25px;"> </div>
+
+<div style="position: absolute; left:  90px; top: 20px;"> I </div>
+<div style="position: absolute; left:  50px; top: 60px;"> J </div>
+<div style="position: absolute; left: 130px; top: 60px;"> K </div>
+<div style="position: absolute; left:  80px; top: 100px;"> M </div>
+
+</div>
+
+
+</div>
+
+* Eventos processados em <code class=focus>document</code> depois de propagados
+* Tecla pressionada obtida da propriedade <code class=focus>key</code>
+* Valores de texto convertidos para inteiros com <code class=focus>parseInt()</code>

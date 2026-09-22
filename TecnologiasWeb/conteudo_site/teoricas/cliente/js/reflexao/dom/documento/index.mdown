@@ -1,0 +1,11 @@
+## Tipo `Document` ##
+
+
+<div style="width: 100%; ">
+<img alt="DOM" src=../DOM.png style="margin: auto; width: 80%; border: 2px dotted orange;">
+</div>
+
+* Tipo que representa o documento como um **todo**
+* Acessível pela variável global predefinida <code class=focus>document</code>
+* Métodos para **obter** elementos existentes
+* Métodos para **criar** nós de diferentes tipos

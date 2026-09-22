@@ -1,0 +1,20 @@
+## Protocolos servidor-aplicações  ##
+
+<div class="terminal example">
+#!/usr/bin/bash
+
+echo "Content-type: text/html"
+echo ""
+echo "&lt;h1>Olá mundo&lt;/h1>"
+
+</div>
+
+
+* Servidores HTTP iniciais
+    * Desenhados para conteúdo estático
+    * Conteúdo dinâmico gerado por programas externos
+    * Necessidade de definir protocolos
+* Protocolos comunicação com aplicações
+    * <u>Common Gateway Interface (CGI)</u>
+    * Fast CGI
+    * Simple Common Gateway Interface (SCGI)

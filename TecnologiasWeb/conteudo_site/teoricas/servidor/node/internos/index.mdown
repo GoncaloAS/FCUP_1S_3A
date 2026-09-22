@@ -1,0 +1,14 @@
+
+## Módulos internos ##
+
+
+* Módulos internos distribuído com o Node &mdash; ver <a href=https://nodejs.org/api/ target=api_node>API do Node</a>
+* Apenas cobertos os necessários para servidor HTTP básico
+    * `http` - processamento de pedidos e geração de respostas
+    * `url` - utilitários para resolução e análise de URL
+    * `stream` -  interface  para processamento de fluxos de dados
+    * `fs` - interação com o sistema de ficheiros baseado no POSIX
+
+    
+
+<div class=foot>Apenas alguns módulos e descritos superficialmente</div>

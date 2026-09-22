@@ -1,0 +1,114 @@
+## Transformações genéricas ##
+
+
+<script>
+window.base = function(gc) {
+
+  gc.save();
+
+  gc.strokeStyle = "#228";
+  gc.fillStyle ="#228";
+  gc.fillText("(0,0)",10,10);
+  
+  gc.beginPath();
+  gc.moveTo(20,20);
+  gc.lineTo(290,20);
+
+  gc.lineTo(285,15);
+  gc.moveTo(290,20);
+  gc.lineTo(285,25);
+  
+  gc.closePath();
+  gc.stroke();
+  
+
+  gc.beginPath();
+  gc.moveTo(20,20);
+  gc.lineTo(20,190);
+
+  gc.lineTo(15,185);
+  gc.moveTo(20,190);
+  gc.lineTo(25,185);	
+
+  gc.closePath();
+  gc.stroke();
+
+  gc.strokeStyle = "#228";
+  gc.setLineDash([1,3]);
+  
+  for(var x=40; x<300; x+=20) {
+    gc.beginPath();
+    gc.moveTo(x+0.5,20.5);
+    gc.lineTo(x+0.5,180.5);
+    gc.closePath();
+    gc.stroke();
+  }
+
+  for(var y=40; y<200; y+=20) {
+    gc.beginPath();
+    gc.moveTo(20.5,y+0.5);
+    gc.lineTo(280.5,y+0.5);
+    gc.closePath();
+    gc.stroke();
+  }
+
+  gc.restore();
+
+  gc.translate(20,20);
+
+}
+</script>
+
+<script>
+
+window._update = function() {
+
+  var tela = document.getElementById("tela");
+  var gc = tela.getContext("2d");
+
+  base(gc);
+
+  function sample(text) {
+  
+      gc.font = "40px Arial";
+      gc.textBaseline = "top";
+      gc.strokeStyle = "orange";
+      gc.fillStyle = "#228";
+
+      var w = gc.measureText(text).width;
+      
+      gc.fillText(text,0,0); 
+      gc.strokeRect(0,0,w,40);
+  }
+
+  sample("teste 1");
+  gc.translate(0,40);
+  gc.transform(1,
+   Math.tan(Math.PI/6), 0, 1, 0, 0)
+  sample("teste 2");
+}
+</script>
+
+
+<div class="col50p terminal example" style="margin-top: -30px; margin-bottom: -20px;">
+  sample("teste 1");
+  gc.translate(0,40);
+  <span class=focus>gc.transform(1,
+     Math.tan(Math.PI/6),0,1,0,0)</span>;
+  sample("teste 2");
+
+</div>
+<div class=col50p style="margin-top: -30px; margin-bottom: -20px;">
+<canvas id="tela" width="300" height="200" style="display: block; width: 300px; margin: auto;"></canvas>
+</div>
+
+* Transformações genéricas com métodos
+    * <code class=focus>transform</code> - aplica transformação sobre existente
+    * <code class=focus>setTransform</code> - nova transformação
+* Argumentos <span class=litle>(ex: <code>setTransform(a,b,c,d,e,f)</code> )</span>
+    * `a` Escalamento horizontal
+    * `b`	Torção horizontal
+    * `c`	Torção vertical
+    * `d`	Escalamento vertical 
+    * `e`	Deslocamento horizontal 
+    * `f`	Deslocamento vertical

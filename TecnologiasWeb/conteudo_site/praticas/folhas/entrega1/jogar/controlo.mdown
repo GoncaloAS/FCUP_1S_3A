@@ -1,0 +1,9 @@
+
+## Controlo do jogo ##
+
+* Gerar tabuleiro inicial
+* Processar movimento do jogador
+* Invocar jogador automático <span class=litle>(depois de jogada)</span>
+* Verificar fim de jogo  <span class=litle>(ainda há peças de ambos?)</span>
+* Decidir o vencedor <span class=litle>(o que ainda tem peças)</span>
+* Registar resultado

@@ -1,0 +1,18 @@
+## Documento ##
+
+<div markdown=1 class="example terminal">
+<span class=focus>&lt;!DOCTYPE html></span>
+&lt;html>
+  &lt;head>
+    &lt;title>A minha primeira página HTML&lt;/title>
+  &lt;/head>
+  &lt;body>
+     Mãe, ó p'ra mim a fazer páginas &lt;b>HTML&lt;/b>!
+  &lt;/body>
+&lt;/html>
+</div>
+
+* Documentos têm uma estrutura global
+* Devem começar por uma declaração de tipo <br><cod class=focus>&lt;!DOCTYPE html></code>
+* Há regras para estrutura de elementos e atributos
+* Embora os navegadores sejam bastante tolerantes ...

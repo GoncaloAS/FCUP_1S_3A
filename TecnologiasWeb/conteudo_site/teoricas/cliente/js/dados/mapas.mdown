@@ -1,0 +1,33 @@
+##Mapas##
+
+<div class="terminal example col50p cozy">
+const pessoa = <span class=focus>new Map()</span>;
+
+pessoa<span class=focus>.set</span>('nome','Ninguém');
+pessoa<span class=focus>.set</span>('idade',99);
+pessoa<span class=focus>.set</span>('ativo',true);
+
+for(let dado <span class=focus>of</span> pessoa)
+    document.writeln(<span class=focus>dado[0]</span>+" = "+
+         <span class=focus>dado[1]</span>+"\n"+
+         pessoa<span class=focus>.get</span>(<span class=focus>dado[0]));
+</div>
+<div class="col50p cozy">
+<pre>
+
+nome = Ninguém
+Ninguém
+idade = 99
+99
+ativo = true
+true
+</pre>
+</div>
+
+* Objetos contêm muitas chaves, nem todas devem ser iteradas
+* `Map` permite criar *arrays*  associativos mais controláveis
+* Itearação com `for of`: cada ciclo tem lista com uma entrada
+      * posição `0` corresponde à **chave**
+      * posição `1` ao **valor** associado
+
+<div class=foot>Iteração <code>for in</code> não funciona em mapas</div>

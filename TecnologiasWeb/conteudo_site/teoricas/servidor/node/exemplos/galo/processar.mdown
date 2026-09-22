@@ -1,0 +1,23 @@
+## Processar mensagens ##
+
+<div class="terminal example">function process(message) {
+    switch(<span class=focus>message.command</span>) {
+    case 'reset':
+        initBoard();
+        <span class=focus>broadcast({ board, current });</span>
+        break;
+    case 'play':
+        if('pos' in message) {
+          play();
+          <span class=focus>broadcast({pos: message.pos, piece, current});</span>
+        } else
+            console.log('pos expected in message');
+        break
+    default:
+        console.log('Invalid command: '+message.command);
+    }    
+}
+</div>
+
+* Ler propriedades e reagir ao seu valor
+* Difundir objetos com estado atual <span class=litle>(diferentes propriedades)</span>

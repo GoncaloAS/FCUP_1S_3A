@@ -1,0 +1,17 @@
+## JavaScript Object Notation - JSON ##
+
+
+<div class="example terminal">{ "name": "Fulano", "age": 99, "active": true, "lucky numbers": [7,13] } </div>
+
+* Formato de serialização baseado na sintaxe de objetos do JS
+* Tipo de dados
+    * **Números** inteiros ou virgula flutuante 
+    * ***String*** de carateres Unicode, delimitados por aspas <span class=litle>(escapes)</span>
+    * **Booleanos** <span class=litle>(`true` e `false`) </span>
+    * **Listas** ordenadas delimitadas por parentesis retos <code class=focus>[ ]</code>
+    * **Objetos** com pares-chave valor delimitados por chavetas <code class=focus>{ }</code>
+    * Valor `null`
+* Pares chave-valor
+    * Nome da chave é uma *string* <span class=litle>(com aspas)</span>
+    * Chave e valor separados por dois pontos <code class=focus>:</code>
+* Elementos de listas e pares chave-valor separados por virgulas <code class=focus>,</code>

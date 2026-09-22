@@ -1,0 +1,46 @@
+
+## Combinação de listas ##
+
+<div class="col50p example terminal">
+
+&lt;dl>
+ &lt;dt> &lt;b>Itemizada&lt;/b>
+ &lt;dd> 
+     &lt;ul>
+        &lt;li> Primeiro
+        &lt;li> Segundo
+     &lt;/ul>
+  &lt;dt> &lt;b>Ordenada&lt;/b>
+  &lt;dd>
+     &lt;ul>
+        &lt;li> Primeiro
+        &lt;li> Segundo
+     &lt;/ul>   
+&lt;/dl>
+
+</div>
+<div class="col50p">
+<dl class=showBorder>
+   <dt class=showBorder> <b class=showBorder>Itemizada</b>
+   <dd class=showBorder> 
+       <ul class=showBorder>
+	   <li class=showBorder> Primeiro
+	   <li class=showBorder> Segundo
+       </ul>
+   <dt class=showBorder> <b class=showBorder>Ordenada</b>
+   <dd class=showBorder>
+       <ul class=showBorder>
+	   <li class=showBorder> Primeiro
+	   <li class=showBorder> Segundo
+       </ul>   
+</dl>
+</div>
+<div class="endCols"/>
+
+
+
+
+
+
+
+

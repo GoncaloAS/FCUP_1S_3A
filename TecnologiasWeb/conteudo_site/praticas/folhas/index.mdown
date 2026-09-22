@@ -1,0 +1,16 @@
+##Folhas de exercícios##
+
+1. [Página pessoal](homepage)
+2. [Formatação](styling)
+3. Trabalho: 1ª parte
+4. [Mashup](mashup)
+5. Trabalho: 2º parte
+
+<!--
+3. Trabalho: 1ª parte
+5. [**Trabalho: 2º parte**](entrega2)
+
+3. [**Trabalho: 1ª parte**](entrega1)
+4. [Mashup](mashup)
+5. Trabalho: 2º parte
+-->

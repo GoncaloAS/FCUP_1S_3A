@@ -1,0 +1,40 @@
+digraph PositionReferencial {
+  rankdir=TB;
+  fontname="Helvetica";
+  node [shape=plaintext, fontname="Helvetica", fontsize=11];
+
+  tabela [label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="8">
+      <TR>
+        <TD BGCOLOR="#1B4F72"><FONT COLOR="white"><B>position</B></FONT></TD>
+        <TD BGCOLOR="#1B4F72"><FONT COLOR="white"><B>referencial de top/right/bottom/left</B></FONT></TD>
+        <TD BGCOLOR="#1B4F72"><FONT COLOR="white"><B>espaço da posição estática fica reservado?</B></FONT></TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="#EBF2FA"><B>static</B></TD>
+        <TD>nenhum — propriedades de posição são ignoradas</TD>
+        <TD>sim (é o próprio fluxo normal)</TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="#EBF2FA"><B>relative</B></TD>
+        <TD>a própria posição estática do elemento (desloca-se a partir dela)</TD>
+        <TD>sim</TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="#EBF2FA"><B>absolute</B></TD>
+        <TD>o progenitor "posicionado" mais próximo (position diferente de static); se não houver, o bloco inicial do documento</TD>
+        <TD>não</TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="#EBF2FA"><B>fixed</B></TD>
+        <TD>a janela do navegador (viewport) — não se move com o scroll</TD>
+        <TD>não</TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="#EBF2FA"><B>sticky</B></TD>
+        <TD>alterna entre relative (posição normal visível) e fixed (ao contentor com scroll, quando essa posição sairia do ecrã)</TD>
+        <TD>sim</TD>
+      </TR>
+    </TABLE>
+  >];
+}

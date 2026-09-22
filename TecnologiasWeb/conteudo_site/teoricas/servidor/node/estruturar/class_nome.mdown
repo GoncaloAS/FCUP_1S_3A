@@ -1,0 +1,29 @@
+## Partilha de classes nomeadas ##
+
+<div class=col50p style="text-align: center">Aplicação</div>
+<div class=col50p style="text-align: center">Módulo</div>
+<div class="col50p terminal example">
+<span class=focus>const mod=require('./modulo.js')</span>;
+
+<span class=focus>const t1 = new mod.Type1()</span>;
+t1.m();
+
+<span class=focus>const t2 = new mod.Type2()</span>;
+t2.m();
+
+</div>
+<div class="col50p terminal example">
+<span class=focus>module.exports.Type1 = class</span> {
+    m() { &hellip; }
+};
+
+<span class=focus>module.exports.Type2 = class</span> {
+    m() { &hellip; }
+}
+
+</div>
+
+
+* Múltiplos construtores atribuídos `module.exports`
+* Vários tipos de objetos exportados por um único módulo
+* Interface mais complexo entre aplicação e módulo

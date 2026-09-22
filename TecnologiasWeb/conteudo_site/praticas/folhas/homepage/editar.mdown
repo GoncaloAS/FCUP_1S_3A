@@ -1,0 +1,8 @@
+## Editar página pessoal ##
+
+* Abra o ficheiro `index.html` no seu editor ou IDE prefererido
+* Abra no browser a página de <a target="_blank" href="./praticas/folhas/homepage/exemplo.html">exemplo</a>
+* Veja o código HTML executando <b>View page source</b>
+* Identifique as anotações HTML existentes no código HTML
+* Copie o código HTML para o seu ficheiro
+* Altere-o a seu gosto para criar uma página pessoal

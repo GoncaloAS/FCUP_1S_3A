@@ -1,0 +1,26 @@
+## Tipos ##
+
+
+<div class="example terminal cozy">&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+  &lt;title>Seletores&lt;/title>
+  &lt;link rel="stylesheet" href="style.css" type="text/css">
+  &lt;style>
+     <span class=focus>p { font-size: large; }</span>
+     .strong { font-weight: bold; }
+     #important { color: red; }     
+  &lt;/style>
+&lt;/head>
+&lt;body>
+    <span class=focus>&lt;p class=strong> Lorem ipsum dolor sit amet, ...&lt;/p>
+    &lt;p> Praesent vel elementum nunc...  &lt;/p>
+    &lt;p class=strong id=important>  Donec cursus orci ...  &lt;/p></span
+&lt;/body>
+&lt;/html>
+</div>
+
+
+* Seletor é o nome do <b>tipo</b> de elemento
+* Aplica-se a **todos** os elementos desse tipo
+* Que têm o seletor como nome da **anotação**

@@ -1,0 +1,28 @@
+digraph DOMTipos {
+  rankdir=BT;
+  fontname="Helvetica";
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=10];
+
+  TNode [label="Node\n(nó genérico)\n\nparentNode, firstChild, lastChild,\nnextSibling, previousSibling,\nchildNodes (NodeList), innerText*\n\ninsertBefore(), appendChild(),\nreplaceChild()", fillcolor="#e3f2fd", width=3.2];
+
+  Element [label="Element\n(nó estrutural — anotações HTML)\n\nclassName, id, innerHTML*,\nclientHeight*, clientWidth*\n\ngetAttribute(), setAttribute(),\ngetElementsByTagName()", fillcolor="#e8f5e9"];
+
+  Text [label="Text\n(nó folha — texto)\n\ndata, length\n\nsubstringData(), appendData(),\ninsertData(), deleteData(),\nreplaceData(), splitText()", fillcolor="#fff9c4"];
+
+  Document [label="Document\n(o documento como um todo)\n\nvariável global: document\n\ngetElementById(), querySelector(),\nquerySelectorAll(), createElement(),\ncreateTextNode()", fillcolor="#fce4ec", width=3.2];
+
+  NodeList [label="NodeList\n(coleção de nós)\n\nlength\n\nitem(indice)", fillcolor="#ede7f6"];
+
+  Element -> TNode [label="é um tipo de"];
+  Text -> TNode [label="é um tipo de"];
+
+  Document -> TNode [style=dashed, label="referencia / manipula", dir=both, color="#B9770E"];
+  Document -> Element [style=dashed, color="#B9770E", label="cria / obtém"];
+  NodeList -> TNode [style=dashed, label="agrega vários", dir=both, color="#1B4F72"];
+
+  { rank=same; Element; Text; }
+  { rank=same; Document; NodeList; }
+
+  legenda [shape=plaintext, label="* propriedade/método específico do HTML (não faz parte da DOM genérica, também usada em XML)", fontsize=10];
+}

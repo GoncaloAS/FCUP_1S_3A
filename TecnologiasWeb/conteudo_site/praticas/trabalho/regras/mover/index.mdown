@@ -1,0 +1,52 @@
+## Mover as peças ##
+
+
+<link rel="stylesheet" href="../board.css">
+<link rel="stylesheet" href="../stick-dice.css">
+
+<div class=cozy style="display: flex;">
+<div id="gamePanel"></div><div id="dicePanel"></div>
+</div>
+
+<script>
+window._update = async function() {
+
+fetch("praticas/trabalho/regras/tab_board.js")
+  .then(response => response.text())
+  .then(src => {
+        eval((src));
+        const board = new Board({parent: 'gamePanel', size: 9})
+		const blue  = { color: 'Blue' };
+        const red   = { color: 'Red' };
+
+        board.state({
+            board: [
+			     blue,	blue,	blue,	blue,	blue,	blue,	blue,	blue,	blue,
+			     null,	null,	null,	null,	null,	null,	null,	null,	null,
+			     null,	null,	null,	null,	null,	null,	null,	null,	null,
+			     red,	red,	red,	red,	red,	red,	red,	red,	red,				 
+            ],
+        });
+
+	   const dicePanel = document.getElementById('dicePanel')
+	   const dice = new StickDice({div: dicePanel });
+
+       dice.setResult({
+	     stickValues: [ false, false, false, false ], 
+	     value: 6, 
+		 keepPlaying: false 
+	   });
+   })
+  .catch(console.error);
+
+}
+</script>
+
+* Antes de mover uma peça é necessário lançar o dado
+* A peça selecionada avança tantas casas quanto o seu valor 
+* Existem regras para
+    * o início do movimento das peças
+    * a sua progressão pelo tabuleiro
+    * restringir o movimento das peças
+	* passar a vez de jogar
+

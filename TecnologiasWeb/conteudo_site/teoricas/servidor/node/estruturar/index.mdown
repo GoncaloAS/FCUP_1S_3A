@@ -1,0 +1,15 @@
+## Estruturação usando módulos ##
+
+* Módulos Implementam **funcionalidades** usadas por aplicações
+    * Certas definições são **restritas** ao módulo
+    * Outras são **partilhadas** com aplicações
+* Mecanismo de partilha de definições
+    * **Inclusão** de módulos nas aplicações
+    * **Declaração** de nomes a exportar
+* Definição de módulos **exportando**
+    * Variáveis globais <span class=litle>(evitar)</span>
+    * Funções anónimas
+    * Funções nomeadas
+    * Construtores anónimos
+    * Construtores nomeados
+* Balanço entre **simplicidade** e **expressividade**

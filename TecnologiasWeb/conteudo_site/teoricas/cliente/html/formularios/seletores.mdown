@@ -1,0 +1,35 @@
+## Seletores ##
+
+<div class="terminal example">
+&lt;select size=5 name=size>
+   &lt;option>L&lt;/option>
+   &lt;option>M&lt;/option>
+   &lt;option>S&lt;/option>
+&lt;/select>
+
+</div>
+
+* Seletores agregam conjuntos de opções
+* Podem ser apresentados como menus ou listas &hellip;
+* &hellip; dependendendo do atributo <code class=focus>size</code>
+
+<table>
+<tr><th> Size </th><th> Tipo </th><th> Exemplo </th><tr>
+<tr><td> 1 </td><td> menu (valor de omissão)&nbsp; </td>
+<td>
+<select size=1 name=tamanho>
+   <option>L</option>
+   <option>M</option>
+   <option>S</option>
+</select>
+</td></tr>
+<tr><td> n > 1 </td><td> lista (n valores visíveis)&nbsp; </td>
+<td>
+<select size=3 name=tamanho>
+   <option>L</option>
+   <option>M</option>
+   <option>S</option>
+</select>
+</td>
+</tr>
+</table>

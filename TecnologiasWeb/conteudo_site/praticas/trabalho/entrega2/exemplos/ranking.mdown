@@ -1,0 +1,56 @@
+##  Tabela classificativa ##
+
+
+<link rel="stylesheet" href="../table.css" type="text/css">	
+
+<table width="100%" class="dense">
+
+<tr>
+	<th>URL</th>
+	<th>Objeto no pedido</th>
+	<th>Objeto na resposta </th>
+	<th>Observações
+</tr>	   
+
+<tr>
+	<td class=code>.../ranking
+	<td class=code>{}
+	<td class=code>{ "error": "Undefined group" }
+	<td>Pedido invalido
+
+<tr>
+	<td class=code>.../ranking
+	<td class=code>{ "group": 99 }
+	<td class=code>{ "error": "Invalid size 'undefined'" }
+	<td>Pedido invalido
+
+<tr>
+	<td class=code>.../ranking
+	<td class=code>{ "group": 99, <b>"size": 3.1416</b> }
+	<td class=code>{ "error": "Invalid size '3.1416'" }
+	<td>Pedido invalido
+<!--	
+<tr>
+	<td class=code>.../ranking
+	<td class=code>{ "group": 99, <b>"size": { "rows": 5 }</b> }
+	<td class=code>{ "error": "size property columns with invalid value 'undefined'" }
+	<td>Pedido invalido
+	-->
+
+<tr>
+	<td class=code>.../ranking
+	<td class=code>{ <b>"group": "2 of us"</b>, "size": 3 }
+	<td class=code>{ "error": "Invalid group '2 of us'" }
+	<td>Pedido invalido
+
+<tr>
+	<td class=code>.../ranking
+	<td class=code>{"group": 99, <b>"size": 5 }</b>}
+	<td class=code>{ ranking: [] }
+	<td>Ainda sem tabela classificativa
+
+<tr>
+	<td class=code>.../ranking
+	<td class=code>{ "group": 99, <b>"size": 9</b> }
+	<td class=code>{ "ranking": [{"nick":"jpleal","victories":2,"games":2},{"nick":"zp","victories":0,"games":2}] }
+	<td>Tabela classificativa 

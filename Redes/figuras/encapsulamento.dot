@@ -1,0 +1,37 @@
+digraph encapsulamento {
+  rankdir=TB;
+  node [shape=plaintext, fontsize=12, fontname="Helvetica"];
+  edge [fontsize=10, fontname="Helvetica", color="gray40", fontcolor="gray20"];
+
+  msg [label=<
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td bgcolor="lightyellow"><b>M</b></td></tr>
+      <tr><td>mensagem &#8212; camada de aplica&#231;&#227;o</td></tr>
+    </table>
+  >];
+
+  seg [label=<
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td bgcolor="lightblue"><b>Ct</b></td><td bgcolor="lightyellow"><b>M</b></td></tr>
+      <tr><td colspan="2">segmento &#8212; camada de transporte</td></tr>
+    </table>
+  >];
+
+  dat [label=<
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td bgcolor="lightgreen"><b>Cn</b></td><td bgcolor="lightblue"><b>Ct</b></td><td bgcolor="lightyellow"><b>M</b></td></tr>
+      <tr><td colspan="3">datagrama &#8212; camada de rede</td></tr>
+    </table>
+  >];
+
+  trm [label=<
+    <table border="0" cellborder="1" cellspacing="0" cellpadding="10">
+      <tr><td bgcolor="lightpink"><b>Cl</b></td><td bgcolor="lightgreen"><b>Cn</b></td><td bgcolor="lightblue"><b>Ct</b></td><td bgcolor="lightyellow"><b>M</b></td></tr>
+      <tr><td colspan="4">trama &#8212; camada de liga&#231;&#227;o de dados</td></tr>
+    </table>
+  >];
+
+  msg -> seg [label="+ Ct: cabe&#231;alho de transporte\l(TCP/UDP &#8212; portos, nº sequ&#234;ncia...)\l"];
+  seg -> dat [label="+ Cn: cabe&#231;alho de rede\l(IP &#8212; endere&#231;os origem/destino)\l"];
+  dat -> trm [label="+ Cl: cabe&#231;alho de liga&#231;&#227;o\l(Ethernet/WiFi &#8212; endere&#231;os MAC)\l"];
+}

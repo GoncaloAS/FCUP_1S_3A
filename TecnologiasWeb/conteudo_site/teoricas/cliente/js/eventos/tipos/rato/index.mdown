@@ -1,0 +1,55 @@
+## Eventos de rato ##
+
+<script>
+
+window._update = function() {
+
+   var dot = document.getElementById("dot");
+
+   var x;
+   var y;
+   var moving = false;
+
+   dot.onmousedown = function(event) {
+   	x = event.x;
+	y = event.y;
+	moving = true;
+	event.preventDefault();
+   };
+   dot.onmousemove = function(event) {
+      if(moving) {
+        dot.style.left = (parseInt(dot.style.left)+(event.x-x))+"px";
+        dot.style.top = (parseInt(dot.style.top)-(y-event.y))+"px";
+
+        x = event.x;
+        y = event.y;
+	event.preventDefault();
+      }
+   };
+   dot.onmouseup =function() {
+      moving = false;
+  	event.preventDefault();
+   };
+};
+
+</script>
+
+
+<div style="width: 100%; height: 100px; position: relative;">
+
+<div id="dot" style="background: orange; position: absolute; left: 400px; top: 50px; width: 50px; height: 50px; border-radius: 25px;"> </div>
+
+</div>
+
+
+
+* Tipos de eventos relacionados com rato
+    * <code class=focus>click</code> - click <span class=litle>(início e fim de pressão)</span> num botão
+    * <code class=focus>doubleclick</code> - 2 clicks em sequência rápida    
+    * <code class=focus>mousedown</code> - início de pressão sobre botão
+    * <code class=focus>mouseup</code> - fim da pressão sobre botão
+    * <code class=focus>mousemove</code> - movimento do rato
+* Propriedades dos eventos de rato reportam informação como
+    * Posição: <code class=focus>x</code>,  <code class=focus>y</code>
+    * Botão pressionado: <code class=focus>button</code>
+    * Tecla *control* pressionada: <code class=focus>ctrlKey</code>

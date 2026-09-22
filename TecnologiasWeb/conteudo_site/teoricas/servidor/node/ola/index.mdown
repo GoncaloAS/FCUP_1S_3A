@@ -1,0 +1,20 @@
+## Olá mundo ##
+
+<div class="terminal example">
+
+const http = require('http');
+
+const server = http.createServer(function (request, response) {
+    response.writeHead(200, {'Content-Type': 'text/plain'});
+    response.end('Olá mundo\n');
+});
+
+server.listen(8008);
+
+</div>
+
+
+* O Node.js permite desenvolver servidores HTTP
+* Codificados em JavaScript
+* São lançados da linha de comandos
+* Podem ser testados pedindo um URL

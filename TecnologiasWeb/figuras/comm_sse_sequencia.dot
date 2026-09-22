@@ -1,0 +1,18 @@
+digraph SseSequencia {
+  rankdir=TB;
+  fontname="Helvetica";
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=10];
+
+  Cliente [label="Cliente\nnew EventSource(url)", fillcolor="#dbe9ff"];
+  Servidor [label="Servidor", fillcolor="#ffe8cf"];
+
+  Cliente -> Servidor [label="1. GET /update HTTP/1.1\nAccept: text/event-stream"];
+  Servidor -> Cliente [label="2. 200 OK\nContent-Type: text/event-stream\nConnection: keep-alive (ligação fica aberta)"];
+  Servidor -> Cliente [label="3. data: 0\\n\\n  → onmessage(event.data='0')", style=dashed];
+  Servidor -> Cliente [label="4. data: 1\\n\\n  → onmessage(event.data='1')", style=dashed];
+  Servidor -> Cliente [label="5. data: 2\\n\\n  → onmessage(event.data='2')", style=dashed];
+  Servidor -> Cliente [label="6. (ligação cai) → reconexão\nautomática do EventSource", style=dotted, color="#aa6600", fontcolor="#aa6600"];
+  Servidor -> Cliente [label="7. data: 3\\n\\n  → onmessage(event.data='3')", style=dashed];
+  Cliente -> Cliente [label="8. eventSource.close()\n(fim da comunicação)", style=dotted];
+}

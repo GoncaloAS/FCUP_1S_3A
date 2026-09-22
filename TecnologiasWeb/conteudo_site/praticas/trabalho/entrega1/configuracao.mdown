@@ -1,0 +1,12 @@
+## Configuração ##
+
+Esta área deve permitir ao jogador optar por diferentes configurações de jogo.
+
+* Tamanho do [tabuleiro](tabuleiro.mdown)
+* Jogo contra o computador ou outro jogador
+* Primeiro jogador a jogar
+* Nível da [inteligência artificial](ia.mdown)
+
+
+Na primeira entrega apenas o jogo contra o computador será implementado.
+O jogo contra outros jogadores será parte da segunda entrega.

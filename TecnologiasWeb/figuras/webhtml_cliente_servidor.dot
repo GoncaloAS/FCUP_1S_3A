@@ -1,0 +1,29 @@
+digraph ClienteServidor {
+  rankdir=TB;
+  fontname="Helvetica";
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=10];
+
+  subgraph cluster_cliente {
+    label="Cliente (navegador) — parte ativa";
+    style=dashed;
+    color="#5b8def";
+    C1 [label="1. Utilizador pede uma\npágina através de um URL", fillcolor="#dbe9ff"];
+    C2 [label="4. Recebe a resposta e\nconstrói a árvore do\ndocumento (renderiza)", fillcolor="#dbe9ff"];
+    C3 [label="5. Para cada recurso\nembebido (img, css, js)\nfaz um novo pedido", fillcolor="#dbe9ff"];
+  }
+
+  subgraph cluster_servidor {
+    label="Servidor (HTTP) — parte passiva";
+    style=dashed;
+    color="#e0a94e";
+    S1 [label="2. Recebe o pedido\n(fica à espera)", fillcolor="#ffe8cf"];
+    S2 [label="3. Processa e devolve\no recurso pedido", fillcolor="#ffe8cf"];
+  }
+
+  C1 -> S1 [label="pedido HTTP\nGET /pagina.html\n(porta 80 / 443)"];
+  S1 -> S2;
+  S2 -> C2 [label="resposta HTTP\n(conteúdo HTML)"];
+  C2 -> C3;
+  C3 -> S1 [label="novo pedido HTTP\n(um por recurso)", style=dashed];
+}

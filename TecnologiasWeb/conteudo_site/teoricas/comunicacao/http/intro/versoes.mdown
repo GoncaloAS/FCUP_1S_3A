@@ -1,0 +1,18 @@
+## Versões do HTTP ##
+
+
+* **Versão 0.9** <span class=litle>(1991)</span>
+     * Primeira versão operacional
+     * Apenas com um método <span class=litle>(`GET`)</span>
+     * Ainda é suportada pelos servidores
+* **Versão 1.0** <span class=litle>(1996)</span>
+     * Generalidade dos métodos atuais
+     * Cabeçalhos com meta informação
+     * Mecanismos de segurança
+* **Versão** 1.1 <span class=litle>(1997)</span>
+     * Suporte para múltiplos pedidos relacionados por conexão
+     * Clarificação de detalhes
+* **Versão** 2.0 <span class=litle>(2015)</span>
+     * Baseada no SPDY da Google
+     * Mantem a sintaxe do HTTP 1.1
+     * Alterações na implementação <span class=litle>(pacotes binários)</span>

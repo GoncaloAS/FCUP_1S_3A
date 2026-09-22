@@ -1,0 +1,53 @@
+
+## Flexbox ##
+
+<style>
+
+.container {
+	   display: flex;
+	   width: 100%;
+	   height: 200px;
+	   background:
+	   orange; opacity: .5;
+}
+
+.item {
+	   width: 100px;
+	   height: 50px;
+	   background: #228;
+	   color: white;
+	   margin: 10px;
+	   text-align: center;
+	   line-height: 50px;
+}
+
+</style>
+
+<div class="terminal example col50p">
+&lt;div class=container>
+
+     &lt;div class=item> 1 &lt;/div>
+     &lt;div class=item> 2 &lt;/div>
+     &lt;div class=item> 3 &lt;/div>
+
+&lt;/div>
+</div>
+<div class="col50p">
+	<div class=container>
+
+	     <div class=item> 1 </div>
+	     <div class=item> 2 </div>
+	     <div class=item> 3 </div>
+
+	</div>
+</div>
+
+
+* Estratégia de posicionamento em **fluxo** mas mais flexível
+* Baseada em conceitos de *toolkits* gráficos
+    * Preenchimento
+    * Fluxo e quebra
+    * Alinhamento
+* Considera 2 papeis dos elementos face ao posicionamento
+    * Contentores
+    * Itens

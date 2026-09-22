@@ -1,0 +1,26 @@
+## Variantes ##
+
+
+<div class="col50p terminal example">
+font-variant: normal;
+
+
+font-variant: small-caps;
+
+</div>
+<div class=col50p>
+<p style="font-variant normal;">Lorem ipsum dolor sit amet</p>
+
+<p style="font-variant: small-caps;">Lorem ipsum dolor sit amet</p>
+
+</div>
+
+
+
+
+* Propriedade <code class=focus>font-variant</code> toma como valor
+    * <code class=focus>small-caps</code>
+    * <code class=focus>normal</code>
+* Nesta variante as minúsculas são transformadas em maiúsculas
+* Mas as letras transformadas são de tamanho menor
+

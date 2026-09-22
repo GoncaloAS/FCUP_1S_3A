@@ -1,0 +1,36 @@
+## Obter ##
+
+
+<script>
+
+window.colorize = function(color) {
+   document.getElementById("base").style.background = color;
+}
+
+</script>
+
+<div class="col75p terminal example">
+function colorize(color) {
+   <span class=focus>document.getElementById("base")</span>.style.background = color;
+}
+
+<div class=ruler>&nbsp;</div>
+&lt;div <span class=focus>id="base"</span> style="...">
+
+&lt;div style="background: #f90; width: 1em; margin: auto;"
+     onclick="colorize('#f90');">&nbsp;&lt;/div>
+
+...
+&lt;/div>
+</div>
+
+<div class="col25p example" id="base" style="padding: 20px; height: 280px; border: 1px dotted;">
+
+<div style="background: #f90; width: 1em; margin: auto;" onclick="colorize('#f90');">&nbsp;</div>
+<div style="background: #228; width: 1em; margin: auto;" onclick="colorize('#228');">&nbsp;</div>
+
+</div>
+
+* Função <span class=focus>getElementById()</span> de <span class=focus>document</span> retorna elemento
+* ... com <span class=focus>id</span> dado como argumento
+* Referência obtida usada para efetuar alterações ao elemento

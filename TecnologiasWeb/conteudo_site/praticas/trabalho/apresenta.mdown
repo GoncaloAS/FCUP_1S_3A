@@ -1,0 +1,12 @@
+## Apresentar ##
+
+
+* Na semana seguinte ao prazo de entrega
+* No <a target=_blank href="https://docs.google.com/spreadsheets/d/1nKH8SYfdcDFVT8TcxIqOMSkpv6UCU_ZKaFPyRuM1x3c/edit#gid=0">calendário partilhado</a> devem selecionar: <span class=litle>(no horário pretendido)</span>
+    * número do grupo <span class=litle>(ver <a target=grupos href="https://docs.google.com/spreadsheets/d/e/2PACX-1vTAFI_23NJjf1DvKUvdRWoB5pFdS4cWraPHTIlMc4KYP1oPHG4-_ThGP5nvTTbhVAlSF4c1kDKJiRW9/pubhtml">lista de grupos</a>)</span>
+    * modo de apresentação <span class=litle>(presencial ou remoto)</span>
+
+
+<!--
+* Calendário será oportunamente disponibilizado nesta página
+-->

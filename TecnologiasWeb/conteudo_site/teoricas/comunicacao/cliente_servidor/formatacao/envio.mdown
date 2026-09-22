@@ -1,0 +1,21 @@
+## Envio de dados ##
+
+<div class="terminal example">
+&lt;a href="http://some.site.com/execute<span class=focus>?command=remove&id=123</span>">Remover&lt;/a>
+
+</div>
+
+
+* URLs de pedidos GET podem transportar dados na ***query string***
+     * Sufixo do URL depois de <code class=focus>?</code>
+     * Podem ser lista de pares atributo valor
+     * Codificados como <code class=focus>urlencoded</code><br><br>
+* Esta forma de envio de dados tem **limitações**
+     * Só é conveniente para número reduzido de pares nome-valor
+     * Não permite dados introduzidos pelo utilizador
+     * Pedidos `GET` devem ser seguros, idempotentes e *cacháveis*
+
+
+<div class=foot>Alternativa é o uso de formulários</div>
+
+

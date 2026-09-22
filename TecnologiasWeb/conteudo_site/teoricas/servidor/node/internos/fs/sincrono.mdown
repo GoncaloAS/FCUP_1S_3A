@@ -1,0 +1,19 @@
+## Leitura e escrita síncrona ##
+
+<div class="terminal example">
+   let dados = fs.readFileSync('dados.txt');
+   &hellip;
+   fs.writeFileSync('dados.txt',dados);
+</div><div class=litle>&nbsp;</div>
+<div class="terminal example">
+(<span class=focus>async</span> () => {
+   let dados = <span class=focus>await</span> fsp.readFile('dados.txt');
+   &hellip;
+   <span class=focus>await</span> fsp.writeFile('dados.txt', dados);
+})();
+
+</div>
+
+* Existem versões síncronas das funções de leitura e escrita
+* As versões assíncronas devem ser preferidas a estas 
+* Podem ser usadas funções assincronas para o mesmo efeito

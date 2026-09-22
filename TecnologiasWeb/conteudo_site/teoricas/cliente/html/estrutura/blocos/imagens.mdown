@@ -1,0 +1,22 @@
+##Imagens##
+
+<div class="col50p example terminal cozy">
+
+&lt;img src=html5-logo.png
+     alt="HTML5 Logo">
+     
+</div>
+<div class="col50p" style="margin-top: -40px; margin-bottom: -20px;">
+<img src=../../../html5-logo.png alt="HTML5 Logo">
+</div>
+
+
+* Imagens 
+    * São um conteúdo embebido a partir de ficheiros
+    * Tem dimensões  <span class=litle>(altura e largura)</span> definidas pelo conteúdo
+    * Inseridos pelo elemento <code class=focus>img</code> IMaGe  <span class=litle>(Imagem)</span>
+* Atributos de <code class=focus>img</code> 
+    * <code class=focus>src</code>  <span class=litle>(SouRCe)</span> - URL do ficheiro da imagem
+    * <code class=focus>alt</code>  <span class=litle>(ALTernative)</span> - texto alternativo à imagem
+    * <code class=focus>width</code> - largura em pixels da imagem
+    * <code class=focus>height</code> - altura em pixels da imagem

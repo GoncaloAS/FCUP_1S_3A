@@ -1,0 +1,9 @@
+## Pedidos ##
+
+O servidor deverá implementar as **funções** com os **argumentos**
+definidas na seção
+<a href="../entrega2/pedidos">Pedidos</a> do enunciado da entrega anterior.
+
+O servidor deverá **verificar** que os todos os argumentos requeridos por
+cada função foram enviados. Tem ainda que verificar que os argumentos
+têm os tipos e estão nos intervalos indicados nesse enunciado.

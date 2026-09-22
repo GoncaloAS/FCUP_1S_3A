@@ -1,0 +1,22 @@
+## Recursos e dados ##
+
+
+
+
+
+* As mensagens HTTP **atuam** sobre recursos no servidor
+     * **Obter** um recurso do servidor
+     * **Criar** um novo recurso, enviando-o, ou os seus dados
+     * **Modificar** um recurso já existe
+     * **Remover** um recurso do servidor
+* **Recursos** podem ser
+     * **Referidos** - como **URLs** - na linha de pedido ou cabeçalhos
+     * **Transferidos** - no **corpo** das mensagens
+     * ... quer nos **pedidos** que nas **respostas**
+* **Dados** podem ser
+    * Enviados no pedido
+    * Usando **formatos** específicos do HTTP
+* **Metadados** sobre recursos e dados
+    * Colocados nos cabeçalho <span class=litle>(ex: tamanho)</span>
+    * **Tipo** de recurso
+     

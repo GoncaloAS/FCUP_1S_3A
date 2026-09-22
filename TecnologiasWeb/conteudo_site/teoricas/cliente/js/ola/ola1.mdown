@@ -1,0 +1,31 @@
+## Olá com `document.writeln()` ##
+
+
+
+<div class="col50p terminal example">
+&lt;body>
+&lt;script>
+<span class=focus>document.writeln("&lt;h3>Olá&lt;/h3>");
+document.write(
+          "&lt;i>JavaScript&lt;/i>");</span>
+&lt;/script>
+&lt;/body>
+</div>
+
+<div class=col50p>
+<script>
+document.writeln("<h3>Olá</h3>");
+document.write("<i>JavaScript</i>");
+</script>
+
+</div>
+
+<div class=endCols>&nbsp;</div>
+
+* Elemento <code class=focus>script</code> em <code class=focus>body</code>
+contém código JavaScript
+* Conteúdo é executados durante a formatação
+* Funções que escrevem na própria formatação
+    * <code class=focus>document.write()</code> - escreve argumento
+    * <code class=focus>document.writeln()</code> - adiciona-lhe também `\n`
+* Anotações HTML escritas são formatadas como habitualmente

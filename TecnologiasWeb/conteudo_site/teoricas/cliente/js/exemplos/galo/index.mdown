@@ -1,0 +1,54 @@
+## Jogo do Galo  ##
+
+<link rel="stylesheet" href="tictactoe.css" type="text/css"> 
+
+<script>
+
+window._update = function() {
+
+class TicTacToe {
+
+  constructor(id) {
+      const parent = document.getElementById(id);
+      const board  = document.createElement("div");
+      
+      board.className = "board";
+      parent.appendChild(board);
+      
+      this.content = new Array(9);
+      this.board = new Array(9);
+      this.current = "X";
+      
+      for(let i=0; i<9; i++) {
+		  let cell = document.createElement("div");
+		  cell.className = "cell"
+		  board.appendChild(cell);
+	  
+		  cell.onclick = () => this.play(i);
+		 
+	      this.board[i] = cell;
+      }    
+  }
+
+  play(pos) {
+      this.content[pos] = this.current;
+      this.board[pos].innerHTML = this.current;
+      
+      this.current = (this.current == "X" ? "O" : "X");
+  }
+
+    
+}
+
+const ticTacToe = new TicTacToe("base");
+
+}
+
+</script>
+
+
+<div id=base style="width: 100%;"> </div>
+
+* Tabuleiro interativo para jogo do Galo <span class=litle>(Jogo da Velha ; Tic-Tac-Toe)</span>
+* Também uma classe que cria uma instância sobre uma div vazia
+* Ilustra a utilização de métodos como *callback* <span class=litle>(com parâmetros)</span>

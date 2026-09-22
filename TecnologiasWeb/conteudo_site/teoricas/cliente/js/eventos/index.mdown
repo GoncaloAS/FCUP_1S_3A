@@ -1,0 +1,21 @@
+## Programação por eventos ##
+
+
+<div markdown=1 style="margin-top:-20px;">
+
+* Modelo tradicional de programação é **proativo**
+    * Execução inicia-se com função prédefinida <span class=litle>(ex `main()`)</span>
+    * Definição de função invoca outras funções, incluindo I/O
+    * Controlo de execução passa da que invoca para a invocada
+    * ... retornando à que invoca quando a invocada termina <p>
+* Modelo de programação por eventos é **reativo** 
+    * A execução inicia-se em resposta a um evento
+    * Evento é corporizado num **objeto** passado a uma função
+    * Função que processa o evento é previamente **registada**
+    * ... indicado tipo de evento e a sua **origem** <p>
+* O JavaScript tem suporte para **programação por eventos**
+    * Há várias modalidades de **registo** de eventos
+    * Suportando fundamentalmente os mesmo **tipos** de eventos
+    * Tendo origem nos **elementos** do documento
+
+</div>

@@ -1,0 +1,9 @@
+## Preparação ##
+
+
+* Crie folha de estilos <span class=litle>(ficheiro com extensão.css)</span>
+* Embeba folha de estilos na sua página pessoal <span class=litle>(última aula)</span>
+* Assegure-se que a página pessoal tem várias imagens embebidas<br>
+* Evite que as imagens sejam grande demais
+
+**Sugestão**: Procure fotos do Porto na web. Basta usar o URL. Não as descarregue

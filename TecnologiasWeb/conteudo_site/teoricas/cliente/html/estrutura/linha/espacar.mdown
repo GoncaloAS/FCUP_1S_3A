@@ -1,0 +1,27 @@
+## Espaçar ##
+
+<div markdown=1 class="col50p example terminal">
+
+
+Lorem&lt;br>ipsum
+&lt;br>&amp;nbsp;dolor
+&lt;br>&amp;nbsp;&amp;nbsp;sit
+&lt;br>&amp;nbsp;&amp;nbsp;
+    &amp;nbsp;amet,
+
+
+</div><div class="col50p">
+<br>
+Lorem<br>ipsum
+<br>&nbsp;dolor
+<br>&nbsp;&nbsp;sit
+<br>&nbsp;&nbsp;
+    &nbsp;amet,
+</div>
+<div/>
+
+
+
+* <u>Elemento</u> <span class=focus>br</span> <span class=litle>(BReak)</span> introduz quebra de linha
+* <u>Entidade</u> <span class=focus>&amp;nbsp;</span> <span class=litle>(Non Breaking SPace)</span> força um espaço
+* Estes recursos devem ser usados com bastante parcimónia!

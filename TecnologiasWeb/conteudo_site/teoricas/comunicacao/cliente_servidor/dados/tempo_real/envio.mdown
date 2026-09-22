@@ -1,0 +1,20 @@
+## Envio de dados WS ##
+
+<div class="example terminal">
+ const url = "ws://"+host+":"+port+"/";
+ const webSocket = new WebSocket(url);
+ webSocket.onmessage = function(event) {
+     const data = JSON.parse(event.data);
+     ...
+ }
+ ...
+ <span class=focus>webSocket.send(JSON.stringify(data))</span>;
+ ...
+ webSocket.close();
+ </div>
+
+* Envio de dados usando método <code class=focus>send()</code>
+* Não tem paralelo em SSE <span class=litle>(tem de ser feito por XHR ou `fetch`)</span>
+* Dados são enviados como *string*
+* Podem ser codificados em JSON a partir de objetos JS
+* Mensagens enviadas e recebidas definem especie de protocolo

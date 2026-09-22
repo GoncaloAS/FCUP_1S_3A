@@ -1,0 +1,55 @@
+## Modelo de caixa ##
+
+<style>
+  .caixa {
+      font-size:20px;
+      color: white;
+      padding-left: 10px;
+      margin: auto;
+      clear: both;
+  }
+  .esq {
+     float: left;
+     margin-left: 10px;
+  }
+  .dir {
+       float: right;
+       margin-right: 10px;
+  }
+
+</style>
+
+<div style="margin: auto; ">
+
+<div class=caixa style="background: hsl(39,100%,30%); width: 500px; height: 200px;">
+<div class=esq>margin</div>  <div class=dir>margem</div>
+
+<div class=caixa style="background: hsl(39,100%,40%); width: 400px; height: 150px;">
+<div class=esq>border</div> <div class=dir>bordo</div>
+
+<div class=caixa style="background: hsl(39,100%,50%); width: 300px; height: 100px;">
+<div class=esq>padding</div> <div class=dir>preenchimento</div>
+<div class=caixa style="background: hsl(39,100%,60%); width: 200px; height: 50px;">
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</div>
+
+
+* Elemento formatado numa caixa
+    * **Contida** dentro da caixa do **progenitor**
+    * **Rodeada** por outro **conteúdo**
+    * **Contendo** as caixas dos **descendentes**
+* Caixa é formada por várias camadas  <span class=litle>(como um cebola)</span>
+    * <code class=focus>margin</code> - margem ao progenitor <span class=litle>(não desenhado)</span>
+    * <code class=focus>border</code> - bordo / contorno  <span class=litle>(pode ser desenhado)</span>
+    * <code class=focus>padding</code> - preenchimento para descendentes <span class=litle>(não desenhado)</span>

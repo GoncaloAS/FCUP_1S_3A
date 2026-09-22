@@ -1,0 +1,31 @@
+digraph FlexAxes {
+  layout=neato;
+  fontname="Helvetica";
+  node [fontname="Helvetica"];
+  edge [fontname="Helvetica", fontsize=11];
+
+  container [shape=box, pos="3,2!", width=5.6, height=3.0, fixedsize=true,
+             label="", color="#B9770E", penwidth=2];
+
+  item1 [shape=box, pos="1.35,2!", width=1.1, height=2.2, fixedsize=true,
+         style=filled, fillcolor="#1B4F72", fontcolor=white, label="item 1"];
+  item2 [shape=box, pos="3,2!", width=1.1, height=1.6, fixedsize=true,
+         style=filled, fillcolor="#1B4F72", fontcolor=white, label="item 2"];
+  item3 [shape=box, pos="4.65,2!", width=1.1, height=2.6, fixedsize=true,
+         style=filled, fillcolor="#1B4F72", fontcolor=white, label="item 3"];
+
+  mstart [shape=point, width=0.01, pos="0.2,3.85!"];
+  mend   [shape=point, width=0.01, pos="5.8,3.85!"];
+  mstart -> mend [color="#922B21", penwidth=2.5,
+    label="eixo principal (main axis) — sentido definido por flex-direction: row"];
+
+  cstart [shape=point, width=0.01, pos="0.05,3.7!"];
+  cend   [shape=point, width=0.01, pos="0.05,0.3!"];
+  cstart -> cend [color="#1E7A46", penwidth=2.5,
+    label="eixo transversal\n(cross axis)"];
+
+  labelJustify [shape=plaintext, pos="3,0.05!",
+    label="justify-content distribui os itens ao longo do eixo principal"];
+  labelAlign [shape=plaintext, pos="3,-0.35!",
+    label="align-items distribui os itens ao longo do eixo transversal"];
+}

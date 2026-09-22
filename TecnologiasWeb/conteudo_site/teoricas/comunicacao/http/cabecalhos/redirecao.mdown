@@ -1,0 +1,39 @@
+## Redireção ##
+
+<style>
+td { font-size: small; white-space: pre; border: 1px dotted orange;vertical-align: top;}
+th { font-size: large; vertical-align: top;}
+</style>
+
+
+<table style="width: 100%;">
+<tr>
+<th></th><th>Linha inicial</th><th>Cabeçalhos relevantes</th></tr>
+</tr>
+<tr>
+<th>Pedido</th>
+<td>GET /~zp HTTP/1.1</td>
+<td> </td>
+</tr>
+<tr>
+<th>Resposta</th>
+<td>HTTP/1.1 <span class=focus>301 Moved Permanently</span></td>
+<td><span class=focus>Location: http://khato.dcc.fc.up.pt/~zp/</span></td>
+</tr>
+<tr>
+<tr>
+<th>Pedido</th>
+<td>GET /~zp<span class=focus>/</span> HTTP/1.1</td>
+<td> </td>
+</tr>
+</table>
+
+
+
+
+* Redireções são uma parte importante do protocolo HTTP
+    * Corrigem contexto para URLs relativos
+    * Indicam novas localizações de páginas e diretorias
+    * Informam sobre existência de várias alternativas <span class=litle>(traduções)</span>
+* Consoante o caso existem diferentes **códigos** de estado
+* Para informar do novo URL existe o cabeçalho <code class=focus>Location</code>

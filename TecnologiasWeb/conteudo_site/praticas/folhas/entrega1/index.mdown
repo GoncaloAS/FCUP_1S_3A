@@ -1,0 +1,19 @@
+## Primeira Entrega ##
+
+* Implementar a **interface** do Dara
+* Seguindo o <a href="../../trabalho">enunciado do trabalho</a>
+
+
+## Folhas de exercício semanais ##
+
+* [Estrutura da interface](estrutura) - 1ª semana
+* [Peças e tabuleiro](tabuleiro) - 2ª semana
+* [Interação e jogo](jogar) - 3ª semana
+
+
+<!--
+
+
+-->
+
+<div class=foot><b>Atenção</b>: As aulas práticas não serão suficientes para terminar cada folha de trabalho </div>

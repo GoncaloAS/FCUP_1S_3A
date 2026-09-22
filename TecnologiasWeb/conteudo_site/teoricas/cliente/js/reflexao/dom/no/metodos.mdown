@@ -1,0 +1,12 @@
+## Métodos de `Node`##
+
+
+
+<dl>
+<dt><code class=focus>insertBefore(Node nó,Node ref)</code></dt>
+<dd>adiciona um filho depois do filho dado como referência</dd>
+<dt><code class=focus>appendChild(Node nó)</code></dt>
+<dd>adiciona um filho</dd>
+<dt><code class=focus>replaceChild(Node depois,Node antes)</code></dt>
+<dd>substitui um nó por outro </dd>
+</ul>

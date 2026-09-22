@@ -1,0 +1,22 @@
+##Métodos estáticos##
+
+<div class="terminal example">
+class Pessoa {
+    constructor(nome,ano,mês,dia) { /* ... */ }
+
+   <span class=focus>static</span> duração(início,fim) {
+      return (fim.getTime() - início.getTime()) / MS_ANO;
+   }
+
+   idade() {
+      return <span class=focus>Pessoa.duração</span>(new Date(),this.nasce);
+   }
+
+}
+</div>
+
+
+* Métodos estáticos **declarados** com modificador `static`
+* Contexto de avaliação é a classe em vez dum objeto
+* Não podem ter referências ao objeto corrente `this`
+* São **invocados** usando classe como contexto

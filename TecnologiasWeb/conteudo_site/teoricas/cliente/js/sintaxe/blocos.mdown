@@ -1,0 +1,22 @@
+## Blocos e comentários ##
+
+
+<div class="terminal example">/*
+Exemplo de blocos
+*/
+<span class=focus>{</span>
+   let x = 1;
+   let y = 2;
+
+   // Isto é um bloco
+   <span class=focus>{</span>
+      let x = 3;
+   <span class=focus>}</span>
+<span class=focus>}</span>
+</div>
+* Comentários como no Java
+* Blocos são instruções **compostas**
+* **Âmbito** de declarações com `let` é bloco em que estão contidas
+* São delimitados por **chaveta**s, como no Java <code class=focus>{ }</code>
+* Instruções separadas por ponto e virgula 
+<span class=litle>(que pode ser inferido)</span>

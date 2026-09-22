@@ -1,0 +1,15 @@
+## Zoom ##
+
+* **Usado para**
+    * Tirar dúvidas de fundo
+    * Ajudar na resolução de problemas <span class=litle>(código)</span>
+    * Avaliação de trabalhos
+* **Forma de utilização**
+    * Partilha de ecrã <span class=litle>(o vosso, para mostrarem o código)</span>
+    * Pedido de controlo <span class=litle>(pelo docente, para controlar o vosse ecrã)</span>
+    * Sala de espera
+* **Salas pessoal dos docente**
+    * [https://videoconf-colibri.zoom.us/my/jpleal](https://videoconf-colibri.zoom.us/my/jpleal)
+
+
+<p class=foot>Contactar primeiro pelo Slack</p>

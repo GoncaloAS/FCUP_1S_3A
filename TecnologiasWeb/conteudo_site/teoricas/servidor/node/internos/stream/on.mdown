@@ -1,0 +1,21 @@
+## `Stream` - processamento de eventos ##
+
+<div class="terminal example cozy">switch(request.method) {
+  let body = '';
+  case 'POST':	
+	request
+	    <span class=focus>.on</span>('data', (chunk) => { body += chunk;  })
+	    <span class=focus>.on</span>('end', () => {
+               try { query = JSON.parse(body);  /* processar query */ }
+               catch(err) {  /* erros de JSON */ }
+	    })
+	    <span class=focus>.on</span>('error', (err) => { console.log(err.message); });
+	break;
+	...
+  }</div>
+
+* Objectos que suportam <code class=focus>Stream</code> com método <code class=focus>on</code>
+* Objeto do tipo `Request` são um exemplo
+* Método `on()` retorna o próprio objeto para **encadeamento**
+* Primeiro argumento é o nome de evento
+* Segundo argumento é um *callback* 

@@ -1,0 +1,30 @@
+## Iteração sobre objectos ##
+
+<div class="col75p terminal example">
+const pessoa = new Object();
+
+pessoa.nome  = 'Ninguém';
+pessoa.idade = 99;
+pessoa.ativo = true;
+
+<span class=focus>for</span>(let campo <span class=focus>in</span> pessoa)
+   document.writeln(campo+' = '+pessoa[campo]);
+</div>
+<div class=col25p>
+<pre>
+
+
+
+nome = Ninguém
+idade = 99
+ativo = true
+</pre>
+</div>
+<div class=endCols></div>
+
+* Ciclos extendidos permitem iterar sobre conteúdo de objetos
+* Sintaxe
+<div markdown=1 style="text-align: center; margin: 0;">
+<code class=focus>for</code>(`let` *nome* <code class=focus>in</code> *objeto*)
+</div>
+* Variável deve ser **declarada** mas pode ser só referida <span class=litle>(sem `let` ou `var`)</span>

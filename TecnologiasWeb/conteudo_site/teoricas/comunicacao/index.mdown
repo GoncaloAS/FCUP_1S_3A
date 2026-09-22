@@ -1,0 +1,16 @@
+## Comunicação ##
+
+
+* **Protocolo de aplicacional da Web**
+    * Mensagens: Pedidos e Respostas
+    * Recursos e Métodos  
+    * Estados e cabeçalhos
+* **Comunicação cliente/servidor**
+    * Atualização de formatação em HTML
+    * Atualização de dados em JS
+        * Pedidos síncronos e assíncronos 
+        * Eventos de servidor 
+* **Outras APIs do HTML 5**
+    * Armazenagem de dados no cliente
+    * Geo Localização
+    * Gráficos dinâmicos

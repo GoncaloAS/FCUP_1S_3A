@@ -1,0 +1,14 @@
+## Imagens ##
+
+* Embeba algumas imagens na página no HTML (ex: fotos)
+* Formate uma das imagens imagens para  que
+     * flutue à direita do texto
+     * mantenha uma margem de 10 pixels com o texto
+     * tenha uma legenda
+        * em baixo da imagem
+        * centrada com a imagem
+        * em itálico
+        * com tamanho letra de 90%
+* Use classes para estender esta formatação às restantes imagens
+* Garanta que não há imagens à esquerda de outras
+

@@ -1,0 +1,32 @@
+## Colorível ##
+
+<div class="col50p terminal example" style="margin-top: -30px; margin-botton: -50px;">
+&lt;div style="
+     width: 300px; height: 100px;
+     <span class=focus>color: green;
+     background-color: red;
+     border-color: blue;</span>
+     padding: 5mm;
+     border-width: 2mm;
+     border-style: solid;">
+Conteúdo
+&lt;/div>
+</div>
+<div class=col50p>
+<div style="
+     width: 300px; height: 100px;
+     color: green;
+     background-color: red;
+     border-color: blue;
+     padding: 5mm;
+     border-width: 2mm;
+     border-style: solid;">
+Conteúdo
+</div>
+</div>
+
+
+* Propriedades cujos valores são uma cor
+    * <code class=focus>color</code> -  elementos desenhados <span class=litle>(ex. texto)</span></code>
+    * <code class=focus>background-color</code> - fundo
+    * <code class=focus>border-color</code> - bordo

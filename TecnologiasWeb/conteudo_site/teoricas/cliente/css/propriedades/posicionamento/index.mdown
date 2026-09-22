@@ -1,0 +1,67 @@
+## Posicionamento ##
+
+<style>
+.container {
+	   display: grid;
+	   grid-template-columns: auto auto auto;
+	   gap: 0.5em;
+	   opacity: .5;
+}
+
+.item {
+	   background: #228;
+	   color: white;
+	   text-align: center;
+}
+
+#i1 {
+	grid-column-start: span 2;
+    background: orange;
+}
+
+#i2 {
+	grid-row-start: span 2;
+    background: orange;
+}
+
+#i4 {
+	grid-row-start: span 2;
+}
+
+#i5 {
+	grid-row-start: span 2;
+}
+
+#i7 {
+	grid-row-start: span 2;
+	grid-column-start: span 2;
+	background: orange;
+}
+
+#i9 {
+	grid-column-start: span 3;
+}
+
+
+</style>
+
+<div class=container>
+	     <div class=item id=i1> &nbsp; </div>
+	     <div class=item id=i2> &nbsp;  </div>
+	     <div class=item id=i3> &nbsp;  </div>
+		 <div class=item id=i4> &nbsp;  </div>
+	     <div class=item id=i5> &nbsp;  </div>
+	     <div class=item id=i6> &nbsp;  </div>
+         <div class=item id=i7> &nbsp;  </div>
+	     <div class=item id=i8> &nbsp;  </div>
+	     <div class=item id=i9> &nbsp;  </div>
+</div>
+
+
+
+
+* Posicionar classico usando propriedades de CSS1 e CSS2
+* Posionamento avançado no CSS3
+    * Unidimensional - Caixas flexíveis 
+    * Bidimensional - Grelhas
+

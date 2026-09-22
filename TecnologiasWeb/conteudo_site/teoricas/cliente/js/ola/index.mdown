@@ -1,0 +1,16 @@
+## Olá JavaScript ##
+
+
+
+* Programas <span class=focus>Olá</span> são um clássico!
+    * Mostram programa **simples**
+    * Quer **codificação**, quer **execução**
+    * Apenas com **escrita** de mensagem para o utilizador<p>
+* Neste caso há 3 versões ilustrando
+    * **Integração** de JavaScript no HTML com 
+        * elementos <code class=focus>script</code> no <code class=focus>body</code> ou <code class=focus>head</code> do documento
+        * com pegas de eventos <span class=litle>(*event handlers*)</span> em elementos
+    * **Escrita** de 3 formas distintas
+         * na própria formatação 
+         * numa caixa de diálogo
+         * na consola do navegador

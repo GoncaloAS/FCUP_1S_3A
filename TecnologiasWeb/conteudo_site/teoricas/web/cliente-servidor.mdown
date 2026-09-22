@@ -1,0 +1,21 @@
+## Clientes & Servidores
+
+
+<img src=cliente-servidor.png alt="Modelo cliente-servidor"
+     style="float: right; width: 400px; margin-top:200px;">
+
+* **Modelo cliente-servidor**
+    * Comum a toda a Internet
+    * A web tem C+S específicos
+* **Cliente**
+    * É a parte ativa 
+    * Pede um recurso
+    * Processa a recurso
+* **Servidor**
+    * É a parte passiva
+    * Recebe o pedido
+    * Fornece o recurso
+* **Comunicação**
+    * Feita sobre Internet <span class=litle>(TCP-IP)</span>
+    * Requer um protocolo <span class=litle>(HTTP na web)</span>
+    

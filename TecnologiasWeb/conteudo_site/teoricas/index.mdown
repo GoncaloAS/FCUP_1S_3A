@@ -1,0 +1,14 @@
+# Teóricas #
+
+*  **Tecnologias Web**
+*  **Cliente**
+    * HyperText Markup Language &mdash; HTML
+    * Cascade Style Sheets &mdash; CSS
+    * JavaScript
+* **Comunicação** 
+    * HyperText Transfer Protocol &mdash; HTTP
+    * Asynchronous Javascript and XML &mdash; Ajax
+    * HTML5 Apis: WebStorage & Canvas
+* **Servidor**
+    * Node.js
+    * Common Gateway Interface

@@ -1,0 +1,96 @@
+## Curvas ##
+
+<script>
+window.base = function(gc) {
+  gc.save();
+
+  gc.strokeStyle = "#228";
+  gc.fillStyle ="#228";
+  gc.fillText("(0,0)",10,10);
+  
+  gc.beginPath();
+  gc.moveTo(20,20);
+  gc.lineTo(290,20);
+
+  gc.lineTo(285,15);
+  gc.moveTo(290,20);
+  gc.lineTo(285,25);
+  
+  gc.closePath();
+  gc.stroke();
+  
+
+  gc.beginPath();
+  gc.moveTo(20,20);
+  gc.lineTo(20,190);
+
+  gc.lineTo(15,185);
+  gc.moveTo(20,190);
+  gc.lineTo(25,185);	
+
+  gc.closePath();
+  gc.stroke();
+
+  gc.strokeStyle = "#228";
+  gc.setLineDash([1,3]);
+  
+  for(var x=40; x<300; x+=20) {
+    gc.beginPath();
+    gc.moveTo(x+0.5,20.5);
+    gc.lineTo(x+0.5,180.5);
+    gc.closePath();
+    gc.stroke();
+  }
+
+  for(var y=40; y<200; y+=20) {
+    gc.beginPath();
+    gc.moveTo(20.5,y+0.5);
+    gc.lineTo(280.5,y+0.5);
+    gc.closePath();
+    gc.stroke();
+  }
+
+  gc.restore();
+}
+</script>
+
+<script>
+
+window._update = function() {
+
+  var tela = document.getElementById("tela");
+  var gc = tela.getContext("2d");
+
+  base(gc);
+
+  gc.setLineDash([]);
+  gc.strokeStyle = "orange";
+  gc.fillStyle = "#228";
+  gc.lineWidth = 6;
+
+  gc.beginPath();
+  gc.moveTo(40,40);
+  gc.quadraticCurveTo(20,100,40,160);
+  gc.bezierCurveTo(140,40,80,160,160,40);
+  gc.quadraticCurveTo(50,70,100,160);
+  gc.quadraticCurveTo(140,170,180,40);
+  gc.quadraticCurveTo(160,50,140,160);
+  gc.quadraticCurveTo(220,60,200,40);
+  gc.quadraticCurveTo(310,120,160,160);
+  gc.closePath();
+  gc.stroke();
+  gc.fill();
+}
+
+</script>
+
+<canvas id="tela" width="300" height="200" style="display: block; width: 300px; margin: auto;"></canvas>
+
+
+
+* Caminhos podem ter segmentos curvos 
+* Existem vários tipos de segmentos curvos
+    * Arcos de circunferência
+    * Linhas quadráticas
+    * Linhas de Bezier
+* Podem ser traçados arcos como segmento completo

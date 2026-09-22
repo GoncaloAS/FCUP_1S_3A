@@ -1,0 +1,57 @@
+## Eventos `mousedown`##
+
+<script>
+
+window._update = function() {
+
+   var dot = document.getElementById("dot");
+
+   var x;
+   var y;
+   var moving = false;
+
+   dot.onmousedown = function(event) {
+   	x = event.x;
+	y = event.y;
+	moving = true;
+	event.preventDefault();
+   };
+   dot.onmousemove = function(event) {
+      if(moving) {
+        dot.style.left = (parseInt(dot.style.left)+(event.x-x))+"px";
+        dot.style.top = (parseInt(dot.style.top)-(y-event.y))+"px";
+
+        x = event.x;
+        y = event.y;
+	event.preventDefault();
+      }
+   };
+   dot.onmouseup =function() {
+      moving = false;
+  	event.preventDefault();
+   };
+};
+
+</script>
+
+<div class="col75p terminal example" >
+
+   dot.<span class=focus>onmousedown</span> = function(event) {
+       x = <span class=focus>event.x</span>;
+       y = <span class=focus>event.y</span>;
+       moving = true;
+      <span class=focus>event.preventDefault()</span>;
+   };
+</div>
+<div class=col25p style="width: 200px; height: 200px; position: relative; border: 1px dotted;">
+
+<div id="dot" style="background: orange; position: absolute; left: 75px; top: 75px; width: 50px; height: 50px; border-radius: 25px;"> </div>
+
+</div>
+
+
+* ***Callback***  na propriedade do evento como função anónima
+* Quando o rato é pressionado
+    * regista a posição inicial do cursor;
+    * marca o ponto como estando a ser movido
+* Evita a propagação do evento

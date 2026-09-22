@@ -1,0 +1,21 @@
+## Referir métodos &mdash; *callbacks* ##
+
+<div class="terminal example cozy">class Pessoa { // ...
+   alerta(quando,mensagem) {
+       let callback = <span class=focus>() => this.alertar(mensagem)</span>;
+       let millisecs = (quando.getTime() - (new Date()).getTime());
+
+       <span class=focus>setTimeout</span>(callback,millisecs);
+    }
+
+    alertar(mensagem) {
+       alert("Olá  "+<span class=focus>this</span>.nome+"\nSão horas de "+mensagem);
+    }
+}
+</div>
+
+* Invocação diferida com função <code class=focus>setTimeout()</code> como argumentos
+    * **Função** a invocar
+    * **Milisegundos** até à invocação
+* **Função seta** difere a avaliação 
+* `this` na função seta refere o objeto pessoa <span class=litle>(não a própria função)</span>

@@ -1,0 +1,51 @@
+## Seletores 2 ##
+
+<style>
+ optgroup, option {
+   font-size: x-large;
+ }
+</style>
+
+
+<div class="col75p terminal example cozy">&lt;select size=12 name=tamanho>
+    <code class=focus>&lt;optgroup label=Grande></code>
+       &lt;option <code class=focus>value=9</code>>XXXL
+       &lt;option <code class=focus>value=8</code>>XXL
+       &lt;option <code class=focus>value=7</code>>XL
+    <code class=focus>&lt;/optgroup></code>
+    <code class=focus>&lt;optgroup label=Normal></code>
+       &lt;option <code class=focus>value=6</code>>L
+       &lt;option <code class=focus>value=5</code>>M
+       &lt;option <code class=focus>value=4</code>>S
+    <code class=focus>&lt;/optgroup></code>
+    <code class=focus>&lt;optgroup label=Pequeno></code>
+       &lt;option <code class=focus>value=3</code>>XS
+       &lt;option <code class=focus>value=2</code>>XXS
+       &lt;option <code class=focus>value=1</code>>XXS
+    <code class=focus>&lt;/optgroup></code>
+&lt;/select>
+</div>
+<div class=col25p>
+<select size=12 name=tamanho>
+    <optgroup label=Grande>
+       <option value=9>XXXL
+       <option value=8>XXL
+       <option value=7>XL
+    </optgroup>
+    <optgroup label=Normal>
+       <option value=6>L
+       <option value=5>M
+       <option value=4>S
+    </optgroup>
+    <optgroup label=Pequeno>
+       <option value=3>XS
+       <option value=2>XXS
+       <option value=1>XXS
+    </optgroup>
+</select>
+</div>
+<div class=endCols style="margin-bottom: -20px;">&nbsp;</div>
+
+* Seletores podem ter opções agrupadas com <code class=focus>optgroup</code>
+* Opções com valor diferente da etiqueta usando atributo <code class=focus>value</code>
+* Anotação de fecho de <code class=focus>option</code> pode ser omitida

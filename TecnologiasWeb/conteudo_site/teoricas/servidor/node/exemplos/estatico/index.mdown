@@ -1,0 +1,18 @@
+## Servidor páginas estáticas ##
+
+* **Servidor HTTP básico**
+    * Dados estáticos <span class=litle>(ficheiros e diretorias)</span>
+    * Responde apenas a pedidos `GET` mas sem *query string*
+    * Diferentes estados de resposta <span class=litle>(2XX, 3XX, 4XX, 5XX)</span>
+* **Pedidos de ficheiros**
+    * Nomes caminhos do URL mapeados numa diretoria
+    * Lidos assincronamente do disco
+    * Atribui tipo de media consoante a extensão
+* **Pedidos de diretorias**
+    * Redireciona  se não terminar em /
+    * Acrescenta `index.html` caso contrário
+
+
+<div class=foot>Não é o Apache mas tem o essencial de um servidor</div>
+
+

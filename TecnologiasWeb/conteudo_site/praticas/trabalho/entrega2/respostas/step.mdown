@@ -1,0 +1,10 @@
+## `step` ##
+
+Uma *string* representando o passo seguinte durante a fase de mover as peças. 
+Pode ter um 3 valores:
+
+* `from` - escolher a casa com a peça a mover
+* `to` - escolher a casa para onde a peça é movida
+* `take` - escolher a peça do adversário a capturar
+
+Estas escolhas aplica-se ao jogador com a vez ([turn](turn.mdown)).

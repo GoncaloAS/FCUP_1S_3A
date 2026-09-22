@@ -1,0 +1,28 @@
+## Mapas x objetos ##
+
+<div class="terminal example col50p">
+const pessoa = new <span class=focus>Map</span>();
+
+pessoa.set('nome','Ninguém');
+pessoa.set('idade',99);
+pessoa.set('ativo',true);
+
+</div>
+<div class="terminal example col50p">
+const pessoa = new <span class=focus>Object</span>();
+
+pessoa.nome  = 'Ninguém';
+pessoa.idade = 99;
+pessoa.ativo = true;
+
+</div>
+
+* **Chaves**
+    * Nos mapas as chaves podem ser qualquer valor
+    * Nos objetos apenas tipos simples
+* **Ordem de inserção**
+    * Nos mapas é preservada na iteração 
+    * Nos objetos é a ordem lexicográfica das chaves
+* **Tipo**
+    * Um mapa é um objeto
+    * Um objeto em geral não é um mapa

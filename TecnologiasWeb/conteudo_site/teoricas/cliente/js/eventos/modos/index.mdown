@@ -1,0 +1,12 @@
+## Registo e controlo de eventos ##
+
+* Registo de processamento de eventos com **três (3)** partes
+    * **Elemento** que recebe o evento
+    * **Tipo** de evento a processar
+    * ***Callback*** a executar em resposta<br><br>
+*  Diferentes modos de registo
+    * **Atributos** de elementos no HTML
+    * **Propriedades** de elementos DOM no JS
+    * **Função** nos elementos DOM em JS
+* Propagação de eventos pelos elementos
+* Envio de dados e controlo de eventos

@@ -1,0 +1,20 @@
+## Corpo ##
+
+<div markdown=1 class="example terminal">
+&lt;!DOCTYPE html>
+&lt;html>
+  &lt;head>
+    &lt;title>A minha primeira página HTML&lt;/title>
+  &lt;/head>
+  &lt;body></span>
+     <span class=focus>Mãe, ó p'ra mim a fazer páginas &lt;b>HTML&lt;/b>!</span>
+  &lt;/body>
+&lt;/html>
+</div>
+
+
+* O elemento <code class=focus>body</code> contém formatação
+* São apresentados na área de trabalho do navegador
+* A generalidade dos elementos HTML devem ser colocados aqui
+* No corpo não há uma estrutura rígida ...
+* ... mas certos elementos devem estar contidos dentro de outros

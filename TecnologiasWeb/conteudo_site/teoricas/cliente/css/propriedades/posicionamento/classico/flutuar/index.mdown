@@ -1,0 +1,9 @@
+<img alt=Balão src=balloon.png style="float: right;">
+## Flutuar ##
+
+<div class=endCols></div>
+
+
+* Elementos <b>flutuantes</b> desenhados para imagens e tabelas
+* Usados com outros elementos podem ser usados para <b>colunas</b>
+* Usando folgas pode-se <b>controlar</b> a flutuação

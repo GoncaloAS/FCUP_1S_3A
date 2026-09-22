@@ -1,0 +1,20 @@
+## Codificações de dados ##
+
+<div markdown=1 class="example" style="width: 50%; margin:auto; color:orange;">
+
+<b>de</b> José Paulo Leal
+<b>para</b> Mundo
+<b>texto</b> Olá Mundo
+
+</div>
+
+
+* Dados enviados nos pedidos no
+    * **URL** da linha de pedido (ex: método GET)
+    * **Corpo** da mensagem (ex: método POST)
+* **Originados** no HTML 
+    * **Âncoras** (pedidos GET)
+    * **Formulários** (pedidos GET ou POST)
+* São **codificados** em 2 formatos (media type)
+    * <code class=focus>application/x-www-form-urlencoded</code>
+    * <code class=focus>multipart/form-data</code>

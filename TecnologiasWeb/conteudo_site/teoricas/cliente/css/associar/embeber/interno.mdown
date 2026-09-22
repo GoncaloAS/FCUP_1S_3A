@@ -1,0 +1,25 @@
+## Folha de estilos interna ##
+
+<div class="example terminal cozy">&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+  &lt;title>Olá mundo&lt;/title>
+  &lt;link rel="stylesheet" href="style.css" type="text/css">
+  <span class=focus>&lt;style>
+     h1 { color: orange; }
+  &lt;/style></span>
+&lt;/head>
+&lt;body>
+    &lt;h1 style="font-weight: 500;">Olá mundo&lt;/h1>
+&lt;/body>
+&lt;/html>
+</div>
+
+* **Sintaxe**
+    * Elemento <code class=focus>style</code> contem estilos para a página
+    * No cabeçalho é carregado antes dos elementos a formatar
+    * Os navegadores reconhecem-no no corpo, mas não é válido
+* **Aplicabilidade**
+    * Definir estilos para os elementos duma página
+    * Promove a consistência dentro da página
+    

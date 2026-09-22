@@ -1,0 +1,7 @@
+## Conceitos básicos ##
+
+
+* Sistema de coordenadas
+* Rectângulos
+* Dimensões
+* Cores

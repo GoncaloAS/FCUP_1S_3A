@@ -1,0 +1,83 @@
+## Construtor 2 ##
+
+<script>
+
+window._update = function() {
+
+
+class Counter {
+
+    constructor(parentId) {
+	const parent  = document.getElementById(parentId);
+	const counter = document.createElement("div");
+	const incr = document.createElement("div");
+	const reset = document.createElement("div");
+
+	this.display = document.createElement("div");
+	this.count = 0;
+	
+	parent.appendChild(counter);
+	counter.appendChild(incr);
+	counter.appendChild(reset);
+	counter.appendChild(this.display);
+	
+	counter.className = "counter";
+	incr.className = "button";
+	reset.className = "button";
+	this.display.className = "display";
+	
+	incr.innerText = " Incr ";
+	reset.innerText = " Reset ";
+	this.display.innerText = this.count;
+	
+	incr.onclick = () => this.increment();
+	reset.onclick = () => this.reset();
+    }
+
+    increment() {
+	this.count ++;
+	
+	this.display.innerText = this.count;
+    }
+
+    reset() {
+	this.count = 0;
+
+	this.display.innerText = this.count;
+    }
+}
+
+	var counter = new Counter("base");
+
+}
+
+</script>
+
+<link rel="stylesheet" href="counter.css" type="text/css">   
+
+
+<div class="col75p terminal example" style="margin-bottom: -20px;">
+constructor(parentId) {
+    // ...
+    counter.<span class=focus>className</span> = "counter";
+    incr.<span class=focus>className</span> = "button";
+    reset.<span class=focus>className</span> = "button";
+    this.display.<span class=focus>className</span> = "display";
+
+    incr.<span class=focus>innerText</span> = " Incr ";
+    reset.<span class=focus>innerText</span> = " Reset ";
+    this.display.<span class=focus>innerText</span> = this.count;
+    
+    incr.onclick = <span class=focus>() => this.increment()</span>;
+    reset.onclick = <span class=focus>() => this.reset()</span>;
+}
+</div>
+<div class=col25p >
+
+<div id=base></div>
+
+</div>
+
+* Classes CSS associadas  propriedade <code class=focus>classname</code>
+* Texto de botoes com  propriedade <code class=focus>innerText</code>
+* Função *callback* associada ao objeto corrente com <code class=focus>bind()</code>

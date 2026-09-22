@@ -1,0 +1,10 @@
+## Tipo `Node` ##
+
+<div style="width: 100%;">
+<img alt="DOM" src=../DOM.png style="margin: auto; width: 80%;">
+</div>
+
+* Tipo mais geral dos nós pendurados no documento
+* Têm também tipos mais específicos <span class=litle>(como `Element` ou `Text`)</span>
+* Agrega as **propriedades** e **métodos** estruturais
+* A estrutura do documento é uma **hierarquia** <span class=litle>(árvore)</span>

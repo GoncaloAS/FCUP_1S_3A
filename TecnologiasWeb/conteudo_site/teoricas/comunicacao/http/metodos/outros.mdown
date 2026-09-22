@@ -1,0 +1,17 @@
+## Outro métodos HTTP ##
+
+* <code class=focus>PUT</code>
+    * Recebe um recurso no corpo do pedido
+    * Guarda-o no servidor associado ao URL indicado
+* <code class=focus>DELETE</code>
+    * Remove do servidor o recurso referenciado no URL
+* <code class=focus>TRACE</code>
+    * Ecoa o pedido recebido
+    * Mostra modificações/adições introduzidas por *proxies*
+* <code class=focus>CONNECT</code>
+    * Usado em comunicações SSL
+* <code class=focus>PATCH</code>
+    * Aplica modificações parciais a um recurso
+
+
+<div class=foot>Nem sempre disponíveis por omissão nos servidores</div>

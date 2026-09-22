@@ -1,0 +1,21 @@
+digraph prototipos {
+  rankdir=BT;
+  fontname="Helvetica";
+  node [shape=record, style="rounded,filled", fontname="Helvetica", fillcolor="#EBF2FA", color="#1B4F72"];
+
+  labelloc="t";
+  label="Cadeia de protótipos criada por: class Finalista extends Aluno extends Pessoa";
+
+  f  [label="{ f  (instância criada com new Finalista(...))\l | nome, curso, anoFinal\l }"];
+  Fp [label="{ Finalista.prototype\l | saudacao() \l }"];
+  Ap [label="{ Aluno.prototype\l | saudacao() \l }"];
+  Pp [label="{ Pessoa.prototype\l | saudacao() \l }"];
+  Op [label="{ Object.prototype\l | (toString, ...) \l }", fillcolor="#F2F3F4", color="#555555"];
+  nu [label="null", shape=plaintext, style="", fillcolor=none];
+
+  f  -> Fp [label="  __proto__"];
+  Fp -> Ap [label="  __proto__"];
+  Ap -> Pp [label="  __proto__"];
+  Pp -> Op [label="  __proto__"];
+  Op -> nu [label="  __proto__"];
+}

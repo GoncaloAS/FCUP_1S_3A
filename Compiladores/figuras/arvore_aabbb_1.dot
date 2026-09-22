@@ -1,0 +1,13 @@
+digraph G {
+  rankdir=TB; node [shape=plaintext, fontname="Helvetica", fontsize=14];
+  Sroot [label="S"]; a1 [label="a"]; Smid [label="S"]; Bouter [label="B"];
+  a2 [label="a"]; Sinner [label="S"]; Bmid [label="B"];
+  eps [label="ε"]; Bnew [label="B"]; b1 [label="b"];
+  b2 [label="b"]; b3 [label="b"];
+  Sroot -> a1; Sroot -> Smid; Sroot -> Bouter;
+  Smid -> a2; Smid -> Sinner; Smid -> Bmid;
+  Sinner -> eps;
+  Bmid -> Bnew; Bmid -> b2;
+  Bnew -> b1;
+  Bouter -> b3;
+}

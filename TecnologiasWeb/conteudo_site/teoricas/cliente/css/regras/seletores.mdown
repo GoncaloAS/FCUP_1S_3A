@@ -1,0 +1,47 @@
+## Agrupar Seletores ##
+
+<style>
+  .nt {
+     background: orange;
+     opacity: 0.50;	
+     border-radius: 3mm;
+     text-align: center;
+     padding : 2mm;
+  }
+  
+</style>
+
+<table border=0> 
+    <tr>
+    	<td colspan=5 class=nt> Seletores </td>
+	<td rowspan=2> </td>
+	<td rowspan=2 class=nt> Declaração </td>
+	<td rowspan=2> </td>
+    </tr>
+    <tr>
+       <td class=nt> Seletor<sub>1</sub> </td>
+       <td> </td>
+       <td class=nt> Seletor<sub>2</sub> </td>
+       <td> ... </td>
+       <td class=nt> Seletor<sub>n</sub> </td>
+    </tr>
+    <tr>
+       <td><code>H1</code></td>
+       <td class=focus><code>,</code></td>
+       <td><code>H2</code></td>
+       <td class=focus><code>,</code></td>
+       <td><code>H3</code></td>
+       <td><code>{</code></td>
+       <td><code> font-weight: bold</code></td>
+       <td><code>}</code></td>
+    </tr>
+</table>
+
+
+<div style="height: 2cm;">&nbsp;</div>
+
+
+
+* Lista de seletores para declarações
+* Seletores separados por **virgula** <span class=focus>,</span>
+* Declarações associadas a todos os seletores

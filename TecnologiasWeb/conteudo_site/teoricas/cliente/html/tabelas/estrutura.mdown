@@ -1,0 +1,49 @@
+## Estrutura ##
+
+   <link rel="stylesheet" href="table.css" type="text/css">	
+
+<div class="col50p terminal example cozy">
+&lt;table>
+    &lt;tr>
+        &lt;td>X&lt;/td>
+        &lt;td>&nbsp;&lt;/td>
+        &lt;td>&nbsp;&lt;/td>
+    &lt;/tr>
+    &lt;tr>
+        &lt;td>O&lt;/td>
+        &lt;td>X&lt;/td>
+        &lt;td>O&lt;/td>
+    &lt;/tr>
+    &lt;tr>
+        &lt;td>X&lt;/td>
+        &lt;td>O&lt;/td>
+        &lt;td>&nbsp;&lt;/td>
+    &lt;/tr>
+&lt;/table>
+
+</div>
+<div class="col50p cozy">
+<table class=large>
+<tr><td>X</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><td>O</td><td>X</td><td>O</td></tr>
+<tr><td>X</td><td>O</td><td>&nbsp;</td></tr>
+</table>
+
+<div style="height: 0.5cm;">
+&nbsp;
+</div>
+ Estrutura hierarquia com diferentes anotações por nível
+<ol style="margin: 10px;">
+<li> tabela - <code class=focus>table</code>
+<li> linhas - <code class=focus>tr</code> <span class=litle>(Table Row)</span>
+<li> células - <code class=focus>td</code> <span class=litle>(Table Data)</span>
+</ol>
+
+<span class=litle style="margin-top: -10px;">(Bordos obtidos por formatação usando CSS)</span>
+</div>
+
+
+
+
+
+

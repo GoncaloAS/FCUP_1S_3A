@@ -1,0 +1,8 @@
+## Formatos de dados ##
+
+![JSON](json.png)
+
+* Necessidade de serialização
+* Formatos de serialização
+* Formato JSON
+* JSON em JavaScript

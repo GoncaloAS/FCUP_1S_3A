@@ -1,0 +1,16 @@
+## 1XX - Respostas informativas ##
+
+
+<div markdown=1 style="width: 50%; margin: auto;">
+* <span class=focus>100</span> Continue
+* <span class=focus>101</span> Switching Protocols
+* <span class=focus>102</span> Processing
+</div>
+
+* Indicam que a mensagem foi recebida e percebida
+* Usados quando não há propriamente resposta
+    * Para indicar que os cabeçalhos estão corretos <span class=litle>(ex: 100 )</span>
+    * Mudança para um protocolo diferente <span class=litle>(ex. *Web Sockets*)</span>
+* Estas mensagens terminam com a linha em branco
+* São códigos relativamente pouco usados
+

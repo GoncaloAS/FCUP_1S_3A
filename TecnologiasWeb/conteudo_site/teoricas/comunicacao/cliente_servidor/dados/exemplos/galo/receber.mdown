@@ -1,0 +1,21 @@
+## Receber mensagens ##
+
+<div class="terminal example">
+  webSocket.onmessage = function(event) {
+    const message = JSON.parse(<span class=focus>event.data</span>);
+	
+    if(<span class=focus>'board' in message</span>)
+      for(var b in message.board)
+        cells[b].innerHTML = message.board[b];
+	
+    if(<span class=focus>'pos' in message</span> && <span class=focus>'piece' in message</span>)
+       cells[message.pos].innerHTML = message.piece;	
+	
+    if(<span class=focus>'current' in message</span>)
+       showc.innerHTML = "Playing "+message.current;
+  }
+</div>
+
+* Dados de eventos transformados em mensagem
+* Verificação da existência de campos na mensagem
+* Extração de dados para atualização do GUI

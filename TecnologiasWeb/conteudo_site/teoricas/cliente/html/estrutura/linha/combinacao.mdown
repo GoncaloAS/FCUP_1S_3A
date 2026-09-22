@@ -1,0 +1,31 @@
+## Combinação de estilos ##
+
+<div markdown=1 class="col50p example terminal">
+
+&lt;b>&lt;i>
+ Negrito+Itálico
+&lt;/i>&lt;/b>
+
+&lt;u>&lt;s>
+  Sublinhado+Cortado
+&lt;/s>&lt;/u>
+
+&lt;b>Negrito
+  &lt;sup>expoente
+      &lt;sub>índice
+&lt;/sub>&lt;/sup>&lt;/b>
+
+</div>
+<div class="col50p">
+<b class=showBorder><i class=showBorder>Negrito+Itálico</i></b>
+<div style="height: 3cm;">&nbsp;</div>
+<u class=showBorder><s class=showBorder>Sublinhado+Cortado</s></u>
+<div style="height: 3cm;">&nbsp;</div>
+<b class=showBorder>Negrito
+  <sup class=showBorder>expoente
+      <sub class=showBorder>índice
+</sub></sup></b>
+
+</div>
+<div class="endCols">&nbsp;</div>
+

@@ -1,0 +1,101 @@
+## Medir texto ##
+
+
+<script>
+window.base = function(gc) {
+  gc.save();
+
+  gc.strokeStyle = "#228";
+  gc.fillStyle ="#228";
+  gc.fillText("(0,0)",10,10);
+  
+  gc.beginPath();
+  gc.moveTo(20,20);
+  gc.lineTo(290,20);
+
+  gc.lineTo(285,15);
+  gc.moveTo(290,20);
+  gc.lineTo(285,25);
+  
+  gc.closePath();
+  gc.stroke();
+  
+
+  gc.beginPath();
+  gc.moveTo(20,20);
+  gc.lineTo(20,190);
+
+  gc.lineTo(15,185);
+  gc.moveTo(20,190);
+  gc.lineTo(25,185);	
+
+  gc.closePath();
+  gc.stroke();
+
+  gc.strokeStyle = "#228";
+  gc.setLineDash([1,3]);
+  
+  for(var x=40; x<300; x+=20) {
+    gc.beginPath();
+    gc.moveTo(x+0.5,20.5);
+    gc.lineTo(x+0.5,180.5);
+    gc.closePath();
+    gc.stroke();
+  }
+
+  for(var y=40; y<200; y+=20) {
+    gc.beginPath();
+    gc.moveTo(20.5,y+0.5);
+    gc.lineTo(280.5,y+0.5);
+    gc.closePath();
+    gc.stroke();
+  }
+
+  gc.restore();
+}
+</script>
+
+<script>
+
+window._update = function() {
+
+  var tela = document.getElementById("tela");
+  var gc = tela.getContext("2d");
+
+  base(gc);
+
+  gc.setLineDash([]);
+  gc.strokeStyle = "orange";
+  gc.fillStyle = "#228";
+  gc.lineWidth = 4;
+
+  gc.font = "32pt Arial";
+  var w1, w2;
+
+  gc.fillText("the quick",40,60);
+  gc.strokeRect(40+gc.measureText("the quick").width,40,20,20);
+  gc.fillText("brown fox",40,100);
+  gc.strokeRect(40+gc.measureText("brown fox").width,80,20,20);
+  gc.fillText("jumped over",40,140);
+  gc.strokeRect(40+gc.measureText("jumped over").width,120,20,20);
+  gc.fillText("the lazy dog",40,180);
+  gc.strokeRect(40+gc.measureText("the laze dog").width,160,20,20);  
+}
+
+</script>
+
+<div class="col50p terminal example">
+gc.fillText('the quick',20,30);
+width=<span class=focus>gc.measureText('the quick')
+   .width</span>
+gc.strokeRect(20+width,20,20,20);
+...
+</div>
+<div class=col50p>
+
+<canvas id="tela" width="300" height="200" style="display: block; width: 300px; margin: auto;"></canvas>
+
+</div>
+
+* O método <code class=focus>measureText()</code> calcula tamanho do texto
+* Retorna um objeto mas apenas propriedade <code class=focus>width</code> é relevante 

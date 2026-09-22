@@ -1,0 +1,57 @@
+## Método `POST`#
+
+
+<script>
+
+window._update = function() {
+  var date = document.getElementById("date");
+
+  date.innerText = new Date().toUTCString();;
+}
+
+</script>
+
+
+<style>
+td { font-size: small; white-space: pre; border: 1px dotted orange;vertical-align: top;}
+th { font-size: large; vertical-align: top;}
+</style>
+
+<table style="width: 100%; margin-top: -30px; margin-bottom: -30px;">
+<tr><th>Pedido</td><th> </th><th>Resposta</th></tr>
+<tr><td><span class=focus>POST</span> /regista HTTP/1.1</td><th> </th><td>HTTP/1.1 200 OK</td></tr>
+<tr><td>Accept:*/*
+Accept-Encoding:gzip, deflate, sdch, br
+Accept-Language:en-US,en;q=0.8,pt;q=0.6,pt-PT;q=0.4
+Connection:keep-alive
+Host:localhost
+Referer:http://www.dcc.fc.up.pt/~zp/about/index.html
+User-Agent:Mozilla/5.0 (X11; Linux x86_64)
+<span class=focus>Content-length: 56
+Content-type:application/x-www-form-urlencoded;charset=UTF-8</code>
+</td>
+<th> </th>
+<td>Connection:Keep-Alive
+Content-Type:  text/html; charset=UTF-8
+Date: <span id=date></span>
+Keep-Alive:timeout=5, max=100
+Server:Apache/2.4.25 (Fedora)
+Transfer-Encoding:chunked
+</td></tr>
+<tr><td> </td><th> </th><td> </td></tr>
+<tr><td><span class=focus>de=Jos%C3%A9+Paulo+Leal&amp;para=Mundo&texto=Ol%C3%A1+Mundo</span> </td><th> </th>
+<td>&lt;!DOCTYPE html>
+&lt;html>&lt;head>&lt;title>Recebido&lt;/title>&lt;head>
+&lt;bidy>&lt;h1>Recebido&lt;/h1>&lt;head>&lt;/html>
+</td></tr>
+</table>
+
+* A particularidade do POST é transportar **dados** no pedido
+* Dados estão relacionados com o recurso referenciado pelo URL
+* Podem ser dados
+    * a ser usados como critério numa pesquisa
+    * a acrescentar/modificar esse recurso
+    * para criar um novo recurso
+* Dados submetidos são transportados no **corpo** da mensagem
+* Codificados em `application/x-www-form-urlencoded` ou
+ `multipart/form-data`

@@ -1,0 +1,53 @@
+## Mover - jogadas inválidas ##
+
+<link rel="stylesheet" href="../table.css" type="text/css">	
+
+<table width="100%" class=dense>
+
+<tr>
+	<th>URL</th>
+	<th>Objeto no pedido</th>
+	<th>Objeto na resposta </th>
+	<th>Observações
+</tr>	   
+
+<tr>
+	<td class=code>.../notify
+	<td class=code>{ <b>"nick": "jpleal"</b>, "password": "another", "game": "2fd9d...", "cell": 26 }
+	<td class=code>{ "error": "not your turn to play" }
+	<td>Jogada inválida
+
+
+<tr>
+	<td class=code>.../notify
+	<td class=code>{ "nick": "zp", "password": "secret", "game": "2fd9d...", <b> "cell": true } </b>  }
+	<td class=code>{ "error": "cell is not an integer" }
+	<td>Jogada invalida
+
+<tr>
+	<td class=code>.../notify
+	<td class=code>{ "nick": "zp", "password": "secret", "game": "2fd9d...", <b> "cell": -1 } </b>  }
+	<td class=code>{ "error": "cell is negative" }
+	<td>Jogada inválida
+
+<tr>
+	<td class=code>.../notify
+	<td class=code>{"nick": "zp", "password": "secret", "game": "2fd9d...", <b>"cell": 0 </b>  }
+	<td class=code>{ "error": "cannot capture to your own piece"}
+	<td>jogada inválida
+
+<tr>
+	<td class=code>.../notify
+	<td class=code>{"nick": "zp", "password": "secret", "game": "2fd9d...", <b>"cell": 8 </b>  }
+	<td class=code>{}
+	<td>Jogada válida
+
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ <b>"turn": "zp", dice: null</b>, "step": "from", initial: "zp" "pieces": [ ... ]</b> }
+	<td>Mantém turno mas dado já foi usado
+
+
+</table>

@@ -1,0 +1,38 @@
+## Peças ##
+
+<link rel="stylesheet" href="../board.css">
+
+<div id=gamePanel></div>
+
+<script>
+window._update = async function() {
+
+fetch("praticas/trabalho/regras/tab_board.js")
+  .then(response => response.text())
+  .then(src => {
+        eval((src));
+
+        const board = new Board({parent: 'gamePanel', size: 9})
+		const blue  = { color: 'Blue' };
+        const red   = { color: 'Red' };
+
+        board.state({
+            board: [
+			     blue,	blue,	blue,	blue,	blue,	blue,	blue,	blue,	blue,
+			     null,	null,	null,	null,	null,	null,	null,	null,	null,
+			     null,	null,	null,	null,	null,	null,	null,	null,	null,
+			     red,	red,	red,	red,	red,	red,	red,	red,	red,				 
+            ],
+        });
+
+
+   })
+  .catch(console.error);
+
+}
+</script>
+
+* Número e posição inicial
+* Perpetiva de cada jogador
+* Estado das peças
+

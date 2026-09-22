@@ -1,0 +1,28 @@
+## Important! ##
+
+
+<div class="col50p example terminal">/* author */
+h3.other   {
+      font-style:     italic;  }
+h1, h2, h3 {
+      font-family: san-serif; 
+      <span class=focus>font-weight:      bold;</span>
+      font-style:     normal;	      }
+h1 {  font-size:    xx-large;  }
+h2 {  font-size:     x-large;  }
+h3 {  font-size:       large;
+      font-style:     italic;  }
+h2 {  font-size:        110%;  }
+</div>
+<div class="col50p example terminal">/* user agent */
+h1, h2, h3 {
+
+    font-family: serif;
+    <span class=focus>font-weight: 500 !important;</span>
+}
+</div>
+
+
+* Precedência das regras pode ser forçada
+* Colocando <code class=focus>!important</code> depois do valor
+* Deve ser usada com **muita** parcimónia

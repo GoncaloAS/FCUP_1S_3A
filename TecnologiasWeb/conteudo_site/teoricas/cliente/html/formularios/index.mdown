@@ -1,0 +1,24 @@
+## Formulários ##
+
+
+<form>
+
+Nome <input> Idade <input type="number" min="0" max="120"> <br>
+
+Email <input type=email> <br>
+
+Data de nascimento <input type=date> <br>
+
+<div style="margin: auto">
+
+<input type=reset>
+<input type=submit>
+
+</form>
+
+
+* Permitem a introdução de valores de diferentes tipos
+* Existem *widgets* especializados em determinados valores
+* Esses *widgets* restrigem ou validam valores introduzidos
+* Coleção de valores pode ser agregada num formulário
+* Dados em formulários podem ser submetidos a servidores

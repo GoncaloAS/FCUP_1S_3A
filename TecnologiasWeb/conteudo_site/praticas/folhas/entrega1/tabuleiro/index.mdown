@@ -1,0 +1,9 @@
+##Peças e tabuleiro##
+
+* Começar por modelar em HTML & CSS estático
+* Depois, gerar apresentação usando DOM (preferencialmente) 
+* Implementar a interação em JavaScript
+
+
+
+

@@ -1,0 +1,37 @@
+## Itens##
+
+
+<div markdown=1 class="col50p example terminal cozy">
+
+&lt;ul>
+   &lt;li> primeiro item
+   &lt;li> segundo item
+   &lt;li> terceiro item    
+&lt;/ul>
+&lt;ol>
+   &lt;li> primeiro item
+   &lt;li> segundo item
+   &lt;li value=4> quarto?
+&lt;/ol>
+
+</div>
+<div class="col50p"  style="margin-top: -40px; margin-bottom: 10px;">
+<ul class=showBorder>
+   <li class=showBorder> primeiro item
+   <li class=showBorder> segundo item
+   <li class=showBorder> terceiro item    
+</ul>
+<ol class=showBorder>
+   <li class=showBorder> primeiro item
+   <li class=showBorder> segundo item
+   <li class=showBorder value=4> quarto?    
+</ol>
+</div>
+
+
+
+* Listas são blocos contendo itens  <span class=litle>(também blocos)</span>
+* Tipo de lista condiciona marcador do item  <span class=litle>(bullet, número)</span>
+* Itens são iniciados pela anotação <class class=focus>li</class>  <span class=litle>(List Item)</span>
+* Anotação de fecho <class class=focus>/li</class> pode ser omitida
+* O atributo <class class=focus>value</class> pode ser usado em listas ordenadas

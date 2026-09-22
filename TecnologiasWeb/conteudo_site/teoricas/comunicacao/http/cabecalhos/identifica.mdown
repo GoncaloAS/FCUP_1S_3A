@@ -1,0 +1,51 @@
+## Identificação ##
+
+<script>
+
+window._update = function() {
+   var date = document.getElementById("date");
+
+  date.innerText = (new Date()).toUTCString();
+}
+</script>
+
+
+<style>
+td { font-size: small; white-space: pre; border: 1px dotted orange;vertical-align: top;}
+th { font-size: large; vertical-align: top;}
+</style>
+
+
+<table style="width: 100%; margin-top: 0px; margin-bottom: 0px;">
+<tr>
+<th></th><th>Linha inicial</th><th>Cabeçalhos relevantes</th></tr>
+</tr>
+
+<tr>
+<th>Pedido</th>
+<td>GET /index.html HTTP/1.1</td>
+<td><span class=focus>Referer:http://www.dcc.fc.up.pt/~zp/about/index.html
+User-Agent:Mozilla/5.0 (X11; Linux x86_64) 
+</code></td>
+</tr>
+
+<tr>
+<th>Resposta</th>
+<td>HTTP/1.1 200 OK</td>
+<td><span class=focus>Date: <span id=date>&nbsp;</span>
+Server:Apache/2.4.25 (Fedora)</code>
+</td>
+</tr>
+
+</table>
+
+
+* Informação genérica sobre os agentes
+    * <code class=focus>User-Agent</code> - descrição do cliente
+        * navegador
+        * sistema operativo
+        * sistema de janelas
+    * <code class=focus>Server</code> - descrição do servidor
+* Outra informação de contexto
+    * <code class=focus>Referer</code> - página de referência <span class=litle>(se existir)</span>
+    * <code class=focus>Date</code> - data e hora

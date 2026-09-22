@@ -1,0 +1,21 @@
+##Desconstrução de objetos##
+
+<div class="terminal example">let  hobbies = [ 'sky diving', 'graffiti' ];
+let [ primeiro, segundo ] = hobies;
+let [ segundo, primeiro ] = [ primeiro, segundo ];
+
+const pessoa = {
+    nome: 'Fulano de tal',
+    idade: 99,
+    morada: { endereco: 'Rua Nova', codPostal: '4000-001 Porto' }
+};
+
+let { nome, idade, morada } = pessoa;
+let { nome: name, morada: { endereco:street, codPostal:zip } } = pessoa;
+</div>
+
+* Estruturas podem ser usados do lado esquerdo de atribuições
+* Variáveis são emparelhadas com valores do lado direito
+* Em listas são emparelhadas na mesma ordem <span class=litle>(e podem ser trocados)</span>
+* Em objectos são emparelhados por nome <span class=litle>(e podem ser omitidos)</span>
+* Podem ser usadas estruturas profundas e nomes diferentes

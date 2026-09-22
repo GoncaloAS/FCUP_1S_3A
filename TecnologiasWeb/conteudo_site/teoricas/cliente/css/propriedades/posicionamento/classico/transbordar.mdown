@@ -1,0 +1,38 @@
+## Transbordar ##
+
+
+
+<div class="col50p terminal example">
+
+overflow: visible;
+
+overflow: hidden;
+
+overflow: scroll;
+
+</div>
+<div class=col50p style="font-size: large; padding: 1px; position: relative; text-align: center;">
+
+<div style="position: absolute; top: 0; left: 0; display: inline-block;  width: 3cm; height: 3.5cm; border: 1px dotted; background: orange; opacity: .5;">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at aliquam velit. Cras a nibh ultrices sapien venenatis suscipit. 
+</div>
+
+<div style="position: absolute; top: 0; right: 35%; display: inline-block; overflow: hidden;  width: 3cm; height: 3.5cm; border: 1px dotted; background: orange; opacity: .5;">  
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at aliquam velit. Cras a nibh ultrices sapien venenatis suscipit.
+</div>
+
+<div style="position: absolute; top: 0; right: 0; display: inline-block; overflow: scroll;  width: 3cm; height: 3.5cm; border: 1px dotted; background: orange; opacity: .5;">  
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at aliquam velit. Cras a nibh ultrices sapien venenatis suscipit. 
+</div>
+
+</div>
+
+
+
+* Conteúdo **transborda** se excede as dimensões do progenitor
+* Propriedade <code class=focus>overflow</code> controla essa situação
+* Valores possíveis
+    * <code class=focus>visible</code> - visível
+    * <code class=focus>hidden</code> - escondido
+    * <code class=focus>scroll</code> - com *scrollbar*
+    * <code class=focus>auto</code> - com *scrollbar* se necessário

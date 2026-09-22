@@ -1,0 +1,104 @@
+## Catavento ##
+
+<script>
+
+window._update = function() {
+
+WindMill.radialVelocity = Math.PI/100;
+
+WindMill.prototype.base = null;
+WindMill.prototype.gc = null;
+WindMill.prototype.alpha = 0;
+WindMill.prototype.center = null;
+WindMill.prototype.length = undefined;
+
+function WindMill(canvasId) {
+    this.base = document.getElementById(canvasId);
+    this.gc = this.base.getContext("2d");
+
+    this.gc.fillStyle = "orange";
+    
+    this.center = { x: this.base.width / 2, y: this.base.height / 2 };
+    this.length = Math.min(this.center.x,this.center.y);
+
+    this.play();
+}
+
+WindMill.prototype.play = function() {
+    this.base.width = this.base.width;
+    
+    this.show(this.gc);
+
+    this.alpha -= WindMill.radialVelocity;
+    
+    window.requestAnimationFrame(this.play.bind(this));
+}
+
+
+WindMill.prototype.show = function(gc) {
+    
+    gc.beginPath();
+    gc.moveTo(this.center.x,2*this.center.y);
+    gc.lineTo(this.center.x,this.center.y);
+    gc.strokeStyle = "#228";
+    gc.lineWidth = 10;
+    gc.stroke();
+    
+    for(var beta = this.alpha; beta < this.alpha+2*Math.PI; beta += Math.PI/2)
+	this.sail(gc,beta);
+
+    this.centerCircle(gc,this.length/5,"#228");
+    this.centerCircle(gc,this.length/9,"orange");
+    this.centerCircle(gc,this.length/30,"#228");
+}
+
+WindMill.prototype.centerCircle = function(gc,length,color) {
+    gc.beginPath();
+    gc.arc(this.center.x,this.center.y,length,0,2*Math.PI);
+    gc.fillStyle = color;
+    gc.fill();
+}
+
+
+WindMill.prototype.sail = function(gc,beta) {
+    var a = WindMill.inLine(this.center,beta,this.length);
+    var b = WindMill.inLine(this.center,beta-Math.PI/2,this.length/2);
+    
+    var c1 = WindMill.inLine(a,beta-3*Math.PI/4,this.length/2);
+    var c2 = WindMill.inLine(b,beta,this.length/2);
+    var c3 = WindMill.inLine(this.center,beta-Math.PI/4,this.length/2);
+    
+    gc.beginPath();
+    gc.moveTo(this.center.x,this.center.y);
+    gc.lineTo(a.x,a.y);
+    gc.bezierCurveTo(c1.x,c1.y,c2.x,c2.y,b.x,b.y);
+    gc.closePath();
+    gc.fillStyle = "#228";
+    gc.fill();
+
+    gc.beginPath();
+    gc.moveTo(this.center.x,this.center.y);
+    gc.lineTo(a.x,a.y);
+    gc.bezierCurveTo(c1.x,c1.y,c3.x,c3.y,this.center.x,this.center.y);
+    gc.fillStyle = "orange";
+    gc.fill();
+
+}
+
+WindMill.inLine = function(p,a,l) {
+
+    return { x: p.x+l*Math.cos(a), y: p.y+l*Math.sin(a) };
+}
+
+var windmill = new WindMill("base");
+
+}
+</script>
+
+
+<canvas id="base" width=250 height=200></canvas>
+
+* Animação requerendo `frames`
+* Mudanças de coordenadas
+* Pontos como objetos
+* Curvas de Bezier

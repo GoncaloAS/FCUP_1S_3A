@@ -1,0 +1,9 @@
+## Cliente Servidor ##
+
+<img src=cliente+servidor.png style="float: right; width: 40%;">
+
+* Atualização de formatação em HTML
+* Atualização de dados em JS
+    * Pedidos síncronos e assíncronos
+    * Atualização em tempo real
+* Exemplos

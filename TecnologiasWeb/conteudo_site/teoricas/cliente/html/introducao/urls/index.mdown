@@ -1,0 +1,29 @@
+## Uniform Resource Locator (URL) ##
+<div class="col50p example terminal" style="font-size: large;">
+<!DOCTYPE html>
+&lt;html>
+ &lt;head>
+   &lt;title>Olá&lt;/title>
+ &lt;/head>
+ &lt;body>
+  &lt;h1> Olá HTML 5 &lt;/h1>
+  &lt;img alt="HTML5" src="<span class=focus>logo.png</span>">
+  &lt;a href="<span class=focus>https://www.w3.org/TR/html5/</span>">
+    Mais informação
+  &lt;/a>
+&lt;/body>
+&lt;/html>
+</div>
+<div class="col50p">
+  <h1> Olá HTML 5</h1>
+   <img alt=HTML5 src=../../../html5-logo.png style="width: 3cm;">
+  <a href=https://www.w3.org/TR/html5/ target=_blanc>
+  Mais informação</a>
+</div>
+
+* Identificador de recursos na Internet
+* Pode ser usado para carregar recursos
+* Não são específicos do *world wide web*
+* Nas páginas *web* os URL podem ser
+    * Absolutos
+    * Relativos

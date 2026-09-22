@@ -1,0 +1,19 @@
+## Objeto `url`##
+
+<div class="terminal example">const url  = require('url');
+
+http.createServer(function (request, response) {
+    <span class=focus>const parsedUrl = url.parse(request.url,true)</span>;    
+    const pathname = parsedUrl.pathname;
+    const query = parsedUrl.query;
+
+    &hellip;
+}).listen(8003);
+
+</div>
+
+* Objeto retornado por `require()` fornece método <code class=focus>parse()</code>
+* Método parse recebe um URL <span class=litle>(ex: `request.url`)</span>
+* E retorna um objeto com constituintes do URL
+
+<div class=foot>Notar que <code>request.url</code> é um URL relativo</div>

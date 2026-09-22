@@ -1,0 +1,20 @@
+## Formulários ##
+
+
+<div class="terminal example" style="margin-top: 0px; margin-bottom: 0px;">&lt;form <span class=focus>action=http://some.site.com/execute method=post></span> 
+    &lt;input type=hidden name=command value=remove>
+    &lt;input type=hidden name=id value=123>
+    &lt;input type=submit value=Remover>
+&lt;/form>
+</div>
+
+
+* **Formulários** permitem maior controlo no envio de dados
+* Atributo <code class=focus>method</code> indica método HTTP
+    * <code class=focus>POST</code> - usar se houver modificação de estado
+    * <code class=focus>GET</code> <span class=litle>(por omissão)</span>
+* Dados em pares **nome-valor** recolhidos de *widgets*
+      * **Nome** dado por atributo <code class=focus>name</code>
+      * **Valor** dado por atributo <code class=focus>value</code>
+      * Tipo <code class=focus>hidden</code> permite enviar valores fixos
+* Por omissão dados codificados em <code class=focus>urlencoded</code>

@@ -1,0 +1,22 @@
+## Promessas ##
+
+<div class="terminal example cozy">function vamosSairLogo(quando) {
+    return new <span class=focus>Promisse</span>(function(<span class=focus>resolve</span>,<span class=focus>reject</span>) {
+       setTimeout( function() {
+             if(aindaApetece()) <span class=focus>resolve();</span> else <span class=focus>reject();</span> }
+       , quando.getTime() - (new Date()).getTime);
+    });
+}
+&hellip;
+    vamosSairLogo(new Date("..."))
+        <span class=focus>.then</span>(() => irASitioAltamente())   <span style="color:grey">//  .then(irASitioAltamente)</span>
+        <span class=focus>.catch</span>(() => console.log('És sempre o mesmo :-(');
+</div>
+
+* `Promisse` é objeto construído a partir de **função**
+    * Recebe como argumento **continuações** <span class=litle>(também funções)</span>
+    * Implementa funcionalidade *prometida*
+    * No final invoca `resolve` ou `reject` consoante o caso
+* Instâncias de `Promisse` servem de **contexto** para métodos
+    * `then()`  fornece **continuação** associada a `resolve`
+    * `catch()`  <span style="display: inline-block; width: 5em;">&nbsp;</span>*idem* <span style="display: inline-block; width: 6em;">&nbsp;</span>   `reject`

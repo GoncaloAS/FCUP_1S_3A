@@ -1,0 +1,27 @@
+##Acessores a propriedades##
+
+<div class="terminal example litle cozy">const MS_ANO = 1000*60*60*24*365.4;
+
+class Pessoa { // ...
+  <span class=focus>get idade()</span> {
+      let agora = new Date();
+      <span class=focus>return</span> Math.floor((agora.getTime()-this.nasce.getTime()) / MS_ANO);
+  }
+
+  <span class=focus>set idade(anos)</span> {
+      let agora = new Date();
+      <span class=focus>this.nasce</span> = new Date(agora.getTime() - anos*MS_ANO);
+  }
+}
+
+<span class=focus>joão.idade = 99</span>;
+document.writeln("O "+joão.nome+" tem "+<span class=focus>joão.idade</span>);
+</div>
+
+* Acessores são métodos para mediar acesso a variáveis
+    * `get` calcula o valor da propriedade pedida
+    * `set` altera estado de objeto refletindo parâmetros
+* Usados como se fossem propriedades
+* Acessores **não** devem modificar propriedade <span class=litle>(ex: `this.idade`)</span>
+
+<div class=foot>Conhecidos como getters e setters</div> 

@@ -1,0 +1,48 @@
+##Estado *links* ##
+
+<style>
+a:link { color: red; }
+
+a:visited { color: orange; }
+
+a:active { font-weight: bold; }
+</style>
+
+<div class="col50p terminal example" style="margin-bottom: 20px;">
+a:link { color: red; }
+
+a:visited { color: orange; }
+
+a:active { font-weight: bold; }
+</div>
+<div class=col50p>
+  <a href=. style="margin: auto;">Esta página mesmo</a>
+</div>
+<p> </p>
+
+<table rules="all" frame="box" cellpadding="5" cellspacing="5">
+
+
+  <tr>
+    <td> <code> :link </code> </td> 
+    <td> <i>links</i> não visitados </td>
+    <td>1</td>
+  </tr>
+
+  <tr>
+    <td> <code> :visited </code> </td> 
+    <td> <i>links</i> visitados </td>
+    <td>1</td>    
+  </tr>
+
+  <tr>
+    <td> <code> :active </code> </td> 
+    <td> <i>links</i> ativos </td>
+    <td>1</td>    
+  </tr>
+
+
+</table>
+
+* Seleciona apontadores <span class=litle>(<i>links</i>)</span> em função do seu estado
+* Estado varia ao longo da interação

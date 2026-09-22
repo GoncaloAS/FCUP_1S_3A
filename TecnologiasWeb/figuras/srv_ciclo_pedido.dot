@@ -1,0 +1,22 @@
+digraph SrvCicloPedido {
+  rankdir=TB;
+  fontname="Helvetica";
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11];
+  edge [fontname="Helvetica", fontsize=9];
+
+  socket   [label="Ligação TCP chega\n(cliente conecta-se à porta,\nex: 8008)", fillcolor="#dbe9ff"];
+  parse    [label="Módulo http lê bytes do socket\ne interpreta o pedido HTTP\n(linha inicial + cabeçalhos)", fillcolor="#e3f2fd"];
+  objetos  [label="São criados os objetos\nrequest e response\n(um por pedido)", fillcolor="#e3f2fd"];
+  handler  [label="Event loop invoca o callback\n(request, response) => { ... }\npassado a http.createServer()", fillcolor="#c8e6c9"];
+  corpo    [label="Se o handler ler o corpo\n(request.on('data'/'end'))\nfaz-se de forma assíncrona", fillcolor="#fff9c4", shape=note];
+  logica   [label="Handler decide a resposta\n(ex: ler ficheiro com fs,\nconsultar módulo do modelo, ...)", fillcolor="#c8e6c9"];
+  head     [label="response.writeHead(estado, cabeçalhos)", fillcolor="#ffe8cf"];
+  write    [label="response.write(dados)  [0+ vezes]", fillcolor="#ffe8cf"];
+  end      [label="response.end([dados])\nfecha a resposta", fillcolor="#ffd9a0"];
+  livre    [label="Processo Node fica livre\npara atender outros pedidos\n(nunca bloqueou à espera de I/O)", fillcolor="#dbe9ff"];
+
+  socket -> parse -> objetos -> handler;
+  handler -> corpo [style=dashed];
+  handler -> logica;
+  logica -> head -> write -> end -> livre;
+}

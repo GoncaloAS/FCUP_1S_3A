@@ -1,0 +1,39 @@
+## 4XX - Erros do cliente ##
+
+<script>
+
+window._update = function() {
+  var date = document.getElementById("date");
+
+  date.innerText = new Date().toUTCString();;
+}
+
+</script>
+
+<div class="col50p" markdown=1>
+* <span class=focus>400</span> Bad Request
+* <span class=focus>401</span> Unauthorized 
+* <span class=focus>402</span> Payment Required
+* <span class=focus>403</span> Forbidden
+* <span class=focus>404</span> Not Found
+* ...
+</div>
+<div class="col50p terminal example litle">
+HTTP/1.1 <span class=focus>404 Not Found</span>
+Date: <span id="date"></span>
+Server: Apache/2.4.25 (Fedora)
+Content-Length: 210
+Connection: close
+Content-Type: text/html; charset=iso-8859-1
+
+
+</div>
+
+
+* Estados de erros resultantes do pedido do cliente
+* Problemas de sintaxe HTTP, autenticação, autorização, ...
+* Ou simplesmente o recurso pedido não existir <span class=focus>404</span>
+
+
+
+<div class=foot>Existem <b>muitos</b> mais códigos de erro</div>

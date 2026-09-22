@@ -1,0 +1,84 @@
+## Ordem ##
+
+<style>
+
+.container {
+	   display: flex;
+	   width: 100%;
+	   height: 80px;
+	   background:
+	   orange; opacity: .5;
+}
+
+.item {
+	   width: 100px;
+	   height: 50px;
+	   background: #228;
+	   color: white;
+	   margin: 10px;
+	   text-align: center;
+	   line-height: 50px;
+}
+
+</style>
+
+<div class="terminal example col50p"> &lt;div &hellip; > 1 &lt;/div>
+ &lt;div &hellip; > 2 &lt;/div>
+ &lt;div &hellip; > 3 &lt;/div>
+</div>
+<div class="col50p">
+	<div class=container>
+
+	     <div class=item> 1 </div>
+	     <div class=item> 2 </div>
+	     <div class=item> 3 </div>
+
+	</div>
+</div>
+<div class=ruler></div>
+<div class="terminal example col50p"> &hellip; style="order: 3;" &hellip;
+ &hellip; style="order: 1;" &hellip;
+ &hellip; style="order: 2;" &hellip;
+</div>
+<div class="col50p">
+	<div class=container>
+
+	     <div class=item style="order: 3;"> 1 </div>
+	     <div class=item style="order: 1;"> 2 </div>
+	     <div class=item style="order: 2;"> 3 </div>
+
+	</div>
+</div>
+<div class=ruler></div>
+<div class="terminal example col50p"> &hellip; style="order: 0;" &hellip;
+ &hellip; style="order: 0;" &hellip;
+ &hellip; style="order: 0;" &hellip;
+</div>
+<div class="col50p">
+	<div class=container>
+
+	     <div class=item style="order: 0;"> 1 </div>
+	     <div class=item style="order: 0;"> 2 </div>
+	     <div class=item style="order: 3;"> 3 </div>
+
+	</div>
+</div>
+<div class=ruler></div>
+<div class="terminal example col50p"> &hellip; style="order: -1;" &hellip;
+ &hellip; style="order: -2;" &hellip;
+ &hellip; style="order: -3;" &hellip;
+</div>
+<div class="col50p">
+	<div class=container>
+
+	     <div class=item style="order: -1;"> 1 </div>
+	     <div class=item style="order: -2;"> 2 </div>
+	     <div class=item style="order: -3;"> 3 </div>
+
+	</div>
+</div>
+
+
+* Propriedade `order` permite alterar ordem dos itens
+* Valor `0` significa ordem natural <span class=litle>(de ocorrência no HTML)</span>
+* Pode ter valores negartivos

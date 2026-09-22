@@ -1,0 +1,19 @@
+digraph G {
+  rankdir=TB; node [shape=plaintext, fontname="Helvetica", fontsize=16];
+  E [label="¬"];
+  D [label="→"];
+  s1 [label="s"];
+  C [label="¬"];
+  B [label="→"];
+  p1 [label="p"];
+  A [label="∨"];
+  q1 [label="q"];
+  negs [label="¬"];
+  s2 [label="s"];
+  E -> D;
+  D -> s1; D -> C;
+  C -> B;
+  B -> p1; B -> A;
+  A -> q1; A -> negs;
+  negs -> s2;
+}

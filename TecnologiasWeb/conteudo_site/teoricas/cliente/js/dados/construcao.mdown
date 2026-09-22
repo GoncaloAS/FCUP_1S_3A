@@ -1,0 +1,27 @@
+##Construção de objetos##
+
+<div class="terminal example col75p cozy">const nome  = 'Fulano de tal';
+const idade = 99
+const morada = {}
+
+const original = {
+    nome: nome,
+    idade: idade,
+    morada: morada
+};
+const cópia = <span class=focus>{ nome, idade, morada }</span>;
+
+for(let campo in original)
+   if(original[campo] !== cópia[campo])
+       document.writeln('diferentes!');
+</div>
+<div class=col25p>
+</div>
+
+* Inicializações de objetos podem ser feitas a partir de variáveis
+* Estas variáveis e propriedades tendem a ter os mesmos nomes
+* Inicialização com apenas um nome é simultaneamente
+    * o nome da propriedade
+    * o nome da variável com o valor
+* Inicializações tornam-se mais sucintas
+

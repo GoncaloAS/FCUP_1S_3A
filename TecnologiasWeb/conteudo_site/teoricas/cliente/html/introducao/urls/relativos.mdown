@@ -1,0 +1,67 @@
+## URLs Relativos ##
+
+<style>
+  .nt {
+     background: orange;
+     opacity: 0.50;	
+     border-radius: 3mm;
+     text-align: center;
+     padding : 2mm;
+  }
+
+
+  .c {
+	font-family: monospace;
+  }
+</style>
+
+<script>
+
+window._update = function() {
+    document.getElementById("path").innerText = window.location.pathname;
+    document.getElementById("path2").innerText =
+        window.location.pathname.substring(5);
+}
+
+</script>
+
+
+<table>
+<tr>
+  <th>URL</th>
+  <td class=nt>protocolo</td>
+  <td></td>
+  <td class=nt>servidor</td>
+  <td class=nt  colspan=2>caminho</td>	
+</tr>
+<tr>
+	<th>Absoluto</th>
+	<td class=c style="text-align: right;">http</td>
+	<td class="c focus">://</td>
+	<td class=c>dcc.fc.up.pt</td>
+	<td class=c colspan=2 id=path></td>
+</tr>
+<tr>
+	<th>Base</th>
+	<td  class=c style="text-align: right;">http</td>
+	<td class="c focus">://</td>
+	<td class=c>dcc.fc.up.pt</td>
+	<td class=c>/~zp/</td>
+	<td><span class="c focus">index.html</span></td>
+</tr>
+<tr>
+	<th>Relativo</th>
+	<td style="text-align: right;"></td>
+	<td ></td>
+	<td></td>
+	<td>&nbsp;</td><td class=c id=path2></td>
+</tr>
+</table>
+
+
+
+* Usados para referir páginas/recursos no mesmo servidor
+* Relativos a um URL **base** - diretoria da página que os refere
+* Semelhantes a nomes-caminhos relativos no Linux
+* Facilitam a recolocação de páginas inter-relacionadas
+* Devem ser usados sempre que possível

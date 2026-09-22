@@ -1,0 +1,19 @@
+## Classificação e dimensão ##
+
+<div markdown=0 style="width: 100%; height: 50px; background: orange; opacity: 0.5; margin: 2px"></div> <div style="width: 100%; height: 50px; background: orange; opacity: 0.5; margin: 2px">
+
+<span style="display: inline; background: #228; margin: 2px; color: white;">###</span> <span style="display: inline; background: #228; margin: 2px; color: white;">#####</span> <span style="display: inline; background: #228; margin: 2px; color: white;">#####</span><span style="display: inline; background: #228; margin: 2px; color: white;">#####</span>
+</div>
+
+</div>
+
+
+* Propriedade <code class=focus>display</code> controla posicionamento
+* Os valores base desta propriedades são <span class=litle>(posicionam)</span>
+    * <code class=focus>inline</code> - segundo fluxo do texto
+    * <code class=focus>block</code> - ocupando largura disponível
+* As dimensões  <span class=litle>(largura e altura)</span> controladas diferenciadamente
+    * <code class=focus>inline</code> - dimensão do conteúdo  <span class=litle>(ex. texto)</span>
+    * <code class=focus>block</code> - pelas propriedades
+        * <code class=focus>width</code> - largura
+        * <code class=focus>height</code> - altura

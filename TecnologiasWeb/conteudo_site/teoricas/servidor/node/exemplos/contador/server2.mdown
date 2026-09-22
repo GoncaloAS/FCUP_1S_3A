@@ -1,0 +1,20 @@
+## Servidor ##
+
+<div class="terminal example">http.createServer(function (request, response) {
+	 &hellip;		   
+    if(answer.status === undefined)
+        answer.status = 200;
+    if(answer.style === undefined)
+        answer.style = 'plain';
+    
+    <span class=focus>response.writeHead(answer.status, headers[answer.style]);
+    if(answer.style === 'plain')
+        response.end();</span>
+}).listen(PORT);
+</div>
+
+* Ponto único de escrita de resposta
+* Diferentes cabeçalhos e sem escrita de corpo 
+    * Pedidos `POST` &rarr; cabeçalhos simples e sem resposta
+    * Pedidos `GET` &rarr; cabeçalhos SSE e não é fechada a resposta
+* Nos pedidos GET - SSE por difusão

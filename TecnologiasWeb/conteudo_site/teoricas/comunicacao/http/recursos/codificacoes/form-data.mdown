@@ -1,0 +1,37 @@
+## Formato `multipart/form-data` ##
+
+<div class="col50p example" style="color:orange;">
+<b>de</b> José Paulo Leal
+<b>para</b> Mundo
+<b>texto</b> Olá Mundo
+<b>foto</b> ...
+</div>
+<div class="col50p example terminal" style="font-size: medium; margin-top: -20px; margin-bottom: -30px;">
+Content-Type: multipart/form-data; boundary=AaB03x
+
+--AaB03x
+Content-Disposition: form-data; name="de"
+
+José Paulo Leal
+--AaB03x
+Content-Disposition: form-data; name="para"
+
+Mundo
+--AaB03x
+Content-Disposition: form-data; name="texto"
+
+Olá Mundo
+--AaB03x
+Content-Disposition: form-data; name="foto"; filename="foto.jpeg"
+Content-Type: image/jpeg
+
+   <i>... conteúdo da imagem ...</i>
+--AaB03x--
+</div>
+
+* Destinada a dados complexos, podem incluir ficheiros
+* Transporta dados no corpo do pedido
+* *String* aleatórica é separador (*boundary*), AaB03x no exemplo
+* Com várias partes, iniciadas com `--`*boundary*
+* Cada parte com os seus metadados específicos
+* Formatação termina com `--`*boundary*`--`

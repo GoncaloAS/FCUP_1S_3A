@@ -1,0 +1,57 @@
+## SSE em HTTP ##
+
+
+<script>
+
+window._update = function() {
+  let date = document.getElementById("date");
+
+  date.innerText = new Date().toUTCString();;
+}
+
+</script>
+
+
+<style>
+td { font-size: small; white-space: pre; border: 1px dotted orange;}
+th { font-size: large; vertical-align: top;}
+</style>
+
+<table style="width: 100%; margin-top: -30px;">
+<tr><th>Pedido</td><th> </th><th>Resposta</th></tr>
+<tr><td>GET /update HTTP/1.1</td><th>Linha inicial</th><td>HTTP/1.1 200 OK</td></tr>
+<tr><td>Host: localhost:8001
+Connection: keep-alive
+<span class=focus>Accept: text/event-stream</span>
+Cache-Control: no-cache
+Origin: http://localhost
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) ...  
+Referer: http://localhost/~zp/sandbox/multi_counter/
+Accept-Encoding: gzip, deflate, sdch, br
+Accept-Language: en-US,en;q=0.8,pt;q=0.6,pt-PT;q=0.4
+</td>
+<th>Cabeçalhos</th>
+<td style="vertical-align: top;"><span class=focus>Content-Type: text/event-stream</span>
+<span class=focus>Cache-Control: no-cache</span>
+Access-Control-Allow-Origin: *
+<span class=focus>Connection: keep-alive</span>
+Date: <span id=date> </span>
+Transfer-Encoding: chunked
+</td></tr>
+<tr><td> </td><th>Linha vazia</th><td> </td></tr>
+<tr><th> </td><th>Corpo</th>
+<td>data: 0
+
+data: 1
+
+data: 2
+</td></tr>
+</table>
+
+* Pedido HTTP `GET` <span class=litle>(poderia ter dados `urlencoded`)</span>
+* Cliente espera  <code class=focus>text/event-stream</code> e servidor fornece-o
+* Servidor pede para manter conexão <span class=litle>(<code class=focus>keep-alive</code>)</span> e <code class=focus>no-cache</code>
+* Corpo da resposta com sucessivas partes terminadas por 2 EOL
+* Cada parte com vários campos terminados por EOL
+* Cada linha <span class=litle>(podem ser várias)</span> começa por `data:` ou  `id:`
+* Linhas de `data` podem transportar JSON <span class=litle>(em várias linhas)</span>

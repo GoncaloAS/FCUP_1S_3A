@@ -1,0 +1,37 @@
+## Perpetiva de cada jogador ##
+
+<link rel="stylesheet" href="../board.css">
+
+<div id=gamePanel></div>
+
+<script>
+window._update = async function() {
+
+fetch("praticas/trabalho/regras/tab_board.js")
+  .then(response => response.text())
+  .then(src => {
+        eval((src));
+
+        const board = new Board({parent: 'gamePanel', size: 9})
+		const blue  = { color: 'Red' };
+        const red   = { color: 'Blue' };
+
+        board.state({
+            board: [
+			     blue,	blue,	blue,	blue,	blue,	blue,	blue,	blue,	blue,
+			     null,	null,	null,	null,	null,	null,	null,	null,	null,
+			     null,	null,	null,	null,	null,	null,	null,	null,	null,
+			     red,	red,	red,	red,	red,	red,	red,	red,	red,				 
+            ],
+        });
+
+
+   })
+  .catch(console.error);
+
+}
+</script>
+
+* As peças do jogador são mostradas em baixo
+* O mesmo tabuleiro para o adversário está rodado 180º
+* Tabuleiro acima é o mesmo na prespetiva das vermelhas

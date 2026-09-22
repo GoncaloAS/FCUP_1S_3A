@@ -1,0 +1,14 @@
+## Em linha ##
+
+
+
+<div class=showBorder style="padding: 5mm;">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at aliquam velit. Cras a nibh ultrices sapien venenatis suscipit. Nulla vitae sollicitudin nunc. Morbi venenatis luctus turpis. Aliquam venenatis lorem vel imperdiet dictum. Proin rutrum, tellus feugiat fringilla commodo, urna ipsum vehicula ante, sed consequat lacus mi sit amet eros.  
+</div>
+
+
+
+
+* Texto formatado segundo fluxo tipografico
+* Contentores **em linha** <span class=litle>(*inline*)</span> mantêm o fluxo de formatação
+* Usados na formatação de texto e hiperligações

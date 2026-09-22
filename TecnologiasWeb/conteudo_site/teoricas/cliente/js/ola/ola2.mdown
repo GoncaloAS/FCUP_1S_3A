@@ -1,0 +1,32 @@
+## Olá com `alert()` em resposta a eventos ##
+
+
+
+<div class="col75p terminal example" style="margin-bottom: -40px;">
+&lt;body>
+  &lt;div style="width: 2cm; margin: auto; 
+              text-align: center; border-style: 
+              outset; border-width: 2px; 
+              cursor: pointer; padding: 10px;"
+       <span class=focus>onclick="alert('Olá JavaScript');"</span>>
+           Olá
+  &lt;/div>
+&lt;/body>
+</div>
+
+<div class=col25p>
+<div style="width: 2cm; margin: auto; text-align: center; border-style: outset; border-width: 2px; cursor: pointer; padding:10px;"
+onclick="alert('Olá JavaScript');">Olá</div>
+
+</div>
+
+<div class=endCols>&nbsp;</div>
+
+* Código JavaScript executado em reação a **eventos**
+* Funções que criam **caixas de diálogos**
+    * <code class=focus>alert()</code> - mostra argumento
+    * <code class=focus>prompt()</code> - recolhe e retorna uma valor
+    * <code class=focus>message()</code> - recolhe e retorna booleano
+* **Não** suportam anotações HTML
+
+

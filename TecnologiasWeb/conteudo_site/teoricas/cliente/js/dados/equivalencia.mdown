@@ -1,0 +1,33 @@
+## Equivalencia entre propriedades e índices##
+
+
+<div class="col75p terminal example">
+const obj  = new Object();
+const prop = 'nome';
+      
+obj.nome = 'Um objeto';
+
+document.writeln(<span class=focus>obj.nome</span>);
+document.writeln(<span class=focus>obj['nome']</span>);
+document.writeln(<span class=focus>obj[prop]</span>);
+</div>
+<div class=col25p>
+<pre>
+
+
+
+Um objeto
+Um objeto
+Um objeto
+</pre>
+</div>
+<div class=endCols></div>
+
+
+* Arrays são apenas uma classe de objetos
+* São associativos - índices podem ter qq tipo <span class=litle>(não só numéricos)</span>
+* Acesso por **chave** é sobretudo uma **variação sintática**
+    * **propriedades** - *objeto*<code class=focus>.</code>*chave* - chave é literal <span class=litle>(nome)</span>
+    * **índices** - *array*<code class=focus>[</code>*chave*<code class=focus>]</code> - chave é um expressão de qq tipo
+* Propriedades seguem regras de nomes de variáveis
+* Índices são expressões de qualquer tipo <span class=litle>(com var. e funções)</span>

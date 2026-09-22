@@ -1,0 +1,83 @@
+## Sobreposição ##
+
+<script>
+
+window._update = function() {
+
+var canvas = document.getElementById("tela");
+var gc = canvas.getContext("2d");
+
+
+
+function lines() {
+gc.strokeStyle = "orange";
+for(var y=22; y<canvas.height; y+=22) {
+  gc.beginPath();
+  gc.moveTo(0,y);
+  gc.lineTo(canvas.width,y);
+  gc.stroke();
+}
+}
+
+lines();
+
+var start = null;
+
+canvas.onmousedown = function(event) {
+  start = relativeCoords(event);
+}
+
+canvas.onmousemove = function(event) {
+
+   if(start !== null) {
+   var p = relativeCoords(event);
+   canvas.width = canvas.width;
+   lines();
+   gc.fillStyle = "rgba(255,165,0,0.6)";
+   gc.fillRect(start.x,(start.y / 20)*19,(p.x-start.x),22);
+
+ }
+}
+
+canvas.onmouseup = function(event) {
+  start = null;
+}
+
+function relativeCoords (event) {
+  var bounds = event.target.getBoundingClientRect();
+  var x = event.clientX - bounds.left;
+  var y = event.clientY - bounds.top;
+  return {x: x, y: y};
+}
+
+}
+</script>
+
+<div class="col50p terminal example">&lt;div style="<span class=focus>position: relative;</span>">
+&lt;div style="<span class=focus>position: absolute; 
+    top: 0; left: 0; 
+    line-height: 22px;</span>
+    font: 20px Arial; 
+    width: 350px; height: 250px;">
+  Lorem ipsum dolor sit amet, ...
+&lt;/div>
+&lt;canvas id="tela"
+  width="350" height="250" 
+  style="<span class=focus>position: absolute; 
+    top: 0; left: 0;</span>">
+&lt;/canvas>
+&lt;/div>
+</div>
+<div class=col50p style="position: relative; ">
+<div style="position: absolute; top: 0; left: 0; font: 20px Arial; width: 350px; height: 250px; line-height: 22px;">
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas at aliquam velit. Cras a nibh ultrices sapien venenatis suscipit. Nulla vitae sollicitudin nunc. Morbi venenatis luctus turpis. Aliquam venenatis lorem vel imperdiet dictum. Proin rutrum, tellus feugiat fringilla commodo, urna ipsum vehicula ante, sed consequat lacus mi sit amet eros.
+</div>
+<canvas id="tela" width="350" height="250" 
+  style="position: absolute; top: 0; left: 0;"></canvas>
+
+</div>
+
+* Certos conteúdos mais fáceis de formatar em HTML  <span class=litle>(ex: texto)</span>
+* Canvas é transparente  <span class=litle>(por omissão)</span> e pode ser sobreposto
+* Usando mecanismos de posicionamento do CSS
+* E usado para desenhar sobre o restante conteúdo

@@ -1,0 +1,10 @@
+## Output ##
+
+* CGI deve escrever mensagem de resposta no *stdout*
+* Respeitando o formato das mensagens
+    * Linha inicial  <span class=litle>(opcional)</span>
+    * Cabeçalhos  <span class=litle>(obrigatório `Content-type`)</s+an>
+    * Linha em branco  <span class=litle>(obrigatório)</span>
+    * Corpo da mensagem  <span class=litle>(opcional)</span>
+* Apenas o <Code class=focus>Content-type</code> é obrigatório no cabeçalho
+* Se necessário, linha inicial pode iniciar como <Code class=focus>Status:</code>

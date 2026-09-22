@@ -1,0 +1,78 @@
+## Valores ##
+
+<div class="col75p terminal example" style="margin-top: -30px; margin-botton: -50px;">
+background-color: #FF0000;
+background-color: #00FF00;
+background-color: #0000FF;
+
+background-color: rgb(255,0,0);
+background-color: rgb(0,255,0);
+background-color: rgb(0,0,255);
+
+background-color: hsl(0,100%,50%);
+background-color: hsl(120,100%,50%);
+background-color: hsl(240,100%,50%);
+
+</div>
+<div class=col25p>
+<div style="margin-top: 0px;">
+<div style="
+     display: inline-block;
+     width: 50px; height: 50px;
+     background-color: #FF0000;">
+</div>
+<div style="
+     display: inline-block;
+     width: 50px; height: 50px;
+     background-color: #00FF00;">
+</div>
+<div style="
+     display: inline-block;
+     width: 50px; height: 50px;
+     background-color: #0000FF;">
+</div>
+</div>
+<div style="margin-top: 30px;">
+<div style="
+     display: inline-block;
+     width: 50px; height: 50px;
+     background-color: rgb(255,0,0);">
+</div>
+<div style="
+     display: inline-block;
+     width: 50px; height: 50px;
+     background-color: rgb(0,255,0);">
+</div>
+<div style="
+     display: inline-block;
+     width: 50px; height: 50px;
+     background-color: rgb(0,0,255);">
+</div>
+</div>
+
+<div style="margin-top: 30px;">
+<div style="
+     display: inline-block;
+     width: 50px; height: 50px;
+     background-color: hsl(0,100%,50%);">
+</div>
+<div style="
+     display: inline-block;
+     width: 50px; height: 50px;
+     background-color: hsl(120,100%,50%);">
+</div>
+<div style="
+     display: inline-block;
+     width: 50px; height: 50px;
+     background-color: hsl(240,100%,50%);">
+</div>
+</div>
+
+</div>
+
+
+* Nome da cor prédefinidos  <span class=litle>(em inglês)</span>
+* Em RGB  <span class=litle>(Red Green Blue)</span>
+* Em HSL  <span class=litle>(Hue Saturation Ligthness)</span>
+* Ao RSG e HSL pode ser adicionado alpha  <span class=litle>(opacidade)</span>
+

@@ -1,0 +1,22 @@
+## `application/x-www-form-urlencoded` ##
+
+<div class="col50p example" style="color:orange;"
+><b>de</b> José Paulo Leal
+<b>para</b> Mundo
+<b>texto</b> Olá Mundo</div>
+<div class="col50p example terminal" style="word-break: break-all;"
+>de=Jos%C3%A9+Paulo+Leal&
+para=Mundo&texto=Ol%C3%A1+Mundo</div>
+
+* Codificação de dados por omissão do HTTP
+* Campos e valores são colocados numa *string*
+    * Valores
+        * espaços são substituídos por <code class=focus>+</code>
+        * letras e dígitos mantidos literalmente
+        * outros carateres substituidos valor hexa precedido por <code class=focus>%</code>
+    * Estrutura
+        * nomes de campos e valores separados por <code class=focus>=</code>
+        * pares ligados por <code class=focus>&</code>
+* Existem métodos JavaScript para esta codificação
+    *  <code class=focus>encodeURI(uri)</code> e <code class=focus>decodeURI(uri)</code>
+    *  <code class=focus>encodeURIComponent()</code> e <code class=focus>decodeURIComponent()</code>

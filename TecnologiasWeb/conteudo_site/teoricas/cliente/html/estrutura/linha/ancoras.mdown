@@ -1,0 +1,34 @@
+## Âncoras ##
+
+
+
+<div markdown=1 class="col50p example terminal cozy">
+
+&lt;a name="top"> Vai ser
+muiiito longo ...
+
+&lt;a href="#top">Início&lt;/a>
+
+</div>
+<div class=col50p >
+
+<a name="top"> Vai ser
+muiiito longo ...
+
+<div style="width: 30%; height: 20%;">&nbsp;</div>
+<a href="#top">Início</a>
+
+</div>
+
+
+
+
+* Âncoras são a base das **hiperligações** usadas web
+* Criadas com a anotação <code class=focus>a</code> <span class=litle>(Anchor)</span>
+* Atributos <span class=litle>(em alternativa)</span> da anotação âncora
+    * <code class=focus>name</code> cria alvo para uma hiperligação
+    * <code class=focus>href</code> cria hiperligação para um alvo
+* Se o alvo da hiperligação for um nome este é precedido por <code class=focus>#</code>
+* Na criação da hiperligação o contentor da anotação
+    * Serve como ponto ativo que pode ser clicado
+    * O texto é formatado a <a href="">azul e sublinhado</a>

@@ -1,0 +1,8 @@
+## Validar HTML 5 ##
+
+
+![Validator](validator.png)
+
+* Existem validadores de HTML que verificar correção
+* Validador do W3C é um bom exemplo: [https://validator.w3.org/](https://validator.w3.org/)
+* Permitem validar páginas publicadas, ficheiros ou formatação 

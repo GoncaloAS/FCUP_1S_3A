@@ -1,0 +1,11 @@
+## Preparar o servidor ##
+
+* Entre por SSH no servidor
+  <pre>ssh -J <code>login</code>@ssh.alunos.dcc.fc.up.pt <code>login</code>@web</pre>
+* Verifique se existe a diretoria `public_html` - <span class=litle><code>ls -l public_html</code></span>
+* Se necessário, crie a diretoria `public_html` - <span class=litle><code>mkdir public_html</code></span>
+* Se necessário, corrija as permissões desta diretoria e conteúdo
+    *	ficheiros - <span class=litle><code>chmod 644 </code><i>ficheiros</i></span>
+    *   diretórios - <span class=litle><code>chmod 755 </code><i>diretórios</i></span>
+
+<span class=foot>substitua <code>login</code> pelo seu (ex: <code>up202299999</code>)</span>

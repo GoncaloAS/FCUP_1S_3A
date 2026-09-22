@@ -1,0 +1,62 @@
+## Opacidade ##
+
+<div class="col50p terminal example" style="margin-top: -30px; margin-botton: -50px;">
+
+opacity: .99;
+
+opacity: .75;
+
+opacity: .50;
+
+opacity: .25;
+
+opacity: .01;
+
+</div>
+<div class=col50p style="position: relative;">
+
+<div style="position: absolute; top: 10px; left: 0; width: 300px; height: 30px; background: #228;">
+</div>
+
+&nbsp;
+
+<div style="
+     display: inline-block;
+     width: 50px; height: 50px;
+     background-color: orange;
+     opacity: .99;">
+</div>
+
+<div style="
+     display: inline-block;
+     width: 50px; height: 50px;
+     background-color: orange;
+     opacity: .75;">
+</div>
+
+<div style="
+     display: inline-block;
+     width: 50px; height: 50px;
+     background-color: orange;
+     opacity: .50;">
+</div>
+
+<div style="
+     display: inline-block;
+     width: 50px; height: 50px;
+     background-color: orange;
+     opacity: .25;">
+</div>
+
+<div style="
+     display: inline-block;
+     width: 50px; height: 50px;
+     background-color: orange;
+     opacity: .01;">
+</div>
+
+</div>
+
+* Opacidade controlada por propriedade <code class=focus>opcacity</code>
+* Toma valores entre 0  <span class=litle>(menos opaco)</span> e 1  <span class=litle>(mais opaco)</span>
+* Quanto menos **opaco** mais **transparente**

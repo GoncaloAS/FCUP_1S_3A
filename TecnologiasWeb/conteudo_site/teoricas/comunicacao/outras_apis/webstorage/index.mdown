@@ -1,0 +1,18 @@
+## Web Storage ##
+
+
+
+* **Persistência** do lado do cliente *com Web Storage*
+    * Aumenta a capacidade de armazenamento dos *cookies*
+    * Não há transferência automática para servidor
+    * Capacidade entre os 5Mb e os 10Mb
+    * Facimente acessível ao código JS
+    * Estrutura muito simples<p>
+* **Duração** do armazenamento
+    * por tempo indefinido
+    * por sessão<p>
+* **Organização**
+    * Indexado por chaves
+    * Valores simples e objetos
+    
+    

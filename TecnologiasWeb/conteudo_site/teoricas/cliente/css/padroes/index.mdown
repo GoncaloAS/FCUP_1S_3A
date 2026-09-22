@@ -1,0 +1,20 @@
+## Padrões de seletores ##
+
+<div class="terminal example">
+
+p:first-letter { font-size: large; }
+
+a:visited { color: red; }
+
+table + p { margin-top: 1cm; }
+
+</div>
+
+* Expressões para construção de seletores mais complexos
+* Evoluiram com as versões do CSS <span class=litle>(Level 1, 2 & 3) </span>
+* Vários géneros de padrões
+    * Contexto
+    * Conteúdo
+    * Atributos
+    * Estado
+

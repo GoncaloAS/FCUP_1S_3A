@@ -1,0 +1,60 @@
+## Cabeçalhos ##
+
+   <link rel="stylesheet" href="table.css" type="text/css">	
+
+<div class="col50p example terminal">
+
+&lt;table>
+ &lt;tr>
+  <span class=focus>&lt;th>Nome&lt;/th></span>
+  <span class=focus>&lt;th>Curso&lt;/th></span>
+ &lt;/tr>
+ &lt;tr>
+  &lt;td>Sofia Costa&lt;/td>
+  &lt;td>19&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+  &lt;td>João Almeida&lt;/td>
+  &lt;td>20&lt;/td>
+ &lt;/tr>
+&lt;/table>
+
+
+</div>
+<div class=col50p>
+
+<table>
+ <tr>
+  <th>Nome</th>
+  <th>Idade</th>
+ </tr>
+ <tr>
+  <td>Sofia Costa</td>
+  <td>19</td>
+ </tr>
+ <tr>
+  <td>João Almeida</td>
+  <td>20</td>
+ </tr>
+</table>
+
+
+<div style="height: 1cm;">
+&nbsp;
+</div>
+
+Anotação <code class=focus>th</code> <span class=litle>(Table Header)</span>
+
+<ul>
+<li> Substitui <code class=focus>td</code> como célula
+<li> Formatação  <span class=litle>(por omissão)</span>
+<ul>
+   <li> centra texto
+   <li> destaca-o em negrito
+</ul>
+</div>
+<div class=endCols>&nbsp;</div>
+
+
+
+

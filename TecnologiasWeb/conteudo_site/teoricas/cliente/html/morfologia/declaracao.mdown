@@ -1,0 +1,10 @@
+## Declaração de tipo##
+
+<code class=focus><!DOCTYPE html></code>
+
+
+* Aparece no início do documento HTML
+* Parece uma anotação mas **não** é <span class=litle>(tem um <code class=focus>!</code> antes do nome)</span>
+* Parece um comentário mas **não** é <span class=litle>(tem um nome em vez de <code class=focus>--</code>)</span>
+* Declara o tipo do documento como HTML versão 5
+* Existem declarações parecidas para outras linguagens/versões

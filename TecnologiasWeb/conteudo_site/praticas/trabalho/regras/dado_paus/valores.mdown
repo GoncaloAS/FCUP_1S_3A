@@ -1,0 +1,17 @@
+## Valores do dado de paus ##
+
+* Somando as faces planas e claras há *5* possibilidades
+* **Valor** corresponde à deslocação em nº de casas <span class=litle>(só difere da soma no 0)</span>
+* **Repete** a jogada se o valor for 1, 4 ou 6 
+* **Probabilidade** aproximada de sair cada valor
+* ... assumindo probabilidades iguais para cada um dos lados
+* Notar que não há valor *5*
+
+| Soma | Valor |   Nome  | Repete | Probabilidade |
+| :--: | :---: | :------ |:-----: | ------------: |
+|  0   |   6   | Sitteh  |  sim   |      6%       |
+|  1   |   1   |   Tâb   |  sim   |     25%       |
+|  2   |   2   | Itneyn  |  não   |     38%       |
+|  3   |   3   | Teláteh |  não   |     25%       |
+|  4   |   4   | Arba'ah |  sim   |      6%       |
+

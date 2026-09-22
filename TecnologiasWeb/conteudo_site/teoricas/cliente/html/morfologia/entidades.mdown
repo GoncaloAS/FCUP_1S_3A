@@ -1,0 +1,16 @@
+## Entidades ##
+
+Em HTML uso <code class=focus>&lt;</code> para escrever <code class=focus><</code> <span style="display: inline-block; width: 15mm;">&nbsp;</span>... e <code class=focus>&gt;</code> para  <code class=focus> > </code> 
+
+* Mecanismo de substituição de sequências de caracteres <span class=litle>(macros)</span>
+* Substituição ocorre durante o parsing
+* Na formatação são iniciadas por & e terminadas por ;
+* Entidades pré-definidas para introduzir caracteres de formatação
+
+| Entidade &nbsp; |	Caracter |
+|:----------:|:---------:|
+| `&amp;`    | `&` |
+| `&lt;`     | `<` |
+| `&gt;`     | `>` |
+| `&quot;`   | `"` |
+| `&apos;`   | `'` |

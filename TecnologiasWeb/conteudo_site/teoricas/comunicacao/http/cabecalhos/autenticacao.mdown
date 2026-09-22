@@ -1,0 +1,57 @@
+## Autenticação ##
+
+
+
+<style>
+td { font-size: small; white-space: pre; border: 1px dotted orange;vertical-align: top;}
+th { font-size: large; vertical-align: top;}
+</style>
+
+
+<table style="width: 100%; margin-top: -40px; margin-bottom: -30px;">
+<tr>
+<th></th><th>Linha inicial</th><th>Cabeçalhos relevantes</th></tr>
+</tr>
+
+<tr>
+<th>Pedido</th>
+<td>GET /segredos/index.html HTTP/1.1</td>
+<td> </td>
+</tr>
+
+<tr>
+<th>Resposta</th>
+<td><span class=focus>401 Unauthorized</span></td>
+<td><span class=focus>WWW-Authenticate: Basic realm="Pequenos segredos"
+</span>
+</td>
+</tr>
+
+<tr>
+<th>Pedido</th>
+<td>GET /segredos/index.html HTTP/1.1</td>
+<td><span class=focus>Authorization: Basic enA6c291IGV1Cg==</span></td>
+</tr>
+
+<tr>
+<th>Resposta</th>
+<td><span class=focus>200 OK</span></td>
+<td> </td>
+</tr>
+
+</table>
+
+* Processo autorização começa com acesso a recurso protegido
+* Resposta com <span class=focus><code>WWW-Authenticate</code> <i>tipo</i> realm=<i>reino</i></code></span>
+    * **Tipo** de autenticação, geralmente <code class=focus>Basic</code>
+    * **Reino** - texto descrevendo razão da autenticação
+* Navegadores reagem a este desafio com caixa de autenticação
+* Pedido repetido com cabeçalho <span class=focus><code>Authorization</code> <i>tipo credenciais</i></span>
+     * **Tipo** será o pedido pelo servidor na reposta anterior
+     * No tipo <code class=focus>Basic</code> os dados de autenticação são em base64
+* Segurança
+    * Base64 é um formato para transmissão de dados em 7 bites
+    * É facilmente reversível <span class=litle>(ver comando Linux `base64`)</span>
+    * Usar autenticação sobre canal cifrado <span class=litle>(HTTPS)</span>
+
+

@@ -1,0 +1,20 @@
+<img src=weather-few-cloudstw.png style="float: right">
+## Mashup ##
+
+Um *mashup* é uma aplicação web feita pela combinação de serviços web
+preexistentes. Vamos construir  pequenas aplicações combinando
+alguns serviços e analisando a comunicação de dados.
+
+1. [Mudar ícone programaticamente](icones.mdown)
+2. [Atribuir ícone em função da meteorologia](meteo.mdown)
+3. [Obter meteorologia duma cidade](city.mdown)
+4. [Partilha de recursos entre origens (CORS)](cors.mdown)
+
+Nos exercícios em que é usada a API *Geonames* está já definida a chave `twlab`.
+Faça pedidos com moderação, já que a chave é partilhada por todos os alunos. Para uma utilização mais intensiva pode <a href="http://www.geonames.org/login" target=login">registar gratuitamente a sua própria chave</a> <span class=litle>(não esquecer depois de a ativar)</span>. 
+
+<!--
+1. [Mapa dadas coordenadas](coordenadas.mdown)
+2. [Mapa dado endereço](endereco.mdown)
+3. [Partilha de recursos entre origens (CORS)](cors.mdown)
+-->

@@ -1,0 +1,10 @@
+## Segurança - HTTPS ##
+
+![HTTPS](https.jpg)
+
+* HTTPS é o HTTP sobre  uma camada de transporte segura
+* Utiliza uma variante do protocolo identificada nos URLs
+* Cria um canal seguro cifrado entre cliente e servidor
+* Permeável à passagem por agentes intermediários <span class=litle>(*proxies*)</span>
+* Baseada na utilização de certificados digitais
+* A sua utilização é cada vez mais generalizada

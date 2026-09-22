@@ -1,0 +1,35 @@
+##Progressão das peças##
+
+<link rel="stylesheet" href="../board.css">
+
+<div class=cozy id=gamePanel></div>
+
+<script>
+window._update = async function() {
+
+fetch("praticas/trabalho/regras/tab_board.js")
+  .then(response => response.text())
+  .then(src => {
+        eval((src));
+
+        const board = new Board({parent: 'gamePanel', size: 9})
+		const blue  = { color: 'Blue' };
+        const red   = { color: 'Red' };
+
+ 
+
+   })
+  .catch(console.error);
+
+}
+</script>
+
+
+* As peças movem-se
+    * da esquerda para a direita na 1ª e 3ª linhas
+    * direita para a esquerda na 2ª e 4ª linhas
+* Se sairem da 1ª linha, passam para a 2ª, da 2ª passam para a 3ª
+* Se sairem da 3ª linha podem passar para a 4ª **ou** 2ª linha
+* Se sairem da 4ª linha voltam à 3ª linha
+
+<div class="foot litle">Não é necessário representar as setas, mas ajuda</div>

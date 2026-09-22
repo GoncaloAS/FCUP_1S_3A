@@ -1,0 +1,37 @@
+## Bordo ##
+
+<div markdown=1 class="col50p terminal example" style="font-size: 70%; margin-top: -20px;">
+Antes
+&lt;div style="
+  width:200px; 
+  height:100px;
+  background:  #FFA500;
+  <span class=focus>border-width: 2px;
+  border-style: dotted;
+  border-radius: 50px;
+  border-top-left-radius: 0px;</span>">
+Conteúdo
+&lt;/div>
+Depois
+</div>
+<div class="col50p">
+Antes
+<div style="
+  width:200px; 
+  height:100px;
+  background:  #FFA500;
+  border-width: 5px;
+  
+  border-style: dotted;
+  border-radius: 50px;
+  border-top-left-radius: 0px;
+">
+Conteúdo
+</div>
+Depois
+</div>
+
+
+* Bordos visíveis apenas depois de definido <code class=focus>boder-style</code>
+* Cantos arredondados com <code class=focus>border-radius</code>
+* Arredondamento de um dos cantos indicando lados

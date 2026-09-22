@@ -1,0 +1,18 @@
+## Slack
+
+* **Usado para**
+    * Tirar dúvidas pontuais 
+    * Responder a dúvidas de colegas <span class=little>(sim, uns dos outros)</span>
+    * Marcar/iniciar reuniões via Zoom
+* **Registar no Slack**
+    * [Seguir este link](https://join.slack.com/t/tw-26-27/shared_invite/zt-49mxf2po2-EX8CWqkNPS_zYLPDQP9k5Q)
+    * Editar `Nome Exibido` no perfil <span class=little>(ex: Fulano Tal 202399999)</span> colocando
+        * o vosso nome <span class=little>(primeiro e último)</span>
+        * seguido de número mecanográfico 
+* **Canais do *workspace***
+    * Serão criados canais genéricos
+	* Usar estes de preferência a mensagens diretas
+
+<!--
+    * Aguardar pelo link para registo <span class=little>(estará disponível brevemente)</span>
+-->

@@ -1,0 +1,7 @@
+## Criar projeto e página HTML ##
+
+* Crie um directório com um nome à sua escolha para o projecto.
+* Dentro desse directório crie um ficheiro chamado <code>index.html</code>.
+
+**Nota**: Quando um URL corresponde a um URL, o servidor web retorna um ficheiro com um nome pré-definido dentro desse diretório. Normalmente esse nome é configurado como <code>index.html</code>.
+

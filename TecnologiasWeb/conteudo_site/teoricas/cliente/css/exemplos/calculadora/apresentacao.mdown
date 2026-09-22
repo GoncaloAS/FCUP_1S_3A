@@ -1,0 +1,22 @@
+## Apresentação HTML##
+
+
+<div class="terminal example">
+
+&lt;div class=<span class=focus>calculator</span>>
+  &lt;div class=<span class=focus>display</span>>0&lt;/div>
+  &lt;div class=<span class=focus>key>7</span>&lt;/div> &lt;div class=<span class=focus>key</span>>8&lt;/div> &lt;div class=<span class=focus>key</span>>9&lt;/div>
+  &lt;div class=<span class=focus>"key op"</span>> / &lt;/div>
+  &lt;div class=<span class=focus>key</span>>4&lt;/div> &lt;div class=<span class=focus>key</span>>5&lt;/div> &lt;div class=<span class=focus>key</span>>6&lt;/div>
+  &lt;div class=<span class=focus>"key op"</span>> * &lt;/div>
+  &lt;div class=key>1&lt;/div> &lt;div class=<span class=focus>key</span>>2&lt;/div> &lt;div class=<span class=focus>key</span>>3&lt;/div>
+  &lt;div class=<span class=focus>"key op"</span>> + &lt;/div>
+  &lt;div class=<span class=focus>key</span>>,&lt;/div> &lt;div class=<span class=focus>key</span>>0&lt;/div> &lt;div class=<span class=focus>key</span>>C&lt;/div>
+  &lt;div class=<span class=focus>"key op"</span>> = &lt;/div>
+&lt;/div>
+
+</div>
+
+* Classes caraterizam elementos: `calculator`, `display`, `key` e `op`
+* Contentor `calculator` contem todos os restantes
+* Visor e botões colocados sequencialmente 

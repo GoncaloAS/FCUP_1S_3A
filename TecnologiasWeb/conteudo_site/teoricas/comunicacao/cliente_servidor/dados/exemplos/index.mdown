@@ -1,0 +1,9 @@
+## Exemplos de comunicação em tempo real ##
+
+
+* Contador múltiplo
+    * Envio de comandos por XHR
+    * Atualização por *Server-Sent Events*
+* Jogo do Galo
+    * Comunicação bidirecional por WebSockets
+    * Definição de mensagens

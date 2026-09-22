@@ -1,0 +1,8 @@
+
+
+## `cell` ##
+
+Objeto indicado a casa do tabuleiro movimentada pelo jogador que anteriormente teve a vez ([turn](turn.mdown)), com as propriedades:
+
+* `square` - inteiro não negativo menor que o número de quadrados do tabuleiro
+* `position` - inteiro não negativo menor que 8

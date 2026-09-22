@@ -1,0 +1,22 @@
+## Módulo `stream` ##
+
+<div class="terminal example">switch(request.method) {
+  let body = '';
+  case 'POST':	
+	request
+	    .on('data', (chunk) => { body += chunk;  })
+	    .on('end', () => {
+               try { query = JSON.parse(body);  /* processar query */ }
+               catch(err) {  /* erros de JSON */ }
+	    })
+	    .on('error', (err) => { console.log(err.message); });
+	break;
+	...
+  }</div>
+
+* É um interface abstrato para trabalhar com fluxos de dados
+* É suportado por vários objetos do Node como o `request`
+* Permite o processamento usando **eventos**
+* Necessário para ler corpo de pedidos <span class=litle>(POST)</span>
+
+

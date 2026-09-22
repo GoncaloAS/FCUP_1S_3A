@@ -1,0 +1,21 @@
+## Objetos ##
+
+
+<div class="terminal example cozy">
+const hoje    = <span class=focus>new</span> Date();
+const ano     = hoje<span class=focus>.getFullYear()</span>;
+const tamanho = 'ola mundo'<span class=focus>.length;</span>
+
+</div>
+
+* Objetos alocados com construtor <code class=focus>new</code>
+* Existem muitas **classes** prédefinidas de objetos 
+    * <code class=focus>String</code> - cadeias de carateres
+    * <code class=focus>Date</code> - datas e tempo
+    * <code class=focus>RegExp</code> - expressões regulares
+    * <code class=focus>Object</code> - objeto genérico
+* Objetos de diferentes classes têm os seus
+    * **Métodos** <span class=litle>(ex: `hoje.getFullYear()`)</span>
+    * **Propriedades** <span class=litle>(ex: `'ola mundo'.length`)</span>
+
+<div class=foot>Aspas e plicas são açucar sintático para <code>new String(...)</code></div>

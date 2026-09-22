@@ -1,0 +1,19 @@
+## Mapear caminhos ##
+
+<div class="terminal example">
+function getPathname(request) {
+    const purl = <span class=focus>url.parse(request.url)</span>;
+    let pathname = <span class=focus>path.normalize</span>(<span class=focus>conf.documentRoot</span>+purl.pathname);
+
+    if(! pathname.startsWith(conf.documentRoot))
+       pathname = null;
+    
+    return pathname;
+}
+</div>
+
+* Converter nomes caminhos relativos em caminhos absolutos
+* Caminho relativo extraído do pedido 
+* Utiliza o <code class=focus>documentRoot</code> definido nas configurações
+* Nome caminho é normalizado para retirar `..` e `.`
+* **Segurança**: se o caminho sai de  <code class=focus>documentRoot</code> é inválido!

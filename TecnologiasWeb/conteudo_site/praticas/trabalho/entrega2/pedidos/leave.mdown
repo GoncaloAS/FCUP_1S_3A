@@ -1,0 +1,20 @@
+## Pedido `leave` ##
+
+Função invocada para abandonar o jogo. Se for invocada durante o
+emparelhamento, enquanto espera por outros jogador, então não tem
+consequências. Se o jogo já tiver em curso, a saída com este método
+concede a vitória ao adversário.
+
+De notar também que os jogos têm um *timeout* de 2 minutos. Se
+uma jogada não for realizada no tempo devido então é executado um
+`leave` automático, nas condições descritas no parágrafo anterior.
+
+Os argumentos desta função são:
+* <a alt=nick href="nick.mdown"><code>nick</code></a> - identificação do jogador 
+* <a alt=password href="password.mdown"><code>password</code></a> - que este escolheu
+* <a alt=game href="game.mdown"><code>game</code></a> - identificador do jogo
+
+São retornados erros se:
+* algum argumento for omitido
+* a autenticação não corresponder a um jogador registado
+* o identificador de jogo for inválido.

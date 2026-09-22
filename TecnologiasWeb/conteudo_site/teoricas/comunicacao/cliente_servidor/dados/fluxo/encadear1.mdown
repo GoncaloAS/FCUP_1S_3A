@@ -1,0 +1,25 @@
+## Encadear pedidos síncronos ##
+
+<div class="col50p terminal example">
+
+const xhr1=new XMLHttpRequest();
+xhr1.open('POST',url1,<span class=focus>false</span>);
+xhr1.send(JSON.stringify(x));
+
+const xhr2=new XMLHttpRequest();
+xhr2.open('POST',url2,<span class=focus>false</span>);
+xhr2.send(xhr1.responseText);
+
+<span class=focus>continuar</span>(xhr2.responseText);
+
+</div>
+<div class=col50p markdown=1>
+
+* Como chamadas a funções
+    * 1ª é invocada
+    * quando esta termina 
+    * resultado injetado na 2ª
+    * que é então invocada
+* Sequência é linear
+* O habitual num programa 
+</div>

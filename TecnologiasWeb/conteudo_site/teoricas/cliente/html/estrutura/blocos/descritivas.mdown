@@ -1,0 +1,31 @@
+## Listas descritivas ##
+
+<div class="col50p example terminal">
+
+&lt;dl>
+   &lt;dt> primeiro item
+   &lt;dd> texto do primeiro item
+   &lt;dt> segundo item
+   &lt;dd> texto do primeiro item	
+   &lt;dt> terceiro item
+   &lt;dt> segundo item
+&lt;/dl>
+
+</div>
+<div class="col50p">
+<dl class=showBorder>
+   <dt class=showBorder> primeiro item
+   <dd class=showBorder> texto do primeiro item
+   <dt class=showBorder> segundo item
+   <dd class=showBorder> texto do primeiro item	
+   <dt class=showBorder> terceiro item    
+</dl>
+</div>
+
+* Funcionam como entradas num dicionário
+* Usam o contentor <span class=focus>dl</span>  <span class=litle>(Definition List)</span>
+* Item é subsituído por
+    * <span class=focus>dt</span>  <span class=litle>(Defined Text)</span> em lugar do número ou *bullet* 
+    * <span class=focus>dd</span>  <span class=litle>(Definition)</span> em lugar do texto
+
+    

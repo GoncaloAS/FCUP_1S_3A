@@ -1,0 +1,23 @@
+digraph G {
+  rankdir=TB; node [shape=plaintext, fontname="Helvetica", fontsize=16];
+  Whole [label="∧"];
+  L [label="→"];
+  p1 [label="p"];
+  q1 [label="q"];
+  M [label="→"];
+  negr [label="¬"];
+  r1 [label="r"];
+  M2 [label="∨"];
+  q2 [label="q"];
+  M1 [label="∧"];
+  negp [label="¬"];
+  p2 [label="p"];
+  r2 [label="r"];
+  Whole -> L; Whole -> M;
+  L -> p1; L -> q1;
+  M -> negr; M -> M2;
+  negr -> r1;
+  M2 -> q2; M2 -> M1;
+  M1 -> negp; M1 -> r2;
+  negp -> p2;
+}

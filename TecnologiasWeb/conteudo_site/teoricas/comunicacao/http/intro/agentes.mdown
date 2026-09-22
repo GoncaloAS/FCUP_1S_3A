@@ -1,0 +1,20 @@
+## Agentes que interagem em HTTP ##
+
+
+
+* **Navegadores** <span class=litle>(*Browsers*)</span>
+    * Operados por utilizadores humanos
+    * Pedem conteúdo aos servidores em diferentes formatos
+        * Texto: HTML, CSS, JS, ...
+        * Imagem & Vídeo: PNG, JPEG, ... ; MPEG, Ogg, ...
+        * Dados: JSON, XML, TXT
+* **Servidores**
+    * Funcionam automaticamente
+    * Fornecem conteúdos
+        * Estáticos: ficheiros em disco
+        * Dinâmicos: gerados por programas 
+* **Intermediários** <span class=litle>(*Proxies*)</span>
+    * Encaminham pedidos e respostas
+    * Implementam políticas de acesso / registam de tráfego 
+    * Cópias de recursos evitam pedidos redundantes <span class=litle>(***Cache***)</span> 
+    

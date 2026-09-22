@@ -1,0 +1,61 @@
+## Contexto ##
+
+<script>
+
+window._update = function() {
+
+   const dot = document.getElementById("dot");
+
+   let x;
+   let y;
+   let moving = false;
+
+   dot.onmousedown = function(event) {
+   	x = event.x;
+	y = event.y;
+	moving = true;
+	event.preventDefault();
+   };
+   dot.onmousemove = function(event) {
+      if(moving) {
+        dot.style.left = (parseInt(dot.style.left)+(event.x-x))+"px";
+        dot.style.top = (parseInt(dot.style.top)-(y-event.y))+"px";
+
+        x = event.x;
+        y = event.y;
+	event.preventDefault();
+      }
+   };
+   dot.onmouseup =function() {
+      moving = false;
+  	event.preventDefault();
+   };
+};
+
+</script>
+
+<div class="col75p terminal example" >
+<span class=focus>window.onload</span> = function() {
+
+    const dot = <span class=focus>document.getElementById("dot")</span>;
+
+    let x;
+    let y;
+    let moving = false;
+
+    ...
+}
+
+</div>
+<div class=col25p style="width: 200px; height: 300px; position: relative; border: 1px dotted;">
+
+<div id="dot" style="background: orange; position: absolute; left: 75px; top: 75px; width: 50px; height: 50px; border-radius: 25px;"> </div>
+
+</div>
+
+
+* Contexto criado quando página já está carregada <span class=litle>(<code class=focus>dot</code> já existe)</span>
+* Objeto a mover selecionado com <code class=focus>getElementById()</code>
+* Declaradas variáveis para manter a posição:
+  <code class=focus>x</code> e  <code class=focus>y</code> 
+* E estado do ponto: <code class=focus>moving</code>  <span class=litle>(booleano)</span>

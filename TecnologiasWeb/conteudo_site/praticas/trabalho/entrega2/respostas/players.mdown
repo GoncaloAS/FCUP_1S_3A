@@ -1,0 +1,6 @@
+
+## `players` ##
+
+Objeto contendo 2 propriedades, uma por cada jogador. O nome de cada
+propriedade é o *nick* de um jogador. O valor da propriedade é a cor
+das peças desse jogador,  `Blue` ou `Red`.

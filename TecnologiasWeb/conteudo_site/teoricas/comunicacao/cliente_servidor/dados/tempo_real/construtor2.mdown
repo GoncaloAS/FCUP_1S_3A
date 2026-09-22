@@ -1,0 +1,23 @@
+## Construtor `WebSocket` ##
+
+<div class="example terminal cozy"> const url = "<span class=focus>ws</span>://"+host+":"+port+"/";
+ const webSocket = <span class=focus>new WebSocket(url)</span>;
+ webSocket.onmessage = function(event) {
+     const data = JSON.parse(event.data);
+     ...
+ }
+ ...
+ webSocket.send(JSON.stringify(data))
+ ...
+ webSocket.close();</div>
+
+* Construtor `WebSocket()` cria objeto de comunicação
+    * Usando URL passado como parâmetro
+    * URL tem protocolo próprio: <span class=focus>ws</span> ou <span class=focus>wss</span>
+    * Sub protocolos em segundo argumento do construtor
+* Propriedades
+    * <code class=focus>protocol</code> escolhido por servidor
+    * <code class=focus>readyState</code> número:
+    <span style="font-size: x-large">0 - CONNECTING; 1 - OPEN; 2 - CLOSED</span>
+
+ 

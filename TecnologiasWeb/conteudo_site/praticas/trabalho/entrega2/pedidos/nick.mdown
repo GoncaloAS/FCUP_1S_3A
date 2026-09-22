@@ -1,0 +1,5 @@
+## `nick` ##
+
+*String* para identificar o jogador, usado no registo e em todas as funções que
+ 	 requerem autenticação.
+

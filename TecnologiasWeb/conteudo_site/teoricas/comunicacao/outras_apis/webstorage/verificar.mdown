@@ -1,0 +1,18 @@
+## Verificar ##
+
+<div class="example terminal">
+
+if (typeof(Storage) === 'undefined') {
+   // alternativa
+}
+
+</div>
+
+
+* Nem todas as APIs do HTML 5 são suportadas
+* A API *Web Storage* pode não estar disponível
+* É conveniente verificar se está disponível
+
+
+
+<div class=foot>Disponível em versões recentes dos navegadores de referência</div>

@@ -1,0 +1,47 @@
+##Estado das peças##
+
+
+<link rel="stylesheet" href="../board.css">
+
+<div class=cozy id=gamePanel></div>
+
+<script>
+window._update = async function() {
+
+fetch("praticas/trabalho/regras/tab_board.js")
+  .then(response => response.text())
+  .then(src => {
+        eval((src));
+
+        const board = new Board({parent: 'gamePanel', size: 9})
+		const initial  = { color: 'Blue' };
+		const moved    = { color: 'Blue', inMotion: true };
+        const last     = { color: 'Blue', inMotion: true, reachedLastRow: true  };
+
+        board.state({
+            board: [	
+			     initial,	null,	null,	null,	null,	null,	null,	null,	null,
+			     null,	moved,	null,	null,	null,	null,	null,	null,	null,
+			     null,	null,	moved,	null,	null,	null,	null,	null,	null,
+ 				   null,	null,	null,	last,	null,	null,	null,	null,	null,
+            ],
+        });
+
+
+   })
+  .catch(console.error);
+
+}
+</script>
+
+
+* As regras do jogo consideram o estado de cada peça
+    * ainda não foi movida
+    * já foi movida mas não chegou à última linha
+    * já esteve na última linha - 4ª
+* Estado pode ser mostrado pela transparência da peça <span class=litle>(por exemplo)</span>
+
+
+<div class=foot>
+Tradicionalmente o Tâb exigia jogadores com boa memória...
+</div>

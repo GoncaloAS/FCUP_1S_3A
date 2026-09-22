@@ -1,0 +1,24 @@
+## Cabeçalhos ##
+
+
+<div class="example terminal cozy">
+    const xhr = new XMLHttpRequest();
+    const display = this.display;
+    
+    xhr.open('POST','http://'+host+':'+port+'/'+command,true);    
+    <span class=focus>xhr.setRequestHeader('Content-Type','text/plain');</span>
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState < 4) return;
+        if(xhr.status == 200) {
+            display.innerText = xhr.responseText;
+            console.log(<span class=focus>xhr.getResponseHeader('Content-Type')</span>);
+        } else 
+            console.log(xhr.status+' '+xhr.statusMessage);
+
+    }    
+    xhr.send();	
+</div>
+
+* Cabeçalhos da comunicação HTTP via métodos
+     * <span class=focus><code>setRequestHeader</code>(<i>nome</i>,<i>value</i>)</span> para o pedido
+     * <span class=focus><code>getRequestHeader</code>(<i>name</i>)</span> para a resposta

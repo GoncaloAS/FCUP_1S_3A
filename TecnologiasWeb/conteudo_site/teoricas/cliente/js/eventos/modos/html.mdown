@@ -1,0 +1,26 @@
+## Registo de *callbacks* em HTML ##
+
+
+
+<div class="col75p terminal example">
+&lt;<span class=focus>div</span> style=" ... "
+    <span class=focus>onclick</span>="with(<span class=focus>this</span>.style) {
+     let tmp = color; 
+     color = background; 
+     background = tmp;
+   }"> Don't click me! &lt;/div>
+</div>
+<div class=col25p>
+
+<div style="background: white; color: orange; text-align: center;" onclick="with(this.style) {let tmp = color; color = background; background = tmp;}"> Don't click me! </div>
+
+</div>
+
+
+* Registo de eventos no HTML é a forma mais antiga suportada
+    * **Elemento** tem um **atributo** para receber o evento 
+    * **Nome** do atributo indica o **tipo** do evento processado
+    * **Valor** do atributo contém ***callback*** a ser executado
+* Qualquer elemento pode receber eventos <span class=litle>(nem todos entregues)</span>
+* Nome do atributo começa por <code>on</code> seguido do tipo
+* No ***Callback*** o <code class=focus>this</code> refere o elemento

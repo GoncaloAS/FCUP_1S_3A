@@ -1,0 +1,51 @@
+## Modelos ##
+
+<style>
+
+.container {
+	   display: grid;
+	   grid-template-columns: 100px 40% auto ;
+	   background: orange; 
+	   opacity: .5;
+}
+
+.item {
+ 	   border: 1px dotted white;
+	   background: #228;
+	   color: white;
+	   text-align: center;
+}
+
+</style>
+
+<div class="terminal example col50p">
+.container {
+    display: grid;
+    <code>grid-template-columns: 
+	           100px 45% auto ;</code>
+}
+</div>
+<div class="col50p">
+	<div class=container>
+	     <div class=item> 1 </div>
+	     <div class=item> 2 </div>
+	     <div class=item> 3 </div>
+		 <div class=item> 4 </div>
+	     <div class=item> 5 </div>
+	     <div class=item> 6 </div>
+	     <div class=item> 7 </div>		 
+	     <div class=item> 8 </div>		 		 
+	     <div class=item> 9 </div>
+	</div>
+</div>
+
+
+* Definem número e dimensão de
+	* linhas - `grid-template-rows`
+    * colunas  - `grid-template-columns`
+* Lista de valores separados por espaços, referente a linha/coluna
+	* *comprimento* - da coluna em questão <span class=litle>(pode ser relativo)</span>
+    * `none` - omissão, colunas/linhas criadas se necessário
+    * `auto` - dimensão determinada automaticamente
+	* `max-content`, `min-content` - depende desses valores 
+	* `initial`, `inherit` - omissão e herdado do progenitor

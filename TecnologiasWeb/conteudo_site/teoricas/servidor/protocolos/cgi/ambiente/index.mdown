@@ -1,0 +1,17 @@
+## Variáveis de ambiente em CGI ##
+
+
+* **Variáveis de ambiente**
+    * Conjunto de pares nome valor
+    * Usada para passar metadados
+    * Definidas pelo contexto do processo  <span class=litle>(ex. *shell*)</span><p>
+* **Ambiente em CGI**
+    * Conjunto restrito definido no CGI 1.0
+    * Alargado na versão 1.1
+    * Novos conjuntos com prefixo<p>
+* **Tipos de variáveis**
+    * Originais - versão 1.0
+    * HTTP - cabeçalho HTTP
+    * Remote - pedido do cliente
+    * Server - informação do servidor
+    

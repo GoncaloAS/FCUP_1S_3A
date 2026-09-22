@@ -1,0 +1,30 @@
+## Expressões ##
+
+<div class="col50p terminal example">
+document.writeln("&lt;pre>");
+document.writeln(1+1);
+document.writeln("1"+"1");
+document.writeln(1 && 1);
+document.writeln(1 && true);
+document.writeln(1 == "1");
+document.writeln(1 === "1");
+document.writeln("&lt;/pre>");
+</div>
+<div class="col50p example">
+
+2
+11
+1
+true
+true
+false
+</div>
+
+
+* Muito semelhante ao Java
+    * mesmos operadores
+    * mesmas precedências
+    * mesmas associatividades
+* Operador de concatenação de *strings* também é <code class=focus>+</code>
+* Operadores lógicos não retornam sempre valores lógicos
+* Comparação de valor e tipo: <code class=focus>===</code> e  <code class=focus>!==</code>

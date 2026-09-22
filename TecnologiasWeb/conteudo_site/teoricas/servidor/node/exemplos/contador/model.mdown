@@ -1,0 +1,15 @@
+## Modelo ##
+
+<div class="terminal example">
+
+let count    = 0;
+
+module.exports.incr  = function() { count++;      }
+module.exports.reset = function() { count = 0;    }
+module.exports.get   = function() { return count; }
+
+</div>
+
+* Contador simples como módulo
+* Todas as funções necessárias são exportadas
+* Ilustra separação do modelo do servidor

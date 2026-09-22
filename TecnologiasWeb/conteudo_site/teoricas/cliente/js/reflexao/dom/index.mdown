@@ -1,0 +1,15 @@
+## Document Object Model &mdash; DOM ##
+
+* Documento HTML refletido numa **estrutura de objetos**
+* API **DOM** para interagir com essa estrutura
+* Objectos de diferentes **tipos**
+    * <code class=focus>Document</code> - documento HTML
+    * <code class=focus>Node</code> - Nó genérico do documento HTML
+    * <code class=focus>Node List</code> - Lista de nós genéricos 
+    * <code class=focus>Element</code> - elementos criados por anotações
+    * <code class=focus>Text</code> - Textos pendurados em elementos
+* A API DOM é usada também em documentos XML 
+* HTML tem algumas propriedades e métodos <u>específicos</u>
+
+
+<p style="text-align: right; font-style: italic; margin-top: 100px;">O que se segue não é uma apresentação <B>exaustiva</b> da DOM</p>

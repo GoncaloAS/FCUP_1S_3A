@@ -1,0 +1,24 @@
+## Updater ##
+
+<div class="terminal example cozy">
+let responses = [];
+
+module.exports.<span class=focus>remember</span> = function(response) {
+    responses.push(response);
+}
+
+module.exports.<span class=focus>forget</span> = function(response) {
+    let pos = responses.findIndex((resp) => resp === response);
+    if(pos > -1)
+      responses.splice(pos,1);
+}
+
+module.exports.<span class=focus>update</span> = function(message) {
+    for(let response of responses) {
+        response.<span class=focus>write('data: '+ message+'\n\n')</span>;
+    }
+}</div>
+
+
+* Gestão de canais de resposta <span class=litle>(`remember`, `forget`)</span>
+* Propagação de linhas `data:` <span class=litle>(notar duplo EOL)</span>

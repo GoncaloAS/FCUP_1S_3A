@@ -1,0 +1,49 @@
+## Passar a vez ##
+
+<link rel="stylesheet" href="../board.css">
+<link rel="stylesheet" href="../stick-dice.css">
+
+<div class=cozy style="display: flex;">
+<div id="gamePanel"></div><div id="dicePanel"></div>
+</div>
+
+<script>
+window._update = async function() {
+
+fetch("praticas/trabalho/regras/tab_board.js")
+  .then(response => response.text())
+  .then(src => {
+        eval((src));
+        const board = new Board({parent: 'gamePanel', size: 9})
+		const blue  = { color: 'Blue' };
+        const red   = { color: 'Red' };
+
+        board.state({
+            board: [
+			     blue,	blue,	blue,	blue,	blue,	blue,	blue,	blue,	blue,
+			     null,	null,	null,	null,	null,	null,	null,	null,	null,
+			     null,	null,	null,	null,	null,	null,	null,	null,	null,
+			     red,	red,	red,	red,	red,	red,	red,	red,	red,				 
+            ],
+        });
+
+	   const dicePanel = document.getElementById('dicePanel')
+	   const dice = new StickDice({div: dicePanel });
+
+       dice.setResult({
+	     stickValues: [ true, false, false, true ], 
+	     value: 2, 
+		 keepPlaying: false 
+	   });
+   })
+  .catch(console.error);
+
+}
+</script>
+
+* O valor do dado poderá não permitir qualquer jogada válida
+* E esse valor poderá não permitir novo lançamento
+* Nesse caso, o/a jogador(a) terá de **passar a vez**
+* Mas **não** pode passar a vez se o houver uma jogada válida &hellip;
+* &hellip; ou a possibilidade de lançar novamente o dado de paus
+* Na situação acima as azuis têm de passar a vez

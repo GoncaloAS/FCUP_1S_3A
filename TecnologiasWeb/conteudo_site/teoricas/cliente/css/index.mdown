@@ -1,0 +1,11 @@
+# CSS - Cascading Style Sheets#
+
+![HTML5 Logo](../css-logo.png)
+
+* **Folhas de estilo** aplicadas a documento anotados
+* **Regras** para atribuir de propriedades a elementos 
+* Podem-se **associar** ao HTML de várias formas
+* **Seletores** permitem indicar elementos relevantes
+* **Propriedades** a que são atribuidos **valores**
+* **Padrões** permitem criar selectores mais complexos
+* **Exemplos** de utilização de CSS na formatação de HTML

@@ -1,0 +1,21 @@
+
+##Procurar usando seletores##
+
+<div class="terminal example">
+
+// Primeiro parágrafo do primeiro DIV
+const firstParagraph  = <code>document.querySelector('div > p')</code>;
+
+// Primeiro parágrafo de cada  DIV
+const allFirstParagraphs = <code>document.querySelectorAll('div > p')</code>;
+
+</div>
+
+
+* Critério de procura é um **seletor** do CSS
+* Retornam
+    * `querySelector()` apenas o primeiro elemento
+    * `querySelectorAll()` lista de nós <span class=litle>(tipo DOM)</span>
+* Métodos também disponíveis em elementos <span class=litle>(para pesquisa localizada)</span>
+
+

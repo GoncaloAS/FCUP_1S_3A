@@ -1,0 +1,15 @@
+## Certificados ##
+
+
+
+* Canal seguro usa **certificados digitais** de clientes e servidores<p>
+* **Certificados do servidor**
+    * São específicos do **domínio** e **validáveis**
+    * Permitem a cliente estabelecer **autenticidade** do servidor
+    * São validados junto de **autoridades certificadoras**
+    * Cadeias de certificação permitem distribuir validação 
+    * Autoridades de topo **pré-configuradas** no navegadores<p>
+* **Certificados de cliente**
+    * Habitualmente **gerados** automaticamente pelos navegadores
+    * Certificados **pessoais** carregáveis para navegadores
+    * Fornecem também uma forma mais segura de **autenticação**

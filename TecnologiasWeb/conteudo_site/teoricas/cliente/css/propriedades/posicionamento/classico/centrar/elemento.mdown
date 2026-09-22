@@ -1,0 +1,25 @@
+## Centrar elemento ##
+
+<div class="col75p terminal example">
+&lt;div style="
+     width: 100px; height: <span class=focus>100px</span>; 
+     background: #228; color: white; 
+     border-radius: 10px; 
+     <span class=focus>margin: auto</span>; 
+     <span class=focus>position: relative</span>; 
+     <span class=focus>top: 50%</span>; 
+     <span class=focus>margin-top: -50px</span>;
+     line-height: 100px</span>; 
+     text-align: center;"> OK &lt;/div>
+</div>
+<div class=col25p style="height: 280px; background: orange; opacity: .5;">
+<div style="width: 100px; height: 100px; background: #228; color: white; border-radius: 10px; margin: auto; position: relative; top: 50%; margin-top: -50px;line-height: 100px; text-align: center;">OK</div>
+
+</div>
+
+
+* Centrar horizontalmente: <class class=focus>margin: auto</class>;
+* Centrar verticalmente:
+    * Posicionar relativamente o botão
+    * Deslocar 50% <span class=litle>(1/2 da altura do contentor)
+    * Compensar 1/2 altura botão <span class=litle>(<class class=focus>margin-top: -50px</class>)

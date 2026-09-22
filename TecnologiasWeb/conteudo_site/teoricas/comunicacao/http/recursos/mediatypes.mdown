@@ -1,0 +1,36 @@
+## Media Types ##
+
+
+
+<div markdown=1 class=col50p style="margin-top: -50px;">
+* Identificador bipartido
+    * **Tipo** (ex: `text`)
+    * **Subtipo** (ex: `html`)
+    * Separados por <code class=focus>/</code><br> (ex: `text/html`)
+* Representa tipo de recurso
+* Metadados de recursos em
+     * Pedidos<br>ex: <code class=focus>Accepted</code>
+     * Respostas<br>ex. <code class=focus>Content-type</code>
+
+</div>
+<div markdown=1 class=col50p style="margin-top: -50px;">
+* Exemplos
+<div style="white-space: pre; font-size: x-large; margin-left: 3em; margin-top: -2em;">
+<span class=focus>application/javascript</span>
+<span class=focus>application/json</spaN>
+<span class=focus>application/x-www-form-urlencoded</span>
+application/msword (.doc)
+application/vnd.ms-excel (.xls)
+audio/mpeg
+audio/vorbis
+<span class=focus>multipart/form-data
+text/css
+text/html</span>
+text/plain
+image/png
+image/jpeg
+image/gif
+</div>
+</div>
+
+<p class=foot style="font-size: x-large;">Também conhecidos por tipos MIME<br>Multipurpose Internet Mail Extensions </p>

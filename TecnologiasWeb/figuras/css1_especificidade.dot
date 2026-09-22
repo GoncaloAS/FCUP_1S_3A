@@ -1,0 +1,17 @@
+digraph especificidade {
+    rankdir=LR;
+    bgcolor="transparent";
+    node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=12,
+          color="#8a6d3b", fillcolor="#fdf3e3", margin="0.2,0.15"];
+    edge [color="#8a6d3b", fontname="Helvetica", fontsize=10];
+
+    A [label="nav ul li.active\n0 ID  ·  1 classe  ·  3 tipos\npeso = (0, 1, 3)"];
+    B [label="#menu .active\n1 ID  ·  1 classe  ·  0 tipos\npeso = (1, 1, 0)"];
+    C [label=".menu-item.active\n0 ID  ·  2 classes  ·  0 tipos\npeso = (0, 2, 0)"];
+    V [shape=box, style="rounded,filled", fillcolor="#c8e6c9", color="#2e7d32",
+       fontcolor="#1b5e20", label="VENCEDOR\n#menu .active\n(tem um ID: ninguém mais tem)"];
+
+    A -> V [label="perde (0 IDs)", fontcolor="#a33"];
+    C -> V [label="perde (0 IDs)", fontcolor="#a33"];
+    B -> V [label="ganha (1 ID > 0)", color="#2e7d32", fontcolor="#2e7d32"];
+}

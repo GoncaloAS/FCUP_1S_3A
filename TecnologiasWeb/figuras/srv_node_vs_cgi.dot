@@ -1,0 +1,49 @@
+digraph SrvNodeVsCgi {
+  rankdir=TB;
+  fontname="Helvetica";
+  compound=true;
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11];
+  edge [fontname="Helvetica", fontsize=9];
+
+  subgraph cluster_cgi {
+    label="Modelo CGI — um processo por pedido";
+    style=dashed; color="#888888"; fontsize=13; fontcolor="#7a3b00";
+
+    cgi_p1    [label="Pedido 1\nGET /cgi-bin/ola.cgi", fillcolor="#ffe8cf"];
+    cgi_fork1 [label="Servidor: fork() + exec()\nnovo processo interpretador\nenv: QUERY_STRING, REQUEST_METHOD, ...", fillcolor="#ffd9a0"];
+    cgi_run1  [label="Processo lê stdin,\nlê variáveis de ambiente,\nescreve stdout", fillcolor="#ffd9a0"];
+    cgi_out1  [label="stdout → resposta HTTP\nprocesso TERMINA", fillcolor="#ffe8cf"];
+
+    cgi_p2    [label="Pedido 2 (concorrente)\nGET /cgi-bin/ola.cgi", fillcolor="#ffe8cf"];
+    cgi_fork2 [label="Servidor: fork() + exec()\nOUTRO processo interpretador", fillcolor="#ffd9a0"];
+    cgi_run2  [label="Processo lê stdin,\nlê variáveis de ambiente,\nescreve stdout", fillcolor="#ffd9a0"];
+    cgi_out2  [label="stdout → resposta HTTP\nprocesso TERMINA", fillcolor="#ffe8cf"];
+
+    cgi_p1 -> cgi_fork1 -> cgi_run1 -> cgi_out1;
+    cgi_p2 -> cgi_fork2 -> cgi_run2 -> cgi_out2;
+  }
+
+  subgraph cluster_node {
+    label="Modelo Node.js — processo único, event loop";
+    style=dashed; color="#888888"; fontsize=13; fontcolor="#1E7A46";
+
+    node_p1   [label="Pedido 1\nGET /pagina.html", fillcolor="#dbe9ff"];
+    node_p2   [label="Pedido 2 (concorrente)\nGET /outra.html", fillcolor="#dbe9ff"];
+    node_loop [label="Event loop\n(o MESMO processo Node,\nvivo desde 'node servidor.js')", fillcolor="#e3f2fd"];
+    node_cb1  [label="callback (request,response)=>{...}\npara o pedido 1", fillcolor="#c8e6c9"];
+    node_cb2  [label="callback (request,response)=>{...}\npara o pedido 2", fillcolor="#c8e6c9"];
+    node_io   [label="I/O não-bloqueante\n(fs.readFile, streams, ...)\ndelegado ao sistema,\ncontinua em paralelo", fillcolor="#fff9c4", shape=note];
+
+    node_p1 -> node_loop;
+    node_p2 -> node_loop;
+    node_loop -> node_cb1;
+    node_loop -> node_cb2;
+    node_cb1 -> node_io [dir=both, style=dashed, label="pede I/O e liberta\nde imediato o processo"];
+    node_io -> node_loop [style=dashed, label="callback de conclusão\nre-agendado no event loop"];
+  }
+
+  nota [shape=plaintext, fontsize=10,
+    label="CGI: cada pedido paga o custo de criar (fork/exec) e destruir um processo — simples, mas pesado sob carga.\nNode: um único processo trata todos os pedidos; nunca bloqueia à espera de I/O — mais leve, mas o handler não pode bloquear a CPU."];
+  cgi_out1 -> nota [style=invis];
+  node_io -> nota [style=invis];
+}

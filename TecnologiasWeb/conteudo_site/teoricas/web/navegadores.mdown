@@ -1,0 +1,25 @@
+## Navegadores ##
+
+<div class=col50p>
+<img width="100%" src="Usage_share_of_web_browsers_(Source_StatCounter).svg">
+</div>
+<div class=col50p>
+<ul>
+ <li> <b>Pioneiros</b>
+      <ul>
+          <li> Mosaic, tkWWW, Lynx
+      </ul>	       
+  <li> <b>Guerras de browsers</b>
+  <ul>
+    <li> Netscape vs <u>IE</u>
+    <li> IE x Firefox
+    <li> Firefox x IE x <u>Chrome</u>
+  </ul>
+  <li> <b>Evolução últimos anos</b>
+  <ul>
+    <li> Fim da hegemonia IE
+    <li> Múltiplos navegadores 
+    <li> Preponderância móvel
+  </ul>
+</div>
+<div class="endCols">&nbsp;</div>

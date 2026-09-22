@@ -1,0 +1,6 @@
+## `game` ##
+
+*String* identificando o jogo gerado pelo função `join`. É um
+ *hash* construído a partir de características do jogo.
+
+

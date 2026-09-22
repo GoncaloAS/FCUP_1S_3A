@@ -1,0 +1,22 @@
+## Leitura de ficheiros assíncrona &mdash; dados ##
+
+<div class="terminal example">
+  fs.readFile('dados.json',function(err,data) {
+	if(! err) {
+	    const dados = JSON.parse(data.toString());
+	    /* processar dados */
+	}
+  });</div><div class=litle>&nbsp;</div>
+  <div class="terminal example">
+  fsp.readFile('dados.json','utf8')
+     .then( () => { 
+  	    const dados = JSON.parse(data.toString());
+       /* processar dados */)
+      })
+    .catch( () => { /* processar errors */ } )
+</div>
+
+
+* Sem codificação dados são retornados como *buffer*
+* <code class=focus>JSON.parse()</code> processa buffer e retorna objeto JS
+* Dados processados na ausência de erros 

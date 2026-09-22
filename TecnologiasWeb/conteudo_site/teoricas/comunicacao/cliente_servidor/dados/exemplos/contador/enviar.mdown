@@ -1,0 +1,19 @@
+## Envio de comandos assincronamente ##
+
+<div class="terminal example">
+    increment() {  this.do("incr");}
+    reset() {  this.do("reset"); }
+
+    do(<span class=focus>command</span>) {
+        const url = "http://"+host+":"+port+"/"+<span class=focus>command</span>
+
+        fetch(url,{ method: <code>'POST'</code>})
+	    .catch(console.log)
+    }
+</div>
+
+* *Callback* dos botões invocam método <code class=focus>do</code>
+* Construção do URL <code class=focus>host</code> <code class=focus>port</code> e <code class=focus>command</code>
+* Envio por método HTTP `POST` por altera estado
+* Método <code class=focus>fetch()</code> faz pedido sem enviar dados
+* Também **não** são lidos resultados <span class=litle>(atualização por eventos)</span>

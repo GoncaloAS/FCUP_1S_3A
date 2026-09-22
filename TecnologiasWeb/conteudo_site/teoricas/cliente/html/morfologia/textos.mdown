@@ -1,0 +1,23 @@
+## Textos ##
+
+<style>
+.off {
+color: #228;	
+}
+</style>
+<code class=off><p></code><code class=focus> Isto é o </code><code class=off><u></code><code class=focus>texto</code><code class=off></u></code><code class=focus> com formatação </code><code class=off></p></code>
+
+<code class=off><![CDATA[</code>
+  <code class=focus><p> Isto é <u> tudo </u> texto </p></code>
+<code class=off>]]></code>
+
+
+* Caracteres que estão fora de anotações e entidades
+* Secções CDATA
+    * Inibem o processamento da formatação
+    * Delimitadas por <code class=focus><![CDATA[</code> e <code class=focus>]]></code>
+    * Pode incluir todos os caracteres excepto a *string* de fecho
+    * Não pode haver blocos CDATA aninhados
+    * Destinados a fragmentos de XML embebidos
+    * Relativamente pouco usado
+    * Útil para incluir programas em HTML 

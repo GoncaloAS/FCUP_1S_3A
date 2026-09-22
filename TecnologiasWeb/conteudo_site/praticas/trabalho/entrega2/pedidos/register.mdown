@@ -1,0 +1,17 @@
+## Pedido `register` ##
+
+
+Regista um jogador e associa-lhe uma *password*. Se o jogador já está
+registado com uma *password* diferente então a função retorna um
+erro. Caso contrário sucede.  
+  
+A função `register` necessita de 2 argumentos:
+* <a alt=nick href="nick.mdown"><code>nick</code></a> - o identificador do jogador
+* <a alt=password href="password.mdown"><code>password</code></a> - que este escolheu
+
+Esta função deve ser usada não só como registo inicial do utilizador
+mas também como forma de verificação no início de sessão.
+
+São retornados erros se:
+* os argumentos forem omitidos ou não forem *strings*
+* o *nick* já estiver registado com um *password* diferente

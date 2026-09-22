@@ -1,0 +1,41 @@
+## Contexto gráfico ##
+
+
+<script>
+
+window._update = function() {
+
+  const tela = document.getElementById("tela");
+  const gc = tela.getContext("2d");
+
+  gc.fillStyle ="#228";
+  gc.font = '48px serif';	
+  gc.fillText("Olá mundo",10,100);
+
+
+}
+
+</script>
+
+<div class="col75p terminal example">
+  &lt;canvas id="tela" width="300" height="200">
+  &lt;/canvas>
+
+<div class=ruler>&nbsp;</div>
+  const tela = document.getElementById("tela");
+  <span class=focus>const gc = tela.getContext("2d")</span>;
+
+  gc.fillStyle ='#228';
+  gc.font = '48px serif';
+  gc.fillText('Olá mundo!',100,100);
+  
+</div>
+<div class=col25p>
+<canvas id="tela" width="300" height="200"></canvas>
+</div>
+
+* O contexto gráfico é o objeto que desenha sobre o `canvas`
+* É obtido a partir do `canvas` com <code class=focus>getContext()</code>
+* Atributo <span class=litle>(*string*)</span> permite selecionar entre diferentes contextos
+    * <code class=focus>2d</code> - desenho a 2 dimensões - **o mais usual**
+    * <code class=focus>WebGL</code> - desenho a 3 dimensões

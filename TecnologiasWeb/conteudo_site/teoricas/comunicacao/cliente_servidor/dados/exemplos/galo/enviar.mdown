@@ -1,0 +1,13 @@
+## Enviar mensagens 1 ##
+
+<div class="terminal example">
+
+  reset.onclick = function() {
+    <span class=focus>webSocket.send</span>(JSON.stringify(<span class=focus>{ "command": "reset" }</span>));
+  }
+
+</div>
+
+* Mensagem criada como como objeto *ad-hoc*
+* Codificada JSON usando <code class=focus>JSON.stringify</code>
+* Enviada com método <code class=focus>send()</code> do web socket

@@ -1,0 +1,33 @@
+## Reflexão de formulários ##
+
+<div class="col75p example terminal">
+
+&lt;form>
+  &lt;input name=a size=2 value=1> +
+  &lt;input name=b size=2 value=1>
+  &lt;input type=button value="="  onclick="
+     this.form.c.value = 
+       parseInt(this.form.a.value) + 
+       parseInt(this.form.b.value);"> 
+  &lt;input name=c size=2>
+  &lt;/form>
+</div>
+<div class=col25p style="margin-top: 100px;">
+<form>
+
+<input name=a size=2 value=1> +
+<input name=b size=2 value=1>
+<input type=button value="="onclick="
+   this.form.c.value = 
+   parseInt(this.form.a.value) + 
+   parseInt(this.form.b.value);"> 
+<input name=c size=2>
+
+</form>
+</div>
+
+* Versão mais antiga de reflexão do JS
+* Reflete só **partes** da formatação como formulários e *widgets*
+* Bastante simples mas pouco versátil
+
+<div class=foot>O seu uso deve ser evitado</div>

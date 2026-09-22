@@ -1,0 +1,16 @@
+## Menus ##
+
+* Crie apresentação HTML para um menu
+    * elemento `ul` (lista não ordenada)
+    * cada entrada num elemento `li` 
+    * contendo um apontador numa âncora `a`
+    * utilizar para navegação interna na página
+* Formate esta lista para
+    * itens alinharem na horizontal
+    * terem um bordo de 1 pixel
+    * haver um espaçamento de 10 pixel para a etiqueta
+    * lados de caixas consecutivas ficarem sobrepostos
+* Formatar com classes
+    * crie uma classe para formatar apenas alguns elementos `ul` 
+    * crie outra classe para alinhar itens do menu verticalmente
+    * utiliza herança múltipla para ter menus horizontais ou verticais

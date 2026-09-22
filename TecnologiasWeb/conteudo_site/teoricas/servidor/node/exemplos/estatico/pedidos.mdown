@@ -1,0 +1,28 @@
+## Processamento de pedidos ##
+
+<div class="terminal example litle cozy">function doGetRequest(request,response) {
+    const pathname = getPathname(request);
+    if(pathname === null) {
+        response.writeHead(<span class=focus>403</span>); // Forbidden
+        response.end();
+    } else 
+        fs.stat(pathname,(err,stats) => {
+            if(err) {
+                response.writeHead(<span class=focus>500</span>); // Internal Server Error
+                response.end();
+            } else if(<span class=focus>stats.isDirectory()</span>) {
+                if(pathname.endsWith('/'))
+                   <span class=focus>doGetPathname(pathname+conf.defaultIndex,response)</span>;
+                else {
+                   response.writeHead(<span class=focus>301</span>, // Moved Permanently
+                                      <span class=focus>{'Location': pathname+'/' }</span>);
+                   response.end();
+                }
+            } else 
+                <span class=focus>doGetPathname(pathname,response)</span>;
+       });    
+}</div>
+
+* Pedidos de diretorias: redirecionar ou acrescentar índice 
+* Encaminhamento de pedidos
+* Diferentes estados da resposta: 301, 403 e 500

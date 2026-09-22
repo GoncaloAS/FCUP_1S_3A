@@ -1,0 +1,84 @@
+## Construtor 1 ##
+
+<script>
+
+window._update = function() {
+
+class Counter {
+
+    constructor(parentId) {
+	const parent  = document.getElementById(parentId);
+	const counter = document.createElement("div");
+	const incr = document.createElement("div");
+	const reset = document.createElement("div");
+
+	this.display = document.createElement("div");
+	this.count = 0;
+	
+	parent.appendChild(counter);
+	counter.appendChild(incr);
+	counter.appendChild(reset);
+	counter.appendChild(this.display);
+	
+	counter.className = "counter";
+	incr.className = "button";
+	reset.className = "button";
+	this.display.className = "display";
+	
+	incr.innerText = " Incr ";
+	reset.innerText = " Reset ";
+	this.display.innerText = this.count;
+	
+	incr.onclick = this.increment.bind(this);
+	reset.onclick = this.reset.bind(this);
+    }
+
+    increment() {
+	this.count ++;
+	
+	this.display.innerText = this.count;
+    }
+
+    reset() {
+	this.count = 0;
+
+	this.display.innerText = this.count;
+    }
+}
+
+var counter = new Counter("base");
+
+}
+
+</script>
+
+<link rel="stylesheet" href="counter.css" type="text/css">   
+
+
+<div class="col75p terminal example cozy">
+constructor(parentId) {
+    const parent  = document.getElementById(parentId);
+    const counter = document.createElement("div");
+    const incr = document.createElement("div");
+    const reset = document.createElement("div");
+    
+    <span class=focus>this.display</span> = document.createElement("div");
+    <span class=focus>this.count</span> = 0;
+    
+    parent.appendChild(counter);
+    counter.appendChild(incr);
+    counter.appendChild(reset);
+    counter.appendChild(this.display);
+    // ...
+}
+</div>
+<div class=col25p >
+
+<div id=base></div>
+
+</div>
+
+* Elemento progenitor obtido com <code class=focus>getElementById()</code>
+* Descendentes criados com <code class=focus>createElement()</code>
+* Ligados com  <code class=focus>appendChild</code>
+* Apenas <code class=focus>display</code> guardado como propriedade 

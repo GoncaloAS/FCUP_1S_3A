@@ -1,0 +1,22 @@
+## Servidor ##
+
+<div class="terminal example cozy">
+http.createServer((request,response) => {
+
+    switch(<span class=focus>request.method</span>) {
+    case 'GET':
+        doGetRequest(request,response);
+        break;
+    default:
+        <span class=focus>response.writeHead(501);</span> // 501 Not Implemented
+        <span class=focus>response.end();	</span>
+    }
+    
+}).listen(<span class=focus>conf.port</span>);
+</div>
+
+
+* Responde apenas a pedidos `GET`
+* Produz um erro 501 para outros métodos
+* Resposta é fechada de imediato
+* Ouve pedidos na porta configurada 

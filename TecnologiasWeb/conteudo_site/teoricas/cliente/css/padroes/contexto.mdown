@@ -1,0 +1,54 @@
+##Contexto & outros ##
+
+<style>
+h2 b {
+  color: orange;
+}
+</style>
+
+
+<div class="col50p terminal example" style="margin-bottom: 40px;">
+h2 b {
+  color: orange;
+}
+<div class=ruler></div>
+&lt;h2>Lorem &lt;b>ipsum&lt;/b> &lt;/h2>
+&lt;p>
+  Lorem &lt;b>ipsum&lt;/b> dolor
+  sit amet
+&lt;/p>
+</div>
+<div class=col50p>
+  <h2>Lorem <b>ipsum</b> </h2>
+  <p>Lorem <b>ipsum</b> dolor sit amet</p>
+</div>
+<div>&nbsp;</div>
+
+
+
+<table rules="all" frame="box" cellpadding="5" cellspacing="5">
+
+    <td> <code><i>elemento<sub>1</sub></i>, <i>elemento<sub>2</sub></i></code> </td> 
+    <td> seleciona ambos os elementos </td>
+    <td>1</td> 
+  </tr>
+
+  <tr>
+    <td> <code><i>ancestral elemento</i></code> </td> 
+    <td> elementos com um dado ancestral </td> 
+    <td>1</td>
+  </tr>
+
+  <tr>
+    <td> <code>*</code> </td> 
+    <td> todos os elementos </td> 
+    <td>2</td>
+
+  <tr>
+    <td> <code>not(<i>seletor</i>)</code> </td> 
+    <td> inverte a seleção </td> 
+    <td>2</td>
+  </tr>
+
+
+</table>

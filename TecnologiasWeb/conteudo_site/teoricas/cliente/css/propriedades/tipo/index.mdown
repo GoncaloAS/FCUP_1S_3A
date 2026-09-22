@@ -1,0 +1,27 @@
+## Tipos de letra ##
+
+<div class=col50p 
+style="font-family: sans-serif; font-size: xx-large; white-space: pre; color: orange; ">
+ABCDEFGHIJKLM
+NOPQRSTUVWXYZ
+abcdefghijklm
+nopqrstuvwyz
+0123456789
+</div>
+<div class=col50p 
+style="font-family: monospace; font-size: xx-large; white-space: pre; color: orange; ">
+ABCDEFGHIJKLM
+NOPQRSTUVWXYZ
+abcdefghijklm
+nopqrstuvwyz
+0123456789
+</div>
+</div>
+<div class=endCols>&nbsp;</div>
+
+
+* Família
+* Estilo 
+* Espessura
+* Tamanho
+* Variantes

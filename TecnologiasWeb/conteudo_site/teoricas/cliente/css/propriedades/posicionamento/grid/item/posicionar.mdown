@@ -1,0 +1,62 @@
+## Posicionar ##
+
+<style>
+
+.container {
+	   display: grid;
+	   grid-template-columns: auto auto auto;
+	   background: orange; 
+	   opacity: .5;
+}
+
+.item {
+ 	   border: 1px dotted white;
+	   background: #228;
+	   color: white;
+	   text-align: center;
+}
+
+#i1 { 
+	grid-row-start: 2; 
+	background: orange;
+}
+
+#i9 { 
+   grid-row-start: 1; 
+   grid-column-start: 2;
+   background: orange;
+}
+
+
+</style>
+
+<div class="terminal example col50p">
+#i<code>1</code> { 
+	<code>grid-row-start: 2;</code>
+	background: orange;
+}
+
+#i<code>9</code> { 
+   <code>grid-row-start: 1; 
+   grid-column-start: 2;</code>
+   background: orange;
+}
+</div>
+<div class="col50p">
+	<div class=container>
+	     <div class=item id=i1> 1 </div>
+	     <div class=item id=i2> 2 </div>
+	     <div class=item id=i3> 3 </div>
+		 <div class=item id=i4> 4 </div>
+	     <div class=item id=i5> 5 </div>
+	     <div class=item id=i6> 6 </div>
+         <div class=item id=i7> 7 </div>
+	     <div class=item id=i8> 8 </div>
+	     <div class=item id=i9> 9 </div>
+	</div>
+</div>
+
+Indicar a posição do item na grelha
+* linha -  `grid-row-start`, `grid-row-end` 
+* coluna -  `grid-column-start`, `grid-column-end`
+

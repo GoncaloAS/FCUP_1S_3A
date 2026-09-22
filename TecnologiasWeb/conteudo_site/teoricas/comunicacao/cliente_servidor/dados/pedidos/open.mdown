@@ -1,0 +1,25 @@
+## Método `open()`##
+
+
+<div class="example terminal cozy">increment() {    this.do('incr');  }
+reset()     {    this.do('reset'); }
+
+do(command) {
+    if(!XMLHttpRequest) { console.log('XHR não é suportado'); return; }
+
+    const xhr = new XMLHttpRequest();
+
+    <span class=focus>xhr.open('POST','http://'+host+':'+port+'/'+command,false);</span>
+    xhr.send();
+
+    if(xhr.status == 200)
+        this.display.innerText = xhr.responseText;
+}</div>
+
+
+* Argumentos do método `open()`
+    * **Método HTTP** - os básicos (`GET`, `POST`, ... ) são suportados
+    * **URL** absoluto do pedido a realizar
+    * **Assincrono?** - Booleano, `true` por omissão
+
+<div class=foot>neste caso é síncrono</div>

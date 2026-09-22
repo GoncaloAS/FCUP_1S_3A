@@ -1,0 +1,50 @@
+## Grid ##
+
+<style>
+
+.container {
+	   display: grid;
+	   grid-template-columns: auto auto auto;
+	   background: orange; 
+	   opacity: .5;
+}
+
+.item {
+ 	   border: 1px dotted white;
+	   background: #228;
+	   color: white;
+	   text-align: center;
+}
+
+</style>
+
+<div class="terminal example col50p" style="height: 14rem;">
+&lt;div class=container>
+     &lt;div class=item> 1 &lt;/div>
+     &lt;div class=item> 2 &lt;/div>
+     &lt;div class=item> 3 &lt;/div>
+     &lt;div class=item> 4 &lt;/div>
+	 &hellip;
+     &lt;div class=item> 9 &lt;/div>
+&lt;/div>
+</div>
+<div class="col50p">
+	<div class=container style="height: 14rem;">
+	     <div class=item> 1 </div>
+	     <div class=item> 2 </div>
+	     <div class=item> 3 </div>
+		 <div class=item> 4 </div>
+	     <div class=item> 5 </div>
+	     <div class=item> 6 </div>
+         <div class=item> 7 </div>
+	     <div class=item> 8 </div>
+	     <div class=item> 9 </div>
+	</div>	
+</div>
+
+
+* Estratégia de posicionamento **bidimensional**
+* Considera 2 papeis dos elementos face ao posicionamento
+    * Contentores
+    * Itens
+* Itens são dispostos nas linhas e colunas da grelha

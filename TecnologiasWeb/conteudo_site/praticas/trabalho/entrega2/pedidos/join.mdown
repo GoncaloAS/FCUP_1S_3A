@@ -1,0 +1,20 @@
+## Pedido `join` ##
+
+Esta função emparelha 2 jogadores que pretendem jogar um jogo com um
+determinado tamanho de tabuleiro. Se o existe um jogador a aguardar
+por um jogo com as mesmas  características então é emparelhado de
+imediato. Caso contrário, o jogador fica registado para um
+posterior emparelhamento. Em qualquer dos casos a função retorna de
+imediato. A notificação do emparelhamento é enviada pelo [`update`](update.mdown). A função `join` necessita de 4 argumentos:
+
+* <a alt=group href="group.mdown"><code>group</code></a> - id do grupo (*debugging*)
+* <a alt=nick href="nick.mdown"><code>nick</code></a> - o identificador do jogador
+* <a alt=password href="password.mdown"><code>password</code></a> - que este escolheu
+* <a alt=size href="size.mdown"><code>size</code></a> - dimensão do tabuleiro 
+
+
+São retornados erros se:
+* algum argumento for omitido
+* os argumentos contiverem valores inválidos 
+* a autenticação não corresponder a um jogador registado 
+

@@ -1,0 +1,22 @@
+## Objetos ##
+
+<div class="terminal example">let pessoa = {};
+
+let joão = {
+    nome: "João",
+    nasce: new Date(1999,3-1,15),
+    hobbies: [ "programação", "mergulho" ];
+
+    idade: function() {
+      var agora = new Date();
+      var msAno = 1000*60*60*24*365.4;
+      return Math.floor((agora.getTime()-this.nasce.getTime()) / msAno);
+    }
+}
+</div>
+
+* Um objeto pode ser criado usando a **notação de objetos**
+* Pode ser um objeto vazio ou ter **propriedades**
+* Propriedades com quaisquer valores, incluindo **funções**
+* Objetos criados desta maneira não têm uma **classe**
+* Úteis para criar objetos únicos <span class=litle>(singletons)</span>  

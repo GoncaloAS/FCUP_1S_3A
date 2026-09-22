@@ -1,0 +1,27 @@
+## Classes ##
+
+
+<div class="example terminal cozy">&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+  &lt;title>Seletores&lt;/title>
+  &lt;link rel="stylesheet" href="style.css" type="text/css">
+  &lt;style>
+     p { font-size: large; }
+     <span class=focus><u>.strong</u> { font-weight: bold; }</span>
+     #important { color: red; }     
+  &lt;/style>
+&lt;/head>
+&lt;body>
+    <span class=focus>&lt;p <u>class=strong</u>> Lorem ipsum dolor sit amet, ...&lt;/p></span>
+    &lt;p> Praesent vel elementum nunc...  &lt;/p>
+    <span class=focus>&lt;p <u>class=strong</u> id=important>  Donec cursus orci ...  &lt;/p></span>
+&lt;/body>
+&lt;/html>
+</div>
+
+
+* Seletor é o nome do <b>classe</b> de elementos
+* Precedido de um ponto <span class=litle>(<span class=focus>.</span>)</span>
+* Aplica-se a **todos** os elementos associados a essa classe
+* Com o atributo <span class=focus>class</span> com mesmo nome

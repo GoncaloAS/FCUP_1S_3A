@@ -1,0 +1,20 @@
+## Iniciar ##
+
+
+<div class="terminal example">
+
+const http = require('http');
+
+const server = http.createServer(function (request, response) {
+    response.writeHead(200, {'Content-Type': 'text/plain'});
+    response.end('Olá mundo\n');
+});
+
+<span class=focus>server.listen(8008);</span>
+</span>
+</div>
+
+* Objecto retornado é uma instância do servidor
+* É usado para lançar o servidor
+* Recebe a indicação da porta onde atende aos pedidos
+* Fica indefinidamente à escuta

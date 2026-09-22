@@ -1,0 +1,27 @@
+## Fluxo ##
+
+
+<div markdown=1 class="col50p terminal">
+
+Lorem     ipsum
+
+dolor  sit
+amet, consectetur
+
+adipiscing
+elit.
+
+</div>
+<div class="col50p">
+Lorem ipsum dolor sit
+amet, consectetur
+adipiscing elit.
+</div>
+
+
+* Fluxo de posicionamento de texto
+    * Esquerda para a direita
+    * Linhas quebram automaticamente
+* Caracteres brancos irrelevantes na formatação
+    * Múltiplos caracteres brancos reduzidos a um <b>único</b> espaço
+    * Mudanças de linha e caracteres de tabulação são irrelevantes

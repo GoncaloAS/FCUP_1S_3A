@@ -1,0 +1,22 @@
+## Sintaxe estrita ##
+
+
+<div class="terminal example"><span class=focus>"use strict";</span>
+
+funtion soma(a,b) {
+	<span class=focus>"use strict";</span>
+}
+</div>
+
+* JavaSript é uma linguagem sintaticamente **relaxada**
+* É possível torna-la mais estrita com a diretiva <code class=focus>"use strict"</code>
+* **Aspas** que tornam a diretiva um literal em versões antigas
+* A diretiva pode ser usada em modo
+    * **Global** no início do ficheiro
+    * **Local** no início de uma função
+* Em modo estrito **não** é permitido <span class=litle>(entre outros)</span>
+    * Usar variáveis e funções sem as declarar  <span class=litle>(*no hosting*)</span>
+    * Remover variáveis e funções 
+    * A construção <code>with</code>
+    * Palavras reservadas utilizáveis em futuras versões
+    

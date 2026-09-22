@@ -1,0 +1,32 @@
+## Formatos ##
+
+<div class=col25p>
+Texto
+</div>
+<div class="col75p example terminal">
+Fulano 99
+<div class=ruler>&nbsp;</div></div>
+<div class=col25p>
+XML
+</div>
+<div class="col75p example terminal">&lt;data>
+  &lt;name>Fulano&lt;/name>
+  &lt;age>99&lt;/age>
+&lt;/data>
+<div class=ruler>&nbsp;</div></div>
+<div class=col25p>
+JSON
+</div>
+<div class="col75p example terminal">{
+ "name": "Fulano",
+ "age" : 99
+}
+</div>
+<p></p>
+<div markdown=1 style="font-size: x-large;">
+| Formato | Vantagens | Desvantagens |
+|---------|-----------|-------------|
+| Texto   | Muito simples | não estruturado, apenas os dados separados por carácter convencional |
+| XML     | Estruturado, possibilidade de definição de linguagens e validação | Mais complexo de analisar e gerar |
+| JSON |  Estruturado e compacto | Difícil de standardizar e validar |
+</div>

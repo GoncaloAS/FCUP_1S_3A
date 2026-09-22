@@ -1,0 +1,26 @@
+## Receber dados ##
+
+
+
+<div class="example terminal cozy">increment() {    this.do('incr');  }
+reset()     {    this.do('reset'); }
+
+do(command) {
+    if(!XMLHttpRequest) { console.log('XHR não é suportado'); return; }
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('POST','http://'+host+':'+port+'/'+command,false);
+    xhr.send();</span>
+
+    if(<span class=focus>xhr.status</span> == 200)
+        this.display.innerText = <span class=focus>xhr.responseText</span>;
+}</div>
+
+* Leitura de resultados em **propriedades** do objeto XHR
+    * <code class=focus>status</code> - código de estado da resposta HTTP
+    * <code class=focus>responseText</code> - corpo da resposta como texto
+    * <code class=focus>responseXML</code> - corpo da resposta como DOM    
+* Só de leitura e apenas disponíveis depois da resposta
+
+

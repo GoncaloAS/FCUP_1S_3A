@@ -1,0 +1,116 @@
+## Mostrador ##
+
+
+<script>
+
+window._update = function() {
+
+Watch.numberSize = 14;
+Watch.largeMarkSize = 10;
+Watch.smallMarkSize = 5;
+
+Watch.prototype.base = null;
+Watch.prototype.gc = null;
+Watch.prototype.center = null;
+Watch.prototype.length = undefined;
+
+function Watch(canvasId) {
+    this.base = document.getElementById(canvasId);    
+    this.gc = this.base.getContext("2d");
+
+    this.center = { x: this.base.width / 2, y: this.base.height / 2 };
+    this.length = Math.min(this.center.x,this.center.y);
+
+    this.show();
+    setInterval(this.show.bind(this),1000);
+}
+
+Watch.prototype.show = function() {
+    var gc = this.gc;
+    var now = new Date();
+
+    this.base.width = this.base.width;
+    
+    this.gc.translate(this.center.x,this.center.y);
+    this.gc.textAlign = "center";
+    this.gc.textBaseline = "middle"; 
+    this.gc.font = Watch.numberSize+"pt Arial bold";
+    
+    this.face(gc);
+
+    gc.strokeStyle = "#228";
+    this.hand(gc,now.getHours()+now.getMinutes()/60,12,this.length / 2,3);
+    this.hand(gc,now.getMinutes(),60,this.length - Watch.numberSize,2);
+    this.hand(gc,now.getSeconds(),60,this.length - Watch.numberSize,1);    
+
+}
+
+
+Watch.prototype.hand = function(gc,value,max,length,width) {
+    var angle = (2*(value % max) / max - 1) * Math.PI;
+	
+    gc.save();
+    gc.rotate(angle);
+    gc.moveTo(width/2,0);
+    gc.lineTo(0,length);
+    gc.lineTo(-width/2,0);
+    gc.lineWidth = width;
+    gc.stroke();
+    gc.restore();
+}
+
+
+Watch.prototype.face = function(gc) {
+    gc.strokeStyle = "#228";
+    gc.fillStyle = "#228";
+    
+    for(var minutes = 1; minutes <= 60; minutes++) {
+	var angle = minutes*Math.PI/30 - Math.PI/2;
+	var isHour = (minutes % 5) == 0;
+	var len = this.length-Watch.numberSize-Watch.largeMarkSize;
+		
+	if(isHour) {
+	    let hour = minutes / 5;
+	    gc.save()
+	    gc.fillStyle = "orange";
+	    gc.fillText(hour,len*Math.cos(angle),len*Math.sin(angle));
+	    gc.restore();
+	}
+	
+	gc.save();
+	gc.rotate(angle);
+	gc.moveTo(this.length,0);
+	gc.lineTo(this.length -
+		  (isHour ? Watch.largeMarkSize : Watch.smallMarkSize),0);
+	gc.stroke();
+	gc.restore();
+    }
+}
+
+    var watch = new Watch("base");
+}
+
+</script>
+
+<div class="col75p terminal example">
+face(gc) {
+  const len = this.length-Watch.numberSize-Watch.largeMarkSize;
+  gc.strokeStyle = '#228';
+  gc.fillStyle = '#228';
+    
+  <span class=focus>for(let minutes = 1; minutes <= 60; minutes++) {
+    const angle = minutes*Math.PI/30 - Math.PI/2;
+    const isHour = (minutes % 5) == 0;</span>
+
+    // número 		
+    // marca
+  }
+}
+</div>
+<div class=col25p>
+<canvas id="base" width=250 height=200></canvas>
+</div>
+
+* Mostrador está dividido em 60 posições  <span class=litle>(minutos)</span>
+* Ângulo da posição depende do minuto  <span class=litle>(0 rad &rarr; direita)</span>
+* A cada 5 minutos é mostrado uma marca de hora

@@ -1,0 +1,18 @@
+
+## Contentores ##
+
+
+<code class="focus"><p></code>Contentor com texto.<code class ="focus"></p></code>
+
+<code class="focus"><p></code> Este contentor tem um <code class="focus"><b></code>pequeno<code class ="focus"></b></code> texto<code class="focus"></p></code>
+
+
+* Delimitados por um par de anotações com mesmo nome
+    * anotação de *início*
+    * anotação de *fecho*
+* Anotações de fecho <span class=litle>(ex. <code><</code><code class="focus">/b</code><code>></code> )</span>
+    * iniciadas por barra - <span class=litle>(ex. <code><</code><code class="focus">/</code>b<code>></code> )</span>
+    * seguida de nome - <span class=litle>(ex. <code><</code>/<code class="focus">b</code><code>></code> )</span>
+* Aninhamento
+    * Contentores podem conter outras anotações e contentores
+    * Anotação de fecho termina última aberta com o mesmo nome

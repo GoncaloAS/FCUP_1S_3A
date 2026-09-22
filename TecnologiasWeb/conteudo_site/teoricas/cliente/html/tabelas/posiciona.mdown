@@ -1,0 +1,33 @@
+## Posicionamento ##
+
+   <link rel="stylesheet" href="table.css" type="text/css">	
+
+<style>
+input {
+  font-size: xx-large;
+  }
+</style>
+
+<table class="dotted large">
+ <tr>
+  <td>Nome</td>
+  <td colspan=3><input> </td>
+ </tr>
+ <tr>
+  <td>Idade</td>
+  <td><input size=4></td>
+  <td>Sexo</td>
+  <td>&#9792; <input name=sex type=radio> &#9794; <input name=sex type=radio></td>
+ </tr>
+ <tr>
+  <td>Morada</td>
+  <td colspan=3><input></td>
+ </tr>
+ 
+</table>
+
+<div style="height: 1cm;">&nbsp;</div>
+
+* Anotações <code class=focus>table</code> criam grelha invisível
+* Células podem ser usadas para posicionamento
+* ... contendo texto, objectos imagens, ou outras tabelas

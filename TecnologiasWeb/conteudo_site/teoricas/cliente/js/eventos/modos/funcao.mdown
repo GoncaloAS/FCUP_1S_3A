@@ -1,0 +1,43 @@
+## Registo de callbacks - *DOM Level 2* ##
+
+<script>
+
+window._update = function() {
+
+   const button = document.getElementById("button");
+
+   button.addEventListener("click",function() {
+	  const tmp = button.style.color; 
+	  button.style.color = button.style.background; 
+	  button.style.background = tmp;	     
+   },false);
+}
+
+</script>
+
+<div class="col75p terminal example" style="margin-bottom: -10pt;">
+<span class=focus>window.addEventListener("load",function()</span> {
+   const button = document.getElementById("button");
+   <span class=focus>button.addEventListener("click",function()</span> {
+	  const tmp = button.style.color; 
+	  button.style.color = button.style.background; 
+	  button.style.background = tmp;	     
+    },false));
+},false));
+<div class=ruler> </div>
+&lt;div <span class=focus>id="button</span> style=" ... "
+   }"> Don't click me! &lt;/div>
+</div>
+<div class=col25p>
+
+<div id="button" style="background: white; color: orange; text-align: center;" > Don't click me! </div>
+
+</div>
+
+
+* <code class=focus>addEventListener()</code> em elementos DOM regista *callbacks*
+* Permite registar múltiplos *callbacks* num único elemento
+* Argumentos são
+    * **Nome** do evento - *string* <span class=litle>(sem o `"on"`)</span>
+    * ***Callback*** - função
+    * **Fase** - booleano <span class=litle>(`true` = *capturing*; `false`= *bubbling*)</span>

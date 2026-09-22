@@ -1,0 +1,54 @@
+## Separações ##
+
+<style>
+
+.container {
+	   display: grid;
+	   grid-template-columns: 100px 40% auto ;
+	   row-gap: 10px;
+	   column-gap: 20px;
+	   background: orange; 
+	   opacity: .5;
+}
+
+.item {
+ 	   border: 1px dotted white;
+	   background: #228;
+	   color: white;
+	   text-align: center;
+}
+
+</style>
+
+<div class="terminal example col50p cozy">
+.container {
+    display: grid;
+    grid-template-columns: 
+	           100px 45% auto ;
+   <code>row-gap: 10px;
+   column-gap: 20px;</code>
+
+}
+</div>
+<div class="col50p cozy">
+	<div class=container>
+	     <div class=item> 1 </div>
+	     <div class=item> 2 </div>
+	     <div class=item> 3 </div>
+		 <div class=item> 4 </div>
+	     <div class=item> 5 </div>
+	     <div class=item> 6 </div>
+	     <div class=item> 7 </div>		 
+	     <div class=item> 8 </div>		 		 
+	     <div class=item> 9 </div>
+	</div>
+</div>
+
+
+* Definem número e dimensão de
+	* linhas - `row-gap`
+    * colunas  - `column-gap`
+* Lista de valores separados por espaços, referente a linha/coluna
+	* *comprimento* - da coluna em questão <span class=litle>(pode ser relativo)</span>
+    * `normal` - valor de omissão
+	* `initial`, `inherit` - omissão e herdado do progenitor

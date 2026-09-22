@@ -1,0 +1,15 @@
+## Métodos ##
+
+
+<dl>
+<dt><code class=focus>getAttribute(<i>nome</i>)</code></dt>
+<dd>obter valor do atributo</dd>
+<dt><code class=focus>setAttribute(<i>nome</i>,<i>valor</i>)</code></dt>
+<dd>alterar
+valor do atributo</dd>
+<dt><code class=focus>appendChild(<i>no</i>)</code></dt>
+<dd>Adiciona um nó
+filho</dd>
+<dt><code class=focus>getElementsByTagName(<i>name</i>)</code></dt>
+<dd>Retorna lista de elementos</dd>
+</dl>

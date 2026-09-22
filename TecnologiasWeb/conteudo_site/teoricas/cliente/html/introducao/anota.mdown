@@ -1,0 +1,29 @@
+## Anotações ##
+
+
+<div markdown=1 class="col50p example terminal" style="font-size: large;">
+&lt;!DOCTYPE html>
+<span class=focus>&lt;html>
+ &lt;head>
+   &lt;title></span>Olá<span class=focus>&lt;/title>
+ &lt;/head>
+ &lt;body>
+  &lt;h1></span> Olá HTML 5 <span class=focus>&lt;/h1>
+  &lt;img alt="HTML5" src="logo.png">
+  &lt;a href="https://www.w3.org/TR/html5/"></span>
+    Mais informação
+  <span class=focus>&lt;/a>
+&lt;/body>
+&lt;/html></span>
+</div>
+<div class="col50p">
+  <h1> Olá HTML 5</h1>
+   <img alt=HTML5 src=../../html5-logo.png style="width: 3cm;">
+  <a href=https://www.w3.org/TR/html5/ target=_blanc>
+  Mais informação</a>
+</div>
+<div class="endCols"/>
+
+* Estrutura e formatação dados por **anotações**
+* Porções de texto delimitadas por *parêntesis angulares*
+* Ver exemplos no navegador com **Ver código fonte**

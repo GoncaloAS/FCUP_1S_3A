@@ -1,0 +1,73 @@
+## Fluxo ##
+
+<style>
+.container {
+	   display: flex;
+	   width: 75%;
+	   height: 200px;
+	   background:
+	   orange; opacity: .5;
+}
+
+.item {
+	   width: 100px;
+	   height: 50px;
+	   background: #228;
+	   color: white;
+	   margin: 5px;
+	   text-align: center;
+	   line-height: 50px;
+}
+</style>
+
+<div class=cozy>
+<div class="terminal example col50p">.container {
+  <code>flex-flow: row-reverse nowrap;</code>
+	   ...
+ }
+</div>
+<div class="col50p">
+	<div class=container style="flex-flow: row-reverse nowrap; height: 100px ">
+
+	     <div class=item> 1 </div>
+	     <div class=item> 2 </div>
+	     <div class=item> 3 </div>
+
+	</div>
+</div>
+
+<div class="terminal example col50p" style="margin-top:10px;">.container {
+  <code>flex-flow: column-reverse wrap;</code>
+	   ...
+ }
+</div>
+<div class="col50p">
+	<div class=container style="flex-flow: column-reverse wrap;  height: 130px">
+
+	     <div class=item> 1 </div>
+	     <div class=item> 2 </div>
+	     <div class=item> 3 </div>
+
+	</div>
+</div>
+<div class="terminal example col50p" style="margin-top:10px;">
+.container {
+    <code>flex-flow: column-reverse
+               wrap-reverse;</code>
+	   ...
+ }
+</div>
+<div class="col50p">
+	<div class=container style="flex-flow: column-reverse wrap-reverse;  height: 130px; margin-top:10px;">
+
+	     <div class=item> 1 </div>
+	     <div class=item> 2 </div>
+	     <div class=item> 3 </div>
+
+	</div>
+</div>
+</div>
+
+
+* Atalho para as propriedades `flex-direction` e `flex-wrap`
+* Permite misturar valores das propriedades anteriores

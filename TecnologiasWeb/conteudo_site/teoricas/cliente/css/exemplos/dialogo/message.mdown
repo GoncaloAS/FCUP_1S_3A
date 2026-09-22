@@ -1,0 +1,27 @@
+## Classe `message` ##
+
+<link rel="stylesheet" href="dialogo.css" type="text/css">
+
+<div class="col50p terminal example">
+.message {
+       width:  50%;
+       height: 100%;
+       <span class=focus>float: left</span>;
+
+       <span class=focus>line-height: 120px</span>;
+       color: orange;	
+}
+</div>
+<div class=col50p >
+
+     <div class=dialog>
+           <div class=message>  Mesmo sair? </div>
+
+     </div>
+
+</div>
+
+* Caixa de mensagem **flutua** para a direita
+* Ocupa 50% da caixa de diálogo <span class=litle>(resto para botões)</span>
+* **Centrar** verticalmente: altura da linha igual altura do diálogo
+* Formatação de cor de texto

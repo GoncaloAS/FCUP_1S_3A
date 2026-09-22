@@ -1,0 +1,16 @@
+## Características do HTTP ##
+
+
+* **Sem conexão** <span class=litle>(*connectionless*)</span>
+    * Conexão entre cliente servidor refeita a cada pedido
+    * Sem conexão persistentes para "diálogo" entre agentes
+    * Pensado para facilitar a passagem para outros servidores<p>
+* **Sem estado** <span class=litle>(*stateless*)</span>
+    * Não existe estado da interação entre cliente e servidor
+    * Apenas os agentes mantêm internamente o seu estado
+    * Pedidos independente dos precedentes (para o protocolo)
+    * Capacidade para *simular* estado da interação (ex: cookies)<p>
+* **Independente de media** <span class=litle>(*media independent*)</span>
+    * Qualquer tipo de recurso pode ser enviado pelo protocolo
+    * Agentes têm de saber lidar com o tipo de recurso trocados
+    * Metainformação no protocolo para caracterizar recursos 

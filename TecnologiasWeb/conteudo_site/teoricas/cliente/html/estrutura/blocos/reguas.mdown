@@ -1,0 +1,19 @@
+## Réguas ##
+
+
+<div class="col50p example terminal">
+
+Antes &lt;hr> Depois
+
+</div>
+<div class="col50p">
+Antes <hr> Depois
+</div>
+
+<div style="margin: 50px;">&nbsp;</div>
+
+* Anotação <code class=focus>hr</code> <span class=litle>(Horizontal Rule)</span> introduz um linha  <span class=litle>(régua)</span>
+* Ocupa toda a largura disponível  <span class=litle>(é um bloco)</span>
+* Mas não tem conteúdo nem altura  <span class=litle>(é uma caixa achatada)</span>
+* Permite criar um separação mais notória que o <code class=focus>br</code>
+

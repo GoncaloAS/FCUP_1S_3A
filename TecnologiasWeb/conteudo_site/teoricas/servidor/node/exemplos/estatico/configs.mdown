@@ -1,0 +1,23 @@
+## Configurações ##
+
+<div class="terminal example cozy">module.exports.<span class=focus>documentRoot</span> = '/home/zp/public_html/about';
+module.exports.<span class=focus>defaultIndex</span> = 'index.html';
+module.exports.<span class=focus>port</span> = 8007;
+module.exports.<span class=focus>mediaTypes</span> = {
+    'txt':      'text/plain',
+    'html':     'text/html',
+    'css':      'text/css',
+    'js':       'application/javascript',
+    'png':      'image/png',
+    'jpeg':     'image/jpeg',
+    'jpg':      'image/jpeg',
+}
+</div>
+
+* Configurações do servidor definidas como módulo
+    * Diretoria raíz dos documentos
+    * Nome do ficheiros índice duma diretoria
+    * Porta para escuta de pedidos
+    * Tipos de media associados a extensões
+* Estas <span class=litle>(e muitas outras!)</span> existem num servidor real 
+ 	

@@ -1,0 +1,7 @@
+## Validar ##
+
+
+* Aceda ao <a target="_blank" href="https://validator.w3.org/">serviço de validação de HTML</a> do W3C.
+* Coloque a página no formulário <span class=litle>(URL, upload ou copy-paste)</span>
+* Carregue no botão <b>Check</b> correspondente
+* Corrija os erros de HTML e revalide, enquanto necessário

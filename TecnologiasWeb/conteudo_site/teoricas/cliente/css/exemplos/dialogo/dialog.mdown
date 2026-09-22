@@ -1,0 +1,32 @@
+## Classe `dialog` ##
+
+<link rel="stylesheet" href="dialogo.css" type="text/css">
+
+<div class="col50p terminal example">
+.dialog {
+	width: 90%;
+	height: 120px;
+	padding: 10px;	
+	<span class=focus>margin: auto</span>;
+	
+	border-width: 4px;
+	border-style: double;
+	border-color: #228;
+
+	background: white;
+	<span class=focus>box-shadow</span>: 3px 3px #AAA;
+}
+</div>
+<div class=col50p >
+
+     <div class=dialog>
+
+
+     </div>
+
+</div>
+
+* Dimensões da caixa de diálogo, incluindo preenchimento
+* Centragem com margem automática <span class=litle>(<code class=focus>margin</code>: <code class=focus>auto</code>)</span>
+* Formatação do bordo para traço duplo
+* Cores de fundo e sombra com <code class=focus>box-shadow</code>

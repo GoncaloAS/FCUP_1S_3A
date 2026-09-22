@@ -1,0 +1,22 @@
+## Armazenar objetos ##
+
+<div class="example terminal">
+
+const data = [ { name: 'fulano', age: 99 }];
+
+localStorage.setItem('data',<code class=focus>JSON.stringify</code>(data));
+
+<div class=ruler>&nbsp;</div>
+
+const data  = <code class=focus>JSON.parse</code>(localStorage.getItem('data');
+
+
+</div>
+
+
+
+
+* Chaves e valores são sempre convertidos em *strings*
+* Objetos devem ser **serializados** antes de guardados
+* E **desserializados** quando recuperados
+* JSON é a forma mais conveniente de serialização

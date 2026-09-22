@@ -1,0 +1,58 @@
+## Eventos `mousemove`##
+
+<script>
+
+window._update = function() {
+
+   var dot = document.getElementById("dot");
+
+   var x;
+   var y;
+   var moving = false;
+
+   dot.onmousedown = function(event) {
+   	x = event.x;
+	y = event.y;
+	moving = true;
+	event.preventDefault();
+   };
+   dot.onmousemove = function(event) {
+      if(!moving) return;
+        dot.style.left = (parseInt(dot.style.left)+(event.x-x))+"px";
+        dot.style.top = (parseInt(dot.style.top)-(y-event.y))+"px";
+
+        x = event.x;
+        y = event.y;
+	event.preventDefault();
+
+   };
+   dot.onmouseup =function() {
+      moving = false;
+  	event.preventDefault();
+   };
+};
+
+</script>
+
+<div class="col75p terminal example" >
+dot.<span class=focus>onmousemove</span> = function(event) {
+   if(! moving) return;
+   dot.style.left =
+      (parseInt(dot.style.left)+(<span class=focus>event.x</span>-x))+"px";
+   dot.style.top =
+      (parseInt(dot.style.top)-(y-<span class=focus>event.y</span>))+"px";
+   x = <span class=focus>event.x</span>;
+   y = <span class=focus>event.y</span>;
+   event.preventDefault();
+ };
+ 
+</div>
+<div class=col25p style="width: 200px; height: 300px; position: relative; border: 1px dotted;">
+
+<div id="dot" style="background: orange; position: absolute; left: 75px; top: 75px; width: 50px; height: 50px; border-radius: 25px;"> </div>
+
+</div>
+
+* Calcula o deslocamento horizontal / vertical do ponto
+* Atualiza a posição para manter a mesma distância ao rato
+* Regista a nova posição nas variáveis de contexto

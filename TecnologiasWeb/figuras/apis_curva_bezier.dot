@@ -1,0 +1,22 @@
+digraph CurvaBezier {
+  layout=neato;
+  fontname="Helvetica";
+  node [fontname="Helvetica", fontsize=11, shape=point, width=0.09, color="#1B4F72"];
+  edge [fontname="Helvetica", fontsize=10];
+
+  P0 [pos="0.8,-2.0!"];
+  C1 [pos="4.0,-0.8!"];
+  C2 [pos="3.2,-2.4!"];
+  P1 [pos="5.2,-3.2!"];
+
+  P0lbl [shape=plaintext, pos="0.8,-1.6!", label="P0 (40,100)\nmoveTo"];
+  C1lbl [shape=plaintext, pos="4.0,-0.4!", label="C1 (200,40)\ncontrolo 1"];
+  C2lbl [shape=plaintext, pos="3.2,-2.8!", label="C2 (160,120)\ncontrolo 2"];
+  P1lbl [shape=plaintext, pos="5.6,-3.5!", label="P1 (260,160)\nfim"];
+
+  P0 -> C1 [style=dashed, color="#888888"];
+  P1 -> C2 [style=dashed, color="#888888"];
+
+  P0 -> P1 [color="#B9770E", penwidth=2.5,
+    label="curva real (aproximada)\ntangente a P0-C1 em P0\ne a P1-C2 em P1"];
+}

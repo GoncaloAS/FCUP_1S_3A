@@ -1,0 +1,12 @@
+## Níveis de dificuldade ##
+
+* Várias abordagens para controlar nível de dificuldade
+    1. usar conjuntos de heurísticas diferentes para cada dificuldade
+	2. alternar entre jogador simples e complexo <span class=litle>(abordagem mais simples)</span>
+* Alternância entre os 2 jogadores automáticos
+    * Definir nível máximo de dificuldade M
+	* No início do jogo é escolhido um nível N &le; M 
+    * A cada jogada, 
+        * gerar inteiro aleatório A com 0 &le; A  &lt; M
+	    * se A &lt; N, invocar jogador mais complexo
+		* caso contrário, invocar o mais simples

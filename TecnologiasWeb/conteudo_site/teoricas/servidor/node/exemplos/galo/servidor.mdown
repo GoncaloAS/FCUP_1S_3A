@@ -1,0 +1,20 @@
+## Servidor ##
+
+<div class="terminal example">webSocketServer.on('request', function(request) {
+    const connection = request.accept(null, request.origin);
+    remember(connection);
+    connection.sendUTF(JSON.stringify({ board, current }));
+    
+    <span class=focus>connection.on('message'</span>, function(message) {
+        if (message.type === 'utf8')
+            <span class=focus>process(JSON.parse(message.utf8Data));</span>
+        else
+            console.log('Unsupported message type: '+message.type);
+    });
+    <span class=focus>connection.on('close'</span>, function(connection) { forget(connection);});
+});</div>
+* WebSocket funciona como um *stream* de pedidos <span class=litle>(`request`)</span>
+* Conexão com cliente obtida a partir do pedido
+* Conexão também funciona como um *stream* mas de `message`
+* Mensagens em UTF8 lidas como JSON e processadas
+* Deveria controlar a origem do pedido <span class=litle>(*same origin policy*)</span>

@@ -1,0 +1,21 @@
+## Receção de eventos ##
+
+<div class="example terminal">
+ const eventSource = new EventSource(url);
+ <span class=focus>eventSource.onmessage</span> = function(event) {
+    const data = <span class=focus>JSON.parse</span>(<span class=focus>event.data</span>);
+ }
+ ...
+ eventSource.close()
+</div>
+
+
+* Eventos de servidor como eventos de <code class=focus>EventSource</code>
+    * <code class=focus>onstart</code> - conexão foi establecida
+    * <code class=focus>onmessage</code> nova mensagem recebida
+    * <code class=focus>onerror</code> erro na comunicação
+* Receção de dados
+    * Objeto de evento com dados em propriedade <code class=focus>data</code>
+    * Dados recebidos no evento são *strings*
+    * Podem ser convertidos num objecto usando <code class=focus>JSON.parse()</code>
+* *Event handler* <code class=focus>onmessage</code> chamado **múltiplas** vezes

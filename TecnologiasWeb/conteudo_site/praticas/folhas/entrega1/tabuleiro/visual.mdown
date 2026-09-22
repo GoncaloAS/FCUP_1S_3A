@@ -1,0 +1,82 @@
+
+## Visualização em HTML & CSS ##
+
+<style>
+.cell, .piece, .slack, .bar {
+  border-style: dotted;
+  border-width: 1px;
+}
+
+.cell {
+  width: 110px;
+}
+
+.piece {
+  border-radius: 3em;
+  margin: 2px;
+  width: 100px;
+  height: 100px;
+  padding: 2px;
+}
+
+.slack {
+    width: 310px;
+    height: 110px
+}
+
+.bar {
+    width: 300px;
+    height: 20px;
+    margin-top: 45px;
+    margin-left: 5px;
+}
+
+.row {
+    display: flex;
+}
+
+</style>
+
+
+<div class=row>
+<div class=cell>
+  <div class=piece>&nbsp;</div>
+</div>
+<div class=cell>
+  <div class=piece>&nbsp;</div>
+</div>
+<div class=cell>
+  <div class=piece>&nbsp;</div>
+</div>
+<div class=cell>
+  <div class=piece>&nbsp;</div>
+</div>
+<div class=cell>
+  <div class=piece>&nbsp;</div>
+</div>
+</div>
+<div class=row>
+<div class=cell>
+  <div class=piece>&nbsp;</div>
+</div>
+<div class=cell>
+  <div class=piece>&nbsp;</div>
+</div>
+<div class=cell>
+  <div class=piece>&nbsp;</div>
+</div>
+<div class=cell>
+  <div class=piece>&nbsp;</div>
+</div>
+<div class=cell>
+  <div class=piece>&nbsp;</div>
+</div>
+</div>
+
+
+* Representar casas e células como DIVs 
+* Peças podem ser caixas arredondadas <span class=litle>(`border-radius:`)</span>
+* Casas vazias podem conter peças "transparentes"
+* Usar classes CSS para configurar cada tipo de DIV
+* Posicionar casas do tabuleiro usando `grid` 
+

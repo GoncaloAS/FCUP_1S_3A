@@ -1,0 +1,5 @@
+## Outras APIs do HTML 5 ##
+
+* Persistência no cliente com WebStorage
+* Desenho de gráficos em HTML com Canvas
+<!-- * Concorrência com WebWorkers  -->

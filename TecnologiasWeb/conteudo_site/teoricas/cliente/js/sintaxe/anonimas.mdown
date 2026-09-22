@@ -1,0 +1,25 @@
+## Funções anónimas ##
+
+
+<div class="col75p terminal example">
+let somar = <span class=focus>function(a,b) { return a + b; }</span>;
+
+document.writeln(somar(2,3));
+document.writeln(<span class=focus>function(a,b) {return a+b;}</span>(2,3));     
+document.writeln(<span class=focus>(a,b) => a+b)</span>(2,3));
+</div>
+<div class="col25p example">
+
+
+5
+5
+5
+</div>
+<div class=endCols></div>
+
+* Funções criadas como **expressões** em vez de declaradas
+* Estas funções são **anónimas** já que não têm associado um nome
+* Atribuíveis a uma variável que pode ser invocada como função
+* Podem ser invocadas diretamente passando-lhes argumentos
+* São uma forma de criar um âmbito para variáveis
+* funções anónimas podem usar sintaxe da seta `=>`

@@ -1,0 +1,6 @@
+## Jogo do Galo ##
+
+
+* Servidor WebSockets <span class=litle>(diferente de HTTP)</span>
+* Leitura e difusão de mensagens JSON
+* Processamento de dados em mensagens

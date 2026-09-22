@@ -1,0 +1,33 @@
+graph isp {
+  rankdir=TB;
+  node [fontsize=10, fontname="Helvetica", style=filled];
+  edge [fontsize=9, fontname="Helvetica"];
+
+  T1a [label="Tier-1 ISP", shape=ellipse, fillcolor="#b3c6ff"];
+  T1b [label="Tier-1 ISP", shape=ellipse, fillcolor="#b3c6ff"];
+  T1c [label="Tier-1 ISP", shape=ellipse, fillcolor="#b3c6ff"];
+  T1a -- T1b [label="peering"];
+  T1b -- T1c [label="peering"];
+  T1a -- T1c [label="peering"];
+
+  T2a [label="Tier-2 ISP\n(regional)", shape=ellipse, fillcolor="#c6ffb3"];
+  T2b [label="Tier-2 ISP\n(regional)", shape=ellipse, fillcolor="#c6ffb3"];
+  T2a -- T1a [label="cliente"];
+  T2b -- T1b [label="cliente"];
+  T2a -- T2b [style=dashed, label="peering"];
+
+  L1 [label="ISP local", shape=ellipse, fillcolor="#fff2b3"];
+  L2 [label="ISP local", shape=ellipse, fillcolor="#fff2b3"];
+  L1 -- T2a [label="cliente"];
+  L2 -- T2b [label="cliente"];
+
+  HA [label="Terminal A", shape=box, fillcolor=white];
+  HB [label="Terminal B", shape=box, fillcolor=white];
+  HA -- L1;
+  HB -- L2;
+
+  { rank=same; T1a; T1b; T1c; }
+  { rank=same; T2a; T2b; }
+  { rank=same; L1; L2; }
+  { rank=same; HA; HB; }
+}

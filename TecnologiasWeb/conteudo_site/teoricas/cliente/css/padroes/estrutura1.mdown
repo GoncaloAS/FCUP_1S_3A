@@ -1,0 +1,24 @@
+##Estrutura 1##
+
+<table rules="all" frame="box" cellpadding="5" cellspacing="5">
+  
+  <tr>
+     <td> <code><i>progenitor</i> > <i>elemento</i></code> </td> 
+     <td> elementos com um dado progenitor </td>
+     <td>2</td>
+  </tr>
+
+   <tr>
+     <td> <code><i>anterior</i> + <i>elemento</i></code> </td> 
+     <td> elementos que seguem imediatamente o anterior dado </td> 
+     <td>2</td>
+   </tr>
+
+
+  <tr>
+    <td> <code> <i>seletor</i>:first-child </code> </td> 
+    <td> primeira linha do elemento selecionado </td>
+    <td>2</td>	
+  </tr>
+
+</table>

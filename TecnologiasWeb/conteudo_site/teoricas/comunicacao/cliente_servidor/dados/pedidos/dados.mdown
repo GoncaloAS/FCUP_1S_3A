@@ -1,0 +1,23 @@
+## Processar dados JSON ##
+
+<div class="example terminal cozy">do(command,<span class=focus>value</span>) {
+// &hellip;
+    const xhr = new XMLHttpRequest();
+    const display = this.display;
+    
+    xhr.open('POST','http://'+host+':'+port+'/<span class=focus>process</span>',true);
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState</span> == 4 && xhr.status == 200) {
+            const data = <span class=focus>JSON.parse(xhr.responseText)</span>;
+            display.innerText = data.value;
+	 }
+    }    
+    xhr.send(<span class=focus>JSON.stringify({ 'command': command, 'value': value})</span>);
+}
+</div>
+
+* Envio e receção de dados como texto
+    * método `send()` pode receber texto para corpo do pedido
+    * propriedade `responseText` com texto do corpo da resposta
+* Texto pode ser (des)serializado em JSON
+* ES6: Mensagem de pedido podem ser compactada <span class=litle>(<code>{command, value}</code>)</span>

@@ -1,0 +1,49 @@
+## Início do movimento ##
+
+
+<link rel="stylesheet" href="../board.css">
+<link rel="stylesheet" href="../stick-dice.css">
+
+<div style="display: flex;">
+<div id="gamePanel"></div><div id="dicePanel"></div>
+</div>
+
+<script>
+window._update = async function() {
+
+fetch("praticas/trabalho/regras/tab_board.js")
+  .then(response => response.text())
+  .then(src => {
+        eval((src));
+        const board = new Board({parent: 'gamePanel', size: 9})
+		const blue  = { color: 'Blue' };
+        const red   = { color: 'Red' };
+		const moved = { color: 'Blue', inMotion: true };
+
+        board.state({
+            board: [
+			     blue,	blue,	blue,	blue,	blue,	blue,	blue,	blue,	null,
+			     moved,	null,	null,	null,	null,	null,	null,	null,	null,
+			     null,	null,	null,	null,	null,	null,	null,	null,	null,
+			     red,	red,	red,	red,	red,	red,	red,	red,	red,				 
+            ],
+        });
+
+	   const dicePanel = document.getElementById('dicePanel')
+	   const dice = new StickDice({div: dicePanel });
+
+       dice.setResult({
+	     stickValues: [ true, false, false, false ], 
+	     value: 1, 
+		 keepPlaying: false 
+	   });
+   })
+  .catch(console.error);
+
+}
+</script>
+
+* A primeira vez que uma peça se move tem de ser com 1 (Tâb)
+* Se o valor do dado não for 1 mas 4 ou 6, deve repetir 
+* A casa de destino não pode ter peças do/a jogador(a)
+* Portanto, começam-se a mover as peças mais à direita

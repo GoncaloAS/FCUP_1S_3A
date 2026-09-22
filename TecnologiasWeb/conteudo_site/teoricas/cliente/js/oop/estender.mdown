@@ -1,0 +1,22 @@
+## Estender classes##
+
+<div class="terminal example">
+class Aluno <span class=focus>extends Pessoa</span> {
+  <span class=focus>saudação(outro)</span> {
+     return 'Oi '+this.nome+', tudo em cima? Aqui '+outro.nome+'!';
+  }
+
+  <span class=focus>saudarCareta(outro)</span> {
+     console.log(<span class=focus>super.saudação(outro)</span>);
+  }
+}
+
+let marco = new Aluno("Marco",2001,01,13);
+marco.saudar(joão);         <span style="color: grey">// Oi Marco, tudo em cima? Aqui João!</span>
+marco.saudarCareta(joão);   <span style="color: grey">// Olá Marco, eu sou o João</span>
+</div>
+
+* Classes estendidas são subclasses de classes mais gerais
+* Herdam definições das suas **super** classes
+* Podem redefinir método e/ou acrescentar novas definições
+* Referência `super` acede às definições da super classe

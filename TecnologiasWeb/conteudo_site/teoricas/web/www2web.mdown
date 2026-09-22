@@ -1,0 +1,22 @@
+# De WWW a Web #
+
+<div style="float: right; margin: 10px; display: inline-block;">
+<img
+	alt="Gráfico evolução de utilizadores da Internet"
+	src=internet-users.png
+	style="width: 300px; ">
+	<p style="font-size: x-small; text-align: center;">fonte: http://www.internetlivestats.com/</p>
+</div>
+
+* **World Wide <u>Web</u>** &mdash; WWW
+
+    * Espaço de informação global
+    * Gestão de recursos
+    * Identificados por URLs
+    * Navegação por hipertexto
+
+* **Web** &mdash; *sigla era pior que o nome*
+
+    * Utilização massiva e ubíqua  
+    * Base para aplicações distribuídas
+    * Interface da *nuvem*

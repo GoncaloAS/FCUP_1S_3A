@@ -1,0 +1,21 @@
+## Códigos de estado HTTP ##
+
+<div markdown=1 style="width: 50%; margin: auto;">
+* <span class=focus>1##</span> Respostas informativas
+* <span class=focus>2##</span> Sucesso
+* <span class=focus>3##</span> Redireção
+* <span class=focus>4##</span> Erros do cliente
+* <span class=focus>5##</span> Erros do Servidor
+</div>
+
+
+
+* Códigos de estado são **números** de 3 dígitos
+* Estruturados em **5** grupos, pelo algarismos das centenas
+* Têm mensagens <span class=litle>(frases)</span> associadas para facilitar leitura humana
+* Mensagens são *opcionais* e o texto indicado pode ser *alterado*
+* Apenas códigos numéricos são **normativos**
+
+
+<div class=foot>Lista de estados apresentada <b>não</b> é exaustiva</div>
+

@@ -1,0 +1,22 @@
+## Contexto ##
+
+<div class="terminal example">  constructor(id) {
+      // &hellip;
+      for(let i=0; i<9; i++) {
+          const cell = document.createElement("div");
+          // &hellip;
+          cell.onclick = function() { &hellip; }
+          cell.className = &hellip;
+      }
+
+      const  reset = document.createElement("div");
+      reset.className = 'button';
+      reset.onclick = function() { /* &hellip; */ }
+  }
+</div>
+
+
+* Construtor cria um conjunto de elementos `div`
+* Formatados graficamente usando CSS
+* Uns são usados como células da grelha de jogo
+* Outro como botão de *Reset* <span class=litle>(limpar a grelha)</span>

@@ -1,0 +1,21 @@
+## Objeto `response` ##
+
+<div class="terminal example">
+const http = require('http');
+
+const server = http.createServer(function (request, response) {
+    <span class=focus>response.writeHead</span>(200, {'Content-Type': 'text/plain'});
+    <span class=focus>response.write</span>('Método: '+request.method+'\n');
+    <span class=focus>response.write</span>('URL: '+request.url+'\n');
+    <span class=focus>response.end()</span>;
+});
+
+server.listen(8008);
+</div>
+
+* Método <code class=focus>writeHead()</code> - cria cabeçalho de resposta
+    * Código de estado - inteiro
+    * Objeto com propriedades <span class=litle>(nome e valor)</span> com cabeçalho
+* Métodos escrita do corpo
+    * <code class=focus>write()</code> - *string*
+    * <code class=focus>end()</code> - *string* <span class=litle>(opcional)</span> - fecha a comunicação

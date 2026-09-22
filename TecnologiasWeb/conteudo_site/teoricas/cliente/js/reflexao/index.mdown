@@ -1,0 +1,10 @@
+## Reflexão da formatação em JS ##
+
+* Reflexão de formatação em JS
+    * Representa formatação como **estruturas de objetos**
+    * Permite **ler** e **alterar** a formatação<br><br>
+* Vários modelos de reflexão
+    * *Widgets* <span class=litle>(legado)</span>
+    * Cascade Style Sheets - CSS
+    * Document Objet Model - **DOM**
+

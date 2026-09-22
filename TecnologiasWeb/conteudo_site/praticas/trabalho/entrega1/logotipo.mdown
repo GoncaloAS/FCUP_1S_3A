@@ -1,0 +1,8 @@
+
+## Logotipo ##
+
+A área de logotipo deverá apresentar o nome do jogo de forma destacada.
+
+Poderá ser o nome do jogo (Tâb) ou um nome específico da vossa implementação do jogo.
+
+Poderá ser apenas um texto, formatado de forma destacada, ou uma imagem.

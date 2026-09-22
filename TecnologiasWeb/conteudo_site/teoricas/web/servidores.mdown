@@ -1,0 +1,24 @@
+## Servidores ##
+
+<div class=col50p style="margin-top: 2cm;">
+<img width="100%" src="Usage_share_of_web_servers_(Source_Netcraft).svg">
+</div>
+<div class=col50p>
+<ul>
+ <li> <b>Pioneiros</b>
+      <ul>
+          <li> NCSA, Apache
+      </ul>	       
+  <li> <b>Guerras de servidores</b>
+  <ul>
+    <li> Apache x Microsoft</u>
+  </ul>
+<li> <b>Evolução últimos anos</b>
+  <ul>
+	<li>Menor que navegadores</li>
+	<li>Menos competidores</li>
+	<li>Pouca perceção dos utilizadores finais</li>
+  </ul>
+  
+</ul>
+</div>

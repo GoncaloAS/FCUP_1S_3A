@@ -1,0 +1,12 @@
+digraph modelo_conceptual {
+  rankdir=LR;
+  node [shape=box, style="rounded,filled", fillcolor="#e8eef7", color="#1f3864", fontname="Helvetica", fontsize=12, margin="0.3,0.2"];
+  edge [color="#1f3864", fontname="Helvetica", fontsize=10];
+
+  Sistema [label="Sistema\n(mecanismo real,\nlógica interna)"];
+  Imagem [label="Imagem do sistema\n(o que é mostrado:\necrã, botões, sons...)"];
+  Utilizador [label="Utilizador\n(constrói um modelo\nmental a partir do\nque vê)"];
+
+  Sistema -> Imagem [label="  modelo conceptual\n  (como é de facto)"];
+  Imagem -> Utilizador [label="  imagem do sistema\n  (o que o utilizador vê)"];
+}

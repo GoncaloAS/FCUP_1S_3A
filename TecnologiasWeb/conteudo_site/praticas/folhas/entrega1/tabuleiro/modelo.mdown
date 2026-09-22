@@ -1,0 +1,56 @@
+## Modelo de dados ##
+
+<link rel="stylesheet" href="../../../trabalho/regras/board.css">
+
+<div class="terminal example col75p litle cozy">
+const blue  = { color: 'Blue'};
+const red   = { color: 'Blue'};
+const moved = { color: 'Blue', inMotion: true };
+
+const board = [
+  blue,	blue,	blue,	blue,	null,
+  null,	moved,	null,	null,	null,
+  null,	null,	null,	null,	null,
+  red,	red,	red,	red,	red
+];
+</div>
+<div id="gamePanel" class="col25p cozy" style="transform-origin: -200px 0px; transform: scale(0.75,0.75)"></div>
+
+<script>
+window._update = async function() {
+
+fetch("praticas/trabalho/regras/tab_board.js")
+  .then(response => response.text())
+  .then(src => {
+        eval((src));
+
+        const board = new Board({parent: 'gamePanel', size: 5})
+		const blue  = { color: 'Blue' };
+        const red   = { color: 'Red' };
+		const moved = { color: 'Blue', inMotion: true };
+
+        board.state({
+            board: [
+			     blue,	blue,	blue,	blue,	null,
+			     null,  moved,	null,	null,	null,
+			     null,	null,	null,	null,	null,
+			     red,	red,	red,	red,	red
+            ],
+        });
+
+   })
+  .catch(console.error);
+
+}
+</script>
+
+<div markdown=1 class=cozy> 
+* Casas
+    * objetos representado cada peça
+	* propriedades para representar estado <span class=litle>(ex: já foi movida)</span> 
+	* podem ser `null` se estiver vazia
+* Tabuleiro 
+    * _array_ de casas no sentido de progressão das peças 
+	* visão do adversário é o _array_ invertido
+	* matriz bidimensional seria é menos conveniente
+</div>

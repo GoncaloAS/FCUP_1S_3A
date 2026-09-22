@@ -1,0 +1,23 @@
+## Pedidos para outros domínios ##
+
+<div class="example terminal cozy">    const xhr = new XMLHttpRequest();
+    
+    xhr.open('POST','http://'+host+':'+port+'/'+command,true);    
+    <span class=focus>xhr.withCredentials = true;</span>
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState < 4) return;
+        if(xhr.status == 200) 
+            display.innerText = xhr.responseText;
+        else 
+            console.log(xhr.status+' '+xhr.statusMessage);
+
+    }    
+    xhr.send();	
+</div>
+
+* *Same-origin policy* impede pedidos XHR para outros domínios
+* A menos que os servidores o permitam <span class=litle>(ver <a href="../../../http/cabecalhos/cors.mdown">cabeçalhos CORS</a>)</span>
+* Mesmo assim, clientes evitam enviar *cookies*
+* Isso pode ser contornado com propriedade <code class=focus>withCredentials</code>
+* <a href="../../../http/cabecalhos/estado.mdown">Cabeçalhos relevantes</a> são enviados automaticamente
+* Se não forem usados *cookies* o melhor é omitir propriedade

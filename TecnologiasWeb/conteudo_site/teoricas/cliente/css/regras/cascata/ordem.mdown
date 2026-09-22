@@ -1,0 +1,26 @@
+## Ordem ##
+
+<div class="col50p example terminal">/* author */
+h3.other   {
+      font-style:     italic;  }
+h1, h2, h3 {
+      font-family: san-serif; 
+      font-weight:      bold;
+      font-style:     normal;  }
+h1 {  font-size:    xx-large;  }
+h2 {  <span class=focus>font-size:     x-large;</span>  }
+h3 {  font-size:       large;  }
+h2 {  <span class=focus>font-size:        110%;</span>  }
+</div>
+<div class="col50p example terminal">/* user agent */
+h1, h2, h3 {
+
+    font-family: serif;
+    font-weight: 500 !important;
+}
+</div>
+
+<div>&nbsp;</div>
+
+* Propriedade multiplamente definidas com igual especificidade
+* Nesse caso a **última** definição prevalece

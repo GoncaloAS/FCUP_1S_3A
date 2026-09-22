@@ -1,0 +1,15 @@
+##Calendário##
+
+<!--
+***Brevemente disponível***
+-->
+
+<iframe class=cozy scrolling="no" width=95% height=75% src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSnc0gq3v0OEY_G-M6k_E7DYCVB5Wt7iTV07FJMOgt597mhgvGV4ukcXpPzul0ZtVgnGKd1u1irkRxX/pubhtml?widget=true&amp;headers=false"></iframe>
+<!--
+<iframe class=cozy scrolling="no" width=95% height=75% src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSnc0gq3v0OEY_G-M6k_E7DYCVB5Wt7iTV07FJMOgt597mhgvGV4ukcXpPzul0ZtVgnGKd1u1irkRxX/pubhtml?gid=1881441809&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+-->
+<div class="foot little" style="margin-top: 1em;">†	Entrega até à sexta-feira da semana anterior, com tolerância até segunda-feira às 10:00<br>
+‡	Na aula prática, em computador<br>
+<!--
+‼	Num único momento, para todas as turmas</div>
+-->

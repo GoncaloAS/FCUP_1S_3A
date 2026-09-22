@@ -1,0 +1,19 @@
+## `pieces` ##
+
+Um *array* representando cada casa do tabuleiro, contendo `4 * size`
+posições, onde [`size`](../pedidos/size.mdown) é o número de colunas 
+do tabuleiro.
+A posição 0 corresponde ao canto inferior direito, 
+conforme visto pelo jogador inicial 
+<span class=litle>(ver propriedade [`initial`](initial.mdown))</span>.
+Cada posição poderá ser `null`, se vazia, ou conter um objeto com as 
+propriedades:
+* `color` - contendo um dos valores `"Blue"` ou `"Red"`
+* `inMotion` - booleano, a peça já foi movida
+* `reachedLastRow` - booleano, a peça chegou a linha do adversário 
+
+**Exemplo**: <pre class="litle">[null,null,null,null,null,
+null,null,{"color":"Blue","inMotion":true,"reachedLastRow":true},null,null,
+null,{"color":"Red","inMotion":true,"reachedLastRow":false},null,null,null,
+null,null,null,null,null]</pre>
+

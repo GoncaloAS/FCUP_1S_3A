@@ -1,0 +1,37 @@
+## Contentor `div` ##
+
+<div class="col50p example terminal">
+<span class=focus>&lt;div style="background: orange;"></span>
+  Em fundo laranja e
+  &lt;span style="color: white;">
+     texto com cor branca
+  &lt;/span> !!
+<span class=focus>&lt;/div></span>
+&lt;p>Agora algo &lt;b>diferente&lt;/b>&lt;/p>
+<span class=focus>&lt;div style="background: white;"></span>
+  Em fundo branco e
+  &lt;span style="color: orange;">
+     texto com cor laranja
+  &lt;/span> !!
+<span class=focus>&lt;/div></span>
+</div>
+<div class="col50p">
+<div style="background: orange;">
+  Em fundo laranja e
+ <span style="color: white;">
+     texto com cor branca
+  </span> !!
+</div>
+<p>Agora algo <b>diferente</b></p>
+<div style="background: white;">
+  Em fundo branco e
+  <span style="color: orange;">
+     texto com cor laranja
+  </span> !!
+</div>
+</div>
+</div>
+<div class="endCols" style="margin-bottom: -50px;">&nbsp;</div>
+
+* Funciona como um **bloco** <span class=litle>(quebra linha antes de depois)</span>
+* Permite alterar formatação da sua **caixa**

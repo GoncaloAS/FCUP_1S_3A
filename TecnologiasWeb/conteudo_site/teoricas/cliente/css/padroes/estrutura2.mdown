@@ -1,0 +1,72 @@
+##Estrutura 2##
+
+<style>
+td, th { font-size: x-large; }
+</style>
+
+<table rules="all" frame="box" cellpadding="5" cellspacing="5">
+
+  <tr>
+    <td> <code>:root</code> </td> 
+    <td> raiz do documento </td>
+    <td>3</td>
+  </tr>
+
+  <tr>
+    <td> <code><i>elemento</i>:empty</code> </td> 
+    <td> elementos vazios </td> 
+    <td>3</td>
+  </tr>
+
+  <tr>
+     <td> <code><i>anterior</i> ~ <i>elemento</i></code> </td> 
+     <td> elementos que seguem ao anterior dado </td> 
+    <td>3</td>
+  </tr>
+
+
+  <tr>
+    <td> <code><i>elemento</i>:nth-last-child(<i>n</i>)</code> </td> 
+    <td> enésimo elemento deste tipo no seu progenitor </td>
+    <td>3</td>
+  </tr>
+
+
+  <tr>
+    <td> <code><i>elemento</i>:first-of-type</code> </td> 
+    <td> primeiro elemento deste tipo no seu progenitor </td> 
+    <td>3</td>
+  </tr>	
+
+  <tr>
+    <td> <code><i>elemento</i>:last-of-type</code> </td> 
+    <td> ultimo elemento deste tipo no seu progenitor </td>
+    <td>3</td>    
+  </tr>
+
+  <tr>
+    <td> <code><i>elemento</i>:only-child</code> </td> 
+    <td> único elemento deste tipo no seu progenitor </td>
+    <td>3</td>    
+  </tr>
+
+  <tr>
+    <td> <code><i>elemento</i>:nth-child(<i>n</i>)</code> </td> 
+    <td> enésimo elemento deste tipo no seu progenitor </td>
+    <td>3</td>    
+  </tr>
+
+  <tr>
+    <td> <code><i>elemento</i>:nth-last-child(<i>n</i>)</code> </td> 
+    <td> enésimo elemento deste tipo no seu progenitor </td>
+    <td>3</td>    
+  </tr>
+
+  <tr>
+    <td> <code><i>elemento</i>:last-child</code> </td> 
+    <td> elemento deste tipo que é o ultimo do seu progenitor </td>
+    <td>3</td>    
+  </tr>
+
+</table>
+

@@ -1,0 +1,27 @@
+## Unidades ##
+
+<style>
+.s {
+  font-size: 70%;
+}
+</style>
+
+
+* Dimensões sempre seguidas  de **unidades** que podem ser
+    * **Absolutas** unidades convencionais
+    * **Relativas** a caracteristicas da formatação
+* Unidades **absolutas**
+    * <code class=focus>cm</code> CentiMeters
+    * <code class=focus>mm</code> MiliMeters
+    * <code class=focus>in</code> INches <span class=litle>(polegada)</span> <span class=s>1in = 2,54cm</span>
+    * <code class=focus>pt</code> PoinTs <span class=litle>(pontos)</span> <span class=s>1pt = 1/96in não são pixels</span>
+    * <code class=focus>pc</code> PiCas <span class=litle>(picas)</span>  <span class=s>1pc = 12pt</span>
+* Unidades **relativas**
+    * <code class=focus>%</code> PiXels - relativo à dimensão do progenitor
+    * <code class=focus>px</code> PiXels - depende da resolução do ecran
+    * <code class=focus>em</code> Tamanho da letra - relativo ao tamanho da letra
+    * <code class=focus>rem</code> Root EM - relativo ao tamanho da letra da raíz
+    * <code class=focus>vw</code> Viewport Width - relativo à largura do *viewport*
+    * <code class=focus>vh</code> Viewport Height - relativo à altura do *viewport*    
+
+

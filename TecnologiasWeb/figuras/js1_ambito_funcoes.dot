@@ -1,0 +1,41 @@
+digraph ambito_funcoes {
+  rankdir=TB;
+  fontname="Helvetica";
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fillcolor="#EBF2FA", color="#1B4F72"];
+
+  labelloc="t";
+  label="Âmbito aninhado: global -> função -> bloco";
+
+  subgraph cluster_global {
+    label = "Âmbito global";
+    style = "rounded";
+    color = "#555555";
+    fontname = "Helvetica";
+
+    g_note [shape=plaintext, fillcolor=none,
+            label="(sem variáveis globais\nneste exemplo)"];
+
+    subgraph cluster_funcao {
+      label = "Âmbito de função: testarAmbito()\n(var é visível em TODA a função)";
+      style = "rounded";
+      color = "#1E7A46";
+      fontname = "Helvetica";
+
+      f_vars [fillcolor="#E9F7EF", color="#1E7A46",
+              label="var a = \"função\"  (depois \"bloco\")\nlet b = \"função-let\"  (não muda)"];
+
+      subgraph cluster_bloco {
+        label = "Âmbito de bloco: if (true) { ... }\n(let só existe DENTRO das chavetas)";
+        style = "rounded";
+        color = "#B9770E";
+        fontname = "Helvetica";
+
+        b_vars [fillcolor="#FDF2E3", color="#B9770E",
+                label="var a = \"bloco\"\n(É A MESMA variável de fora —\nvar ignora o bloco)\n\nlet b = \"bloco-let\"\n(variável NOVA, esconde\na de fora só aqui dentro)"];
+      }
+    }
+  }
+
+  g_note -> f_vars [style=invis];
+  f_vars -> b_vars [style=invis];
+}

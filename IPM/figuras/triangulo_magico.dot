@@ -1,0 +1,13 @@
+graph triangulo_magico {
+  layout=neato;
+  node [shape=box, style="rounded,filled", fillcolor="#1f3864", fontcolor=white, color="#1f3864", fontname="Helvetica", fontsize=12, margin="0.2,0.12"];
+  edge [color="#1f3864", penwidth=1.4];
+
+  Objetivos [pos="1.5,2.6!"];
+  Tecnologia [pos="0,0!"];
+  Utilizador [pos="3,0!"];
+
+  Objetivos -- Tecnologia;
+  Objetivos -- Utilizador;
+  Tecnologia -- Utilizador;
+}

@@ -1,0 +1,21 @@
+## Evento `end` ##
+
+<div class="terminal example">switch(request.method) {
+  let body = '';
+  case 'POST':	
+	request
+	    .on('data', (chunk) => { body += chunk;  })
+	    <span class=focus>.on('end', () => {
+               try { query = JSON.parse(body);  /* processar query */ }
+               catch(err) {  /* erros de JSON */ }
+	    })</span>
+	    .on('error', (err) => { console.log(err.message); });
+	break;
+	...
+  }</div>
+
+* Evento <code class=focus>end</code> disparado quando leitura termina
+* Dados em JSON podem então ser convertidos em objeto
+* Se bem sucedida dados podem ser processados
+
+

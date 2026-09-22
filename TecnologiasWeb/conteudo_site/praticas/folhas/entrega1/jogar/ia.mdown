@@ -1,0 +1,16 @@
+## Jogador automático simples ##
+
+* Gerar todos os movimentos possíveis 
+    * com uma peça do jogador na origem 
+	* vazia, ou do oponente, no destino 
+* Selecionar apenas movimentos *válidos*
+* Escolher um movimento válido aleatoriamente
+
+## Jogador automático mais avançado ##
+
+* Classificar jogadas válidas usando heurísticas <span class=litle>(exemplos)</span>
+    * captura de uma peça
+	* mover peça pela primeira vez
+	* sair da linha inicial
+* Ordenar jogadas válidas pela classificação heurística
+* Escolher a melhor, ou uma das melhores

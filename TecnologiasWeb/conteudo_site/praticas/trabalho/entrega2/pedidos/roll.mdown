@@ -1,0 +1,18 @@
+## Pedido `roll`#
+
+Faz o lançamento do dado de paus. O pedido retorna de imediato, 
+sendo o resultado do lançamento enviado a ambos os jogadores por `update`.
+Os argumentos são:
+* <a alt=nick href="nick.mdown"><code>nick</code></a> - o identificador do jogador
+* <a alt=password href="password.mdown"><code>password</code></a> - que este escolheu
+* <a alt=game href="game.mdown"><code>game</code></a> - o identificador do jogo
+
+
+São reportados erros se:
+* algum argumento for omitido
+* os argumentos contiverem valores inválidos 
+* a autenticação falhar
+* tentar jogar fora da vez
+* já tiver lançado o dado neste turno e
+    * existir uma jogada válida
+    * o seu valor não permitir lançar novamente

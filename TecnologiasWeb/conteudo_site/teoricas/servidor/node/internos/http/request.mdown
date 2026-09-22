@@ -1,0 +1,17 @@
+## Objeto `request` ##
+
+<div class="terminal example">
+const http = require('http');
+
+const server = http.createServer(function (request, response) {
+    response.writeHead</span>(200, {'Content-Type': 'text/plain'});
+    response.write('Método: '+<span class=focus>request.method</span>+'\n');
+    response.write('URL: '+<span class=focus>request.url</span>+'\n');
+    response.end();
+});
+
+server.listen(8008);
+</div>
+
+* Propriedade <code class=focus>method</code> - método HTTP do pedido
+* Propriedade <code class=focus>url</code> -  URL do pedido <span class=litle>(relativo a servidor)</span><br> `http://servidor.up.pt/hello?nome=valor` &rarr;<br> `request.url === '/hello?nome=valor'`

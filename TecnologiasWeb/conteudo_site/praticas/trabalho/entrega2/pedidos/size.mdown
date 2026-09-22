@@ -1,0 +1,5 @@
+## `size` ##
+
+Inteiro positivo representando o número de **colunas** do tabuleiro.
+
+O número casas do tabuleiro é o quadruplo deste valor.

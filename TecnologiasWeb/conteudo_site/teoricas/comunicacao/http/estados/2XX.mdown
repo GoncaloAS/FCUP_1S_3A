@@ -1,0 +1,40 @@
+## 2XX - Sucesso ##
+
+
+<script>
+
+window._update = function() {
+  var date = document.getElementById("date");
+
+  date.innerText = new Date().toUTCString();;
+}
+
+</script>
+
+<div markdown=1 class=col50p>
+* <span class=focus>200</span> OK
+* <span class=focus>201</span> Created
+* <span class=focus>202</span> Accepted
+* <span class=focus>204</span> No Content
+* ...
+</div>
+<div class="col50p  terminal example" style="font-size: large;">
+HTTP/1.1 <span class=focus>200 OK</span>
+Date: <span id="date"></span>
+Server: Apache/2.4.25 (Fedora)
+Last-Modified: Fri, 21 Apr 2017 15:23:55 GMT
+ETag: "116f-54daed884be86"
+Accept-Ranges: bytes
+Content-Length: 4463
+Connection: close
+Content-Type: text/html; charset=UTF-8
+
+
+</div>
+
+
+* Códigos deste grupo referem-se respostas conforme o esperado
+* Código <code class=focus>200 OK</code> é o mais frequente 
+* Outro códigos são possíveis, com informação complementar
+
+<div class=foot>Existem mais códigos de sucesso</div>

@@ -1,0 +1,42 @@
+## Partilha de recursos ##
+
+
+
+<style>
+td { font-size: small; white-space: pre; border: 1px dotted orange;vertical-align: top;}
+th { font-size: large; vertical-align: top;}
+</style>
+
+
+<table style="width: 100%; margin-top: 0px; margin-bottom: 0px;">
+<tr>
+<th></th><th>Linha inicial</th><th>Cabeçalhos relevantes</th></tr>
+</tr>
+
+<tr>
+<th>Pedido</th>
+<td>GET /recurso HTTP/1.1</td>
+<td><span class=focus></span></td>
+</tr>
+
+<tr>
+<th>Resposta</th>
+<td>HTTP/1.1 200 OK</td>
+<td><span class=focus>Access-Control-Allow-Origin: *</span>
+</td>
+</tr>
+<tr>
+
+
+</table>
+
+
+* Pedidos vindos duma página geralmente para o mesmo servidor
+* Pedidos cruzados são muito usados em ataques informáticos
+* Navegadores web <span class=litle>(*browsers*)</span> limitam esse tipo de pedidos
+* Há máquinas que fornecem serviços web a múltiplos clientes
+* Denominado *Cross-origin resource sharing* <span class=litle>(CORS)</span>
+* Usando <code class=focus>Access-Control-Allow-Origin</code> servidores indicam
+    * Asterisco <span class=litle>(<code class=focus>*</code>)</span> para qualquer máquina
+    * Lista de URLs válidos separada por espaços 
+

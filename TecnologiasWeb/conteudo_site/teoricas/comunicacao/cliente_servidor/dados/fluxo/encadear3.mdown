@@ -1,0 +1,29 @@
+## Encadear com `fetch` ##
+
+<div class="col50p terminal example">
+
+<span class=focus>fetch</span>(url1,{
+    method: 'POST',
+    body: JSON.stringify(x)
+    })
+    .then(response =>
+        <span class=focus>fetch</span>(url2,{
+            method: 'POST',
+            body: response
+	    })
+	    .then(response =>
+	        <span class=focus>continuar(response)</span>)
+	)
+    
+
+</div>
+<div class=col50p markdown=1>
+
+* Sintaxe mais concisa
+* Esconde detalhes do XHR
+* Destaca continuações
+* Permite encadear pedidos
+* `fetch` retorna `Promisse`
+</div>
+
+<div class=foot>mas o que são isso das promessas?</div>

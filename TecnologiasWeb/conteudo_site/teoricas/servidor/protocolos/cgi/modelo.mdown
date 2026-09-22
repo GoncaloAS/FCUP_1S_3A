@@ -1,0 +1,20 @@
+## Modelo de execução ##
+
+<div class="terminal example">
+#!/usr/bin/bash
+
+echo "Content-type: text/html"
+echo ""
+echo "&lt;h1>Olá mundo&lt;/h1>"
+
+</div>
+
+* Um processo CGI por pedido HTTP
+* Ambiente de execução
+    * Linhas de cabeçalho
+    * Informação genérica
+* Entrada standard  <span class=litle>(*stdin*)</span> do processo &larr; Corpo do pedido HTTP 
+* Saída standard  <span class=litle>(*stdout*)</span> do processo &rarr;
+    * Final do cabeçalho
+    * Linha de separação
+    * Corpo da resposta

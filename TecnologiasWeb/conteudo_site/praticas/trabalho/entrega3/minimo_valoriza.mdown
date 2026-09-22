@@ -1,0 +1,12 @@
+##  Objetivos mínimos e valorização ##
+
+O objetivo mínimo este trabalho é a implementação das funções
+* `register`
+* `ranking`
+
+As restantes funções -  `join`, `leave`, `notify`,  `update` - serão
+consideradas valorização para obter notas mais elevadas e só deverão
+ser implementadas depois das anteriores. 
+
+Será particularmente valorizada a integração do trabalho anterior com
+o servidor Node.js desenvolvido e instalado em `twserver`. 

@@ -1,0 +1,14 @@
+digraph CorsPreflight {
+  rankdir=TB;
+  fontname="Helvetica";
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=10];
+
+  Cliente [label="Cliente\n(página em http://my.server.org)", fillcolor="#dbe9ff"];
+  Servidor [label="Servidor\n(http://outra-origem/recurso)", fillcolor="#ffe8cf"];
+
+  Cliente -> Servidor [label="1. OPTIONS /recurso HTTP/1.1\nAccess-Control-Request-Method: DELETE\nAccess-Control-Request-Headers: origin, x-requested-with\nOrigin: http://my.server.org"];
+  Servidor -> Cliente [label="2. 200 OK\nAccess-Control-Allow-Origin: http://my.server.org\nAccess-Control-Allow-Methods: POST, GET, OPTIONS, DELETE"];
+  Cliente -> Servidor [label="3. (só se permitido) DELETE /recurso HTTP/1.1\nOrigin: http://my.server.org", style=dashed];
+  Servidor -> Cliente [label="4. resposta real\nAccess-Control-Allow-Origin: http://my.server.org", style=dashed];
+}

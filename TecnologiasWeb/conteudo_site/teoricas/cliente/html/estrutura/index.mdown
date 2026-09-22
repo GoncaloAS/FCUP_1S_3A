@@ -1,0 +1,23 @@
+## Estrutura dos documentos HTML##
+
+<style>
+.space {
+     margin: 3px;
+     padding: 3px;
+}
+</style>
+
+<span class="showBorder space">Este é elemento <b>em linha</b> </span> <span class="showBorder space">E este é outro </span> 
+
+<div class="showBorder">Este elemento é um <b>bloco</b> e pode conter <div class="showBorder space"> outro <b>bloco</b> com vários <span class="showBorder space">elementos</span> <span class="showBorder space">em</span> <span class="showBorder space">linha</span></div> </div> 
+
+* As anotações e contentores conferem **estrutura** ao HTML
+    * Formam uma espécie de *árvore* que organiza o documento
+    * Nas folhas podem estar anotações vazias ou textos
+* Cada contentor é visualizado como uma **caixa**
+    * Ocupa uma porção rectangular do écran
+    * Com dimensão <span class=litle>(largura e altura)</span> e posição <span class=litle>(x,y)</span>
+    * Esta contêm as caixas dos descendentes 
+* Há 2 géneros principais de caixas
+    * **Em Linha** que são colocados no fluxo do texto
+    * **Blocos** que ocupam toda a largura disponível

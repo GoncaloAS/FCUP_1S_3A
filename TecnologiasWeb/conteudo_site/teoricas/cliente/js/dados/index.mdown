@@ -1,0 +1,9 @@
+## Estruturas de dados ##
+
+
+* **Objectos** são criados a partir de **classes**
+* Têm **propriedades dinâmicas**
+* Existem também ***Arrays*** associativos
+* Embora **índices** sejam equivalentes a propriedades
+* Iteração sobre objetos com ciclos extendidos
+* Notação de objetos para estruturas de dados

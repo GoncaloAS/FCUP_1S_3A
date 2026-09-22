@@ -1,0 +1,40 @@
+## Desenhar ##
+
+
+<script>
+
+window._update = function() {
+
+  const tela = document.getElementById("tela");
+  const gc = tela.getContext("2d");
+
+  gc.fillStyle ="#228";
+  gc.font = '48px serif';	
+  gc.fillText("Olá mundo",10,100);
+
+
+}
+
+</script>
+
+<div class="col75p terminal example">
+&lt;canvas id=tela width=300 height=200>
+&lt;/canvas>
+
+<div class=ruler>&nbsp;</div>
+  const tela = document.getElementById('tela');
+  const gc = tela.getContext('2d')
+
+  <span class=focus>gc.fillStyle ='#228';
+  gc.font = '48px serif';
+  gc.fillText('Olá mundo!',100,100);
+  </span>
+</div>
+<div class=col25p>
+<canvas id="tela" width="300" height="200"></canvas>
+</div>
+
+
+* Contexto gráfico permite  alterar o `canvas` com
+    * **Propriedades** controlam o desenho <span class=litle>(ex: <code class=focus>fillStyle</code> e <code class=focus>font</code>)</span>
+    * **Métodos** fornecem primitivas gráficas <span class=litle>(ex: <code class=focus>fillText()</code>)</span>

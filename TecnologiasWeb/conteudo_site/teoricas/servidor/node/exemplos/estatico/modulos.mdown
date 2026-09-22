@@ -1,0 +1,14 @@
+## Variáveis de topo ##
+
+<div class="terminal example">
+const http = require('http');
+const path = require('path');
+const url  = require('url');
+const fs   = require('fs');
+const conf = require('<code>./conf.js</code>'); 
+
+
+</div>
+
+* Módulos internos usados na implementação    
+* Configuração do servidor em módulo próprio

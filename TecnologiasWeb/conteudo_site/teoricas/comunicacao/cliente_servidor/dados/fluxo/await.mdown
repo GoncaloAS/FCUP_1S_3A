@@ -1,0 +1,21 @@
+## Espera em funções assíncronas##
+
+<div class="terminal example">
+
+async function message(response) {
+    if(response.ok) {
+        let message = <span class=focus>await</span> response.json();
+
+        if('error' in message)
+             throw new Error(message.error);
+        else
+             return message;
+    } else
+        throw new Error('Invalid status');
+
+</div>
+
+* Modificador `await` obriga execução a esperar por terminação
+* Usado na invocação de funções que retornam `Promises`
+* Devolve o valor do `resolve` ou lança um erro
+* `await` só pode ser usado em declarações de funções assíncronas!

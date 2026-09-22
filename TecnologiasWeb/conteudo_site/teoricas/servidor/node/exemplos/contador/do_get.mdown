@@ -1,0 +1,39 @@
+## Do `GET` ##
+
+<div class="col50p terminal example">function doGet(pathname,
+             request,response) {
+ let answer = {};
+    
+ switch(pathname) {
+   case '/update':
+     <span class=focus>updater.remember(response);
+     request.on('close', () =>
+       updater.forget(response));
+     setImmediate(() =>
+       updater.update(
+               counter.get())); </span>
+      answer.style = 'sse';
+      break;
+   default:
+     answer.status = 400;
+   break;
+ }
+
+ return answer;
+}
+</div>
+<div class=col50p markdown=1>
+
+* Processa pedido `GET`
+* Apenas `update`
+    * Memoriza `reponse`
+    * Esquece resposta <span class=litle>(no fecho)</span>
+    * Difunde contagem <span class=litle>(depois)</span>
+* Outros pedidos geram erro
+* Retorna objeto resposta
+
+<div class=litle> <code>setImmediate()</code> executa depois de terminado este processamento; semelhante a <code>setTimeout(,0)</div>
+</div>
+
+
+

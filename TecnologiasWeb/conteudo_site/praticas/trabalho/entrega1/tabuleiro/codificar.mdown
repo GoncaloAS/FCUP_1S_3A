@@ -1,0 +1,16 @@
+## Tabuleiro - codificação ##
+
+Numa primeira fase, o tabuleiro poderá ser codificado em HTML, combinando
+contentores para representar as linha e as peças. O seu posicionamento e
+formatação gráfica devem ser feitos em CSS.
+
+Numa segunda fase, o tabuleiro deve ser gerado a partir de JavaScript usando a
+DOM e a sintaxe JavaScript do CSS. Desta forma, diferentes tabuleiros poderão
+ser gerados em função das [configurações](../configuracoes.mdown).
+
+Para gerar a representação gráfica tabuleiro será necessário começar por
+identificar a estrutura de dados que o representa. Os métodos que geram o
+tabuleiro e recebem a interação operar sobre esses dados. Na segunda entrega,
+esses dados serão enviados para e recebidos do servidor.
+
+Será valorizado se a representação do tabuleiro, bem como da aplicação, seguir uma abordagem orientada a objetos.

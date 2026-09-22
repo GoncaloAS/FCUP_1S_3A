@@ -1,0 +1,23 @@
+## Encadear ##
+
+<div class="terminal example cozy">function status(response) {
+    if(response.ok)
+        return <span class=focus>Promise.resolve</span>(response);
+    else
+        return <span class=focus>Promise.reject</span>(new Error('Invalid status'));
+}
+
+fetch(url)
+     <span class=focus>.then</span>(status)
+     <span class=focus>.then</span>(response => <code>response.json()</code>)
+     <span class=focus>.then</span>(json => window.getElementById('out').innerHtml = json.result;
+     .catch(console.log)
+</div>
+
+* Métodos que retornam `Promises` permitem **encadeamento**
+* &hellip; como alguns métodos do `Response`
+    * `response.text()` - valor da resposta como texto
+    * `response.json()` - valor da resposta como JSON
+* &hellip; e métodos **estáticos** de `Promise`
+    * `Promise.resolve()` - promessa que resolve com argumento
+    * `Promise.reject()` - promessa que rejeita com argumento

@@ -1,0 +1,11 @@
+## Comandos ##
+
+A maior parte da interação será com o [tabuleiro](tabuleiro.mdown). No entanto,
+existirão alguns comandos que serão desencadeados por outras interações
+
+* Visualizar as [instruções](instrucoes.mdown)
+* Iniciar o jogo com as [configurações](configuracoes.mdown) correntes
+* Passar a vez, apenas se for impossível jogar
+* Desistir do jogo, dando a vitória ao adversário
+* Visualizar as [classificações](classificacoes.mdown)
+

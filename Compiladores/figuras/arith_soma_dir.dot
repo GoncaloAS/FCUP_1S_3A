@@ -1,0 +1,7 @@
+digraph G {
+  rankdir=TB; node [shape=plaintext, fontname="Helvetica", fontsize=14];
+  E1 [label="E"]; n1 [label="1"]; plus1 [label="+"]; E2 [label="E"];
+  n2 [label="2"]; plus2 [label="+"]; n3 [label="3"];
+  E1 -> n1; E1 -> plus1; E1 -> E2;
+  E2 -> n2; E2 -> plus2; E2 -> n3;
+}

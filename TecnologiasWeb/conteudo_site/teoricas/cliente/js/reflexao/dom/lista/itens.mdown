@@ -1,0 +1,45 @@
+## Itens ##
+
+<script>
+let conta = 0;
+
+window.conta = function() {
+    const base = document.getElementById("base");
+    const lista = base.getElementsByTagName("div");
+
+    conta++;
+
+    for(let i = 0; i<lista.length; i++)
+       lista.item(i).innerText = conta
+}
+
+</script>
+
+<div class="col75p terminal example">let conta = 0;
+
+function conta() {
+    const base = document.getElementById("base");
+    const lista = base.getElementsByTagName("div");
+
+    conta++;
+
+    for(let i = 0; i&lt; <span class=focus>lista.length</span>; i++)
+       <span class=focus>lista.item(i)</span>.innerText = conta
+}
+<div class=ruler>&nbsp;</div>
+&lt;div <span class=focus>id="base"</span> style="...">
+  &lt;div style="..." onclick="conta();">0&lt;/div>
+  &lt;div style="..." onclick="conta();">0&lt;/div>
+&lt;/div>
+</div>
+
+<div class="col25p example" id="base" style="padding: 20px; height: 280px; border: 1px dotted;">
+
+<div style="background: #f90; color: #228; text-align: center; width: 1em; margin: auto;" onclick="conta();">0</div>
+<div style="background: #228; color: #f90; text-align: center; width: 1em; margin: auto;" onclick="conta();">0</div>
+
+</div>
+
+* Obtém lista com <code class=focus> getElementsByTagName()</code>
+* Itera sobre índices numéricos da lista usando <code class=focus>length</code>
+* Acede aos nós por índice numérico com  <code class=focus>item()</code>

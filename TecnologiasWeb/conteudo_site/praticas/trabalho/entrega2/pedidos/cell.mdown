@@ -1,0 +1,18 @@
+
+## `cell` ##
+
+Inteiro indicado uma casa do tabuleiro como parte do movimento do jogador.
+
+
+Esta casa depende passo:
+* `step == "from"` - casa com peça a mover
+* `step == "to"` - casa de destino da peça
+
+	
+	
+Quando 	`step == "to"`, a casa pode ser a mesma indicada 
+no passo anterior (`"from"`). Neste caso é anulada 
+a seleção da peça, voltado a estar no passo `from`,
+podendo assim selecionar outra peça.
+
+

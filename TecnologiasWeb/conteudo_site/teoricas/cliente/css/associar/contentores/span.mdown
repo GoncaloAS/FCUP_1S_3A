@@ -1,0 +1,37 @@
+## Contentor `span` ##
+
+<div class="col50p example terminal">
+&lt;div style="background: orange;">
+  Em fundo laranja e
+  <span class=focus>&lt;span style="color: white;"></span>
+     texto com cor branca
+  <span class=focus>&lt;/span></span> !!
+&lt;/div>
+&lt;p>Agora algo &lt;b>diferente&lt;/b>&lt;/p>
+&lt;div style="background: white;">
+  Em fundo branco e
+  <span class=focus>&lt;span style="color: orange;"></span>
+     texto com cor laranja
+  <span class=focus>&lt;/span></span> !!
+&lt;/div>
+</div>
+<div class="col50p">
+<div style="background: orange;">
+  Em fundo laranja e
+ <span style="color: white;">
+     texto com cor branca
+  </span> !!
+</div>
+<p>Agora algo <b>diferente</b></p>
+<div style="background: white;">
+  Em fundo branco e
+  <span style="color: orange;">
+     texto com cor laranja
+  </span> !!
+</div>
+</div>
+</div>
+<div class="endCols" style="margin-bottom: -50px;">&nbsp;</div>
+
+* Funciona como **em linha** <span class=litle>(mantem o fluxo do texto)</span>
+* Muitas propriedades são **herdadas** pelos elementos contidos

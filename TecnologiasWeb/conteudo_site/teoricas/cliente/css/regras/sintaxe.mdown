@@ -1,0 +1,39 @@
+## Sintaxe básica ##
+
+<style>
+  .nt {
+     background: orange;
+     opacity: 0.50;	
+     border-radius: 3mm;
+     text-align: center;
+     padding : 2mm;
+  }
+  
+</style>
+
+<table> 
+    <tr>
+    	<td rowspan=2 class=nt> Seletor </td>
+	<td rowspan=2> </td>
+	<td colspan=3 class=nt> Declaração </td>
+    </tr>
+    <tr>
+
+	<td class=nt> Propriedade </td>
+	<td> </td>
+	<td class=nt> Valor </td>
+     </tr>
+     <tr>
+         <td><code> H1 </code></td>
+	 <td class=focus><code> { </code></td>
+	 <td><code> font-weight </code></td>
+	 <td class=focus><code> : </code></td>
+	 <td><code> bold </code></td>
+	 </td> <td class=focus><code> }</code></td>  
+     </tr>
+</table>
+
+* Selectores simples são nomes de **elementos**
+* Declarações delimitadas por **chavetas** <code class=focus> { }</code>
+* Declarações contêm pares nome-valor de **propriedades**
+* Nome e valor da propriedade e separados por **dois-pontos** <code class=focus>:</code>

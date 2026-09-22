@@ -1,0 +1,27 @@
+## Combinar Seletores ##
+
+<style>
+div.forte {
+    background: orange;
+}
+
+div.importante {
+    text-decoration: underline;
+}
+
+span.forte {
+    font-weight: bold;
+}
+
+span.importante {
+    color: red
+}
+</style>
+
+<div class=forte>  Lore ipsum  <span class=forte>dolor</mundo> ..  </div>
+<div class=importante>  Praesent vel <span class=importante>elementum</span>   </div>
+<div class="forte importante"> Donec <span class="forte importante">cursus</span> orci </div>
+
+
+* Elementos podem ter múltiplas classes
+* Classes podem ser restritas a tipos

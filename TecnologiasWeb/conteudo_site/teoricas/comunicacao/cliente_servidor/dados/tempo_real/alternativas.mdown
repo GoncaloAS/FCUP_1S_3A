@@ -1,0 +1,12 @@
+## Alternativas antes do HTML 5 ##
+
+* Polling
+    * Pedidos regulares de atualizações ao servidor
+    * Maioria dos pedidos é em vão
+    * Custo de tempo de conexão e largura de banda
+* Long polling
+    * Utilizar a mesma conexão HTTP para repetir pedidos
+    * Responder parcelarmente a cada pedido 
+* Comet
+    * Conjunto de tecnicas anterior ao HTML 5
+    * Baseado no conceito de *long polling* 

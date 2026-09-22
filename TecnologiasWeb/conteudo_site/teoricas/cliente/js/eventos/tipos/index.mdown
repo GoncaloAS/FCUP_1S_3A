@@ -1,0 +1,19 @@
+## Tipos de eventos ##
+
+
+
+* Existem múltiplos tipos de eventos
+* Agrupáveis em diferentes categorias
+    * janela
+    * teclado
+    * rato
+    * *widgets*
+    * ...
+* Tipos de eventos dão origem a
+    * **Atributos** no HTML, precedidos de <code class=focus>on</code>
+    * **Propriedades** em elementos DOM, precedidos de <code class=focus>on</code>
+    * **Argumentos** de <code class=focus>addEventListener()</code> <span class=litle>(primeiro)</span>
+
+
+
+<div class=foot>Lista de eventos apresentados <b>não</b> é exaustiva </div>

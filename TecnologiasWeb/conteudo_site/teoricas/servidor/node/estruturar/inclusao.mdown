@@ -1,0 +1,21 @@
+## Inclusão de módulos ##
+
+
+<div class="col50p terminal example">
+
+const http = require('http');
+
+<span class=focus>require('./modulo.js')</span>;
+
+</div>
+
+* Função `require()` inclui módulos
+    * Argumento refere o módulo incluído
+    * Valor retornado é partilhado com módulo    
+* Podem ser **referidos** módulos
+    * **Instalados** referindo o seu nome <span class=litle>(ex: `"http"`)</span>
+    * **Próprios** indicando o nome caminho <span class=litle>(ex: `"./modulo.js"`)</span>
+* Módulos incluídos podem partilhar
+    * Variáveis globais
+    * Valores exportados
+* Interface aplicação/módulo depende da definição deste último

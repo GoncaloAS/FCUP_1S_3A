@@ -1,0 +1,30 @@
+## *Frames* ##
+
+<div class="terminal example col75p">
+
+&lt;a href=p1.html <span class=focus>target=frame</span>>Uma página&lt;/a>
+&lt;a href=p1.html <span class=focus>target=frame</span>>Outra página&lt;/a>
+
+<span class=focus>&lt;iframe name=frame> &lt;/iframe></span>
+
+</div>
+<div class=col25p>
+
+
+<a href="./teoricas/comunicacao/cliente_servidor/formatacao/p1.html" target=frame>Uma página</a>
+<a href="./teoricas/comunicacao/cliente_servidor/formatacao/p2.html" target=frame>Outra página</a>
+
+<iframe name=frame style="width: 6em; height: 2em; margin: 10px;"> </iframe>
+
+</div>
+
+
+
+* Elementos da formatação atualizáveis independentemente
+* São formatados com anotação <code class=focus>iframe</code> e atributos
+    * <code class=focus>name</code> - associa nome a *frame*
+    * <code class=focus>src</code> - carrega formatação de URL dado como valor
+* Elementos que atualizam conteúdo com atributo <code class=focus>target</code>
+    * Âncoras - <code class=focus>a</code>
+    * Formulários - <code class=focus>form</code>
+* Resposta do servidor direcionada para <code class=focus>target</code>

@@ -1,0 +1,11 @@
+digraph G {
+  rankdir=TB; node [shape=plaintext, fontname="Helvetica", fontsize=14];
+  E [label="E"]; Ea [label="E"]; plus1 [label="+"]; T1 [label="T"];
+  Ta [label="T"]; F1 [label="F"]; n1 [label="1"];
+  T2 [label="T"]; star1 [label="*"]; F3 [label="F"]; n3 [label="3"];
+  F2 [label="F"]; n2 [label="2"];
+  E -> Ea; E -> plus1; E -> T1;
+  Ea -> Ta; Ta -> F1; F1 -> n1;
+  T1 -> T2; T1 -> star1; T1 -> F3; F3 -> n3;
+  T2 -> F2; F2 -> n2;
+}

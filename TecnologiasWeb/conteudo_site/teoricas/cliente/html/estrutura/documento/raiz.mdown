@@ -1,0 +1,19 @@
+##Raiz##
+
+<div markdown=1 class="example terminal">
+&lt;!DOCTYPE html>
+<span class=focus>&lt;html></span>
+  <span class=focus>&lt;head></span>
+    &lt;title>A minha primeira página HTML&lt;/title>
+  <span class=focus>&lt;/head></span>
+  <span class=focus>&lt;body></span>
+     Mãe, ó p'ra mim a fazer páginas &lt;b>HTML&lt;/b>!
+  <span class=focus>&lt;/body></span>
+<span class=focus>&lt;/html></span>
+</div>
+
+* Documentos têm uma única raiz <code class=focus><html></code><br>
+  <span class=litle>(a declaração de tipo e eventuais comentários não contam)</span>
+* São constituídos por 2 elementos
+    * Cabeçalho - <code class=focus><head></code>
+    + Corpo - <code class=focus><body></code>

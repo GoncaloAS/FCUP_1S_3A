@@ -1,0 +1,6 @@
+## Interação e jogo ##
+
+* Controlo do jogo
+* Jogador humano
+* Inteligência artificial
+* Niveis de dificuldade

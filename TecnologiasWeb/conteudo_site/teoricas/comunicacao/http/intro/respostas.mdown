@@ -1,0 +1,49 @@
+## Estrutura das respostas HTTP##
+
+<script>
+
+window._update = function() {
+  var date = document.getElementById("date");
+
+  date.innerText = new Date().toUTCString();;
+}
+
+</script>
+
+
+<style>
+td { font-size: small; white-space: pre; border: 1px dotted orange;}
+th { font-size: large; vertical-align: top;}
+</style>
+
+<table style="width: 50%; margin-left: auto; margin-right: auto; margin-top: -30px; margin-bottom: -20px;">
+<tr><th> </th><th>Resposta</th></tr>
+<tr><th>Linha&nbsp;inicial</th><td>HTTP/1.1 200 OK</td></tr>
+<tr>
+<th>Cabeçalhos</th>
+<td>Connection:Keep-Alive
+Content-Type:  text/html; charset=UTF-8
+Date: <span id=date></span>
+Keep-Alive:timeout=5, max=100
+Server:Apache/2.4.25 (Fedora)
+Transfer-Encoding:chunked
+</td></tr>
+<tr><th>Linha&nbsp;vazia</th><td> </td></tr>
+<tr><th>Corpo</th>
+<td>&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+   &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   &lt;title>José Paulo Leal&lt;/title>
+   ...
+</td></tr>
+</table>
+
+* **Linha inicial**: Estado da resposta
+    * **Código** de estado - ex: <code class=focus>200</code>
+    * **Descrição** de estado - ex: OK
+* **Cabeçalhos**: metadados da resposta
+    * Data - ex <code class=focus>Date</code>
+    * Tipo de conteúdo - ex <code class=focus>Content-Type</code>
+    * Descrição do servidor - ex <code class=focus>Server</code>
+* **Corpo** <span class=litle>(pode não existir)</span>: recurso pedido <span class=litle>(ex: página HTML)</span>

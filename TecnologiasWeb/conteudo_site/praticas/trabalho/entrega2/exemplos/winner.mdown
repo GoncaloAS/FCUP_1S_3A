@@ -1,0 +1,50 @@
+## Ganhar ##
+
+
+<link rel="stylesheet" href="../table.css" type="text/css">	
+
+<table width="100%" class=dense>
+
+<tr>
+	<th>URL</th>
+	<th>Objeto no pedido</th>
+	<th>Objeto na resposta </th>
+	<th>Observações
+</tr>	   
+	
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ <b>"turn": "jpleal"</b>, "step": "from", "pieces": [...],  ... }
+	<td> Recebe a vez
+	
+<tr>
+	<td class=code>.../roll
+	<td class=code>{ <b>"nick": "jplea"</b>, "password": "another", "game": "2fd9d..." }
+	<td class=code>{}
+	<td>lançamento válido
+	
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ {"dice":{"stickValues":[false,false,false,false], <b>"value":6,"keepPlaying":true</b>},"turn":"zp","mustPass":null} }
+	<td> Lançamento válido
+
+
+<tr>
+	<td class=code>.../notify
+	<td class=code>{ <b>"nick": "jpleal"</b>, "password": "another", "game": "2fd9d...", "cell": 12   }
+	<td class=code>{}
+	<td> Captura última peça
+	
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ <b>"winner": "jpleal"</b>, "pieces": [...], ... }
+	<td> Venceu
+
+</table>
+
+Não esquecer de fechar *server sent events* deste jogo

@@ -1,0 +1,27 @@
+## Espaçamento ##
+
+<style>
+p { margin: 16px; }
+</style>
+
+<div class="col50p terminal example" >
+word-spacing: normal;
+
+word-spacing: 3mm;
+
+letter-spacing: 3mm;
+
+</div>
+<div class=col50p style="margin-bottom: -50px;">
+<p style="word-spacing: normal;">Lorem ipsum </p>
+<p style="word-spacing: 3mm;">Lorem ipsum dolor </p>
+<p style="letter-spacing: 3mm;">Lorem ipsum </p>
+
+</div>
+
+
+* Controlar espaçamento de
+    * palavras - <code class=focus>word-spacing</code>
+    * letras - <code class=focus>letter-spacing</code>
+* Valores são numéricos com unidade de comprimento
+* Ou <code class=focus>normal</code>  <span class=litle>(omissão)</span>

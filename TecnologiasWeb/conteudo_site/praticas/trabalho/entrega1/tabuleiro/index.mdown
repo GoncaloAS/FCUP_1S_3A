@@ -1,0 +1,9 @@
+## Tabuleiro ##
+
+Esta é uma das áreas principais, com uma estrutura mais diferenciada e onde ocorrerá a maior parte da interação.
+
+Por isso, a [codificação](codificar.mdown) do tabuleiro irá requer maior 
+cuidado.
+
+A interação com o tabuleiro é também mais complexa, requerendo a utilização de diferentes [modos](modos.mdown) ao longo de cada jogo
+.

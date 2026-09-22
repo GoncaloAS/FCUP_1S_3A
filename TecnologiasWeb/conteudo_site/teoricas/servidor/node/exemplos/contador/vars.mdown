@@ -1,0 +1,20 @@
+## Variáveis ##
+
+<div class="terminal example">
+"use strict";
+
+let PORT     = 8001;
+
+let http     = require('http');
+let url      = require('url');
+
+let counter  = require('./model.js');
+let updater  = require('./updater.js');
+
+</div>
+
+* Porta onde servidor escuta pedidos
+* Módulos internos usados pelo programa
+* Módulos usados na organização do servidor
+    * `counter` - Contagem implementada pelo servidor
+    * `updater` - Gestão das atualizações

@@ -1,0 +1,16 @@
+## Centrar ##
+
+
+<div style="width: 100%; height: 300px; background: orange; opacity: .5; margin-top: 150px;">
+
+<div style="width: 200px; height: 100px; background: #228; color: white; border-radius: 10px; margin: auto; position: relative; top: calc(50% - 100px/2); margin-top: -50px;line-height: 100px; text-align: center;">
+OK
+</div>
+
+
+</div>
+
+* Usando apenas propriedades do CSS2 <span class=litle>(<code>display: block</code>)</span>
+* Centrar texto e elementos
+* Centrar na vertical e na horizontal
+

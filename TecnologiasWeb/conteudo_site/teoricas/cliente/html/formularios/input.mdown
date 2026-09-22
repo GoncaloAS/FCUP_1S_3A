@@ -1,0 +1,20 @@
+## Input ##
+
+<div class="terminal example">
+     &lt;input type=text>
+
+</div>
+
+* Introdução de valores com anotação <code class=focus>input</code>
+* Diferentes géneros de *input* dados pelo
+  atributo <code class=focus>type</code>  
+* Tabela seguinte contem tipos básicos do HTML 4
+
+| Type | Tipo | Exemplo |
+| ---- | ---- | ------- |
+| <code class=focus>text</code> | Texto <span class=litle>(valor de omissão)</span>&nbsp; |   <input value="exemplo"> |
+| <code class=focus>password</code>&nbsp; | Texto | <input type=password value="exemplo"> |
+| <code class=focus>radio</code> | Botão de radio |   <input type=radio> |
+| <code class=focus>checkbox</code> | Caixa de seleção | <input type=checkbox> |
+| <code class=focus>button</code> | Botão |  <input type=button value=Ok> |
+| <code class=focus>file</code> | Ficheiro |  <input type=file> |

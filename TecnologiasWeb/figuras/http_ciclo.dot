@@ -1,0 +1,17 @@
+digraph HttpCiclo {
+  rankdir=LR;
+  fontname="Helvetica";
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=10];
+
+  Cliente [label="Cliente\n(browser)", fillcolor="#dbe9ff"];
+  Proxy [label="Proxy\n(opcional, transparente)", fillcolor="#eeeeee", style="rounded,filled,dashed"];
+  Servidor [label="Servidor", fillcolor="#ffe8cf"];
+
+  Cliente -> Proxy [label="pedido HTTP\n(linha inicial + cabeçalhos\n+ linha vazia + corpo)"];
+  Proxy -> Servidor [label="encaminha o pedido"];
+  Servidor -> Proxy [label="resposta HTTP\n(estado + cabeçalhos\n+ linha vazia + corpo)"];
+  Proxy -> Cliente [label="encaminha a resposta\n(pode servir de cache)"];
+
+  { rank=same; Cliente; Proxy; Servidor; }
+}

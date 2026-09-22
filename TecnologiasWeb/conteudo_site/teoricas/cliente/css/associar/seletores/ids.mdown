@@ -1,0 +1,27 @@
+## IDs ##
+
+
+<div class="example terminal cozy">&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+  &lt;title>Seletores&lt;/title>
+  &lt;link rel="stylesheet" href="style.css" type="text/css">
+  &lt;style>
+     p { font-size: large; }
+     .strong { font-weight: bold; }
+     <span class=focus><u>#important</u> { color: red; }</span>
+  &lt;/style>
+&lt;/head>
+&lt;body>
+    &lt;p class=strong> Lorem ipsum dolor sit amet, ...&lt;/p>
+    &lt;p> Praesent vel elementum nunc...  &lt;/p>
+    <span class=focus>&lt;p class=strong <u>id=important</u>>  Donec cursus orci ...  &lt;/p></span>
+&lt;/body>
+&lt;/html>
+</div>
+
+
+* Seletor é o <b>id</b> do elementos
+* Precedido de um cardinal <span class=litle>(<span class=focus>#</span>)</span>
+* Aplica-se apenas ao **único** elemento associado a esse **id**
+* Com o atributo <span class=focus>id</span> com mesmo nome

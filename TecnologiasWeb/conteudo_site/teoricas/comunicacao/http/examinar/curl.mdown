@@ -1,0 +1,19 @@
+## Examinar HTTP com comando `curl` ##
+
+<div class="terminal example">
+$ <span class=focus>curl -D - -X OPTIONS http://www.up.pt/</span>
+HTTP/1.1 200 OK
+Date: Tue, 24 Oct 2017 15:51:54 GMT
+Server: Apache
+Allow: OPTIONS,GET,HEAD,POST
+Content-Length: 0
+Content-Type: text/html
+
+</div>
+
+* Comando do Linux
+* Transfere um URL falando HTTP
+* Opção `-X` ou `--request` *método* permite ver outro além de `GET` 
+* Opção `-D` ou `--dump-header` *ficheiro* envia cabeçalhos para lá
+* Usando `-` como *ficheiro* é usado o `stdout`
+* Mais informação: `man curl` 

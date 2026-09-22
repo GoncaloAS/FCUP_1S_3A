@@ -1,0 +1,20 @@
+## Tecnologias Web ##
+
+* **Alunos - Cursos**
+    * L:CC &mdash; 31 inscritos
+    * L:EG &mdash; 19 inscritos
+    * L:IACD &mdash; 15 inscritos
+    * L:BIOINF &mdash; 3 inscritos
+    * L:M &mdash; 2 inscritos
+    * L:F &mdash; 2 inscritos
+	* L:B &mdash; 1 inscritos
+* **Aulas &mdash; Docentes**  
+    * **Teóricas &mdash; José Paulo Leal**
+        * Segundas-feiras 16:00 - 17:00
+        * Quintas-feiras 16:00 - 17:00
+    * **Práticas laboratoriais &mdash; José Paulo Leal**
+        * PL3 &mdash; Segundas-feiras 14:00 - 16:00
+    * **Práticas laboratoriais &mdash; Jaime Vale**
+        * PL1 &mdash; Segundas-feiras 14:00 - 16:00
+        * PL2 &mdash; Quintas-feiras  14:00 - 16:00
+

@@ -1,0 +1,52 @@
+## Cache ##
+
+<style>
+td { font-size: small; white-space: pre; border: 1px dotted orange;vertical-align: top;}
+th { font-size: large; vertical-align: top;}
+</style>
+
+
+<table style="width: 100%; margin-top: 0px; margin-bottom: 0px;">
+<tr>
+<th></th><th>Linha inicial</th><th>Cabeçalhos relevantes</th></tr>
+</tr>
+
+<tr>
+<th>Pedido</th>
+<td>GET /index.html HTTP/1.1</td>
+<td></td>
+</tr>
+
+<tr>
+<th>Resposta</th>
+<td>HTTP/1.1 200 OK</td>
+<td><span class=focus>Cache-control: max-age=120
+ETag: xpto</span>
+</td>
+</tr>
+
+<tr>
+<th>Pedido</th>
+<td>GET /index.html HTTP/1.1</td>
+<td><span class=focus>If-None-Match: xpto</span></td>
+</tr>
+
+<tr>
+<th>Resposta</th>
+<td>HTTP/1.1 304 Not Modified</td>
+<td></td>
+</tr>
+
+</table>
+
+* Cabeçalhos fornecem informação relativa a *caches*
+* <code class=focus>Cache-control</code> fornece diretivas de controlo
+     * Tempo de vida: <code class=focus>max-age</code> <span class=litle>(em segundos)</span>
+     * Evitar *cachar*: <code class=focus>no-store</code> <span class=litle>(ex: info sensível)</span>
+     * Tem de confirmar: <code class=focus>no-cache</code>
+     * Requer autenticação: <code class=focus>private</code>
+     * Não requer autenticação: <code class=focus>public</code>
+* Controlo de modificações com *hash*
+     * <code class=focus>Etag</code> - *hash* da versão na resposta
+     * <code class=focus>If-None-Match</code> - validar modificações no pedido
+* Controlo por data de modificação: <code class=focus>If-Modified-Since</code>

@@ -1,0 +1,19 @@
+## Âncoras simples##
+
+<div class="terminal example">
+&lt;a <span class=focus>href</span>=</span>"<span class=focus>http://some.site.com</span>">Um sítio qualquer&lt;/a>
+
+</div>
+
+* **Atualização** de páginas baseado em âncoras
+    * Ativação da âncora dá origem a um **pedido HTTP** com
+        * Método <span class=focus>GET</span>
+        * URL fornecido por atributo <span class=focus>href</code>
+    * Servidor retorna **resposta HTTP** que
+        * Fornece página HTML para atualização do cliente
+        * Substitui integralmente a página anterior
+* **Ciclo pedido-resposta**
+    * É a forma básica de atualização de conteúdo
+    * Foi pensa para navegação hipertexto
+    * Simplifica a comunicação com múltiplos servidores
+    * Não facilita o desenvolvimento de aplicações 

@@ -1,0 +1,22 @@
+## Módulo ##
+
+
+<div class="terminal example">
+
+<span class=focus>const http = require('http');</span>
+
+const server = http.createServer(function (request, response) {
+    response.writeHead(200, {'Content-Type': 'text/plain'});
+    response.end('Olá mundo\n');
+});
+
+server.listen(8008);
+
+</div>
+
+
+* Servidores podem usar módulos disponíveis
+* Vários módulos são internos ao próprio Node.js
+* Outros têm de ser instalados antes de serem usados
+* Código do servidor pode usar sistema de módulos
+* Módulos criam um objeto para acesso às suas funcionalidades

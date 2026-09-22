@@ -1,0 +1,20 @@
+## Módulo `url`##
+
+
+<div class="terminal example">const http = require('http');
+<span class=focus>const url  = require('url');</span>
+
+http.createServer(function (request, response) {
+    ...
+}).listen(8003);
+</div>
+
+* Um URL tem um sintaxe própria e contem vários dados
+    * protocolo
+    * servidor
+    * porta
+    * caminho
+    * interrogação <span class=litle>(*query-string*)</span>
+* O módulo <code class=focus>url</code> permite obter esses dados
+* Funciona genericamente com qualquer URL
+* Pode ser usado com URLs relativos <span class=litle>(recebidos de `request`)</span>

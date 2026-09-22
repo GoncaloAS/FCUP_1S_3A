@@ -1,0 +1,15 @@
+## Atualização de formatação ##
+
+
+
+* Modelo de comunicação web é o **ciclo pedido-resposta**
+* Implementado de várias formas no HTML
+    * Âncoras
+    * Formulários
+    * *Frames*
+<img alt="Cliente Servidor" src=cliente-servidor.png style="float: right;">    
+
+<div markdown=1 class=foot>Como **evitar** atualizar formatação?</div>
+
+
+

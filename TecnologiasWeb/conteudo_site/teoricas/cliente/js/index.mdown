@@ -1,0 +1,11 @@
+# JavaScript #
+
+<img alt="HTML5 Logo" src=../javascript-logo.png width=150>
+
+* Linguagem de ***scripting***
+* Suportada e **integrada** nos navegadores web
+* Tem uma **sintaxe** inspirada no **Java** <span class=litle>(mas diferente)</span>
+* Com **dados estruturados** <span class=litle>(objetos e *arrays*)</span>
+* Reage a **eventos** da interação com utilizador
+* **Manipula** a apresentação **HTML** e formatação **CSS**
+* Suporta **programação orientada a objetos**

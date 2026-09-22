@@ -1,0 +1,83 @@
+## Respostas ##
+
+As respostas são objetos codificados em JSON com as seguintes propriedades
+
+
+<link rel="stylesheet" href="../table.css" type="text/css">	
+
+
+<table width="100%">
+<tr>
+	<th rowspan=2>Propr.
+	<th colspan=6>Função
+	<th rowspan=2>Descrição
+
+<tr>
+	<td class="code vertical">register</td>
+	<td class="code vertical">join</td>
+	<td class="code vertical">leave</td>
+	<td class="code vertical">notify</td>
+	<td class="code vertical">update</td>	
+	<td class="code vertical">ranking</td>
+</tr>
+<tr>
+	<td class=code><a href="cell.mdown">cell</a> 
+	<td>	<td>	<td>	<td>	<td>X	<td>
+	<td> casa movida
+<tr>
+	<td class=code><a href="dice.mdown">dice</a> 
+	<td>	<td>	<td>	<td>	<td>X	<td>
+	<td> resultado de lançar o dado
+<tr>
+	<td class=code><a href="error.mdown">error</a>
+	<td>X	<td>X	<td>X	<td>X	<td>X	<td>X	
+	<td>mensagem de erro 
+<tr>
+	<td class=code><a href="game.mdown">game</a>
+	<td>	<td>X	<td>	<td>	<td>	<td>
+	<td> identificador do jogo
+<tr>
+	<td class=code><a href="initial.mdown">initial</a>
+	<td>	<td>	<td>	<td>	<td>X	<td>
+	<td> nick do jogador inicial
+<tr>
+	<td class=code><a href="mustPass.mdown">mustPass</a> 
+	<td>	<td>	<td>	<td>	<td>X	<td>
+	<td> tem de passar a vez
+<tr>
+	<td class=code><a href="pieces.mdown">pieces</a>
+	<td>	<td>	<td>	<td>	<td>X	<td>
+	<td> casas do tabuleiro
+<!--
+<tr>
+	<td class=code><a href="phase.mdown">phase</a>
+	<td>	<td>	<td>	<td>	<td>X	<td>
+	<td> fase do jogo
+	-->
+<tr>
+	<td class=code><a href="players.mdown">players</a>
+	<td>	<td>	<td>	<td>	<td>X	<td>
+	<td> jogadores neste jogo
+<tr>
+	<td class=code><a href="ranking.mdown">ranking</a>
+	<td>	<td>	<td>	<td>	<td>	<td>X
+	<td> tabela classificativa
+<tr>
+	<td class=code><a href="selected.mdown">selected</a>
+	<td>	<td>	<td>	<td>	<td>X	<td>
+	<td> casas envolvidas na jogada
+<tr>
+	<td class=code><a href="step.mdown">step</a>
+	<td>	<td>	<td>	<td>	<td>X	<td>
+	<td> passo no movimento
+<tr>
+	<td class=code><a href="turn.mdown">turn</a>
+	<td>	<td>	<td>	<td>	<td>X	<td>
+	<td> jogador com vez de jogar
+<tr>
+	<td class=code><a href="winner.mdown">winner</a>
+	<td>	<td>	<td>	<td>	<td>X	<td>
+	<td> vencedor deste jogo
+
+</table>
+

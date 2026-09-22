@@ -1,0 +1,21 @@
+## Referencial para posicionamento##
+
+
+<div style="width: 200px; height: 300px; border: 2px dotted; margin: auto;">
+
+<div style="width: 170px; height: 270px; margin: 10px; background-color: orange; opacity: .5;">
+
+<div style="width: 150px; height: 50px; background-color: #228; opacity: .5;"></div>
+
+<div style="width: 150px; height: 50px; background-color: #228; opacity: 1; position: static; "></div>
+
+<div style="width: 150px; height: 50px; background-color: #228; opacity: .5;"></div>
+
+
+</div>
+
+</div>
+
+* Propriedades de posicionamento referem-se a **caixa**
+* Caixa de progenitor funciona como uma especie de **referencial**
+* Que muda consoante a propriedade <code class=focus>position</code>

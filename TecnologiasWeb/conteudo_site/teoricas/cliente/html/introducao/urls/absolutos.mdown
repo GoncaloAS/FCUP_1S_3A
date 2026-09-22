@@ -1,0 +1,49 @@
+## URLs Absolutos ##
+
+<style>
+  .nt {
+     background: orange;
+     opacity: 0.50;	
+     border-radius: 3mm;
+     text-align: center;
+     padding : 2mm;
+  }
+
+  .c {
+	font-family: monospace;
+  }
+</style>
+
+<script>
+
+window._update = function() {
+    document.getElementById("path").innerText = window.location.pathname;
+    document.getElementById("path2").innerText = window.location.pathname;
+}
+
+</script>
+
+<table>
+<tr>
+  <td class=nt>protocolo</td>
+  <td></td>
+  <td class=nt>servidor</td>
+  <td class=nt>caminho</td>	
+</tr>
+<tr>
+	<td class=c style="text-align: right;">http</td>
+	<td class="c focus">://</td>
+	<td class=c>dcc.fc.up.pt</td>
+	<td class=c id=path></td>
+</tr>
+</table>
+
+
+* Permitem referenciar recursos em qualquer servidor
+* Na *web* o **protocolo** é sempre `http` ou `https` <span class=litle>(a versão segura)</span> 
+* O **servidor** é um nome IP da máquina que fornece o recurso
+* Opcionalmente pode haver a indicação de uma porta
+  <span style="font-family: monospace">http://www.dcc.fc.up.pt<span class=focus>:80</span><span id=path2></span></span>
+   <br>por omissão, a porta 80 é a usada nos servidores HTTP
+* O **caminho** referencia o recurso no servidor
+* Idêntico aos nomes-caminho do Linux <span class=litle>(diretorias e ficheiros)</span>

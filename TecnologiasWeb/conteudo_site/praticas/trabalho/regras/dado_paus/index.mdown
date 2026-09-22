@@ -1,0 +1,50 @@
+
+##Dado de Paus##
+
+
+<link rel="stylesheet" href="../board.css">
+<link rel="stylesheet" href="../stick-dice.css">
+
+<div id = "dices" style="display: flex;" class=cozy>
+
+</div>
+
+<script>
+window._update = async function() {
+
+fetch("praticas/trabalho/regras/tab_board.js")
+  .then(response => response.text())
+  .then(src => {
+        eval((src));
+	
+	   const allDicesPanel = document.getElementById('dices')
+	   for(let c=0; c<=4; c++) {
+		   const dicePanel = document.createElement('div');
+		   const dice = new StickDice({div: dicePanel });
+		   const falses = new Array(4-c).fill(false);
+		   const trues = new Array(c).fill(true);
+           
+		   dicePanel.style.transform = "scale(0.7,0.7)";
+		   
+	       allDicesPanel.appendChild(dicePanel);
+
+	       dice.setResult({
+	           stickValues: falses.concat(trues) ,
+	           value: c
+	        });
+	    }
+
+
+   })
+  .catch(console.error);
+
+}
+</script>
+
+* Em vez do tradicional dado, são usados 4 paus com duas faces
+* Para lançar, os paus são apertados na mão num feixe
+* Abrindo a mão, cada pau fica num dos lados, claro ou escuro
+* Contando quantos ficam no lado claro otêm-se o valor do dado
+* Cada valor corresponde ao deslocamento duma peça <span class=litle>(a selecionar)</span>
+* Algumas posições permitem voltar a jogar
+* A probabilidade de cada valor varia, contrariamente a um dado

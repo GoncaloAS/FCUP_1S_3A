@@ -1,0 +1,19 @@
+## Evento `data`  ##
+
+<div class="terminal example">switch(request.method) {
+  let body = '';
+  case 'POST':	
+	request
+	    <span class=focus>.on('data', (chunk) => { body += chunk;  })</span>
+	    .on('end', () => {
+               try { query = JSON.parse(body);  /* processar query */ }
+               catch(err) {  /* erros de JSON */ }
+	    })
+	    .on('error', (err) => { console.log(err.message); });
+	break;
+	...
+  }</div>
+
+* Evento <code class=focus>data</code> ocorre quando bloco de dados está disponível
+* Bloco é uma *string* ou *buffer*
+* *Buffer* converido em *string* ao ser concatenado

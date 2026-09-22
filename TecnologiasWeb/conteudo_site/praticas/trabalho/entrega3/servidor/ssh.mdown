@@ -1,0 +1,9 @@
+## Acesso *shell* ##
+
+Para inicial uma sessão com um interpretador de comandos (*shell*) no `twserver-be` @ aluno@ `up999999999`terá de executar a seguinte linha de comando
+
+<pre style="font-size: 80%">
+ssh -J up999999999@ssh.alunos.dcc.fc.up.pt up999999999@twserver-be
+</pre>
+
+De notar que seguidamente terá de se autenticar 2 vezes, uma no *jump server* e outra no `twserver-be`

@@ -1,0 +1,41 @@
+## Nomes simples ##
+
+
+<div class="col75p terminal example">
+&lt;form ...>
+
+&lt;select onchange="this.form.<span class=focus>style.color</span>=this.value;">
+&lt;option>
+&lt;option>orange
+&lt;option>DarkBlue
+&lt;option>DarKSlateGrey
+&lt;/select>
+&lt;br> Lorem ipsum dolor sit amet
+&lt;/form>
+</div>
+<div class=col25p>
+
+<form style="width: 200px; height: 200px; padding: 20px; font-size: 24pt;" onsubmit="return false;">
+
+<select onchange="this.form.style.color = this.value;">
+<option>
+<option>orange
+<option>DarkBlue
+<option>DarKSlateGrey
+</select>
+<br> Lorem ipsum dolor sit amet
+
+</select>
+
+</form>
+
+</div>
+
+
+
+
+* Nomes de propriedade CSS com apenas uma palavra
+* Exemplos
+    * <code class=focus>color</code>, <code class=focus>background</code>
+    * <code class=focus>width</code>, <code class=focus>height</code>
+* Na syntaxe CSS/JavaScript são **iguais**

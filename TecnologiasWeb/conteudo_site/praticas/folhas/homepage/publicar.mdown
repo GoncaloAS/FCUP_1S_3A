@@ -1,0 +1,17 @@
+
+<style>
+pre { 
+	margin: 0.3em; 
+}
+</style>
+
+## Publicar no servidor HTTP ##
+
+* [Entre no servidor e verifique ficheiros e diretorias](preparar.mdown)
+* Copie conteúdos de <code>public_html</code> para conta no servidor web
+<pre class="litle">scp -oProxyCommand="ssh -W %h:%p <code>login</code>@ssh.alunos.dcc.fc.up.pt" * <code>login</code>@web:public_html</pre>	
+* A página fica acessível num navegador web no URL
+   <pre>http://www.alunos.dcc.fc.up.pt/~<code>login</code></pre>
+* Se não funcionar, verifique as permissões no servidor  
+
+<span class=foot>substitua <code>login</code> pelo seu (ex: <code>up202299999</code>)</span>

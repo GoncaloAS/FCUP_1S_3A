@@ -1,0 +1,84 @@
+## Saída ##
+
+<link rel="stylesheet" href="../table.css" type="text/css">	
+
+<table width="100%" class=dense>
+
+<tr>
+	<th>URL</th>
+	<th>Objeto no pedido</th>
+	<th>Objeto na resposta </th>
+	<th>Observações
+</tr>	   
+
+<tr>
+	<td class=code>.../join
+	<td class=code>{"group": 99, "nick": "zp", "password": "secret", "size": 9 }
+	<td class=code>{"game": "fa93b4..."}
+	<td>Novo jogo criado
+
+<tr>
+	<td class=code>.../update?nick=zp&game=fa93b4...
+	<td class=code>
+	<td class=code>
+	<td>Primeiro jogador fica à espera
+
+
+<tr>
+	<td class=code>.../leave
+	<td class=code>{"nick": "zp", "password": "secret", "game": "fa93b4..." }
+	<td class=code>{}
+	<td> Desistiu da espera
+
+<tr>
+	<td class=obs>Atualização do jogador 
+	<td>
+	<td class=code>{ <b>"winner": null</b> }
+	<td> Terminou sem vencedores 
+	
+<tr>
+	<td class=code>.../join
+	<td class=code>{"group": 99, "nick": "zp", "password": "secret", "size": 9 }
+	<td class=code>{"game": "2fd9d..."}
+	<td>Novo jogo criado
+
+<tr>
+	<td class=code>.../update?nick=zp&game=2fd9d...
+	<td class=code>
+	<td class=code>
+	<td>Primeiro jogador aguarda eventos
+
+
+<tr>
+	<td class=code>.../join
+	<td class=code>{"group": 99, "nick": "jpleal", "password": "another"," size": 9 }
+	<td class=code>{"game": "2fd9d..."}
+	<td>Emparelhado último jogo
+
+<tr>
+	<td class=code>.../update?nick=jpleal&game=2fd9d...
+	<td class=code>
+	<td class=code>
+	<td>Segundo jogador aguarda eventos
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ "pieces": [[...]], "turn": "zp", "step": "from", ... }
+	<td> Começou o jogo
+
+
+<tr>
+	<td class=code>.../leave
+	<td class=code>{"nick": "zp", "password": "secret", "game": "2fd9d..." }
+	<td class=code>{}
+	<td> Saiu do jogo
+
+
+<tr>
+	<td class=obs>Atualização de ambos os jogadores
+	<td>
+	<td class=code>{ <b>"winner": "jpleal"</b> }
+	<td> Adversário ganhou
+	
+</table>

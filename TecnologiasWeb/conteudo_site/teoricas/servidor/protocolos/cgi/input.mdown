@@ -1,0 +1,14 @@
+## Input ##
+
+
+* Dados recebidos no corpo do passados ao *stdin*
+* Necessário para processar pedidos `POST`  <span class=litle>(formulários)</span>
+* Requerem a descodificação de dados das codificações
+    * `multipart/form-data`
+    * `application/x-www-form-urlencoded`
+* Variáveis de ambiente relevantes
+    * REQUEST_METHOD
+    * CONTENT_TYPE
+    * CONTENT_LENGTH
+* Existem bibliotecas para converter destes formatos<br>
+  mas dependem das linguagens de implementação dos CGIs

@@ -1,0 +1,25 @@
+## Examinar HTTP com Telnet ##
+
+<div class="terminal example" style="font-size: large;">
+$ <span class=focus>telnet www.up.pt 80</span>
+Trying 193.137.55.13...
+Connected to www.up.pt.
+Escape character is '^]'.
+OPTIONS / HTTP/1.0
+
+HTTP/1.1 200 OK
+Date: Tue, 24 Oct 2017 17:51:01 GMT
+Server: Apache
+Allow: OPTIONS,GET,HEAD,POST
+Content-Length: 0
+Connection: close
+Content-Type: text/html
+
+Connection closed by foreign host.
+</div>
+
+* Serviço da Internet para dialogar com porta dum servidor 
+* Basta executar `telnet` *`servidor porta`*
+* Depois, escrever um pedido HTTP
+* Terminar com 2 EOL <span class=litle>(sem cabeçalhos)</span>
+* O resultado aparece na consola

@@ -1,0 +1,15 @@
+## Questão dos pedidos síncronos ##
+
+
+* **Qual é o problema?**
+    * Método `send()` bloqueia enquanto aguarda resposta
+    * Programa não processa outros eventos
+    * Degradação da experiência de interação do utilizador <span class=litle>(UX)</span><p>
+* **Porque existem então?**
+    * Estão como *deprecated* se usados na *thread* principal
+    * Podem ser usados a partir de *web workers* <span class=litle>(*threads*)</span>
+    * Registar estado `onbeforeunload` esperando o fim de registo<p>
+* **Qual a alternativa?**
+    * Pedidos assíncronos em que `send()` retorna de imediato
+    * Mas as propriedades de resposta ainda estarão indefinidas
+    * Há que registar *callback* para processar alterações ao pedido

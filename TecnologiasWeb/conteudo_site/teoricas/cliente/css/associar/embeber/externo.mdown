@@ -1,0 +1,24 @@
+## Folha de estilos externa ##
+
+
+<div class="example terminal cozy">&lt;!DOCTYPE html>
+&lt;html>
+&lt;head>
+  &lt;title>Olá mundo&lt;/title>
+  <span class=focus>&lt;link rel="stylesheet" href="style.css" type="text/css"></span>
+  &lt;style>
+     h1 { color: orange; }
+  &lt;/style>
+&lt;/head>
+&lt;body>
+    &lt;h1 style="font-weight: 500;">Olá mundo&lt;/h1>
+&lt;/body>
+&lt;/html>
+</div>
+
+* **Sintaxe**
+    * Embebido no cabeçalho HTML usando elemento <code class=focus>link</code>
+    * Atributo <code class=focus>href</code> refere documento com **apenas** regras CSS
+* **Aplicabilidade**
+    * Reutilização de declarações entre documentos
+    * Consistência em sites multipágina

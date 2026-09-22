@@ -1,0 +1,26 @@
+##Posicionamento clássico##
+
+<div style="width: 100%; height: 180px; background: orange; opacity: 0.5;">
+
+
+<div style="
+     width: 180px; 
+     height: 50px; 
+     margin: auto;
+     background: #228;
+     position: relative;
+     top: 100px;">
+
+</div>
+
+</div>
+
+
+* Posicionar elementos que **flutuam** da sua posição normal
+* Controlar posicionamento de elementos determinando 
+    * **Posição** -  <span class=litle>(coordenadas verticais e horizontais)</span>
+    * **Dimensões**  -  <span class=litle>(largura, altura)</span>
+* Classificação do elementos influi nas **dimensões**
+* Posicionamento feito por **coordenadas** em vários **referenciais**
+* Sobreposição de elementos & Transbordar conteúdo
+* Centrar <span class=litle>(usando propriedades CSS2) </span>

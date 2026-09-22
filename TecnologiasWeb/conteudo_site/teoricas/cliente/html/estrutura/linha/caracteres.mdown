@@ -1,0 +1,35 @@
+
+## Caracteres ##
+
+<div markdown=1 class="col50p example terminal" style="margin-top: -30px;">
+
+m    a  i
+
+</div><div class="col50p">
+<span class=showBorder>m</span>
+<span class=showBorder>a</span>
+<span class=showBorder>i</span>
+</div>
+<div/>
+<div markdown=1 class="col50p example terminal" style="margin-top: -10px;">
+
+&lt;code>m&lt;/code>
+&lt;code>a&lt;/code>
+&lt;code>i&lt;/code>
+
+&lt;code>m    a  i&lt;/code>
+
+</div>
+<div class="col50p">
+<code class=showBorder>m</code>
+<code class=showBorder>a</code>
+<code class=showBorder>i</code>
+<code class=showBorder>m        a i</code>
+</div>
+<div>
+
+* Por omissão, os caracteres do texto têm tamanho variável<br>
+   <span class=focus><code>|m| = 3.|i| </code> e <code> |a| = 2.|i|</code></span>
+* Múltiplos carateres brancos correspondem a único espaço
+* Elemento <span class=focus>code</span> usa caracteres mono-espaçados
+* Mas também ignora caracteres brancos na formatação

@@ -1,0 +1,34 @@
+<img src=weather-few-cloudstw.png style="float: right">
+##Mudar ícones programaticamente##
+
+<div class="example litle">
+<a target=icone href="https://commons.wikimedia.org/wiki/GNOME_Desktop_icons#Status">https://commons.wikimedia.org/wiki/GNOME_Desktop_icons#Status</a></div>
+
+<!--
+<div class="example litle">
+<a target=icone href="https://raw.githubusercontent.com/GNOME/gnome-icon-theme/master/gnome/48x48/status/weather-few-clouds.png">https://raw.githubusercontent.com/GNOME/gnome-icon-theme/master/gnome/48x48/status/weather-few-clouds.png</a>
+</div>
+-->
+
+O URL acima é de uma página com ícones da distribuição do Gnome, usada na aplicações meteorológicas. Existem vários relativos à nebulosidade, que variam apenas no sufixo do URL, como
+
+<div class=litle markdown=1>
+* `e/e7/Gnome-weather-clear.svg`
+* `5/57/Gnome-weather-few-clouds.svg`
+* `6/61/Gnome-weather-overcast.svg`
+
+O prefixo comum é `https://upload.wikimedia.org/wikipedia/commons/`
+</div>
+
+
+Comece por fazer uma página HTML com uma anotação `img` selecionável por ID. O ícone da imagem deve poder ser modificado na própria página usando um seletor <span class=litle>(elemento `select`)</span> com as seguintes opções <span class=litle>(use chave à esquerda com valor do atributo `value` e texto em português como etiqueta)</span> 
+
+<div class=litle markdown=1>
+* `SKC` - céu limpo
+* `FEW` - pouco nublado
+* `SCT` - nuvens dispersas
+* `BNK` - muito nublado
+* `OVC` - encoberto  
+
+**Nota** Embora existam sejam considerados 5 valores distintos, pode considerar *pouco nublado* e *nuvens dispersas* como equivalentes, assim como *muito nublado* e *encoberto*.
+</div>

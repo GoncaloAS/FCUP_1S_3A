@@ -1,0 +1,49 @@
+## Inserir com `insertBefore()` ##
+
+<script>
+
+window.create = function (color,current) {
+  const base = document.getElementById("base");
+  const box =  document.createElement("div");
+  const space = document.createTextNode(" ");
+  const next = current.nextSibling.nextSibling;
+
+  box.style.background = color;
+  box.style.width = "1em";
+  box.style.margin = "auto";
+  box.onclick = function() { create(color); }
+  box.appendChild(space);
+  base.insertBefore(box,next);
+  base.insertBefore(document.createTextNode("\n"),next);   
+}
+
+</script>
+
+<div class="col75p terminal example"  style="margin-top: -20px; margin-bottom: -20px;">
+function create(color,<span class=focus>current</span>) {
+  const base = document.getElementById("base");
+  const box =  document.createElement("div");
+  const space = document.createTextNode(" ");
+  const nl =  document.createTextNode("\n")
+  const <span class=focus>next = current.nextSibling.nextSibling</span>;
+
+  box.style.background = color;
+  box.style.width = "1em";
+  box.style.margin = "auto";
+  box.onclick = function() { create(color); }
+  box.appendChild(space);
+  <span class=focus>base.insertBefore(box,next)</span>;
+  <span class=focus>base.insertBefore(nl,next)</span>;
+}
+
+<div class=ruler>&nbsp;</div>
+---     onclick="create('#f90',<span class=focus>this</span>);">&nbsp;&lt;/div> ...
+</div>
+
+<div class="col25p example" id="base" style="padding: 20px; height: 280px;">
+<div style="background: #f90; width: 1em; margin: auto;" onclick="create('#f90',this);"> </div>
+<div style="background: #228; width: 1em; margin: auto;" onclick="create('#228',this);"> </div>
+</div>
+
+* Referência <code class=focus>this</code> fornece objeto corrente
+* Propriedade <code class=focus>nextSibling</code> é irmão seguinte

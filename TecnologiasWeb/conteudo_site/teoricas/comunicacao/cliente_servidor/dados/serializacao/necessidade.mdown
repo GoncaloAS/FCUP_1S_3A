@@ -1,0 +1,15 @@
+## Necessidade de serialização##
+
+
+
+* **Transporte de dados em HTTP como recurso**
+    * Envio no corpo da mensagem
+    * Fila de *bytes* <span class=litle>(ficheiro)</span>
+    * Tipo recurso <span class=litle>(*media type*)</span>
+* **Dados de processos <span class=litle>(execução de programas)</span>** <img src=Serializa.svg style="float: right; width: 50%">
+    * Rede de referências a objectos
+    * Dispersos por regiões não contíguas da memória
+    * Valores binários dependentes de plataforma
+* **Vantagens de formatos de texto**
+    * Independência de linguagem/plataforma
+    * Legibilidade dos dados

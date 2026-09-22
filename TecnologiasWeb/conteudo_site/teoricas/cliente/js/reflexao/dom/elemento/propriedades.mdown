@@ -1,0 +1,21 @@
+## Propriedades ##
+
+<dd>
+<dt><code class=focus>String className</code> </dt>
+<dd>classes do elemento</dd>
+<dt><code class=focus>NodeList childNodes</code> </dt>
+<dd>lista dos descendentes</dd>
+<dt><code class=focus>Number clientHeight</code> * </dt>
+<dd>altura interna do elemento</dd>
+<dt><code class=focus>Number clientWidth</code> * </dt>
+<dd>largura interna do elemento</dd>
+<dt><code class=focus>String id</code> </dt>
+<dd>Identificador  do elemento</dd>
+<dt><code class=focus>String innerHTML</code> * </dt>
+<dd>formatação HTML do contento do elemento</dd>
+<dt><code class=focus>Node firstChild</code> </dt>
+<dd>nó do primeiro descendente</dd>
+<dt><code class=focus>Node lastChild</code> </dt>
+<dd>nó do último descendente</dd>
+</dl>
+<div class=foot>* específico do HTML</div>

@@ -1,0 +1,11 @@
+## Servidor ##
+
+O desenvolvimento do servidor pode ser feito na vossa máquina pessoal, 
+mas as versões estáveis devem ser publicadas na Internet.
+
+O vosso servidor deverá ser publicado em
+`twserver.alunos.dcc.fc.up.pt`, na porta `81XX` onde XX é o número do grupo. Para tanto: 
+
+* o servidor será alojado no [back-end](back-end.mdown) do twserver 
+* ao qual poderão [aceder por SSH](ssh.mdown) para executar comandos 
+* para o qual poderão [copiar ficheiros](scp.mdown) das vossas máquinas

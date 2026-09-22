@@ -1,0 +1,22 @@
+## Entrada de tempos ##
+
+<div class="terminal example">
+     &lt;input type=time>
+</div>
+
+
+* Tipos de *input* especializados em valores de tempo 
+* Aceitam apenas apenas valores válidos <span class=litle>(ex: mês < 13)</span>
+* Mostram
+    * estrutura dos valores a introduzir <span class=litle>(ex: mm/dd/yyyy)</span>
+    * seletores para ajuda ao preenchimento
+
+| Type                           | Tipo   | Exemplo            |
+| ------------------------------ | ------ | ------------------ |
+| <code class=focus>date</code>  | Data   | <input type=date>  |
+| <code class=focus>datetime-local</code>&nbsp;  | Data e Tempo <span class=litle>(sem fuso horário)</span>&nbsp; | <input type=datetime-local>  |
+| <code class=focus>month</code> | Mês    | <input type=month> |
+| <code class=focus>time</code>  | Tempo  | <input type=time>  |
+| <code class=focus>week</code>  | Semana | <input type=week>  |
+
+

@@ -1,0 +1,31 @@
+## Tamanho ##
+
+
+<div class="col50p terminal example">
+font-size: large;
+
+font-size: 80%;
+
+font-size: 24pt;
+
+</div>
+<div class=col50p>
+
+<p style="font-size: large;">Lorem ipsum dolor sit amet</p>
+
+<p style="font-size: 80%;">Lorem ipsum dolor sit amet</p>
+
+<p style="font-size: 24pt;">Lorem ipsum dolor sit amet</p>
+</div>
+
+
+* Tamanhos podem ser especificados por
+    * Nomes predefinidos
+        * <code class=focus>xx-large</code>,
+         <code class=focus>x-large</code>,
+         <code class=focus>large</code>,
+        * <code class=focus>small</code>,
+         <code class=focus>x-small</code>,
+         <code class=focus>xx-small</code>
+    * Percentagens
+    * Tamanho absoluto

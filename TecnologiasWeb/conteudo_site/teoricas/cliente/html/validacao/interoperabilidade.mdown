@@ -1,0 +1,50 @@
+## Interoperabilidade ##
+
+
+<table width="100%" cellpadding="10" cellspacing="10" rules="all"><tr>
+<td>
+<pre>
+<font color="grey">&lt;html&gt;</font>	
+  <font color="red">&lt;head&gt; ... &lt;/head&gt;</font>
+  <font color="red">&lt;body&gt; ... &lt;/body&gt;</font>
+<font color="grey">&lt;html&gt;</font>
+</pre>
+</td>
+
+
+
+<td>
+<pre>
+&lt;p&gt; ... <font color="grey">&lt;/p&gt;</font>
+
+&lt;ul&gt;
+  &lt;li&gt; ... <font color="grey">&lt;/li&gt;</font>
+  <font color="red">&lt;li&gt;</font> ... <font color="grey">&lt;/li&gt;</font>
+&lt;/ul&gt;
+</pre>	
+</td>
+
+</tr>
+<tr>
+
+<td>
+<pre>
+  &lt;b&gt;&lt;i&gt; ... <font color="red">&lt;/b&gt;&lt;/i&gt;</font>
+</pre>	
+</td>
+
+
+
+<td>
+<pre>
+   &lt;a href=<font color="red">pagina.html</font>&gt;...&lt;/a&gt;
+</pre>	
+</td>
+
+</table>
+
+
+
+* Os navegadores web (*browsers*) devem aceitar HTML inválido
+* Mas HTML inválido pode ser interpretado diferentemente
+* Experiência de visualização pode variar nestes casos

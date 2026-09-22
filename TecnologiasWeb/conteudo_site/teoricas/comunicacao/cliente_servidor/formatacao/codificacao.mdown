@@ -1,0 +1,19 @@
+## Codificação de dados ##
+
+
+<div class="terminal example" style="margin-top: 0px; margin-bottom: 0px;">&lt;form action=http://some.site.com/execute method=post
+    <span class=focus>enctype=multipart/form-data></span> 
+    &lt;input type=hidden name=command value=insert>
+    &lt;input type=text name=name>
+    &lt;input type=file name=photo>
+    &lt;input <span class=focus>type=submit</span> value=Inserir>
+&lt;/form>
+</div>
+
+* Atributo <code class=focus>enctype</code> permite várias codificações
+    * <code class=focus>application/x-www-form-urlencoded</code> - por omissão
+    * <code class=focus>multipart/form-data</code> - *upload* de ficheiros
+    * <code class=focus>text/plain</code> - sem codificação <span class=litle>(espaços &rarr; +)</span>
+* Codificação <code class=focus>multipart/form-data</code> permite
+     * Conteúdo de ficheiros como valores em tipo <code class=focus>file</code>
+     * Só disponível no método <code class=focus>POST</code>

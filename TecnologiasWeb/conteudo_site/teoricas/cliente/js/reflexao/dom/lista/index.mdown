@@ -1,0 +1,10 @@
+## Tipo `NodeList` ##
+
+<div style="width: 100%;">
+<img alt="DOM" src=../DOM.png style="margin: auto; width: 80%;">
+</div>
+
+* Tipo usado para agregar coleções de nós
+* Como os descendentes de elementos
+* Retornado por funções de pesquisa 
+  <span class=litle>(ex: <code class=focus>getElementsByClassname()</code>)</span>

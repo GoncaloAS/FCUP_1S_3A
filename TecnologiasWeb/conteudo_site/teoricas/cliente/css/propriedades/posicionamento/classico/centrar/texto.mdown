@@ -1,0 +1,22 @@
+## Centrar texto##
+
+<div class="col75p terminal example">
+&lt;div style="
+     width: 200px; height: <span class=focus>100px</span>; 
+     background: #228; color: white; 
+     border-radius: 10px; 
+     margin: auto; 
+     position: relative; 
+     top: 50%;
+     margin-top: -50px;
+     <span class=focus>line-height: 100px</span>; 
+     <span class=focus>text-align: center</span>;"> OK &lt;/div>
+</div>
+<div class=col25p style="height: 280px;">
+<div style="width: 100px; height: 100px; background: #228; color: white; border-radius: 10px; margin: auto; position: relative; top: 50%; margin-top: -50px;line-height: 100px; text-align: center;">OK</div>
+
+</div>
+
+* Centrar horizontalmente: <code class=focus>text-align: center</code>
+* Centrar verticalmente: <code class=focus>line-height: 100px</code>
+* Notar que a altura do botão e da linha são iguais <code class=focus>100px</code>

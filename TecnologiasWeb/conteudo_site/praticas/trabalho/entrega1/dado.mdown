@@ -1,0 +1,14 @@
+## Dado de paus ##
+
+Antes de cada jogada, o jogador deverá lançar o dado de paus, cujo
+valor condicionará o deslocamento da próxima peça a ser jogada.
+
+Deverá haver uma área da interface onde o dado de paus será
+lançado e mostrado o seu valor.
+
+Para lançar o dado poderá ser suficiente  pressionar esta área. 
+
+A visualização poderá mostrar a face de cada um dos paus.
+
+No final de cada jogada, o estado do dado de paus deverá ser revertido
+à sua situação inicial. 

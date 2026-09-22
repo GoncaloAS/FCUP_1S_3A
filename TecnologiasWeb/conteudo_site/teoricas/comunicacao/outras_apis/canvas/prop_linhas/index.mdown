@@ -1,0 +1,105 @@
+## Propriedade das linhas ##
+
+<script>
+window.base = function(gc) {
+  gc.save();
+
+  gc.strokeStyle = "#228";
+  gc.fillStyle ="#228";
+  gc.fillText("(0,0)",10,10);
+  
+  gc.beginPath();
+  gc.moveTo(20,20);
+  gc.lineTo(290,20);
+
+  gc.lineTo(285,15);
+  gc.moveTo(290,20);
+  gc.lineTo(285,25);
+  
+  gc.closePath();
+  gc.stroke();
+  
+
+  gc.beginPath();
+  gc.moveTo(20,20);
+  gc.lineTo(20,190);
+
+  gc.lineTo(15,185);
+  gc.moveTo(20,190);
+  gc.lineTo(25,185);	
+
+  gc.closePath();
+  gc.stroke();
+
+  gc.strokeStyle = "#228";
+  gc.setLineDash([1,3]);
+  
+  for(var x=40; x<300; x+=20) {
+    gc.beginPath();
+    gc.moveTo(x+0.5,20.5);
+    gc.lineTo(x+0.5,180.5);
+    gc.closePath();
+    gc.stroke();
+  }
+
+  for(var y=40; y<200; y+=20) {
+    gc.beginPath();
+    gc.moveTo(20.5,y+0.5);
+    gc.lineTo(280.5,y+0.5);
+    gc.closePath();
+    gc.stroke();
+  }
+
+  gc.restore();
+}
+</script>
+
+<script>
+
+window._update = function() {
+
+  var tela = document.getElementById("tela");
+  var gc = tela.getContext("2d");
+
+  base(gc);
+
+  gc.setLineDash([]);
+  gc.strokeStyle = "orange";
+  gc.fillStyle = "orange";
+
+  gc.lineWidth = 10;
+  gc.beginPath()
+  gc.moveTo(40,20);
+  gc.lineTo(200,60)
+  gc.lineTo(40,100);
+  gc.lineJoin = "bevel";
+  gc.stroke();
+
+  gc.lineWidth = 10;
+  gc.beginPath()
+  gc.moveTo(40,100);
+  gc.lineTo(200,100)
+  gc.lineCap = "round";
+  gc.stroke();
+
+  gc.lineCap = "butt";
+  gc.lineWidth = 5;
+  gc.beginPath()
+  gc.moveTo(30,160);
+  gc.lineTo(210,160)
+  gc.setLineDash([3,2,5,4]);
+  gc.stroke();
+
+
+}
+
+</script>
+
+<canvas id="tela" width="300" height="200" style="display: block; width: 300px; margin: auto;"></canvas>
+
+
+* Largura de linhas
+* Antisserrilhamento
+* Junção de segmentos
+* Terminação de segmentos
+* Tracejados

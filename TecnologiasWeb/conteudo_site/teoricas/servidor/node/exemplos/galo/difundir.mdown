@@ -1,0 +1,25 @@
+## Difundir mensagens ##
+
+<div class="terminal example cozy">
+let connections = [];
+
+function <span class=focus>remember(connection)</span> {
+    connections.push(connection);
+}
+function <span class=focus>forget(connection)</span> {
+    let pos = connections.findIndex((conn) => conn === connection);
+
+    if(pos > -1)
+        connections.splice(pos,1);
+}
+function <span class=focus>broadcast(data)</span> {
+    let json = JSON.stringify(data);
+
+    for(let connection of connections) {
+        connection.<span class=focus>sendUTF(json)</span>;
+    }
+}
+</div>
+
+* Gerir lista com conexões <span class=litle>(juntar, retirar)</span>
+* Difundir dados em JSON por todas as conexões tivas

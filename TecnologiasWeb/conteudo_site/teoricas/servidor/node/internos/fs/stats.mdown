@@ -1,0 +1,20 @@
+## Estatísticas ##
+
+<div class="terminal example cozy">
+     fs.stat(pathname, (err,stats) => {
+        if(err) throw err;
+        console.log(pathname+' tem '+stats.size+' bytes');	
+     });
+</div>
+
+* Função `fs.stat()` retorna instância de `Stat`
+* Propriedades
+    * `size` - tamanho em bytes
+    * `blocks` - tamanho em blocos   
+    * `birthtime` - momento de criação do ficheiro <span class=litle>(<code>Date</code>)</span>
+    * `ctime`,`mtime`,`atime`- criação, modificação e acesso do inode
+* Métodos
+    * `isFile()` - é ficheiro?
+    * `isDirectory()` é diretoria?
+
+<div class=foot>Apenas exemplos de propridades e métodos de <code>Stat</code></div>
