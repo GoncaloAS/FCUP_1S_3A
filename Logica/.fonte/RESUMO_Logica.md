@@ -292,9 +292,8 @@ quando o antecedente é verdadeiro e o consequente é falso. Em particular,
 sempre que o antecedente $\phi$ é **falso**, a implicação inteira é
 **verdadeira**, independentemente do consequente ("de uma premissa falsa
 pode concluir-se o que quiser" — *ex falso quodlibet*). Isto vai ser usado
-constantemente nos exercícios de classificação de fórmulas (ver Exercício
-1.9 mais abaixo) e nas provas "sem construir a tabela de verdade" (Exercício
-1.14).
+constantemente nas provas "sem construir a tabela de verdade" (Exercício
+1.14, Aula 2).
 :::
 
 | $\phi$ | $\neg\phi$ | | $\phi$ | $\psi$ | $\phi\land\psi$ | | $\phi$ | $\psi$ | $\phi\lor\psi$ | | $\phi$ | $\psi$ | $\phi\to\psi$ |
@@ -367,55 +366,6 @@ Uma fórmula $\phi$ é:
 Uma fórmula é **insatisfazível** sse é uma contradição. Uma fórmula
 satisfazível mas não tautologia diz-se por vezes **contingente**: é
 verdadeira nalgumas valorações e falsa noutras.
-:::
-
-::: {.exemplo title="--- Exercício 1.9 (lab, proplogic.pdf) --- os três casos"}
-Classificar as seguintes fórmulas como tautologia, satisfazível (mas não
-tautologia) ou contradição, justificando sem tabela completa quando possível.
-
-**(d) $p \to (q \to (p \lor q))$ — é tautologia.** Se $v(p) = V$: como
-$p \lor q$ já é $V$ (porque $p$ é $V$), o consequente $q \to (p\lor q)$ é
-$V \to V = V$ qualquer que seja $q$; logo a implicação exterior é
-$V \to V = V$. Se $v(p) = F$: a implicação exterior tem antecedente falso,
-logo é automaticamente $V$. Em ambos os casos dá $V$, para qualquer $q$ —
-é tautologia.
-
-**(i) $(p \lor q) \to (p \land q)$ — é satisfazível, mas não tautologia
-nem contradição.** Com $v(p)=V, v(q)=V$: antecedente $V$, consequente $V$,
-logo $V \to V = V$ (satisfazível — existe valoração que a torna
-verdadeira). Mas com $v(p)=V, v(q)=F$: antecedente $p\lor q = V$,
-consequente $p \land q = F$, logo $V \to F = F$ (existe também valoração que
-a torna falsa). Como há valorações dos dois tipos, não é tautologia nem
-contradição.
-
-**(j) $(p \lor \neg q) \land (\neg p \land q)$ — é contradição.** O segundo
-conjunto, $\neg p \land q$, só é verdadeiro quando $p=F$ e $q=V$. Nesse caso,
-o primeiro conjunto, $p \lor \neg q$, calcula-se com $p=F$ e $q=V$:
-$F \lor \neg V = F \lor F = F$. Ou seja, exatamente quando o segundo
-conjunto poderia ser verdadeiro, o primeiro é forçosamente falso — logo a
-conjunção inteira nunca é verdadeira, para nenhuma valoração: é contradição.
-:::
-
-::: atencao
-Nota adicional: repara na técnica usada em (d), (i) e (j) — em vez de
-construir sempre a tabela de verdade completa (4 linhas, no caso de 2
-variáveis), tentámos primeiro **fixar o valor de uma subfórmula-chave**
-(o antecedente da implicação, ou um dos conjuntos) e ver o que isso força
-no resto da fórmula. É mais rápido e, mais importante, é a técnica que vais
-precisar no Exercício 1.14 ("sem construir a tabela de verdade"), onde
-2 ou mais variáveis tornam a tabela completa demasiado grande para ser
-prático.
-:::
-
-::: {.pratica title="--- Classificar fórmulas (proplogic.pdf)"}
-- **1.9 (c)** --- confirma a técnica com 2 variáveis; se não for
-  tautologia nem contradição, dá uma valoração que a torna verdadeira e
-  outra que a torna falsa.
-- **1.9 (h)** --- já com 3 variáveis: tenta pelo método de procurar o
-  contraexemplo (caixa acima), não pela tabela completa.
-
-As restantes alíneas ((a), (b), (e), (f), (g)) são a mesma classificação
-repetida --- não precisas de as fazer todas.
 :::
 
 # Aula 2 --- Consequência Semântica, Equivalência e Conectivos Completos
@@ -537,6 +487,20 @@ fórmula noutra equivalente sem ter de recorrer à tabela de verdade —
 substituindo subfórmulas pelo seu equivalente, passo a passo (tal como se
 faz álgebra normal, mas com $\land,\lor,\neg$ em vez de $\times,+$).
 
+::: {.atencao title="--- Leis extra para simplificar"}
+Nota adicional (não estão na tabela dos slides nem na do enunciado, mas
+são precisas para **simplificar** uma fórmula até se ver o que ela é ---
+cada uma confirma-se com uma tabela de 2 linhas). $V$ e $F$ representam
+uma fórmula sempre verdadeira e uma sempre falsa:
+
+| Lei | Equivalência |
+|---|---|
+| Complementaridade | $\phi\lor\neg\phi \Leftrightarrow V$ ; $\phi\land\neg\phi \Leftrightarrow F$ |
+| Elemento neutro | $\phi\lor F \Leftrightarrow \phi$ ; $\phi\land V \Leftrightarrow \phi$ |
+| Elemento absorvente | $\phi\lor V \Leftrightarrow V$ ; $\phi\land F \Leftrightarrow F$ |
+| Absorção | $\phi\lor(\phi\land\psi) \Leftrightarrow \phi$ ; $\phi\land(\phi\lor\psi) \Leftrightarrow \phi$ |
+:::
+
 ::: {.exemplo title="--- Exercício 1.6(a) (lab, proplogic.pdf)"}
 Mostrar que $\neg(p \to q) \Leftrightarrow p \land \neg q$, usando as leis
 (sem tabela de verdade):
@@ -592,12 +556,82 @@ muito fácil de cometer sem verificar — usa sempre as leis ou um
 contraexemplo para confirmar, nunca "por analogia visual".
 :::
 
+### Classificar uma fórmula simplificando-a (Exercício 1.9)
+
+As leis servem também para **classificar** uma fórmula (tautologia,
+contradição ou satisfazível), que é o que o Exercício 1.9 pede --- e o
+enunciado diz o método: *"You can start by simplifying the formulas using
+semantic equivalences"*. Não se faz a tabela de verdade.
+
+::: {.definicao title="--- Método: classificar por equivalências"}
+1. **Eliminar as implicações** ($\phi\to\psi \Leftrightarrow \neg\phi\lor\psi$)
+   e **empurrar as negações** para dentro (De Morgan, dupla negação).
+2. **Simplificar** com as leis (complementaridade, absorção, elemento
+   neutro/absorvente) até a fórmula ficar numa forma que se lê logo.
+3. **Ler a classificação** do resultado:
+   - chegou a $V$ → **tautologia**;
+   - chegou a $F$ → **contradição**;
+   - chegou a outra coisa (ex.: $p\lor\neg q$) → **satisfazível** (nem
+     tautologia nem contradição). O enunciado pede então **uma valoração que a
+     torna verdadeira e outra que a torna falsa**: lêem-se da forma
+     simplificada, e **confirmam-se na fórmula original**.
+:::
+
+::: {.exemplo title="--- Exercício 1.9(d) (lab, proplogic.pdf) --- tautologia"}
+$$\begin{aligned}
+&p \to (q \to (p \lor q)) \\
+\Leftrightarrow\ & \neg p \lor (\neg q \lor (p \lor q)) && \text{(implicação, 2 vezes)}\\
+\Leftrightarrow\ & (\neg p \lor p) \lor (\neg q \lor q) && \text{(associatividade e comutatividade do } \lor\text{)}\\
+\Leftrightarrow\ & V \lor V && \text{(complementaridade, 2 vezes)}\\
+\Leftrightarrow\ & V && \text{(elemento absorvente)}
+\end{aligned}$$
+
+Chegou a $V$: é **tautologia**. (Com o $\lor$ tudo ao mesmo nível, os
+parêntesis podem reorganizar-se à vontade --- foi isso que permitiu juntar
+$\neg p$ com $p$ e $\neg q$ com $q$.)
+:::
+
+::: {.exemplo title="--- Exercício 1.9(j) (lab, proplogic.pdf) --- contradição"}
+Truque: o segundo conjunto é a **negação** do primeiro.
+$$\neg(p \lor \neg q) \overset{\text{(De Morgan)}}{\Leftrightarrow} \neg p \land \neg\neg q \overset{\text{(dupla negação)}}{\Leftrightarrow} \neg p \land q$$
+Então, chamando $X = p\lor\neg q$:
+$$(p \lor \neg q) \land (\neg p \land q) \;\Leftrightarrow\; X \land \neg X \;\overset{\text{(complementaridade)}}{\Leftrightarrow}\; F$$
+
+Chegou a $F$: é **contradição**.
+:::
+
+::: {.exemplo title="--- Exercício 1.9(i) (lab, proplogic.pdf) --- satisfazível"}
+$$\begin{aligned}
+&(p \lor q) \to (p \land q) \\
+\Leftrightarrow\ & \neg(p \lor q) \lor (p \land q) && \text{(implicação)}\\
+\Leftrightarrow\ & (\neg p \land \neg q) \lor (p \land q) && \text{(De Morgan)}
+\end{aligned}$$
+
+Já não simplifica mais: não é $V$ nem $F$. Lê-se diretamente: é verdadeira
+quando **$p$ e $q$ são ambos falsos** ou **ambos verdadeiros** (é
+"$p \leftrightarrow q$"). Logo é **satisfazível, mas não tautologia nem
+contradição**.
+
+- **Verdadeira** com $p=V, q=V$ (o segundo termo, $p\land q$, é $V$).
+  Confirmação na original: $(V\lor V)\to(V\land V) = V\to V = V$.
+- **Falsa** com $p=V, q=F$ (os dois termos têm um literal falso).
+  Confirmação na original: $(V\lor F)\to(V\land F) = V\to F = F$.
+:::
+
 ::: {.pratica title="--- Consequência e equivalência (proplogic.pdf)"}
 - **1.6 (b)**, **(c)** e **(d)** --- provar as equivalências, pela tabela
   ou pelas leis (tenta pelas leis: é o que treina para o exame). Na (b),
   usa $\varphi\to\psi \Leftrightarrow \neg\varphi\lor\psi$ dos dois lados.
 - **1.8 (c)** --- é válida ou não? Mesma comparação de (a)/(b) acima:
   verifica com as leis de distributividade ou encontra um contraexemplo.
+- **1.9 (c)** --- classificar **pelo método acima** (simplificar com as
+  leis; nada de tabela). Se não for tautologia nem contradição, dá uma
+  valoração que a torna verdadeira e outra que a torna falsa.
+- **1.9 (h)** --- o mesmo, com 3 variáveis. Pista: depois de eliminar as
+  implicações, procura uma **absorção**.
+
+As restantes alíneas da 1.9 ((a), (b), (e), (f), (g), (k)) são a mesma
+simplificação repetida --- não precisas de as fazer todas.
 :::
 
 ## Propriedades da relação $\models$
@@ -708,8 +742,11 @@ consequências obrigatórias passo a passo). Se o processo chega a uma
 contradição (como em 1.14(d), onde a única forma de falhar o consequente
 também falha o antecedente), a fórmula é tautologia. Se o processo chega a
 uma atribuição consistente (como em 1.14(a)), encontraste mesmo um
-contraexemplo. É a mesma ideia usada em 1.9(d)/(i)/(j) e em 1.13, só que
-aqui aplicada sistematicamente à procura do contraexemplo.
+contraexemplo. É a mesma ideia usada em 1.13, só que aqui aplicada
+sistematicamente à procura do contraexemplo. (Na 1.14 o enunciado proíbe a
+tabela mas não obriga às leis: a procura do contraexemplo é o método
+natural. Na 1.9, pelo contrário, o enunciado manda simplificar pelas
+leis.)
 :::
 
 ::: {.pratica title="--- Propriedades de $\models$ (proplogic.pdf)"}
@@ -1296,16 +1333,8 @@ $p \lor r$ é $V$ e $q \land \neg p$ é $F$, logo a equivalência é $F$. $\chec
 :::
 
 ::: atencao
-Nota adicional (não está nos slides, mas ajuda a simplificar FND/FNC):
-além das leis da Aula 2, estas equivalências são úteis para "limpar" o
-resultado:
-
-- $\phi \land \neg\phi \Leftrightarrow F$ e $\phi \lor \neg\phi \Leftrightarrow V$;
-- $\phi \lor F \Leftrightarrow \phi$, $\phi \land V \Leftrightarrow \phi$,
-  $\phi \land F \Leftrightarrow F$, $\phi \lor V \Leftrightarrow V$;
-- **absorção**: $\phi \lor (\phi \land \psi) \Leftrightarrow \phi$ e
-  $\phi \land (\phi \lor \psi) \Leftrightarrow \phi$.
-
+Para "limpar" uma FND/FNC usam-se as leis extra da Aula 2
+(complementaridade, elemento neutro/absorvente, absorção).
 Na FNC acima, por exemplo: $\neg p \lor \neg p \Leftrightarrow \neg p$
 (idempotência), e a cláusula $\neg r \lor \neg p$ é absorvida por $\neg p$.
 Fica $(\neg p \lor q) \land (\neg r \lor q) \land \neg p \land (\neg q \lor p \lor r)$

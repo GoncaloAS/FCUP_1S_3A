@@ -114,8 +114,6 @@ natural</a></li>
 subfórmulas</a></li>
 <li><a href="#tabelas-de-verdade" id="toc-tabelas-de-verdade">1.4 —
 Tabelas de verdade</a></li>
-<li><a href="#classificar-fórmulas" id="toc-classificar-fórmulas">1.9 —
-Classificar fórmulas</a></li>
 </ul></li>
 <li><a href="#aula-2-consequência-equivalência-modelação" id="toc-aula-2-consequência-equivalência-modelação">Aula 2 —
 Consequência, equivalência, modelação</a>
@@ -129,6 +127,8 @@ e
 <li><a href="#provar-equivalências-pelas-leis" id="toc-provar-equivalências-pelas-leis">1.6 — Provar equivalências
 pelas leis</a></li>
 <li><a href="#validade" id="toc-validade">1.8 — Validade</a></li>
+<li><a href="#classificar-fórmulas" id="toc-classificar-fórmulas">1.9 —
+Classificar fórmulas</a></li>
 <li><a href="#propriedades-de-models" id="toc-propriedades-de-models">1.15 — Propriedades de
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⊨</mo><annotation encoding="application/x-tex">\models</annotation></semantics></math></a></li>
 <li><a href="#cavaleiros-e-vilões" id="toc-cavaleiros-e-vilões">1.10 —
@@ -378,117 +378,6 @@ e
 são equivalentes (Lei de De Morgan). Uma fórmula implica sempre outra
 que lhe é equivalente.</p>
 </div></details>
-<h3 id="classificar-fórmulas">1.9 — Classificar fórmulas</h3>
-<details class="sol" id="1.9-c"><summary>
-(c)
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>→</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(p \to q) \to (\neg p \to \neg q)</annotation></semantics></math>
-</summary><div class="corpo">
-<table>
-<thead>
-<tr>
-<th style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math></th>
-<th style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math></th>
-<th style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p\to q</annotation></semantics></math></th>
-<th style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi><mo>→</mo><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg p \to \neg q</annotation></semantics></math></th>
-<th style="text-align: center;">fórmula</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align: center;">V</td>
-<td style="text-align: center;">V</td>
-<td style="text-align: center;">V</td>
-<td style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>→</mo><mi>F</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">F\to F = V</annotation></semantics></math></td>
-<td style="text-align: center;"><strong>V</strong></td>
-</tr>
-<tr>
-<td style="text-align: center;">V</td>
-<td style="text-align: center;">F</td>
-<td style="text-align: center;">F</td>
-<td style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>→</mo><mi>V</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">F \to V = V</annotation></semantics></math></td>
-<td style="text-align: center;"><strong>V</strong></td>
-</tr>
-<tr>
-<td style="text-align: center;">F</td>
-<td style="text-align: center;">V</td>
-<td style="text-align: center;">V</td>
-<td style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>→</mo><mi>F</mi><mo>=</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">V \to F = F</annotation></semantics></math></td>
-<td style="text-align: center;"><strong>F</strong></td>
-</tr>
-<tr>
-<td style="text-align: center;">F</td>
-<td style="text-align: center;">F</td>
-<td style="text-align: center;">V</td>
-<td style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mo>→</mo><mi>V</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">V \to V = V</annotation></semantics></math></td>
-<td style="text-align: center;"><strong>V</strong></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Satisfazível, mas não é tautologia.</strong></p>
-<ul>
-<li>Torna-a <strong>verdadeira</strong>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>V</mi><mo>,</mo><mi>q</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">p=V, q=V</annotation></semantics></math>.</li>
-<li>Torna-a <strong>falsa</strong>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>F</mi><mo>,</mo><mi>q</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">p=F, q=V</annotation></semantics></math>
-(a única linha que a torna falsa).</li>
-</ul>
-<p>Moral: de “se
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
-então
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>”
-<strong>não</strong> se segue “se não
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
-então não
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>”.
-É o erro clássico de negar o antecedente.</p>
-</div></details>
-<details class="sol" id="1.9-h"><summary>
-(h)
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>r</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>∧</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(p \to q) \land (\neg r \to (q \lor (\neg p \land r)))</annotation></semantics></math>
-</summary><div class="corpo">
-<p><strong>Simplificar primeiro</strong> com as equivalências (é o que o
-enunciado sugere):</p>
-<ul>
-<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>q</mi><mspace width="0.278em"></mspace><mo>⇔</mo><mspace width="0.278em"></mspace><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p \to q \;\Leftrightarrow\; \neg p \lor q</annotation></semantics></math></li>
-<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>r</mi><mo>→</mo><mi>X</mi><mspace width="0.278em"></mspace><mo>⇔</mo><mspace width="0.278em"></mspace><mi>r</mi><mo>∨</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">\neg r \to X \;\Leftrightarrow\; r \lor X</annotation></semantics></math>.
-Aqui fica
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>∨</mo><mi>q</mi><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>∧</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">r \lor q \lor (\neg p \land r)</annotation></semantics></math>.</li>
-<li><strong>Absorção:</strong>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>∧</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo>⇔</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">r \lor (\neg p \land r) \Leftrightarrow r</annotation></semantics></math>.
-Se
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
-for verdadeiro já basta; se for falso,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi><mo>∧</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\neg p \land r</annotation></semantics></math>
-também é falso. Fica
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>∨</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">q \lor r</annotation></semantics></math>.</li>
-</ul>
-<p>Logo a fórmula é equivalente a
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>∨</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\neg p \lor q) \land (q \lor r)</annotation></semantics></math>.</p>
-<ul>
-<li><strong>Verdadeira</strong>, por exemplo, com
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">q = V</annotation></semantics></math>
-(os dois parêntesis ficam verdadeiros, seja qual for
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
-e
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>):
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>V</mi><mo>,</mo><mi>q</mi><mo>=</mo><mi>V</mi><mo>,</mo><mi>r</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">p=V,q=V,r=V</annotation></semantics></math>.</li>
-<li><strong>Falsa</strong>, por exemplo, com
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>V</mi><mo>,</mo><mi>q</mi><mo>=</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">p=V, q=F</annotation></semantics></math>
-(o primeiro parêntesis
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg p\lor q</annotation></semantics></math>
-fica
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>∨</mo><mi>F</mi><mo>=</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">F \lor F = F</annotation></semantics></math>):
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>V</mi><mo>,</mo><mi>q</mi><mo>=</mo><mi>F</mi><mo>,</mo><mi>r</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">p=V,q=F,r=V</annotation></semantics></math>.</li>
-</ul>
-<p><strong>Satisfazível, mas não é tautologia nem
-contradição.</strong></p>
-<p>Verificação na fórmula original, com
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>V</mi><mo>,</mo><mi>q</mi><mo>=</mo><mi>F</mi><mo>,</mo><mi>r</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">p=V,q=F,r=V</annotation></semantics></math>:
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>q</mi><mo>=</mo><mi>V</mi><mo>→</mo><mi>F</mi><mo>=</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">p\to q = V \to F =
-F</annotation></semantics></math>, e a conjunção fica logo
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>✓</mi><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math>.</p>
-</div></details>
 <h2 id="aula-2-consequência-equivalência-modelação">Aula 2 —
 Consequência, equivalência, modelação</h2>
 <h3 id="a-relação-models_v-com-vpv-e-vqf">1.5 — A relação
@@ -649,6 +538,158 @@ e a direita fica
 <p>Ao contrário da 1.8(b), aqui distribuir funciona. A diferença é que a
 1.8(b) distribuía uma implicação sobre o seu
 <strong>antecedente</strong>, e isso troca o conectivo.</p>
+</div></details>
+<h3 id="classificar-fórmulas">1.9 — Classificar fórmulas</h3>
+<details class="sol" id="1.9-c"><summary>
+(c)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>→</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(p \to q) \to (\neg p \to \neg q)</annotation></semantics></math>
+</summary><div class="corpo">
+<p><strong>Simplificar com as leis</strong> (é o método que o enunciado
+pede):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>→</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇔</mo><mo>¬</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>→</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mrow><mtext mathvariant="normal">(implicação, na </mtext><mspace width="0.333em"></mspace></mrow><mo>→</mo><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> exterior)</mtext></mrow></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇔</mo><mo>¬</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mo>¬</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mtext mathvariant="normal">(implicação, nas duas interiores)</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇔</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mo>¬</mo><mi>p</mi><mo>∧</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mo>¬</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mtext mathvariant="normal">(De Morgan)</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇔</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∧</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mtext mathvariant="normal">(dupla negação, 2 vezes)</mtext></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{aligned}
+(p \to q) \to (\neg p \to \neg q)
+&amp;\Leftrightarrow \neg(p \to q) \lor (\neg p \to \neg q) &amp;&amp; \text{(implicação, na } \to \text{ exterior)}\\
+&amp;\Leftrightarrow \neg(\neg p \lor q) \lor (\neg\neg p \lor \neg q) &amp;&amp; \text{(implicação, nas duas interiores)}\\
+&amp;\Leftrightarrow (\neg\neg p \land \neg q) \lor (\neg\neg p \lor \neg q) &amp;&amp; \text{(De Morgan)}\\
+&amp;\Leftrightarrow (p \land \neg q) \lor (p \lor \neg q) &amp;&amp; \text{(dupla negação, 2 vezes)}
+\end{aligned}
+</annotation></semantics></math></p>
+<p><strong>O último passo, com calma.</strong> Chegámos a
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∧</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(p \land \neg q) \lor (p \lor \neg q)</annotation></semantics></math>
+Repara que é da forma
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>φ</mi><mo>∧</mo><mi>ψ</mi><mo stretchy="false" form="postfix">)</mo><mo>∨</mo><mi>θ</mi></mrow><annotation encoding="application/x-tex">(\varphi \land \psi) \lor \theta</annotation></semantics></math>,
+com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>φ</mi><mo>=</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\varphi = p</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ψ</mi><mo>=</mo><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\psi = \neg q</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\theta = p \lor \neg q</annotation></semantics></math>.
+Aplica-se a <strong>distributividade</strong> da tabela,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>φ</mi><mo>∧</mo><mi>ψ</mi><mo stretchy="false" form="postfix">)</mo><mo>∨</mo><mi>θ</mi><mo>⇔</mo><mo stretchy="false" form="prefix">(</mo><mi>φ</mi><mo>∨</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mo stretchy="false" form="prefix">(</mo><mi>ψ</mi><mo>∨</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\varphi \land \psi) \lor \theta
+\Leftrightarrow (\varphi \lor \theta) \land (\psi \lor \theta)</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∧</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇔</mo><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">(</mo><mi>p</mi><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">)</mo><mo>∧</mo><mo minsize="120%" maxsize="120%" stretchy="true" form="prefix">(</mo><mo>¬</mo><mi>q</mi><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo minsize="120%" maxsize="120%" stretchy="true" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mtext mathvariant="normal">(distributividade)</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇔</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∨</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mtext mathvariant="normal">(associatividade e comutatividade)</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇔</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mrow><mtext mathvariant="normal">(idempotência: </mtext><mspace width="0.333em"></mspace></mrow><mi>p</mi><mo>∨</mo><mi>p</mi><mo>⇔</mo><mi>p</mi><mrow><mtext mathvariant="normal">, </mtext><mspace width="0.333em"></mspace></mrow><mo>¬</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo>⇔</mo><mo>¬</mo><mi>q</mi><mtext mathvariant="normal">)</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇔</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mrow><mtext mathvariant="normal">(idempotência: </mtext><mspace width="0.333em"></mspace></mrow><mi>X</mi><mo>∧</mo><mi>X</mi><mo>⇔</mo><mi>X</mi><mtext mathvariant="normal">)</mtext></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{aligned}
+(p \land \neg q) \lor (p \lor \neg q)
+&amp;\Leftrightarrow \big(p \lor (p \lor \neg q)\big) \land \big(\neg q \lor (p \lor \neg q)\big) &amp;&amp; \text{(distributividade)}\\
+&amp;\Leftrightarrow (p \lor p \lor \neg q) \land (p \lor \neg q \lor \neg q) &amp;&amp; \text{(associatividade e comutatividade)}\\
+&amp;\Leftrightarrow (p \lor \neg q) \land (p \lor \neg q) &amp;&amp; \text{(idempotência: } p\lor p \Leftrightarrow p\text{, } \neg q \lor \neg q \Leftrightarrow \neg q\text{)}\\
+&amp;\Leftrightarrow p \lor \neg q &amp;&amp; \text{(idempotência: } X \land X \Leftrightarrow X\text{)}
+\end{aligned}
+</annotation></semantics></math></p>
+<p>Só usei leis da tabela do enunciado. <strong>Atalho:</strong> o mesmo
+resultado sai num só passo pela <strong>absorção</strong>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∧</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>⇔</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">p \lor (p \land \neg q) \Leftrightarrow p</annotation></semantics></math>
+(uma das leis extra do resumo, Aula 2). Porque é que vale: se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">p = V</annotation></semantics></math>,
+os dois lados são
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>;
+se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">p = F</annotation></semantics></math>,
+então
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∧</mo><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p \land \neg q</annotation></semantics></math>
+também é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>
+e os dois lados são
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>.
+Ou seja, o termo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∧</mo><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p \land \neg q</annotation></semantics></math>
+“não acrescenta nada” a um
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>
+que já tem
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+sozinho, e pode ser apagado:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∧</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∨</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo>⇔</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">(p \land \neg q) \lor p \lor \neg q \Leftrightarrow p \lor \neg q</annotation></semantics></math>.</p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p \lor \neg q</annotation></semantics></math>
+não é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>
+nem
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>:
+<strong>satisfazível, mas não é tautologia nem contradição.</strong> As
+valorações lêem-se da forma simplificada:</p>
+<ul>
+<li><strong>Verdadeira</strong>: basta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">p = V</annotation></semantics></math>,
+por exemplo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>V</mi><mo>,</mo><mi>q</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">p=V, q=V</annotation></semantics></math>.
+Na original:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>V</mi><mo>→</mo><mi>V</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>F</mi><mo>→</mo><mi>F</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>V</mi><mo>→</mo><mi>V</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">(V\to V)\to(F\to F) = V \to V = V</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>✓</mi><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math>.</li>
+<li><strong>Falsa</strong>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p\lor\neg q</annotation></semantics></math>
+só é falsa com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">p=F</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">q=V</annotation></semantics></math>.
+Na original:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>F</mi><mo>→</mo><mi>V</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>V</mi><mo>→</mo><mi>F</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>V</mi><mo>→</mo><mi>F</mi><mo>=</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">(F\to V)\to(V\to F) = V \to F = F</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>✓</mi><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math>.</li>
+</ul>
+<p>Moral: de “se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+então
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>”
+<strong>não</strong> se segue “se não
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+então não
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>”.
+É o erro clássico de negar o antecedente. (É a mesma fórmula da 1.18(d),
+resolvida no resumo: a forma simplificada
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p\lor\neg q</annotation></semantics></math>
+é ao mesmo tempo FND e FNC.)</p>
+</div></details>
+<details class="sol" id="1.9-h"><summary>
+(h)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>r</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>∧</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(p \to q) \land (\neg r \to (q \lor (\neg p \land r)))</annotation></semantics></math>
+</summary><div class="corpo">
+<p><strong>Simplificar com as leis</strong> (é o método que o enunciado
+pede):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>r</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>∧</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo>⇔</mo><mspace width="0.222em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mo>¬</mo><mi>r</mi><mo>∨</mo><mi>q</mi><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>∧</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mtext mathvariant="normal">(implicação, 2 vezes)</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo>⇔</mo><mspace width="0.222em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>∨</mo><mi>r</mi><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>∧</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mtext mathvariant="normal">(dupla negação; comutatividade)</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mo>⇔</mo><mspace width="0.222em"></mspace></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>∨</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mrow><mtext mathvariant="normal">(absorção: </mtext><mspace width="0.333em"></mspace></mrow><mi>r</mi><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>∧</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo>⇔</mo><mi>r</mi><mtext mathvariant="normal">)</mtext></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{aligned}
+&amp;(p \to q) \land (\neg r \to (q \lor (\neg p \land r)))\\
+\Leftrightarrow\ &amp; (\neg p \lor q) \land (\neg\neg r \lor q \lor (\neg p \land r)) &amp;&amp; \text{(implicação, 2 vezes)}\\
+\Leftrightarrow\ &amp; (\neg p \lor q) \land (q \lor r \lor (\neg p \land r)) &amp;&amp; \text{(dupla negação; comutatividade)}\\
+\Leftrightarrow\ &amp; (\neg p \lor q) \land (q \lor r) &amp;&amp; \text{(absorção: } r \lor (\neg p \land r) \Leftrightarrow r\text{)}
+\end{aligned}
+</annotation></semantics></math></p>
+<p>(Na absorção,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>∨</mo><mo stretchy="false" form="prefix">(</mo><mi>r</mi><mo>∧</mo><mo>¬</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">r \lor (r \land \neg p)</annotation></semantics></math>:
+se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
+é verdadeiro já basta; se é falso,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>∧</mo><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">r\land\neg p</annotation></semantics></math>
+também é falso. Por isso vale sempre o mesmo que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>.)</p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>∨</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\neg p \lor q) \land (q \lor r)</annotation></semantics></math>
+não é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>
+nem
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>:
+<strong>satisfazível, mas não é tautologia nem contradição.</strong> As
+valorações lêem-se da forma simplificada:</p>
+<ul>
+<li><strong>Verdadeira</strong>: com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">q = V</annotation></semantics></math>
+os dois parêntesis ficam verdadeiros, seja qual for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>.
+Por exemplo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>V</mi><mo>,</mo><mi>q</mi><mo>=</mo><mi>V</mi><mo>,</mo><mi>r</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">p=V,q=V,r=V</annotation></semantics></math>.
+Na original:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>V</mi><mo>→</mo><mi>V</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mo stretchy="false" form="prefix">(</mo><mi>F</mi><mo>→</mo><mi>…</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>V</mi><mo>∧</mo><mi>V</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">(V\to V) \land (F \to \dots) = V \land V = V</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>✓</mi><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math>.</li>
+<li><strong>Falsa</strong>: basta o primeiro parêntesis falhar,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo>=</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">\neg p \lor q = F</annotation></semantics></math>,
+ou seja
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>V</mi><mo>,</mo><mi>q</mi><mo>=</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">p=V, q=F</annotation></semantics></math>.
+Por exemplo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>V</mi><mo>,</mo><mi>q</mi><mo>=</mo><mi>F</mi><mo>,</mo><mi>r</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">p=V,q=F,r=V</annotation></semantics></math>.
+Na original:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>q</mi><mo>=</mo><mi>V</mi><mo>→</mo><mi>F</mi><mo>=</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">p\to q = V \to F = F</annotation></semantics></math>,
+e a conjunção fica logo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>✓</mi><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math>.</li>
+</ul>
 </div></details>
 <h3 id="propriedades-de-models">1.15 — Propriedades de
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⊨</mo><annotation encoding="application/x-tex">\models</annotation></semantics></math></h3>

@@ -109,48 +109,6 @@ alguma coisa, e aí $V \to V = V$.
 Não é coincidência: $\neg(p\lor q)$ e $\neg p\land\neg q$ são equivalentes
 (Lei de De Morgan). Uma fórmula implica sempre outra que lhe é equivalente.
 
-### 1.9 --- Classificar fórmulas
-
-#### (c) $(p \to q) \to (\neg p \to \neg q)$
-
-| $p$ | $q$ | $p\to q$ | $\neg p \to \neg q$ | fórmula |
-|:-:|:-:|:-:|:-:|:-:|
-| V | V | V | $F\to F = V$ | **V** |
-| V | F | F | $F \to V = V$ | **V** |
-| F | V | V | $V \to F = F$ | **F** |
-| F | F | V | $V \to V = V$ | **V** |
-
-**Satisfazível, mas não é tautologia.**
-
-- Torna-a **verdadeira**: $p=V, q=V$.
-- Torna-a **falsa**: $p=F, q=V$ (a única linha que a torna falsa).
-
-Moral: de "se $p$ então $q$" **não** se segue "se não $p$ então não $q$".
-É o erro clássico de negar o antecedente.
-
-#### (h) $(p \to q) \land (\neg r \to (q \lor (\neg p \land r)))$
-
-**Simplificar primeiro** com as equivalências (é o que o enunciado sugere):
-
-- $p \to q \;\Leftrightarrow\; \neg p \lor q$
-- $\neg r \to X \;\Leftrightarrow\; r \lor X$. Aqui fica
-  $r \lor q \lor (\neg p \land r)$.
-- **Absorção:** $r \lor (\neg p \land r) \Leftrightarrow r$. Se $r$ for
-  verdadeiro já basta; se for falso, $\neg p \land r$ também é falso. Fica
-  $q \lor r$.
-
-Logo a fórmula é equivalente a $(\neg p \lor q) \land (q \lor r)$.
-
-- **Verdadeira**, por exemplo, com $q = V$ (os dois parêntesis ficam
-  verdadeiros, seja qual for $p$ e $r$): $p=V,q=V,r=V$.
-- **Falsa**, por exemplo, com $p=V, q=F$ (o primeiro parêntesis
-  $\neg p\lor q$ fica $F \lor F = F$): $p=V,q=F,r=V$.
-
-**Satisfazível, mas não é tautologia nem contradição.**
-
-Verificação na fórmula original, com $p=V,q=F,r=V$: $p\to q = V \to F =
-F$, e a conjunção fica logo $F$ $\checkmark$.
-
 ## Aula 2 --- Consequência, equivalência, modelação
 
 ### 1.5 --- A relação $\models_v$, com $v(p)=V$ e $v(q)=F$
@@ -240,6 +198,87 @@ São iguais em todos os casos. $\checkmark$
 Ao contrário da 1.8(b), aqui distribuir funciona. A diferença é que a 1.8(b)
 distribuía uma implicação sobre o seu **antecedente**, e isso troca o
 conectivo.
+
+### 1.9 --- Classificar fórmulas
+
+#### (c) $(p \to q) \to (\neg p \to \neg q)$
+
+**Simplificar com as leis** (é o método que o enunciado pede):
+
+$$
+\begin{aligned}
+(p \to q) \to (\neg p \to \neg q)
+&\Leftrightarrow \neg(p \to q) \lor (\neg p \to \neg q) && \text{(implicação, na } \to \text{ exterior)}\\
+&\Leftrightarrow \neg(\neg p \lor q) \lor (\neg\neg p \lor \neg q) && \text{(implicação, nas duas interiores)}\\
+&\Leftrightarrow (\neg\neg p \land \neg q) \lor (\neg\neg p \lor \neg q) && \text{(De Morgan)}\\
+&\Leftrightarrow (p \land \neg q) \lor (p \lor \neg q) && \text{(dupla negação, 2 vezes)}
+\end{aligned}
+$$
+
+**O último passo, com calma.** Chegámos a
+$$(p \land \neg q) \lor (p \lor \neg q)$$
+Repara que é da forma $(\varphi \land \psi) \lor \theta$, com
+$\varphi = p$, $\psi = \neg q$ e $\theta = p \lor \neg q$. Aplica-se a
+**distributividade** da tabela, $(\varphi \land \psi) \lor \theta
+\Leftrightarrow (\varphi \lor \theta) \land (\psi \lor \theta)$:
+
+$$
+\begin{aligned}
+(p \land \neg q) \lor (p \lor \neg q)
+&\Leftrightarrow \big(p \lor (p \lor \neg q)\big) \land \big(\neg q \lor (p \lor \neg q)\big) && \text{(distributividade)}\\
+&\Leftrightarrow (p \lor p \lor \neg q) \land (p \lor \neg q \lor \neg q) && \text{(associatividade e comutatividade)}\\
+&\Leftrightarrow (p \lor \neg q) \land (p \lor \neg q) && \text{(idempotência: } p\lor p \Leftrightarrow p\text{, } \neg q \lor \neg q \Leftrightarrow \neg q\text{)}\\
+&\Leftrightarrow p \lor \neg q && \text{(idempotência: } X \land X \Leftrightarrow X\text{)}
+\end{aligned}
+$$
+
+Só usei leis da tabela do enunciado. **Atalho:** o mesmo resultado sai
+num só passo pela **absorção**, $p \lor (p \land \neg q) \Leftrightarrow p$
+(uma das leis extra do resumo, Aula 2). Porque é que vale: se $p = V$, os
+dois lados são $V$; se $p = F$, então $p \land \neg q$ também é $F$ e os
+dois lados são $F$. Ou seja, o termo $p \land \neg q$ "não acrescenta
+nada" a um $\lor$ que já tem $p$ sozinho, e pode ser apagado:
+$(p \land \neg q) \lor p \lor \neg q \Leftrightarrow p \lor \neg q$.
+
+$p \lor \neg q$ não é $V$ nem $F$: **satisfazível, mas não é tautologia
+nem contradição.** As valorações lêem-se da forma simplificada:
+
+- **Verdadeira**: basta $p = V$, por exemplo $p=V, q=V$.
+  Na original: $(V\to V)\to(F\to F) = V \to V = V$ $\checkmark$.
+- **Falsa**: $p\lor\neg q$ só é falsa com $p=F$ e $q=V$.
+  Na original: $(F\to V)\to(V\to F) = V \to F = F$ $\checkmark$.
+
+Moral: de "se $p$ então $q$" **não** se segue "se não $p$ então não $q$".
+É o erro clássico de negar o antecedente. (É a mesma fórmula da 1.18(d),
+resolvida no resumo: a forma simplificada $p\lor\neg q$ é ao mesmo tempo
+FND e FNC.)
+
+#### (h) $(p \to q) \land (\neg r \to (q \lor (\neg p \land r)))$
+
+**Simplificar com as leis** (é o método que o enunciado pede):
+
+$$
+\begin{aligned}
+&(p \to q) \land (\neg r \to (q \lor (\neg p \land r)))\\
+\Leftrightarrow\ & (\neg p \lor q) \land (\neg\neg r \lor q \lor (\neg p \land r)) && \text{(implicação, 2 vezes)}\\
+\Leftrightarrow\ & (\neg p \lor q) \land (q \lor r \lor (\neg p \land r)) && \text{(dupla negação; comutatividade)}\\
+\Leftrightarrow\ & (\neg p \lor q) \land (q \lor r) && \text{(absorção: } r \lor (\neg p \land r) \Leftrightarrow r\text{)}
+\end{aligned}
+$$
+
+(Na absorção, $r \lor (r \land \neg p)$: se $r$ é verdadeiro já basta; se é
+falso, $r\land\neg p$ também é falso. Por isso vale sempre o mesmo que $r$.)
+
+$(\neg p \lor q) \land (q \lor r)$ não é $V$ nem $F$: **satisfazível, mas
+não é tautologia nem contradição.** As valorações lêem-se da forma
+simplificada:
+
+- **Verdadeira**: com $q = V$ os dois parêntesis ficam verdadeiros, seja
+  qual for $p$ e $r$. Por exemplo $p=V,q=V,r=V$. Na original:
+  $(V\to V) \land (F \to \dots) = V \land V = V$ $\checkmark$.
+- **Falsa**: basta o primeiro parêntesis falhar, $\neg p \lor q = F$, ou
+  seja $p=V, q=F$. Por exemplo $p=V,q=F,r=V$. Na original:
+  $p\to q = V \to F = F$, e a conjunção fica logo $F$ $\checkmark$.
 
 ### 1.15 --- Propriedades de $\models$
 

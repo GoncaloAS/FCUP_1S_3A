@@ -332,6 +332,16 @@ solução completa, passo a passo...
 - **Cada item de uma caixa `pratica` tem solução, pela mesma ordem e com
   a mesma numeração.** Quando acrescentares uma caixa `pratica`,
   acrescenta as soluções na mesma passagem.
+- **Resolver com o método certo (2026-09-23).** Antes de resolver um
+  exercício (no resumo ou nas soluções), lê o enunciado à procura do
+  método pedido ("using semantic equivalences", "without building the
+  truth table", "construct truth tables", "using the definitions") e usa
+  **esse**. Se o enunciado não diz, usa o método da aula a que o exercício
+  pertence. Nunca trocar por um método "mais fácil" ou que só chega ao
+  mesmo resultado (ex.: tabela de verdade quando se pede simplificação por
+  equivalências). E o exercício só pode aparecer **depois** do tópico que
+  ensina esse método --- se o método ainda não foi dado, o exercício está
+  no sítio errado.
 - As soluções seguem as regras dos exemplos resolvidos: totalmente
   explícitas, com cada cálculo intermédio. **Verifica-as antes de
   escrever:** contas em Python, equivalências por força bruta, código
@@ -615,3 +625,23 @@ a não ser que sejam explicitamente substituídas por feedback mais recente.
   em `auto-align.lua` (ver regra acima), mais duas correções à mão: a
   tabela de tempos LAN/WAN de Redes (contas `máx(...)` tiradas da tabela)
   e o traço do DFA em C de Compiladores (larguras das colunas).
+- 2026-09-23: Feedback do Gonçalo: "as soluções têm que ser resolvidas com
+  o método certo, repara que a 1.9 de lógica usaste tabelas de verdade
+  coisa que nunca foi pedida". O enunciado da 1.9 manda simplificar com
+  equivalências semânticas. A causa de fundo: a 1.9 estava na **Aula 1**,
+  antes de as leis de equivalência serem dadas (Aula 2), por isso as
+  alíneas resolvidas (d)/(i)/(j) usavam análise de casos e a solução da
+  (c) usava tabela. Corrigido: a 1.9 passou para a Aula 2, a seguir às
+  leis, com uma caixa de método ("eliminar →, empurrar ¬, simplificar,
+  ler a classificação") e as leis extra (complementaridade, elemento
+  neutro/absorvente, absorção), e todas as alíneas foram refeitas por
+  equivalências. Regra nova no passo 7 ("Resolver com o método certo").
+- 2026-09-23: O Gonçalo não percebeu o passo "$(p\land\neg q)\lor p\lor\neg q
+  \Leftrightarrow p\lor\neg q$ (absorção)" na solução da 1.9(c). A
+  absorção não está na tabela de leis dos slides nem na do enunciado, e o
+  passo foi dado de uma vez. Regra: um passo de simplificação tem de usar
+  **as leis que ele conhece** (tabela do enunciado/slides), uma de cada vez
+  e com os papéis ($\varphi$, $\psi$, $\theta$) identificados. Uma lei extra
+  (absorção, complementaridade...) só pode aparecer como **atalho** a
+  seguir à derivação feita com as leis oficiais, com uma frase a dizer
+  porque é que vale.
