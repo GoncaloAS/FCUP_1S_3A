@@ -1,10 +1,10 @@
 ---
 title: "Interação Pessoa-Máquina (IPM) --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 1 (Aulas 1--2, Módulos 01--02)"
+date: "Atualizado: Semana 2 (Aulas 1--3, Módulos 01--03)"
 ---
 
-<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pptx -->
 
 # Aula 1 --- Enquadramento da disciplina e do projeto
 
@@ -90,6 +90,11 @@ avaliação. Feito em **grupos de 4**. Não há nota mínima, mas é avaliado de
 forma contínua ao longo do trabalho (não só no entregável final). Há uma
 apresentação intercalar do relatório (data a confirmar).
 
+**O que o R1 cobre** (ver a sequência completa na Aula 3): da formação do
+grupo até à **proposta de modelos conceptuais e decisões de desenho** ---
+estudos exploratórios, stakeholders, recolha de dados, personas e estudo da
+tecnologia, modelos conceptuais.
+
 ### PR2 --- Protótipo + Segundo relatório (6 pontos)
 
 Trabalho baseado numa **implementação de protótipo**, associado ao trabalho
@@ -98,6 +103,13 @@ de software (**Figma**), e detalhes de implementação decididos caso a caso
 com o professor. É feito **pelo mesmo grupo** do R1. Também sem nota
 mínima, mas avaliado continuamente. Há uma apresentação final do protótipo
 desenvolvido + segundo relatório.
+
+**O que o PR2 cobre**: do **protótipo** em diante --- protótipo, avaliação
+de usabilidade e relatório final. O relatório final é uma "pasta enorme"
+com **todo** o trabalho de cada etapa (esboços, diagramas e gráficos,
+texto, cor). Regra desta disciplina: juntar a **evidência de cada fase** e,
+para cada avaliação, o **antes/depois** do artefacto com a **razão da
+mudança** (o que a avaliação mostrou e o que se alterou por causa disso).
 
 ### Exame final (10 pontos)
 
@@ -168,9 +180,28 @@ ordem das fases.
   início.
 - **Evidência em cada aula**: fotos dos esboços, votos, matrizes e decisões
   são guardados no fim de cada sessão (no Moodle).
-- **Avaliação entre grupos**: usa missões, matrizes avaliador-por-objeto,
-  pontuações independentes e conclusões escritas. Os avaliadores conhecem o
-  domínio do problema (não são utilizadores totalmente ingénuos).
+- **Avaliação entre grupos**: usa missões (escritas como *task flows*, ver
+  T4 na Aula 2), matrizes avaliador-por-objeto (grelhas de avaliação, ver
+  T3 na Aula 2), pontuações independentes e conclusões escritas. Os
+  avaliadores conhecem o domínio do problema (não são utilizadores
+  totalmente ingénuos).
+
+::: {.definicao title="--- Como criar a equipa (primeira etapa do procedimento)"}
+- **Não perder tempo** --- formar o grupo cedo.
+- **Acrescentar valor** à equipa com **pessoas diferentes** (perfis,
+  competências e pontos de vista distintos, não quatro cópias da mesma
+  pessoa).
+- Garantir que **todos estão motivados**.
+- Garantir **pelo menos dois canais de comunicação** entre todos: um
+  **ponto-a-ponto** (falar com um colega) e um de **difusão** (*broadcast*,
+  falar com o grupo inteiro).
+- Criar formas **ágeis** de fazer reuniões de equipa úteis (curtas, com
+  objetivo).
+- **Distribuir tarefas de forma sistemática** (não "quem se oferecer").
+- **Informar o grupo das descobertas individuais antes de cada marco**
+  (*milestone*) --- ninguém chega a uma entrega sem os outros saberem o que
+  encontrou.
+:::
 
 ## Uso de Inteligência Artificial generativa na disciplina
 
@@ -291,6 +322,16 @@ Ao identificar stakeholders, o grupo deve pensar em:
 discutir com amigos e colegas, e escrever tudo numa lista. Exemplos de
 categorias de stakeholder dados nos slides: utilizadores, construtores,
 vendedores, responsáveis pela manutenção, reguladores, vizinhos.
+
+**Para que servem os stakeholders.** Falar com eles permite:
+
+1. perceber melhor o **contexto**;
+2. perceber melhor os **problemas**;
+3. estabelecer **prioridades** na resolução do problema.
+
+Em cada uma destas três coisas há *feedback* a aproveitar. Por isso a
+atitude pedida é **pró-ativa**: estudar o assunto, usar a Internet e
+**perguntar às pessoas**, em vez de esperar que a informação chegue.
 
 ### Desenho centrado no utilizador (*User-Centred Design*)
 
@@ -550,6 +591,47 @@ enviesamentos acima; a observação direta não.
 - Um perfil de utilizador genérico ou um estereótipo.
 :::
 
+### Como criar as personas: segmentar e escolher uma pessoa-exemplo
+
+O procedimento dado no Módulo 03 é: **segmentar o mercado** (os grupos de
+utilizadores com necessidades diferentes) e depois **escolher uma
+pessoa-exemplo, imaginária, para cada segmento**. Cada persona é descrita
+por uma ficha curta com: nome e idade, um retrato breve com detalhes
+pessoais, e quatro campos --- **objetivo**, **frustração**, **tecnologia**
+que usa e **contexto** de uso.
+
+::: {.exemplo title="--- As duas personas dos slides (produto de registo de hábitos/saúde)"}
+| | **Susana, 42** | **Rogério, 37** |
+|---|---|---|
+| Retrato | Professora de Português e História numa escola em Gaia. Dois filhos. Gosta de ler sobre dietas e experimenta uma nova todos os janeiros. | Analista de mercado numa empresa de retalho no Porto. Vai ao ginásio antes do trabalho, três vezes por semana. |
+| Objetivo | Registar o que come **sem introduzir dados** | Ver o seu progresso **num relance, sem parar** |
+| Frustração | Apps que pedem cada ingrediente; texto pequeno | Relógios com quatro botões e menus escondidos |
+| Tecnologia | Telemóvel Android e WhatsApp; raramente portátil | Smartwatch; dois monitores e folhas de cálculo o dia todo |
+| Contexto | À noite, no sofá, depois de corrigir testes; 20 minutos | No ginásio às 7h30, mãos ocupadas, auriculares postos |
+
+Repara como os **quatro campos** já dão decisões de desenho diretas: para a
+Susana, entrada de dados mínima e letra grande num telemóvel; para o
+Rogério, informação visível sem interação num ecrã de relógio.
+:::
+
+**Teste de cobertura:** *"Há alguém que fique de fora, entre estas duas?"*
+Se sim, é preciso mais personas --- mas **no máximo 3 ou 4** (coerente com
+a regra 8 abaixo). **Questionários e testes** aos utilizadores reais servem
+para prever como vão comportar-se com o produto e que conhecimentos prévios
+têm --- é isso que alimenta os campos da ficha, não a imaginação do grupo.
+
+::: atencao
+**Isto não contradiz** a caixa acima ("uma persona não é baseada em
+segmentos de mercado") nem a regra 9 abaixo --- é uma questão de *para que*
+se usa a segmentação. Nota adicional (interpretação para conciliar os dois
+módulos): a segmentação só serve de **ponto de partida para garantir
+cobertura** (não deixar nenhum tipo de utilizador de fora); a persona em si
+continua a ser definida pelos seus **objetivos, frustrações e contexto**,
+não pelos dados demográficos do segmento. Repara que as fichas da Susana e
+do Rogério têm idade e profissão, mas o que as distingue e orienta o
+desenho são os campos objetivo/frustração/contexto.
+:::
+
 ### As 10 regras para criar personas
 
 ::: {.definicao title="--- 10 regras"}
@@ -616,7 +698,15 @@ Continuando o exemplo do sistema de reservas da cantina universitária:
 
 O resultado (uma ficha de persona típica) tem então: nome + etiqueta curta,
 um retrato breve com 1-2 detalhes pessoais concretos, e uma lista de 3-4
-objetivos — nada mais do que isto é necessário nesta fase.
+objetivos. No formato de ficha do Módulo 03 (ver secção anterior),
+acrescentam-se os outros três campos:
+
+- **Frustração**: filas de que só se apercebe quando já lá está; não
+  saber se ainda há o prato vegetariano.
+- **Tecnologia**: telemóvel (usa sobretudo o Instagram e a app da
+  universidade).
+- **Contexto**: no intervalo entre aulas, a andar no corredor, com 5
+  minutos para decidir.
 :::
 
 ## T2 --- Estudos iniciais
@@ -638,6 +728,48 @@ os três vértices do "triângulo mágico" mais à frente nesta aula — não é
 coincidência: são as mesmas três forças que atuam ao longo de todo o
 processo de desenho, só que aqui aparecem como perguntas de investigação e
 mais à frente como restrições a negociar.
+
+### Perceber o problema
+
+Antes de propor soluções, o grupo tem de **perceber o problema**:
+
+- saber **o que deve fazer** --- e **o que não pode fazer**;
+- usar **argumentos racionais** e **procurar evidência**;
+- perceber **o que vale a pena** (o que tem valor para os stakeholders).
+
+Na prática: **identificar os stakeholders**; **procurar mais informação em
+várias fontes**; **discutir o problema com os outros membros do grupo**;
+**discutir os prós e contras** --- incluindo aquilo que o grupo é e não é
+capaz de fazer.
+
+::: {.exemplo title="--- A história do lojista (contada pelo professor)"}
+Um lojista queixava-se: *"Eu não chego... Não consigo... O negócio vai
+arruinar-se porque não chego, sozinho não consigo... E depois é um problema
+com as contas."* A solução adotada foi arranjar outra pessoa para fazer a
+contabilidade. Mas o problema real era outro: o senhor **não chegava
+fisicamente às prateleiras mais altas**, onde estavam guardados os registos
+das encomendas.
+
+**Lição:** as palavras do utilizador têm de ser levadas à letra e
+investigadas ("não chego" era literal), e **observar** o contexto teria
+revelado o problema verdadeiro --- é a regra "observar mais do que
+perguntar" (T1) e "escrever as palavras exatas do utilizador". Resolver o
+problema errado pode custar muito e não resolver nada.
+:::
+
+O slide do "Yoda" resume, com humor, como é a procura de informação nesta
+fase: a informação está onde está (é preciso ir procurá-la); **não vais
+saber à partida se é correta e precisa** (daí cruzar várias fontes); e
+começa-se... pelo princípio.
+
+### Racionalizar o processo: evidência
+
+Todas as decisões têm de **fornecer evidência**. Por isso a evidência tem
+de ser **recolhida e organizada**: obter dados de **quem sabe**
+(stakeholders), recolher **muitos** dados (inquéritos/questionários),
+**agregar** os resultados e **tirar conclusões**. Esta etapa ("recolher
+dados, agregar, concluir") é uma das etapas do procedimento completo (Aula
+3) e entra no R1.
 
 ## T3 --- Desenho conceptual
 
@@ -685,6 +817,83 @@ protótipo/esboço é precisamente a ferramenta mais barata para detetar isto
 **Dica dada nos slides**: usar um protótipo rápido e simples para testar
 isto, em vez de tentar acertar a imagem do sistema de forma puramente
 teórica.
+
+### Do problema aos modelos conceptuais: o *pipeline*
+
+::: {.definicao title="--- Pipeline do modelo conceptual (6 passos)"}
+1. **Perceber** o que tens de fazer.
+2. **Criar** modelos para soluções (vários, não um).
+3. **Esboçar** cada modelo --- depressa!
+4. **Descrever** o modelo por texto.
+5. **Avaliar** os modelos.
+6. **Melhorar** o(s) mais promissor(es).
+
+Os **quatro primeiros** produzem modelos candidatos; os **dois últimos**
+selecionam e refinam. Depois volta-se a **Esboçar** (passo 3) com o modelo
+melhorado --- é um ciclo, como o ciclo de desenho iterativo abaixo.
+:::
+
+A forma de gerar e reduzir os modelos é o **método 10x10** (Aula 3). O fim
+deste processo é chegar ao "máximo" da melhor ideia, documentado com
+**esboço + texto** --- e ter, no fim, **muita evidência** para mostrar
+(esboços, grelhas, decisões).
+
+### Avaliar os modelos conceptuais: grelhas de avaliação
+
+::: {.definicao title="--- Grelhas de avaliação"}
+- **Criar grelhas de avaliação**: **uma linha por modelo**, **uma coluna
+  por critério**, **uma grelha por avaliador**.
+- **Quantos mais avaliadores, melhor** --- e **quanto mais diferentes
+  entre si, melhor**. Avaliadores de **outros grupos** conhecem o domínio:
+  é isso que torna a crítica informada.
+- **Criar escalas** para as avaliações e **evitar avaliações neutras**:
+  usar um **número par de níveis** (ex.: 1--4, não 1--5).
+- **Criar heurísticas de agregação** dos valores das grelhas: a regra que
+  diz como as pontuações individuais se tornam a decisão do grupo.
+:::
+
+::: atencao
+Nota adicional --- porquê um número **par** de níveis: numa escala 1--5,
+um avaliador indeciso responde "3", que não diz nada sobre para que lado
+tende. Numa escala 1--4 não há meio; o avaliador é obrigado a inclinar-se
+para "mais bom" (3) ou "mais mau" (2), e a grelha fica mais informativa.
+:::
+
+::: {.exemplo title="--- Grelha de avaliação para o sistema da cantina (exemplo construído)"}
+Três modelos conceptuais: **A** --- reserva na app com hora marcada;
+**B** --- ecrã à entrada com fila virtual; **C** --- menu publicado nas
+redes sociais com contador de doses. Critérios: **c1** rapidez para a
+Mariana (a persona principal), **c2** custo técnico (4 = barato),
+**c3** facilidade para o funcionário da cantina. Escala **1--4** (par). Dois
+avaliadores de outros grupos, **uma grelha cada**:
+
+| Avaliador 1 | c1 | c2 | c3 | soma |
+|---|---|---|---|---|
+| A | 4 | 2 | 3 | 4+2+3 = **9** |
+| B | 3 | 3 | 2 | 3+3+2 = **8** |
+| C | 2 | 4 | 4 | 2+4+4 = **10** |
+
+| Avaliador 2 | c1 | c2 | c3 | soma |
+|---|---|---|---|---|
+| A | 4 | 2 | 4 | 4+2+4 = **10** |
+| B | 2 | 3 | 2 | 2+3+2 = **7** |
+| C | 1 | 4 | 3 | 1+4+3 = **8** |
+
+**Heurística de agregação** (definida pelo grupo **antes** de ver os
+resultados): (1) somar as pontuações de todos os avaliadores; (2) **veto**:
+um modelo que tenha **1** no critério da persona principal (c1), em
+qualquer grelha, fica eliminado.
+
+- Passo (1): A = 9 + 10 = **19**; B = 8 + 7 = **15**; C = 10 + 8 = **18**.
+- Passo (2): C tem c1 = 1 na grelha do Avaliador 2 → **eliminado**, apesar
+  de ter a segunda maior soma.
+- Decisão: **A** (19 > 15). B e C **não se deitam fora** --- podem dar
+  ideias para as variações de A (passo 5 do 10x10, Aula 3).
+
+Sem a regra de veto, a soma sozinha teria escondido que C falha no objetivo
+principal da persona; é por isso que a heurística de agregação tem de ser
+pensada e não só "somar tudo".
+:::
 
 ### O desenho como um processo de negociação iterativa
 
@@ -777,8 +986,9 @@ próxima (**máximo local**).
 Em vez de aprofundar uma só ideia, **exploram-se várias ideias em
 paralelo**, escolhendo depois as mais promissoras. Regra prática dada nos
 slides: gerar cerca de **5 ideias distintas** já é considerado o mínimo
-para uma primeira revisão formal (informalmente chamado o "modelo 10x10":
-gerar muitas variações, tipicamente da ordem de 10, e ir reduzindo).
+para uma primeira revisão formal. A forma concreta de fazer isto nesta
+disciplina é o **método 10x10** (10 conceitos diferentes, depois 10
+variações do mais promissor), explicado passo a passo na Aula 3.
 
 > "Um *designer* que apresentasse três ideias provavelmente seria
 > despedido. Diria que cinco é o ponto de entrada para uma primeira revisão
@@ -870,6 +1080,62 @@ explicados em detalhe — isso fica para módulos futuros; aqui fica só o
 mapeamento entre a teoria (T4) e o calendário do projeto.
 :::
 
+::: {.definicao title="--- O que se avalia (avaliação de usabilidade)"}
+**Não se está a avaliar um protótipo --- está-se a avaliar um conceito.** O
+protótipo é só o veículo. A avaliação tem de ser **objetiva** e
+**mensurável**. Nesta disciplina: *cognitive walkthrough* sobre os
+**esboços**, avaliação heurística sobre os **wireframes**, testes de
+usabilidade sobre o **protótipo** --- e **cada um precisa de missões
+escritas como *task flows***.
+:::
+
+### *Task flows*: como escrever as missões
+
+::: {.definicao title="--- Task flow"}
+Um ***task flow*** é **um objetivo** e a **sequência de passos** que um
+utilizador segue para o atingir.
+
+- **Uma linha por passo**: o que o utilizador faz, o que o sistema mostra.
+- Escrito **a partir do objetivo do utilizador, não da interface**:
+  "libertar a âncora 3", e não "clicar no botão da âncora".
+- **Cada dono de painel** escreve os *flows* das funcionalidades
+  complexas do **seu** painel.
+- Os *flows* tornam-se as **missões** do *cognitive walkthrough* e dos
+  testes de usabilidade: os avaliadores seguem-nos passo a passo e
+  **pontuam cada passo**.
+- Termina com um **critério de sucesso** verificável.
+:::
+
+::: {.exemplo title="--- Task flow dos slides (painel de monitorização da turbina eólica)"}
+**Objetivo:** verificar porque é que a âncora 3 não está a segurar e
+libertar o seu cabo.
+
+1. Reparar no alerta do painel de estabilidade.
+2. Abrir o detalhe da âncora 3.
+3. Ler a tensão e a profundidade.
+4. Escolher "libertar cabo".
+5. Confirmar e ver a tensão baixar.
+
+**Sucesso:** o alerta desaparece dentro da missão.
+:::
+
+::: {.exemplo title="--- O mesmo formato aplicado à cantina (exemplo construído)"}
+**Objetivo (da Mariana):** garantir um prato vegetariano antes de sair da
+aula das 12h30.
+
+1. Abrir a app --- o sistema mostra o menu do dia com as doses restantes.
+2. Tocar no prato vegetariano --- o sistema mostra as horas de levantamento
+   livres.
+3. Escolher 12h45 --- o sistema pede confirmação com o preço.
+4. Confirmar --- o sistema mostra o código de levantamento.
+
+**Sucesso:** a reserva aparece em "As minhas reservas" com a hora 12h45.
+
+Repara: cada passo diz o que **ela faz** e o que o **sistema mostra**; o
+objetivo está nas palavras dela ("garantir um prato vegetariano"), não nas
+da interface ("usar o ecrã de reservas").
+:::
+
 ## TPC (trabalho de casa) da Aula 2
 
 A pergunta colocada nos slides é: qual a diferença entre *getting the
@@ -899,4 +1165,239 @@ detalhe e da quantidade de ideias geradas numa sessão real de
 *brainstorming* em grupo (ligado à regra "gerar ~5-10 ideias" acima) — não
 introduzem conceito teórico novo, por isso não são reproduzidos aqui em
 detalhe.
+:::
+
+# Aula 3 --- O procedimento de IPM: do problema ao protótipo
+
+## Criar uma IPM é um processo
+
+Há um **problema** e é preciso encontrar uma **solução** --- mas não num
+único salto: é uma **sequência de passos**, em que **cada passo produz
+evidência para o seguinte**. O Módulo 03 percorre essa sequência completa
+e mostra onde encaixa cada coisa já vista nas Aulas 1 e 2.
+
+![A sequência final do procedimento: oito etapas, divididas entre as duas partes do trabalho (R1 e PR2)](figuras/procedimento_ipm.pdf){width=85%}
+
+*As oito etapas por ordem. A faixa de cima é a matéria do R1; a de baixo, a
+do PR2.*
+
+| # | Etapa | Onde está explicada neste resumo |
+|--|------------------------|------------------------------|
+| 1 | Formação do grupo / equipa | Aula 1, "Como os grupos funcionam" (inclui "Como criar a equipa") |
+| 2 | Estudos exploratórios + stakeholders + marcos | Aula 2, T1 (stakeholders) e T2 ("Perceber o problema") |
+| 3 | Recolher dados + agregar + concluir | Aula 2, T2 ("Racionalizar o processo: evidência") e métodos de T1.1 |
+| 4 | Estudar o utilizador + personas + tecnologia | Aula 2, T1.1, "Personas" e T2 |
+| 5 | Modelos conceptuais de desenho + decisões | Aula 2, T3 (pipeline, grelhas) + **método 10x10** (abaixo) |
+| 6 | Protótipo | "a descrever mais tarde" (módulos seguintes) |
+| 7 | Avaliação de usabilidade | Aula 2, T4 (inclui *task flows*) |
+| 8 | Relatório final | Aula 1, "PR2" |
+
+::: exame
+Saber **a ordem** das etapas e **onde passa a fronteira R1/PR2**: o R1 vai
+até aos **modelos conceptuais e decisões** (etapa 5); o PR2 começa no
+**protótipo** (etapa 6) e inclui avaliação de usabilidade e relatório
+final. Perguntas de "arrastar e largar" no exame Moodle prestam-se muito a
+ordenar etapas deste tipo.
+:::
+
+No "meio" deste processo (entre os modelos conceptuais e o protótipo) está
+o passo em que se **criam muitas "soluções" diferentes**: é aí que entra o
+método 10x10. Nesta fase é preciso **fazer suposições** (*assumptions*),
+**fazer muitos esboços** (treinado no laboratório --- o professor usa
+cartas de Pictionary para treinar esboços rápidos) e ser **rápido a
+esboçar**.
+
+## O método 10x10
+
+::: {.definicao title="--- Método 10x10"}
+**Gerar 10 conceitos de desenho diferentes; depois produzir 10 variações /
+detalhes do conceito mais promissor.** É a concretização de *Getting the
+Right Design* (explorar muitas ideias) seguida de *Getting the Design
+Right* (aprofundar a escolhida) --- ver Aula 2. Tem **sete passos**, que
+alternam **expandir** e **reduzir** (o funil de desenho da Aula 2).
+:::
+
+![Os sete passos do método 10x10: expandir (verde), reduzir (laranja), e voltar atrás, cada vez mais fundo no funil](figuras/metodo_10x10.pdf){width=62%}
+
+::: {.definicao title="--- Os 7 passos (1--4)"}
+1. **Enunciar o desafio de desenho.** Qual é o problema a resolver? Quais
+   são as necessidades do cliente? (Ex.: "produzir um sistema novo que tire
+   partido de uma tecnologia em particular".)
+2. **Gerar $\geq$ 10 conceitos de desenho diferentes** que respondam ao
+   desafio (**fase de expansão**): *brainstorming*; ser o mais criativo e
+   diverso possível; **não julgar os desenhos no momento da criação**; os
+   esboços devem captar a **essência** da ideia, não os detalhes.
+3. **Reduzir o número de conceitos** (**fase de redução**): rever todos os
+   desenhos; descartar os que não têm mérito; explicar os restantes a
+   outras pessoas e pedir *feedback*; recolher as reações (incluindo as
+   tuas). **OU**, com base na reflexão, **repetir o passo 2** (melhorar).
+4. **Escolher o(s) conceito(s) mais promissor(es)** --- é o teu ponto de
+   partida. **Não deites fora os outros desenhos!** (Nota do professor: dos
+   10 iniciais podem ficar, por exemplo, 6.)
+:::
+
+::: {.definicao title="--- Os 7 passos (5--7)"}
+5. **Produzir 10 detalhes / variações dos conceitos sobreviventes**:
+   explorar o conceito; gerar formas diferentes de o concretizar; ir mais
+   fundo numa direção particular (mostrar os detalhes). (Nota do professor:
+   expande-se **o melhor** --- **ou** os 6 sobreviventes --- com 10
+   hipóteses/variações **para cada um**.)
+6. **Apresentar as ideias a um grupo**: pedir *feedback* (o que é positivo,
+   o que se pode melhorar) e sugestões de redesenho. ("Café e donuts são
+   bem-vindos.")
+7. **À medida que as ideias mudam, esboçá-las**: ou seja, voltar ao passo
+   1 (ou 4), mas **mais fundo no funil de desenho**.
+:::
+
+::: atencao
+Não confundir as duas "dezenas": o primeiro 10 é de **conceitos
+diferentes** (ideias distintas para o mesmo desafio --- largura); o
+segundo 10 é de **variações/detalhes** de um conceito já escolhido
+(profundidade). Dez variações da mesma ideia no passo 2 **não** contam como
+dez conceitos --- isso seria voltar ao problema do máximo local (Aula 2).
+:::
+
+## Exemplo trabalhado do 10x10: ligar dois telemóveis
+
+O exemplo dos slides é adaptado de *Sketching User Experiences: The
+Workbook* (Greenberg et al.). Segue os passos um a um.
+
+::: {.exemplo title="--- Passo 1: o desafio e as suposições"}
+**Desafio:** como podem duas pessoas ligar os seus dispositivos móveis
+para trocar informação (ex.: transferir fotografias) **sem recorrer a
+caixas de diálogo** ou outros pedidos tediosos da interface?
+
+**Suposições** (*assumptions*) feitas para poder avançar:
+
+- o dispositivo deteta telemóveis próximos;
+- inicialmente, os telemóveis conseguem comunicar de forma limitada;
+- as duas pessoas podem fazer uma **ação que ambos os telemóveis
+  reconhecem como um "aperto de mão"** (*handshake*), confirmando que
+  querem uma ligação completa --- ou seja, explora-se uma **convenção
+  social**: ambos concordam em fazer alguma coisa.
+:::
+
+**Passo 2 --- gerar 10 conceitos concorrentes.** Repara que cada esboço
+capta só a **essência** (sem detalhes de ecrã) e que os 10 usam **sensores
+diferentes** (teclado, acelerómetro, ecrã tátil, microfone, câmara, sensor
+de luz) --- é isso que os torna realmente distintos:
+
+![Os 10 conceitos do exemplo (esboços dos slides)](figuras/connect_10_conceitos.png){width=100%}
+
+*i) ambos escrevem uma palavra combinada; ii) um roda o telemóvel num
+padrão que o outro imita (acelerómetro); iii) traçar uma linha através dos
+dois ecrãs lado a lado num só gesto; iv) dizer um comando captado pelos
+dois microfones; v) padrão de flash LED captado pela câmara do outro;
+vi) chocar os telemóveis ("bump" --- o acelerómetro dos dois deteta a mesma
+vibração); vii) som musical tocado num e captado pelo outro; viii) encostar
+os ecrãs num padrão, ambos detetam o mesmo padrão claro/escuro no sensor de
+luz; ix) três toques simultâneos nos dois telemóveis; x) fotografar um
+elemento identificador no telemóvel do outro.*
+
+::: {.exemplo title="--- Passos 3 e 4: reduzir e escolher"}
+**Tema comum** a todos os conceitos: as duas pessoas fazem uma ação que os
+dois telemóveis reconhecem como "aperto de mão" --- a convenção social das
+suposições.
+
+**Repetir?** Antes de reduzir, pergunta-se se vale a pena criar outras
+variações a partir desta noção, ou explorar **outros temas** (é o "OU
+repetir o passo 2" do passo 3).
+
+**Escolher (reduzir):** as **câmaras são o denominador comum mais baixo**
+--- praticamente todos os telemóveis têm uma, ao contrário de sensores de
+luz ou de acelerómetros fiáveis. Por isso escolhe-se o **conceito x**:
+tirar uma fotografia de um elemento identificador no telemóvel da outra
+pessoa. (O critério de escolha --- disponibilidade da tecnologia --- é um
+exemplo de heurística para decidir; relembra "desenhar é escolher", Aula 2,
+e o vértice **Tecnologia** do triângulo mágico.)
+:::
+
+**Passo 5 --- detalhar o conceito escolhido** (três esboços em sequência,
+a mostrar a interação passo a passo):
+
+![Detalhe do conceito x: sequência de interação](figuras/connect_detalhes.png){width=100%}
+
+*1) a Sally e o Fred abrem ambos a app "Connect!", que mostra "um de vocês
+tire uma fotografia ao ecrã do outro" e um código visual; 2) uma pessoa
+fotografa o ecrã do outro; 3) já ligados ("Connected! with Sally"), podem
+trocar fotografias, contactos, etc.*
+
+**...e as variações** do mesmo conceito (ainda passo 5 --- formas
+diferentes de concretizar "reconhecer o outro com a câmara"):
+
+![Variações do conceito escolhido](figuras/connect_variacoes.png){width=100%}
+
+*Padrões a piscar nos dois ecrãs, reconhecidos pelas duas câmaras (ou luz
+estroboscópica); marcas fiduciárias (tipo código) na capa, fotografadas ---
+para mais segurança, ambos os telemóveis teriam de o fazer; panorama
+cooperativo (uma pessoa começa um panorama, a segunda continua, a terceira
+completa); os dois fotografam a mesma coisa ao mesmo tempo.*
+
+::: {.definicao title="--- Sinopse do exemplo: boas práticas de esboço"}
+Criar **muitas ideias**; **esboçar muito**; usar **bom material**; fazer
+**bom uso do espaço** (da folha); criar **legendas**; criar **sequências de
+ações do utilizador** (como os três esboços do passo 5); usar **cor**; usar
+**setas**; **avaliar e fazer evoluir** as ideias.
+:::
+
+::: {.pratica title="--- Aplicar o 10x10 ao projeto da cantina"}
+Pega no desafio "a Mariana quer garantir o almoço sem perder tempo de
+estudo" e faz **só os passos 1 e 2**: escreve o desafio e as tuas
+suposições, e esboça 10 conceitos **com mecanismos diferentes** (não 10
+versões da mesma app). Depois, aplica uma grelha de avaliação (Aula 2, T3)
+para reduzir. Confirma no fim: consegues dizer, para cada par de conceitos,
+**o que os torna diferentes**? Se dois só diferem na cor do botão, contam
+como um.
+:::
+
+## Exemplo de projeto de anos anteriores: a turbina eólica offshore
+
+Os slides mostram um projeto de um ano anterior: a interface de controlo de
+uma **turbina eólica offshore flutuante** (plataforma no mar, presa ao fundo
+por âncoras a cerca de 300 m de profundidade). Os esboços iniciais do quadro
+mostram configurações de plataformas ("3 linhas de 3"), a turbina com os
+cabos das âncoras, e a plataforma vista de cima e de lado. O componente
+principal é a **nacelle** (a "cabeça" no topo da torre, com o gerador, a
+caixa de velocidades e o controlador); as pás mudam de ângulo (*pitch*) e a
+nacelle roda para o vento (*yaw*).
+
+O ponto importante é a forma como o problema foi **decomposto**: do
+sistema inteiro para **5 problemas** (um por painel/membro do grupo), e de
+cada problema para **perguntas cada vez mais detalhadas**:
+
+![Decomposição do problema da turbina: 5 problemas, e as perguntas concretas do problema 3](figuras/eolica_decomposicao.pdf){width=100%}
+
+::: {.exemplo title="--- O que este exemplo ensina sobre o procedimento"}
+- **Decompor em painéis** liga diretamente à regra "um painel por membro"
+  (Aula 1): cada membro fica dono de um dos 5 problemas, e é ele que
+  escreve os *task flows* das funcionalidades complexas desse painel
+  (Aula 2, T4) --- o *task flow* da âncora 3 visto em T4 é precisamente do
+  painel de estabilidade deste projeto.
+- **Detalhar em perguntas** ("+ detalhe", "+++ detalhe") é a forma de
+  **perceber o problema** antes de desenhar: para "estabilizar a plataforma
+  com as âncoras" o grupo chegou a 9 perguntas concretas (como representar a
+  estabilidade em 2D/em 2 eixos? a partir de que ponto há ameaça? como
+  gerir a estabilidade com as âncoras? como
+  monitorizar 6 ou 8 âncoras? como entra a profundidade? que ações ---
+  libertar/recolher/soltar cabo? âncoras presas? automático vs. manual?).
+  Cada pergunta é uma fonte natural de conceitos para o 10x10.
+- Os esboços de quadro branco mostram o nível esperado numa sessão: rápido,
+  com legendas e setas, uma ideia por esboço.
+:::
+
+## Pergunta final do módulo
+
+*"Na próxima aula prática, o que vais fazer primeiro?"* --- A resposta
+segue a sequência do procedimento: primeiro a **etapa 1** (garantir que o
+grupo está formado e organizado: canais de comunicação, papéis, líder da
+sessão) e logo a seguir a **etapa 2** (perceber o problema: stakeholders,
+estudos exploratórios, marcos). (Nota adicional: é a interpretação
+coerente com o procedimento; o slide só deixa a pergunta.)
+
+::: atencao
+Nota: o ficheiro desta aula chegou em `.pptx` (`Teoricas/Aula_03.pptx`),
+não em PDF; foi lido diretamente (texto, notas do orador e imagens). As
+notas do orador que acrescentavam informação (ex.: "dos 10 iniciais podem
+ficar 6", a história do lojista) estão incluídas acima. O slide "Situações
+dos anos anteriores" estava vazio (a preencher em aula).
 :::

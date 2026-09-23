@@ -230,6 +230,20 @@ outro `-`", até fechar com `-->`. A mesma ideia aplica-se ao `/* ... */`
 do exercício, adaptada ao terminador `*/`.
 :::
 
+::: {.pratica title="--- Expressões regulares (Folha lab. 2, Exercício 2)"}
+Papel e lápis, usando só esta secção:
+
+- **(a)** --- expressões regulares para todos os tokens do `scanner-c`
+  (`ID`, `NUM`, `LPAREN`, `RPAREN`, `COMMA`, `IF` e os do Exercício 1:
+  chavetas, `;`, `WHILE`, `FOR`, `INT`, `FLOAT`, `REAL`). Não te esqueças
+  do `_` nos identificadores.
+- **(b)** --- generaliza `REAL` para notação científica (`12.34e+12`,
+  `1e-12`, `123.4E+9`): repara que em `1e-12` não há ponto.
+- **(c)** --- comentários `// ...` e `/* ... */`. Para o multi-linha usa a
+  técnica da caixa de atenção acima (a do `<!-- -->`), adaptada ao
+  terminador `*/`.
+:::
+
 ## Autómatos finitos determinísticos (DFA)
 
 As expressões regulares são **descrições declarativas**: dizem o que
@@ -470,7 +484,7 @@ return ERROR; // fim do input sem atingir estado final
 **Traçando a execução** com a entrada `"x1"`:
 
 | Passo | `c` lido | `delta[state][c]` | novo `state` | ação |
-|---|---|---|---|---|
+|:-:|:--------|:---------------|:-:|:-------------------------------|
 | 1 | `x` (letra) | `delta[1]['x']` = 2 | 2 | `state != 0` (não rejeita); `FINAL(2)` é verdade → **`return ACCEPT` imediatamente** |
 
 O ciclo **nunca chega a ler o `1`**! Isto revela uma limitação importante
@@ -490,6 +504,22 @@ Isto funciona como ilustração da tabela de transições, mas é
 **específico de um único DFA** — cada novo token exigiria escrever/combinar
 mais tabelas à mão. É exatamente este trabalho mecânico que os geradores
 (abaixo) automatizam a partir de expressões regulares.
+:::
+
+::: {.pratica title="--- DFA em C (Folha lab. 2, Exercício 1)"}
+O `src/CLexer.c` do `scanner-c` segue o padrão "ler carácter, decidir por
+casos" desta secção (um `switch`/`while`, sem tabela explícita). Estende-o:
+
+- **(a)**, **(b)** --- novos tokens `{`, `}`, `;` e palavras reservadas
+  `WHILE`, `FOR`, `INT`, `FLOAT`: o mesmo padrão de `IF`/`LPAREN` já lá.
+- **(c)** --- aceitar `_` como letra: é a expressão regular `[_a-zA-Z]`
+  mal transcrita para o C (falta um `case '_':` a par de `isalpha(c)`).
+- **(d)** --- `REAL` (`0.5`, `123.45`): um estado novo depois do `.`.
+- **(e)** --- ignorar comentários `/* ... */` e `// ...`.
+- **(f)** --- *buffer overrun* nos identificadores: testa o comprimento
+  máximo antes de escrever no buffer.
+
+Cuidado com a ordem `if` vs. `ID` (ver "Longest match e first match").
 :::
 
 ## Alex (gerador para Haskell)
@@ -632,6 +662,15 @@ reservadas) antes dos mais gerais (identificadores)** no ficheiro `.x`/
 como `IF`.
 :::
 
+::: {.pratica title="--- Flex (Folha lab. 2, Exercício 3)"}
+- Reimplementa o `scanner-c` num ficheiro `Lexer.l`, com a estrutura de
+  três partes da secção "Flex" acima e as expressões regulares que
+  escreveste no Exercício 2. Compila com `flex Lexer.l` e
+  `gcc lex.yy.c -o Lexer`.
+- Põe as palavras reservadas **antes** da regra de `ID` (*first match*,
+  caixa acima) e confirma que `iffy` sai como `ID` (*longest match*).
+:::
+
 ## Comparação rápida Alex vs. Flex
 
 | | Alex | Flex |
@@ -641,28 +680,6 @@ como `IF`.
 | Acesso ao texto do token | argumento da ação (`\s -> ...`) | variável global `yytext` |
 | Posição do token | `%wrapper "posn"` (automático, por ação) | `%option yylineno` (manual) |
 | Função de arranque | `alexScanTokens :: String -> [Token]` | `yylex()` (chamado em ciclo) |
-
-## Ligação com a prática (Folha laboratorial 2 --- `scanner-c`)
-
-O laboratório desta semana (`Semana_1/scanner-c/`) dá um analisador
-lexical em C incompleto (`CLexer.c`) para os tokens `ID`, `NUM`, `LPAREN`,
-`RPAREN`, `COMMA`, `IF`, e pede para o completar/re-implementar:
-
-- **Exercício 1** (estender `CLexer.c`): usa diretamente a secção
-  "Implementação direta de um DFA em C" acima — o `switch`/`while` do
-  ficheiro fornecido segue exatamente o padrão de "ler carácter, decidir
-  por casos" descrito ali, só que sem tabela explícita de transições.
-  Repara em particular no aviso da Aula 2 sobre a ordem `if` vs. `ID` (a
-  alínea sobre `_` como identificador é um caso de expressão regular
-  `[_a-zA-Z]` mal transcrita para o `switch` do C — falta o `case '_':`
-  a par de `isalpha(c)`).
-- **Exercício 2** (expressões regulares, papel e lápis): usa a secção
-  "Expressões regulares" — em particular a caixa de atenção sobre
-  comentários multi-linha explica a técnica geral necessária para a
-  alínea (c).
-- **Exercício 3** (reimplementar com `flex`): usa diretamente a secção
-  "Flex" acima, incluindo a estrutura do ficheiro `.l` e o exemplo
-  completo.
 
 # Aula 4 --- Análise sintática e gramáticas independentes de contexto
 
@@ -957,9 +974,8 @@ por isso o resultado é sempre $1+(2\times3)=7$, nunca
 $(1+2)\times3$.
 :::
 
-::: atencao
-**Exercício dos slides (para tentar sozinho, técnica análoga à acima):**
-uma gramática de "programas sequenciais" com
+::: {.pratica title="--- Exercício dos slides: ambiguidade em programas sequenciais"}
+Técnica análoga à acima: uma gramática de "programas sequenciais" com
 $S \to S;S \mid \texttt{ident}=E \mid \texttt{ident}{+}{+}$ e
 $E \to \texttt{ident} \mid \texttt{num} \mid E+E$ é ambígua em **dois**
 sítios distintos — não só nas expressões (`E`, mesmo problema do `E→E+E`

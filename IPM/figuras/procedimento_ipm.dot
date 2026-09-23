@@ -1,0 +1,18 @@
+digraph procedimento {
+  rankdir=TB; nodesep=0.3; ranksep=0.25;
+  node [shape=box, style="rounded,filled", fillcolor="#e8eef7", color="#1f3864", fontname="Helvetica", fontsize=11, width=5.2, margin="0.2,0.08"];
+  edge [color="#1f3864"];
+  subgraph cluster_r1 { label="PARTE 1 · R1 — primeiro relatório + apresentação intercalar"; fontname="Helvetica-Bold"; fontsize=11; style="rounded,dashed"; color="#1B4F72";
+    E1 [label="1. Formação do grupo / equipa"];
+    E2 [label="2. Estudos exploratórios + definir stakeholders + marcos (milestones)"];
+    E3 [label="3. Recolher dados (stakeholders, inquéritos) + agregar + concluir"];
+    E4 [label="4. Estudar o utilizador + criar personas + estudar a tecnologia"];
+    E5 [label="5. Propor modelos conceptuais de desenho + tomar decisões (10x10)"];
+  }
+  subgraph cluster_pr2 { labelloc=b; label="PARTE 2 · PR2 — protótipo + segundo relatório + apresentação final"; fontname="Helvetica-Bold"; fontsize=11; style="rounded,dashed"; color="#1E7A46";
+    E6 [label="6. Protótipo", fillcolor="#e9f7ef", color="#1E7A46"];
+    E7 [label="7. Avaliação de usabilidade", fillcolor="#e9f7ef", color="#1E7A46"];
+    E8 [label="8. Relatório final", fillcolor="#e9f7ef", color="#1E7A46"];
+  }
+  E1->E2->E3->E4->E5->E6->E7->E8;
+}

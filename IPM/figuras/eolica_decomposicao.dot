@@ -1,0 +1,28 @@
+digraph eolica {
+  rankdir=LR; nodesep=0.12; ranksep=0.35;
+  node [shape=box, style="rounded,filled", fillcolor="#e8eef7", color="#1f3864", fontname="Helvetica", fontsize=10, margin="0.12,0.05"];
+  edge [color="#1f3864"];
+  R [label="Sistema de controlo\nde uma turbina eólica\noffshore flutuante", fillcolor="#1B4F72", fontcolor="white"];
+  P1 [label="1. Monitorizar a geração\nde eletricidade"];
+  P2 [label="2. Lançar e recolher âncoras"];
+  P3 [label="3. Estabilizar a plataforma\ncom as âncoras", fillcolor="#fdf2e3", color="#B9770E"];
+  P4 [label="4. Gerir a nacelle\n(orientação das pás e da cabeça)"];
+  P5 [label="5. Gestão do drone"];
+  R->{P1 P2 P3 P4 P5};
+  node [fillcolor="white", fontsize=9];
+  D1 [label="mostrar tudo o que for possível\npara detetar problemas"];
+  D2 [label="é preciso saber a profundidade?\ncontrolo extra? podem ficar presas?"];
+  D4 [label="pás e cabeça com\ncontrolos separados"];
+  D5 [label="descolar/retornar, missão\nnormal, controlo manual"];
+  P1->D1; P2->D2; P4->D4; P5->D5;
+  node [fillcolor="#fdf2e3", color="#B9770E"];
+  Q1 [label="como representar a estabilização em 2D? e em 2 eixos?"];
+  Q2 [label="a partir de que ponto há ameaça à estabilidade?"];
+  Q8 [label="como gerir a estabilidade com as âncoras?"];
+  Q3 [label="como monitorizar as 6 ou 8 âncoras?"];
+  Q4 [label="como entra a profundidade nesta equação?"];
+  Q5 [label="que ações? libertar / recolher / soltar cabo?"];
+  Q6 [label="como resolver âncoras presas?"];
+  Q7 [label="relação entre controlo automático e manual?"];
+  P3->{Q1 Q2 Q8 Q3 Q4 Q5 Q6 Q7};
+}

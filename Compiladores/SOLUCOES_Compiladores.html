@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compiladores — Soluções dos exercícios “Pratica agora”</title>
+<style>
+:root {
+--bg: #fbfaf8;
+--fg: #1d1b20;
+--muted: #6b6570;
+--line: #e4dfe8;
+--accent: #5b2c6f; 
+--accent-soft: #f4ecf7;
+--card: #ffffff;
+--code-bg: #f3f1f5;
+}
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) {
+--bg: #17151a;
+--fg: #ece8ef;
+--muted: #a39ca8;
+--line: #34303a;
+--accent: #c9a2dc;
+--accent-soft: #2a2230;
+--card: #1f1c23;
+--code-bg: #26222b;
+}
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+margin: 0;
+background: var(--bg);
+color: var(--fg);
+font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+main { max-width: 820px; margin: 0 auto; padding: 24px 16px 96px; }
+header h1 { font-size: 1.7rem; line-height: 1.25; margin: 8px 0 4px; }
+header p { color: var(--muted); margin: 0 0 16px; }
+.barra {
+position: sticky; top: 0; z-index: 5;
+display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+padding: 10px 0; margin-bottom: 8px;
+background: var(--bg); border-bottom: 1px solid var(--line);
+font-size: 0.9rem; color: var(--muted);
+}
+.barra button {
+font: inherit; color: var(--accent); background: none;
+border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; cursor: pointer;
+}
+.barra label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+nav#indice { margin: 16px 0 24px; }
+nav#indice > details > summary { cursor: pointer; font-weight: 600; color: var(--accent); }
+nav#indice ul { margin: 6px 0; padding-left: 20px; }
+nav#indice a { color: inherit; text-decoration: none; }
+nav#indice a:hover { color: var(--accent); text-decoration: underline; }
+h2 {
+font-size: 1.35rem; margin: 48px 0 8px; padding-bottom: 6px;
+border-bottom: 2px solid var(--accent);
+}
+h3 { font-size: 1.1rem; margin: 32px 0 6px; color: var(--accent); scroll-margin-top: 56px; }
+details.sol {
+background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+margin: 8px 0; scroll-margin-top: 56px;
+}
+details.sol > summary {
+cursor: pointer; padding: 10px 14px; list-style: none;
+display: flex; gap: 10px; align-items: baseline;
+}
+details.sol > summary::-webkit-details-marker { display: none; }
+details.sol > summary::before {
+content: "▸"; color: var(--accent); flex: none; transition: transform .15s;
+}
+details.sol[open] > summary::before { transform: rotate(90deg); }
+details.sol[open] { border-color: var(--accent); }
+details.sol[open] > summary { background: var(--accent-soft); border-radius: 8px 8px 0 0; }
+details.sol > .corpo { padding: 4px 16px 12px; overflow-x: auto; }
+pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.88em; }
+pre { background: var(--code-bg); padding: 10px 12px; border-radius: 6px; overflow-x: auto; }
+:not(pre) > code { background: var(--code-bg); padding: 1px 4px; border-radius: 4px; }
+table { border-collapse: collapse; margin: 10px 0; display: block; overflow-x: auto; }
+th, td { border: 1px solid var(--line); padding: 4px 10px; text-align: left; }
+th { background: var(--accent-soft); }
+img { max-width: 100%; height: auto; display: block; margin: 8px auto; }
+@media (prefers-color-scheme: dark) { img { filter: invert(0.9) hue-rotate(180deg); } }
+blockquote { margin: 10px 0; padding: 4px 14px; border-left: 3px solid var(--accent); color: var(--muted); }
+math[display="block"] { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>Compiladores — Soluções dos exercícios “Pratica agora”</h1>
+<p>Folha laboratorial 2 (Praticas/Semana_1/scanner-c) e exercício dos
+slides da Aula 4. Tenta primeiro sozinho; abre uma alínea só depois de a
+teres feito.</p>
+</header>
+
+<div class="barra">
+  <span>Clica numa alínea para ver a solução.</span>
+  <label><input type="checkbox" id="uma" checked> Só uma aberta de cada vez</label>
+  <button type="button" id="fechar">Fechar todas</button>
+</div>
+
+<nav id="indice"><details><summary>Índice</summary>
+<ul>
+<li><a href="#aula-2-expressões-regulares" id="toc-aula-2-expressões-regulares">Aula 2 — Expressões regulares</a>
+<ul>
+<li><a href="#ex.-2-expressões-regulares-papel-e-lápis" id="toc-ex.-2-expressões-regulares-papel-e-lápis">Ex. 2 — Expressões
+regulares (papel e lápis)</a></li>
+</ul></li>
+<li><a href="#aula-3-implementação-direta-de-um-dfa-em-c" id="toc-aula-3-implementação-direta-de-um-dfa-em-c">Aula 3 —
+Implementação direta de um DFA em C</a>
+<ul>
+<li><a href="#ex.-1-estender-clexer.c" id="toc-ex.-1-estender-clexer.c">Ex. 1 — Estender
+<code>CLexer.c</code></a></li>
+</ul></li>
+<li><a href="#aula-3-flex" id="toc-aula-3-flex">Aula 3 — Flex</a>
+<ul>
+<li><a href="#ex.-3-reimplementar-com-flex" id="toc-ex.-3-reimplementar-com-flex">Ex. 3 — Reimplementar com
+<code>flex</code></a></li>
+</ul></li>
+<li><a href="#aula-4-ambiguidade" id="toc-aula-4-ambiguidade">Aula 4 —
+Ambiguidade</a>
+<ul>
+<li><a href="#exercício-dos-slides-programas-sequenciais" id="toc-exercício-dos-slides-programas-sequenciais">Exercício dos slides
+— programas sequenciais</a></li>
+</ul></li>
+</ul>
+</details></nav>
+
+<h2 id="aula-2-expressões-regulares">Aula 2 — Expressões regulares</h2>
+<h3 id="ex.-2-expressões-regulares-papel-e-lápis">Ex. 2 — Expressões
+regulares (papel e lápis)</h3>
+<details class="sol" id="Ex.2-a"><summary>
+(a) Expressões regulares para todos os tokens (incluindo os do Exercício
+1)
+</summary><div class="corpo">
+<p>Com as abreviaturas <code>letra = [_a-zA-Z]</code> (o <code>_</code>
+conta como letra, alínea 1(c)) e <code>digito = [0-9]</code>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Token</th>
+<th style="text-align: left;">Expressão regular</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>IF</code></td>
+<td style="text-align: left;"><code>if</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>WHILE</code></td>
+<td style="text-align: left;"><code>while</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FOR</code></td>
+<td style="text-align: left;"><code>for</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>INT</code></td>
+<td style="text-align: left;"><code>int</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FLOAT</code></td>
+<td style="text-align: left;"><code>float</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ID</code></td>
+<td style="text-align: left;"><code>letra (letra | digito)*</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>NUM</code></td>
+<td style="text-align: left;"><code>digito+</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>REAL</code></td>
+<td style="text-align: left;"><code>digito+ \. digito+</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>LPAREN</code>,
+<code>RPAREN</code></td>
+<td style="text-align: left;"><code>\(</code>, <code>\)</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>LBRACE</code>,
+<code>RBRACE</code></td>
+<td style="text-align: left;"><code>\{</code>, <code>\}</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>COMMA</code></td>
+<td style="text-align: left;"><code>,</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>SEMICOLON</code></td>
+<td style="text-align: left;"><code>;</code></td>
+</tr>
+</tbody>
+</table>
+<p>As palavras reservadas também são aceites pela expressão de
+<code>ID</code>. A ambiguidade resolve-se com a regra do <em>first
+match</em>: as palavras reservadas vêm <strong>antes</strong> de
+<code>ID</code> na lista. O <code>.</code>, os parêntesis e as chavetas
+levam <code>\</code> porque são operadores nas expressões regulares.</p>
+</div></details>
+<details class="sol" id="Ex.2-b"><summary>
+(b) <code>REAL</code> também em notação científica
+(<code>12.34e+12</code>, <code>1e-12</code>, <code>123.4E+9</code>)
+</summary><div class="corpo">
+<p>A parte do expoente é <code>[eE] [+-]? digito+</code>: um
+<code>e</code> ou <code>E</code>, um sinal opcional e pelo menos um
+dígito.</p>
+<p>O <code>1e-12</code> <strong>não tem ponto</strong>. Tornar só o
+expoente opcional, <code>digito+ \. digito+ ([eE][+-]?digito+)?</code>,
+não chega. A solução é juntar dois casos:</p>
+<pre><code>digito+ \. digito+ ( [eE] [+-]? digito+ )?      -- com ponto, expoente opcional
+| digito+ [eE] [+-]? digito+                     -- sem ponto, expoente obrigatório</code></pre>
+<p>Teste:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Entrada</th>
+<th style="text-align: center;">É REAL?</th>
+<th style="text-align: left;">Porquê</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>12.34e+12</code></td>
+<td style="text-align: center;">sim</td>
+<td style="text-align: left;">1.º caso</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>1e-12</code></td>
+<td style="text-align: center;">sim</td>
+<td style="text-align: left;">2.º caso</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>123.4E+9</code></td>
+<td style="text-align: center;">sim</td>
+<td style="text-align: left;">1.º caso</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>42</code></td>
+<td style="text-align: center;"><strong>não</strong></td>
+<td style="text-align: left;">continua a ser <code>NUM</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>1e</code></td>
+<td style="text-align: center;">não</td>
+<td style="text-align: left;">o expoente precisa de dígitos</td>
+</tr>
+</tbody>
+</table>
+<p>Não se escreve
+<code>digito+ (\. digito+)? ([eE][+-]?digito+)?</code>, porque essa
+expressão também aceita <code>42</code> e passaria a haver dois tokens
+para o mesmo texto.</p>
+</div></details>
+<details class="sol" id="Ex.2-c"><summary>
+(c) Comentários <code>// ...</code> e <code>/* ... */</code>
+</summary><div class="corpo">
+<p><strong>Até ao fim da linha:</strong></p>
+<pre><code>&quot;//&quot; [^\n]*</code></pre>
+<p><strong>Multi-linha</strong>, a expressão “difícil”:</p>
+<pre><code>&quot;/*&quot; ( [^*] | &quot;*&quot;+ [^*/] )* &quot;*&quot;+ &quot;/&quot;</code></pre>
+<p>Leitura, parte a parte:</p>
+<ul>
+<li><code>&quot;/*&quot;</code> abre o comentário.</li>
+<li><code>( [^*] | &quot;*&quot;+ [^*/] )*</code> é o miolo. Em cada passo aceita
+um carácter que <strong>não</strong> é <code>*</code>,
+<strong>ou</strong> uma série de <code>*</code> seguida de um carácter
+que <strong>não</strong> é <code>*</code> nem <code>/</code>. Assim
+nunca se consome um <code>*/</code>, porque um <code>*</code> só passa
+se o que vem a seguir não for <code>/</code>.</li>
+<li><code>&quot;*&quot;+ &quot;/&quot;</code> fecha. É <code>&quot;*&quot;+</code> e não só
+<code>&quot;*&quot;</code> para aceitar <code>**/</code> e <code>***/</code>.</li>
+</ul>
+<p>Casos que a versão “ingénua” <code>&quot;/*&quot; .* &quot;*/&quot;</code> falha e esta
+acerta:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Entrada</th>
+<th style="text-align: left;">Ingénua</th>
+<th style="text-align: left;">Correta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>/* a */ x = 1; /* b */</code></td>
+<td style="text-align: left;">engole <strong>tudo</strong> até ao último
+<code>*/</code> (<em>longest match</em>)</td>
+<td style="text-align: left;">só <code>/* a */</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>/* a **/</code></td>
+<td style="text-align: left;">ok</td>
+<td style="text-align: left;">ok (o <code>&quot;*&quot;+</code> final come os dois
+<code>*</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>/***/</code></td>
+<td style="text-align: left;">ok</td>
+<td style="text-align: left;">ok (miolo vazio, <code>&quot;*&quot;+</code> =
+<code>**</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>/* linha 1</code>↵<code>linha 2 */</code></td>
+<td style="text-align: left;">falha: o <code>.</code> não aceita
+<code>\n</code></td>
+<td style="text-align: left;">ok (<code>[^*]</code> aceita
+<code>\n</code>)</td>
+</tr>
+</tbody>
+</table>
+</div></details>
+<h2 id="aula-3-implementação-direta-de-um-dfa-em-c">Aula 3 —
+Implementação direta de um DFA em C</h2>
+<h3 id="ex.-1-estender-clexer.c">Ex. 1 — Estender
+<code>CLexer.c</code></h3>
+<p>A versão completa, que passa os 5 testes de <code>tests/</code>, está
+em <code>Praticas/Semana_1/scanner-c/src/CLexer.c</code>. Abaixo fica só
+o que cada alínea acrescenta.</p>
+<details class="sol" id="Ex.1-a"><summary>
+(a) Tokens <code>LBRACE</code> <code>{</code>, <code>RBRACE</code>
+<code>}</code> e <code>SEMICOLON</code> <code>;</code>
+</summary><div class="corpo">
+<p>São tokens de um carácter só, com o mesmo padrão de
+<code>LPAREN</code>. Basta acrescentar ao <code>enum</code> e ao
+<code>switch</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="kw">enum</span> <span class="op">{</span> ID<span class="op">,</span> NUM<span class="op">,</span> REAL<span class="op">,</span> SEMICOLON<span class="op">,</span> COMMA<span class="op">,</span> LPAREN<span class="op">,</span> RPAREN<span class="op">,</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>               LBRACE<span class="op">,</span> RBRACE<span class="op">,</span> IF<span class="op">,</span> INT<span class="op">,</span> FLOAT<span class="op">,</span> WHILE<span class="op">,</span> FOR<span class="op">,</span> END_OF_FILE <span class="op">}</span> TokenType<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">...</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="cf">switch</span> <span class="op">(</span>c<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">case</span> <span class="ch">&#39;(&#39;</span><span class="op">:</span> <span class="cf">return</span> LPAREN<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">case</span> <span class="ch">&#39;)&#39;</span><span class="op">:</span> <span class="cf">return</span> RPAREN<span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">case</span> <span class="ch">&#39;,&#39;</span><span class="op">:</span> <span class="cf">return</span> COMMA<span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">case</span> <span class="ch">&#39;;&#39;</span><span class="op">:</span> <span class="cf">return</span> SEMICOLON<span class="op">;</span>   <span class="co">/* novo */</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">case</span> <span class="ch">&#39;{&#39;</span><span class="op">:</span> <span class="cf">return</span> LBRACE<span class="op">;</span>      <span class="co">/* novo */</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">case</span> <span class="ch">&#39;}&#39;</span><span class="op">:</span> <span class="cf">return</span> RBRACE<span class="op">;</span>      <span class="co">/* novo */</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="op">...</span></span></code></pre></div>
+<p>E também os <code>case</code> correspondentes em
+<code>printToken()</code>, para imprimir <code>LBRACE</code>, etc.</p>
+</div></details>
+<details class="sol" id="Ex.1-b"><summary>
+(b) Palavras reservadas <code>WHILE</code>, <code>FOR</code>,
+<code>INT</code>, <code>FLOAT</code>
+</summary><div class="corpo">
+<p><strong>Não</strong> se criam estados novos para cada palavra. Lê-se
+o identificador inteiro como já se fazia para <code>if</code>, e
+<strong>no fim</strong> compara-se o texto:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>token_value<span class="op">-&gt;</span>text<span class="op">[</span>k<span class="op">]</span> <span class="op">=</span> <span class="ch">&#39;</span><span class="sc">\0</span><span class="ch">&#39;</span><span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>      <span class="op">(</span>strcmp<span class="op">(</span>token_value<span class="op">-&gt;</span>text<span class="op">,</span> <span class="st">&quot;if&quot;</span><span class="op">)</span>    <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="cf">return</span> IF<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>strcmp<span class="op">(</span>token_value<span class="op">-&gt;</span>text<span class="op">,</span> <span class="st">&quot;for&quot;</span><span class="op">)</span>   <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="cf">return</span> FOR<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>strcmp<span class="op">(</span>token_value<span class="op">-&gt;</span>text<span class="op">,</span> <span class="st">&quot;while&quot;</span><span class="op">)</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="cf">return</span> WHILE<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>strcmp<span class="op">(</span>token_value<span class="op">-&gt;</span>text<span class="op">,</span> <span class="st">&quot;int&quot;</span><span class="op">)</span>   <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="cf">return</span> INT<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>strcmp<span class="op">(</span>token_value<span class="op">-&gt;</span>text<span class="op">,</span> <span class="st">&quot;float&quot;</span><span class="op">)</span> <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> <span class="cf">return</span> FLOAT<span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span> <span class="cf">return</span> ID<span class="op">;</span></span></code></pre></div>
+<p>Isto implementa o <em>longest match</em> sem esforço:
+<code>integer</code> é lido <strong>inteiro</strong> antes de comparar,
+e por isso dá <code>ID(integer)</code> e não <code>INT ID(eger)</code>.
+O teste 2 verifica exatamente isso, e também que <code>WHILE</code> em
+maiúsculas é <code>ID</code>.</p>
+</div></details>
+<details class="sol" id="Ex.1-c"><summary>
+(c) Aceitar <code>_</code> como letra
+</summary><div class="corpo">
+<p>O <code>isalpha(c)</code> não aceita <code>_</code>. É preciso
+acrescentá-lo nos <strong>dois</strong> sítios: no carácter inicial e no
+ciclo que lê o resto do identificador.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>isalpha<span class="op">(</span>c<span class="op">)</span> <span class="op">||</span> c <span class="op">==</span> <span class="ch">&#39;_&#39;</span><span class="op">)</span> <span class="op">{</span>                  <span class="co">/* início */</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">...</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>isalpha<span class="op">(</span>c<span class="op">)</span> <span class="op">||</span> isdigit<span class="op">(</span>c<span class="op">)</span> <span class="op">||</span> c <span class="op">==</span> <span class="ch">&#39;_&#39;</span><span class="op">)</span> <span class="op">{</span>  <span class="co">/* resto  */</span></span></code></pre></div>
+<p>Se só se mudar o primeiro sítio, <code>a_bc</code> dá
+<code>ID(a)</code> seguido de <code>ID(_bc)</code>. O teste 3
+(<code>Abc123 a_bc123 _abc123</code>) apanha os dois erros.</p>
+</div></details>
+<details class="sol" id="Ex.1-d"><summary>
+(d) Token <code>REAL</code> (<code>0.5</code>, <code>123.45</code>)
+</summary><div class="corpo">
+<p>Depois de ler os dígitos de um número, <strong>se o carácter seguinte
+for <code>.</code></strong>, continua-se no “estado” da parte decimal em
+vez de devolver <code>NUM</code>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>isdigit<span class="op">(</span>c<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> val <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> <span class="dt">float</span> fval <span class="op">=</span> <span class="fl">0.0</span><span class="op">,</span> divisor <span class="op">=</span> <span class="fl">10.0</span><span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>isdigit<span class="op">(</span>c<span class="op">))</span> <span class="op">{</span> val <span class="op">=</span> <span class="dv">10</span> <span class="op">*</span> val <span class="op">+</span> c <span class="op">-</span> <span class="ch">&#39;0&#39;</span><span class="op">;</span> c <span class="op">=</span> getchar<span class="op">();</span> <span class="op">}</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>c <span class="op">==</span> <span class="ch">&#39;.&#39;</span><span class="op">)</span> <span class="op">{</span>                       <span class="co">/* estado novo: parte decimal */</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> getchar<span class="op">();</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span>isdigit<span class="op">(</span>c<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>            fval <span class="op">+=</span> <span class="op">(</span>c <span class="op">-</span> <span class="ch">&#39;0&#39;</span><span class="op">)</span> <span class="op">/</span> divisor<span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            divisor <span class="op">*=</span> <span class="fl">10.0</span><span class="op">;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> getchar<span class="op">();</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        ungetc<span class="op">(</span>c<span class="op">,</span> stdin<span class="op">);</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        token_value<span class="op">-&gt;</span>fval <span class="op">=</span> val <span class="op">+</span> fval<span class="op">;</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> REAL<span class="op">;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    ungetc<span class="op">(</span>c<span class="op">,</span> stdin<span class="op">);</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    token_value<span class="op">-&gt;</span>ival <span class="op">=</span> val<span class="op">;</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> NUM<span class="op">;</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Traço de <code>123.375</code>:</strong> <code>val</code> fica
+1, 12, 123. Aparece o <code>.</code>. Depois:</p>
+<ul>
+<li><code>3</code>: <code>fval</code> = 3/10 = 0.3</li>
+<li><code>7</code>: <code>fval</code> = 0.3 + 7/100 = 0.37</li>
+<li><code>5</code>: <code>fval</code> = 0.37 + 5/1000 = 0.375</li>
+</ul>
+<p>Resultado: <code>REAL(123.375000)</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>✓</mi><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math>
+(teste 4).</p>
+</div></details>
+<details class="sol" id="Ex.1-e"><summary>
+(e) Ignorar comentários <code>/* ... */</code> e <code>// ...</code>
+</summary><div class="corpo">
+<p>Os comentários, tal como os espaços, <strong>não</strong> são tokens.
+Por isso salta-se num ciclo, alternadamente, “espaços, comentário,
+espaços, comentário…”, até aparecer um carácter que começa um token a
+sério:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(;;)</span> <span class="op">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">(</span>isspace<span class="op">(</span>c<span class="op">))</span> c <span class="op">=</span> getchar<span class="op">();</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>c <span class="op">!=</span> <span class="ch">&#39;/&#39;</span><span class="op">)</span> <span class="cf">break</span><span class="op">;</span>                  <span class="co">/* não é comentário */</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> next <span class="op">=</span> getchar<span class="op">();</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>next <span class="op">==</span> <span class="ch">&#39;*&#39;</span><span class="op">)</span> <span class="op">{</span>                    <span class="co">/* /* ... */</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> getchar<span class="op">();</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="op">(;;)</span> <span class="op">{</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> <span class="op">(</span>c <span class="op">!=</span> <span class="ch">&#39;*&#39;</span> <span class="op">&amp;&amp;</span> c <span class="op">!=</span> EOF<span class="op">)</span> c <span class="op">=</span> getchar<span class="op">();</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>c <span class="op">==</span> EOF<span class="op">)</span> <span class="op">{</span> fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">&quot;comentário não fechado</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span> exit<span class="op">(-</span><span class="dv">1</span><span class="op">);</span> <span class="op">}</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> getchar<span class="op">();</span>                <span class="co">/* o que vem depois do &#39;*&#39; */</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>c <span class="op">==</span> <span class="ch">&#39;/&#39;</span><span class="op">)</span> <span class="op">{</span> c <span class="op">=</span> getchar<span class="op">();</span> <span class="cf">break</span><span class="op">;</span> <span class="op">}</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>            <span class="co">/* se for outro &#39;*&#39; (ex: &quot;**/</span><span class="st">&quot;), o while volta a testá-lo */</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>next <span class="op">==</span> <span class="ch">&#39;/&#39;</span><span class="op">)</span> <span class="op">{</span>             <span class="co">/* // até ao fim da linha */</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> next<span class="op">;</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span>c <span class="op">!=</span> <span class="ch">&#39;</span><span class="sc">\n</span><span class="ch">&#39;</span> <span class="op">&amp;&amp;</span> c <span class="op">!=</span> EOF<span class="op">)</span> c <span class="op">=</span> getchar<span class="op">();</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span>                              <span class="co">/* &#39;/&#39; sozinho: devolve o next */</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        ungetc<span class="op">(</span>next<span class="op">,</span> stdin<span class="op">);</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span><span class="op">;</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>É o DFA da expressão regular da 2(c) escrito à mão. O “depois de um
+<code>*</code>, se vier <code>/</code> fecha, senão continua”
+corresponde ao <code>&quot;*&quot;+ [^*/]</code> do miolo. O <code>for (;;)</code>
+exterior trata <code>/* a */ // b</code> e comentários seguidos. O teste
+5 cobre os dois tipos.</p>
+</div></details>
+<details class="sol" id="Ex.1-f"><summary>
+(f) <em>Buffer overrun</em> nos identificadores
+</summary><div class="corpo">
+<p><code>text</code> tem 255 posições. Um identificador com 300 letras
+escrevia para lá do fim do array, o que é comportamento indefinido: pode
+estragar a memória ou fazer crashar o programa. A correção é só escrever
+enquanto houver espaço, reservando um lugar para o
+<code>&#39;\0&#39;</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> k <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="op">(</span>isalpha<span class="op">(</span>c<span class="op">)</span> <span class="op">||</span> isdigit<span class="op">(</span>c<span class="op">)</span> <span class="op">||</span> c <span class="op">==</span> <span class="ch">&#39;_&#39;</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>k <span class="op">&lt;</span> <span class="kw">sizeof</span><span class="op">(</span>token_value<span class="op">-&gt;</span>text<span class="op">)</span> <span class="op">-</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span>   <span class="co">/* deixa espaço para o &#39;\0&#39; */</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        token_value<span class="op">-&gt;</span>text<span class="op">[</span>k<span class="op">]</span> <span class="op">=</span> c<span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        k<span class="op">++;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> getchar<span class="op">();</span>          <span class="co">/* continua a CONSUMIR o identificador todo */</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>token_value<span class="op">-&gt;</span>text<span class="op">[</span>k<span class="op">]</span> <span class="op">=</span> <span class="ch">&#39;</span><span class="sc">\0</span><span class="ch">&#39;</span><span class="op">;</span></span></code></pre></div>
+<p>O <code>getchar()</code> fica <strong>fora</strong> do
+<code>if</code>. O identificador é consumido todo mesmo que não caiba, e
+só se truncam os caracteres guardados. Se se parasse de ler, o resto do
+identificador apareceria como um segundo token. Outra opção válida é dar
+erro (<code>fprintf(stderr, &quot;identificador demasiado longo&quot;)</code>),
+mas nunca escrever fora do array.</p>
+</div></details>
+<h2 id="aula-3-flex">Aula 3 — Flex</h2>
+<h3 id="ex.-3-reimplementar-com-flex">Ex. 3 — Reimplementar com
+<code>flex</code></h3>
+<details class="sol" id="Ex.3-1"><summary>
+Ficheiro <code>lexer.l</code> completo e como testar
+</summary><div class="corpo">
+<div class="sourceCode" id="cb10"><pre class="sourceCode lex"><code class="sourceCode lex"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bn">%{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bn">%}</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">%option noyywrap</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="dt">alpha    </span><span class="st">[_a-zA-Z]</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="dt">digit    </span><span class="st">[0-9]</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="bn">%%</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="st">[ \t\n]+</span>                      { }</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;(&quot;</span>                           { printf<span class="op">(</span><span class="st">&quot;LPAREN &quot;</span><span class="op">);</span> }</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;)&quot;</span>                           { printf<span class="op">(</span><span class="st">&quot;RPAREN &quot;</span><span class="op">);</span> }</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;,&quot;</span>                           { printf<span class="op">(</span><span class="st">&quot;COMMA &quot;</span><span class="op">);</span> }</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;;&quot;</span>                           { printf<span class="op">(</span><span class="st">&quot;SEMICOLON &quot;</span><span class="op">);</span> }</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;{&quot;</span>                           { printf<span class="op">(</span><span class="st">&quot;LBRACE &quot;</span><span class="op">);</span> }</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;}&quot;</span>                           { printf<span class="op">(</span><span class="st">&quot;RBRACE &quot;</span><span class="op">);</span> }</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;if&quot;</span>                          { printf<span class="op">(</span><span class="st">&quot;IF &quot;</span><span class="op">);</span> }</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;while&quot;</span>                       { printf<span class="op">(</span><span class="st">&quot;WHILE &quot;</span><span class="op">);</span> }</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;for&quot;</span>                         { printf<span class="op">(</span><span class="st">&quot;FOR &quot;</span><span class="op">);</span> }</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;int&quot;</span>                         { printf<span class="op">(</span><span class="st">&quot;INT &quot;</span><span class="op">);</span> }</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;float&quot;</span>                       { printf<span class="op">(</span><span class="st">&quot;FLOAT &quot;</span><span class="op">);</span> }</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="st">{alpha}({alpha}|{digit})*</span>     { printf<span class="op">(</span><span class="st">&quot;ID(</span><span class="sc">%s</span><span class="st">) &quot;</span><span class="op">,</span> yytext<span class="op">);</span> }</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="st">[0-9]+</span>                        { printf<span class="op">(</span><span class="st">&quot;NUM(</span><span class="sc">%d</span><span class="st">) &quot;</span><span class="op">,</span> atoi<span class="op">(</span>yytext<span class="op">));</span> }</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="st">[0-9]+&quot;.&quot;[0-9]*</span>               { printf<span class="op">(</span><span class="st">&quot;REAL(</span><span class="sc">%f</span><span class="st">) &quot;</span><span class="op">,</span> atof<span class="op">(</span>yytext<span class="op">));</span> }</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;//&quot;.*</span>                        { }</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;/*&quot;([^*]|&quot;*&quot;+[^*/])*&quot;*&quot;+&quot;/&quot;</span>  { }</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="bn">%%</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  yylex<span class="op">();</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  printf<span class="op">(</span><span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<pre><code>$ flex lexer.l &amp;&amp; gcc lex.yy.c -o Lexer
+$ ./Lexer &lt; tests/input1.txt</code></pre>
+<p>Este ficheiro (é o que está em <code>scanner-c/lexer.l</code>) dá a
+saída esperada nos 5 testes.</p>
+<p><strong>Pontos a verificar:</strong></p>
+<ul>
+<li><strong>Ordem (first match):</strong> <code>&quot;if&quot;</code> e as outras
+palavras reservadas estão <strong>antes</strong> de
+<code>{alpha}(...)*</code>. Com <code>if</code>, as duas regras casam 2
+caracteres e ganha a primeira da lista, que é <code>IF</code>.</li>
+<li><strong>Longest match:</strong> com <code>iffy</code>, a regra de
+<code>ID</code> casa 4 caracteres e <code>&quot;if&quot;</code> só 2. Ganha a mais
+comprida, e sai <code>ID(iffy)</code>, <strong>não</strong>
+<code>IF ID(fy)</code>. Testado: <code>echo &quot;iffy if_&quot; | ./Lexer</code>
+dá <code>ID(iffy) ID(if_)</code>.</li>
+<li><code>&quot;//&quot;.*</code>: no flex o <code>.</code> não aceita
+<code>\n</code>, por isso isto pára no fim da linha, como se quer.</li>
+<li>O comentário multi-linha é <strong>exatamente</strong> a expressão
+da 2(c).</li>
+<li>Sem <code>%option noyywrap</code> é preciso definir
+<code>yywrap()</code> ou ligar com <code>-lfl</code>.</li>
+<li>Esta versão de <code>REAL</code> aceita <code>5.</code> (zero
+dígitos depois do ponto) e não tem notação científica.
+<code>12.5e3</code> sai como <code>REAL(12.5) ID(e3)</code>. Para tratar
+a 2(b), troca a regra de <code>REAL</code> pela expressão dessa
+alínea.</li>
+</ul>
+</div></details>
+<h2 id="aula-4-ambiguidade">Aula 4 — Ambiguidade</h2>
+<h3 id="exercício-dos-slides-programas-sequenciais">Exercício dos slides
+— programas sequenciais</h3>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>S</mi><mo>;</mo><mi>S</mi><mo>∣</mo><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext><mo>=</mo><mi>E</mi><mo>∣</mo><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext><mo>+</mo><mi>+</mi></mrow><annotation encoding="application/x-tex">S \to S;S \mid \texttt{ident}=E \mid \texttt{ident}{+}{+}</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext><mo>∣</mo><mtext mathvariant="monospace">𝚗𝚞𝚖</mtext><mo>∣</mo><mi>E</mi><mo>+</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">E \to \texttt{ident} \mid \texttt{num} \mid E+E</annotation></semantics></math>.</p>
+<details class="sol" id="Exercíciodosslides-a"><summary>
+(a) Mostrar a ambiguidade nas instruções
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>S</mi><mo>;</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">S \to S;S</annotation></semantics></math>)
+</summary><div class="corpo">
+<p>Frase: <code>a=1; b=2; c++</code>. Tem <strong>duas</strong> árvores
+sintáticas diferentes. Nas duas, a raiz é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>S</mi><mo>;</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">S \to S;S</annotation></semantics></math>,
+e o que muda é onde fica o segundo <code>;</code>:</p>
+<ul>
+<li><strong>agrupar à esquerda:</strong> <code>(a=1; b=2); c++</code>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>⇒</mo><munder><mi>S</mi><mo accent="true">_</mo></munder><mo>;</mo><mi>S</mi><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mi>S</mi><mo>;</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo><mo>;</mo><mi>S</mi><mo>⇒</mo><mi>…</mi></mrow><annotation encoding="application/x-tex">S \Rightarrow \underline{S};S \Rightarrow (S;S);S \Rightarrow \dots</annotation></semantics></math>
+O filho esquerdo da raiz é outro
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>;</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">S;S</annotation></semantics></math>.</li>
+<li><strong>agrupar à direita:</strong> <code>a=1; (b=2; c++)</code>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>⇒</mo><mi>S</mi><mo>;</mo><munder><mi>S</mi><mo accent="true">_</mo></munder><mo>⇒</mo><mi>S</mi><mo>;</mo><mo stretchy="false" form="prefix">(</mo><mi>S</mi><mo>;</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo><mo>⇒</mo><mi>…</mi></mrow><annotation encoding="application/x-tex">S \Rightarrow S;\underline{S} \Rightarrow S;(S;S) \Rightarrow \dots</annotation></semantics></math>
+O filho direito da raiz é outro
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>;</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">S;S</annotation></semantics></math>.</li>
+</ul>
+<p>Duas árvores diferentes para a mesma frase chegam para a gramática
+ser ambígua. (Aqui as duas leituras executam o mesmo, mas a gramática
+continua a ser ambígua.)</p>
+</div></details>
+<details class="sol" id="Exercíciodosslides-b"><summary>
+(b) Mostrar a ambiguidade nas expressões
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><mi>E</mi><mo>+</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">E \to E+E</annotation></semantics></math>)
+</summary><div class="corpo">
+<p>Frase: <code>x = a+b+c</code>. É o mesmo problema de
+<code>E → E+E</code> do resumo:</p>
+<ul>
+<li><code>x = (a+b)+c</code>: o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>
+de topo é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>+</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">E+E</annotation></semantics></math>
+e o seu filho <strong>esquerdo</strong> é outro
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>+</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">E+E</annotation></semantics></math>.</li>
+<li><code>x = a+(b+c)</code>: o filho <strong>direito</strong> é que é
+outro
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>+</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">E+E</annotation></semantics></math>.</li>
+</ul>
+<p>São duas árvores diferentes para a mesma frase.</p>
+</div></details>
+<details class="sol" id="Exercíciodosslides-c"><summary>
+(c) Gramática equivalente não ambígua
+</summary><div class="corpo">
+<p>Aplica-se a técnica do resumo (recursão à esquerda, que dá
+associatividade à esquerda) <strong>nos dois sítios</strong>,
+introduzindo um não-terminal novo para cada nível:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>S</mi></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>→</mo><mi>S</mi><mspace width="0.167em"></mspace><mo>;</mo><mspace width="0.167em"></mspace><mi>I</mi><mo>∣</mo><mi>I</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>I</mi></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>→</mo><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext><mo>=</mo><mi>E</mi><mo>∣</mo><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext><mo>+</mo><mi>+</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>E</mi></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>→</mo><mi>E</mi><mo>+</mo><mi>T</mi><mo>∣</mo><mi>T</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>T</mi></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>→</mo><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext><mo>∣</mo><mtext mathvariant="monospace">𝚗𝚞𝚖</mtext></mtd></mtr></mtable><annotation encoding="application/x-tex">
+\begin{aligned}
+S &amp;\to S\,;\,I \mid I \\
+I &amp;\to \texttt{ident} = E \mid \texttt{ident}{+}{+} \\
+E &amp;\to E + T \mid T \\
+T &amp;\to \texttt{ident} \mid \texttt{num}
+\end{aligned}
+</annotation></semantics></math></p>
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>
+é “uma instrução só”. Numa sequência, o lado direito de cada
+<code>;</code> é sempre uma instrução, e por isso
+<code>a=1; b=2; c++</code> só tem a leitura
+<code>(a=1; b=2); c++</code>.</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>
+é “uma parcela”. O lado direito de cada <code>+</code> é sempre uma
+parcela, e por isso <code>a+b+c</code> só tem a leitura
+<code>(a+b)+c</code>.</li>
+</ul>
+<p>A linguagem é a mesma: continuam a gerar-se todas as sequências de
+uma ou mais instruções, e todas as somas de uma ou mais parcelas. Só se
+retirou a escolha de agrupamento.</p>
+</div></details>
+</main>
+<script>
+(function () {
+  var sols = Array.prototype.slice.call(document.querySelectorAll("details.sol"));
+  var uma = document.getElementById("uma");
+  try { var g = localStorage.getItem("solucoes-uma"); if (g !== null) uma.checked = g === "1"; } catch (e) {}
+  uma.addEventListener("change", function () {
+    try { localStorage.setItem("solucoes-uma", uma.checked ? "1" : "0"); } catch (e) {}
+  });
+  sols.forEach(function (d) {
+    d.addEventListener("toggle", function () {
+      if (!d.open) return;
+      if (uma.checked) sols.forEach(function (o) { if (o !== d && o.open) o.open = false; });
+      // depois de fechar as outras a página pode "saltar": manter a alínea à vista
+      var r = d.getBoundingClientRect();
+      if (r.top < 48 || r.top > window.innerHeight * 0.6) d.scrollIntoView({ block: "start" });
+      if (history.replaceState) history.replaceState(null, "", "#" + d.id);
+    });
+  });
+  document.getElementById("fechar").addEventListener("click", function () {
+    sols.forEach(function (o) { o.open = false; });
+  });
+  // abrir diretamente uma alínea com #id no URL
+  var h = decodeURIComponent(location.hash.slice(1));
+  var alvo = h && document.getElementById(h);
+  if (alvo && alvo.tagName === "DETAILS") { alvo.open = true; alvo.scrollIntoView({ block: "start" }); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+digraph G {
+  rankdir=TB; bgcolor="transparent"; node [shape=plaintext, fontname="Helvetica", fontsize=16];
+  root [label="→"];
+  p1 [label="p"];
+  or [label="∨"];
+  n1 [label="¬"];
+  q1 [label="q"];
+  imp [label="→"];
+  q2 [label="q"];
+  p2 [label="p"];
+  root -> p1; root -> or;
+  or -> n1; or -> imp;
+  n1 -> q1;
+  imp -> q2; imp -> p2;
+}

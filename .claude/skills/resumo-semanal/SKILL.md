@@ -29,6 +29,15 @@ estudo em PDF, por disciplina, que se estende ao longo do semestre. Ver
   de referência do professor), não o forces no esquema `Aula_NN` — dá-lhe um
   nome descritivo dentro de `Teoricas/` e sinaliza ao Gonçalo que foi uma
   decisão tua.
+- Se a aula chegar em **`.pptx`** (não PDF): não há LibreOffice instalado
+  para converter, por isso fica como `Aula_NN.pptx` (mesmo esquema de
+  nome, extensão original) e lê-se com `python-pptx` num venv no
+  scratchpad (`python3 -m venv .../venv && .../venv/bin/pip install
+  python-pptx pillow` --- o pip do sistema recusa instalar, PEP 668). Ler
+  **texto de cada slide + notas do orador** (as notas trazem informação
+  que não está nos slides) e extrair as imagens (`shape.image.blob`) para
+  as ver --- slides só com imagem (esboços, diagramas) não têm texto
+  nenhum. Nunca instalar LibreOffice sem perguntar (é pesado).
 - Material de prática: `<Disciplina>/Praticas/Semana_N/`.
 - Fonte do resumo: `<Disciplina>/.fonte/RESUMO_<Disciplina>.md` — **sempre
   escondida** (o Gonçalo não quer ver `.md` nenhum ao navegar a pasta), nunca
@@ -45,7 +54,7 @@ os ficheiros de origem já incorporados. Compara com o conteúdo de
 `<Disciplina>/Teoricas/`. Processa apenas os PDFs que ainda não constam dessa
 lista (evita reprocessar e duplicar secções). Se houver também uma
 `Praticas/Semana_N/` nova com material de prática, não a "processes" para o
-resumo — usa-a só para escrever a secção "Ligação com a prática" (passo 8).
+resumo — usa-a só para saber que exercícios sugerir no fim de cada tópico (caixas `pratica`, passo 7).
 
 Se o ficheiro RESUMO ainda não existir, cria-o (dentro de `.fonte/`) com o
 cabeçalho YAML + comentário de processados vazio (ver "Esqueleto do
@@ -150,6 +159,11 @@ Algo que o professor sublinhou como importante para o exame, ou que é
 claramente um padrão recorrente de exame.
 :::
 
+::: pratica
+Exercícios sugeridos para o Gonçalo fazer sozinho (sem resposta), no fim
+do tópico cuja teoria aplicam --- ver passo 7.
+:::
+
 ::: {.definicao title="--- Autómato finito"}
 Caixa com título extra (aparece como "Definição --- Autómato finito").
 :::
@@ -219,18 +233,97 @@ LaTeX à medida que são precisos). Se houver erro de LaTeX, o mais comum é:
   fontenc) → não adicionar esses pacotes ao `preamble.tex`, o pandoc já trata
   disso via `-V lang=pt-PT` com o motor tectonic/xetex.
 
+**O `build.sh` avisa (AVISO: ...) de três problemas que não dão erro mas
+estragam o PDF:** caixa maior que uma página (o fim sai cortado), carácter
+sem glifo (sai em branco, ex: `✓` --- usar `$\checkmark$`) e linha a sair
+da margem direita (`texttt`/código comprido que não parte). **Qualquer
+AVISO é bloqueante:** corrige antes de dar a tarefa por terminada (dividir
+a caixa em duas, reduzir a figura, partir a linha).
+Figuras **altas** (árvores, autómatos verticais) dentro de caixas: limita
+por **altura** (`{height=10cm}`), não por largura --- `width=70%` numa
+árvore com 7 níveis deu uma imagem mais alta do que a página.
+
+**Tabelas (alinhamento automático, `_shared/template/auto-align.lua`):**
+uma coluna com o separador `|---|` fica **centrada** se todas as células
+forem curtas (V/F, números, fórmulas curtas). A 1.ª coluna só fica
+centrada se tiver valores e não palavras (rótulos ficam à esquerda). Uma
+tabela só de valores curtos usa a largura natural das colunas, em vez de
+se esticar à largura da página. Não é preciso escrever `:-:` nas tabelas de
+verdade. Continua a ser preciso ajudar à mão quando a tabela mistura
+colunas curtas com uma coluna de texto comprido: indica as larguras
+relativas com o nº de traços (`|:-:|:----|:----------------|`) para a
+coluna comprida ficar com o espaço, e não a coluna "Passo" com um só "1".
+Se uma célula de uma tabela de números tiver uma conta comprida, tira a
+conta da tabela (explica-a numa frase antes) e deixa só o resultado.
+
 **Um build sem erros não chega.** Depois de compilar, usa o Read sobre o
 PDF gerado e inspeciona visualmente pelo menos as páginas com caixas novas
 — um fenced div malformado (ex: erro de sintaxe no atributo `title=`) não
 causa erro nenhum no tectonic, só faz a caixa sair como texto em bruto
 com `:::` literais. Isso só se apanha a olhar para o resultado.
 
-### 7. Ligação com a prática — mistura exercícios sugeridos e resolvidos
+### 7. Ligação com a prática — exercícios POR TÓPICO, nunca no fim
 
-Se a semana tiver uma pasta `Praticas/Semana_N/` com enunciado/lab, acrescenta no fim
-da secção da(s) aula(s) correspondente(s) um parágrafo curto "Ligação com a
-prática" a apontar que exercício usa que conceito (ex: "o Exercício 3 do lab
-usa a secção Flex acima").
+**Regra (2026-09-23, pedido explícito do Gonçalo): os exercícios sugeridos
+ficam no fim de cada tópico (`##`), não agrupados no fim da aula nem do
+documento.** O Gonçalo lê um tópico e aplica-o logo a seguir; uma lista
+"para fazeres sozinho" no fim da aula obriga-o a ler tudo primeiro e,
+quando chega aos exercícios, já se esqueceu do que leu. Por isso:
+
+- No fim de **cada** `##` cuja matéria é usada por algum exercício da
+  prática (`Praticas/Semana_N/`), acrescenta uma caixa `::: pratica` com
+  os exercícios/alíneas que o Gonçalo deve tentar **agora**, cada um com
+  uma linha a dizer que técnica usa e, se útil, uma pista (sem a
+  resposta). Se o tópico tiver `###` com técnicas muito diferentes e o
+  exercício só usar uma delas, podes pôr a caixa no fim desse `###`.
+- Um exercício que precisa de **vários** tópicos vai para o fim do
+  **último** tópico de que depende (é aí que ele já tem tudo o que
+  precisa). Diz na caixa o que mais usa (ex: "usa também a FNN acima").
+- A ligação "este exercício usa esta secção" (o antigo parágrafo "Ligação
+  com a prática") também é feita aqui, dentro da caixa do tópico --- não
+  num parágrafo à parte no fim.
+- **Nunca** criar uma secção `## Ligação com a prática` / "Para fazeres
+  sozinho" no fim da aula com a lista de tudo. No fim da aula só é
+  permitido, no máximo, uma frase a dizer que exercícios do enunciado
+  ficam **fora** do resumo por ainda não terem sido dados nas teóricas.
+- Exercícios **resolvidos** (caixas `exemplo`) seguem a mesma lógica: ficam
+  dentro do tópico que aplicam, antes da caixa `pratica` desse tópico.
+- Exercícios sugeridos inventados por ti (quando a prática ainda não tem
+  nada para aquele tópico, ou os slides trazem um "exercício para casa")
+  também vão numa caixa `pratica` no fim do tópico.
+
+**Soluções de TODOS os exercícios das caixas `pratica` (2026-09-23): noutro
+documento, uma alínea de cada vez.** As caixas `pratica` do resumo nunca
+têm resposta. A resposta de **cada** exercício/alínea que lá aparece vai
+para `<Disciplina>/.fonte/SOLUCOES_<Disciplina>.md`, e o `build.sh` gera
+`<Disciplina>/SOLUCOES_<Disciplina>.html` (visível ao lado do PDF). No HTML
+cada alínea está fechada e só abre com um clique; abrir uma fecha as
+outras, para não haver spoilers. As caixas `pratica` do PDF ganham
+automaticamente um rodapé a apontar para o HTML. Convenção do `.md`
+(template `_shared/template/solucoes.html` + filtro `solucoes.lua`):
+
+```
+## Aula N --- tópico                 (secção; mesmo agrupamento das caixas)
+### 1.2 --- título do exercício      (visível: enunciado curto / dados)
+#### (a) enunciado da alínea         (fechado; o conteúdo abaixo é a solução)
+solução completa, passo a passo...
+```
+
+- O `###` tem de começar por "<número> --- ", porque o número dá o id da
+  alínea (`#1.2-a`, `#Ex.4-c`). Um exercício sem alíneas leva um único
+  `#### Resposta`.
+- **Cada item de uma caixa `pratica` tem solução, pela mesma ordem e com
+  a mesma numeração.** Quando acrescentares uma caixa `pratica`,
+  acrescenta as soluções na mesma passagem.
+- As soluções seguem as regras dos exemplos resolvidos: totalmente
+  explícitas, com cada cálculo intermédio. **Verifica-as antes de
+  escrever:** contas em Python, equivalências por força bruta, código
+  compilado e corrido contra os testes do lab. Um gabarito errado é pior
+  do que não ter gabarito.
+- Exercícios abertos (desenho, IPM) levam uma **resposta-modelo**, dita
+  como tal, e não um "gabarito".
+- Figuras: SVG (`dot -Tsvg`) em `figuras/sol_*.svg`. Ficam embutidas no
+  HTML, que funciona offline (fórmulas em MathML, sem CDN).
 
 **Regra atualizada (2026-09-22, substitui a versão anterior "nunca resolvas
 a prática")**: o resumo deve conter uma **mistura** de:
@@ -424,3 +517,54 @@ a não ser que sejam explicitamente substituídas por feedback mais recente.
   para qualquer disciplina cujo site publique calendário/sumários como
   Google Sheet embutida: não confiar num mirror de HTML estático para esse
   tipo de conteúdo, ir sempre buscar a folha pelo endpoint CSV.
+- 2026-09-23: Lógica Aula 3 (formas normais, Horn) + IPM Aula 3 (Módulo 03,
+  que chegou em `.pptx` --- ver regra no passo 0). Três lições novas:
+  (1) **caracteres Unicode dentro de blocos de código** (`∧`, `∈`, `⊆`,
+  `∪`, `→`) saem **em branco** no PDF (a fonte monoespaçada do `listings`
+  não os tem) --- silencioso, só se vê a olhar para o PDF. Em
+  pseudo-código usar sempre ASCII (`e`, `em`, `->`, `subset`).
+  (2) Tabelas pipe com uma coluna de texto comprido e outra curta ficam
+  com larguras más (a coluna `#` a ocupar 1/3 da página): controlar as
+  larguras relativas com o nº de traços na linha separadora
+  (`|--|------------|--------------|`), ou trocar a tabela por uma lista
+  quando as células têm fórmulas longas. (3) Quando um módulo novo
+  **aparentemente contradiz** um anterior (IPM: M02 "persona não se baseia
+  em segmentos de mercado" vs. M03 "segmenta o mercado e escolhe uma
+  pessoa por segmento"), não escolher um lado em silêncio nem duplicar:
+  fundir na secção existente e acrescentar uma caixa `atencao` que
+  explica como os dois se conciliam, marcada como interpretação. Também:
+  um módulo que "revisita o processo inteiro" (como o M03 da IPM) deve ser
+  **distribuído pelas secções já existentes** de cada etapa, ficando na
+  secção da aula nova só o que é realmente novo + uma tabela
+  "etapa → onde está explicada", em vez de repetir tudo.
+- 2026-09-23: Feedback do Gonçalo: "as sugestões de exercícios só estão no
+  final do documento. Quero sugestões para cada capítulo" --- ler tudo e só
+  depois aplicar faz com que se esqueça do que leu. Regra 7 reescrita:
+  exercícios sugeridos numa caixa nova `::: pratica` ("Pratica agora",
+  roxa, definida em `preamble.tex`) no fim de **cada** tópico `##` que
+  aplicam; proibidas as listas "Ligação com a prática"/"Para fazeres
+  sozinho" agrupadas no fim da aula. Aplicado retroativamente a
+  Compiladores, Lógica, Redes e IPM.
+- 2026-09-23: O Gonçalo apanhou o Exercício 1.3(c) de Lógica cortado a meio:
+  a árvore (`width=70%`) fazia a caixa ser maior que uma página e o fim
+  (as subfórmulas) desaparecia sem erro. A inspeção visual "por amostragem"
+  não chegou. Por isso o `build.sh` passou a ler o log do LaTeX e a avisar
+  de caixas cortadas, caracteres em branco e linhas fora da margem. Na
+  primeira passagem apanhou mais 3 caixas cortadas (Tecnologias Web,
+  código Node.js), 5 `✓` invisíveis (Lógica) e 2 linhas fora da margem.
+  Regra: nenhum AVISO do build pode ficar por resolver.
+- 2026-09-23: Pedido do Gonçalo: soluções para **todos** os exercícios
+  "Pratica agora", num documento à parte onde se abre só a alínea que se
+  quer ("quero ver só a alínea a) e não todas", e ao abrir uma fecham-se
+  as outras). Como um PDF não esconde conteúdo, a solução é um HTML por
+  disciplina (`SOLUCOES_<Disciplina>.html`), gerado pelo mesmo `build.sh`
+  a partir de `.fonte/SOLUCOES_<Disciplina>.md`. Ver a regra no passo 7.
+- 2026-09-23: Feedback do Gonçalo: nas tabelas de verdade os V/F saíam
+  encostados à esquerda, longe da fórmula do cabeçalho ("fica mal
+  visualmente"). Causa: o separador `|---|` dá alinhamento por omissão
+  (esquerda) no LaTeX, e nenhuma das 71 tabelas dos resumos estava
+  centrada. As tabelas com linhas compridas no `.md` também se esticavam à
+  largura da página e partiam os cabeçalhos com fórmulas. Solução geral
+  em `auto-align.lua` (ver regra acima), mais duas correções à mão: a
+  tabela de tempos LAN/WAN de Redes (contas `máx(...)` tiradas da tabela)
+  e o traço do DFA em C de Compiladores (larguras das colunas).

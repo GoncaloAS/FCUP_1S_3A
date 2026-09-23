@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IPM — Soluções dos exercícios “Pratica agora”</title>
+<style>
+:root {
+--bg: #fbfaf8;
+--fg: #1d1b20;
+--muted: #6b6570;
+--line: #e4dfe8;
+--accent: #5b2c6f; 
+--accent-soft: #f4ecf7;
+--card: #ffffff;
+--code-bg: #f3f1f5;
+}
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) {
+--bg: #17151a;
+--fg: #ece8ef;
+--muted: #a39ca8;
+--line: #34303a;
+--accent: #c9a2dc;
+--accent-soft: #2a2230;
+--card: #1f1c23;
+--code-bg: #26222b;
+}
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+margin: 0;
+background: var(--bg);
+color: var(--fg);
+font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+main { max-width: 820px; margin: 0 auto; padding: 24px 16px 96px; }
+header h1 { font-size: 1.7rem; line-height: 1.25; margin: 8px 0 4px; }
+header p { color: var(--muted); margin: 0 0 16px; }
+.barra {
+position: sticky; top: 0; z-index: 5;
+display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+padding: 10px 0; margin-bottom: 8px;
+background: var(--bg); border-bottom: 1px solid var(--line);
+font-size: 0.9rem; color: var(--muted);
+}
+.barra button {
+font: inherit; color: var(--accent); background: none;
+border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; cursor: pointer;
+}
+.barra label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+nav#indice { margin: 16px 0 24px; }
+nav#indice > details > summary { cursor: pointer; font-weight: 600; color: var(--accent); }
+nav#indice ul { margin: 6px 0; padding-left: 20px; }
+nav#indice a { color: inherit; text-decoration: none; }
+nav#indice a:hover { color: var(--accent); text-decoration: underline; }
+h2 {
+font-size: 1.35rem; margin: 48px 0 8px; padding-bottom: 6px;
+border-bottom: 2px solid var(--accent);
+}
+h3 { font-size: 1.1rem; margin: 32px 0 6px; color: var(--accent); scroll-margin-top: 56px; }
+details.sol {
+background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+margin: 8px 0; scroll-margin-top: 56px;
+}
+details.sol > summary {
+cursor: pointer; padding: 10px 14px; list-style: none;
+display: flex; gap: 10px; align-items: baseline;
+}
+details.sol > summary::-webkit-details-marker { display: none; }
+details.sol > summary::before {
+content: "▸"; color: var(--accent); flex: none; transition: transform .15s;
+}
+details.sol[open] > summary::before { transform: rotate(90deg); }
+details.sol[open] { border-color: var(--accent); }
+details.sol[open] > summary { background: var(--accent-soft); border-radius: 8px 8px 0 0; }
+details.sol > .corpo { padding: 4px 16px 12px; overflow-x: auto; }
+pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.88em; }
+pre { background: var(--code-bg); padding: 10px 12px; border-radius: 6px; overflow-x: auto; }
+:not(pre) > code { background: var(--code-bg); padding: 1px 4px; border-radius: 4px; }
+table { border-collapse: collapse; margin: 10px 0; display: block; overflow-x: auto; }
+th, td { border: 1px solid var(--line); padding: 4px 10px; text-align: left; }
+th { background: var(--accent-soft); }
+img { max-width: 100%; height: auto; display: block; margin: 8px auto; }
+@media (prefers-color-scheme: dark) { img { filter: invert(0.9) hue-rotate(180deg); } }
+blockquote { margin: 10px 0; padding: 4px 14px; border-left: 3px solid var(--accent); color: var(--muted); }
+math[display="block"] { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>IPM — Soluções dos exercícios “Pratica agora”</h1>
+<p>Exercícios de desenho não têm uma resposta única: isto é uma
+resposta-modelo para comparares com a tua, não um gabarito. Tenta
+primeiro sozinho.</p>
+</header>
+
+<div class="barra">
+  <span>Clica numa alínea para ver a solução.</span>
+  <label><input type="checkbox" id="uma" checked> Só uma aberta de cada vez</label>
+  <button type="button" id="fechar">Fechar todas</button>
+</div>
+
+<nav id="indice"><details><summary>Índice</summary>
+<ul>
+<li><a href="#aula-3-o-método-10x10" id="toc-aula-3-o-método-10x10">Aula
+3 — O método 10x10</a>
+<ul>
+<li><a href="#cantina-10x10-aplicado-ao-projeto" id="toc-cantina-10x10-aplicado-ao-projeto">Cantina — 10x10 aplicado ao
+projeto</a></li>
+</ul></li>
+</ul>
+</details></nav>
+
+<h2 id="aula-3-o-método-10x10">Aula 3 — O método 10x10</h2>
+<h3 id="cantina-10x10-aplicado-ao-projeto">Cantina — 10x10 aplicado ao
+projeto</h3>
+<p>Desafio: “a Mariana quer garantir o almoço sem perder tempo de
+estudo”.</p>
+<details class="sol" id="Cantina-1"><summary>
+Passo 1 — o desafio e as suposições
+</summary><div class="corpo">
+<p><strong>Desafio de desenho:</strong> como pode um estudante com pouco
+tempo entre aulas <strong>garantir</strong> uma refeição que lhe sirva
+(a Mariana é vegetariana) <strong>sem perder tempo</strong> em filas e
+<strong>podendo mudar de plano</strong> se a aula atrasar?</p>
+<p>Está escrito com os objetivos da persona (Aula 2), e não com uma
+solução. “Fazer uma app de reservas” já seria um conceito e fecharia
+logo o funil.</p>
+<p><strong>Suposições</strong> (para poder avançar, tal como no exemplo
+do “Connect!”):</p>
+<ul>
+<li>a cantina sabe de manhã o menu do dia e quantas doses tem de cada
+prato;</li>
+<li>a maioria dos estudantes tem telemóvel com dados, mas
+<strong>não</strong> se pode assumir que instalam mais uma app;</li>
+<li>o cartão de estudante tem NFC e já é usado para pagar;</li>
+<li>a cantina tem algum espaço à entrada (para um ecrã, cacifos,
+etc.);</li>
+<li>o funcionário da cantina (a 2.ª persona) não pode ter trabalho extra
+significativo por cada pedido.</li>
+</ul>
+</div></details>
+<details class="sol" id="Cantina-2"><summary>
+Passo 2 — 10 conceitos com mecanismos diferentes
+</summary><div class="corpo">
+<p>Cada conceito responde ao desafio de uma maneira
+<strong>diferente</strong>. Entre parêntesis está o que o distingue:</p>
+<ol type="1">
+<li><strong>App de reserva com hora marcada</strong> (reserva
+antecipada, numa app própria): escolhe o prato e a hora de
+levantamento.</li>
+<li><strong>Fila virtual num quiosque à entrada</strong> (no local, no
+momento): tira senha e recebe uma notificação quando for a vez
+dela.</li>
+<li><strong>Bot de mensagens</strong> (conversa, num canal que ela já
+usa): “vegetariano às 12h45?” “Reservado. Código 482.”</li>
+<li><strong>Encostar o cartão de estudante</strong> a um leitor à saída
+da sala (NFC, um gesto físico): encomenda o “prato habitual”.</li>
+<li><strong>Pedido recorrente / assinatura</strong> (configurar uma vez
+só): “vegetariano, terças e quintas, 12h45”. É automático e ela só
+cancela.</li>
+<li><strong>Cacifos aquecidos com código</strong> (levantamento sem
+contacto): a comida fica pronta num cacifo e ela abre-o com o
+código.</li>
+<li><strong>Entrega no edifício do departamento</strong> (a comida é que
+se desloca): um carrinho passa às 12h35 no átrio de Biologia.</li>
+<li><strong>Painel público de doses em tempo real</strong> (só
+informação, sem transação): ecrãs nos corredores e uma página web com
+“vegetariano: 12 doses”.</li>
+<li><strong>Integração com o horário académico</strong> (contexto
+automático): o sistema conhece o horário dela, propõe a hora e, se o
+professor fechar o sumário mais tarde, adia a reserva.</li>
+<li><strong>Frigorífico “grab &amp; go” com pagamento
+<em>self-service</em></strong> (elimina a reserva): pratos já embalados,
+ela tira um e paga com o cartão.</li>
+</ol>
+<p>Repara que <strong>nenhum</strong> é “a app com outra cor”. Os
+conceitos variam em <strong>canal</strong> (app, mensagem, cartão,
+ecrã), <strong>momento</strong> (antes ou no local), <strong>quem se
+desloca</strong> (ela ou a comida) e <strong>tipo de ação</strong>
+(reservar, informar, eliminar a reserva).</p>
+</div></details>
+<details class="sol" id="Cantina-3"><summary>
+Reduzir com uma grelha de avaliação (Aula 2, T3)
+</summary><div class="corpo">
+<p><strong>Critérios</strong>, tirados dos objetivos da Mariana, mais o
+custo para a cantina:</p>
+<ul>
+<li><strong>c1</strong> saber antes se há comida que lhe sirva</li>
+<li><strong>c2</strong> não perder tempo (sem fila, 20 minutos no
+total)</li>
+<li><strong>c3</strong> mudar de plano se a aula atrasar</li>
+<li><strong>c4</strong> custo para a cantina (4 = barato)</li>
+</ul>
+<p>A escala é <strong>1–4</strong> (número par, sem meio-termo).
+<strong>Heurística de agregação</strong>, decidida antes de pontuar:
+somar, e há <strong>veto</strong> se c1 ou c2 tiverem 1, porque são os
+objetivos centrais da persona.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Conceito</th>
+<th style="text-align: center;">c1</th>
+<th style="text-align: center;">c2</th>
+<th style="text-align: center;">c3</th>
+<th style="text-align: center;">c4</th>
+<th style="text-align: center;">soma</th>
+<th style="text-align: left;">decisão</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1 App de reserva</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: left;">fica</td>
+</tr>
+<tr>
+<td style="text-align: left;">2 Fila virtual</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">3 Bot de mensagens</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"><strong>14</strong></td>
+<td style="text-align: left;"><strong>fica</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">4 Cartão NFC</td>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: left;"><strong>veto</strong> (não vê o menu)</td>
+</tr>
+<tr>
+<td style="text-align: left;">5 Pedido recorrente</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">11</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">6 Cacifos</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: left;">fica</td>
+</tr>
+<tr>
+<td style="text-align: left;">7 Entrega no departamento</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">8 Painel de doses</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: left;">fica</td>
+</tr>
+<tr>
+<td style="text-align: left;">9 Integração com horário</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">13</td>
+<td style="text-align: left;">fica</td>
+</tr>
+<tr>
+<td style="text-align: left;">10 Grab &amp; go</td>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: left;"><strong>veto</strong> (não sabe
+antes)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Resultado:</strong> sobrevivem <strong>5 de 10</strong> (3,
+1, 9, 6, 8), no espírito dos “6 de 10” do professor. O mais promissor é
+o <strong>3 (bot)</strong>: tem a melhor soma, e o funcionário não
+precisa de um sistema novo.</p>
+<p>Os outros <strong>não se deitam fora</strong>. O 9 (adiar quando a
+aula atrasa) e o 8 (mostrar as doses) são ótimos candidatos a
+<strong>variações do 3</strong> no passo 5. Por exemplo, o bot avisa “só
+restam 3 doses” e pergunta “a aula atrasou? adio para as 13h?”.</p>
+<p>Com um só avaliador (tu) isto é só um treino. O método pede
+<strong>várias grelhas</strong>, de pessoas <strong>diferentes</strong>,
+de outros grupos.</p>
+</div></details>
+<details class="sol" id="Cantina-4"><summary>
+Verificação — o que torna cada par diferente?
+</summary><div class="corpo">
+<p>Para cada par pergunta-se: “se eu descrever os dois numa frase, a
+frase muda <strong>o mecanismo</strong>, ou só <strong>a
+aparência</strong>?”</p>
+<ul>
+<li><p><strong>4 vs. 10:</strong> gesto de pedir (cartão) contra não
+haver pedido nenhum (tirar da prateleira). São mecanismos
+diferentes.</p></li>
+<li><p><strong>2 vs. 6:</strong> os dois atuam no local, mas um organiza
+a <strong>espera</strong> e o outro <strong>elimina</strong> o contacto
+com o balcão. São diferentes.</p></li>
+<li><p><strong>5 vs. 9:</strong> os dois são “automáticos”, mas um
+repete uma regra fixa e o outro reage ao contexto (o horário real). São
+diferentes.</p></li>
+<li><p><strong>1 vs. 3: é o par mais próximo.</strong> Os dois são
+“reserva antecipada remota” e só o <strong>canal</strong> muda: uma app
+nova contra um mensageiro que ela já usa. É defensável como diferente,
+porque a suposição “não instalam mais uma app” torna o canal decisivo.
+Mas um avaliador exigente podia contar os dois como um só.</p>
+<p>Nesse caso substituía-se um deles por uma ideia com outro mecanismo,
+por exemplo um <strong>mercado de troca de reservas entre
+estudantes</strong> (“já não vou, fica com a minha”). Isso resolve o c3
+de outra forma.</p></li>
+</ul>
+<p>Se dois conceitos só diferissem em “botão verde” contra “lista de
+pratos”, eram <strong>um</strong> conceito: isso é uma variação (passo
+5), não um conceito novo (passo 2).</p>
+</div></details>
+</main>
+<script>
+(function () {
+  var sols = Array.prototype.slice.call(document.querySelectorAll("details.sol"));
+  var uma = document.getElementById("uma");
+  try { var g = localStorage.getItem("solucoes-uma"); if (g !== null) uma.checked = g === "1"; } catch (e) {}
+  uma.addEventListener("change", function () {
+    try { localStorage.setItem("solucoes-uma", uma.checked ? "1" : "0"); } catch (e) {}
+  });
+  sols.forEach(function (d) {
+    d.addEventListener("toggle", function () {
+      if (!d.open) return;
+      if (uma.checked) sols.forEach(function (o) { if (o !== d && o.open) o.open = false; });
+      // depois de fechar as outras a página pode "saltar": manter a alínea à vista
+      var r = d.getBoundingClientRect();
+      if (r.top < 48 || r.top > window.innerHeight * 0.6) d.scrollIntoView({ block: "start" });
+      if (history.replaceState) history.replaceState(null, "", "#" + d.id);
+    });
+  });
+  document.getElementById("fechar").addEventListener("click", function () {
+    sols.forEach(function (o) { o.open = false; });
+  });
+  // abrir diretamente uma alínea com #id no URL
+  var h = decodeURIComponent(location.hash.slice(1));
+  var alvo = h && document.getElementById(h);
+  if (alvo && alvo.tagName === "DETAILS") { alvo.open = true; alvo.scrollIntoView({ block: "start" }); }
+})();
+</script>
+</body>
+</html>

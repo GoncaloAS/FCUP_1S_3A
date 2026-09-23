@@ -1,0 +1,13 @@
+digraph G {
+  rankdir=TB; bgcolor="transparent"; node [shape=plaintext, fontname="Helvetica", fontsize=16];
+  root [label="∧"];
+  p1 [label="p"];
+  imp [label="→"];
+  n1 [label="¬"];
+  n2 [label="¬"];
+  q1 [label="q"];
+  p2 [label="p"];
+  root -> p1; root -> imp;
+  imp -> n1; imp -> n2;
+  n1 -> q1; n2 -> p2;
+}

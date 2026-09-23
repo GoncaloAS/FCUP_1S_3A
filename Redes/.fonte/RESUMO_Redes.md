@@ -537,6 +537,15 @@ diferentes sem *peering* direto, pode dar uma "volta" enorme até subir e
 descer a hierarquia.
 :::
 
+::: {.pratica title="--- Encaminhamento (Exercícios Semana 1, Ex. 1)"}
+- **Ex. 1** (o posto de correios e as rotas para todos os endereços) ---
+  usa a ideia de hierarquia de ISPs desta secção: ninguém conhece o
+  caminho completo para todos os destinos, só o próximo nível da
+  hierarquia. Pensa também no **custo** dessa técnica (as rotas deixam de
+  ser as mais curtas possíveis). O encaminhamento hierárquico propriamente
+  dito só aparece mais à frente, na camada de rede.
+:::
+
 ## Atrasos, perdas e *throughput*
 
 Nesta secção estuda-se **como e porque** os pacotes sofrem atrasos e
@@ -601,6 +610,15 @@ atraso de propagação dominante (~270ms), mesmo para um pacote minúsculo.
 São independentes um do outro.
 :::
 
+::: {.pratica title="--- As quatro fontes de atraso (Ex. 6 e 7)"}
+- **Ex. 6** --- na demonstração interativa, encontra valores em que o
+  emissor acaba de transmitir **antes** de o primeiro bit chegar
+  ($d_{trans} < d_{prop}$) e outros em que é ao contrário.
+- **Ex. 7** (o repórter "de compreensão lenta") --- qual das quatro
+  componentes explica a pausa? Estima-a para uma ligação por satélite
+  geoestacionário (~36 000 km de altitude, sobe e desce).
+:::
+
 ### Atraso com múltiplos pacotes e ligações em série
 
 Quando o percurso passa por várias ligações de capacidades diferentes, e
@@ -646,14 +664,25 @@ Atrasos elementares:
 $$d_{trans,LAN} = \frac{1000}{10 \times 10^6} = 0{,}1\text{ ms} \qquad d_{prop,LAN} = \frac{1000}{2\times10^8} = 0{,}005\text{ ms}$$
 $$d_{trans,WAN} = \frac{1000}{1 \times 10^6} = 1\text{ ms} \qquad d_{prop,WAN} = \frac{1\,000\,000}{2\times10^8} = 5\text{ ms}$$
 
-**Traçando a passagem de cada pacote, um a um** (sem saltar nenhum):
+**Traçando a passagem de cada pacote, um a um** (sem saltar nenhum). Para
+cada pacote:
 
-| Pacote | Sai da LAN (fim transmissão) | Chega a R1 (+ prop. LAN) | Início transmissão WAN (máx. entre chegada e WAN livre) | Fim transmissão WAN | Chega a T2 (+ prop. WAN) |
-|---|---|---|---|---|---|
-| 1 | 0,1 ms | 0,105 ms | 0,105 ms | 1,105 ms | **6,105 ms** |
-| 2 | 0,2 ms | 0,205 ms | máx(0,205; 1,105) = 1,105 ms | 2,105 ms | **7,105 ms** |
-| 3 | 0,3 ms | 0,305 ms | máx(0,305; 2,105) = 2,105 ms | 3,105 ms | **8,105 ms** |
-| 4 | 0,4 ms | 0,405 ms | máx(0,405; 3,105) = 3,105 ms | 4,105 ms | **9,105 ms** |
+- **fim LAN**: o instante em que acaba de sair de T1 ($k \times 0{,}1$ ms);
+- **chega a R1**: fim LAN $+\ d_{prop,LAN}$ ($0{,}005$ ms);
+- **início WAN**: o **máximo** entre "chegou a R1" e "a WAN ficou livre"
+  (o fim WAN do pacote anterior). Se a WAN ainda está ocupada, o pacote
+  espera na fila de R1;
+- **fim WAN**: início WAN $+\ d_{trans,WAN}$ ($1$ ms);
+- **chega a T2**: fim WAN $+\ d_{prop,WAN}$ ($5$ ms).
+
+Tempos em ms:
+
+| Pacote | Fim LAN | Chega a R1 | Início WAN | Fim WAN | Chega a T2 |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+| 1 | 0,1 | 0,105 | 0,105 | 1,105 | **6,105** |
+| 2 | 0,2 | 0,205 | máx(0,205; 1,105) = 1,105 | 2,105 | **7,105** |
+| 3 | 0,3 | 0,305 | máx(0,305; 2,105) = 2,105 | 3,105 | **8,105** |
+| 4 | 0,4 | 0,405 | máx(0,405; 3,105) = 3,105 | 4,105 | **9,105** |
 
 Repara como, a partir do pacote 2, o "início da transmissão na WAN" já não
 é logo que o pacote chega da LAN — tem de esperar que a WAN, que é lenta,
@@ -682,6 +711,18 @@ $$d_{total} = 4 \times 1 + 0{,}005 + 0{,}1 + 5 = \mathbf{9{,}105\text{ ms}}$$
 escolhidos — o que importa reter não é o valor final, mas **qual ligação
 recebe o fator 4**: é sempre a mais lenta, porque é aí que os pacotes se
 acumulam.)
+:::
+
+::: {.pratica title="--- Store-and-forward (Ex. 3 e 4)"}
+- **Ex. 4** --- estruturalmente idêntico ao cenário LAN/WAN acima (uma LAN
+  seguida de uma WAN, com diagrama temporal): calcula $d_{trans}$ e
+  $d_{prop}$ de cada ligação, depois 1 pacote, 10 pacotes, e repete com as
+  capacidades trocadas na (d). Repara qual das ligações passa a acumular
+  pacotes.
+- **Ex. 3** --- o vídeo de 700 MB por dois routers: primeiro inteiro
+  (store-and-forward de um bloco só), depois em pedaços de 1000 B (o
+  *pipelining* do exemplo acima), e por fim com 20 B de cabeçalho por
+  pedaço. Cuidado com MB vs. Mb.
 :::
 
 ### Intensidade de tráfego e explosão do atraso
@@ -804,21 +845,6 @@ gargalo pode estar bem mais "no meio" da rede, num ponto partilhado por
 muitos fluxos ao mesmo tempo.
 :::
 
-**Ligação com a prática:** os Exercícios 2 a 6 da Semana 1 aplicam
-diretamente as fórmulas de atraso desta secção (transmissão, propagação,
-*store-and-forward*, débito) — em particular, o Exercício 4 é
-estruturalmente idêntico ao exemplo do cenário LAN/WAN acima (uma ligação
-LAN seguida de uma WAN, com pedido explícito de diagrama temporal — a
-tabela do exemplo acima é exatamente esse tipo de diagrama, só que para um
-conjunto diferente de valores). O Exercício 1, sobre encaminhamento em
-redes muito grandes, liga-se à ideia de hierarquia de ISPs e
-encaminhamento hierárquico introduzida acima (o encaminhamento
-hierárquico propriamente dito só será aprofundado na camada de rede, mais
-para a frente no semestre). O Exercício 5 pede o "produto largura de
-banda-atraso" — ver a nota adicional abaixo, que introduz este conceito
-(não veio explícito nos slides desta aula, mas é necessário para o
-exercício).
-
 ::: atencao
 **Nota adicional (não estava explícito nos slides): produto largura de
 banda-atraso.** Define-se como $R \cdot d_{prop}$ — o produto entre a
@@ -840,6 +866,14 @@ ainda voltado. Este conceito será central mais tarde, quando se estudar o
 dimensionamento da janela de transmissão do TCP (para o emissor conseguir
 "encher o tubo" e maximizar o débito, sem desperdiçar capacidade à espera
 de confirmações).
+:::
+
+::: {.pratica title="--- Débito e produto largura de banda-atraso (Ex. 2 e 5)"}
+- **Ex. 2** (o camião com discos entre o Porto e Amesterdão) --- débito =
+  bits transportados / tempo; na (b) compara o **atraso**, não a capacidade.
+- **Ex. 5** --- $d_{trans}$, $d_{prop}$ e $R\cdot d_{prop}$ para 1 Mbps e
+  depois 1 Gbps. A (e), "comprimento de um bit", é $v/R$. A (g) é a
+  interpretação da nota adicional acima.
 :::
 
 ## Camadas protocolares e modelos de serviço

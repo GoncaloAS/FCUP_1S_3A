@@ -6304,11 +6304,14 @@ Internet Mail Extensions*) é um identificador bipartido: um **tipo** (ex:
 Representa o tipo de um recurso, e serve de metadado tanto em pedidos (ex:
 cabeçalho `Accept`) como em respostas (ex: cabeçalho `Content-Type`).
 
-Exemplos mencionados: `application/javascript`, `application/json`,
-`application/x-www-form-urlencoded`, `application/msword` (`.doc`),
-`application/vnd.ms-excel` (`.xls`), `audio/mpeg`, `audio/vorbis`,
-`multipart/form-data`, `text/css`, `text/html`, `text/plain`, `image/png`,
-`image/jpeg`, `image/gif`.
+Exemplos mencionados:
+
+- `application/`: `javascript`, `json`, `x-www-form-urlencoded`,
+  `msword` (`.doc`), `vnd.ms-excel` (`.xls`);
+- `audio/`: `mpeg`, `vorbis`;
+- `multipart/`: `form-data`;
+- `text/`: `css`, `html`, `plain`;
+- `image/`: `png`, `jpeg`, `gif`.
 
 ### Codificações de dados
 
@@ -7153,7 +7156,7 @@ desvantagens:
 | Formato | Exemplo | Vantagens | Desvantagens |
 |---------|---------|-----------|--------------|
 | Texto simples | `Fulano 99` | Muito simples | Não estruturado — apenas dados separados por um carácter convencional |
-| XML | `<data><name>Fulano</name><age>99</age></data>` | Estruturado, permite definir linguagens e validar (schemas) | Mais complexo de analisar e gerar |
+| XML | `<data>` `<name>Fulano</name>` `<age>99</age>` `</data>` | Estruturado, permite definir linguagens e validar (schemas) | Mais complexo de analisar e gerar |
 | JSON | `{"name": "Fulano", "age": 99}` | Estruturado e compacto | Mais difícil de *standardizar* e validar (sem um schema universal tão maduro como XML) |
 
 ::: definicao
@@ -10279,7 +10282,7 @@ function isText(mediaType) {
 :::
 
 ::: exemplo
-**Ler o ficheiro e responder / processar o pedido / servidor.**
+**Ler o ficheiro e responder / processar o pedido.**
 
 ```js
 function doGetPathname(pathname, response) {
@@ -10319,7 +10322,21 @@ function doGetRequest(request, response) {
                 doGetPathname(pathname, response);
         });
 }
+```
 
+- `doGetPathname()` lê o ficheiro com **codificação diferente** consoante
+  seja texto ou não, gera `404` em caso de erro de leitura, e coloca o
+  tipo de media no cabeçalho `Content-Type` em caso de sucesso;
+- `doGetRequest()` primeiro valida/mapeia o caminho (`403` se inválido);
+  depois usa `fs.stat()` para saber se é ficheiro ou diretoria — pedidos
+  de **diretoria** ou são redirecionados (`301`, se o URL não terminar em
+  `/`) ou têm o `defaultIndex` acrescentado; erros de `stat` dão `500`.
+:::
+
+::: exemplo
+**Servidor (continuação).**
+
+```js
 http.createServer((request, response) => {
     switch (request.method) {
     case 'GET':
@@ -10332,14 +10349,7 @@ http.createServer((request, response) => {
 }).listen(conf.port);
 ```
 
-- `doGetPathname()` lê o ficheiro com **codificação diferente** consoante
-  seja texto ou não, gera `404` em caso de erro de leitura, e coloca o
-  tipo de media no cabeçalho `Content-Type` em caso de sucesso;
-- `doGetRequest()` primeiro valida/mapeia o caminho (`403` se inválido);
-  depois usa `fs.stat()` para saber se é ficheiro ou diretoria — pedidos
-  de **diretoria** ou são redirecionados (`301`, se o URL não terminar em
-  `/`) ou têm o `defaultIndex` acrescentado; erros de `stat` dão `500`;
-- o servidor final só aceita `GET` (outros métodos dão `501 Not
+O servidor final só aceita `GET` (outros métodos dão `501 Not
   Implemented`), e fecha a resposta de imediato nesse caso; escuta na
   porta configurada (`conf.port`).
 :::
@@ -10461,7 +10471,7 @@ O *updater* gere a lista de canais de resposta abertos (`remember`,
 :::
 
 ::: exemplo
-**Tratamento de `GET`/`POST` e servidor.**
+**Tratamento de `GET`/`POST`.**
 
 ```js
 function doGet(pathname, request, response) {
@@ -10497,7 +10507,22 @@ function doPost(pathname) {
     }
     return answer;
 }
+```
 
+- `doGet()` só trata `/update`: memoriza a `response` no *updater* (para
+  poder escrever nela mais tarde), regista `request.on('close', ...)`
+  para a **esquecer** quando o cliente desliga, e usa `setImmediate(...)`
+  para difundir a contagem atual **depois** de terminado este
+  processamento (`setImmediate` é semelhante a `setTimeout(fn, 0)` — corre
+  assim que o event loop tiver oportunidade); marca `answer.style = 'sse'`;
+- `doPost()` mapeia `/incr` e `/reset` para as operações do `counter`,
+  seguidas de difusão da nova contagem; outros URLs dão erro `400`.
+:::
+
+::: exemplo
+**Servidor (continuação).**
+
+```js
 http.createServer(function (request, response) {
     const preq = url.parse(request.url, true);
     const pathname = preq.pathname;
@@ -10523,15 +10548,7 @@ http.createServer(function (request, response) {
 }).listen(PORT);
 ```
 
-- `doGet()` só trata `/update`: memoriza a `response` no *updater* (para
-  poder escrever nela mais tarde), regista `request.on('close', ...)`
-  para a **esquecer** quando o cliente desliga, e usa `setImmediate(...)`
-  para difundir a contagem atual **depois** de terminado este
-  processamento (`setImmediate` é semelhante a `setTimeout(fn, 0)` — corre
-  assim que o event loop tiver oportunidade); marca `answer.style = 'sse'`;
-- `doPost()` mapeia `/incr` e `/reset` para as operações do `counter`,
-  seguidas de difusão da nova contagem; outros URLs dão erro `400`;
-- o servidor tem um **ponto único** de escrita da resposta: define
+O servidor tem um **ponto único** de escrita da resposta: define
   `status`/`style` por omissão (`200`/`plain`) se não tiverem sido
   definidos, escreve o cabeçalho adequado, e só fecha a resposta
   (`response.end()`) se **não** for SSE — nos pedidos SSE a ligação fica
@@ -10628,7 +10645,7 @@ webSocketServer.on('request', function (request) {
 :::
 
 ::: exemplo
-**Difusão, processamento e tabuleiro.**
+**Difusão e tabuleiro.**
 
 ```js
 // difundir.js
@@ -10665,6 +10682,10 @@ function play(pos) {
 }
 initBoard();
 ```
+:::
+
+::: exemplo
+**Processar mensagens (continuação).**
 
 ```js
 // processar.js

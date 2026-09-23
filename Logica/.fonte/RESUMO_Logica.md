@@ -1,10 +1,10 @@
 ---
 title: "Lógica Computacional --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 1 (Aulas 1--2)"
+date: "Atualizado: Semana 2 (Aulas 1--3)"
 ---
 
-<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf -->
 
 # Aula 1 --- Introdução à Lógica e Sintaxe da Lógica Proposicional
 
@@ -222,7 +222,7 @@ constrói):
 
 **Árvore sintática:**
 
-![Árvore sintática de ¬(s → ¬(p → (q ∨ ¬s)))](figuras/arvore_1_3c.pdf){width=70%}
+![Árvore sintática de ¬(s → ¬(p → (q ∨ ¬s)))](figuras/arvore_1_3c.pdf){height=12cm}
 
 **Subfórmulas:** $E$ (a própria fórmula), $D = s \to \neg(p \to (q\lor\neg s))$,
 $s$, $C = \neg(p \to (q \lor \neg s))$, $B = p \to (q \lor \neg s)$, $p$,
@@ -260,6 +260,16 @@ repara que o conectivo **principal** de uma fórmula (a raiz da árvore) é
 sempre o de **menor prioridade** entre os que aparecem "soltos" (não dentro
 de parêntesis explícitos) — por isso em 1.3(a) a raiz é $\to$ e não $\land$,
 mesmo aparecendo $\land$ mais à esquerda na leitura da fórmula.
+:::
+
+::: {.pratica title="--- Linguagem e árvores sintáticas (proplogic.pdf)"}
+- **1.2** --- traduzir cada fórmula para português. É mecânico: lê cada
+  conectivo com a tabela da secção "Conectivos lógicos" ($\to$ = "se...
+  então"). Atenção à (d) vs. (e) vs. (f): são três implicações diferentes,
+  não digas o mesmo por palavras diferentes.
+- **1.3 (b)** e **(d)** --- árvore sintática e subfórmulas, mesma técnica de
+  (a)/(c)/(e) acima. Na (b) compara com a (a): os parêntesis mudam o
+  conectivo principal.
 :::
 
 ## Semântica: valorações e tabelas de verdade
@@ -335,6 +345,12 @@ todas as outras linhas o antecedente $p \land q$ já é falso, o que torna a
 implicação automaticamente verdadeira (ver nota acima sobre a implicação).
 :::
 
+::: {.pratica title="--- Tabelas de verdade (proplogic.pdf)"}
+- **1.4 (a)** e **(d)** --- tabelas de verdade, mesma técnica de (b)/(c)
+  acima. Na (d), antes de acabar, repara em que linhas o antecedente é
+  verdadeiro: é aí que tudo se decide.
+:::
+
 ## Satisfazibilidade, tautologias e contradições
 
 ::: {.definicao title="--- Satisfazibilidade, tautologia, contradição"}
@@ -389,6 +405,17 @@ no resto da fórmula. É mais rápido e, mais importante, é a técnica que vais
 precisar no Exercício 1.14 ("sem construir a tabela de verdade"), onde
 2 ou mais variáveis tornam a tabela completa demasiado grande para ser
 prático.
+:::
+
+::: {.pratica title="--- Classificar fórmulas (proplogic.pdf)"}
+- **1.9 (c)** --- confirma a técnica com 2 variáveis; se não for
+  tautologia nem contradição, dá uma valoração que a torna verdadeira e
+  outra que a torna falsa.
+- **1.9 (h)** --- já com 3 variáveis: tenta pelo método de procurar o
+  contraexemplo (caixa acima), não pela tabela completa.
+
+As restantes alíneas ((a), (b), (e), (f), (g)) são a mesma classificação
+repetida --- não precisas de as fazer todas.
 :::
 
 # Aula 2 --- Consequência Semântica, Equivalência e Conectivos Completos
@@ -461,6 +488,11 @@ $q \to p = \neg q$ (verdadeiro só se $q$ for falso), e se $v(q)=F$ então
 $q\to p$ é verdadeiro, tornando $(q\to p)\to p$ igual a $V \to F = F$. A
 posição exata de cada variável na fórmula importa — nunca assumas que uma
 fórmula "parecida" com uma tautologia conhecida também o é.
+:::
+
+::: {.pratica title="--- A relação $\models_v$ (proplogic.pdf)"}
+- **1.5 (a)**, **(c)** e **(d)** --- com $v(p)=V$, $v(q)=F$, avalia de
+  dentro para fora, como em (b)/(e) acima.
 :::
 
 ## Satisfazibilidade de um conjunto de fórmulas
@@ -558,6 +590,14 @@ sobre $\land$"), mas só a que distribui $\land$ do lado do **consequente**
 (a) é válida — distribuir sobre o **antecedente** (b) já não é. É um erro
 muito fácil de cometer sem verificar — usa sempre as leis ou um
 contraexemplo para confirmar, nunca "por analogia visual".
+:::
+
+::: {.pratica title="--- Consequência e equivalência (proplogic.pdf)"}
+- **1.6 (b)**, **(c)** e **(d)** --- provar as equivalências, pela tabela
+  ou pelas leis (tenta pelas leis: é o que treina para o exame). Na (b),
+  usa $\varphi\to\psi \Leftrightarrow \neg\varphi\lor\psi$ dos dois lados.
+- **1.8 (c)** --- é válida ou não? Mesma comparação de (a)/(b) acima:
+  verifica com as leis de distributividade ou encontra um contraexemplo.
 :::
 
 ## Propriedades da relação $\models$
@@ -672,6 +712,13 @@ contraexemplo. É a mesma ideia usada em 1.9(d)/(i)/(j) e em 1.13, só que
 aqui aplicada sistematicamente à procura do contraexemplo.
 :::
 
+::: {.pratica title="--- Propriedades de $\models$ (proplogic.pdf)"}
+- **1.15** --- mesma ideia do Exercício 1.16 acima, mas com $\models$ e
+  $\Leftrightarrow$ entre fórmulas genéricas $\varphi,\psi,\theta,\gamma$:
+  se for verdadeiro, justifica pelas definições; se for falso, dá
+  fórmulas concretas como contraexemplo.
+:::
+
 ## Quantas proposições podem ser simultaneamente verdadeiras
 
 ::: {.exemplo title="--- Exercício 1.7 (lab, proplogic.pdf)"}
@@ -731,6 +778,9 @@ Como consequência imediata (usando as leis de De Morgan e a lei da
 implicação para reescrever $\land$ e $\lor$), também $\{\neg,\to\}$ é
 completo: $\phi\land\psi \Leftrightarrow \neg(\phi\to\neg\psi)$ e
 $\phi\lor\psi \Leftrightarrow \neg\phi\to\psi$.
+
+(Na Aula 3 aparece uma segunda prova, mais direta, do mesmo resultado: a
+construção da **forma normal disjuntiva** a partir da tabela de verdade.)
 
 ::: {.exemplo title="--- Exercício 1.19(a) (lab, proplogic.pdf) --- {negação, disjunção} é completo"}
 Mostrar que $p\to q$, $p\leftrightarrow q$ e $p\land q$ se escrevem só com
@@ -904,43 +954,637 @@ fixar qual das três hipóteses está a ser assumida; a tabela de verdade
 ambiguidade nem trabalho repetido.
 :::
 
-## Ligação com a prática
+::: {.pratica title="--- Modelação (proplogic.pdf)"}
+- **1.10 (g)** --- raciocínio indireto diferente: não analisas o que A/B
+  disseram, mas o que **C disse**.
+- **1.10 (j)** --- aqui és tu que **constróis** a pergunta certa (pista do
+  enunciado: relaciona, por equivalência, o que queres saber com o tipo
+  do habitante).
+- **1.12** --- mesma técnica de modelação do Exercício 1.11 (uma variável
+  por cadeira, uma fórmula por regra).
+- *Opcional:* **1.10 (k)**, que o professor chama "um problema invulgar".
 
-Este resumo cobre e resolve uma seleção dos exercícios de
-`Semana_1/proplogic.pdf` (exercícios 1.1, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9,
-1.10, 1.11, 1.13, 1.14, 1.16 e 1.19), escolhidos para cobrir todas as
-técnicas já dadas nas Aulas 1--2 sem repetir o mesmo tipo de raciocínio duas
-vezes. Ficam por fazer, sozinho, **para consolidar** — e só as alíneas que
-acrescentam mesmo algo novo, não o resto do enunciado:
+As restantes alíneas de 1.10 ((b), (c), (d), (f), (h), (i), (l)) repetem a
+técnica de (a)/(e) --- não precisas de as fazer.
+:::
 
-- **1.2** (tradução mecânica, não precisa de exemplo resolvido).
-- **1.3**: as alíneas (b) e (d) — mesma técnica de (a)/(c)/(e) acima.
-- **1.4**: as alíneas (a) e (d) — mesma técnica de (b)/(c) acima.
-- **1.5**: as alíneas (a), (c) e (d) — mesma técnica de (b)/(e) acima.
-- **1.6**: as alíneas (b), (c) e (d) — mesma técnica de (a)/(e) acima.
-- **1.8**: só a alínea (c) — a mesma comparação válida/não-válida de (a)/(b).
-- **1.9**: só as alíneas **(c)** e **(h)** (das 7 que faltam) — (c) confirma
-  a técnica com 2 variáveis, (h) já usa 3 variáveis (mais parecida com o
-  nível do Exercício 1.14). As restantes ((a),(b),(e),(f),(g)) são a mesma
-  classificação repetida — não precisas de as fazer todas para saber a
-  matéria.
-- **1.10**: só as alíneas **(g)** e **(j)** (das 10 que faltam) — (g) é um
-  raciocínio indireto diferente (perguntar o que **C disse**, não o que A/B
-  disseram), (j) pede-te para **construir** a pergunta certa, não só
-  analisar uma frase dada (é uma habilidade diferente das outras). Se
-  quiseres um desafio extra opcional, o professor chama à (k) "um problema
-  invulgar" — mas não é preciso para a matéria. As restantes ((b),(c),(d),
-  (f),(h),(i),(l)) repetem a mesma técnica de (a)/(e).
-- **1.11**: nenhuma alínea extra — já resolvidas todas as 5 (usam a mesma
-  tabela, sem trabalho repetido).
-- **1.12** (mesma técnica de modelação do Exercício 1.11, mas com regras de
-  escolha de cadeiras em vez de culpados).
-- **1.15** (mesma ideia do Exercício 1.16, com $\subseteq$ e
-  $\Leftrightarrow$ em vez de $\subseteq$ e $\models$).
+# Aula 3 --- Formas Normais e Satisfazibilidade
 
-Os exercícios **1.17, 1.18 (formas normais DNF/CNF)** e **1.20--1.23 (Horn,
-algoritmo de David-Putnam/DPLL)** ficam de fora deste resumo **de propósito**
-— ainda não foram dados nas teóricas (o programa da disciplina só chega a
-formas normais e algoritmos de satisfazibilidade mais à frente); entram no
-resumo quando a Aula correspondente for processada, para não estudar matéria
-fora de ordem.
+Até aqui, para saber se uma fórmula é satisfazível ou tautologia, a única
+ferramenta geral era a tabela de verdade --- com $2^n$ linhas para $n$
+variáveis. Esta aula mostra que qualquer fórmula pode ser **transformada numa
+fórmula semanticamente equivalente com uma forma especial** (uma *forma
+normal*), e que, para algumas dessas formas, decidir a satisfazibilidade ou
+a validade passa a ser trivial (basta "olhar" para a fórmula). Algumas formas
+normais existem para **qualquer** fórmula (negativa, disjuntiva, conjuntiva);
+outras só existem para certas classes de fórmulas (Horn).
+
+## Literais e forma normal negativa (FNN)
+
+::: {.definicao title="--- Literal e forma normal negativa"}
+Um **literal** é uma variável proposicional $p$ ou a sua negação $\neg p$.
+($p$ diz-se literal **positivo**, $\neg p$ literal **negativo**.)
+
+Uma fórmula está em **forma normal negativa** se a negação $\neg$ só
+aparece aplicada diretamente a variáveis, isto é, só dentro de literais.
+Ex: $(\neg p \land \neg q) \lor p$ está em FNN; $\neg(p \lor q)$ não está.
+:::
+
+::: {.definicao title="--- Proposição (existência da FNN)"}
+Qualquer fórmula que só use os conectivos $\land$, $\lor$ e $\neg$ é
+semanticamente equivalente a uma fórmula em forma normal negativa.
+
+**Prova:** basta aplicar repetidamente as **leis de De Morgan** (que
+"empurram" cada $\neg$ para dentro de um $\land$/$\lor$, trocando-o pelo
+outro) e eliminar as **duplas negações** ($\neg\neg\phi \Leftrightarrow \phi$)
+até cada $\neg$ ficar encostado a uma variável.
+:::
+
+::: {.exemplo title="--- FNN de $\\neg((p \\lor q) \\land \\neg p)$ (slides)"}
+$$\begin{aligned}
+&\neg\big((p \lor q) \land \neg p\big) \\
+\overset{\text{(De Morgan, no } \land\text{ exterior)}}{\Leftrightarrow}\ & \neg(p \lor q) \lor \neg\neg p \\
+\overset{\text{(De Morgan, em } \neg(p\lor q))}{\Leftrightarrow}\ & (\neg p \land \neg q) \lor \neg\neg p \\
+\overset{\text{(dupla negação)}}{\Leftrightarrow}\ & (\neg p \land \neg q) \lor p
+\end{aligned}$$
+
+Em cada passo o $\neg$ desce um nível na árvore sintática; quando todos os
+$\neg$ estão encostados a variáveis, parou-se: está em FNN.
+:::
+
+::: atencao
+Nota adicional (não estava explícito nos slides): a proposição só fala de
+fórmulas com $\land,\lor,\neg$. Se a fórmula tiver $\to$ (ou $\leftrightarrow$),
+**elimina-os primeiro**: $\phi\to\psi \Leftrightarrow \neg\phi\lor\psi$ e
+$\phi\leftrightarrow\psi \Leftrightarrow (\phi\to\psi)\land(\psi\to\phi)$. Só
+depois se empurram as negações. Esquecer este passo é o erro mais comum ---
+$\neg(p \to q)$ **não** é "$\neg p \to \neg q$"; é $p \land \neg q$ (ver
+Exercício 1.6(a) na Aula 2).
+:::
+
+## Forma normal disjuntiva (FND)
+
+::: {.definicao title="--- Forma normal disjuntiva"}
+Uma fórmula está em **forma normal disjuntiva** se é uma **disjunção de
+conjunções de literais**:
+$$(\alpha_{11} \land \dots \land \alpha_{1k_1}) \lor \dots \lor (\alpha_{n1} \land \dots \land \alpha_{nk_n})$$
+onde cada $\alpha_{ij}$ é um literal. ("Um *ou* de *e*'s".)
+
+Exemplos: $p \land q$ (uma só conjunção); $p \lor \neg p$ (duas conjunções,
+cada uma com um só literal); $(p \land q \land \neg r) \lor (\neg p \land r)$.
+:::
+
+Há duas formas de obter uma FND: **a partir da tabela de verdade** (lema
+seguinte) ou **a partir da fórmula**, por equivalências.
+
+### FND a partir da tabela de verdade
+
+::: {.definicao title="--- Lema (toda a função de verdade tem uma FND)"}
+Para qualquer função $f : \{V,F\}^n \to \{V,F\}$ existe uma fórmula $\phi$ em
+FND, com $n$ variáveis, tal que $F_\phi = f$.
+
+**Prova (construtiva --- é o próprio método):**
+
+- Se $f$ dá $F$ em todas as linhas, toma-se $\phi = p_1 \land \neg p_1$
+  (sempre falsa).
+- Senão, para cada linha (valoração) $v$ da tabela, define-se o literal
+  $l_i^v = p_i$ se $v(p_i)=V$ e $l_i^v = \neg p_i$ se $v(p_i)=F$, e a
+  conjunção $\phi_v = l_1^v \land \dots \land l_n^v$.
+- **Porquê isto funciona:** cada $l_i^v$ é, por construção, verdadeiro em
+  $v$, logo $v(\phi_v) = V$. E em qualquer **outra** linha $v'$, pelo menos
+  uma variável tem valor diferente, o literal correspondente é falso, e
+  $\phi_v$ é falsa. Ou seja: **$\phi_v$ é verdadeira exatamente na linha $v$
+  e em mais nenhuma.**
+- Toma-se $\phi = \bigvee_{f(v)=V} \phi_v$: a disjunção das $\phi_v$ das
+  linhas em que $f$ dá $V$. Então $\phi$ é verdadeira exatamente nessas
+  linhas --- ou seja, $F_\phi = f$.
+:::
+
+::: {.exemplo title="--- FND a partir de uma tabela (slides)"}
+| linha | $x_1$ | $x_2$ | $x_3$ | $f$ | conjunção $\phi_v$ (só para as linhas com $V$) |
+|---|---|---|---|---|---|
+| 1 | V | V | V | V | $p_1 \land p_2 \land p_3$ |
+| 2 | V | V | F | V | $p_1 \land p_2 \land \neg p_3$ |
+| 3 | V | F | V | V | $p_1 \land \neg p_2 \land p_3$ |
+| 4 | V | F | F | F | --- |
+| 5 | F | V | V | V | $\neg p_1 \land p_2 \land p_3$ |
+| 6 | F | V | F | F | --- |
+| 7 | F | F | V | F | --- |
+| 8 | F | F | F | F | --- |
+
+Regra para escrever cada conjunção: variável a $V$ na linha → entra
+**positiva**; variável a $F$ → entra **negada**. Ex.: linha 3 tem
+$x_1=V, x_2=F, x_3=V$, logo $p_1 \land \neg p_2 \land p_3$.
+
+Juntando com $\lor$ as 4 conjunções das linhas com $V$:
+$$(p_1 \land p_2 \land p_3) \lor (p_1 \land p_2 \land \neg p_3) \lor (p_1 \land \neg p_2 \land p_3) \lor (\neg p_1 \land p_2 \land p_3)$$
+
+(Repara: $f$ é a função "maioria" --- é $V$ quando pelo menos duas das três
+variáveis são $V$.)
+:::
+
+::: atencao
+Este lema é **outra prova** de que $\{\land,\lor,\neg\}$ é um conjunto
+completo de conectivos (Aula 2, "Conjuntos completos de conectivos"): a
+fórmula construída só usa $\land$, $\lor$ e $\neg$ e realiza qualquer $f$.
+Lá a prova era por indução no número de variáveis; aqui é direta, linha a
+linha. Ambas chegam ao mesmo resultado.
+:::
+
+### FND a partir de uma fórmula
+
+::: {.definicao title="--- Corolário (toda a fórmula tem uma FND equivalente)"}
+Qualquer fórmula é semanticamente equivalente a uma fórmula em FND. Para a
+obter:
+
+1. eliminar $\to$ e $\leftrightarrow$, ficando só com $\land$, $\lor$, $\neg$;
+2. passar para **forma normal negativa** (De Morgan + dupla negação);
+3. aplicar a **distributividade do $\land$ sobre o $\lor$** até não haver
+   nenhum $\lor$ dentro de um $\land$:
+   $$(\phi \lor \psi) \land \theta \Leftrightarrow (\phi \land \theta) \lor (\psi \land \theta)
+   \qquad \theta \land (\phi \lor \psi) \Leftrightarrow (\theta \land \phi) \lor (\theta \land \psi)$$
+:::
+
+::: {.exemplo title="--- FND de $(p \\lor r) \\leftrightarrow (q \\land \\neg p)$, parte 1: passos 1 e 2 (slides)"}
+**Passo 1 --- eliminar $\leftrightarrow$ e $\to$:**
+$$\begin{aligned}
+&(p \lor r) \leftrightarrow (q \land \neg p) \\
+\Leftrightarrow\ & \big((p \lor r) \to (q \land \neg p)\big) \land \big((q \land \neg p) \to (p \lor r)\big) && (\leftrightarrow \text{ como duas implicações})\\
+\Leftrightarrow\ & \big(\neg(p \lor r) \lor (q \land \neg p)\big) \land \big(\neg(q \land \neg p) \lor (p \lor r)\big) && (\text{implicação, 2 vezes})
+\end{aligned}$$
+
+**Passo 2 --- forma normal negativa.** No lado esquerdo,
+$\neg(p\lor r) \Leftrightarrow \neg p \land \neg r$ (De Morgan). No lado direito,
+$\neg(q \land \neg p) \Leftrightarrow \neg q \lor \neg\neg p \Leftrightarrow \neg q \lor p$
+(De Morgan + dupla negação). Fica:
+$$\underbrace{\big((\neg p \land \neg r) \lor (q \land \neg p)\big)}_{X} \land \underbrace{\big((\neg q \lor p) \lor (p \lor r)\big)}_{A \,\lor\, B}$$
+com $A = \neg q \lor p$ e $B = p \lor r$. Isto já está em FNN, mas **não** em
+FND: há $\lor$ dentro do $\land$ principal.
+:::
+
+::: {.exemplo title="--- FND de $(p \\lor r) \\leftrightarrow (q \\land \\neg p)$, parte 2: distributividade (slides)"}
+**Passo 3a** --- $X \land (A \lor B) \Leftrightarrow (X \land A) \lor (X \land B)$:
+$$\big(((\neg p \land \neg r) \lor (q \land \neg p)) \land A\big) \lor \big(((\neg p \land \neg r) \lor (q \land \neg p)) \land B\big)$$
+
+**Passo 3b** --- em cada um dos dois blocos, $X = C_1 \lor C_2$ (com
+$C_1 = \neg p \land \neg r$, $C_2 = q \land \neg p$) volta a distribuir:
+$(C_1 \lor C_2) \land A \Leftrightarrow (C_1 \land A) \lor (C_2 \land A)$, e o
+mesmo com $B$:
+$$(\neg p \land \neg r \land (\neg q \lor p)) \lor (q \land \neg p \land (\neg q \lor p)) \lor (\neg p \land \neg r \land (p \lor r)) \lor (q \land \neg p \land (p \lor r))$$
+
+**Passo 3c** --- cada um dos 4 termos ainda tem um $\lor$ lá dentro;
+distribui-se cada um ($K \land (a \lor b) \Leftrightarrow (K \land a) \lor (K \land b)$):
+
+- **Termo 1** --- $K = \neg p \land \neg r$, $(a \lor b) = \neg q \lor p$:
+  $(\neg p \land \neg r \land \neg q) \lor (\neg p \land \neg r \land p)$
+- **Termo 2** --- $K = q \land \neg p$, $(a \lor b) = \neg q \lor p$:
+  $(q \land \neg p \land \neg q) \lor (q \land \neg p \land p)$
+- **Termo 3** --- $K = \neg p \land \neg r$, $(a \lor b) = p \lor r$:
+  $(\neg p \land \neg r \land p) \lor (\neg p \land \neg r \land r)$
+- **Termo 4** --- $K = q \land \neg p$, $(a \lor b) = p \lor r$:
+  $(q \land \neg p \land p) \lor (q \land \neg p \land r)$
+
+A FND é a disjunção destas 8 conjunções:
+$$(\neg p \land \neg r \land \neg q) \lor (\neg p \land \neg r \land p) \lor (q \land \neg p \land \neg q) \lor (q \land \neg p \land p) \lor (\neg p \land \neg r \land p) \lor (\neg p \land \neg r \land r) \lor (q \land \neg p \land p) \lor (q \land \neg p \land r)$$
+:::
+
+## Satisfazibilidade de uma FND
+
+::: {.definicao title="--- Lema e corolário"}
+**Lema.** Uma conjunção de literais $l_1 \land \dots \land l_n$ é
+satisfazível **sse** não contém um par complementar, isto é, para todos os
+$i,j$, $l_i$ não é $\neg l_j$. (Se não há par $p$/$\neg p$, basta pôr cada
+literal positivo a $V$ e cada negativo a $F$ --- não há conflito. Se há
+$p$ e $\neg p$, nunca podem ser ambos verdadeiros.)
+
+**Corolário.** Uma fórmula em FND é satisfazível **sse alguma** das suas
+conjunções é satisfazível (uma disjunção é verdadeira se **um** dos termos
+for).
+:::
+
+::: exemplo
+- $p \land \neg q \land \neg r \land q$: contém $\neg q$ e $q$ → **não** é
+  satisfazível.
+- $\neg p \land q \land \neg r \land \neg s$: nenhum par complementar → **é**
+  satisfazível (com $p=F$, $q=V$, $r=F$, $s=F$).
+:::
+
+::: {.exemplo title="--- $(p \\lor r) \\leftrightarrow (q \\land \\neg p)$ é satisfazível? (slides)"}
+Usa-se a FND obtida acima e verifica-se **cada** uma das 8 conjunções:
+
+| # | conjunção | par complementar? | satisfazível? |
+|---|---|---|---|
+| 1 | $\neg p \land \neg r \land \neg q$ | nenhum | **sim** |
+| 2 | $\neg p \land \neg r \land p$ | $\neg p$, $p$ | não |
+| 3 | $q \land \neg p \land \neg q$ | $q$, $\neg q$ | não |
+| 4 | $q \land \neg p \land p$ | $\neg p$, $p$ | não |
+| 5 | $\neg p \land \neg r \land p$ | $\neg p$, $p$ | não |
+| 6 | $\neg p \land \neg r \land r$ | $\neg r$, $r$ | não |
+| 7 | $q \land \neg p \land p$ | $\neg p$, $p$ | não |
+| 8 | $q \land \neg p \land r$ | nenhum | **sim** |
+
+Há (pelo menos) uma conjunção satisfazível → a fórmula **é satisfazível**. A
+conjunção 1 dá a valoração $p=q=r=F$; a 8 dá $p=F$, $q=r=V$.
+
+Como as conjunções insatisfazíveis são sempre falsas, podem ser **apagadas**
+da disjunção sem mudar nada ($\phi \lor F \Leftrightarrow \phi$), e fica a FND
+simplificada:
+$$(p \lor r) \leftrightarrow (q \land \neg p) \;\Leftrightarrow\; (\neg p \land \neg q \land \neg r) \lor (\neg p \land q \land r)$$
+
+**Verificação direta** (para confirmar que não houve engano): se $p=V$, o
+lado esquerdo $p \lor r$ é $V$ e o direito $q \land \neg p$ é $F$ → a
+equivalência é $F$. Se $p=F$, fica $r \leftrightarrow q$, que é $V$ só para
+$q=r=F$ ou $q=r=V$. São exatamente as duas conjunções que sobraram. $\checkmark$
+:::
+
+::: atencao
+Nota adicional (dos apontamentos da Prof.ª Nelma Moreira, em `Teoricas/`):
+se a fórmula **já está** em FND, este teste é **linear** no tamanho da
+fórmula --- muito melhor do que os $2^n$ da tabela de verdade. Mas
+**atenção**: *obter* a FND pode ser caro --- cada distributividade duplica
+parte da fórmula (o exemplo acima passou de uma fórmula pequena para 8
+conjunções), e no pior caso a FND tem tamanho exponencial. Não se conhece
+nenhum algoritmo polinomial para a satisfazibilidade de uma fórmula
+qualquer (problema **SAT**); encontrar um responderia à pergunta
+"P = NP?". O que há são classes de fórmulas em que o problema é fácil (FND,
+Horn) e algoritmos que na prática funcionam bem para fórmulas em FNC.
+:::
+
+## Forma normal conjuntiva (FNC)
+
+::: {.definicao title="--- Forma normal conjuntiva"}
+Uma fórmula está em **forma normal conjuntiva** se é uma **conjunção de
+disjunções de literais** ("um *e* de *ou*'s"):
+$$(\alpha_{11} \lor \dots \lor \alpha_{1k_1}) \land \dots \land (\alpha_{n1} \lor \dots \lor \alpha_{nk_n})$$
+Cada disjunção de literais chama-se uma **cláusula**.
+:::
+
+::: {.definicao title="--- Lema dual (tautologia de uma FNC)"}
+Por **dualidade** com o lema da FND: uma disjunção de literais
+$l_1 \lor \dots \lor l_n$ é **tautologia sse contém um par complementar**
+(algum $l_i$ é $\neg l_j$: se tem $p \lor \neg p$ lá dentro, é sempre
+verdadeira; se não tem, pondo cada literal a $F$ ela falha).
+
+Logo, uma fórmula em FNC é **tautologia sse todas as suas cláusulas são
+tautologias** (uma conjunção é sempre verdadeira sse cada termo é sempre
+verdadeiro).
+:::
+
+::: exame
+Guarda a **simetria**: FND serve para decidir **satisfazibilidade** (basta
+**uma** conjunção sem par complementar); FNC serve para decidir se é
+**tautologia** (**todas** as cláusulas têm de ter um par complementar). O
+contrário **não** é fácil: decidir se uma FNC é satisfazível é exatamente o
+problema SAT difícil.
+:::
+
+Duas formas de obter uma FNC --- as mesmas duas da FND, "ao contrário":
+
+1. **A partir da tabela de verdade**, pelo método dual: escolher as linhas
+   em que $f$ dá **F**; para cada uma, formar a **disjunção** em que a
+   variável entra **negada se está a $V$** nessa linha e **positiva se está
+   a $F$**; tomar a **conjunção** dessas disjunções.
+2. **A partir da fórmula**: passos 1 e 2 iguais aos da FND, mas no passo 3 usa-se
+   a distributividade do **$\lor$ sobre o $\land$**:
+   $$(\phi \land \psi) \lor \theta \Leftrightarrow (\phi \lor \theta) \land (\psi \lor \theta)
+   \qquad \theta \lor (\phi \land \psi) \Leftrightarrow (\theta \lor \phi) \land (\theta \lor \psi)$$
+
+::: {.exemplo title="--- FNC a partir de uma tabela (slides; a mesma função da FND acima)"}
+Agora interessam as linhas com **F** (4, 6, 7, 8). Para cada uma, a
+cláusula é construída para ser **falsa exatamente nessa linha**: cada
+literal tem de ser $F$ ali, por isso variável a $V$ → entra **negada**,
+variável a $F$ → entra **positiva**.
+
+| linha | $x_1$ | $x_2$ | $x_3$ | $f$ | cláusula |
+|---|---|---|---|---|---|
+| 4 | V | F | F | F | $\neg p_1 \lor p_2 \lor p_3$ |
+| 6 | F | V | F | F | $p_1 \lor \neg p_2 \lor p_3$ |
+| 7 | F | F | V | F | $p_1 \lor p_2 \lor \neg p_3$ |
+| 8 | F | F | F | F | $p_1 \lor p_2 \lor p_3$ |
+
+Verificação da linha 4: com $x_1=V, x_2=F, x_3=F$, $\neg p_1 \lor p_2 \lor p_3 = F \lor F \lor F = F$;
+e em qualquer outra linha pelo menos um literal é $V$. A conjunção das 4
+cláusulas é $F$ exatamente nas linhas 4, 6, 7, 8 --- ou seja, realiza $f$:
+$$(\neg p_1 \lor p_2 \lor p_3) \land (p_1 \lor \neg p_2 \lor p_3) \land (p_1 \lor p_2 \lor \neg p_3) \land (p_1 \lor p_2 \lor p_3)$$
+:::
+
+::: {.exemplo title="--- FNC de $(p \\lor r) \\leftrightarrow (q \\land \\neg p)$ e é tautologia? (slides)"}
+Os passos 1 e 2 são **exatamente** os da FND (ver acima), e dão:
+$$\big((\neg p \land \neg r) \lor (q \land \neg p)\big) \land \big((\neg q \lor p) \lor (p \lor r)\big)$$
+
+O lado direito já é uma cláusula: $\neg q \lor p \lor p \lor r$
+(associatividade). Falta o lado esquerdo, que é um $\lor$ de $\land$'s.
+
+**Passo 3a** --- distribuir com $\theta = \neg p \land \neg r$, $\phi = q$,
+$\psi = \neg p$, usando $\theta \lor (\phi \land \psi) \Leftrightarrow (\theta \lor \phi) \land (\theta \lor \psi)$:
+$$(\neg p \land \neg r) \lor (q \land \neg p) \Leftrightarrow \big((\neg p \land \neg r) \lor q\big) \land \big((\neg p \land \neg r) \lor \neg p\big)$$
+
+**Passo 3b** --- cada bloco ainda tem um $\land$ dentro de um $\lor$;
+distribui-se outra vez ($(a \land b) \lor c \Leftrightarrow (a \lor c) \land (b \lor c)$):
+
+- $(\neg p \land \neg r) \lor q \Leftrightarrow (\neg p \lor q) \land (\neg r \lor q)$
+- $(\neg p \land \neg r) \lor \neg p \Leftrightarrow (\neg p \lor \neg p) \land (\neg r \lor \neg p)$
+
+**FNC final** (5 cláusulas):
+$$(\neg p \lor q) \land (\neg r \lor q) \land (\neg p \lor \neg p) \land (\neg r \lor \neg p) \land (\neg q \lor p \lor p \lor r)$$
+
+**É tautologia?** Verifica-se cada cláusula: $\neg p \lor q$ não tem par
+complementar → já não é tautologia, e a fórmula também **não** é
+(resposta dos slides: **Não**). Contraexemplo tirado da própria cláusula
+(pôr os seus literais a $F$): $p=V$, $q=F$ --- de facto, com $p=V$ o lado
+$p \lor r$ é $V$ e $q \land \neg p$ é $F$, logo a equivalência é $F$. $\checkmark$
+:::
+
+::: atencao
+Nota adicional (não está nos slides, mas ajuda a simplificar FND/FNC):
+além das leis da Aula 2, estas equivalências são úteis para "limpar" o
+resultado:
+
+- $\phi \land \neg\phi \Leftrightarrow F$ e $\phi \lor \neg\phi \Leftrightarrow V$;
+- $\phi \lor F \Leftrightarrow \phi$, $\phi \land V \Leftrightarrow \phi$,
+  $\phi \land F \Leftrightarrow F$, $\phi \lor V \Leftrightarrow V$;
+- **absorção**: $\phi \lor (\phi \land \psi) \Leftrightarrow \phi$ e
+  $\phi \land (\phi \lor \psi) \Leftrightarrow \phi$.
+
+Na FNC acima, por exemplo: $\neg p \lor \neg p \Leftrightarrow \neg p$
+(idempotência), e a cláusula $\neg r \lor \neg p$ é absorvida por $\neg p$.
+Fica $(\neg p \lor q) \land (\neg r \lor q) \land \neg p \land (\neg q \lor p \lor r)$
+--- com $p=F$ forçado, sobra $(\neg r \lor q) \land (\neg q \lor r)$, ou seja
+$q \leftrightarrow r$: coerente com a verificação feita na FND. Uma FND/FNC
+não é única; qualquer uma equivalente está certa.
+:::
+
+### Aplicação aos exercícios da prática: FND/FNC
+
+::: {.exemplo title="--- Exercício 1.17(a) (lab, proplogic.pdf) --- FND e FNC a partir da tabela"}
+A função (a) tem esta coluna (na ordem de linhas do enunciado, $p,q,r$ de
+$VVV$ até $FFF$): $V, V, V, V, F, V, V, V$. Só **uma** linha dá $F$: a linha
+$p=F, q=V, r=V$.
+
+**FNC** (uma cláusula por linha com $F$ --- só há uma): na linha
+$p=F,q=V,r=V$, $p$ está a $F$ → entra positivo; $q$ e $r$ estão a $V$ →
+entram negados:
+$$p \lor \neg q \lor \neg r$$
+
+**FND** (uma conjunção por linha com $V$ --- há sete):
+
+| $p$ | $q$ | $r$ | conjunção |
+|---|---|---|---|
+| V | V | V | $p \land q \land r$ |
+| V | V | F | $p \land q \land \neg r$ |
+| V | F | V | $p \land \neg q \land r$ |
+| V | F | F | $p \land \neg q \land \neg r$ |
+| F | V | F | $\neg p \land q \land \neg r$ |
+| F | F | V | $\neg p \land \neg q \land r$ |
+| F | F | F | $\neg p \land \neg q \land \neg r$ |
+
+$$(p \land q \land r) \lor (p \land q \land \neg r) \lor (p \land \neg q \land r) \lor (p \land \neg q \land \neg r) \lor (\neg p \land q \land \neg r) \lor (\neg p \land \neg q \land r) \lor (\neg p \land \neg q \land \neg r)$$
+
+**Lição:** quando a tabela tem **poucos $F$**, a FNC sai muito mais curta;
+quando tem **poucos $V$**, é a FND. Ambas estão certas --- as duas
+representam a mesma função (confirma: a FNC só falha em $p=F,q=V,r=V$, que é
+a única linha que falta na FND). Também se podia simplificar a FND de 7
+termos, mas não é pedido.
+:::
+
+::: {.exemplo title="--- Exercício 1.18(d) (lab, proplogic.pdf) --- FND e FNC de $(p \\to q) \\to (\\neg p \\to \\neg q)$"}
+$$\begin{aligned}
+&(p \to q) \to (\neg p \to \neg q) \\
+\Leftrightarrow\ & \neg(p \to q) \lor (\neg p \to \neg q) && \text{(implicação, na } \to \text{ exterior)}\\
+\Leftrightarrow\ & \neg(\neg p \lor q) \lor (\neg\neg p \lor \neg q) && \text{(implicação, nas duas interiores)}\\
+\Leftrightarrow\ & (\neg\neg p \land \neg q) \lor (\neg\neg p \lor \neg q) && \text{(De Morgan)}\\
+\Leftrightarrow\ & (p \land \neg q) \lor p \lor \neg q && \text{(dupla negação, 2 vezes; associatividade)}
+\end{aligned}$$
+
+**FND:** $(p \land \neg q) \lor p \lor \neg q$ já é FND --- três conjunções:
+$p \land \neg q$, $p$ (conjunção de um só literal), $\neg q$. Simplificando
+por absorção ($p \lor (p \land \neg q) \Leftrightarrow p$):
+$$p \lor \neg q$$
+
+**FNC:** distribui-se o $\lor$ sobre o $\land$ em $(p \land \neg q) \lor (p \lor \neg q)$,
+com $\theta = p \lor \neg q$:
+$$(p \lor p \lor \neg q) \land (\neg q \lor p \lor \neg q) \Leftrightarrow (p \lor \neg q) \land (p \lor \neg q) \Leftrightarrow p \lor \neg q$$
+(idempotência duas vezes). Repara que $p \lor \neg q$ é **ao mesmo tempo**
+FND (duas conjunções de um literal) e FNC (uma cláusula) --- é normal com
+fórmulas pequenas.
+
+Não é tautologia (a cláusula não tem par complementar): com $p=F, q=V$,
+$p \to q = V$ e $\neg p \to \neg q = V \to F = F$. (A alínea (k) do enunciado
+é **igual** a esta.)
+:::
+
+::: {.exemplo title="--- Exercício 1.18(h) (lab, proplogic.pdf) --- FND e FNC de $(p \\to q) \\land (\\neg q \\to (p \\lor \\neg q))$"}
+**Eliminar implicações:**
+$p \to q \Leftrightarrow \neg p \lor q$; e
+$\neg q \to (p \lor \neg q) \Leftrightarrow \neg\neg q \lor p \lor \neg q \Leftrightarrow q \lor p \lor \neg q$.
+$$(\neg p \lor q) \land (q \lor p \lor \neg q)$$
+
+**FNC:** isto **já é** uma FNC (conjunção de duas cláusulas). Repara que a
+segunda cláusula contém $q$ e $\neg q$: é tautologia, logo vale sempre $V$
+e pode sair ($\phi \land V \Leftrightarrow \phi$). FNC simplificada: $\neg p \lor q$.
+
+**FND** (fazendo a distribuição toda, sem simplificar antes, para treinar):
+$(\neg p \lor q) \land X$ com $X = q \lor p \lor \neg q$ distribui como
+$(\neg p \land X) \lor (q \land X)$, e cada um distribui outra vez sobre os 3
+literais de $X$:
+$$(\neg p \land q) \lor (\neg p \land p) \lor (\neg p \land \neg q) \lor (q \land q) \lor (q \land p) \lor (q \land \neg q)$$
+Apagam-se as conjunções com par complementar ($\neg p \land p$ e
+$q \land \neg q$) e $q \land q \Leftrightarrow q$:
+$$(\neg p \land q) \lor (\neg p \land \neg q) \lor q \lor (p \land q)$$
+Isto é uma FND correta. Simplificando por absorção ($q$ absorve
+$\neg p \land q$ e $p \land q$), sobra $(\neg p \land \neg q) \lor q$; e como
+$(\neg p \land \neg q) \lor q \Leftrightarrow (\neg p \lor q) \land (\neg q \lor q) \Leftrightarrow \neg p \lor q$,
+chega-se ao mesmo $\neg p \lor q$ da FNC --- que também é FND. $\checkmark$
+
+**Lição:** detetar cedo uma cláusula-tautologia (ou uma conjunção
+contraditória) poupa imenso trabalho de distribuição.
+:::
+
+::: {.pratica title="--- Formas normais (proplogic.pdf)"}
+- **1.17 (b)** e **(c)** --- FND e FNC pela tabela. Na (c), olha bem para a
+  coluna antes de começar: há uma fórmula muito mais curta escondida (as
+  formas canónicas saem longas, mas simplificam-se).
+- **1.18 (e)** --- é a Lei de Peirce (Aula 2): o que acontece à FNC de uma
+  tautologia?
+- **1.18 (l)** --- a mais comprida, boa para treinar a distributividade
+  com 4 variáveis.
+- **1.20** --- o programa: valoração, tabela, classificação e FNC/FND
+  (junta tudo o que viste até aqui).
+
+As restantes alíneas de 1.18 são a mesma técnica; não precisas de as fazer
+todas (e repara que (a) = (c) e (d) = (k) no próprio enunciado).
+:::
+
+## Fórmulas de Horn
+
+::: {.definicao title="--- Fórmula de Horn"}
+Uma **fórmula de Horn** é uma fórmula em **FNC** em que **cada cláusula tem
+no máximo um literal positivo**.
+
+Exemplos (dos slides), com o nº de literais positivos por cláusula:
+
+- $p \land \neg q \land (q \lor \neg p)$: cláusulas $p$ (1), $\neg q$ (0),
+  $q \lor \neg p$ (1) → Horn.
+- $(\neg p \lor \neg q \lor \neg s \lor p) \land (\neg q \lor \neg r \lor p) \land (\neg p \lor \neg s \lor s)$:
+  1, 1, 1 → Horn.
+- $(\neg p \lor \neg q \lor \neg s) \land (\neg q \lor \neg r \lor p) \land s$:
+  0, 1, 1 → Horn.
+
+Contra-exemplo: $(p \lor q) \land \neg r$ **não** é Horn --- a cláusula
+$p \lor q$ tem dois literais positivos.
+:::
+
+Cada cláusula de Horn pode ler-se como uma **implicação** (usando
+$\neg a \lor b \Leftrightarrow a \to b$ e De Morgan
+$\neg p_1 \lor \dots \lor \neg p_n \Leftrightarrow \neg(p_1 \land \dots \land p_n)$):
+
+| forma da cláusula | lida como implicação | nome informal |
+|---|---|---|
+| $\neg p_1 \lor \dots \lor \neg p_n \lor p$ | $(p_1 \land \dots \land p_n) \to p$ | regra |
+| $\neg p_1 \lor \dots \lor \neg p_n$ (sem positivo) | $(p_1 \land \dots \land p_n) \to F$ | restrição ("não podem ser todos $V$") |
+| $p$ (sem negativos) | $V \to p$ | facto ($p$ tem de ser $V$) |
+
+::: atencao
+**Nem todas as fórmulas têm uma fórmula de Horn equivalente** --- basta que
+a sua FNC tenha uma cláusula com mais de um literal positivo que não possa
+ser simplificada (ex.: $p \lor q$). A vantagem das fórmulas de Horn é que a
+sua satisfazibilidade decide-se com um **algoritmo eficiente** (linear/
+polinomial), sem tabela de verdade.
+:::
+
+### Algoritmo de satisfazibilidade para fórmulas de Horn
+
+A ideia: começar com todas as variáveis "desconhecidas" e só atribuir $V$ a
+uma variável quando **for obrigatório** (quando, sem isso, uma cláusula
+ficaria falsa). Se essas atribuições obrigatórias fizerem uma cláusula
+ficar $F$, a fórmula é insatisfazível; senão, põem-se todas as restantes
+variáveis a $F$ e está encontrada uma valoração que a satisfaz.
+
+::: {.definicao title="--- Algoritmo (versão dos slides)"}
+1. Escrever numa linha as variáveis e a fórmula (como numa linha de tabela
+   de verdade, ainda vazia).
+2. Se alguma **variável sozinha** é um dos elementos da conjunção (um
+   **facto**, $V \to p$), atribuir-lhe $V$. **Porquê?** Porque uma
+   conjunção só é $V$ se cada elemento for $V$; se $p$ é um elemento, tem de
+   ser $p=V$ em qualquer valoração que satisfaça a fórmula.
+3. Com os valores já conhecidos, avaliar cada cláusula. Se numa cláusula
+   todos os literais negativos já estão a $F$ (as suas variáveis estão a
+   $V$), então, para a cláusula ser $V$, o **literal positivo** tem de ser
+   $V$ → atribuir $V$ a essa variável.
+4. Repetir o passo 3 até nada mais poder ser acrescentado.
+5. Se algum elemento da conjunção ficou com valor $F$, a fórmula é $F$ →
+   **não satisfazível**. Caso contrário, é **satisfazível**: atribui-se $F$
+   a todas as variáveis restantes e a fórmula fica $V$.
+:::
+
+::: {.exemplo title="--- $p \\land \\neg q \\land (q \\lor \\neg p)$ (slides)"}
+Cláusulas: $C_1 = p$, $C_2 = \neg q$, $C_3 = q \lor \neg p$ (lida como
+$p \to q$).
+
+**Passo 1** --- linha vazia:
+
+| $p$ | $q$ | $C_1 = p$ | $C_2 = \neg q$ | $C_3 = q \lor \neg p$ |
+|---|---|---|---|---|
+| | | | | |
+
+**Passo 2** --- $p$ é um elemento da conjunção (facto) → $p = V$:
+
+| $p$ | $q$ | $C_1 = p$ | $C_2 = \neg q$ | $C_3 = q \lor \neg p$ |
+|---|---|---|---|---|
+| V | | V | | ($\neg p = F$) |
+
+**Passo 3** --- em $C_3$, o literal negativo $\neg p$ já é $F$; para $C_3$
+ser $V$, o positivo $q$ tem de ser $V$ → $q = V$:
+
+| $p$ | $q$ | $C_1 = p$ | $C_2 = \neg q$ | $C_3 = q \lor \neg p$ |
+|---|---|---|---|---|
+| V | V | V | | V |
+
+**Passo 4** --- repete-se: agora $C_2 = \neg q$ com $q = V$ dá $F$:
+
+| $p$ | $q$ | $C_1 = p$ | $C_2 = \neg q$ | $C_3 = q \lor \neg p$ |
+|---|---|---|---|---|
+| V | V | V | **F** | V |
+
+**Passo 5** --- um elemento da conjunção ($C_2$) ficou $F$ → a fórmula é
+$F$ → **não é satisfazível**. (Não há escolha possível: $p=V$ e $q=V$
+foram ambos **obrigatórios**.)
+:::
+
+::: atencao
+Nota adicional --- **porque é que o algoritmo está correto** (é o
+Exercício 1.21(b) do lab; nos slides fica só o "porquê?"):
+
+- **Se diz "insatisfazível", está certo:** cada $V$ atribuído foi
+  *obrigatório* --- qualquer valoração que satisfaça a fórmula tem de o ter.
+  Se as atribuições obrigatórias já tornam uma cláusula $F$, nenhuma
+  valoração satisfaz a fórmula.
+- **Se diz "satisfazível", está certo:** com as marcadas a $V$ e as outras a
+  $F$, pega-se numa cláusula qualquer. (i) Se o seu literal positivo está
+  marcado, ela é $V$. (ii) Senão, algum dos seus literais negativos $\neg x$
+  tem $x$ **não** marcado (se todos estivessem marcados, o passo 3 teria
+  obrigado a marcar o positivo, ou --- se não houver positivo --- a cláusula
+  seria $F$ e o algoritmo teria parado no passo 5); logo $x = F$ e
+  $\neg x = V$, e a cláusula é $V$.
+
+É exatamente aqui que se usa "no máximo um literal positivo": pôr as
+restantes a $F$ torna verdadeiros **todos** os literais negativos por
+decidir, e nunca é preciso "escolher" entre dois positivos. Por isso nunca
+há retrocesso (*backtracking*) e o algoritmo é eficiente.
+:::
+
+::: {.exemplo title="--- O mesmo algoritmo em pseudo-código (base para o Exercício 1.21(a))"}
+Vendo cada cláusula como implicação $(p_1 \land \dots \land p_n) \to h$, com
+$h$ uma variável ou $F$ (e $n = 0$ para factos):
+
+```
+marcadas := {}                       -- variáveis que TÊM de ser V
+repetir
+  mudou := falso
+  para cada cláusula (p1 e ... e pn) -> h:
+    se p1,...,pn estão todos em marcadas:   -- antecedente todo V
+      se h = F: devolver INSATISFAZÍVEL
+      se h não está em marcadas:
+        acrescentar h a marcadas; mudou := verdadeiro
+até não mudou
+devolver SATISFAZÍVEL   -- v(x)=V se x em marcadas, senão v(x)=F
+```
+
+Cada iteração do `repetir` marca pelo menos uma variável nova (ou pára),
+por isso há no máximo (nº de variáveis + 1) iterações --- polinomial.
+:::
+
+::: {.exemplo title="--- Exercício 1.21(c), 1.ª e 2.ª fórmulas (lab, proplogic.pdf)"}
+**(i) $(\neg p \lor \neg q) \land (\neg q \lor r) \land q$.** Como
+implicações: $(p \land q) \to F$, $q \to r$, $V \to q$.
+
+- Facto $q$ → $q = V$.
+- $q \to r$: antecedente $q$ marcado → $r = V$.
+- $(p \land q) \to F$: antecedente precisa de $p$ **e** $q$; $p$ não está
+  marcado → não dispara.
+- Nova volta: nada muda. Nenhuma cláusula ficou $F$.
+
+**Satisfazível**, com $q = V$, $r = V$ e a restante $p = F$. Verificação:
+$\neg p \lor \neg q = V \lor F = V$; $\neg q \lor r = F \lor V = V$; $q = V$. $\checkmark$
+
+**(ii) $p \land (\neg p \lor q) \land (\neg q \lor p)$.** Como implicações:
+$V \to p$, $p \to q$, $q \to p$.
+
+- Facto $p$ → $p = V$.
+- $p \to q$: $p$ marcado → $q = V$.
+- $q \to p$: $q$ marcado, mas $p$ já estava marcado → nada novo.
+- Nova volta: nada muda; nenhuma cláusula ficou $F$.
+
+**Satisfazível**, com $p = q = V$ (não sobram variáveis para pôr a $F$).
+Verificação: $p = V$; $\neg p \lor q = F \lor V = V$; $\neg q \lor p = F \lor V = V$. $\checkmark$
+:::
+
+::: {.pratica title="--- Horn (proplogic.pdf)"}
+- **1.21 (c)**, 3.ª e 4.ª fórmulas: $\neg p \land (\neg p \lor q) \land \neg q$
+  (o que acontece quando **não há nenhum facto**?) e
+  $p \land (\neg p \lor q) \land \neg r$.
+- **1.21 (a)** --- implementar o algoritmo a partir do pseudo-código acima.
+:::
+
+Os exercícios **1.22 e 1.23** (algoritmo de Davis-Putnam/DPLL) ficam fora
+do resumo até serem dados nas teóricas.

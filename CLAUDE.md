@@ -35,6 +35,8 @@ organiza mesmo os ficheiros — segue o que existe, não impõe a tua ordem):
                                 ESCONDIDA de propósito — o Gonçalo não quer ver .md
                                 ao navegar a pasta, só o PDF)
   RESUMO_<Disciplina>.pdf  <- compilado a partir do .md acima, sempre visível
+  SOLUCOES_<Disciplina>.html <- soluções dos exercícios "Pratica agora", uma
+                                alínea de cada vez (fonte: .fonte/SOLUCOES_<Disciplina>.md)
 ```
 
 O resumo cobre sempre as **teóricas** (`Teoricas/`). O material de
@@ -54,7 +56,8 @@ da mesma forma.
 _shared/template/
   preamble.tex   <- estilo LaTeX partilhado por todas as disciplinas (caixas, cores, fontes)
   div-envs.lua   <- filtro pandoc que converte ::: definicao ::: etc. em caixas
-  build.sh       <- script de build: build.sh <Disciplina>
+  build.sh       <- script de build: build.sh <Disciplina> (PDF + HTML de soluções)
+  solucoes.html, solucoes.lua <- template/filtro do HTML de soluções
 
 .claude/skills/resumo-semanal/SKILL.md  <- workflow detalhado + log de aprendizagens
 ```

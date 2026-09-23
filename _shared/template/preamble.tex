@@ -26,6 +26,8 @@
 \definecolor{WarnOrangeBg}{HTML}{FDF2E3}
 \definecolor{ExamRed}{HTML}{922B21}
 \definecolor{ExamRedBg}{HTML}{FDEDEC}
+\definecolor{PratPurple}{HTML}{5B2C6F}
+\definecolor{PratPurpleBg}{HTML}{F4ECF7}
 
 % Caixas NÃO quebráveis de propósito (nobreak é o default do tcolorbox
 % quando "breakable" não é passado): uma caixa nunca deve partir-se entre
@@ -41,6 +43,9 @@
 \newtcolorbox{atencao}[1][]{colback=WarnOrangeBg,colframe=WarnOrange,fonttitle=\bfseries,title={Atenção\ #1},left=6pt,right=6pt,top=3pt,bottom=3pt}
 % Caixa "sai muitas vezes em exame"
 \newtcolorbox{exame}[1][]{colback=ExamRedBg,colframe=ExamRed,fonttitle=\bfseries,title={Frequente em exame\ #1},left=6pt,right=6pt,top=3pt,bottom=3pt}
+% Caixa "pratica agora": exercícios sugeridos para fazer sozinho, colocada no
+% fim de cada tópico (##) logo a seguir à teoria que os exercícios aplicam
+\newtcolorbox{pratica}[1][]{colback=PratPurpleBg,colframe=PratPurple,fonttitle=\bfseries,title={Pratica agora\ #1},left=6pt,right=6pt,top=3pt,bottom=3pt}
 
 % Cada "Aula" (heading de nível 1, "#" em markdown -> \section) começa
 % sempre numa página nova, para ficar fácil de encontrar a partir do índice.
