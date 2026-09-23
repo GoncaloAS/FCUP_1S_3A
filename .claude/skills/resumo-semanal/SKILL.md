@@ -1,6 +1,6 @@
 ---
 name: resumo-semanal
-description: Gera ou estende o resumo teórico cumulativo em PDF de uma disciplina a partir dos slides colocados em Teoricas/. Usar sempre que o Gonçalo adiciona material novo de uma disciplina (teóricas novas) e pede para atualizar o resumo, ou quando começa uma disciplina nova.
+description: Gera ou estende o resumo teórico cumulativo em PDF de uma disciplina a partir dos slides colocados em Teoricas/, e o HTML com as soluções (uma alínea de cada vez) dos exercícios "Pratica agora". Usar sempre que o Gonçalo adiciona material novo de uma disciplina (teóricas novas) e pede para atualizar o resumo, ou quando começa uma disciplina nova.
 ---
 
 # Resumo semanal por disciplina
@@ -197,7 +197,7 @@ depender da legenda automática; se precisares de legenda, escreve-a à mão
 como texto em itálico na linha a seguir.
 
 **Paginação (já configurada no `preamble.tex`, não mexer sem motivo):**
-as caixas (`definicao`/`exemplo`/`atencao`/`exame`) são propositadamente
+as caixas (`definicao`/`exemplo`/`atencao`/`exame`/`pratica`) são propositadamente
 **não-quebráveis** (sem a opção `breakable`) — uma caixa nunca parte entre
 duas páginas, o LaTeX empurra-a inteira para a página seguinte se não
 couber. E cada `# Aula N` força uma página nova (`\clearpage` antes de
@@ -218,13 +218,15 @@ transborda da página, ou deixa muito espaço em branco na página anterior).
   (`nfa_thompson_ab.pdf`, não `fig1.pdf`), para poderes referenciá-los ou
   regenerá-los mais tarde.
 
-### 6. Compilar o PDF
+### 6. Compilar o PDF (e o HTML de soluções)
 
 ```
 bash _shared/template/build.sh <Disciplina>
 ```
 
-Corre a partir da raiz do repositório. Confirma que não há erros do tectonic
+Gera `RESUMO_<Disciplina>.pdf` e, se existir `.fonte/SOLUCOES_<Disciplina>.md`,
+também `SOLUCOES_<Disciplina>.html` (ver passo 7). Corre a partir da raiz
+do repositório. Confirma que não há erros do tectonic
 (a primeira compilação por máquina pode demorar mais — vai buscar pacotes
 LaTeX à medida que são precisos). Se houver erro de LaTeX, o mais comum é:
 - imagem dentro de caixa a gerar `figure` float → falta `-f
@@ -261,6 +263,21 @@ PDF gerado e inspeciona visualmente pelo menos as páginas com caixas novas
 — um fenced div malformado (ex: erro de sintaxe no atributo `title=`) não
 causa erro nenhum no tectonic, só faz a caixa sair como texto em bruto
 com `:::` literais. Isso só se apanha a olhar para o resultado.
+
+**Verificar o HTML de soluções:** o Read não abre HTML. Tira uma captura
+com o Chrome headless:
+
+```
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new \
+  --window-size=1000,3000 --virtual-time-budget=3000 --screenshot=<png> "file://<html>"
+```
+
+Para ver uma alínea aberta, gera uma cópia temporária com ` open` no
+`<details id="...">` dessa alínea. **Não** uses `#id` no URL: com o salto
+de scroll, a captura headless sai em branco. O Chrome headless não desce
+abaixo de ~485px de largura. Para testar o comportamento, como "abrir uma
+fecha as outras", injeta um `<script>` que clica e escreve o resultado num
+`<pre>`, e lê-o com `--dump-dom`. Apaga as cópias temporárias no fim.
 
 ### 7. Ligação com a prática — exercícios POR TÓPICO, nunca no fim
 
@@ -328,8 +345,10 @@ solução completa, passo a passo...
 **Regra atualizada (2026-09-22, substitui a versão anterior "nunca resolvas
 a prática")**: o resumo deve conter uma **mistura** de:
 - **Exercícios sugeridos, para o Gonçalo tentar sozinho** — enuncia o
-  exercício (ou aponta para ele no enunciado da prática) mas não dás a
-  resposta; é para ele aplicar a técnica que acabou de ler.
+  exercício (ou aponta para ele no enunciado da prática) numa caixa
+  `pratica`, sem a resposta **no resumo**; é para ele aplicar a técnica
+  que acabou de ler. A resposta completa vai **sempre** para
+  `SOLUCOES_<Disciplina>.md` (ver acima).
 - **Exercícios totalmente resolvidos** — incluindo, quando isso ajudar a
   fixar o mecanismo, **exercícios reais do próprio enunciado da prática**
   (não só análogos inventados). Cita sempre a origem no título da caixa
@@ -391,6 +410,14 @@ Depois de compilar com sucesso, atualiza o comentário no topo do `.md` com os
 novos ficheiros de origem incorporados (para a próxima invocação saber o que
 já está feito), e atualiza a data no cabeçalho YAML (`date:`).
 
+**Antes de dar a tarefa por terminada, confirma as soluções:** cada item
+de cada caixa `pratica` (exercício e alínea) tem de ter o seu `####` em
+`SOLUCOES_<Disciplina>.md`. Compara a lista das caixas
+(`grep -A12 "::: {.pratica" .fonte/RESUMO_*.md`) com os ids gerados
+(`grep -o 'details class="sol" id="[^"]*"' SOLUCOES_*.html`). Se faltar
+algum, a tarefa não está feita. Atualiza também o `date:` do
+`SOLUCOES_…md` se mudou.
+
 ## Esqueleto do ficheiro (nova disciplina)
 
 Cria em `<Disciplina>/.fonte/RESUMO_<Disciplina>.md` (a pasta `.fonte/` pode
@@ -408,6 +435,26 @@ date: "Atualizado: Semana N"
 # Aula 1 --- <título>
 
 ...
+```
+
+E, assim que houver a primeira caixa `pratica`,
+`<Disciplina>/.fonte/SOLUCOES_<Disciplina>.md`:
+
+```markdown
+---
+title: "<Disciplina> --- Soluções dos exercícios \"Pratica agora\""
+subtitle: "<enunciado de origem>. Tenta primeiro sozinho; abre uma alínea só depois de a teres feito."
+---
+
+## Aula 1 --- <tópico da caixa>
+
+### 1.2 --- <título do exercício>
+
+<dados comuns às alíneas, visíveis>
+
+#### (a) <enunciado da alínea>
+
+<solução completa>
 ```
 
 ## Auto-melhoria

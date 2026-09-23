@@ -41,8 +41,10 @@ organiza mesmo os ficheiros — segue o que existe, não impõe a tua ordem):
 
 O resumo cobre sempre as **teóricas** (`Teoricas/`). O material de
 `Praticas/Semana_N/` (labs, enunciados práticos, código) não é reproduzido no
-resumo — serve para perceber a que se deve ligar a explicação teórica (ver
-regra em `SKILL.md`, secção "Ligação com a prática").
+resumo. Serve para escolher os exercícios das caixas "Pratica agora", que
+ficam no fim de cada tópico e nunca agrupados no fim. As soluções de todos
+eles vão para o `SOLUCOES_<Disciplina>.html`, uma alínea de cada vez (ver
+`SKILL.md`, passo 7).
 
 **Regra do `.md` escondido**: o Gonçalo não gosta de ver ficheiros `.md` —
 prefere só PDFs quando navega uma disciplina. Mas o `.md` é a fonte editável
