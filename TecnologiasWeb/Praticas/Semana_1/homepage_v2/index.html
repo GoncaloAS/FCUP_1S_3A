@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+    content="Gonçalo Sousa: Computer Science student at FCUP and software engineer at Universidade do Porto.">
+  <title>Gonçalo Sousa</title>
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='4'%20fill='%238b2f1c'/%3E%3Ctext%20x='16'%20y='21.5'%20font-family='Georgia,serif'%20font-size='15'%20font-weight='700'%20fill='%23fbfaf7'%20text-anchor='middle'%3EGS%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header class="intro">
+    <div class="name">
+      <img src="images/goncalo.jpg" width="96" height="96" alt="Portrait of Gonçalo Sousa">
+      <h1>Gonçalo Sousa</h1>
+    </div>
+    <p class="lede">
+      Computer Science student at FCUP (2024–2027) and software engineer at
+      Universidade do Porto. I work in Python and Django, on PostgreSQL,
+      async data pipelines and open source.
+    </p>
+    <ul class="highlights">
+      <li><a href="#conferences">DjangoCon Europe 2025 site</a>:
+        lead developer, 300+ attendees</li>
+      <li><a href="#ad-evolutio">End-of-life Django migrations</a>:
+        50%+ of a client portfolio moved to a supported LTS release</li>
+      <li><a href="#asyquote">AsyQuote</a>: quoting tool with an async scraper,
+        graded 20/20</li>
+    </ul>
+    <ul class="contact">
+      <li><a href="mailto:gsag.sousa@icloud.com"><img class="icon" src="images/mail.svg"
+            alt="">gsag.sousa@icloud.com</a></li>
+      <li><a href="https://github.com/GoncaloAS"><img class="icon" src="images/github.svg"
+            alt="">github.com/GoncaloAS</a></li>
+      <li><a href="https://www.linkedin.com/in/gon%C3%A7alo-sousa-profile"><img class="icon" src="images/linkedin.svg"
+            alt="">linkedin.com/in/gonçalo-sousa-profile</a></li>
+    </ul>
+  </header>
+
+  <main>
+    <section class="block" id="experience">
+      <h2>Experience</h2>
+
+      <article class="entry" id="uporto">
+        <p class="when">Dec 2025 – present</p>
+        <div>
+          <h3>Software Engineer, Universidade do Porto</h3>
+          <p class="meta">Contract, hybrid, Porto</p>
+          <ul>
+            <li>Merging three Django/Wagtail products that used to be separate
+              projects, the faculty sites, the university portal and the
+              central-services sites, into one codebase. An environment-based
+              config layer in Python and Docker picks the product, templates,
+              styling and business rules at startup, so one codebase serves
+              every university unit.</li>
+            <li>Moving that codebase to the current Django and Wagtail LTS
+              releases one version at a time. Before the first step I built
+              the check each one has to pass: pinned dependencies, admin smoke
+              tests on all three products, a test suite taken from 21 to 38
+              tests, and a content comparison against the previous step.</li>
+            <li>Rewrote the course import from the university's information
+              system as an async client (httpx) with rate limiting, about 11,000
+              requests per full run, and turned courses from CMS pages into a
+              plain model, clearing 4,074 orphaned pages.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="entry" id="conferences">
+        <p class="when">2023 – 2025</p>
+        <div>
+          <h3>Lead Developer &amp; Staff, DjangoCon Europe and PyCon Portugal</h3>
+          <p class="meta">Open source, volunteer</p>
+          <ul>
+            <li>Led development of the official Django-powered site for
+              DjangoCon Europe <a href="https://2025.djangocon.eu/">2025 (Dublin)</a>,
+              after working as a developer on the
+              <a href="https://2024.djangocon.eu/">2024 (Vigo)</a> site. Each
+              edition had 300+ attendees.
+            </li>
+            <li>Built and maintained the PyCon Portugal sites for
+              <a href="https://2025.pycon.pt/">2025 (Cascais)</a>,
+              <a href="https://2024.pycon.pt/">2024 (Braga)</a> and
+              <a href="https://2023.pycon.pt/">2023 (Coimbra)</a> as part of the
+              core organising team.
+            </li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="entry" id="ad-evolutio">
+        <p class="when">Jul 2023 – Dec 2025</p>
+        <div>
+          <h3>Full Stack Developer, Ad Evolutio</h3>
+          <p class="meta">Part-time, hybrid, Porto</p>
+          <ul>
+            <li>Migrated 50%+ of the client portfolio off end-of-life Django
+              versions onto a supported LTS release, closing known
+              vulnerabilities and cutting upgrade debt.</li>
+            <li>Built and maintained full-stack applications with Django,
+              Wagtail and PostgreSQL across multiple client projects, from data
+              modelling and REST API design to responsive frontend delivery.</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <section class="block" id="project">
+      <h2>Project</h2>
+
+      <article class="entry" id="asyquote">
+        <p class="when">2023 – 2024</p>
+        <div>
+          <h3><a href="https://github.com/GoncaloAS/AsyQuote">AsyQuote</a>, construction SaaS platform</h3>
+          <p class="meta">Final-year project, Colégio Internato dos Carvalhos.
+            Grade 20/20.
+            <a href="https://github.com/GoncaloAS/AsyQuote/blob/master/docs/Relatorio-PAP-AsyQuote.pdf">Report</a>
+            (46 pages, Portuguese).
+          </p>
+          <p>Quoting software for small construction firms, which usually
+            build proposals by hand in spreadsheets. A quote is a tree of
+            chapters, services and priced lines, with cost and charged price
+            tracked per line. The Excel export uses live formulas, so the
+            client can change a quantity and watch the total follow.</p>
+          <dl class="notes">
+            <dt>Data</dt>
+            <dd>An asyncio/aiohttp scraper builds the supplier price
+              catalogue, fetching pages in batches of ten and retrying 429 and
+              5xx responses with exponential backoff. A full run collected about
+              40,000 products, with their pages parsed and images downloaded,
+              in around 15 minutes. In 2026 I made it check
+              every URL against robots.txt with a matcher written to RFC 9309
+              (Python's robotparser mishandles wildcards) and honour the
+              site's Crawl-delay.</dd>
+            <dt>Auth</dt>
+            <dd>Email verification before first use, reCAPTCHA on signup,
+              Argon2 instead of Django's default hasher, Django's password
+              validators including its 20,000 most common passwords, and
+              reset links that expire after two minutes.</dd>
+          </dl>
+        </div>
+      </article>
+    </section>
+
+    <section class="block" id="education">
+      <h2>Education</h2>
+
+      <article class="entry">
+        <p class="when">Sep 2024 – Jul 2027</p>
+        <div>
+          <h3>BSc Computer Science, FCUP, Universidade do Porto</h3>
+        </div>
+      </article>
+
+      <article class="entry">
+        <p class="when">Sep 2022 – Jun 2024</p>
+        <div>
+          <h3>High School Diploma, IT Track, Colégio Internato dos Carvalhos</h3>
+          <p class="meta">GPA 19/20</p>
+        </div>
+      </article>
+    </section>
+
+    <section class="block" id="skills">
+      <h2>Skills</h2>
+
+      <div class="entry">
+        <dl class="notes">
+          <dt>Languages</dt>
+          <dd>Python, JavaScript, C, C#, SQL</dd>
+          <dt>Frameworks</dt>
+          <dd>Django, Wagtail, HTMX, Bootstrap</dd>
+          <dt>Infrastructure</dt>
+          <dd>PostgreSQL, Docker, Git, Linux, CI/CD</dd>
+          <dt>Practices</dt>
+          <dd>REST APIs, asyncio, web scraping, data modelling</dd>
+          <dt>Spoken</dt>
+          <dd>Portuguese (native), English (C1), French (C1), Spanish (A2)</dd>
+        </dl>
+      </div>
+    </section>
+
+    <section class="block" id="beyond">
+      <h2>Beyond work</h2>
+
+      <div class="entry">
+        <p>Online poker: long-term winning cash-game player. Weekly group and
+          one-to-one coaching with the Polarize Poker professional
+          team; solver study in GTO Wizard.</p>
+        <figure class="poker">
+          <img src="images/poker.svg" width="480" height="210"
+            alt="Line chart: cumulative result rising from 0 to about 24,000 big blinds over 568,000 hands.">
+          <figcaption>
+            Cumulative result in big blinds against hands played, every
+            session from January 2025 to September 2026: 568,000 hands,
+            +24,000&nbsp;bb (4.2&nbsp;bb/100) before rakeback, from NL5 up to
+            NL100. Largest drawdown: 5,300&nbsp;bb. At NL100, the current
+            stake: 11.8&nbsp;bb/100 over 51,000 hands, still a small sample.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer class="colophon">
+    <p>Porto, Portugal · <a href="mailto:gsag.sousa@icloud.com">gsag.sousa@icloud.com</a></p>
+  </footer>
+</body>
+
+</html>

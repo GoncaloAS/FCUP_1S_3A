@@ -1,0 +1,14 @@
+digraph dll {
+  rankdir=TB; nodesep=0.4; ranksep=0.45;
+  node [shape=box, style=rounded, fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica-Bold", fontsize=14];
+  r  [label="S (7 cláusulas)\nsem cláusulas unitárias"];
+  a  [label="propaga p:\n{¬q∨¬r, q, r}\n→ {¬r, r} → {F}", color="#b03030", fontcolor="#b03030"];
+  b  [label="propaga ¬p:\n{q∨r, ¬q∨¬r, q∨¬r, ¬q∨r}\nsem unitárias"];
+  c  [label="propaga q:\n{¬r, r} → {F}", color="#b03030", fontcolor="#b03030"];
+  d  [label="propaga ¬q:\n{r, ¬r} → {F}", color="#b03030", fontcolor="#b03030"];
+  r -> a [label=" p"];
+  r -> b [label=" ¬p (volta atrás)"];
+  b -> c [label=" q"];
+  b -> d [label=" ¬q (volta atrás)"];
+}

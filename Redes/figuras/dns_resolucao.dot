@@ -1,0 +1,19 @@
+digraph dns {
+  rankdir=LR; nodesep=0.5; ranksep=1.1;
+  node [shape=box, style=rounded, fontname="Helvetica", fontsize=11];
+  edge [fontname="Helvetica-Bold", fontsize=11];
+  host  [label="máquina que faz o pedido\nkhedo.dcc.fc.up.pt"];
+  local [label="servidor DNS local\ndns.dcc.fc.up.pt", style="rounded,filled", fillcolor="#e8eef8"];
+  root  [label="servidor de raiz"];
+  tld   [label="servidor TLD (edu)"];
+  auth  [label="servidor com autoridade\nns.mit.edu"];
+  host -> local [label="1 (recursivo)\nwww.mit.edu?"];
+  local -> host [label="8 IP de www.mit.edu", color="#1f5fb4", fontcolor="#1f5fb4"];
+  local -> root [label="2"];
+  root -> local [label="3 pergunta ao TLD edu", color="#888", fontcolor="#666"];
+  local -> tld [label="4"];
+  tld -> local [label="5 pergunta a ns.mit.edu", color="#888", fontcolor="#666"];
+  local -> auth [label="6"];
+  auth -> local [label="7 IP de www.mit.edu", color="#1f5fb4", fontcolor="#1f5fb4"];
+  {rank=same; root; tld; auth}
+}

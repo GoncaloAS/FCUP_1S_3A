@@ -92,9 +92,9 @@ math[display="block"] { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
 <main>
 <header>
 <h1>Compiladores — Soluções dos exercícios “Pratica agora”</h1>
-<p>Folha laboratorial 2 (Praticas/Semana_1/scanner-c) e exercício dos
-slides da Aula 4. Tenta primeiro sozinho; abre uma alínea só depois de a
-teres feito.</p>
+<p>Folha laboratorial 2 (Praticas/Semana_1/scanner-c) e Folha
+laboratorial 3 (Praticas/Semana_2/gramatica). Tenta primeiro sozinho;
+abre uma alínea só depois de a teres feito.</p>
 </header>
 
 <div class="barra">
@@ -121,11 +121,32 @@ Implementação direta de um DFA em C</a>
 <li><a href="#ex.-3-reimplementar-com-flex" id="toc-ex.-3-reimplementar-com-flex">Ex. 3 — Reimplementar com
 <code>flex</code></a></li>
 </ul></li>
+<li><a href="#aula-4-escrever-uma-gramática-para-uma-linguagem" id="toc-aula-4-escrever-uma-gramática-para-uma-linguagem">Aula 4 —
+Escrever uma gramática para uma linguagem</a>
+<ul>
+<li><a href="#ex.-1-escrever-gramáticas-folha-lab.-3" id="toc-ex.-1-escrever-gramáticas-folha-lab.-3">Ex. 1 — Escrever
+gramáticas (Folha lab. 3)</a></li>
+</ul></li>
 <li><a href="#aula-4-ambiguidade" id="toc-aula-4-ambiguidade">Aula 4 —
 Ambiguidade</a>
 <ul>
-<li><a href="#exercício-dos-slides-programas-sequenciais" id="toc-exercício-dos-slides-programas-sequenciais">Exercício dos slides
-— programas sequenciais</a></li>
+<li><a href="#ex.-2-programas-sequenciais-folha-lab.-3-também-exercício-dos-slides" id="toc-ex.-2-programas-sequenciais-folha-lab.-3-também-exercício-dos-slides">Ex.
+2 — Programas sequenciais (Folha lab. 3, também exercício dos
+slides)</a></li>
+</ul></li>
+<li><a href="#aula-5-autómato-e-tabela-lr0" id="toc-aula-5-autómato-e-tabela-lr0">Aula 5 — Autómato e tabela
+LR(0)</a>
+<ul>
+<li><a href="#ex.-4-extensão-da-gramática-de-parêntesis-folha-lab.-3" id="toc-ex.-4-extensão-da-gramática-de-parêntesis-folha-lab.-3">Ex. 4 —
+Extensão da gramática de parêntesis (Folha lab. 3)</a></li>
+<li><a href="#ex.-5-declarações-de-variáveis-em-c-folha-lab.-3" id="toc-ex.-5-declarações-de-variáveis-em-c-folha-lab.-3">Ex. 5 —
+Declarações de variáveis em C (Folha lab. 3)</a></li>
+</ul></li>
+<li><a href="#aula-5-análise-slr1" id="toc-aula-5-análise-slr1">Aula 5 —
+Análise SLR(1)</a>
+<ul>
+<li><a href="#ex.-3-slr1-folha-lab.-3-também-exercício-2-dos-slides" id="toc-ex.-3-slr1-folha-lab.-3-também-exercício-2-dos-slides">Ex. 3 —
+SLR(1) (Folha lab. 3, também Exercício 2 dos slides)</a></li>
 </ul></li>
 </ul>
 </details></nav>
@@ -541,17 +562,171 @@ a 2(b), troca a regra de <code>REAL</code> pela expressão dessa
 alínea.</li>
 </ul>
 </div></details>
+<h2 id="aula-4-escrever-uma-gramática-para-uma-linguagem">Aula 4 —
+Escrever uma gramática para uma linguagem</h2>
+<h3 id="ex.-1-escrever-gramáticas-folha-lab.-3">Ex. 1 — Escrever
+gramáticas (Folha lab. 3)</h3>
+<p>Terminais indicados em cada alínea; símbolo inicial
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>.</p>
+<details class="sol" id="Ex.1-b-2"><summary>
+(b) Mesmo número de <code>a</code>s e <code>b</code>s, por qualquer
+ordem
+</summary><div class="corpo">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>a</mi><mspace width="0.167em"></mspace><mi>S</mi><mspace width="0.167em"></mspace><mi>b</mi><mspace width="0.167em"></mspace><mi>S</mi><mo>∣</mo><mi>b</mi><mspace width="0.167em"></mspace><mi>S</mi><mspace width="0.167em"></mspace><mi>a</mi><mspace width="0.167em"></mspace><mi>S</mi><mo>∣</mo><mi>ε</mi></mrow><annotation encoding="application/x-tex">S \to a\,S\,b\,S \mid b\,S\,a\,S \mid \varepsilon</annotation></semantics></math></p>
+<p><strong>Porque é que gera todas as palavras certas.</strong> Seja
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>w</mi><annotation encoding="application/x-tex">w</annotation></semantics></math>
+não vazia com tantos <code>a</code>s como <code>b</code>s. Lê-se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>w</mi><annotation encoding="application/x-tex">w</annotation></semantics></math>
+da esquerda para a direita, contando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">nº de a’s</mtext><mo stretchy="false" form="postfix">)</mo><mo>−</mo><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">nº de b’s</mtext><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">d = (\text{nº de a&#39;s}) - (\text{nº de b&#39;s})</annotation></semantics></math>
+já lidos. No fim
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">d=0</annotation></semantics></math>.</p>
+<ul>
+<li>Se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>w</mi><annotation encoding="application/x-tex">w</annotation></semantics></math>
+começa por <code>a</code>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math>
+passa a 1. Há um <strong>primeiro</strong> ponto em que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math>
+volta a 0, e esse passo tem de ser um <code>b</code> (só um
+<code>b</code> faz
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math>
+descer). Então
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>=</mo><mi>a</mi><mspace width="0.167em"></mspace><mi>u</mi><mspace width="0.167em"></mspace><mi>b</mi><mspace width="0.167em"></mspace><mi>v</mi></mrow><annotation encoding="application/x-tex">w = a\,u\,b\,v</annotation></semantics></math>,
+em que:
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>
+(entre o <code>a</code> e esse <code>b</code>) começa e acaba com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">d=1</annotation></semantics></math>,
+logo tem tantos <code>a</code>s como <code>b</code>s;</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>v</mi><annotation encoding="application/x-tex">v</annotation></semantics></math>
+(o resto) vai de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">d=0</annotation></semantics></math>
+a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">d=0</annotation></semantics></math>,
+logo também.</li>
+</ul>
+Isto é exatamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>a</mi><mspace width="0.167em"></mspace><mi>S</mi><mspace width="0.167em"></mspace><mi>b</mi><mspace width="0.167em"></mspace><mi>S</mi></mrow><annotation encoding="application/x-tex">S\to a\,S\,b\,S</annotation></semantics></math>,
+com o primeiro
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>
+a gerar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>
+e o segundo a gerar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>v</mi><annotation encoding="application/x-tex">v</annotation></semantics></math>
+(por indução, porque são mais curtas).</li>
+<li>Se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>w</mi><annotation encoding="application/x-tex">w</annotation></semantics></math>
+começa por <code>b</code>, é simétrico:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>=</mo><mi>b</mi><mspace width="0.167em"></mspace><mi>u</mi><mspace width="0.167em"></mspace><mi>a</mi><mspace width="0.167em"></mspace><mi>v</mi></mrow><annotation encoding="application/x-tex">w = b\,u\,a\,v</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>b</mi><mspace width="0.167em"></mspace><mi>S</mi><mspace width="0.167em"></mspace><mi>a</mi><mspace width="0.167em"></mspace><mi>S</mi></mrow><annotation encoding="application/x-tex">S\to b\,S\,a\,S</annotation></semantics></math>.</li>
+</ul>
+<p><strong>Porque é que não gera palavras erradas.</strong> Cada
+produção acrescenta um <code>a</code> e um <code>b</code> (ou nada), por
+isso as contagens ficam sempre iguais.</p>
+<p><strong>Exemplo:</strong> <code>abba</code>. Começa por
+<code>a</code>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math>
+vale 1, 0 depois de <code>ab</code>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo>=</mo><mi>ε</mi></mrow><annotation encoding="application/x-tex">u=\varepsilon</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>=</mo></mrow><annotation encoding="application/x-tex">v=</annotation></semantics></math>
+<code>ba</code>.
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>⇒</mo><mi>a</mi><munder><mi>S</mi><mo accent="true">_</mo></munder><mi>b</mi><mi>S</mi><mo>⇒</mo><mi>a</mi><mi>b</mi><munder><mi>S</mi><mo accent="true">_</mo></munder><mo>⇒</mo><mi>a</mi><mi>b</mi><mi>b</mi><munder><mi>S</mi><mo accent="true">_</mo></munder><mi>a</mi><mi>S</mi><mo>⇒</mo><mi>a</mi><mi>b</mi><mi>b</mi><mi>a</mi><munder><mi>S</mi><mo accent="true">_</mo></munder><mo>⇒</mo><mi>a</mi><mi>b</mi><mi>b</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">S \Rightarrow a\underline{S}bS \Rightarrow ab\underline{S} \Rightarrow abb\underline{S}aS \Rightarrow abba\underline{S} \Rightarrow abba</annotation></semantics></math>
+(o segundo, o quarto e o quinto passos usam
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>ε</mi></mrow><annotation encoding="application/x-tex">S\to\varepsilon</annotation></semantics></math>;
+o terceiro usa
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>b</mi><mi>S</mi><mi>a</mi><mi>S</mi></mrow><annotation encoding="application/x-tex">S\to bSaS</annotation></semantics></math>
+para gerar <code>ba</code>).</p>
+<p>Verificado por força bruta: gera exatamente as palavras certas até
+comprimento 8. Também serve
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>S</mi><mi>S</mi><mo>∣</mo><mi>a</mi><mi>S</mi><mi>b</mi><mo>∣</mo><mi>b</mi><mi>S</mi><mi>a</mi><mo>∣</mo><mi>ε</mi></mrow><annotation encoding="application/x-tex">S\to SS\mid aSb\mid bSa\mid\varepsilon</annotation></semantics></math>,
+mas essa é <strong>ambígua</strong> (por causa de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>S</mi><mi>S</mi></mrow><annotation encoding="application/x-tex">S\to SS</annotation></semantics></math>,
+como o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>S</mi><mo>;</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">S\to S;S</annotation></semantics></math>
+do Ex. 2).</p>
+</div></details>
+<details class="sol" id="Ex.1-c-2"><summary>
+(c) Parêntesis casados
+</summary><div class="corpo">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mspace width="0.167em"></mspace><mi>S</mi><mspace width="0.167em"></mspace><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mi>S</mi><mo>∣</mo><mi>ε</mi></mrow><annotation encoding="application/x-tex">S \to (\,S\,)\,S \mid \varepsilon</annotation></semantics></math></p>
+<p>É a mesma ideia da alínea (b), com <code>(</code> no papel de
+<code>a</code> e <code>)</code> no papel de <code>b</code>, mas
+<strong>só com a primeira produção</strong>: uma palavra casada nunca
+pode começar por <code>)</code>. Uma palavra não vazia começa por
+<code>(</code>; esse <code>(</code> fecha num certo <code>)</code>. O
+que está lá dentro é casado (é o primeiro
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>)
+e o que vem depois também (é o segundo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>).</p>
+<p><strong>Exemplo:</strong> <code>(()(()))</code>. O primeiro
+<code>(</code> fecha no último <code>)</code>: dentro está
+<code>()(())</code>, depois não há nada.
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>S</mi></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo><mi>S</mi><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo><mi>S</mi><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="postfix">)</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo><mi>S</mi><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo><mi>S</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo><mi>S</mi><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="postfix">)</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo><mi>S</mi><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mi>S</mi><mo stretchy="false" form="postfix">)</mo><mi>S</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mi>S</mi><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
+S &amp;\Rightarrow (S)S \Rightarrow ((S)S)S \Rightarrow (()S)S \Rightarrow (()(S)S)S\\
+&amp;\Rightarrow (()((S)S)S)S \Rightarrow (()(()S)S)S \Rightarrow (()(())S)S\\
+&amp;\Rightarrow (()(()))S \Rightarrow (()(()))
+\end{aligned}</annotation></semantics></math> (derivação mais à
+esquerda; os passos 3, 6, 7, 8 e 9 usam
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>ε</mi></mrow><annotation encoding="application/x-tex">S\to\varepsilon</annotation></semantics></math>).</p>
+<p>As palavras rejeitadas do enunciado não se geram: <code>)</code> e
+<code>)(</code> começam por <code>)</code>; <code>(</code> e
+<code>(()</code> têm mais <code>(</code> do que <code>)</code>;
+<code>()())</code> tem mais <code>)</code>. Esta é a gramática que a
+Aula 5 usa como exemplo para a análise LR.</p>
+</div></details>
+<details class="sol" id="Ex.1-e-2"><summary>
+(e) <code>((0|1)+&quot;.&quot;(0|1)*)|((0|1)*&quot;.&quot;(0|1)+)</code>
+</summary><div class="corpo">
+<p>Terminais <code>0</code>, <code>1</code> e <code>.</code>. Pela
+tabela “de expressão regular para gramática” do resumo, um não-terminal
+por sub-expressão:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>S</mi></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>→</mo><mi>P</mi><mspace width="0.222em"></mspace><mi>.</mi><mspace width="0.222em"></mspace><mi>Q</mi><mo>∣</mo><mi>Q</mi><mspace width="0.222em"></mspace><mi>.</mi><mspace width="0.222em"></mspace><mi>P</mi></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mtext mathvariant="normal">a alternativa de topo</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>P</mi></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>→</mo><mi>D</mi><mspace width="0.167em"></mspace><mi>P</mi><mo>∣</mo><mi>D</mi></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo stretchy="false" form="prefix">|</mo><mn>1</mn><msup><mo stretchy="false" form="postfix">)</mo><mo>+</mo></msup><mtext mathvariant="normal">: um ou mais dígitos</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>Q</mi></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>→</mo><mi>D</mi><mspace width="0.167em"></mspace><mi>Q</mi><mo>∣</mo><mi>ε</mi></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo stretchy="false" form="prefix">|</mo><mn>1</mn><msup><mo stretchy="false" form="postfix">)</mo><mo>*</mo></msup><mtext mathvariant="normal">: zero ou mais dígitos</mtext></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><mi>D</mi></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>→</mo><mn>0</mn><mo>∣</mo><mn>1</mn></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mtext mathvariant="normal">um dígito</mtext></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
+S &amp;\to P\ .\ Q \mid Q\ .\ P &amp;&amp; \text{a alternativa de topo}\\
+P &amp;\to D\,P \mid D &amp;&amp; (0|1)^+\text{: um ou mais dígitos}\\
+Q &amp;\to D\,Q \mid \varepsilon &amp;&amp; (0|1)^*\text{: zero ou mais dígitos}\\
+D &amp;\to 0 \mid 1 &amp;&amp; \text{um dígito}
+\end{aligned}</annotation></semantics></math></p>
+<ul>
+<li><code>10.</code> vem de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>P</mi><mi>.</mi><mi>Q</mi></mrow><annotation encoding="application/x-tex">S\to P.Q</annotation></semantics></math>,
+com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>
+a gerar <code>10</code> e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>→</mo><mi>ε</mi></mrow><annotation encoding="application/x-tex">Q\to\varepsilon</annotation></semantics></math>.</li>
+<li><code>.1</code> vem de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>Q</mi><mi>.</mi><mi>P</mi></mrow><annotation encoding="application/x-tex">S\to Q.P</annotation></semantics></math>,
+com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>→</mo><mi>ε</mi></mrow><annotation encoding="application/x-tex">Q\to\varepsilon</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>
+a gerar <code>1</code>.</li>
+<li><code>.</code> sozinho não se gera: as duas alternativas precisam de
+pelo menos um dígito
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>
+nunca é vazio).</li>
+</ul>
+<p>A gramática é ambígua (<code>1.0</code> vem das duas alternativas),
+tal como a própria expressão regular; o enunciado não pede mais. Uma
+versão não ambígua com a mesma linguagem é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>P</mi><mspace width="0.167em"></mspace><mi>.</mi><mspace width="0.167em"></mspace><mi>Q</mi><mo>∣</mo><mi>.</mi><mspace width="0.167em"></mspace><mi>P</mi></mrow><annotation encoding="application/x-tex">S\to P\,.\,Q \mid .\,P</annotation></semantics></math>
+(“pelo menos um dígito antes do ponto” ou “nenhum antes e pelo menos um
+depois”). Ambas verificadas por força bruta até comprimento 7.</p>
+</div></details>
 <h2 id="aula-4-ambiguidade">Aula 4 — Ambiguidade</h2>
-<h3 id="exercício-dos-slides-programas-sequenciais">Exercício dos slides
-— programas sequenciais</h3>
+<h3 id="ex.-2-programas-sequenciais-folha-lab.-3-também-exercício-dos-slides">Ex.
+2 — Programas sequenciais (Folha lab. 3, também exercício dos
+slides)</h3>
 <p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>S</mi><mo>;</mo><mi>S</mi><mo>∣</mo><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext><mo>=</mo><mi>E</mi><mo>∣</mo><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext><mo>+</mo><mi>+</mi></mrow><annotation encoding="application/x-tex">S \to S;S \mid \texttt{ident}=E \mid \texttt{ident}{+}{+}</annotation></semantics></math>
 e
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext><mo>∣</mo><mtext mathvariant="monospace">𝚗𝚞𝚖</mtext><mo>∣</mo><mi>E</mi><mo>+</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">E \to \texttt{ident} \mid \texttt{num} \mid E+E</annotation></semantics></math>.</p>
-<details class="sol" id="Exercíciodosslides-a"><summary>
-(a) Mostrar a ambiguidade nas instruções
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>S</mi><mo>;</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">S \to S;S</annotation></semantics></math>)
+<details class="sol" id="Ex.2-a-2"><summary>
+(a) Mostrar que é ambígua (e encontrar mais do que um exemplo)
 </summary><div class="corpo">
-<p>Frase: <code>a=1; b=2; c++</code>. Tem <strong>duas</strong> árvores
+<p>Há dois sítios diferentes onde a ambiguidade aparece.</p>
+<p><strong>Exemplo 1, nas instruções
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>S</mi><mo>;</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">S \to S;S</annotation></semantics></math>).</strong>
+Frase: <code>a=1; b=2; c++</code>. Tem <strong>duas</strong> árvores
 sintáticas diferentes. Nas duas, a raiz é
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>→</mo><mi>S</mi><mo>;</mo><mi>S</mi></mrow><annotation encoding="application/x-tex">S \to S;S</annotation></semantics></math>,
 e o que muda é onde fica o segundo <code>;</code>:</p>
@@ -568,12 +743,9 @@ O filho direito da raiz é outro
 <p>Duas árvores diferentes para a mesma frase chegam para a gramática
 ser ambígua. (Aqui as duas leituras executam o mesmo, mas a gramática
 continua a ser ambígua.)</p>
-</div></details>
-<details class="sol" id="Exercíciodosslides-b"><summary>
-(b) Mostrar a ambiguidade nas expressões
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><mi>E</mi><mo>+</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">E \to E+E</annotation></semantics></math>)
-</summary><div class="corpo">
-<p>Frase: <code>x = a+b+c</code>. É o mesmo problema de
+<p><strong>Exemplo 2, nas expressões
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><mi>E</mi><mo>+</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">E \to E+E</annotation></semantics></math>).</strong>
+Frase: <code>x = a+b+c</code>. É o mesmo problema de
 <code>E → E+E</code> do resumo:</p>
 <ul>
 <li><code>x = (a+b)+c</code>: o
@@ -588,8 +760,8 @@ outro
 </ul>
 <p>São duas árvores diferentes para a mesma frase.</p>
 </div></details>
-<details class="sol" id="Exercíciodosslides-c"><summary>
-(c) Gramática equivalente não ambígua
+<details class="sol" id="Ex.2-b-2"><summary>
+(b) Reescrever a gramática sem ambiguidade
 </summary><div class="corpo">
 <p>Aplica-se a técnica do resumo (recursão à esquerda, que dá
 associatividade à esquerda) <strong>nos dois sítios</strong>,
@@ -616,6 +788,957 @@ parcela, e por isso <code>a+b+c</code> só tem a leitura
 <p>A linguagem é a mesma: continuam a gerar-se todas as sequências de
 uma ou mais instruções, e todas as somas de uma ou mais parcelas. Só se
 retirou a escolha de agrupamento.</p>
+</div></details>
+<h2 id="aula-5-autómato-e-tabela-lr0">Aula 5 — Autómato e tabela
+LR(0)</h2>
+<h3 id="ex.-4-extensão-da-gramática-de-parêntesis-folha-lab.-3">Ex. 4 —
+Extensão da gramática de parêntesis (Folha lab. 3)</h3>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>L</mi><mo stretchy="false" form="postfix">)</mo><mo>∣</mo><mtext mathvariant="monospace">𝚊</mtext></mrow><annotation encoding="application/x-tex">E \to (L) \mid \texttt{a}</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>→</mo><mi>L</mi><mo>,</mo><mi>E</mi><mo>∣</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">L \to L,E \mid E</annotation></semantics></math>.
+Produções numeradas, com a produção nova: (0)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>S</mi><mo>′</mo></msup><mo>→</mo><mi>E</mi><mspace width="0.167em"></mspace><mi>$</mi></mrow><annotation encoding="application/x-tex">S&#39;\to E\,\$</annotation></semantics></math>,
+(1)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>L</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">E\to(L)</annotation></semantics></math>,
+(2)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><mtext mathvariant="monospace">𝚊</mtext></mrow><annotation encoding="application/x-tex">E\to\texttt{a}</annotation></semantics></math>,
+(3)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>→</mo><mi>L</mi><mo>,</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">L\to L,E</annotation></semantics></math>,
+(4)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>→</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">L\to E</annotation></semantics></math>.</p>
+<details class="sol" id="Ex.4-a"><summary>
+(a) Derivação de <code>((a),a,(a,a))</code>
+</summary><div class="corpo">
+<p>A palavra é um
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>
+da forma <code>( L )</code>, e o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>
+de fora é a lista <code>(a)</code>, <code>a</code>, <code>(a,a)</code>
+(três
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>
+separados por vírgulas). Derivação mais à esquerda (sublinhado: o
+não-terminal que vai ser substituído):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mtable><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"><munder><mi>E</mi><mo accent="true">_</mo></munder></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><munder><mi>L</mi><mo accent="true">_</mo></munder><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi>E</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>L</mi><mo stretchy="false" form="postfix">)</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><munder><mi>L</mi><mo accent="true">_</mo></munder><mo>,</mo><mi>E</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi>L</mi><mo>→</mo><mi>L</mi><mo>,</mo><mi>E</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><munder><mi>L</mi><mo accent="true">_</mo></munder><mo>,</mo><mi>E</mi><mo>,</mo><mi>E</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi>L</mi><mo>→</mo><mi>L</mi><mo>,</mo><mi>E</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><munder><mi>E</mi><mo accent="true">_</mo></munder><mo>,</mo><mi>E</mi><mo>,</mo><mi>E</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi>L</mi><mo>→</mo><mi>E</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><munder><mi>L</mi><mo accent="true">_</mo></munder><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mi>E</mi><mo>,</mo><mi>E</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi>E</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>L</mi><mo stretchy="false" form="postfix">)</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><munder><mi>E</mi><mo accent="true">_</mo></munder><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mi>E</mi><mo>,</mo><mi>E</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi>L</mi><mo>→</mo><mi>E</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><munder><mi>E</mi><mo accent="true">_</mo></munder><mo>,</mo><mi>E</mi><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi>E</mi><mo>→</mo><mi>a</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mi>a</mi><mo>,</mo><munder><mi>E</mi><mo accent="true">_</mo></munder><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi>E</mi><mo>→</mo><mi>a</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mi>a</mi><mo>,</mo><mo stretchy="false" form="prefix">(</mo><munder><mi>L</mi><mo accent="true">_</mo></munder><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi>E</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>L</mi><mo stretchy="false" form="postfix">)</mo></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mi>a</mi><mo>,</mo><mo stretchy="false" form="prefix">(</mo><munder><mi>L</mi><mo accent="true">_</mo></munder><mo>,</mo><mi>E</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi>L</mi><mo>→</mo><mi>L</mi><mo>,</mo><mi>E</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mi>a</mi><mo>,</mo><mo stretchy="false" form="prefix">(</mo><munder><mi>E</mi><mo accent="true">_</mo></munder><mo>,</mo><mi>E</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi>L</mi><mo>→</mo><mi>E</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mi>a</mi><mo>,</mo><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>,</mo><munder><mi>E</mi><mo accent="true">_</mo></munder><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi>E</mi><mo>→</mo><mi>a</mi></mtd></mtr><mtr><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mo>⇒</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mi>a</mi><mo>,</mo><mo stretchy="false" form="prefix">(</mo><mi>a</mi><mo>,</mo><mi>a</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mtd><mtd columnalign="right" style="text-align: right; padding-right: 0"></mtd><mtd columnalign="left" style="text-align: left; padding-left: 0"><mi>E</mi><mo>→</mo><mi>a</mi></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
+\underline{E} &amp;\Rightarrow (\underline{L}) &amp;&amp; E\to(L)\\
+&amp;\Rightarrow (\underline{L},E) &amp;&amp; L\to L,E\\
+&amp;\Rightarrow (\underline{L},E,E) &amp;&amp; L\to L,E\\
+&amp;\Rightarrow (\underline{E},E,E) &amp;&amp; L\to E\\
+&amp;\Rightarrow ((\underline{L}),E,E) &amp;&amp; E\to(L)\\
+&amp;\Rightarrow ((\underline{E}),E,E) &amp;&amp; L\to E\\
+&amp;\Rightarrow ((a),\underline{E},E) &amp;&amp; E\to a\\
+&amp;\Rightarrow ((a),a,\underline{E}) &amp;&amp; E\to a\\
+&amp;\Rightarrow ((a),a,(\underline{L})) &amp;&amp; E\to(L)\\
+&amp;\Rightarrow ((a),a,(\underline{L},E)) &amp;&amp; L\to L,E\\
+&amp;\Rightarrow ((a),a,(\underline{E},E)) &amp;&amp; L\to E\\
+&amp;\Rightarrow ((a),a,(a,\underline{E})) &amp;&amp; E\to a\\
+&amp;\Rightarrow ((a),a,(a,a)) &amp;&amp; E\to a
+\end{aligned}</annotation></semantics></math></p>
+<p>Repara que uma lista de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+elementos usa
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>→</mo><mi>L</mi><mo>,</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">L\to L,E</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(n-1)</annotation></semantics></math>
+vezes e depois
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>→</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">L\to E</annotation></semantics></math>
+uma vez: é a recursão à esquerda a construir a lista da direita para a
+esquerda.</p>
+</div></details>
+<details class="sol" id="Ex.4-b"><summary>
+(b) Autómato LR(0)
+</summary><div class="corpo">
+<p><strong>Estado 0</strong> =
+fecho(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><msup><mi>S</mi><mo>′</mo></msup><mo>→</mo><mi>•</mi><mi>E</mi><mspace width="0.167em"></mspace><mi>$</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{S&#39;\to\bullet E\,\$\}</annotation></semantics></math>).
+Ponto antes de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>:
+entram
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><mi>•</mi><mo stretchy="false" form="prefix">(</mo><mi>L</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">E\to\bullet(L)</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><mi>•</mi><mtext mathvariant="monospace">𝚊</mtext></mrow><annotation encoding="application/x-tex">E\to\bullet\texttt{a}</annotation></semantics></math>
+(ponto antes de terminais: pára).
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><mo stretchy="false" form="prefix">{</mo><msup><mi>S</mi><mo>′</mo></msup><mo>→</mo><mi>•</mi><mi>E</mi><mspace width="0.167em"></mspace><mi>$</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>E</mi><mo>→</mo><mi>•</mi><mo stretchy="false" form="prefix">(</mo><mi>L</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="0.222em"></mspace><mi>E</mi><mo>→</mo><mi>•</mi><mtext mathvariant="monospace">𝚊</mtext><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">0 = \{S&#39;\to\bullet E\,\$,\ E\to\bullet(L),\ E\to\bullet\texttt{a}\}</annotation></semantics></math>.</p>
+<ul>
+<li>goto(0, <code>(</code>) =
+fecho(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>E</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>•</mi><mi>L</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{E\to(\bullet L)\}</annotation></semantics></math>).
+Ponto antes de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>:
+entram
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>→</mo><mi>•</mi><mi>L</mi><mo>,</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">L\to\bullet L,E</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>→</mo><mi>•</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">L\to\bullet E</annotation></semantics></math>.
+Em
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>→</mo><mi>•</mi><mi>L</mi><mo>,</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">L\to\bullet L,E</annotation></semantics></math>
+o ponto está outra vez antes de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>,
+mas esses items já lá estão. Em
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>→</mo><mi>•</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">L\to\bullet E</annotation></semantics></math>
+o ponto está antes de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>:
+entram
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><mi>•</mi><mo stretchy="false" form="prefix">(</mo><mi>L</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">E\to\bullet(L)</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><mi>•</mi><mtext mathvariant="monospace">𝚊</mtext></mrow><annotation encoding="application/x-tex">E\to\bullet\texttt{a}</annotation></semantics></math>.
+<strong>Estado 1</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi>E</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>•</mi><mi>L</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="0.222em"></mspace><mi>L</mi><mo>→</mo><mi>•</mi><mi>L</mi><mo>,</mo><mi>E</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>L</mi><mo>→</mo><mi>•</mi><mi>E</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>E</mi><mo>→</mo><mi>•</mi><mo stretchy="false" form="prefix">(</mo><mi>L</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="0.222em"></mspace><mi>E</mi><mo>→</mo><mi>•</mi><mtext mathvariant="monospace">𝚊</mtext><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">= \{E\to(\bullet L),\ L\to\bullet L,E,\ L\to\bullet E,\
+E\to\bullet(L),\ E\to\bullet\texttt{a}\}</annotation></semantics></math>.</li>
+<li>goto(0, <code>a</code>) =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>E</mi><mo>→</mo><mtext mathvariant="monospace">𝚊</mtext><mi>•</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{E\to\texttt{a}\bullet\}</annotation></semantics></math>:
+<strong>estado 2</strong>.</li>
+<li>goto(0,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>)
+=
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><msup><mi>S</mi><mo>′</mo></msup><mo>→</mo><mi>E</mi><mo>•</mo><mi>$</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{S&#39;\to E\bullet\$\}</annotation></semantics></math>:
+<strong>estado 3</strong>.</li>
+</ul>
+<p><strong>Transições de 1:</strong></p>
+<ul>
+<li>goto(1, <code>(</code>): de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><mi>•</mi><mo stretchy="false" form="prefix">(</mo><mi>L</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">E\to\bullet(L)</annotation></semantics></math>
+vem
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>•</mi><mi>L</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">E\to(\bullet L)</annotation></semantics></math>,
+cujo fecho é o <strong>estado 1</strong>.</li>
+<li>goto(1, <code>a</code>) = <strong>estado 2</strong>.</li>
+<li>goto(1,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>):
+de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>→</mo><mi>•</mi><mi>E</mi></mrow><annotation encoding="application/x-tex">L\to\bullet E</annotation></semantics></math>
+vem
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>L</mi><mo>→</mo><mi>E</mi><mi>•</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{L\to E\bullet\}</annotation></semantics></math>:
+<strong>estado 4</strong>.</li>
+<li>goto(1,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>):
+<strong>dois</strong> items têm o ponto antes de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>•</mi><mi>L</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">E\to(\bullet L)</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>→</mo><mi>•</mi><mi>L</mi><mo>,</mo><mi>E</mi></mrow><annotation encoding="application/x-tex">L\to\bullet L,E</annotation></semantics></math>.
+Avançam os dois:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>E</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>L</mi><mi>•</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="0.222em"></mspace><mi>L</mi><mo>→</mo><mi>L</mi><mi>•</mi><mo>,</mo><mi>E</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{E\to(L\bullet),\ L\to L\bullet,E\}</annotation></semantics></math>
+(pontos antes de terminais: o fecho não junta nada). <strong>Estado
+5</strong>.</li>
+</ul>
+<p><strong>Transições de 5:</strong></p>
+<ul>
+<li>goto(5, <code>)</code>) =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>E</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>L</mi><mo stretchy="false" form="postfix">)</mo><mi>•</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{E\to(L)\bullet\}</annotation></semantics></math>:
+<strong>estado 6</strong>.</li>
+<li>goto(5, <code>,</code>) =
+fecho(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>L</mi><mo>→</mo><mi>L</mi><mo>,</mo><mi>•</mi><mi>E</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{L\to L,\bullet E\}</annotation></semantics></math>).
+Ponto antes de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>:
+entram
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><mi>•</mi><mo stretchy="false" form="prefix">(</mo><mi>L</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">E\to\bullet(L)</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>→</mo><mi>•</mi><mtext mathvariant="monospace">𝚊</mtext></mrow><annotation encoding="application/x-tex">E\to\bullet\texttt{a}</annotation></semantics></math>.
+<strong>Estado 7</strong>.</li>
+</ul>
+<p><strong>Transições de 7:</strong> goto(7, <code>(</code>) =
+<strong>estado 1</strong>; goto(7, <code>a</code>) = <strong>estado
+2</strong>; goto(7,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>)
+=
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>L</mi><mo>→</mo><mi>L</mi><mo>,</mo><mi>E</mi><mi>•</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{L\to L,E\bullet\}</annotation></semantics></math>:
+<strong>estado 8</strong>.</p>
+<p>Os estados 2, 4, 6 e 8 só têm um item completo (sem transições) e o
+estado 3 só tem a transição por $ (accept). Total: estados 0 a 8.</p>
+<figure>
+<img role="img" aria-label="Autómato LR(0) do Exercício 4" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDEyLjIuMSAoMjAyNDEyMDYuMjM1MykKIC0tPgo8IS0tIFRpdGxlOiBHIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSI2MTFwdCIgaGVpZ2h0PSIzMDhwdCIKIHZpZXdCb3g9IjAuMDAgMC4wMCA2MTEuMTAgMzA4LjEyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KPGcgaWQ9ImdyYXBoMCIgY2xhc3M9ImdyYXBoIiB0cmFuc2Zvcm09InNjYWxlKDEgMSkgcm90YXRlKDApIHRyYW5zbGF0ZSg0IDMwNC4xMikiPgo8dGl0bGU+RzwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9IndoaXRlIiBzdHJva2U9Im5vbmUiIHBvaW50cz0iLTQsNCAtNCwtMzA0LjEyIDYwNy4xLC0zMDQuMTIgNjA3LjEsNCAtNCw0Ii8+CjwhLS0gc3RhcnQgLS0+CjxnIGlkPSJub2RlMSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+c3RhcnQ8L3RpdGxlPgo8ZWxsaXBzZSBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgY3g9IjEuOCIgY3k9Ii0xNDguMzgiIHJ4PSIxLjgiIHJ5PSIxLjgiLz4KPC9nPgo8IS0tIHMwIC0tPgo8ZyBpZD0ibm9kZTIiIGNsYXNzPSJub2RlIj4KPHRpdGxlPnMwPC90aXRsZT4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI1Mi42IiB5PSItMTc1LjMiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTEuMDAiIGZpbGw9IiMxZjRmYjQiPjA8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iNTIuNiIgeT0iLTE1Ni4zIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlMmIzM5OyDihpIg4oCiIEUgJDwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI1Mi42IiB5PSItMTM2LjA1IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkUg4oaSIOKAoiAoIEwgKTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI1Mi42IiB5PSItMTE1LjgiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+RSDihpIg4oCiIGE8L3RleHQ+Cjxwb2x5Z29uIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNDguNiwtMTA4IDQ4LjYsLTE4OC43NSAxMDcuNiwtMTg4Ljc1IDEwNy42LC0xMDggNDguNiwtMTA4Ii8+CjwvZz4KPCEtLSBzdGFydCYjNDU7Jmd0O3MwIC0tPgo8ZyBpZD0iZWRnZTEiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnN0YXJ0JiM0NTsmZ3Q7czA8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNNC4wOSwtMTQ4LjM4QzcuNTcsLTE0OC4zOCAxNy42NSwtMTQ4LjM4IDI5LjI2LC0xNDguMzgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjkuMTgsLTE1MS44OCAzOS4xOCwtMTQ4LjM4IDI5LjE4LC0xNDQuODggMjkuMTgsLTE1MS44OCIvPgo8L2c+CjwhLS0gczEgLS0+CjxnIGlkPSJub2RlMyIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+czE8L3RpdGxlPgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjE3My4zNSIgeT0iLTE5NS41NSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxMS4wMCIgZmlsbD0iIzFmNGZiNCI+MTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIxNzMuMzUiIHk9Ii0xNzYuNTUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+RSDihpIgKCDigKIgTCApPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjE3My4zNSIgeT0iLTE1Ni4zIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkUg4oaSIOKAoiAoIEwgKTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIxNzMuMzUiIHk9Ii0xMzYuMDUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+RSDihpIg4oCiIGE8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iMTczLjM1IiB5PSItMTE1LjgiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+TCDihpIg4oCiIEwgLCBFPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjE3My4zNSIgeT0iLTk1LjU1IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkwg4oaSIOKAoiBFPC90ZXh0Pgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjE2OS4zNSwtODcuNzUgMTY5LjM1LC0yMDkgMjI5Ljg1LC0yMDkgMjI5Ljg1LC04Ny43NSAxNjkuMzUsLTg3Ljc1Ii8+CjwvZz4KPCEtLSBzMCYjNDU7Jmd0O3MxIC0tPgo8ZyBpZD0iZWRnZTIiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnMwJiM0NTsmZ3Q7czE8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTE1LjI4LC0xNDguMzhDMTI2LjMsLTE0OC4zOCAxMzguNiwtMTQ4LjM4IDE1MC4zLC0xNDguMzgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTUwLjIxLC0xNTEuODggMTYwLjIxLC0xNDguMzggMTUwLjIxLC0xNDQuODggMTUwLjIxLC0xNTEuODgiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMTM4LjQ3IiB5PSItMTQ5Ljg4IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjE1LjAwIj4oPC90ZXh0Pgo8L2c+CjwhLS0gczIgLS0+CjxnIGlkPSJub2RlNCIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+czI8L3RpdGxlPgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjU0Ni4xIiB5PSItMjI4LjA1IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjExLjAwIiBmaWxsPSIjMWY0ZmI0Ij4yPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjU0Ni4xIiB5PSItMjA5LjA1IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkUg4oaSIGEg4oCiPC90ZXh0Pgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjU0Mi4xLC0yMDEuMjUgNTQyLjEsLTI0MS41IDU4Ny42LC0yNDEuNSA1ODcuNiwtMjAxLjI1IDU0Mi4xLC0yMDEuMjUiLz4KPC9nPgo8IS0tIHMwJiM0NTsmZ3Q7czIgLS0+CjxnIGlkPSJlZGdlMyIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+czAmIzQ1OyZndDtzMjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik05Ni4yMiwtMTkyLjUzQzExNC44NCwtMjMyLjI0IDE0OC43OCwtMjg0LjM4IDE5OC42LC0yODQuMzggMTk4LjYsLTI4NC4zOCAxOTguNiwtMjg0LjM4IDQ0My42LC0yODQuMzggNDc0LjMzLC0yODQuMzggNTA0Ljk1LC0yNjguMDQgNTI3LjYsLTI1MiIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI1MjkuNjIsLTI1NC44NSA1MzUuNTgsLTI0Ni4wOSA1MjUuNDYsLTI0OS4yMyA1MjkuNjIsLTI1NC44NSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMjEuODUiIHk9Ii0yODUuODgiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTUuMDAiPmE8L3RleHQ+CjwvZz4KPCEtLSBzMyAtLT4KPGcgaWQ9Im5vZGU1IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5zMzwvdGl0bGU+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iMTc0LjQ3IiB5PSItNDEuMDUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTEuMDAiIGZpbGw9IiMxZjRmYjQiPjM8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iMTc0LjQ3IiB5PSItMjIuMDUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+UyYjMzk7IOKGkiBFIOKAoiAkPC90ZXh0Pgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjE3MC40NywtMTQuMjUgMTcwLjQ3LC01NC41IDIyOC43MiwtNTQuNSAyMjguNzIsLTE0LjI1IDE3MC40NywtMTQuMjUiLz4KPC9nPgo8IS0tIHMwJiM0NTsmZ3Q7czMgLS0+CjxnIGlkPSJlZGdlNCIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+czAmIzQ1OyZndDtzMzwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0xMTUuMjgsLTExMy44NkMxMzEuMTYsLTk4LjcxIDE0OS42OSwtODEuMDQgMTY1LjIzLC02Ni4yMSIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxNjcuNjEsLTY4Ljc3IDE3Mi40MywtNTkuMzQgMTYyLjc4LC02My43MSAxNjcuNjEsLTY4Ljc3Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjEzOC40NyIgeT0iLTk2LjI5IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjE1LjAwIj5FPC90ZXh0Pgo8L2c+CjwhLS0gczEmIzQ1OyZndDtzMSAtLT4KPGcgaWQ9ImVkZ2U1IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5zMSYjNDU7Jmd0O3MxPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTE4OC40MiwtMjEyLjgzQzE4OS40MywtMjI3LjM3IDE5My4xNSwtMjM4IDE5OS42LC0yMzggMjA0LjIzLC0yMzggMjA3LjQ2LC0yMzIuNTEgMjA5LjI5LC0yMjQuMDIiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjEyLjczLC0yMjQuNyAyMTAuNTgsLTIxNC4zMyAyMDUuNzksLTIyMy43OCAyMTIuNzMsLTIyNC43Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE5OS42IiB5PSItMjM5LjUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTUuMDAiPig8L3RleHQ+CjwvZz4KPCEtLSBzMSYjNDU7Jmd0O3MyIC0tPgo8ZyBpZD0iZWRnZTYiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnMxJiM0NTsmZ3Q7czI8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMjM3LjgyLC0xNzQuNTNDMjUxLjU5LC0xODIuOTMgMjY3LjczLC0xOTEuMzUgMjgzLjYsLTE5Ni4zOCAzNjUuNiwtMjIyLjM0IDQ2Ny4zOCwtMjI0LjQxIDUyMi45NCwtMjIzLjE4Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjUyMi45OCwtMjI2LjY4IDUzMi44OCwtMjIyLjkgNTIyLjc5LC0yMTkuNjggNTIyLjk4LC0yMjYuNjgiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzgyLjIyIiB5PSItMjE4LjYyIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjE1LjAwIj5hPC90ZXh0Pgo8L2c+CjwhLS0gczQgLS0+CjxnIGlkPSJub2RlNiIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+czQ8L3RpdGxlPgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjMwMy4xIiB5PSItMTY2LjA1IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjExLjAwIiBmaWxsPSIjMWY0ZmI0Ij40PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjMwMy4xIiB5PSItMTQ3LjA1IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkwg4oaSIEUg4oCiPC90ZXh0Pgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjI5OS4xLC0xMzkuMjUgMjk5LjEsLTE3OS41IDM0NC42LC0xNzkuNSAzNDQuNiwtMTM5LjI1IDI5OS4xLC0xMzkuMjUiLz4KPC9nPgo8IS0tIHMxJiM0NTsmZ3Q7czQgLS0+CjxnIGlkPSJlZGdlNyIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+czEmIzQ1OyZndDtzNDwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0yMzcuNjYsLTE1MS43N0MyNTEuMTQsLTE1MyAyNjYuNDQsLTE1NC40IDI4MC4yMSwtMTU1LjY2Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjI3OS41NiwtMTU5LjExIDI4OS44NCwtMTU2LjU0IDI4MC4yLC0xNTIuMTQgMjc5LjU2LC0xNTkuMTEiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjYwLjcyIiB5PSItMTU1LjciIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTUuMDAiPkU8L3RleHQ+CjwvZz4KPCEtLSBzNSAtLT4KPGcgaWQ9Im5vZGU3IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5zNTwvdGl0bGU+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iMjk1LjYiIHk9Ii05My4xNyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxMS4wMCIgZmlsbD0iIzFmNGZiNCI+NTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIyOTUuNiIgeT0iLTc0LjE3IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkUg4oaSICggTCDigKIgKTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIyOTUuNiIgeT0iLTUzLjkyIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkwg4oaSIEwg4oCiICwgRTwvdGV4dD4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyOTEuNiwtNDYuMTIgMjkxLjYsLTEwNi42MiAzNTIuMSwtMTA2LjYyIDM1Mi4xLC00Ni4xMiAyOTEuNiwtNDYuMTIiLz4KPC9nPgo8IS0tIHMxJiM0NTsmZ3Q7czUgLS0+CjxnIGlkPSJlZGdlOCIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+czEmIzQ1OyZndDtzNTwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0yMzcuNjYsLTEyNi4xOUMyNDkuMDksLTExOS4zNCAyNjEuODMsLTExMS43MSAyNzMuODQsLTEwNC41MiIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyNzUuNjIsLTEwNy41MyAyODIuNDEsLTk5LjM5IDI3Mi4wMywtMTAxLjUzIDI3NS42MiwtMTA3LjUzIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjI2MC43MiIgeT0iLTExNi4wMyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxNS4wMCI+TDwvdGV4dD4KPC9nPgo8IS0tIHM2IC0tPgo8ZyBpZD0ibm9kZTgiIGNsYXNzPSJub2RlIj4KPHRpdGxlPnM2PC90aXRsZT4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI0MTcuMSIgeT0iLTE0NS4wNSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxMS4wMCIgZmlsbD0iIzFmNGZiNCI+NjwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI0MTcuMSIgeT0iLTEyNi4wNSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjExLjAwIj5FIOKGkiAoIEwgKSDigKI8L3RleHQ+Cjxwb2x5Z29uIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNDEzLjEsLTExOC4yNSA0MTMuMSwtMTU4LjUgNDcyLjEsLTE1OC41IDQ3Mi4xLC0xMTguMjUgNDEzLjEsLTExOC4yNSIvPgo8L2c+CjwhLS0gczUmIzQ1OyZndDtzNiAtLT4KPGcgaWQ9ImVkZ2U5IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5zNSYjNDU7Jmd0O3M2PC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTM2MC4xLC05NS44MkMzNzEuMjUsLTEwMS42NSAzODMuNjIsLTEwOC4xIDM5NS4yOCwtMTE0LjE5Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjM5My40NywtMTE3LjIgNDAzLjk2LC0xMTguNzIgMzk2LjcxLC0xMTAuOTkgMzkzLjQ3LC0xMTcuMiIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzODIuMjIiIHk9Ii0xMTAuNzMiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTUuMDAiPik8L3RleHQ+CjwvZz4KPCEtLSBzNyAtLT4KPGcgaWQ9Im5vZGU5IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5zNzwvdGl0bGU+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iNDE2LjM1IiB5PSItNzEuMyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxMS4wMCIgZmlsbD0iIzFmNGZiNCI+NzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI0MTYuMzUiIHk9Ii01Mi4zIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkwg4oaSIEwgLCDigKIgRTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI0MTYuMzUiIHk9Ii0zMi4wNSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjExLjAwIj5FIOKGkiDigKIgKCBMICk8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iNDE2LjM1IiB5PSItMTEuOCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjExLjAwIj5FIOKGkiDigKIgYTwvdGV4dD4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI0MTIuMzUsLTQgNDEyLjM1LC04NC43NSA0NzIuODUsLTg0Ljc1IDQ3Mi44NSwtNCA0MTIuMzUsLTQiLz4KPC9nPgo8IS0tIHM1JiM0NTsmZ3Q7czcgLS0+CjxnIGlkPSJlZGdlMTAiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnM1JiM0NTsmZ3Q7czc8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMzYwLjEsLTY2LjM0QzM3MC43MSwtNjMuNDggMzgyLjQyLC02MC4zMiAzOTMuNTgsLTU3LjMyIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjM5NC4yOCwtNjAuNzUgNDAzLjAyLC01NC43NyAzOTIuNDYsLTUzLjk5IDM5NC4yOCwtNjAuNzUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMzgyLjIyIiB5PSItNjIuODMiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTUuMDAiPiw8L3RleHQ+CjwvZz4KPCEtLSBzNyYjNDU7Jmd0O3MxIC0tPgo8ZyBpZD0iZWRnZTExIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5zNyYjNDU7Jmd0O3MxPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTQwNC41NiwtMjMuNzhDMzcxLjA0LC04LjEzIDMyMS4yOSw3LjQzIDI4My42LC0xMy42MiAyNzAuNDEsLTIwLjk5IDI1My4yMywtNDYuOTEgMjM3LjkzLC03NC4wNyIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyMzQuODksLTcyLjMzIDIzMy4xMiwtODIuNzcgMjQxLjAxLC03NS43MSAyMzQuODksLTcyLjMzIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjMyMS44NSIgeT0iLTE1LjEyIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjE1LjAwIj4oPC90ZXh0Pgo8L2c+CjwhLS0gczcmIzQ1OyZndDtzMiAtLT4KPGcgaWQ9ImVkZ2UxMiIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+czcmIzQ1OyZndDtzMjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik00NzMuNjMsLTg4LjU4QzQ5NC41NCwtMTE5LjM2IDUyMS45OSwtMTU5Ljc2IDU0MS4xLC0xODcuODkiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNTM4LjEyLC0xODkuNzMgNTQ2LjYzLC0xOTYuMDMgNTQzLjkxLC0xODUuNzkgNTM4LjEyLC0xODkuNzMiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNTAzLjcyIiB5PSItMTM5LjY4IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjE1LjAwIj5hPC90ZXh0Pgo8L2c+CjwhLS0gczggLS0+CjxnIGlkPSJub2RlMTAiIGNsYXNzPSJub2RlIj4KPHRpdGxlPnM4PC90aXRsZT4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI1MzguNiIgeT0iLTUxLjA1IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjExLjAwIiBmaWxsPSIjMWY0ZmI0Ij44PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjUzOC42IiB5PSItMzIuMDUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+TCDihpIgTCAsIEUg4oCiPC90ZXh0Pgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjUzNC42LC0yNC4yNSA1MzQuNiwtNjQuNSA1OTUuMSwtNjQuNSA1OTUuMSwtMjQuMjUgNTM0LjYsLTI0LjI1Ii8+CjwvZz4KPCEtLSBzNyYjNDU7Jmd0O3M4IC0tPgo8ZyBpZD0iZWRnZTEzIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5zNyYjNDU7Jmd0O3M4PC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTQ4MC42NiwtNDQuMzhDNDkxLjYzLC00NC4zOCA1MDMuODEsLTQ0LjM4IDUxNS4zOSwtNDQuMzgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNTE1LjE5LC00Ny44OCA1MjUuMTksLTQ0LjM4IDUxNS4xOSwtNDAuODggNTE1LjE5LC00Ny44OCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI1MDMuNzIiIHk9Ii00NS44OCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxNS4wMCI+RTwvdGV4dD4KPC9nPgo8L2c+Cjwvc3ZnPgo=" style="width:100.0%" alt="Autómato LR(0) do Exercício 4" />
+<figcaption aria-hidden="true">Autómato LR(0) do Exercício
+4</figcaption>
+</figure>
+</div></details>
+<details class="sol" id="Ex.4-c"><summary>
+(c) É LR(0)? Tabela de <em>parsing</em>
+</summary><div class="corpo">
+<p><strong>É LR(0).</strong> Um conflito só pode aparecer num estado com
+um item completo e mais alguma coisa. Os estados com item completo são
+2, 4, 6 e 8, e cada um tem <strong>só esse item</strong> (nenhum
+<em>shift</em>, nenhum outro <em>reduce</em>). Os estados com
+<em>shifts</em> (0, 1, 5, 7) não têm items completos. Logo não há
+conflitos.</p>
+<p>Tabela (<em>reduce</em> em todas as colunas terminais, porque é
+LR(0)):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"></th>
+<th style="text-align: center;">(</th>
+<th style="text-align: center;">)</th>
+<th style="text-align: center;">a</th>
+<th style="text-align: center;">,</th>
+<th style="text-align: center;">$</th>
+<th style="text-align: center;">E</th>
+<th style="text-align: center;">L</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">s1</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">s2</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">g3</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">s1</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">s2</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">g4</td>
+<td style="text-align: center;">g5</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">r2</td>
+<td style="text-align: center;">r2</td>
+<td style="text-align: center;">r2</td>
+<td style="text-align: center;">r2</td>
+<td style="text-align: center;">r2</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">a</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">r4</td>
+<td style="text-align: center;">r4</td>
+<td style="text-align: center;">r4</td>
+<td style="text-align: center;">r4</td>
+<td style="text-align: center;">r4</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">s6</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">s7</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">r1</td>
+<td style="text-align: center;">r1</td>
+<td style="text-align: center;">r1</td>
+<td style="text-align: center;">r1</td>
+<td style="text-align: center;">r1</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">s1</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">s2</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">g8</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p>O estado 5 é o único que podia parecer perigoso (dois items), mas os
+dois têm o ponto antes de um terminal diferente (<code>)</code> e
+<code>,</code>): são dois <em>shifts</em> em colunas diferentes.</p>
+</div></details>
+<h3 id="ex.-5-declarações-de-variáveis-em-c-folha-lab.-3">Ex. 5 —
+Declarações de variáveis em C (Folha lab. 3)</h3>
+<p>Produções numeradas: (0)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>S</mi><mo>′</mo></msup><mo>→</mo><mi>D</mi><mi>e</mi><mi>c</mi><mi>l</mi><mspace width="0.167em"></mspace><mi>$</mi></mrow><annotation encoding="application/x-tex">S&#39;\to Decl\,\$</annotation></semantics></math>,
+(1)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mi>e</mi><mi>c</mi><mi>l</mi><mo>→</mo><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi><mspace width="0.222em"></mspace><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mspace width="0.222em"></mspace><mo>;</mo></mrow><annotation encoding="application/x-tex">Decl\to Type\ Varlist\ ;</annotation></semantics></math>,
+(2)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi><mo>→</mo><mtext mathvariant="monospace">𝚒𝚗𝚝</mtext></mrow><annotation encoding="application/x-tex">Type\to\texttt{int}</annotation></semantics></math>,
+(3)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi><mo>→</mo><mtext mathvariant="monospace">𝚏𝚕𝚘𝚊𝚝</mtext></mrow><annotation encoding="application/x-tex">Type\to\texttt{float}</annotation></semantics></math>,
+(4)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo>→</mo><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mspace width="0.167em"></mspace><mo>,</mo><mspace width="0.167em"></mspace><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext></mrow><annotation encoding="application/x-tex">Varlist\to Varlist\,,\,\texttt{ident}</annotation></semantics></math>,
+(5)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo>→</mo><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext></mrow><annotation encoding="application/x-tex">Varlist\to\texttt{ident}</annotation></semantics></math>.</p>
+<details class="sol" id="Ex.5-a"><summary>
+(a) Autómato LR e tabela LR(0)
+</summary><div class="corpo">
+<p><strong>Estado 0</strong> =
+fecho(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><msup><mi>S</mi><mo>′</mo></msup><mo>→</mo><mi>•</mi><mi>D</mi><mi>e</mi><mi>c</mi><mi>l</mi><mspace width="0.167em"></mspace><mi>$</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{S&#39;\to\bullet Decl\,\$\}</annotation></semantics></math>).
+Ponto antes de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mi>e</mi><mi>c</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">Decl</annotation></semantics></math>:
+entra
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mi>e</mi><mi>c</mi><mi>l</mi><mo>→</mo><mi>•</mi><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi><mspace width="0.222em"></mspace><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mspace width="0.222em"></mspace><mo>;</mo></mrow><annotation encoding="application/x-tex">Decl\to\bullet Type\ Varlist\ ;</annotation></semantics></math>.
+Aí o ponto está antes de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">Type</annotation></semantics></math>:
+entram
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi><mo>→</mo><mi>•</mi><mtext mathvariant="monospace">𝚒𝚗𝚝</mtext></mrow><annotation encoding="application/x-tex">Type\to\bullet\texttt{int}</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi><mo>→</mo><mi>•</mi><mtext mathvariant="monospace">𝚏𝚕𝚘𝚊𝚝</mtext></mrow><annotation encoding="application/x-tex">Type\to\bullet\texttt{float}</annotation></semantics></math>.</p>
+<ul>
+<li>goto(0, <code>int</code>) =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi><mo>→</mo><mtext mathvariant="monospace">𝚒𝚗𝚝</mtext><mi>•</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{Type\to\texttt{int}\bullet\}</annotation></semantics></math>:
+<strong>estado 1</strong>.</li>
+<li>goto(0, <code>float</code>) =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi><mo>→</mo><mtext mathvariant="monospace">𝚏𝚕𝚘𝚊𝚝</mtext><mi>•</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{Type\to\texttt{float}\bullet\}</annotation></semantics></math>:
+<strong>estado 2</strong>.</li>
+<li>goto(0,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mi>e</mi><mi>c</mi><mi>l</mi></mrow><annotation encoding="application/x-tex">Decl</annotation></semantics></math>)
+=
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><msup><mi>S</mi><mo>′</mo></msup><mo>→</mo><mi>D</mi><mi>e</mi><mi>c</mi><mi>l</mi><mo>•</mo><mi>$</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{S&#39;\to Decl\bullet\$\}</annotation></semantics></math>:
+<strong>estado 3</strong>.</li>
+<li>goto(0,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">Type</annotation></semantics></math>)
+=
+fecho(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>D</mi><mi>e</mi><mi>c</mi><mi>l</mi><mo>→</mo><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi><mo>•</mo><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mspace width="0.222em"></mspace><mo>;</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{Decl\to Type\bullet Varlist\ ;\}</annotation></semantics></math>).
+Ponto antes de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">Varlist</annotation></semantics></math>:
+entram
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo>→</mo><mi>•</mi><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo>,</mo><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext></mrow><annotation encoding="application/x-tex">Varlist\to\bullet Varlist,\texttt{ident}</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo>→</mo><mi>•</mi><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext></mrow><annotation encoding="application/x-tex">Varlist\to\bullet\texttt{ident}</annotation></semantics></math>.
+<strong>Estado 4</strong>.</li>
+</ul>
+<p><strong>Transições de 4:</strong></p>
+<ul>
+<li>goto(4, <code>ident</code>) =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo>→</mo><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext><mi>•</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{Varlist\to\texttt{ident}\bullet\}</annotation></semantics></math>:
+<strong>estado 5</strong>.</li>
+<li>goto(4,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">Varlist</annotation></semantics></math>):
+avançam
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mi>e</mi><mi>c</mi><mi>l</mi><mo>→</mo><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi><mo>•</mo><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mspace width="0.222em"></mspace><mo>;</mo></mrow><annotation encoding="application/x-tex">Decl\to Type\bullet Varlist\ ;</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo>→</mo><mi>•</mi><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo>,</mo><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext></mrow><annotation encoding="application/x-tex">Varlist\to\bullet Varlist,\texttt{ident}</annotation></semantics></math>.
+<strong>Estado 6</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi>D</mi><mi>e</mi><mi>c</mi><mi>l</mi><mo>→</mo><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi><mspace width="0.222em"></mspace><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mi>•</mi><mo>;</mo><mo>,</mo><mspace width="0.222em"></mspace><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo>→</mo><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mi>•</mi><mo>,</mo><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">=
+\{Decl\to Type\ Varlist\bullet ;,\ Varlist\to Varlist\bullet,\texttt{ident}\}</annotation></semantics></math>.</li>
+</ul>
+<p><strong>Transições de 6:</strong> goto(6, <code>,</code>) =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo>→</mo><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo>,</mo><mi>•</mi><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{Varlist\to Varlist,\bullet\texttt{ident}\}</annotation></semantics></math>:
+<strong>estado 7</strong>; goto(6, <code>;</code>) =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>D</mi><mi>e</mi><mi>c</mi><mi>l</mi><mo>→</mo><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi><mspace width="0.222em"></mspace><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mspace width="0.222em"></mspace><mo>;</mo><mi>•</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{Decl\to Type\ Varlist\ ;\bullet\}</annotation></semantics></math>:
+<strong>estado 8</strong>.</p>
+<p><strong>Transições de 7:</strong> goto(7, <code>ident</code>) =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo>→</mo><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo>,</mo><mtext mathvariant="monospace">𝚒𝚍𝚎𝚗𝚝</mtext><mi>•</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{Varlist\to Varlist,\texttt{ident}\bullet\}</annotation></semantics></math>:
+<strong>estado 9</strong>.</p>
+<figure>
+<img role="img" aria-label="Autómato LR(0) do Exercício 5" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDEyLjIuMSAoMjAyNDEyMDYuMjM1MykKIC0tPgo8IS0tIFRpdGxlOiBHIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSIxMDAwcHQiIGhlaWdodD0iMzYxcHQiCiB2aWV3Qm94PSIwLjAwIDAuMDAgOTk5LjYwIDM2MS4yNSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CjxnIGlkPSJncmFwaDAiIGNsYXNzPSJncmFwaCIgdHJhbnNmb3JtPSJzY2FsZSgxIDEpIHJvdGF0ZSgwKSB0cmFuc2xhdGUoNCAzNTcuMjUpIj4KPHRpdGxlPkc8L3RpdGxlPgo8cG9seWdvbiBmaWxsPSJ3aGl0ZSIgc3Ryb2tlPSJub25lIiBwb2ludHM9Ii00LDQgLTQsLTM1Ny4yNSA5OTUuNiwtMzU3LjI1IDk5NS42LDQgLTQsNCIvPgo8IS0tIHN0YXJ0IC0tPgo8ZyBpZD0ibm9kZTEiIGNsYXNzPSJub2RlIj4KPHRpdGxlPnN0YXJ0PC90aXRsZT4KPGVsbGlwc2UgZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIGN4PSIxLjgiIGN5PSItMjE5LjEyIiByeD0iMS44IiByeT0iMS44Ii8+CjwvZz4KPCEtLSBzMCAtLT4KPGcgaWQ9Im5vZGUyIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5zMDwvdGl0bGU+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iNTIuNiIgeT0iLTI1Ni4xOCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxMS4wMCIgZmlsbD0iIzFmNGZiNCI+MDwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI1Mi42IiB5PSItMjM3LjE4IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlMmIzM5OyDihpIg4oCiIERlY2wgJDwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI1Mi42IiB5PSItMjE2LjkzIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkRlY2wg4oaSIOKAoiBUeXBlIFZhcmxpc3QgOzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI1Mi42IiB5PSItMTk2LjY4IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlR5cGUg4oaSIOKAoiBpbnQ8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iNTIuNiIgeT0iLTE3Ni40MyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjExLjAwIj5UeXBlIOKGkiDigKIgZmxvYXQ8L3RleHQ+Cjxwb2x5Z29uIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNDguNiwtMTY4LjYyIDQ4LjYsLTI2OS42MiAxNjMuODUsLTI2OS42MiAxNjMuODUsLTE2OC42MiA0OC42LC0xNjguNjIiLz4KPC9nPgo8IS0tIHN0YXJ0JiM0NTsmZ3Q7czAgLS0+CjxnIGlkPSJlZGdlMSIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+c3RhcnQmIzQ1OyZndDtzMDwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0zLjk1LC0yMTkuMTJDNy4yLC0yMTkuMTIgMTcsLTIxOS4xMiAyOS4zMSwtMjE5LjEyIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjI5LjE1LC0yMjIuNjMgMzkuMTUsLTIxOS4xMyAyOS4xNSwtMjE1LjYzIDI5LjE1LC0yMjIuNjMiLz4KPC9nPgo8IS0tIHMxIC0tPgo8ZyBpZD0ibm9kZTMiIGNsYXNzPSJub2RlIj4KPHRpdGxlPnMxPC90aXRsZT4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIyODAuNiIgeT0iLTMzNS44IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjExLjAwIiBmaWxsPSIjMWY0ZmI0Ij4xPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjI4MC42IiB5PSItMzE2LjgiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+VHlwZSDihpIgaW50IOKAojwvdGV4dD4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyNzYuNiwtMzA5IDI3Ni42LC0zNDkuMjUgMzQzLjg1LC0zNDkuMjUgMzQzLjg1LC0zMDkgMjc2LjYsLTMwOSIvPgo8L2c+CjwhLS0gczAmIzQ1OyZndDtzMSAtLT4KPGcgaWQ9ImVkZ2UyIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5zMCYjNDU7Jmd0O3MxPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTE3MS42NCwtMjU1LjE2QzE5My41NSwtMjY3LjMyIDIxOC4yMiwtMjgwLjkgMjQwLjg1LC0yOTMuMTIgMjQ2LjYsLTI5Ni4yMyAyNTIuNjMsLTI5OS40NSAyNTguNjQsLTMwMi42NCIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyNTYuODQsLTMwNS42NSAyNjcuMzIsLTMwNy4yNCAyNjAuMTIsLTI5OS40NyAyNTYuODQsLTMwNS42NSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMDYuMzUiIHk9Ii0yODQuNzEiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTUuMDAiPmludDwvdGV4dD4KPC9nPgo8IS0tIHMyIC0tPgo8ZyBpZD0ibm9kZTQiIGNsYXNzPSJub2RlIj4KPHRpdGxlPnMyPC90aXRsZT4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIyNzYuMSIgeT0iLTI2Mi44IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjExLjAwIiBmaWxsPSIjMWY0ZmI0Ij4yPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjI3Ni4xIiB5PSItMjQzLjgiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+VHlwZSDihpIgZmxvYXQg4oCiPC90ZXh0Pgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjI3Mi4xLC0yMzYgMjcyLjEsLTI3Ni4yNSAzNDguMzUsLTI3Ni4yNSAzNDguMzUsLTIzNiAyNzIuMSwtMjM2Ii8+CjwvZz4KPCEtLSBzMCYjNDU7Jmd0O3MyIC0tPgo8ZyBpZD0iZWRnZTMiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnMwJiM0NTsmZ3Q7czI8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTcxLjY5LC0yMzAuOTNDMTk3LjgzLC0yMzUuNzIgMjI3LjczLC0yNDEuMiAyNTIuOTcsLTI0NS44MiIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyNTIuMjUsLTI0OS4yNSAyNjIuNzEsLTI0Ny42MSAyNTMuNTEsLTI0Mi4zNiAyNTIuMjUsLTI0OS4yNSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyMDYuMzUiIHk9Ii0yNDEuMzQiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTUuMDAiPmZsb2F0PC90ZXh0Pgo8L2c+CjwhLS0gczMgLS0+CjxnIGlkPSJub2RlNSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+czM8L3RpdGxlPgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjI3Ny45NyIgeT0iLTE4OS44IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjExLjAwIiBmaWxsPSIjMWY0ZmI0Ij4zPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjI3Ny45NyIgeT0iLTE3MC44IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlMmIzM5OyDihpIgRGVjbCDigKIgJDwvdGV4dD4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyNzMuOTcsLTE2MyAyNzMuOTcsLTIwMy4yNSAzNDYuNDcsLTIwMy4yNSAzNDYuNDcsLTE2MyAyNzMuOTcsLTE2MyIvPgo8L2c+CjwhLS0gczAmIzQ1OyZndDtzMyAtLT4KPGcgaWQ9ImVkZ2U0IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5zMCYjNDU7Jmd0O3MzPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTE3MS42OSwtMjA3LjY0QzE5OC41NSwtMjAyLjg1IDIyOS4zOSwtMTk3LjM1IDI1NS4wNCwtMTkyLjc4Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjI1NS4zNSwtMTk2LjI4IDI2NC41OCwtMTkxLjA4IDI1NC4xMiwtMTg5LjM5IDI1NS4zNSwtMTk2LjI4Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIwNi4zNSIgeT0iLTIwNS44NSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxNS4wMCI+RGVjbDwvdGV4dD4KPC9nPgo8IS0tIHM0IC0tPgo8ZyBpZD0ibm9kZTYiIGNsYXNzPSJub2RlIj4KPHRpdGxlPnM0PC90aXRsZT4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIyNTIuODUiIHk9Ii0xMTYuMDUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTEuMDAiIGZpbGw9IiMxZjRmYjQiPjQ8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iMjUyLjg1IiB5PSItOTcuMDUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+RGVjbCDihpIgVHlwZSDigKIgVmFybGlzdCA7PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjI1Mi44NSIgeT0iLTc2LjgiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+VmFybGlzdCDihpIg4oCiIFZhcmxpc3QgLCBpZGVudDwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIyNTIuODUiIHk9Ii01Ni41NSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjExLjAwIj5WYXJsaXN0IOKGkiDigKIgaWRlbnQ8L3RleHQ+Cjxwb2x5Z29uIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjQ4Ljg1LC00OC43NSAyNDguODUsLTEyOS41IDM3MS42LC0xMjkuNSAzNzEuNiwtNDguNzUgMjQ4Ljg1LC00OC43NSIvPgo8L2c+CjwhLS0gczAmIzQ1OyZndDtzNCAtLT4KPGcgaWQ9ImVkZ2U1IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5zMCYjNDU7Jmd0O3M0PC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTE3MS42OSwtMTc3LjYzQzE5MC43NSwtMTY1LjM3IDIxMS44LC0xNTEuODIgMjMxLjU5LC0xMzkuMDkiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjMzLjQsLTE0Mi4wOCAyMzkuOTIsLTEzMy43MyAyMjkuNjEsLTEzNi4yIDIzMy40LC0xNDIuMDgiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjA2LjM1IiB5PSItMTY3LjI3IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjE1LjAwIj5UeXBlPC90ZXh0Pgo8L2c+CjwhLS0gczUgLS0+CjxnIGlkPSJub2RlNyIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+czU8L3RpdGxlPgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjQ5My4yMiIgeT0iLTEzNi44IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjExLjAwIiBmaWxsPSIjMWY0ZmI0Ij41PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjQ5My4yMiIgeT0iLTExNy44IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlZhcmxpc3Qg4oaSIGlkZW50IOKAojwvdGV4dD4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI0ODkuMjIsLTExMCA0ODkuMjIsLTE1MC4yNSA1NzMuNzIsLTE1MC4yNSA1NzMuNzIsLTExMCA0ODkuMjIsLTExMCIvPgo8L2c+CjwhLS0gczQmIzQ1OyZndDtzNSAtLT4KPGcgaWQ9ImVkZ2U2IiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5zNCYjNDU7Jmd0O3M1PC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTM3OS40LC0xMDEuODdDNDA4LjQ1LC0xMDcuMzEgNDQyLjA3LC0xMTMuNTkgNDcwLjIsLTExOC44NSIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI0NjkuNTMsLTEyMi4yOSA0ODAsLTEyMC42OSA0NzAuODIsLTExNS40MSA0NjkuNTMsLTEyMi4yOSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI0MjAuODUiIHk9Ii0xMTQuOCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxNS4wMCI+aWRlbnQ8L3RleHQ+CjwvZz4KPCEtLSBzNiAtLT4KPGcgaWQ9Im5vZGU4IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5zNjwvdGl0bGU+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iNDc0LjEiIHk9Ii02My45MiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxMS4wMCIgZmlsbD0iIzFmNGZiNCI+NjwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI0NzQuMSIgeT0iLTQ0LjkyIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkRlY2wg4oaSIFR5cGUgVmFybGlzdCDigKIgOzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI0NzQuMSIgeT0iLTI0LjY4IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlZhcmxpc3Qg4oaSIFZhcmxpc3Qg4oCiICwgaWRlbnQ8L3RleHQ+Cjxwb2x5Z29uIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNDcwLjEsLTE2Ljg4IDQ3MC4xLC03Ny4zOCA1OTIuODUsLTc3LjM4IDU5Mi44NSwtMTYuODggNDcwLjEsLTE2Ljg4Ii8+CjwvZz4KPCEtLSBzNCYjNDU7Jmd0O3M2IC0tPgo8ZyBpZD0iZWRnZTciIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnM0JiM0NTsmZ3Q7czY8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMzc5LjQsLTc2LjA3QzQwMi4xOCwtNzEuNyA0MjcuNzgsLTY2LjggNDUxLjMzLC02Mi4yOSIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI0NTEuNywtNjUuNzggNDYwLjg2LC02MC40NiA0NTAuMzgsLTU4LjkgNDUxLjcsLTY1Ljc4Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjQyMC44NSIgeT0iLTczLjM5IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjE1LjAwIj5WYXJsaXN0PC90ZXh0Pgo8L2c+CjwhLS0gczcgLS0+CjxnIGlkPSJub2RlOSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+czc8L3RpdGxlPgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjY1NC4xIiB5PSItMTAzLjgiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTEuMDAiIGZpbGw9IiMxZjRmYjQiPjc8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iNjU0LjEiIHk9Ii04NC44IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlZhcmxpc3Qg4oaSIFZhcmxpc3QgLCDigKIgaWRlbnQ8L3RleHQ+Cjxwb2x5Z29uIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNjUwLjEsLTc3IDY1MC4xLC0xMTcuMjUgNzcyLjg1LC0xMTcuMjUgNzcyLjg1LC03NyA2NTAuMSwtNzciLz4KPC9nPgo8IS0tIHM2JiM0NTsmZ3Q7czcgLS0+CjxnIGlkPSJlZGdlOCIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+czYmIzQ1OyZndDtzNzwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik02MDAuNzksLTY2LjMxQzYxMC43OSwtNjkuMTIgNjIxLjE3LC03Mi4wNCA2MzEuMzcsLTc0LjkxIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjYzMC4zMiwtNzguMjQgNjQwLjg5LC03Ny41OCA2MzIuMjEsLTcxLjUgNjMwLjMyLC03OC4yNCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI2MjEuNDciIHk9Ii03My42MiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxNS4wMCI+LDwvdGV4dD4KPC9nPgo8IS0tIHM4IC0tPgo8ZyBpZD0ibm9kZTEwIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5zODwvdGl0bGU+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iNjU3Ljg1IiB5PSItMzAuOCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxMS4wMCIgZmlsbD0iIzFmNGZiNCI+ODwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI2NTcuODUiIHk9Ii0xMS44IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPkRlY2wg4oaSIFR5cGUgVmFybGlzdCA7IOKAojwvdGV4dD4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI2NTMuODUsLTQgNjUzLjg1LC00NC4yNSA3NjkuMSwtNDQuMjUgNzY5LjEsLTQgNjUzLjg1LC00Ii8+CjwvZz4KPCEtLSBzNiYjNDU7Jmd0O3M4IC0tPgo8ZyBpZD0iZWRnZTkiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnM2JiM0NTsmZ3Q7czg8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNNjAwLjc5LC0zOC4zQzYxMS44OSwtMzYuODYgNjIzLjQ1LC0zNS4zNyA2MzQuNzEsLTMzLjkxIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjYzNC44OSwtMzcuNDIgNjQ0LjM2LC0zMi42NyA2MzMuOTksLTMwLjQ4IDYzNC44OSwtMzcuNDIiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iNjIxLjQ3IiB5PSItMzcuMTIiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTUuMDAiPjs8L3RleHQ+CjwvZz4KPCEtLSBzOSAtLT4KPGcgaWQ9Im5vZGUxMSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+czk8L3RpdGxlPgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9Ijg2NC44NSIgeT0iLTEwMy44IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjExLjAwIiBmaWxsPSIjMWY0ZmI0Ij45PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9Ijg2NC44NSIgeT0iLTg0LjgiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+VmFybGlzdCDihpIgVmFybGlzdCAsIGlkZW50IOKAojwvdGV4dD4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI4NjAuODUsLTc3IDg2MC44NSwtMTE3LjI1IDk4My42LC0xMTcuMjUgOTgzLjYsLTc3IDg2MC44NSwtNzciLz4KPC9nPgo8IS0tIHM3JiM0NTsmZ3Q7czkgLS0+CjxnIGlkPSJlZGdlMTAiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnM3JiM0NTsmZ3Q7czk8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNNzgwLjgzLC05Ny4xMkM4MDAuMywtOTcuMTIgODIxLjY4LC05Ny4xMiA4NDEuNzYsLTk3LjEyIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9Ijg0MS41NiwtMTAwLjYzIDg1MS41NiwtOTcuMTMgODQxLjU2LC05My42MyA4NDEuNTYsLTEwMC42MyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSI4MTYuODUiIHk9Ii05OC42MiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxNS4wMCI+aWRlbnQ8L3RleHQ+CjwvZz4KPC9nPgo8L3N2Zz4K" style="width:100.0%" alt="Autómato LR(0) do Exercício 5" />
+<figcaption aria-hidden="true">Autómato LR(0) do Exercício
+5</figcaption>
+</figure>
+<p>Tabela LR(0) (<code>id</code> = <code>ident</code>). Os estados com
+item completo (1, 2, 5, 8, 9) só têm esse item, por isso não há
+conflitos: a gramática é LR(0).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"></th>
+<th style="text-align: center;">int</th>
+<th style="text-align: center;">float</th>
+<th style="text-align: center;">,</th>
+<th style="text-align: center;">;</th>
+<th style="text-align: center;">id</th>
+<th style="text-align: center;">$</th>
+<th style="text-align: center;">Decl</th>
+<th style="text-align: center;">Type</th>
+<th style="text-align: center;">Varlist</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">s1</td>
+<td style="text-align: center;">s2</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">g3</td>
+<td style="text-align: center;">g4</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">r2</td>
+<td style="text-align: center;">r2</td>
+<td style="text-align: center;">r2</td>
+<td style="text-align: center;">r2</td>
+<td style="text-align: center;">r2</td>
+<td style="text-align: center;">r2</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">a</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">s5</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">g6</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">r5</td>
+<td style="text-align: center;">r5</td>
+<td style="text-align: center;">r5</td>
+<td style="text-align: center;">r5</td>
+<td style="text-align: center;">r5</td>
+<td style="text-align: center;">r5</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">s7</td>
+<td style="text-align: center;">s8</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">s9</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">r1</td>
+<td style="text-align: center;">r1</td>
+<td style="text-align: center;">r1</td>
+<td style="text-align: center;">r1</td>
+<td style="text-align: center;">r1</td>
+<td style="text-align: center;">r1</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">r4</td>
+<td style="text-align: center;">r4</td>
+<td style="text-align: center;">r4</td>
+<td style="text-align: center;">r4</td>
+<td style="text-align: center;">r4</td>
+<td style="text-align: center;">r4</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+</div></details>
+<details class="sol" id="Ex.5-b"><summary>
+(b) Simulação para <code>int x,y,z;</code>
+</summary><div class="corpo">
+<p>O analisador lexical entrega <code>int id , id , id ;</code> e
+acrescenta-se o $.</p>
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 59%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Estados</th>
+<th style="text-align: left;">Símbolos</th>
+<th style="text-align: right;">Entrada</th>
+<th style="text-align: left;">Ação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ε</mi><annotation encoding="application/x-tex">\varepsilon</annotation></semantics></math></td>
+<td style="text-align: right;"><code>int id,id,id;$</code></td>
+<td style="text-align: left;">s1</td>
+</tr>
+<tr>
+<td style="text-align: left;">0 1</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: right;"><code>id,id,id;$</code></td>
+<td style="text-align: left;">r2: tira 1, topo 0, (0,Type) = g4</td>
+</tr>
+<tr>
+<td style="text-align: left;">0 4</td>
+<td style="text-align: left;">Type</td>
+<td style="text-align: right;"><code>id,id,id;$</code></td>
+<td style="text-align: left;">s5</td>
+</tr>
+<tr>
+<td style="text-align: left;">0 4 5</td>
+<td style="text-align: left;">Type id</td>
+<td style="text-align: right;"><code>,id,id;$</code></td>
+<td style="text-align: left;">r5: tira 1, topo 4, (4,Varlist) = g6</td>
+</tr>
+<tr>
+<td style="text-align: left;">0 4 6</td>
+<td style="text-align: left;">Type Varlist</td>
+<td style="text-align: right;"><code>,id,id;$</code></td>
+<td style="text-align: left;">s7</td>
+</tr>
+<tr>
+<td style="text-align: left;">0 4 6 7</td>
+<td style="text-align: left;">Type Varlist ,</td>
+<td style="text-align: right;"><code>id,id;$</code></td>
+<td style="text-align: left;">s9</td>
+</tr>
+<tr>
+<td style="text-align: left;">0 4 6 7 9</td>
+<td style="text-align: left;">Type Varlist , id</td>
+<td style="text-align: right;"><code>,id;$</code></td>
+<td style="text-align: left;">r4: tira 3, topo 4, (4,Varlist) = g6</td>
+</tr>
+<tr>
+<td style="text-align: left;">0 4 6</td>
+<td style="text-align: left;">Type Varlist</td>
+<td style="text-align: right;"><code>,id;$</code></td>
+<td style="text-align: left;">s7</td>
+</tr>
+<tr>
+<td style="text-align: left;">0 4 6 7</td>
+<td style="text-align: left;">Type Varlist ,</td>
+<td style="text-align: right;"><code>id;$</code></td>
+<td style="text-align: left;">s9</td>
+</tr>
+<tr>
+<td style="text-align: left;">0 4 6 7 9</td>
+<td style="text-align: left;">Type Varlist , id</td>
+<td style="text-align: right;"><code>;$</code></td>
+<td style="text-align: left;">r4: tira 3, topo 4, (4,Varlist) = g6</td>
+</tr>
+<tr>
+<td style="text-align: left;">0 4 6</td>
+<td style="text-align: left;">Type Varlist</td>
+<td style="text-align: right;"><code>;$</code></td>
+<td style="text-align: left;">s8</td>
+</tr>
+<tr>
+<td style="text-align: left;">0 4 6 8</td>
+<td style="text-align: left;">Type Varlist ;</td>
+<td style="text-align: right;"><code>$</code></td>
+<td style="text-align: left;">r1: tira 3, topo 0, (0,Decl) = g3</td>
+</tr>
+<tr>
+<td style="text-align: left;">0 3</td>
+<td style="text-align: left;">Decl</td>
+<td style="text-align: right;"><code>$</code></td>
+<td style="text-align: left;">accept</td>
+</tr>
+</tbody>
+</table>
+<p>Repara no padrão da lista: o primeiro <code>x</code> vira
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">Varlist</annotation></semantics></math>
+com a regra 5, e cada <code>, id</code> seguinte é “colado” à lista com
+a regra 4. Os <em>reduce</em> lidos de baixo para cima dão a derivação
+mais à direita:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mi>e</mi><mi>c</mi><mi>l</mi><mo>⇒</mo><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi><mspace width="0.222em"></mspace><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mspace width="0.167em"></mspace><mo>;</mo><mo>⇒</mo><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi><mspace width="0.222em"></mspace><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo>,</mo><mtext mathvariant="monospace">𝚣</mtext><mspace width="0.167em"></mspace><mo>;</mo><mo>⇒</mo><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi><mspace width="0.222em"></mspace><mi>V</mi><mi>a</mi><mi>r</mi><mi>l</mi><mi>i</mi><mi>s</mi><mi>t</mi><mo>,</mo><mtext mathvariant="monospace">𝚢</mtext><mo>,</mo><mtext mathvariant="monospace">𝚣</mtext><mspace width="0.167em"></mspace><mo>;</mo><mo>⇒</mo><mi>T</mi><mi>y</mi><mi>p</mi><mi>e</mi><mspace width="0.222em"></mspace><mtext mathvariant="monospace">𝚡</mtext><mo>,</mo><mtext mathvariant="monospace">𝚢</mtext><mo>,</mo><mtext mathvariant="monospace">𝚣</mtext><mspace width="0.167em"></mspace><mo>;</mo><mo>⇒</mo><mtext mathvariant="monospace">𝚒𝚗𝚝 𝚡,𝚢,𝚣;</mtext></mrow><annotation encoding="application/x-tex">Decl \Rightarrow Type\ Varlist\,; \Rightarrow Type\ Varlist,\texttt{z}\,;
+\Rightarrow Type\ Varlist,\texttt{y},\texttt{z}\,; \Rightarrow
+Type\ \texttt{x},\texttt{y},\texttt{z}\,; \Rightarrow \texttt{int x,y,z;}</annotation></semantics></math></p>
+</div></details>
+<h2 id="aula-5-análise-slr1">Aula 5 — Análise SLR(1)</h2>
+<h3 id="ex.-3-slr1-folha-lab.-3-também-exercício-2-dos-slides">Ex. 3 —
+SLR(1) (Folha lab. 3, também Exercício 2 dos slides)</h3>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>→</mo><mi>R</mi></mrow><annotation encoding="application/x-tex">T\to R</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>→</mo><mi>a</mi><mi>T</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">T\to aTc</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>→</mo><mi>ε</mi></mrow><annotation encoding="application/x-tex">R\to\varepsilon</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>→</mo><mi>b</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">R\to bR</annotation></semantics></math>.
+Produções numeradas como na tabela dos slides: (0)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>T</mi><mo>′</mo></msup><mo>→</mo><mi>T</mi><mspace width="0.167em"></mspace><mi>$</mi></mrow><annotation encoding="application/x-tex">T&#39;\to T\,\$</annotation></semantics></math>,
+(1)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>→</mo><mi>R</mi></mrow><annotation encoding="application/x-tex">T\to R</annotation></semantics></math>,
+(2)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>→</mo><mi>a</mi><mi>T</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">T\to aTc</annotation></semantics></math>,
+(3)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>→</mo><mi>ε</mi></mrow><annotation encoding="application/x-tex">R\to\varepsilon</annotation></semantics></math>,
+(4)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>→</mo><mi>b</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">R\to bR</annotation></semantics></math>.</p>
+<details class="sol" id="Ex.3-b"><summary>
+(b) Autómato, tabela SLR(1) e conflitos LR(0)
+</summary><div class="corpo">
+<p><strong>1. Autómato.</strong></p>
+<p><strong>Estado 0</strong> =
+fecho(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><msup><mi>T</mi><mo>′</mo></msup><mo>→</mo><mi>•</mi><mi>T</mi><mspace width="0.167em"></mspace><mi>$</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{T&#39;\to\bullet T\,\$\}</annotation></semantics></math>).
+Ponto antes de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>:
+entram
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>→</mo><mi>•</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">T\to\bullet R</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>→</mo><mi>•</mi><mi>a</mi><mi>T</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">T\to\bullet aTc</annotation></semantics></math>.
+Em
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>→</mo><mi>•</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">T\to\bullet R</annotation></semantics></math>
+o ponto está antes de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>:
+entram
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>→</mo><mi>•</mi></mrow><annotation encoding="application/x-tex">R\to\bullet</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>→</mo><mi>•</mi><mi>b</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">R\to\bullet bR</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>=</mo><mo stretchy="false" form="prefix">{</mo><msup><mi>T</mi><mo>′</mo></msup><mo>→</mo><mi>•</mi><mi>T</mi><mspace width="0.167em"></mspace><mi>$</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>T</mi><mo>→</mo><mi>•</mi><mi>R</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>T</mi><mo>→</mo><mi>•</mi><mi>a</mi><mi>T</mi><mi>c</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>R</mi><mo>→</mo><mi>•</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>R</mi><mo>→</mo><mi>•</mi><mi>b</mi><mi>R</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">0 = \{T&#39;\to\bullet T\,\$,\ T\to\bullet R,\ T\to\bullet aTc,\ R\to\bullet,\ R\to\bullet bR\}</annotation></semantics></math>.</p>
+<ul>
+<li>goto(0, <code>a</code>) =
+fecho(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>T</mi><mo>→</mo><mi>a</mi><mo>•</mo><mi>T</mi><mi>c</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{T\to a\bullet Tc\}</annotation></semantics></math>):
+ponto antes de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>,
+entram
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>→</mo><mi>•</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">T\to\bullet R</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>→</mo><mi>•</mi><mi>a</mi><mi>T</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">T\to\bullet aTc</annotation></semantics></math>,
+e por causa do primeiro,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>→</mo><mi>•</mi></mrow><annotation encoding="application/x-tex">R\to\bullet</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>→</mo><mi>•</mi><mi>b</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">R\to\bullet bR</annotation></semantics></math>.
+<strong>Estado 1</strong>.</li>
+<li>goto(0, <code>b</code>) =
+fecho(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>R</mi><mo>→</mo><mi>b</mi><mo>•</mo><mi>R</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{R\to b\bullet R\}</annotation></semantics></math>):
+ponto antes de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>,
+entram
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>→</mo><mi>•</mi></mrow><annotation encoding="application/x-tex">R\to\bullet</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>→</mo><mi>•</mi><mi>b</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">R\to\bullet bR</annotation></semantics></math>.
+<strong>Estado 2</strong>.</li>
+<li>goto(0,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>)
+=
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><msup><mi>T</mi><mo>′</mo></msup><mo>→</mo><mi>T</mi><mo>•</mo><mi>$</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{T&#39;\to T\bullet\$\}</annotation></semantics></math>:
+<strong>estado 3</strong>.</li>
+<li>goto(0,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>)
+=
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>T</mi><mo>→</mo><mi>R</mi><mi>•</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{T\to R\bullet\}</annotation></semantics></math>:
+<strong>estado 4</strong>.</li>
+</ul>
+<p><strong>Transições de 1:</strong> goto(1, <code>a</code>) =
+fecho(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>T</mi><mo>→</mo><mi>a</mi><mo>•</mo><mi>T</mi><mi>c</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{T\to a\bullet Tc\}</annotation></semantics></math>)
+= <strong>estado 1</strong>; goto(1, <code>b</code>) = <strong>estado
+2</strong>; goto(1,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>)
+=
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>T</mi><mo>→</mo><mi>a</mi><mi>T</mi><mo>•</mo><mi>c</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{T\to aT\bullet c\}</annotation></semantics></math>:
+<strong>estado 5</strong>; goto(1,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>)
+=
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>T</mi><mo>→</mo><mi>R</mi><mi>•</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{T\to R\bullet\}</annotation></semantics></math>
+= <strong>estado 4</strong>.</p>
+<p><strong>Transições de 2:</strong> goto(2, <code>b</code>) =
+fecho(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>R</mi><mo>→</mo><mi>b</mi><mo>•</mo><mi>R</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{R\to b\bullet R\}</annotation></semantics></math>)
+= <strong>estado 2</strong>; goto(2,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>)
+=
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>R</mi><mo>→</mo><mi>b</mi><mi>R</mi><mi>•</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{R\to bR\bullet\}</annotation></semantics></math>:
+<strong>estado 6</strong>.</p>
+<p><strong>Transições de 5:</strong> goto(5, <code>c</code>) =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>T</mi><mo>→</mo><mi>a</mi><mi>T</mi><mi>c</mi><mi>•</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{T\to aTc\bullet\}</annotation></semantics></math>:
+<strong>estado 7</strong>. Os estados 3, 4, 6 e 7 não têm mais
+transições.</p>
+<figure>
+<img role="img" aria-label="Autómato LR(0) do Exercício 3(b); a rosa, os estados com conflitos LR(0)" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8IS0tIEdlbmVyYXRlZCBieSBncmFwaHZpeiB2ZXJzaW9uIDEyLjIuMSAoMjAyNDEyMDYuMjM1MykKIC0tPgo8IS0tIFRpdGxlOiBHIFBhZ2VzOiAxIC0tPgo8c3ZnIHdpZHRoPSI1MDJwdCIgaGVpZ2h0PSI0MDBwdCIKIHZpZXdCb3g9IjAuMDAgMC4wMCA1MDEuNjAgNDAwLjI1IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KPGcgaWQ9ImdyYXBoMCIgY2xhc3M9ImdyYXBoIiB0cmFuc2Zvcm09InNjYWxlKDEgMSkgcm90YXRlKDApIHRyYW5zbGF0ZSg0IDM5Ni4yNSkiPgo8dGl0bGU+RzwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9IndoaXRlIiBzdHJva2U9Im5vbmUiIHBvaW50cz0iLTQsNCAtNCwtMzk2LjI1IDQ5Ny42LC0zOTYuMjUgNDk3LjYsNCAtNCw0Ii8+CjwhLS0gc3RhcnQgLS0+CjxnIGlkPSJub2RlMSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+c3RhcnQ8L3RpdGxlPgo8ZWxsaXBzZSBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgY3g9IjEuOCIgY3k9Ii0xNTAuMTIiIHJ4PSIxLjgiIHJ5PSIxLjgiLz4KPC9nPgo8IS0tIHMwIC0tPgo8ZyBpZD0ibm9kZTIiIGNsYXNzPSJub2RlIj4KPHRpdGxlPnMwPC90aXRsZT4KPHBvbHlnb24gZmlsbD0iI2ZkZTJlMiIgc3Ryb2tlPSJub25lIiBwb2ludHM9IjQ4LjYsLTg5LjUgNDguNiwtMjEwLjc1IDExMS4zNSwtMjEwLjc1IDExMS4zNSwtODkuNSA0OC42LC04OS41Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iNTIuNiIgeT0iLTE5Ny4zIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjExLjAwIiBmaWxsPSIjMWY0ZmI0Ij4wPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjUyLjYiIHk9Ii0xNzguMyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjExLjAwIj5UJiMzOTsg4oaSIOKAoiBUICQ8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iNTIuNiIgeT0iLTE1OC4wNSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjExLjAwIj5UIOKGkiDigKIgUjwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSI1Mi42IiB5PSItMTM3LjgiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+VCDihpIg4oCiIGEgVCBjPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjUyLjYiIHk9Ii0xMTcuNTUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+UiDihpIg4oCiPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjUyLjYiIHk9Ii05Ny4zIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlIg4oaSIOKAoiBiIFI8L3RleHQ+Cjxwb2x5Z29uIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iNDguNiwtODkuNSA0OC42LC0yMTAuNzUgMTExLjM1LC0yMTAuNzUgMTExLjM1LC04OS41IDQ4LjYsLTg5LjUiLz4KPC9nPgo8IS0tIHN0YXJ0JiM0NTsmZ3Q7czAgLS0+CjxnIGlkPSJlZGdlMSIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+c3RhcnQmIzQ1OyZndDtzMDwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0zLjg4LC0xNTAuMTJDNy4xNCwtMTUwLjEyIDE3LjQ2LC0xNTAuMTIgMjkuNDQsLTE1MC4xMiIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyOS4yNCwtMTUzLjYzIDM5LjI0LC0xNTAuMTMgMjkuMjQsLTE0Ni42MyAyOS4yNCwtMTUzLjYzIi8+CjwvZz4KPCEtLSBzMSAtLT4KPGcgaWQ9Im5vZGUzIiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5zMTwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9IiNmZGUyZTIiIHN0cm9rZT0ibm9uZSIgcG9pbnRzPSIxNzIuMzUsLTE0Mi41IDE3Mi4zNSwtMjYzLjc1IDIzNS4xLC0yNjMuNzUgMjM1LjEsLTE0Mi41IDE3Mi4zNSwtMTQyLjUiLz4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIxNzYuMzUiIHk9Ii0yNTAuMyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxMS4wMCIgZmlsbD0iIzFmNGZiNCI+MTwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIxNzYuMzUiIHk9Ii0yMzEuMyIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjExLjAwIj5UIOKGkiBhIOKAoiBUIGM8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iMTc2LjM1IiB5PSItMjExLjA1IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlQg4oaSIOKAoiBSPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjE3Ni4zNSIgeT0iLTE5MC44IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlQg4oaSIOKAoiBhIFQgYzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIxNzYuMzUiIHk9Ii0xNzAuNTUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+UiDihpIg4oCiPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjE3Ni4zNSIgeT0iLTE1MC4zIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlIg4oaSIOKAoiBiIFI8L3RleHQ+Cjxwb2x5Z29uIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMTcyLjM1LC0xNDIuNSAxNzIuMzUsLTI2My43NSAyMzUuMSwtMjYzLjc1IDIzNS4xLC0xNDIuNSAxNzIuMzUsLTE0Mi41Ii8+CjwvZz4KPCEtLSBzMCYjNDU7Jmd0O3MxIC0tPgo8ZyBpZD0iZWRnZTIiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnMwJiM0NTsmZ3Q7czE8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTE5LjE2LC0xNjYuNzVDMTMwLjI3LC0xNzEuNTggMTQyLjU1LC0xNzYuOTMgMTU0LjIsLTE4MiIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxNTIuNzIsLTE4NS4xNyAxNjMuMjgsLTE4NS45NiAxNTUuNTEsLTE3OC43NiAxNTIuNzIsLTE4NS4xNyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIxNDEuODUiIHk9Ii0xNzkuNzEiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTUuMDAiPmE8L3RleHQ+CjwvZz4KPCEtLSBzMiAtLT4KPGcgaWQ9Im5vZGU0IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5zMjwvdGl0bGU+Cjxwb2x5Z29uIGZpbGw9IiNmZGUyZTIiIHN0cm9rZT0ibm9uZSIgcG9pbnRzPSIzMDAuMjMsLTI2Ni43NSAzMDAuMjMsLTM0Ny41IDM1Ny43MywtMzQ3LjUgMzU3LjczLC0yNjYuNzUgMzAwLjIzLC0yNjYuNzUiLz4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIzMDQuMjMiIHk9Ii0zMzQuMDUiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTEuMDAiIGZpbGw9IiMxZjRmYjQiPjI8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iMzA0LjIzIiB5PSItMzE1LjA1IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlIg4oaSIGIg4oCiIFI8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iMzA0LjIzIiB5PSItMjk0LjgiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+UiDihpIg4oCiPC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjMwNC4yMyIgeT0iLTI3NC41NSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjExLjAwIj5SIOKGkiDigKIgYiBSPC90ZXh0Pgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjMwMC4yMywtMjY2Ljc1IDMwMC4yMywtMzQ3LjUgMzU3LjczLC0zNDcuNSAzNTcuNzMsLTI2Ni43NSAzMDAuMjMsLTI2Ni43NSIvPgo8L2c+CjwhLS0gczAmIzQ1OyZndDtzMiAtLT4KPGcgaWQ9ImVkZ2UzIiBjbGFzcz0iZWRnZSI+Cjx0aXRsZT5zMCYjNDU7Jmd0O3MyPC90aXRsZT4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgZD0iTTk1Ljk2LC0yMTQuNDJDMTA4LjAxLC0yNTAuNDYgMTI4Ljk2LC0yOTIuNDEgMTY0LjM1LC0zMTQuMTIgMTk5LjIzLC0zMzUuNTIgMjQ2LjYxLC0zMzAuNjUgMjgxLjQxLC0zMjIuMjgiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjgxLjk3LC0zMjUuNzUgMjkwLjc3LC0zMTkuODUgMjgwLjIxLC0zMTguOTcgMjgxLjk3LC0zMjUuNzUiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjAzLjczIiB5PSItMzMwLjkiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTUuMDAiPmI8L3RleHQ+CjwvZz4KPCEtLSBzMyAtLT4KPGcgaWQ9Im5vZGU1IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5zMzwvdGl0bGU+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iMTc5LjM1IiB5PSItMzAuOCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxMS4wMCIgZmlsbD0iIzFmNGZiNCI+MzwvdGV4dD4KPHRleHQgdGV4dC1hbmNob3I9InN0YXJ0IiB4PSIxNzkuMzUiIHk9Ii0xMS44IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlQmIzM5OyDihpIgVCDigKIgJDwvdGV4dD4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxNzUuMzUsLTQgMTc1LjM1LC00NC4yNSAyMzIuMSwtNDQuMjUgMjMyLjEsLTQgMTc1LjM1LC00Ii8+CjwvZz4KPCEtLSBzMCYjNDU7Jmd0O3MzIC0tPgo8ZyBpZD0iZWRnZTQiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnMwJiM0NTsmZ3Q7czM8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTE3Ljg1LC04NS45MUMxMjMuODMsLTc3Ljg2IDEzMC4zNywtNzAuMTEgMTM3LjM1LC02My4zOCAxNDMuNTEsLTU3LjQzIDE1MC43MywtNTEuOTggMTU4LjA5LC00Ny4xNiIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIxNTkuNDUsLTUwLjQzIDE2Ni4xMSwtNDIuMTkgMTU1Ljc3LC00NC40OCAxNTkuNDUsLTUwLjQzIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjE0MS44NSIgeT0iLTY0Ljg4IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjE1LjAwIj5UPC90ZXh0Pgo8L2c+CjwhLS0gczQgLS0+CjxnIGlkPSJub2RlNiIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+czQ8L3RpdGxlPgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjMwOS40OCIgeT0iLTEyMC44IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjExLjAwIiBmaWxsPSIjMWY0ZmI0Ij40PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjMwOS40OCIgeT0iLTEwMS44IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlQg4oaSIFIg4oCiPC90ZXh0Pgo8cG9seWdvbiBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjMwNS40OCwtOTQgMzA1LjQ4LC0xMzQuMjUgMzUyLjQ4LC0xMzQuMjUgMzUyLjQ4LC05NCAzMDUuNDgsLTk0Ii8+CjwvZz4KPCEtLSBzMCYjNDU7Jmd0O3M0IC0tPgo8ZyBpZD0iZWRnZTUiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnMwJiM0NTsmZ3Q7czQ8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMTE5LjEyLC0xMjcuNTZDMTMyLjg5LC0xMjAuNjIgMTQ4Ljg3LC0xMTMuODggMTY0LjM1LC0xMTAuMzggMjA1LjEzLC0xMDEuMTUgMjUzLjA5LC0xMDMuNzcgMjg2LjUsLTEwNy42NiIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyODUuODIsLTExMS4xMSAyOTYuMTgsLTEwOC44OSAyODYuNywtMTA0LjE2IDI4NS44MiwtMTExLjExIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIwMy43MyIgeT0iLTExMS44OCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxNS4wMCI+UjwvdGV4dD4KPC9nPgo8IS0tIHMxJiM0NTsmZ3Q7czEgLS0+CjxnIGlkPSJlZGdlNiIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+czEmIzQ1OyZndDtzMTwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0xOTIuNDEsLTI2Ny41OEMxOTMuNDMsLTI4Mi4xMiAxOTcuMiwtMjkyLjc1IDIwMy43MywtMjkyLjc1IDIwOC40MiwtMjkyLjc1IDIxMS42OCwtMjg3LjI2IDIxMy41MywtMjc4Ljc3Ii8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjIxNi45NywtMjc5LjQ2IDIxNC44NCwtMjY5LjA4IDIxMC4wMywtMjc4LjUyIDIxNi45NywtMjc5LjQ2Ii8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjIwMy43MyIgeT0iLTI5NC4yNSIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxNS4wMCI+YTwvdGV4dD4KPC9nPgo8IS0tIHMxJiM0NTsmZ3Q7czIgLS0+CjxnIGlkPSJlZGdlNyIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+czEmIzQ1OyZndDtzMjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0yNDMuMDUsLTIzNS40NkMyNTYuMDMsLTI0Ni40MiAyNzAuNjMsLTI1OC43NCAyODQuMDIsLTI3MC4wNCIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIyODEuNTYsLTI3Mi41NCAyOTEuNDYsLTI3Ni4zMSAyODYuMDcsLTI2Ny4xOSAyODEuNTYsLTI3Mi41NCIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIyNjYuMzUiIHk9Ii0yNTkuNzQiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTUuMDAiPmI8L3RleHQ+CjwvZz4KPCEtLSBzMSYjNDU7Jmd0O3M0IC0tPgo8ZyBpZD0iZWRnZTkiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnMxJiM0NTsmZ3Q7czQ8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMjQzLjA1LC0xNzUuNDVDMjU3LjQyLC0xNjUuMDcgMjczLjc4LC0xNTMuMjYgMjg4LjI4LC0xNDIuNzkiLz4KPHBvbHlnb24gZmlsbD0iYmxhY2siIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjkwLjIxLC0xNDUuNzEgMjk2LjI3LC0xMzcuMDIgMjg2LjEyLC0xNDAuMDQgMjkwLjIxLC0xNDUuNzEiLz4KPHRleHQgdGV4dC1hbmNob3I9Im1pZGRsZSIgeD0iMjY2LjM1IiB5PSItMTYyLjc5IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjE1LjAwIj5SPC90ZXh0Pgo8L2c+CjwhLS0gczUgLS0+CjxnIGlkPSJub2RlNyIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+czU8L3RpdGxlPgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjMwMS42IiB5PSItMjA5LjgiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTEuMDAiIGZpbGw9IiMxZjRmYjQiPjU8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iMzAxLjYiIHk9Ii0xOTAuOCIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXNpemU9IjExLjAwIj5UIOKGkiBhIFQg4oCiIGM8L3RleHQ+Cjxwb2x5Z29uIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIHBvaW50cz0iMjk3LjYsLTE4MyAyOTcuNiwtMjIzLjI1IDM2MC4zNSwtMjIzLjI1IDM2MC4zNSwtMTgzIDI5Ny42LC0xODMiLz4KPC9nPgo8IS0tIHMxJiM0NTsmZ3Q7czUgLS0+CjxnIGlkPSJlZGdlOCIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+czEmIzQ1OyZndDtzNTwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0yNDMuMDUsLTIwMy4xMkMyNTQuMTgsLTIwMy4xMiAyNjYuNSwtMjAzLjEyIDI3OC4yMiwtMjAzLjEyIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjI3OC4xNiwtMjA2LjYzIDI4OC4xNiwtMjAzLjEzIDI3OC4xNiwtMTk5LjYzIDI3OC4xNiwtMjA2LjYzIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjI2Ni4zNSIgeT0iLTIwNC42MiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxNS4wMCI+VDwvdGV4dD4KPC9nPgo8IS0tIHMyJiM0NTsmZ3Q7czIgLS0+CjxnIGlkPSJlZGdlMTAiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnMyJiM0NTsmZ3Q7czI8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMzE3LjI0LC0zNTEuNUMzMTcuNDIsLTM2NS40NyAzMjEuMzMsLTM3Ni41IDMyOC45OCwtMzc2LjUgMzM0LjQxLC0zNzYuNSAzMzcuOTYsLTM3MC45MyAzMzkuNjIsLTM2Mi42OCIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSIzNDMuMDgsLTM2My4yOSAzNDAuNTYsLTM1MyAzMzYuMTEsLTM2Mi42MiAzNDMuMDgsLTM2My4yOSIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzMjguOTgiIHk9Ii0zNzgiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTUuMDAiPmI8L3RleHQ+CjwvZz4KPCEtLSBzNiAtLT4KPGcgaWQ9Im5vZGU4IiBjbGFzcz0ibm9kZSI+Cjx0aXRsZT5zNjwvdGl0bGU+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iNDI5LjQ4IiB5PSItMzEzLjgiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iMTEuMDAiIGZpbGw9IiMxZjRmYjQiPjY8L3RleHQ+Cjx0ZXh0IHRleHQtYW5jaG9yPSJzdGFydCIgeD0iNDI5LjQ4IiB5PSItMjk0LjgiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2Esc2Fucy1TZXJpZiIgZm9udC1zaXplPSIxMS4wMCI+UiDihpIgYiBSIOKAojwvdGV4dD4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI0MjUuNDgsLTI4NyA0MjUuNDgsLTMyNy4yNSA0ODIuOTgsLTMyNy4yNSA0ODIuOTgsLTI4NyA0MjUuNDgsLTI4NyIvPgo8L2c+CjwhLS0gczImIzQ1OyZndDtzNiAtLT4KPGcgaWQ9ImVkZ2UxMSIgY2xhc3M9ImVkZ2UiPgo8dGl0bGU+czImIzQ1OyZndDtzNjwvdGl0bGU+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGQ9Ik0zNjUuNjIsLTMwNy4xMkMzNzguMjcsLTMwNy4xMiAzOTIuNywtMzA3LjEyIDQwNi4xNiwtMzA3LjEyIi8+Cjxwb2x5Z29uIGZpbGw9ImJsYWNrIiBzdHJva2U9ImJsYWNrIiBwb2ludHM9IjQwNi4xNCwtMzEwLjYzIDQxNi4xNCwtMzA3LjEzIDQwNi4xNCwtMzAzLjYzIDQwNi4xNCwtMzEwLjYzIi8+Cjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjM5MS42IiB5PSItMzA4LjYyIiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjE1LjAwIj5SPC90ZXh0Pgo8L2c+CjwhLS0gczcgLS0+CjxnIGlkPSJub2RlOSIgY2xhc3M9Im5vZGUiPgo8dGl0bGU+czc8L3RpdGxlPgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjQyNi44NSIgeT0iLTIwOS44IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjExLjAwIiBmaWxsPSIjMWY0ZmI0Ij43PC90ZXh0Pgo8dGV4dCB0ZXh0LWFuY2hvcj0ic3RhcnQiIHg9IjQyNi44NSIgeT0iLTE5MC44IiBmb250LWZhbWlseT0iSGVsdmV0aWNhLHNhbnMtU2VyaWYiIGZvbnQtc2l6ZT0iMTEuMDAiPlQg4oaSIGEgVCBjIOKAojwvdGV4dD4KPHBvbHlnb24gZmlsbD0ibm9uZSIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI0MjIuODUsLTE4MyA0MjIuODUsLTIyMy4yNSA0ODUuNiwtMjIzLjI1IDQ4NS42LC0xODMgNDIyLjg1LC0xODMiLz4KPC9nPgo8IS0tIHM1JiM0NTsmZ3Q7czcgLS0+CjxnIGlkPSJlZGdlMTIiIGNsYXNzPSJlZGdlIj4KPHRpdGxlPnM1JiM0NTsmZ3Q7czc8L3RpdGxlPgo8cGF0aCBmaWxsPSJub25lIiBzdHJva2U9ImJsYWNrIiBkPSJNMzY4LjMsLTIwMy4xMkMzNzkuNDMsLTIwMy4xMiAzOTEuNzUsLTIwMy4xMiA0MDMuNDcsLTIwMy4xMiIvPgo8cG9seWdvbiBmaWxsPSJibGFjayIgc3Ryb2tlPSJibGFjayIgcG9pbnRzPSI0MDMuNDEsLTIwNi42MyA0MTMuNDEsLTIwMy4xMyA0MDMuNDEsLTE5OS42MyA0MDMuNDEsLTIwNi42MyIvPgo8dGV4dCB0ZXh0LWFuY2hvcj0ibWlkZGxlIiB4PSIzOTEuNiIgeT0iLTIwNC42MiIgZm9udC1mYW1pbHk9IkhlbHZldGljYSxzYW5zLVNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSIxNS4wMCI+YzwvdGV4dD4KPC9nPgo8L2c+Cjwvc3ZnPgo=" style="width:100.0%" alt="Autómato LR(0) do Exercício 3(b); a rosa, os estados com conflitos LR(0)" />
+<figcaption aria-hidden="true">Autómato LR(0) do Exercício 3(b); a rosa,
+os estados com conflitos LR(0)</figcaption>
+</figure>
+<p><strong>2. Não é LR(0).</strong> Na tabela LR(0), o item completo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>→</mo><mi>•</mi></mrow><annotation encoding="application/x-tex">R\to\bullet</annotation></semantics></math>
+(produção 3) dos estados 0, 1 e 2 põe r3 em <strong>todas</strong> as
+colunas terminais, incluindo as que já têm <em>shifts</em>:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"></th>
+<th style="text-align: center;">a</th>
+<th style="text-align: center;">b</th>
+<th style="text-align: center;">c</th>
+<th style="text-align: center;">$</th>
+<th style="text-align: center;">T</th>
+<th style="text-align: center;">R</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;"><strong>s1, r3</strong></td>
+<td style="text-align: center;"><strong>s2, r3</strong></td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">g3</td>
+<td style="text-align: center;">g4</td>
+</tr>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><strong>s1, r3</strong></td>
+<td style="text-align: center;"><strong>s2, r3</strong></td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">g5</td>
+<td style="text-align: center;">g4</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;"><strong>s2, r3</strong></td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">g6</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">a</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">r1</td>
+<td style="text-align: center;">r1</td>
+<td style="text-align: center;">r1</td>
+<td style="text-align: center;">r1</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">s7</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">r4</td>
+<td style="text-align: center;">r4</td>
+<td style="text-align: center;">r4</td>
+<td style="text-align: center;">r4</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">r2</td>
+<td style="text-align: center;">r2</td>
+<td style="text-align: center;">r2</td>
+<td style="text-align: center;">r2</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p>Há <strong>cinco conflitos shift/reduce</strong>: (0,a), (0,b),
+(1,a), (1,b), (2,b). Por exemplo, em (0,a) o analisador não sabe se
+começa um
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>T</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">aTc</annotation></semantics></math>
+(<em>shift</em>) ou se declara que o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>
+ali é vazio (<em>reduce</em>). Logo <strong>não é LR(0)</strong>.</p>
+<p><strong>3. FOLLOW.</strong> Ocorrências de não-terminais nos lados
+direitos:</p>
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>T</mi><mo>′</mo></msup><mo>→</mo><munder><mi>T</mi><mo accent="true">_</mo></munder><mspace width="0.167em"></mspace><mi>$</mi></mrow><annotation encoding="application/x-tex">T&#39;\to\underline{T}\,\$</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>$</mi><mo>∈</mo></mrow><annotation encoding="application/x-tex">\$ \in</annotation></semantics></math>
+FOLLOW(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>).</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>→</mo><mi>a</mi><munder><mi>T</mi><mo accent="true">_</mo></munder><mi>c</mi></mrow><annotation encoding="application/x-tex">T\to a\underline{T}c</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>∈</mo></mrow><annotation encoding="application/x-tex">c \in</annotation></semantics></math>
+FOLLOW(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>).</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>→</mo><munder><mi>R</mi><mo accent="true">_</mo></munder></mrow><annotation encoding="application/x-tex">T\to\underline{R}</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>
+no fim, junta
+FOLLOW(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>)
+a
+FOLLOW(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>).</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>→</mo><mi>b</mi><munder><mi>R</mi><mo accent="true">_</mo></munder></mrow><annotation encoding="application/x-tex">R\to b\underline{R}</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>
+no fim, junta
+FOLLOW(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>)
+a
+FOLLOW(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>)
+(nada).</li>
+</ul>
+<p>Primeira passagem:
+FOLLOW(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>)
+=
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>$</mi><mo>,</mo><mi>c</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\$, c\}</annotation></semantics></math>,
+e
+FOLLOW(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>)
+recebe
+FOLLOW(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>)
+=
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>$</mi><mo>,</mo><mi>c</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\$, c\}</annotation></semantics></math>.
+Segunda passagem: nada muda.
+<strong>FOLLOW(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>)
+=
+FOLLOW(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>)
+=
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>c</mi><mo>,</mo><mi>$</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{c, \$\}</annotation></semantics></math>.</strong></p>
+<p><strong>4. Tabela SLR(1).</strong> Os <em>reduce</em> só vão para as
+colunas <code>c</code> e $ (o FOLLOW do lado esquerdo, que aqui é igual
+para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;"></th>
+<th style="text-align: center;">a</th>
+<th style="text-align: center;">b</th>
+<th style="text-align: center;">c</th>
+<th style="text-align: center;">$</th>
+<th style="text-align: center;">T</th>
+<th style="text-align: center;">R</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">s1</td>
+<td style="text-align: center;">s2</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">g3</td>
+<td style="text-align: center;">g4</td>
+</tr>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">s1</td>
+<td style="text-align: center;">s2</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">g5</td>
+<td style="text-align: center;">g4</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">s2</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;">r3</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">g6</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">a</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">r1</td>
+<td style="text-align: center;">r1</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">s7</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">r4</td>
+<td style="text-align: center;">r4</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">r2</td>
+<td style="text-align: center;">r2</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sem conflitos: a gramática é SLR(1).</strong> Os conflitos
+desapareceram porque <code>a</code> e <code>b</code> não estão em
+FOLLOW(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>):
+se o próximo símbolo é <code>a</code> ou <code>b</code>, um
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>
+vazio nunca estaria certo ali.</p>
+<p><strong>Comparação com a tabela dos slides.</strong> É a mesma tabela
+com outra numeração: os estados 1, 2, 3, 4 daqui são os 3, 4, 1, 2 dos
+slides (0, 5, 6, 7 coincidem). É esta a “tabela diferente mas sem
+conflitos” de que os slides falam.</p>
 </div></details>
 </main>
 <script>

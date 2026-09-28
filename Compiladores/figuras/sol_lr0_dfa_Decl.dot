@@ -1,0 +1,26 @@
+digraph G {
+  rankdir=LR; nodesep=0.35; ranksep=0.5;
+  node [shape=plaintext, fontname="Helvetica", fontsize=11];
+  edge [fontname="Helvetica-Bold", fontsize=15];
+  start [shape=point];
+  s0 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>0</B></FONT></TD></TR><TR><TD ALIGN="LEFT">S&#x27; → • Decl $</TD></TR><TR><TD ALIGN="LEFT">Decl → • Type Varlist ;</TD></TR><TR><TD ALIGN="LEFT">Type → • int</TD></TR><TR><TD ALIGN="LEFT">Type → • float</TD></TR></TABLE>>];
+  s1 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>1</B></FONT></TD></TR><TR><TD ALIGN="LEFT">Type → int •</TD></TR></TABLE>>];
+  s2 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>2</B></FONT></TD></TR><TR><TD ALIGN="LEFT">Type → float •</TD></TR></TABLE>>];
+  s3 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>3</B></FONT></TD></TR><TR><TD ALIGN="LEFT">S&#x27; → Decl • $</TD></TR></TABLE>>];
+  s4 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>4</B></FONT></TD></TR><TR><TD ALIGN="LEFT">Decl → Type • Varlist ;</TD></TR><TR><TD ALIGN="LEFT">Varlist → • Varlist , ident</TD></TR><TR><TD ALIGN="LEFT">Varlist → • ident</TD></TR></TABLE>>];
+  s5 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>5</B></FONT></TD></TR><TR><TD ALIGN="LEFT">Varlist → ident •</TD></TR></TABLE>>];
+  s6 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>6</B></FONT></TD></TR><TR><TD ALIGN="LEFT">Decl → Type Varlist • ;</TD></TR><TR><TD ALIGN="LEFT">Varlist → Varlist • , ident</TD></TR></TABLE>>];
+  s7 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>7</B></FONT></TD></TR><TR><TD ALIGN="LEFT">Varlist → Varlist , • ident</TD></TR></TABLE>>];
+  s8 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>8</B></FONT></TD></TR><TR><TD ALIGN="LEFT">Decl → Type Varlist ; •</TD></TR></TABLE>>];
+  s9 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>9</B></FONT></TD></TR><TR><TD ALIGN="LEFT">Varlist → Varlist , ident •</TD></TR></TABLE>>];
+  start -> s0;
+  s0 -> s1 [label="int"];
+  s0 -> s2 [label="float"];
+  s0 -> s3 [label="Decl"];
+  s0 -> s4 [label="Type"];
+  s4 -> s5 [label="ident"];
+  s4 -> s6 [label="Varlist"];
+  s6 -> s7 [label=","];
+  s6 -> s8 [label=";"];
+  s7 -> s9 [label="ident"];
+}

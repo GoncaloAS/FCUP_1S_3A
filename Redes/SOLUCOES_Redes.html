@@ -93,9 +93,11 @@ math[display="block"] { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
 <main>
 <header>
 <h1>Redes de Comunicação — Soluções dos exercícios “Pratica agora”</h1>
-<p>Praticas/Semana_1/exercicios_redes.pdf. Tenta primeiro sozinho; abre
-uma alínea só depois de a teres feito. Convenções: 1 MB = 10⁶ bytes, 1
-Mbps = 10⁶ bit/s, 1 byte = 8 bits.</p>
+<p>Ficha 1 (Praticas/Semana_1/exercicios_redes.pdf), Ficha 2
+(Praticas/Semana_2/ficha_2.pdf, exercícios F2.x) e exercícios inventados
+para o Capítulo 2 (C2.x). Tenta primeiro sozinho; abre uma alínea só
+depois de a teres feito. Convenções: 1 MB = 10⁶ bytes, 1 Mbps = 10⁶
+bit/s, 1 byte = 8 bits.</p>
 </header>
 
 <div class="barra">
@@ -106,6 +108,12 @@ Mbps = 10⁶ bit/s, 1 byte = 8 bits.</p>
 
 <nav id="indice"><details><summary>Índice</summary>
 <ul>
+<li><a href="#comutação-de-pacotes-multiplexagem-estatística" id="toc-comutação-de-pacotes-multiplexagem-estatística">Comutação de
+pacotes — multiplexagem estatística</a>
+<ul>
+<li><a href="#f2.2-multiplexagem-estatística-ficha-2" id="toc-f2.2-multiplexagem-estatística-ficha-2">F2.2 — Multiplexagem
+estatística (Ficha 2)</a></li>
+</ul></li>
 <li><a href="#núcleo-da-rede-hierarquia-de-isps" id="toc-núcleo-da-rede-hierarquia-de-isps">Núcleo da rede — hierarquia
 de ISPs</a>
 <ul>
@@ -128,6 +136,18 @@ pedaços</a></li>
 <li><a href="#ex.-4-store-and-forward-lan-wan" id="toc-ex.-4-store-and-forward-lan-wan">Ex. 4 — <em>Store and
 forward</em> LAN + WAN</a></li>
 </ul></li>
+<li><a href="#atrasos-filas-de-espera-ping-e-traceroute-perdas" id="toc-atrasos-filas-de-espera-ping-e-traceroute-perdas">Atrasos —
+filas de espera, ping e traceroute, perdas</a>
+<ul>
+<li><a href="#f2.3-espere-mas-não-desespere-ficha-2" id="toc-f2.3-espere-mas-não-desespere-ficha-2">F2.3 — Espere, mas não
+desespere (Ficha 2)</a></li>
+<li><a href="#f2.7-ferramentas-ping-e-traceroute-ficha-2" id="toc-f2.7-ferramentas-ping-e-traceroute-ficha-2">F2.7 — Ferramentas:
+ping e traceroute (Ficha 2)</a></li>
+<li><a href="#f2.4-os-dois-generais-ficha-2" id="toc-f2.4-os-dois-generais-ficha-2">F2.4 — Os dois generais (Ficha
+2)</a></li>
+<li><a href="#f2.6-perdidos-na-fila-ficha-2" id="toc-f2.6-perdidos-na-fila-ficha-2">F2.6 — Perdidos na fila (Ficha
+2)</a></li>
+</ul></li>
 <li><a href="#atrasos-débito-e-produto-largura-de-banda-atraso" id="toc-atrasos-débito-e-produto-largura-de-banda-atraso">Atrasos —
 débito e produto largura de banda-atraso</a>
 <ul>
@@ -136,9 +156,117 @@ rígidos</a></li>
 <li><a href="#ex.-5-atrasos-companhia" id="toc-ex.-5-atrasos-companhia">Ex. 5 — Atrasos &amp;
 companhia</a></li>
 </ul></li>
+<li><a href="#débito-estimar-a-capacidade-de-uma-ligação" id="toc-débito-estimar-a-capacidade-de-uma-ligação">Débito — estimar a
+capacidade de uma ligação</a>
+<ul>
+<li><a href="#f2.5-estimada-capacidade-o-par-de-pacotes-ficha-2" id="toc-f2.5-estimada-capacidade-o-par-de-pacotes-ficha-2">F2.5 —
+Estimada capacidade: o par de pacotes (Ficha 2)</a></li>
+</ul></li>
+<li><a href="#camadas-protocolares" id="toc-camadas-protocolares">Camadas protocolares</a>
+<ul>
+<li><a href="#f2.1-arquitetura-em-camadas-o-chico-e-a-teresa-ficha-2" id="toc-f2.1-arquitetura-em-camadas-o-chico-e-a-teresa-ficha-2">F2.1 —
+Arquitetura em camadas: o Chico e a Teresa (Ficha 2)</a></li>
+</ul></li>
+<li><a href="#aula-2-web-e-http" id="toc-aula-2-web-e-http">Aula 2 — Web
+e HTTP</a>
+<ul>
+<li><a href="#c2.1-tempo-de-resposta-do-http-exercício-inventado" id="toc-c2.1-tempo-de-resposta-do-http-exercício-inventado">C2.1 — Tempo
+de resposta do HTTP (exercício inventado)</a></li>
+<li><a href="#c2.2-analisar-uma-sessão-http-real-exercício-inventado" id="toc-c2.2-analisar-uma-sessão-http-real-exercício-inventado">C2.2 —
+Analisar uma sessão HTTP real (exercício inventado)</a></li>
+</ul></li>
+<li><a href="#aula-2-ftp" id="toc-aula-2-ftp">Aula 2 — FTP</a>
+<ul>
+<li><a href="#c2.3-analisar-uma-sessão-ftp-real-exercício-inventado" id="toc-c2.3-analisar-uma-sessão-ftp-real-exercício-inventado">C2.3 —
+Analisar uma sessão FTP real (exercício inventado)</a></li>
+</ul></li>
+<li><a href="#aula-2-correio-eletrónico" id="toc-aula-2-correio-eletrónico">Aula 2 — Correio eletrónico</a>
+<ul>
+<li><a href="#c2.4-e-mail-exercício-inventado" id="toc-c2.4-e-mail-exercício-inventado">C2.4 — E-mail (exercício
+inventado)</a></li>
+</ul></li>
+<li><a href="#aula-2-dns" id="toc-aula-2-dns">Aula 2 — DNS</a>
+<ul>
+<li><a href="#c2.5-dns-exercício-inventado" id="toc-c2.5-dns-exercício-inventado">C2.5 — DNS (exercício
+inventado)</a></li>
+</ul></li>
+<li><a href="#aula-2-aplicações-p2p" id="toc-aula-2-aplicações-p2p">Aula
+2 — Aplicações P2P</a>
+<ul>
+<li><a href="#c2.6-tempo-de-distribuição-exercício-inventado" id="toc-c2.6-tempo-de-distribuição-exercício-inventado">C2.6 — Tempo de
+distribuição (exercício inventado)</a></li>
+</ul></li>
+<li><a href="#aula-2-programação-com-sockets" id="toc-aula-2-programação-com-sockets">Aula 2 — Programação com
+sockets</a>
+<ul>
+<li><a href="#c2.7-sockets-exercício-inventado" id="toc-c2.7-sockets-exercício-inventado">C2.7 — Sockets (exercício
+inventado)</a></li>
+</ul></li>
 </ul>
 </details></nav>
 
+<h2 id="comutação-de-pacotes-multiplexagem-estatística">Comutação de
+pacotes — multiplexagem estatística</h2>
+<h3 id="f2.2-multiplexagem-estatística-ficha-2">F2.2 — Multiplexagem
+estatística (Ficha 2)</h3>
+<p>Ligação de 1 Mbps; cada utilizador transmite a 100 kbps durante 10%
+do tempo. Com 35 utilizadores,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+= número dos que transmitem ao mesmo tempo segue
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>∼</mo><mtext mathvariant="normal">Bin</mtext><mo stretchy="false" form="prefix">(</mo><mn>35</mn><mo>;</mo><mspace width="0.222em"></mspace><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">X \sim \text{Bin}(35;\ 0{,}1)</annotation></semantics></math>.</p>
+<details class="sol" id="F2.2-c"><summary>
+(c) Probabilidade de exatamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+a transmitir; valor para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">k = 3</annotation></semantics></math>
+</summary><div class="corpo">
+<p>Cada utilizador transmite com probabilidade
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">p = 0{,}1</annotation></semantics></math>,
+independentemente dos outros:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>=</mo><mi>k</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mo stretchy="true" form="prefix">(</mo><mfrac linethickness="0"><mn>35</mn><mi>k</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><mn>0</mn><mo>,</mo><msup><mn>1</mn><mi>k</mi></msup><mspace width="0.167em"></mspace><mn>0</mn><mo>,</mo><msup><mn>9</mn><mrow><mn>35</mn><mo>−</mo><mi>k</mi></mrow></msup></mrow><annotation encoding="application/x-tex">P(X = k) = \binom{35}{k}\, 0{,}1^{k}\, 0{,}9^{35-k}</annotation></semantics></math></p>
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mfrac linethickness="0"><mn>35</mn><mi>k</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\binom{35}{k}</annotation></semantics></math>:
+de quantas maneiras se escolhem <strong>quais</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+dos 35 estão a transmitir;</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><msup><mn>1</mn><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">0{,}1^k</annotation></semantics></math>:
+esses
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+estão todos a transmitir;</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><msup><mn>9</mn><mrow><mn>35</mn><mo>−</mo><mi>k</mi></mrow></msup></mrow><annotation encoding="application/x-tex">0{,}9^{35-k}</annotation></semantics></math>:
+os outros
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>35</mn><mo>−</mo><mi>k</mi></mrow><annotation encoding="application/x-tex">35-k</annotation></semantics></math>
+estão todos calados.</li>
+</ul>
+<p>Para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">k = 3</annotation></semantics></math>:</p>
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo stretchy="true" form="prefix">(</mo><mfrac linethickness="0"><mn>35</mn><mn>3</mn></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mstyle displaystyle="true"><mfrac><mrow><mn>35</mn><mo>×</mo><mn>34</mn><mo>×</mo><mn>33</mn></mrow><mrow><mn>3</mn><mo>×</mo><mn>2</mn><mo>×</mo><mn>1</mn></mrow></mfrac></mstyle><mo>=</mo><mn>6545</mn></mrow><annotation encoding="application/x-tex">\binom{35}{3} = \dfrac{35 \times 34 \times 33}{3 \times 2 \times 1} = 6545</annotation></semantics></math>;</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><msup><mn>1</mn><mn>3</mn></msup><mo>=</mo><mn>0</mn><mo>,</mo><mn>001</mn></mrow><annotation encoding="application/x-tex">0{,}1^3 = 0{,}001</annotation></semantics></math>;</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><msup><mn>9</mn><mn>32</mn></msup><mo>≈</mo><mn>0</mn><mo>,</mo><mn>03434</mn></mrow><annotation encoding="application/x-tex">0{,}9^{32} \approx 0{,}03434</annotation></semantics></math>.</li>
+</ul>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>=</mo><mn>3</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>6545</mn><mo>×</mo><mn>0</mn><mo>,</mo><mn>001</mn><mo>×</mo><mn>0</mn><mo>,</mo><mn>03434</mn><mo>≈</mo><mrow><mn mathvariant="bold">𝟎</mn><mo mathvariant="bold">,</mo><mn mathvariant="bold">𝟐𝟐𝟓</mn></mrow></mrow><annotation encoding="application/x-tex">P(X = 3) = 6545 \times 0{,}001 \times 0{,}03434 \approx \mathbf{0{,}225}</annotation></semantics></math></p>
+<p>(É o valor mais provável: em média estão
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>35</mn><mo>×</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>=</mo><mn>3</mn><mo>,</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">35 \times 0{,}1 = 3{,}5</annotation></semantics></math>
+a transmitir.)</p>
+</div></details>
+<details class="sol" id="F2.2-d"><summary>
+(d)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>≥</mo><mn>11</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(X \geq 11)</annotation></semantics></math>
+com <code>BINOM.DIST()</code>
+</summary><div class="corpo">
+<p>“11 ou mais” é o complementar de “10 ou menos”, e o
+<code>BINOM.DIST</code> com o último argumento <code>VERDADEIRO</code>
+dá a probabilidade acumulada,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>≤</mo><mi>k</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(X \leq k)</annotation></semantics></math>:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>≥</mo><mn>11</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>−</mo><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>≤</mo><mn>10</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>−</mo><mtext mathvariant="monospace">𝙱𝙸𝙽𝙾𝙼.𝙳𝙸𝚂𝚃(𝟷𝟶; 𝟹𝟻; 𝟶,𝟷; 𝚅𝙴𝚁𝙳𝙰𝙳𝙴𝙸𝚁𝙾)</mtext></mrow><annotation encoding="application/x-tex">P(X \geq 11) = 1 - P(X \leq 10) = 1 - \texttt{BINOM.DIST(10; 35; 0,1; VERDADEIRO)}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>1</mn><mo>−</mo><mn>0</mn><mo>,</mo><mn>999576</mn><mo>≈</mo><mrow><mn mathvariant="bold">𝟎</mn><mo mathvariant="bold">,</mo><mn mathvariant="bold">𝟎𝟎𝟎𝟒𝟐𝟒</mn></mrow></mrow><annotation encoding="application/x-tex">= 1 - 0{,}999576 \approx \mathbf{0{,}000424}</annotation></semantics></math></p>
+<p>É o 0,0004 da nota do resumo (valor confirmado em Python com
+<code>scipy.stats.binom</code>). Na versão portuguesa do Excel a função
+pode aparecer como <code>DISTR.BINOM</code>. O erro a evitar é calcular
+<code>1 - BINOM.DIST(11; ...)</code>, que dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>≥</mo><mn>12</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(X \geq 12)</annotation></semantics></math>.</p>
+</div></details>
 <h2 id="núcleo-da-rede-hierarquia-de-isps">Núcleo da rede — hierarquia
 de ISPs</h2>
 <h3 id="ex.-1-encaminhamento-em-redes-muito-grandes">Ex. 1 —
@@ -337,6 +465,12 @@ a transmitir:
 <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>700</mn><mspace width="0.167em"></mspace><mn>002</mn><mo>×</mo><mn>81</mn><mo>,</mo><mn>6</mn><mspace width="0.222em"></mspace><mi>μ</mi><mi>s</mi><mo>≈</mo><mrow><mn mathvariant="bold">𝟓𝟕</mn><mo mathvariant="bold">,</mo><mn mathvariant="bold">𝟏𝟐</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">T = 700\,002 \times 81{,}6\ \mu s \approx \mathbf{57{,}12\text{ s}}</annotation></semantics></math></p>
 <p><strong>Poupança:</strong>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>168</mn><mo>−</mo><mn>57</mn><mo>,</mo><mn>12</mn><mo>≈</mo><mrow><mn mathvariant="bold">𝟏𝟏𝟎</mn><mo mathvariant="bold">,</mo><mn mathvariant="bold">𝟗</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">168 - 57{,}12 \approx \mathbf{110{,}9\text{ s}}</annotation></semantics></math>.</p>
+<p><strong>Comparação com as soluções oficiais</strong>
+(<code>solucoes_ficha_1.pdf</code>): a resposta oficial da 3(c) é
+“aprox. 1,12 s”. É o <strong>tempo a mais</strong> que os envelopes
+custam face à alínea (b):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>57</mn><mo>,</mo><mn>12</mn><mo>−</mo><mn>56</mn><mo>,</mo><mn>00</mn><mo>=</mo><mn>1</mn><mo>,</mo><mn>12</mn></mrow><annotation encoding="application/x-tex">57{,}12 - 56{,}00 = 1{,}12</annotation></semantics></math>
+s. É o mesmo resultado visto de outra forma.</p>
 <p>Os envelopes custam cerca de 2% a mais
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>20</mn><mi>/</mi><mn>1000</mn></mrow><annotation encoding="application/x-tex">20/1000</annotation></semantics></math>),
 mas o <em>pipelining</em> continua a compensar de longe. Se os pedaços
@@ -509,6 +643,245 @@ os 10 pacotes. O que muda é <strong>onde</strong> os pacotes esperam: na
 <strong>fila do router</strong>. Se a fila de R fosse pequena, na (d)
 podia haver <strong>perdas</strong>.</p>
 </div></details>
+<h2 id="atrasos-filas-de-espera-ping-e-traceroute-perdas">Atrasos —
+filas de espera, ping e traceroute, perdas</h2>
+<h3 id="f2.3-espere-mas-não-desespere-ficha-2">F2.3 — Espere, mas não
+desespere (Ficha 2)</h3>
+<p>A máquina demora 15 s por café.</p>
+<details class="sol" id="F2.3-a"><summary>
+(a) 10 pessoas chegam ao mesmo tempo: espera média, mínima e máxima
+</summary><div class="corpo">
+<p>A 1.ª pessoa é servida logo; a 2.ª espera que a 1.ª acabe (15 s); a
+3.ª espera 30 s; …; a 10.ª espera
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mo>×</mo><mn>15</mn><mo>=</mo><mn>135</mn></mrow><annotation encoding="application/x-tex">9 \times 15 = 135</annotation></semantics></math>
+s. As esperas são
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>15</mn><mo>,</mo><mn>30</mn><mo>,</mo><mi>…</mi><mo>,</mo><mn>135</mn></mrow><annotation encoding="application/x-tex">0, 15, 30, \dots, 135</annotation></semantics></math>
+s.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">média</mtext><mo>=</mo><mfrac><mrow><mn>15</mn><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mn>0</mn><mo>+</mo><mn>1</mn><mo>+</mo><mi>…</mi><mo>+</mo><mn>9</mn><mo stretchy="false" form="postfix">)</mo></mrow><mn>10</mn></mfrac><mo>=</mo><mfrac><mrow><mn>15</mn><mo>×</mo><mn>45</mn></mrow><mn>10</mn></mfrac><mo>=</mo><mrow><mn mathvariant="bold">𝟔𝟕</mn><mo mathvariant="bold">,</mo><mn mathvariant="bold">𝟓</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">\text{média} = \frac{15 \times (0+1+\dots+9)}{10} = \frac{15 \times 45}{10} = \mathbf{67{,}5\text{ s}}</annotation></semantics></math></p>
+<p><strong>Mínimo: 0 s</strong> (a primeira). <strong>Máximo: 135
+s</strong> (a última).</p>
+<p>(Se se contar até ter o café na mão, soma-se 15 s a cada uma: média
+82,5 s, mínimo 15 s, máximo 150 s.) É exatamente o atraso de fila de uma
+rajada de pacotes que chega a uma ligação vazia: o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>-ésimo
+espera
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mi>L</mi><mi>/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">(n-1)\,L/R</annotation></semantics></math>.</p>
+</div></details>
+<details class="sol" id="F2.3-b"><summary>
+(b) Há algum tempo médio entre chegadas que garanta que ninguém espera?
+</summary><div class="corpo">
+<p><strong>Não.</strong> Se as chegadas são
+<strong>independentes</strong> (aleatórias), por maior que seja o
+intervalo <strong>médio</strong> entre chegadas, há sempre uma
+probabilidade maior que zero de duas pessoas chegarem com menos de 15 s
+de diferença, e a segunda espera. Só com chegadas
+<strong>determinísticas</strong> (por exemplo, exatamente uma pessoa a
+cada 20 s) se garante que ninguém espera. Com intervalos médios grandes
+a espera torna-se <strong>rara</strong>, mas nunca impossível.</p>
+</div></details>
+<details class="sol" id="F2.3-c"><summary>
+(c) Com uma chegada a cada 15 s em média, porque é que a espera cresce
+sem limite?
+</summary><div class="corpo">
+<p>Em média, a máquina tem exatamente o trabalho que consegue fazer
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>a</mi><mi>/</mi><mi>R</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">La/R = 1</annotation></semantics></math>).
+Mas as chegadas são aleatórias:</p>
+<ul>
+<li>às vezes passa um bocado <strong>sem ninguém</strong>: a máquina
+fica parada, e esse tempo de serviço <strong>perde-se para
+sempre</strong> (não se pode “guardar” para depois);</li>
+<li>outras vezes chegam <strong>várias pessoas seguidas</strong>:
+forma-se fila.</li>
+</ul>
+<p>Para desfazer uma fila, a máquina teria de servir <strong>mais
+depressa</strong> do que as pessoas chegam durante algum tempo. Com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>a</mi><mi>/</mi><mi>R</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">La/R = 1</annotation></semantics></math>
+<strong>não há folga nenhuma</strong> para isso: em média chega tanto
+quanto sai. A fila comporta-se como um passeio aleatório sem tendência
+para voltar a zero, e as suas oscilações vão ficando cada vez maiores
+com o tempo. Por isso o tempo de espera médio cresce sem limite. É a
+“explosão do atraso” do resumo: o problema não é a média, é a
+<strong>variabilidade</strong> com zero margem.</p>
+</div></details>
+<h3 id="f2.7-ferramentas-ping-e-traceroute-ficha-2">F2.7 — Ferramentas:
+ping e traceroute (Ficha 2)</h3>
+<details class="sol" id="F2.7-a"><summary>
+(a) O <code>ping</code>: para que serve, como funciona, que informação
+dá
+</summary><div class="corpo">
+<p>Serve para testar se uma máquina <strong>está alcançável</strong> e
+medir o <strong>atraso de ida e volta</strong> até ela.</p>
+<p>Como funciona (nota adicional: o ICMP só vem na camada de rede):
+envia pacotes ICMP <strong><em>Echo Request</em></strong> ao destino; o
+destino responde a cada um com um <strong><em>Echo Reply</em></strong>.
+Para cada resposta, o <code>ping</code> mede o tempo entre o envio e a
+chegada.</p>
+<p>Informação que dá: se a máquina <strong>responde</strong>; o
+<strong>RTT</strong> de cada pacote e o mínimo/médio/máximo (e a
+variação); a <strong>percentagem de pacotes perdidos</strong>. Não diz
+<strong>por onde</strong> passam os pacotes nem <strong>onde</strong>
+está o atraso.</p>
+</div></details>
+<details class="sol" id="F2.7-b"><summary>
+(b) O <code>traceroute</code>: para que serve e como funciona
+</summary><div class="corpo">
+<p>Serve para descobrir o <strong>caminho</strong> (a sequência de
+<em>routers</em>) até um destino e o <strong>atraso até cada
+salto</strong> (é o que o resumo mostra no exemplo DCC
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+CMU).</p>
+<p>Como funciona (nota adicional: o mecanismo não vem nos slides). Cada
+pacote IP tem um campo <strong>TTL</strong> (<em>time to live</em>);
+cada <em>router</em> tira-lhe 1, e o <em>router</em> onde ele chega a 0
+descarta o pacote e devolve à origem uma mensagem ICMP <strong><em>Time
+Exceeded</em></strong>, com o seu próprio endereço. O
+<code>traceroute</code>:</p>
+<ol type="1">
+<li>envia pacotes (por omissão 3) com <strong>TTL = 1</strong>: o 1.º
+<em>router</em> responde. Mede-se o RTT até ele;</li>
+<li>envia com <strong>TTL = 2</strong>: responde o 2.º
+<em>router</em>;</li>
+<li>e assim por diante, até o <strong>destino</strong> responder. Com
+sondas UDP para uma porta onde não há ninguém, o destino responde com
+ICMP <em>Port Unreachable</em>, e é assim que o <code>traceroute</code>
+sabe que chegou.</li>
+</ol>
+<p>É por isso que só o <em>router</em> número
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+responde à sonda com TTL
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mi>i</mi></mrow><annotation encoding="application/x-tex">= i</annotation></semantics></math>.</p>
+</div></details>
+<details class="sol" id="F2.7-c"><summary>
+(c) <code>traceroute -U -n -N 1 www.cmu.edu</code> e a geografia dos
+saltos
+</summary><div class="corpo">
+<p>Resposta-modelo: os valores dependem de onde e quando corres o
+comando.</p>
+<p><strong>As opções</strong> (versão Linux do <code>traceroute</code>):
+<code>-U</code> usa sondas UDP; <code>-n</code> não traduz os IPs para
+nomes (mais rápido, e não confunde a geolocalização); <code>-N 1</code>
+envia uma sonda de cada vez (em vez de várias em paralelo). No macOS as
+opções são outras; <code>traceroute -n www.cmu.edu</code> dá o mesmo
+tipo de resultado.</p>
+<p><strong>Como relacionar distância e RTT.</strong> O sinal anda a
+cerca de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><msup><mn>10</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">2\times10^8</annotation></semantics></math>
+m/s na fibra, por isso <strong>cada 1000 km de distância (em linha reta)
+somam pelo menos 10 ms ao RTT</strong> (ida e volta: 2000 km a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><msup><mn>10</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">2\times10^8</annotation></semantics></math>
+m/s dão 10 ms). Do Porto a Pittsburgh (CMU) são cerca de 5800 km em
+linha reta, o que dá um RTT mínimo de cerca de <strong>58 ms</strong>. O
+valor medido será maior (a fibra não vai em linha reta, e há filas e
+processamento).</p>
+<p><strong>O que deves ver:</strong></p>
+<ul>
+<li>saltos dentro de Portugal e da Europa com RTTs de poucos ms, que
+crescem devagar;</li>
+<li>um <strong>salto grande</strong> (várias dezenas de ms) num único
+salto: é a travessia do <strong>Atlântico</strong> (fibra submarina). Os
+dois <em>routers</em> estão em continentes diferentes;</li>
+<li>depois, saltos dentro dos EUA com RTTs perto do valor final;</li>
+<li>às vezes um salto tem RTT <strong>maior</strong> do que o seguinte:
+o <em>router</em> dá pouca prioridade a responder a sondas; não quer
+dizer que o caminho “ande para trás”.</li>
+</ul>
+<p>Se um salto tem RTT <strong>menor</strong> do que o mínimo que a
+distância permite (por exemplo, um IP que a geolocalização diz estar nos
+EUA com 5 ms a partir do Porto), a <strong>geolocalização está
+errada</strong> (é comum: o IP está registado na sede da empresa, não
+onde está o <em>router</em>).</p>
+</div></details>
+<h3 id="f2.4-os-dois-generais-ficha-2">F2.4 — Os dois generais (Ficha
+2)</h3>
+<details class="sol" id="F2.4-1"><summary>
+Resposta
+</summary><div class="corpo">
+<p>O especialista está <strong>certo</strong>: não há nenhum protocolo
+que dê essa garantia. Prova por contradição.</p>
+<p>Queremos um protocolo em que, <strong>no fim</strong>, os dois
+generais atacam à mesma hora <strong>e cada um tem a certeza</strong> de
+que o outro também ataca, mesmo que qualquer mensageiro possa ser
+apanhado.</p>
+<ol type="1">
+<li><strong>Suponhamos que existe</strong> um protocolo assim. Entre
+todos os que existem, escolhe-se um com o <strong>menor número de
+mensagens</strong>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>.</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>≥</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n \geq 1</annotation></semantics></math>:
+sem nenhuma mensagem, o general que escolhe a hora não a consegue
+comunicar ao outro.</li>
+<li>Olha-se para a <strong>última</strong> mensagem, a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>-ésima.
+Quem a envia <strong>não sabe se ela chegou</strong> (para saber,
+precisava de outra mensagem de volta, que já não há). Por isso a sua
+decisão de atacar não pode depender de ela chegar: vai atacar quer
+chegue quer não.</li>
+<li>O protocolo tem de funcionar <strong>mesmo que a última mensagem se
+perca</strong> (os mensageiros podem ser sempre apanhados). Então o
+recetor também tem de decidir atacar à mesma hora <strong>sem</strong>
+ela.</li>
+<li>Logo, a última mensagem <strong>não serve para nada</strong>:
+tirando-a, os dois decidem exatamente o mesmo. Isso dá um protocolo
+correto com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">n-1</annotation></semantics></math>
+mensagens, o que contradiz a escolha de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+como mínimo.</li>
+</ol>
+<p>A contradição mostra que o protocolo não existe.</p>
+<p><strong>Intuição:</strong> o general A envia a hora; mas A só ataca
+se souber que B a recebeu, por isso B tem de confirmar; mas B só ataca
+se souber que a confirmação chegou, por isso A tem de confirmar a
+confirmação; e assim por diante, sem fim.</p>
+<p><strong>Ligação às redes:</strong> num canal de <strong>melhor
+esforço</strong> nunca se tem a certeza <strong>absoluta</strong> de um
+acordo. Os protocolos reais (como o <em>handshake</em> do TCP)
+contentam-se com uma certeza <strong>suficiente</strong>: repetem as
+mensagens perdidas (retransmissões com temporizadores) e aceitam um
+risco muito pequeno.</p>
+</div></details>
+<h3 id="f2.6-perdidos-na-fila-ficha-2">F2.6 — Perdidos na fila (Ficha
+2)</h3>
+<p>Resposta-modelo: o resultado exato depende da demonstração e de cada
+execução.</p>
+<details class="sol" id="F2.6-a"><summary>
+(a) Com emissão máxima e transmissão mínima, quando é a primeira perda?
+</summary><div class="corpo">
+<p>Com a taxa de emissão (chegadas,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>λ</mi><annotation encoding="application/x-tex">\lambda</annotation></semantics></math>
+pacotes/s) <strong>maior</strong> do que a de transmissão
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>
+pacotes/s), a intensidade de tráfego é maior do que 1: a fila
+<strong>cresce</strong>, em média,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>−</mo><mi>μ</mi></mrow><annotation encoding="application/x-tex">\lambda - \mu</annotation></semantics></math>
+pacotes por segundo. A primeira perda acontece quando a fila
+<strong>enche</strong>. Se a fila tiver capacidade para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>
+pacotes, isso acontece, em média, ao fim de cerca de
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>≈</mo><mfrac><mi>B</mi><mrow><mi>λ</mi><mo>−</mo><mi>μ</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">t \approx \frac{B}{\lambda - \mu}</annotation></semantics></math>
+Por exemplo, com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>λ</mi><mo>=</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">\lambda = 1000</annotation></semantics></math>
+pacotes/s,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo>=</mo><mn>350</mn></mrow><annotation encoding="application/x-tex">\mu = 350</annotation></semantics></math>
+pacotes/s e espaço para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>B</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">B = 10</annotation></semantics></math>
+pacotes (valores ilustrativos):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mi>/</mi><mn>650</mn><mo>≈</mo><mn>15</mn></mrow><annotation encoding="application/x-tex">10/650 \approx
+15</annotation></semantics></math> ms. Na demonstração, lê o tempo da
+primeira perda e compara com esta estimativa (usando o tamanho da fila
+que ela mostra).</p>
+</div></details>
+<details class="sol" id="F2.6-b"><summary>
+(b) Repetindo, o valor é o mesmo?
+</summary><div class="corpo">
+<p><strong>Não.</strong> As chegadas são aleatórias (exponenciais): em
+cada execução a sequência de chegadas é diferente, umas vezes com mais
+rajadas no início, outras com menos. A fila enche mais cedo ou mais
+tarde, e o tempo da primeira perda <strong>varia</strong> à volta do
+valor médio de (a). A transmissão é determinística; a variabilidade vem
+só das chegadas. É a mesma razão pela qual, na F2.3, não se consegue
+garantir que ninguém espera.</p>
+</div></details>
 <h2 id="atrasos-débito-e-produto-largura-de-banda-atraso">Atrasos —
 débito e produto largura de banda-atraso</h2>
 <h3 id="ex.-2-o-camião-com-discos-rígidos">Ex. 2 — O camião com discos
@@ -651,6 +1024,15 @@ m</strong></td>
 </tr>
 </tbody>
 </table>
+<p><strong>Atenção à solução oficial</strong>
+(<code>solucoes_ficha_1.pdf</code>): para a (f) dá
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>×</mo><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>4</mn><mo>×</mo><msup><mn>10</mn><mn>7</mn></msup></mrow><annotation encoding="application/x-tex">R \times d_{prop} = 4\times10^7</annotation></semantics></math>
+b (igual ao nº de bits na ligação)”, ou seja, interpreta a (d) como a
+<strong>capacidade do tubo</strong> (quantos bits lá cabem se o emissor
+estiver sempre a transmitir). Com <strong>só este ficheiro</strong> de
+400 000 bits nunca estão mais do que 400 000 na ligação. As duas
+respostas medem coisas diferentes; num teste, diz qual estás a calcular.
+Com 1 Mbps as duas interpretações dão o mesmo, 40 000 bits.</p>
 <p>Com 1 Gbps o ficheiro inteiro cabe no “tubo”. O emissor acaba de
 transmitir (0,4 ms) muito antes de o primeiro bit chegar (40 ms). O
 máximo na ligação passa a ser o próprio ficheiro, 400 000 bits, e não o
@@ -668,6 +1050,632 @@ capacidade de uma ligação, o emissor tem de ter <strong>pelo
 menos</strong> esse número de bits “em voo” sem esperar confirmação. Se
 enviar um pacote e ficar à espera da resposta, a ligação fica quase toda
 vazia. Com 1 Gbps e 10 000 km, o tubo leva 40 Mbit, cerca de 5 MB.</p>
+</div></details>
+<h2 id="débito-estimar-a-capacidade-de-uma-ligação">Débito — estimar a
+capacidade de uma ligação</h2>
+<h3 id="f2.5-estimada-capacidade-o-par-de-pacotes-ficha-2">F2.5 —
+Estimada capacidade: o par de pacotes (Ficha 2)</h3>
+<p>Dois pacotes do mesmo tamanho
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>,
+enviados um logo a seguir ao outro. O caminho tem uma ligação mais
+lenta, de capacidade
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>C</mi><annotation encoding="application/x-tex">C</annotation></semantics></math>
+(o estrangulamento).</p>
+<details class="sol" id="F2.5-a"><summary>
+(a) Diagrama temporal
+</summary><div class="corpo">
+<figure>
+<img role="img" aria-label="Par de pacotes: o espaçamento criado na ligação lenta mantém-se até ao recetor" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgd2lkdGg9IjUxOC40cHQiIGhlaWdodD0iMzAyLjRwdCIgdmlld0JveD0iMCAwIDUxOC40IDMwMi40IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSI+CiA8bWV0YWRhdGE+CiAgPHJkZjpSREYgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIiB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICA8Y2M6V29yaz4KICAgIDxkYzp0eXBlIHJkZjpyZXNvdXJjZT0iaHR0cDovL3B1cmwub3JnL2RjL2RjbWl0eXBlL1N0aWxsSW1hZ2UiLz4KICAgIDxkYzpkYXRlPjIwMjYtMDktMjhUMTE6NTA6MjcuMjMyOTM4PC9kYzpkYXRlPgogICAgPGRjOmZvcm1hdD5pbWFnZS9zdmcreG1sPC9kYzpmb3JtYXQ+CiAgICA8ZGM6Y3JlYXRvcj4KICAgICA8Y2M6QWdlbnQ+CiAgICAgIDxkYzp0aXRsZT5NYXRwbG90bGliIHYzLjExLjIsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmcvPC9kYzp0aXRsZT4KICAgICA8L2NjOkFnZW50PgogICAgPC9kYzpjcmVhdG9yPgogICA8L2NjOldvcms+CiAgPC9yZGY6UkRGPgogPC9tZXRhZGF0YT4KIDxkZWZzPgogIDxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+KntzdHJva2UtbGluZWpvaW46IHJvdW5kOyBzdHJva2UtbGluZWNhcDogYnV0dH08L3N0eWxlPgogPC9kZWZzPgogPGcgaWQ9ImZpZ3VyZV8xIj4KICA8ZyBpZD0icGF0Y2hfMSI+CiAgIDxwYXRoIGQ9Ik0gMCAzMDIuNCAKTCA1MTguNCAzMDIuNCAKTCA1MTguNCAwIApMIDAgMCAKegoiIHN0eWxlPSJmaWxsOiAjZmZmZmZmIi8+CiAgPC9nPgogIDxnIGlkPSJheGVzXzEiPgogICA8ZyBpZD0icGF0Y2hfMiI+CiAgICA8cGF0aCBkPSJNIDg4Ljg4MDkxNCA1Ni4yNTY1NjMgCkwgMjE5LjAxNTc3MSA3MC4xMDAyOTQgCkwgMjE5LjAxNTc3MSA3OS4zMjk0NDkgCkwgODguODgwOTE0IDY1LjQ4NTcxNyAKegoiIGNsaXAtcGF0aD0idXJsKCNwOWJkYjRjNDQzYikiIHN0eWxlPSJmaWxsOiAjMWY1ZmI0OyBvcGFjaXR5OiAwLjU1Ii8+CiAgIDwvZz4KICAgPGcgaWQ9InBhdGNoXzMiPgogICAgPHBhdGggZD0iTSA4OC44ODA5MTQgNjUuNDg1NzE3IApMIDIxOS4wMTU3NzEgNzkuMzI5NDQ5IApMIDIxOS4wMTU3NzEgODguNTU4NjAzIApMIDg4Ljg4MDkxNCA3NC43MTQ4NzEgCnoKIiBjbGlwLXBhdGg9InVybCgjcDliZGI0YzQ0M2IpIiBzdHlsZT0iZmlsbDogI2IwMzAzMDsgb3BhY2l0eTogMC41NSIvPgogICA8L2c+CiAgIDxnIGlkPSJwYXRjaF80Ij4KICAgIDxwYXRoIGQ9Ik0gMjE5LjAxNTc3MSA3OS4zMjk0NDkgCkwgMzQ5LjE1MDYyOSA5My4xNzMxOCAKTCAzNDkuMTUwNjI5IDEzOS4zMTg5NTIgCkwgMjE5LjAxNTc3MSAxMjUuNDc1MjIxIAp6CiIgY2xpcC1wYXRoPSJ1cmwoI3A5YmRiNGM0NDNiKSIgc3R5bGU9ImZpbGw6ICMxZjVmYjQ7IG9wYWNpdHk6IDAuNTUiLz4KICAgPC9nPgogICA8ZyBpZD0icGF0Y2hfNSI+CiAgICA8cGF0aCBkPSJNIDIxOS4wMTU3NzEgMTI1LjQ3NTIyMSAKTCAzNDkuMTUwNjI5IDEzOS4zMTg5NTIgCkwgMzQ5LjE1MDYyOSAxODUuNDY0NzI0IApMIDIxOS4wMTU3NzEgMTcxLjYyMDk5MyAKegoiIGNsaXAtcGF0aD0idXJsKCNwOWJkYjRjNDQzYikiIHN0eWxlPSJmaWxsOiAjYjAzMDMwOyBvcGFjaXR5OiAwLjU1Ii8+CiAgIDwvZz4KICAgPGcgaWQ9ImxpbmUyZF8xIj4KICAgIDxwYXRoIGQ9Ik0gODguODgwOTE0IDQ5LjMzNDY5NyAKTCA4OC44ODA5MTQgMjgwLjA2MzU1NyAKIiBjbGlwLXBhdGg9InVybCgjcDliZGI0YzQ0M2IpIiBzdHlsZT0iZmlsbDogbm9uZTsgc3Ryb2tlOiAjMDAwMDAwOyBzdHJva2UtbGluZWNhcDogc3F1YXJlIi8+CiAgIDwvZz4KICAgPGcgaWQ9ImxpbmUyZF8yIj4KICAgIDxwYXRoIGQ9Ik0gMjE5LjAxNTc3MSA0OS4zMzQ2OTcgCkwgMjE5LjAxNTc3MSAyODAuMDYzNTU3IAoiIGNsaXAtcGF0aD0idXJsKCNwOWJkYjRjNDQzYikiIHN0eWxlPSJmaWxsOiBub25lOyBzdHJva2U6ICMwMDAwMDA7IHN0cm9rZS1saW5lY2FwOiBzcXVhcmUiLz4KICAgPC9nPgogICA8ZyBpZD0ibGluZTJkXzMiPgogICAgPHBhdGggZD0iTSAzNDkuMTUwNjI5IDQ5LjMzNDY5NyAKTCAzNDkuMTUwNjI5IDI4MC4wNjM1NTcgCiIgY2xpcC1wYXRoPSJ1cmwoI3A5YmRiNGM0NDNiKSIgc3R5bGU9ImZpbGw6IG5vbmU7IHN0cm9rZTogIzAwMDAwMDsgc3Ryb2tlLWxpbmVjYXA6IHNxdWFyZSIvPgogICA8L2c+CiAgIDxnIGlkPSJ0ZXh0XzEiPgogICAgPCEtLSBlbWlzc29yIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjkuMjIwNzU4IDM1LjM5NTkxKSBzY2FsZSgwLjEgLTAuMSkiPgogICAgIDxkZWZzPgogICAgICA8cGF0aCBpZD0iRGVqYVZ1U2Fucy00OCIgZD0iTSAzNTk3IDE4OTQgCkwgMzU5NyAxNjEzIApMIDk1MyAxNjEzIApRIDk5MSAxMDE5IDEzMTEgNzA4IApRIDE2MzEgMzk3IDIyMDMgMzk3IApRIDI1MzQgMzk3IDI4NDUgNDc4IApRIDMxNTYgNTU5IDM0NjMgNzIyIApMIDM0NjMgMTc4IApRIDMxNTMgNDcgMjgyOCAtMjIgClEgMjUwMyAtOTEgMjE2OSAtOTEgClEgMTMzMSAtOTEgODQyIDM5NiAKUSAzNTMgODg0IDM1MyAxNzE2IApRIDM1MyAyNTc1IDgxNyAzMDc5IApRIDEyODEgMzU4NCAyMDY5IDM1ODQgClEgMjc3NSAzNTg0IDMxODYgMzEyOSAKUSAzNTk3IDI2NzUgMzU5NyAxODk0IAp6Ck0gMzAyMiAyMDYzIApRIDMwMTYgMjUzNCAyNzU4IDI4MTUgClEgMjUwMCAzMDk3IDIwNzUgMzA5NyAKUSAxNTk0IDMwOTcgMTMwNSAyODI1IApRIDEwMTYgMjU1MyA5NzIgMjA1OSAKTCAzMDIyIDIwNjMgCnoKIiB0cmFuc2Zvcm09InNjYWxlKDAuMDE1NjI1KSIvPgogICAgICA8cGF0aCBpZD0iRGVqYVZ1U2Fucy01MCIgZD0iTSAzMzI4IDI4MjggClEgMzU0NCAzMjE2IDM4NDQgMzQwMCAKUSA0MTQ0IDM1ODQgNDU1MCAzNTg0IApRIDUwOTcgMzU4NCA1Mzk0IDMyMDEgClEgNTY5MSAyODE5IDU2OTEgMjExMyAKTCA1NjkxIDAgCkwgNTExMyAwIApMIDUxMTMgMjA5NCAKUSA1MTEzIDI1OTcgNDkzNCAyODQwIApRIDQ3NTYgMzA4NCA0MzkxIDMwODQgClEgMzk0NCAzMDg0IDM2ODQgMjc4NyAKUSAzNDI1IDI0OTEgMzQyNSAxOTc4IApMIDM0MjUgMCAKTCAyODQ3IDAgCkwgMjg0NyAyMDk0IApRIDI4NDcgMjYwMCAyNjY5IDI4NDIgClEgMjQ5MSAzMDg0IDIxMTkgMzA4NCAKUSAxNjc4IDMwODQgMTQxOCAyNzg2IApRIDExNTkgMjQ4OCAxMTU5IDE5NzggCkwgMTE1OSAwIApMIDU4MSAwIApMIDU4MSAzNTAwIApMIDExNTkgMzUwMCAKTCAxMTU5IDI5NTYgClEgMTM1NiAzMjc4IDE2MzEgMzQzMSAKUSAxOTA2IDM1ODQgMjI4NCAzNTg0IApRIDI2NjYgMzU4NCAyOTMzIDMzOTAgClEgMzIwMCAzMTk3IDMzMjggMjgyOCAKegoiIHRyYW5zZm9ybT0ic2NhbGUoMC4wMTU2MjUpIi8+CiAgICAgIDxwYXRoIGlkPSJEZWphVnVTYW5zLTRjIiBkPSJNIDYwMyAzNTAwIApMIDExNzggMzUwMCAKTCAxMTc4IDAgCkwgNjAzIDAgCkwgNjAzIDM1MDAgCnoKTSA2MDMgNDg2MyAKTCAxMTc4IDQ4NjMgCkwgMTE3OCA0MTM0IApMIDYwMyA0MTM0IApMIDYwMyA0ODYzIAp6CiIgdHJhbnNmb3JtPSJzY2FsZSgwLjAxNTYyNSkiLz4KICAgICAgPHBhdGggaWQ9IkRlamFWdVNhbnMtNTYiIGQ9Ik0gMjgzNCAzMzk3IApMIDI4MzQgMjg1MyAKUSAyNTkxIDI5NzggMjMyOCAzMDQwIApRIDIwNjYgMzEwMyAxNzg0IDMxMDMgClEgMTM1NiAzMTAzIDExNDIgMjk3MiAKUSA5MjggMjg0MSA5MjggMjU3OCAKUSA5MjggMjM3OCAxMDgxIDIyNjQgClEgMTIzNCAyMTUwIDE2OTcgMjA0NyAKTCAxODk0IDIwMDMgClEgMjUwNiAxODcyIDI3NjQgMTYzMyAKUSAzMDIyIDEzOTQgMzAyMiA5NjYgClEgMzAyMiA0NzggMjYzNiAxOTMgClEgMjI1MCAtOTEgMTU3NSAtOTEgClEgMTI5NCAtOTEgOTg5IC0zNiAKUSA2ODQgMTkgMzQ3IDEyOCAKTCAzNDcgNzIyIApRIDY2NiA1NTYgOTc1IDQ3MyAKUSAxMjg0IDM5MSAxNTg4IDM5MSAKUSAxOTk0IDM5MSAyMjEyIDUzMCAKUSAyNDMxIDY2OSAyNDMxIDkyMiAKUSAyNDMxIDExNTYgMjI3MyAxMjgxIApRIDIxMTYgMTQwNiAxNTgxIDE1MjIgCkwgMTM4MSAxNTY5IApRIDg0NyAxNjgxIDYwOSAxOTE0IApRIDM3MiAyMTQ3IDM3MiAyNTUzIApRIDM3MiAzMDQ3IDcyMiAzMzE1IApRIDEwNzIgMzU4NCAxNzE2IDM1ODQgClEgMjAzNCAzNTg0IDIzMTUgMzUzNyAKUSAyNTk3IDM0OTEgMjgzNCAzMzk3IAp6CiIgdHJhbnNmb3JtPSJzY2FsZSgwLjAxNTYyNSkiLz4KICAgICAgPHBhdGggaWQ9IkRlamFWdVNhbnMtNTIiIGQ9Ik0gMTk1OSAzMDk3IApRIDE0OTcgMzA5NyAxMjI4IDI3MzYgClEgOTU5IDIzNzUgOTU5IDE3NDcgClEgOTU5IDExMTkgMTIyNiA3NTggClEgMTQ5NCAzOTcgMTk1OSAzOTcgClEgMjQxOSAzOTcgMjY4NyA3NTkgClEgMjk1NiAxMTIyIDI5NTYgMTc0NyAKUSAyOTU2IDIzNjkgMjY4NyAyNzMzIApRIDI0MTkgMzA5NyAxOTU5IDMwOTcgCnoKTSAxOTU5IDM1ODQgClEgMjcwOSAzNTg0IDMxMzcgMzA5NiAKUSAzNTY2IDI2MDkgMzU2NiAxNzQ3IApRIDM1NjYgODg4IDMxMzcgMzk4IApRIDI3MDkgLTkxIDE5NTkgLTkxIApRIDEyMDYgLTkxIDc3OSAzOTggClEgMzUzIDg4OCAzNTMgMTc0NyAKUSAzNTMgMjYwOSA3NzkgMzA5NiAKUSAxMjA2IDM1ODQgMTk1OSAzNTg0IAp6CiIgdHJhbnNmb3JtPSJzY2FsZSgwLjAxNTYyNSkiLz4KICAgICAgPHBhdGggaWQ9IkRlamFWdVNhbnMtNTUiIGQ9Ik0gMjYzMSAyOTYzIApRIDI1MzQgMzAxOSAyNDIwIDMwNDUgClEgMjMwNiAzMDcyIDIxNjkgMzA3MiAKUSAxNjgxIDMwNzIgMTQyMCAyNzU1IApRIDExNTkgMjQzOCAxMTU5IDE4NDQgCkwgMTE1OSAwIApMIDU4MSAwIApMIDU4MSAzNTAwIApMIDExNTkgMzUwMCAKTCAxMTU5IDI5NTYgClEgMTM0MSAzMjc1IDE2MzEgMzQyOSAKUSAxOTIyIDM1ODQgMjMzOCAzNTg0IApRIDIzOTcgMzU4NCAyNDY5IDM1NzYgClEgMjU0MSAzNTY5IDI2MjggMzU1MyAKTCAyNjMxIDI5NjMgCnoKIiB0cmFuc2Zvcm09InNjYWxlKDAuMDE1NjI1KSIvPgogICAgIDwvZGVmcz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ4Ii8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy01MCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjEuNTMxMjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTRjIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNTguOTM3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNTYiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE4Ni43MTg3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNTYiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIzOC44MTI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy01MiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjkwLjkwNjI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy01NSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzUyLjA5Mzc1IDApIi8+CiAgICA8L2c+CiAgIDwvZz4KICAgPGcgaWQ9InRleHRfMiI+CiAgICA8IS0tIHJvdXRlciAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIwMy43NTAxNDYgMjIuMjIxODg3KSBzY2FsZSgwLjEgLTAuMSkiPgogICAgIDxkZWZzPgogICAgICA8cGF0aCBpZD0iRGVqYVZ1U2Fucy01OCIgZD0iTSA1NDQgMTM4MSAKTCA1NDQgMzUwMCAKTCAxMTE5IDM1MDAgCkwgMTExOSAxNDAzIApRIDExMTkgOTA2IDEzMTIgNjU3IApRIDE1MDYgNDA5IDE4OTQgNDA5IApRIDIzNTkgNDA5IDI2MjkgNzA2IApRIDI5MDAgMTAwMyAyOTAwIDE1MTYgCkwgMjkwMCAzNTAwIApMIDM0NzUgMzUwMCAKTCAzNDc1IDAgCkwgMjkwMCAwIApMIDI5MDAgNTM4IApRIDI2OTEgMjE5IDI0MTQgNjQgClEgMjEzOCAtOTEgMTc3MiAtOTEgClEgMTE2OSAtOTEgODU2IDI4NCAKUSA1NDQgNjU5IDU0NCAxMzgxIAp6Ck0gMTk5MSAzNTg0IApMIDE5OTEgMzU4NCAKegoiIHRyYW5zZm9ybT0ic2NhbGUoMC4wMTU2MjUpIi8+CiAgICAgIDxwYXRoIGlkPSJEZWphVnVTYW5zLTU3IiBkPSJNIDExNzIgNDQ5NCAKTCAxMTcyIDM1MDAgCkwgMjM1NiAzNTAwIApMIDIzNTYgMzA1MyAKTCAxMTcyIDMwNTMgCkwgMTE3MiAxMTUzIApRIDExNzIgNzI1IDEyODkgNjAzIApRIDE0MDYgNDgxIDE3NjYgNDgxIApMIDIzNTYgNDgxIApMIDIzNTYgMCAKTCAxNzY2IDAgClEgMTEwMCAwIDg0NyAyNDggClEgNTk0IDQ5NyA1OTQgMTE1MyAKTCA1OTQgMzA1MyAKTCAxNzIgMzA1MyAKTCAxNzIgMzUwMCAKTCA1OTQgMzUwMCAKTCA1OTQgNDQ5NCAKTCAxMTcyIDQ0OTQgCnoKIiB0cmFuc2Zvcm09InNjYWxlKDAuMDE1NjI1KSIvPgogICAgIDwvZGVmcz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTU1Ii8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy01MiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzguOTA2MjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTU4IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMDAuMDkzNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTU3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNjMuNDY4NzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ4IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMDIuNjcxODc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy01NSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjY0LjIwMzEyNSAwKSIvPgogICAgPC9nPgogICAgPCEtLSAobGlnYcOnw6NvIGxlbnRhLCBDKSAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE3Ni4zMDc5NTkgMzQuMzk0OTMzKSBzY2FsZSgwLjEgLTAuMSkiPgogICAgIDxkZWZzPgogICAgICA8cGF0aCBpZD0iRGVqYVZ1U2Fucy1iIiBkPSJNIDE5ODQgNDg1NiAKUSAxNTY2IDQxMzggMTM2MiAzNDM0IApRIDExNTkgMjczMSAxMTU5IDIwMDkgClEgMTE1OSAxMjg4IDEzNjQgNTgwIApRIDE1NjkgLTEyOCAxOTg0IC04NDQgCkwgMTQ4NCAtODQ0IApRIDEwMTYgLTEwOSA3ODMgNjAwIApRIDU1MCAxMzA5IDU1MCAyMDA5IApRIDU1MCAyNzA2IDc4MSAzNDEyIApRIDEwMTMgNDExOSAxNDg0IDQ4NTYgCkwgMTk4NCA0ODU2IAp6CiIgdHJhbnNmb3JtPSJzY2FsZSgwLjAxNTYyNSkiLz4KICAgICAgPHBhdGggaWQ9IkRlamFWdVNhbnMtNGYiIGQ9Ik0gNjAzIDQ4NjMgCkwgMTE3OCA0ODYzIApMIDExNzggMCAKTCA2MDMgMCAKTCA2MDMgNDg2MyAKegoiIHRyYW5zZm9ybT0ic2NhbGUoMC4wMTU2MjUpIi8+CiAgICAgIDxwYXRoIGlkPSJEZWphVnVTYW5zLTRhIiBkPSJNIDI5MDYgMTc5MSAKUSAyOTA2IDI0MTYgMjY0OCAyNzU5IApRIDIzOTEgMzEwMyAxOTI1IDMxMDMgClEgMTQ2MyAzMTAzIDEyMDUgMjc1OSAKUSA5NDcgMjQxNiA5NDcgMTc5MSAKUSA5NDcgMTE2OSAxMjA1IDgyNSAKUSAxNDYzIDQ4MSAxOTI1IDQ4MSAKUSAyMzkxIDQ4MSAyNjQ4IDgyNSAKUSAyOTA2IDExNjkgMjkwNiAxNzkxIAp6Ck0gMzQ4MSA0MzQgClEgMzQ4MSAtNDU5IDMwODQgLTg5NSAKUSAyNjg4IC0xMzMxIDE4NjkgLTEzMzEgClEgMTU2NiAtMTMzMSAxMjk3IC0xMjg2IApRIDEwMjggLTEyNDEgNzc1IC0xMTQ3IApMIDc3NSAtNTg4IApRIDEwMjggLTcyNSAxMjc1IC03OTAgClEgMTUyMiAtODU2IDE3NzggLTg1NiAKUSAyMzQ0IC04NTYgMjYyNSAtNTYxIApRIDI5MDYgLTI2NiAyOTA2IDMzMSAKTCAyOTA2IDYxNiAKUSAyNzI4IDMwNiAyNDUwIDE1MyAKUSAyMTcyIDAgMTc4NCAwIApRIDExNDEgMCA3NDcgNDkwIApRIDM1MyA5ODEgMzUzIDE3OTEgClEgMzUzIDI2MDMgNzQ3IDMwOTMgClEgMTE0MSAzNTg0IDE3ODQgMzU4NCAKUSAyMTcyIDM1ODQgMjQ1MCAzNDMxIApRIDI3MjggMzI3OCAyOTA2IDI5NjkgCkwgMjkwNiAzNTAwIApMIDM0ODEgMzUwMCAKTCAzNDgxIDQzNCAKegoiIHRyYW5zZm9ybT0ic2NhbGUoMC4wMTU2MjUpIi8+CiAgICAgIDxwYXRoIGlkPSJEZWphVnVTYW5zLTQ0IiBkPSJNIDIxOTQgMTc1OSAKUSAxNDk3IDE3NTkgMTIyOCAxNjAwIApRIDk1OSAxNDQxIDk1OSAxMDU2IApRIDk1OSA3NTAgMTE2MSA1NzAgClEgMTM2MyAzOTEgMTcwOSAzOTEgClEgMjE4OCAzOTEgMjQ3NyA3MzAgClEgMjc2NiAxMDY5IDI3NjYgMTYzMSAKTCAyNzY2IDE3NTkgCkwgMjE5NCAxNzU5IAp6Ck0gMzM0MSAxOTk3IApMIDMzNDEgMCAKTCAyNzY2IDAgCkwgMjc2NiA1MzEgClEgMjU2OSAyMTMgMjI3NSA2MSAKUSAxOTgxIC05MSAxNTU2IC05MSAKUSAxMDE5IC05MSA3MDEgMjExIApRIDM4NCA1MTMgMzg0IDEwMTkgClEgMzg0IDE2MDkgNzc5IDE5MDkgClEgMTE3NSAyMjA5IDE5NTkgMjIwOSAKTCAyNzY2IDIyMDkgCkwgMjc2NiAyMjY2IApRIDI3NjYgMjY2MyAyNTA1IDI4ODAgClEgMjI0NCAzMDk3IDE3NzIgMzA5NyAKUSAxNDcyIDMwOTcgMTE4NyAzMDI1IApRIDkwMyAyOTUzIDY0MSAyODA5IApMIDY0MSAzMzQxIApRIDk1NiAzNDYzIDEyNTMgMzUyMyAKUSAxNTUwIDM1ODQgMTgzMSAzNTg0IApRIDI1OTEgMzU4NCAyOTY2IDMxOTAgClEgMzM0MSAyNzk3IDMzNDEgMTk5NyAKegoiIHRyYW5zZm9ybT0ic2NhbGUoMC4wMTU2MjUpIi8+CiAgICAgIDxwYXRoIGlkPSJEZWphVnVTYW5zLWE5IiBkPSJNIDMxMjIgMzM2NiAKTCAzMTIyIDI4MjggClEgMjg3OCAyOTYzIDI2MzMgMzAzMCAKUSAyMzg4IDMwOTcgMjEzOCAzMDk3IApRIDE1NzggMzA5NyAxMjY4IDI3NDIgClEgOTU5IDIzODggOTU5IDE3NDcgClEgOTU5IDExMDYgMTI2OCA3NTEgClEgMTU3OCAzOTcgMjEzOCAzOTcgClEgMjM4OCAzOTcgMjYzMyA0NjQgClEgMjg3OCA1MzEgMzEyMiA2NjYgCkwgMzEyMiAxMzQgClEgMjg4MSAyMiAyNjIzIC0zNCAKUSAyMzY2IC05MSAyMDc1IC05MSAKUSAxMjg0IC05MSA4MTggNDA2IApRIDM1MyA5MDMgMzUzIDE3NDcgClEgMzUzIDI2MDMgODIzIDMwOTMgClEgMTI5NCAzNTg0IDIxMTMgMzU4NCAKUSAyMzc4IDM1ODQgMjYzMSAzNTI5IApRIDI4ODQgMzQ3NSAzMTIyIDMzNjYgCnoKTSAyMzEwIDAgClEgMjQ4MSAtMTk0IDI1NjUgLTM1OCAKUSAyNjUwIC01MjIgMjY1MCAtNjcyIApRIDI2NTAgLTk1MCAyNDYyIC0xMDkyIApRIDIyNzUgLTEyMzQgMTkwNiAtMTIzNCAKUSAxNzYzIC0xMjM0IDE2MjcgLTEyMTUgClEgMTQ5MSAtMTE5NyAxMzU2IC0xMTU5IApMIDEzNTYgLTc1MCAKUSAxNDYzIC04MDMgMTU3OCAtODI2IApRIDE2OTQgLTg1MCAxODQxIC04NTAgClEgMjAyNSAtODUwIDIxMTkgLTc3NSAKUSAyMjEzIC03MDAgMjIxMyAtNTU2IApRIDIyMTMgLTQ2MyAyMTQ1IC0zMjcgClEgMjA3OCAtMTkxIDE5MzggMCAKTCAyMzEwIDAgCnoKIiB0cmFuc2Zvcm09InNjYWxlKDAuMDE1NjI1KSIvPgogICAgICA8cGF0aCBpZD0iRGVqYVZ1U2Fucy1hNSIgZD0iTSAyMTk0IDE3NTkgClEgMTQ5NyAxNzU5IDEyMjggMTYwMCAKUSA5NTkgMTQ0MSA5NTkgMTA1NiAKUSA5NTkgNzUwIDExNjEgNTcwIApRIDEzNjMgMzkxIDE3MDkgMzkxIApRIDIxODggMzkxIDI0NzcgNzMwIApRIDI3NjYgMTA2OSAyNzY2IDE2MzEgCkwgMjc2NiAxNzU5IApMIDIxOTQgMTc1OSAKegpNIDMzNDEgMTk5NyAKTCAzMzQxIDAgCkwgMjc2NiAwIApMIDI3NjYgNTMxIApRIDI1NjkgMjEzIDIyNzUgNjEgClEgMTk4MSAtOTEgMTU1NiAtOTEgClEgMTAxOSAtOTEgNzAxIDIxMSAKUSAzODQgNTEzIDM4NCAxMDE5IApRIDM4NCAxNjA5IDc3OSAxOTA5IApRIDExNzUgMjIwOSAxOTU5IDIyMDkgCkwgMjc2NiAyMjA5IApMIDI3NjYgMjI2NiAKUSAyNzY2IDI2NjMgMjUwNSAyODgwIApRIDIyNDQgMzA5NyAxNzcyIDMwOTcgClEgMTQ3MiAzMDk3IDExODcgMzAyNSAKUSA5MDMgMjk1MyA2NDEgMjgwOSAKTCA2NDEgMzM0MSAKUSA5NTYgMzQ2MyAxMjUzIDM1MjMgClEgMTU1MCAzNTg0IDE4MzEgMzU4NCAKUSAyNTkxIDM1ODQgMjk2NiAzMTkwIApRIDMzNDEgMjc5NyAzMzQxIDE5OTcgCnoKTSAxODQ0IDQyODEgCkwgMTY2NSA0NDUzIApRIDE1OTcgNDUxNiAxNTQ1IDQ1NDUgClEgMTQ5NCA0NTc1IDE0NTMgNDU3NSAKUSAxMzM0IDQ1NzUgMTI3OCA0NDYxIApRIDEyMjIgNDM0NyAxMjE1IDQwOTEgCkwgODI1IDQwOTEgClEgODMxIDQ1MTMgOTkwIDQ3NDIgClEgMTE1MCA0OTcyIDE0MzQgNDk3MiAKUSAxNTUzIDQ5NzIgMTY1MyA0OTI4IApRIDE3NTMgNDg4NCAxODY5IDQ3ODEgCkwgMjA0NyA0NjA5IApRIDIxMTUgNDU0NyAyMTY3IDQ1MTcgClEgMjIxOSA0NDg4IDIyNTkgNDQ4OCAKUSAyMzc4IDQ0ODggMjQzNCA0NjAyIApRIDI0OTAgNDcxNiAyNDk3IDQ5NzIgCkwgMjg4NyA0OTcyIApRIDI4ODEgNDU1MCAyNzIxIDQzMjAgClEgMjU2MiA0MDkxIDIyNzggNDA5MSAKUSAyMTU5IDQwOTEgMjA1OSA0MTM0IApRIDE5NTkgNDE3OCAxODQ0IDQyODEgCnoKIiB0cmFuc2Zvcm09InNjYWxlKDAuMDE1NjI1KSIvPgogICAgICA8cGF0aCBpZD0iRGVqYVZ1U2Fucy0zIiB0cmFuc2Zvcm09InNjYWxlKDAuMDE1NjI1KSIvPgogICAgICA8cGF0aCBpZD0iRGVqYVZ1U2Fucy01MSIgZD0iTSAzNTEzIDIxMTMgCkwgMzUxMyAwIApMIDI5MzggMCAKTCAyOTM4IDIwOTQgClEgMjkzOCAyNTkxIDI3NDQgMjgzNyAKUSAyNTUwIDMwODQgMjE2MyAzMDg0IApRIDE2OTcgMzA4NCAxNDI4IDI3ODcgClEgMTE1OSAyNDkxIDExNTkgMTk3OCAKTCAxMTU5IDAgCkwgNTgxIDAgCkwgNTgxIDM1MDAgCkwgMTE1OSAzNTAwIApMIDExNTkgMjk1NiAKUSAxMzY2IDMyNzIgMTY0NSAzNDI4IApRIDE5MjUgMzU4NCAyMjkxIDM1ODQgClEgMjg5NCAzNTg0IDMyMDMgMzIxMSAKUSAzNTEzIDI4MzggMzUxMyAyMTEzIAp6CiIgdHJhbnNmb3JtPSJzY2FsZSgwLjAxNTYyNSkiLz4KICAgICAgPHBhdGggaWQ9IkRlamFWdVNhbnMtZiIgZD0iTSA3NTAgNzk0IApMIDE0MDkgNzk0IApMIDE0MDkgMjU2IApMIDg5NyAtNzQ0IApMIDQ5NCAtNzQ0IApMIDc1MCAyNTYgCkwgNzUwIDc5NCAKegoiIHRyYW5zZm9ybT0ic2NhbGUoMC4wMTU2MjUpIi8+CiAgICAgIDxwYXRoIGlkPSJEZWphVnVTYW5zLTI2IiBkPSJNIDQxMjIgNDMwNiAKTCA0MTIyIDM2NDEgClEgMzgwMyAzOTM4IDM0NDIgNDA4NCAKUSAzMDgxIDQyMzEgMjY3NSA0MjMxIApRIDE4NzUgNDIzMSAxNDUwIDM3NDIgClEgMTAyNSAzMjUzIDEwMjUgMjMyOCAKUSAxMDI1IDE0MDYgMTQ1MCA5MTcgClEgMTg3NSA0MjggMjY3NSA0MjggClEgMzA4MSA0MjggMzQ0MiA1NzUgClEgMzgwMyA3MjIgNDEyMiAxMDE5IApMIDQxMjIgMzU5IApRIDM3OTEgMTM0IDM0MjAgMjEgClEgMzA1MCAtOTEgMjYzOCAtOTEgClEgMTU3OCAtOTEgOTY4IDU1NyAKUSAzNTkgMTIwNiAzNTkgMjMyOCAKUSAzNTkgMzQ1MyA5NjggNDEwMSAKUSAxNTc4IDQ3NTAgMjYzOCA0NzUwIApRIDMwNTYgNDc1MCAzNDI2IDQ2MzkgClEgMzc5NyA0NTI4IDQxMjIgNDMwNiAKegoiIHRyYW5zZm9ybT0ic2NhbGUoMC4wMTU2MjUpIi8+CiAgICAgIDxwYXRoIGlkPSJEZWphVnVTYW5zLWMiIGQ9Ik0gNTEzIDQ4NTYgCkwgMTAxMyA0ODU2IApRIDE0ODEgNDExOSAxNzE0IDM0MTIgClEgMTk0NyAyNzA2IDE5NDcgMjAwOSAKUSAxOTQ3IDEzMDkgMTcxNCA2MDAgClEgMTQ4MSAtMTA5IDEwMTMgLTg0NCAKTCA1MTMgLTg0NCAKUSA5MjggLTEyOCAxMTMzIDU4MCAKUSAxMzM4IDEyODggMTMzOCAyMDA5IApRIDEzMzggMjczMSAxMTMzIDM0MzQgClEgOTI4IDQxMzggNTEzIDQ4NTYgCnoKIiB0cmFuc2Zvcm09InNjYWxlKDAuMDE1NjI1KSIvPgogICAgIDwvZGVmcz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLWIiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTRmIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzOS4wMTU2MjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTRjIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2Ni43OTY4NzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTRhIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg5NC41NzgxMjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ0IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNTguMDYyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtYTkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIxOS4zNDM3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtYTUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI3NC4zMjgxMjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTUyIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMzUuNjA5Mzc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzOTYuNzk2ODc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00ZiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDI4LjU3ODEyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDgiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ1Ni4zNTkzNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTUxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1MTcuODkwNjI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy01NyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTgxLjI2NTYyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYyMC40Njg3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtZiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjgxLjc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3MTMuNTMxMjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTI2IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3NDUuMzEyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtYyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODE1LjE0MDYyNSAwKSIvPgogICAgPC9nPgogICA8L2c+CiAgIDxnIGlkPSJ0ZXh0XzMiPgogICAgPCEtLSByZWNldG9yIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzMxLjIyNzk3MiAzNS4zOTU5MSkgc2NhbGUoMC4xIC0wLjEpIj4KICAgICA8ZGVmcz4KICAgICAgPHBhdGggaWQ9IkRlamFWdVNhbnMtNDYiIGQ9Ik0gMzEyMiAzMzY2IApMIDMxMjIgMjgyOCAKUSAyODc4IDI5NjMgMjYzMyAzMDMwIApRIDIzODggMzA5NyAyMTM4IDMwOTcgClEgMTU3OCAzMDk3IDEyNjggMjc0MiAKUSA5NTkgMjM4OCA5NTkgMTc0NyAKUSA5NTkgMTEwNiAxMjY4IDc1MSAKUSAxNTc4IDM5NyAyMTM4IDM5NyAKUSAyMzg4IDM5NyAyNjMzIDQ2NCAKUSAyODc4IDUzMSAzMTIyIDY2NiAKTCAzMTIyIDEzNCAKUSAyODgxIDIyIDI2MjMgLTM0IApRIDIzNjYgLTkxIDIwNzUgLTkxIApRIDEyODQgLTkxIDgxOCA0MDYgClEgMzUzIDkwMyAzNTMgMTc0NyAKUSAzNTMgMjYwMyA4MjMgMzA5MyAKUSAxMjk0IDM1ODQgMjExMyAzNTg0IApRIDIzNzggMzU4NCAyNjMxIDM1MjkgClEgMjg4NCAzNDc1IDMxMjIgMzM2NiAKegoiIHRyYW5zZm9ybT0ic2NhbGUoMC4wMTU2MjUpIi8+CiAgICAgPC9kZWZzPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNTUiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ4IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzOC45MDYyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDYiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEwMC40Mzc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00OCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTU1LjQyMTg3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNTciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIxNi45NTMxMjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTUyIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNTYuMTU2MjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTU1IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMTcuMzQzNzUgMCkiLz4KICAgIDwvZz4KICAgPC9nPgogICA8ZyBpZD0idGV4dF80Ij4KICAgIDwhLS0gUDEgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNDguMzcxODU4IDcwLjEzMDg5Nikgc2NhbGUoMC4wOSAtMC4wOSkiPgogICAgIDxkZWZzPgogICAgICA8cGF0aCBpZD0iRGVqYVZ1U2Fucy0zMyIgZD0iTSAxMjU5IDQxNDcgCkwgMTI1OSAyMzk0IApMIDIwNTMgMjM5NCAKUSAyNDk0IDIzOTQgMjczNCAyNjIyIApRIDI5NzUgMjg1MCAyOTc1IDMyNzIgClEgMjk3NSAzNjkxIDI3MzQgMzkxOSAKUSAyNDk0IDQxNDcgMjA1MyA0MTQ3IApMIDEyNTkgNDE0NyAKegpNIDYyOCA0NjY2IApMIDIwNTMgNDY2NiAKUSAyODM4IDQ2NjYgMzIzOSA0MzExIApRIDM2NDEgMzk1NiAzNjQxIDMyNzIgClEgMzY0MSAyNTgxIDMyMzkgMjIyOCAKUSAyODM4IDE4NzUgMjA1MyAxODc1IApMIDEyNTkgMTg3NSAKTCAxMjU5IDAgCkwgNjI4IDAgCkwgNjI4IDQ2NjYgCnoKIiB0cmFuc2Zvcm09InNjYWxlKDAuMDE1NjI1KSIvPgogICAgICA8cGF0aCBpZD0iRGVqYVZ1U2Fucy0xNCIgZD0iTSA3OTQgNTMxIApMIDE4MjUgNTMxIApMIDE4MjUgNDA5MSAKTCA3MDMgMzg2NiAKTCA3MDMgNDQ0MSAKTCAxODE5IDQ2NjYgCkwgMjQ1MCA0NjY2IApMIDI0NTAgNTMxIApMIDM0ODEgNTMxIApMIDM0ODEgMCAKTCA3OTQgMCAKTCA3OTQgNTMxIAp6CiIgdHJhbnNmb3JtPSJzY2FsZSgwLjAxNTYyNSkiLz4KICAgICA8L2RlZnM+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zMyIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtMTQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYwLjI5Njg3NSAwKSIvPgogICAgPC9nPgogICA8L2c+CiAgIDxnIGlkPSJ0ZXh0XzUiPgogICAgPCEtLSBQMiAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE0OC4zNzE4NTggNzkuMzYwMDUxKSBzY2FsZSgwLjA5IC0wLjA5KSI+CiAgICAgPGRlZnM+CiAgICAgIDxwYXRoIGlkPSJEZWphVnVTYW5zLTE1IiBkPSJNIDEyMjggNTMxIApMIDM0MzEgNTMxIApMIDM0MzEgMCAKTCA0NjkgMCAKTCA0NjkgNTMxIApRIDgyOCA5MDMgMTQ0OCAxNTI5IApRIDIwNjkgMjE1NiAyMjI4IDIzMzggClEgMjUzMSAyNjc4IDI2NTEgMjkxNCAKUSAyNzcyIDMxNTAgMjc3MiAzMzc4IApRIDI3NzIgMzc1MCAyNTExIDM5ODQgClEgMjI1MCA0MjE5IDE4MzEgNDIxOSAKUSAxNTM0IDQyMTkgMTIwNCA0MTE2IApRIDg3NSA0MDEzIDUwMCAzODAzIApMIDUwMCA0NDQxIApRIDg4MSA0NTk0IDEyMTIgNDY3MiAKUSAxNTQ0IDQ3NTAgMTgxOSA0NzUwIApRIDI1NDQgNDc1MCAyOTc1IDQzODcgClEgMzQwNiA0MDI1IDM0MDYgMzQxOSAKUSAzNDA2IDMxMzEgMzI5OCAyODczIApRIDMxOTEgMjYxNiAyOTA2IDIyNjYgClEgMjgyOCAyMTc1IDI0MDkgMTc0MiAKUSAxOTkxIDEzMDkgMTIyOCA1MzEgCnoKIiB0cmFuc2Zvcm09InNjYWxlKDAuMDE1NjI1KSIvPgogICAgIDwvZGVmcz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTMzIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0xNSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjAuMjk2ODc1IDApIi8+CiAgICA8L2c+CiAgIDwvZz4KICAgPGcgaWQ9InRleHRfNiI+CiAgICA8IS0tIFAxIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjc4LjUwNjcxNiAxMTEuNjYyMDkxKSBzY2FsZSgwLjA5IC0wLjA5KSI+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zMyIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtMTQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYwLjI5Njg3NSAwKSIvPgogICAgPC9nPgogICA8L2c+CiAgIDxnIGlkPSJ0ZXh0XzciPgogICAgPCEtLSBQMiAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI3OC41MDY3MTYgMTU3LjgwNzg2Mykgc2NhbGUoMC4wOSAtMC4wOSkiPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtMzMiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTE1IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2MC4yOTY4NzUgMCkiLz4KICAgIDwvZz4KICAgPC9nPgogICA8ZyBpZD0icGF0Y2hfNiI+CiAgICA8cGF0aCBkPSJNIDM2OC42NzA4NTcgMTgyLjM0NDE0OSAKUSAzNjguNjcwODU3IDE2Mi4zOTE0OTYgMzY4LjY3MDg1NyAxNDIuNDM4ODQzIAoiIHN0eWxlPSJmaWxsOiBub25lOyBzdHJva2U6ICMwMDAwMDA7IHN0cm9rZS1saW5lY2FwOiByb3VuZCIvPgogICAgPHBhdGggZD0iTSAzNzAuNjcwODU3IDE3OC4zNDQxNDkgCkwgMzY4LjY3MDg1NyAxODIuMzQ0MTQ5IApMIDM2Ni42NzA4NTcgMTc4LjM0NDE0OSAKIiBzdHlsZT0iZmlsbDogbm9uZTsgc3Ryb2tlOiAjMDAwMDAwOyBzdHJva2UtbGluZWNhcDogcm91bmQiLz4KICAgIDxwYXRoIGQ9Ik0gMzY2LjY3MDg1NyAxNDYuNDM4ODQzIApMIDM2OC42NzA4NTcgMTQyLjQzODg0MyAKTCAzNzAuNjcwODU3IDE0Ni40Mzg4NDMgCiIgc3R5bGU9ImZpbGw6IG5vbmU7IHN0cm9rZTogIzAwMDAwMDsgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kIi8+CiAgIDwvZz4KICAgPGcgaWQ9InRleHRfOCI+CiAgICA8IS0tIM6UID0gTC9DIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzc1LjE3NzYgMTU5LjE0ODQ5OCkgc2NhbGUoMC4wOSAtMC4wOSkiPgogICAgIDxkZWZzPgogICAgICA8cGF0aCBpZD0iRGVqYVZ1U2Fucy0zMjkiIGQ9Ik0gMjE4OCA0MDQ0IApMIDkwNiA1MjUgCkwgMzQ3MiA1MjUgCkwgMjE4OCA0MDQ0IAp6Ck0gNTAgMCAKTCAxODMxIDQ2NjYgCkwgMjU0NyA0NjY2IApMIDQzMjUgMCAKTCA1MCAwIAp6CiIgdHJhbnNmb3JtPSJzY2FsZSgwLjAxNTYyNSkiLz4KICAgICAgPHBhdGggaWQ9IkRlamFWdVNhbnMtMjAiIGQ9Ik0gNjc4IDI5MDYgCkwgNDY4NCAyOTA2IApMIDQ2ODQgMjM4MSAKTCA2NzggMjM4MSAKTCA2NzggMjkwNiAKegpNIDY3OCAxNjMxIApMIDQ2ODQgMTYzMSAKTCA0Njg0IDExMDAgCkwgNjc4IDExMDAgCkwgNjc4IDE2MzEgCnoKIiB0cmFuc2Zvcm09InNjYWxlKDAuMDE1NjI1KSIvPgogICAgICA8cGF0aCBpZD0iRGVqYVZ1U2Fucy0yZiIgZD0iTSA2MjggNDY2NiAKTCAxMjU5IDQ2NjYgCkwgMTI1OSA1MzEgCkwgMzUzMSA1MzEgCkwgMzUzMSAwIApMIDYyOCAwIApMIDYyOCA0NjY2IAp6CiIgdHJhbnNmb3JtPSJzY2FsZSgwLjAxNTYyNSkiLz4KICAgICAgPHBhdGggaWQ9IkRlamFWdVNhbnMtMTIiIGQ9Ik0gMTYyNSA0NjY2IApMIDIxNTYgNDY2NiAKTCA1MzEgLTU5NCAKTCAwIC01OTQgCkwgMTYyNSA0NjY2IAp6CiIgdHJhbnNmb3JtPSJzY2FsZSgwLjAxNTYyNSkiLz4KICAgICA8L2RlZnM+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zMjkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY4LjQwNjI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0yMCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAwLjE4NzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE4My45ODQzNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTJmIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMTUuNzY1NjI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0xMiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjcxLjQ4NDM3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtMjYiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMwNS4xNzE4NzUgMCkiLz4KICAgIDwvZz4KICAgIDwhLS0gKGVzcGHDp2FtZW50byDDoCBjaGVnYWRhKSAtLT4KICAgIDxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM3NS4xNzc2IDE3MC4zMTA5NTkpIHNjYWxlKDAuMDkgLTAuMDkpIj4KICAgICA8ZGVmcz4KICAgICAgPHBhdGggaWQ9IkRlamFWdVNhbnMtNTMiIGQ9Ik0gMTE1OSA1MjUgCkwgMTE1OSAtMTMzMSAKTCA1ODEgLTEzMzEgCkwgNTgxIDM1MDAgCkwgMTE1OSAzNTAwIApMIDExNTkgMjk2OSAKUSAxMzQxIDMyODEgMTYxNyAzNDMyIApRIDE4OTQgMzU4NCAyMjc4IDM1ODQgClEgMjkxNiAzNTg0IDMzMTQgMzA3OCAKUSAzNzEzIDI1NzIgMzcxMyAxNzQ3IApRIDM3MTMgOTIyIDMzMTQgNDE1IApRIDI5MTYgLTkxIDIyNzggLTkxIApRIDE4OTQgLTkxIDE2MTcgNjEgClEgMTM0MSAyMTMgMTE1OSA1MjUgCnoKTSAzMTE2IDE3NDcgClEgMzExNiAyMzgxIDI4NTUgMjc0MiAKUSAyNTk0IDMxMDMgMjEzOCAzMTAzIApRIDE2ODEgMzEwMyAxNDIwIDI3NDIgClEgMTE1OSAyMzgxIDExNTkgMTc0NyAKUSAxMTU5IDExMTMgMTQyMCA3NTIgClEgMTY4MSAzOTEgMjEzOCAzOTEgClEgMjU5NCAzOTEgMjg1NSA3NTIgClEgMzExNiAxMTEzIDMxMTYgMTc0NyAKegoiIHRyYW5zZm9ybT0ic2NhbGUoMC4wMTU2MjUpIi8+CiAgICAgIDxwYXRoIGlkPSJEZWphVnVTYW5zLWEyIiBkPSJNIDIxOTQgMTc1OSAKUSAxNDk3IDE3NTkgMTIyOCAxNjAwIApRIDk1OSAxNDQxIDk1OSAxMDU2IApRIDk1OSA3NTAgMTE2MSA1NzAgClEgMTM2MyAzOTEgMTcwOSAzOTEgClEgMjE4OCAzOTEgMjQ3NyA3MzAgClEgMjc2NiAxMDY5IDI3NjYgMTYzMSAKTCAyNzY2IDE3NTkgCkwgMjE5NCAxNzU5IAp6Ck0gMzM0MSAxOTk3IApMIDMzNDEgMCAKTCAyNzY2IDAgCkwgMjc2NiA1MzEgClEgMjU2OSAyMTMgMjI3NSA2MSAKUSAxOTgxIC05MSAxNTU2IC05MSAKUSAxMDE5IC05MSA3MDEgMjExIApRIDM4NCA1MTMgMzg0IDEwMTkgClEgMzg0IDE2MDkgNzc5IDE5MDkgClEgMTE3NSAyMjA5IDE5NTkgMjIwOSAKTCAyNzY2IDIyMDkgCkwgMjc2NiAyMjY2IApRIDI3NjYgMjY2MyAyNTA1IDI4ODAgClEgMjI0NCAzMDk3IDE3NzIgMzA5NyAKUSAxNDcyIDMwOTcgMTE4NyAzMDI1IApRIDkwMyAyOTUzIDY0MSAyODA5IApMIDY0MSAzMzQxIApRIDk1NiAzNDYzIDEyNTMgMzUyMyAKUSAxNTUwIDM1ODQgMTgzMSAzNTg0IApRIDI1OTEgMzU4NCAyOTY2IDMxOTAgClEgMzM0MSAyNzk3IDMzNDEgMTk5NyAKegpNIDE0MDMgNTExOSAKTCAyMjg0IDM5NTAgCkwgMTgwNiAzOTUwIApMIDc4NyA1MTE5IApMIDE0MDMgNTExOSAKegoiIHRyYW5zZm9ybT0ic2NhbGUoMC4wMTU2MjUpIi8+CiAgICAgIDxwYXRoIGlkPSJEZWphVnVTYW5zLTRiIiBkPSJNIDM1MTMgMjExMyAKTCAzNTEzIDAgCkwgMjkzOCAwIApMIDI5MzggMjA5NCAKUSAyOTM4IDI1OTEgMjc0NCAyODM3IApRIDI1NTAgMzA4NCAyMTYzIDMwODQgClEgMTY5NyAzMDg0IDE0MjggMjc4NyAKUSAxMTU5IDI0OTEgMTE1OSAxOTc4IApMIDExNTkgMCAKTCA1ODEgMCAKTCA1ODEgNDg2MyAKTCAxMTU5IDQ4NjMgCkwgMTE1OSAyOTU2IApRIDEzNjYgMzI3MiAxNjQ1IDM0MjggClEgMTkyNSAzNTg0IDIyOTEgMzU4NCAKUSAyODk0IDM1ODQgMzIwMyAzMjExIApRIDM1MTMgMjgzOCAzNTEzIDIxMTMgCnoKIiB0cmFuc2Zvcm09InNjYWxlKDAuMDE1NjI1KSIvPgogICAgICA8cGF0aCBpZD0iRGVqYVZ1U2Fucy00NyIgZD0iTSAyOTA2IDI5NjkgCkwgMjkwNiA0ODYzIApMIDM0ODEgNDg2MyAKTCAzNDgxIDAgCkwgMjkwNiAwIApMIDI5MDYgNTI1IApRIDI3MjUgMjEzIDI0NDggNjEgClEgMjE3MiAtOTEgMTc4NCAtOTEgClEgMTE1MCAtOTEgNzUxIDQxNSAKUSAzNTMgOTIyIDM1MyAxNzQ3IApRIDM1MyAyNTcyIDc1MSAzMDc4IApRIDExNTAgMzU4NCAxNzg0IDM1ODQgClEgMjE3MiAzNTg0IDI0NDggMzQzMiAKUSAyNzI1IDMyODEgMjkwNiAyOTY5IAp6Ck0gOTQ3IDE3NDcgClEgOTQ3IDExMTMgMTIwOCA3NTIgClEgMTQ2OSAzOTEgMTkyNSAzOTEgClEgMjM4MSAzOTEgMjY0MyA3NTIgClEgMjkwNiAxMTEzIDI5MDYgMTc0NyAKUSAyOTA2IDIzODEgMjY0MyAyNzQyIApRIDIzODEgMzEwMyAxOTI1IDMxMDMgClEgMTQ2OSAzMTAzIDEyMDggMjc0MiAKUSA5NDcgMjM4MSA5NDcgMTc0NyAKegoiIHRyYW5zZm9ybT0ic2NhbGUoMC4wMTU2MjUpIi8+CiAgICAgPC9kZWZzPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtYiIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDgiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDM5LjAxNTYyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNTYiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEwMC41NDY4NzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTUzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNTIuNjQwNjI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00NCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjE2LjEyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtYTkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI3Ny40MDYyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMzMi4zOTA2MjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTUwIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzOTMuNjcxODc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00OCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDkxLjA3ODEyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNTEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU1Mi42MDkzNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTU3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2MTUuOTg0Mzc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy01MiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjU1LjE4NzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcxNi4zNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLWEyIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3NDguMTU2MjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDgwOS40Mzc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00NiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODQxLjIxODc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00YiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODk2LjIwMzEyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDgiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDk1OS41NzgxMjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTRhIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMDIxLjEwOTM3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEwODQuNTkzNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMTQ1Ljg3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyMDkuMzU5Mzc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy1jIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMjcwLjY0MDYyNSAwKSIvPgogICAgPC9nPgogICA8L2c+CiAgIDxnIGlkPSJwYXRjaF83Ij4KICAgIDxwYXRoIGQ9Ik0gNzMuMjY0NzMxIDYyLjM3MTMzOCAKUSA3My4yNjQ3MzEgNjAuODc0MTg4IDczLjI2NDczMSA1OS4zNzcwMzkgCiIgc3R5bGU9ImZpbGw6IG5vbmU7IHN0cm9rZTogIzAwMDAwMDsgc3Ryb2tlLWxpbmVjYXA6IHJvdW5kIi8+CiAgICA8cGF0aCBkPSJNIDc1LjI2NDczMSA1OC4zNzEzMzggCkwgNzMuMjY0NzMxIDYyLjM3MTMzOCAKTCA3MS4yNjQ3MzEgNTguMzcxMzM4IAoiIHN0eWxlPSJmaWxsOiBub25lOyBzdHJva2U6ICMwMDAwMDA7IHN0cm9rZS1saW5lY2FwOiByb3VuZCIvPgogICAgPHBhdGggZD0iTSA3MS4yNjQ3MzEgNjMuMzc3MDM5IApMIDczLjI2NDczMSA1OS4zNzcwMzkgCkwgNzUuMjY0NzMxIDYzLjM3NzAzOSAKIiBzdHlsZT0iZmlsbDogbm9uZTsgc3Ryb2tlOiAjMDAwMDAwOyBzdHJva2UtbGluZWNhcDogcm91bmQiLz4KICAgPC9nPgogICA8ZyBpZD0idGV4dF85Ij4KICAgIDwhLS0gTC9S4oKBIC0tPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDguODQ5Mzk1IDYzLjIwOTAzKSBzY2FsZSgwLjA5IC0wLjA5KSI+CiAgICAgPGRlZnM+CiAgICAgIDxwYXRoIGlkPSJEZWphVnVTYW5zLTM1IiBkPSJNIDI4NDEgMjE4OCAKUSAzMDQ0IDIxMTkgMzIzNiAxODk0IApRIDM0MjggMTY2OSAzNjIyIDEyNzUgCkwgNDI2MyAwIApMIDM1ODQgMCAKTCAyOTg4IDExOTcgClEgMjc1NiAxNjY2IDI1MzkgMTgxOSAKUSAyMzIyIDE5NzIgMTk0NyAxOTcyIApMIDEyNTkgMTk3MiAKTCAxMjU5IDAgCkwgNjI4IDAgCkwgNjI4IDQ2NjYgCkwgMjA1MyA0NjY2IApRIDI4NTMgNDY2NiAzMjQ3IDQzMzEgClEgMzY0MSAzOTk3IDM2NDEgMzMyMiAKUSAzNjQxIDI4ODEgMzQzNiAyNTkwIApRIDMyMzEgMjMwMCAyODQxIDIxODggCnoKTSAxMjU5IDQxNDcgCkwgMTI1OSAyNDkxIApMIDIwNTMgMjQ5MSAKUSAyNTA5IDI0OTEgMjc0MiAyNzAyIApRIDI5NzUgMjkxMyAyOTc1IDMzMjIgClEgMjk3NSAzNzMxIDI3NDIgMzkzOSAKUSAyNTA5IDQxNDcgMjA1MyA0MTQ3IApMIDEyNTkgNDE0NyAKegoiIHRyYW5zZm9ybT0ic2NhbGUoMC4wMTU2MjUpIi8+CiAgICAgIDxwYXRoIGlkPSJEZWphVnVTYW5zLWI1YyIgZD0iTSA0ODggMzQzIApMIDExMjUgMzQzIApMIDExMjUgMjI1MyAKTCA0MjggMjEyNSAKTCA0MjggMjQ4NyAKTCAxMTQ3IDI2MDkgCkwgMTU3NSAyNjA5IApMIDE1NzUgMzQzIApMIDIyMTYgMzQzIApMIDIyMTYgMCAKTCA0ODggMCAKTCA0ODggMzQzIAp6CiIgdHJhbnNmb3JtPSJzY2FsZSgwLjAxNTYyNSkiLz4KICAgICA8L2RlZnM+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0yZiIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtMTIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU1LjcxODc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zNSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODkuNDA2MjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLWI1YyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTU4Ljg5MDYyNSAwKSIvPgogICAgPC9nPgogICA8L2c+CiAgIDxnIGlkPSJ0ZXh0XzEwIj4KICAgIDwhLS0gTmEgbGlnYcOnw6NvIGxlbnRhIGNhZGEgcGFjb3RlIGRlbW9yYSBML0MgYSBzZXIgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMjUuNTIyNTE0IDIyOS44MzU2MSkgc2NhbGUoMC4wODUgLTAuMDg1KSI+CiAgICAgPGRlZnM+CiAgICAgIDxwYXRoIGlkPSJEZWphVnVTYW5zLTMxIiBkPSJNIDYyOCA0NjY2IApMIDE0NzggNDY2NiAKTCAzNTQ3IDc2MyAKTCAzNTQ3IDQ2NjYgCkwgNDE1OSA0NjY2IApMIDQxNTkgMCAKTCAzMzA5IDAgCkwgMTI0MSAzOTAzIApMIDEyNDEgMCAKTCA2MjggMCAKTCA2MjggNDY2NiAKegoiIHRyYW5zZm9ybT0ic2NhbGUoMC4wMTU2MjUpIi8+CiAgICAgPC9kZWZzPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtMzEiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ0IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3NC44MTI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMzYuMDkzNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTRmIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNjcuODc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00YyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTk1LjY1NjI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00YSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjIzLjQzNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ0IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyODYuOTIxODc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy1hOSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzQ4LjIwMzEyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtYTUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQwMy4xODc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy01MiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDY0LjQ2ODc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1MjUuNjU2MjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTRmIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1NTcuNDM3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDgiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU4NS4yMTg3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNTEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY0Ni43NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNTciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDcxMC4xMjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ0IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3NDkuMzI4MTI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg4MTAuNjA5Mzc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00NiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODQyLjM5MDYyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDg5Ny4zNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg5NTguNjU2MjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ0IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMDIyLjE0MDYyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtMyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTA4My40MjE4NzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTUzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMTE1LjIwMzEyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDExNzguNjg3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDYiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyMzkuOTY4NzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTUyIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMjk0Ljk1MzEyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNTciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEzNTYuMTQwNjI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00OCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTM5NS4zNDM3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtMyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTQ1Ni44NzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNDg4LjY1NjI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00OCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTU1Mi4xNDA2MjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTUwIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNjEzLjY3MTg3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNTIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE3MTEuMDc4MTI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy01NSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTc3Mi4yNjU2MjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ0IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxODEzLjM3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtMyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTg3NC42NTYyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtMmYiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5MDYuNDM3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtMTIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5NjIuMTU2MjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTI2IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxOTk1Ljg0Mzc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMDY1LjY3MTg3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIwOTcuNDUzMTI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMTU4LjczNDM3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNTYiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIxOTAuNTE1NjI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00OCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjI0Mi42MDkzNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTU1IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMzA0LjE0MDYyNSAwKSIvPgogICAgPC9nPgogICAgPCEtLSB0cmFuc21pdGlkbzogUDIgZmljYSBuYSBmaWxhIMOgIGVzcGVyYSBxdWUgUDEgLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMjUuNTIyNTE0IDI0MC4zNzc5MzQpIHNjYWxlKDAuMDg1IC0wLjA4NSkiPgogICAgIDxkZWZzPgogICAgICA8cGF0aCBpZD0iRGVqYVZ1U2Fucy0xZCIgZD0iTSA3NTAgNzk0IApMIDE0MDkgNzk0IApMIDE0MDkgMCAKTCA3NTAgMCAKTCA3NTAgNzk0IAp6Ck0gNzUwIDMzMDkgCkwgMTQwOSAzMzA5IApMIDE0MDkgMjUxNiAKTCA3NTAgMjUxNiAKTCA3NTAgMzMwOSAKegoiIHRyYW5zZm9ybT0ic2NhbGUoMC4wMTU2MjUpIi8+CiAgICAgIDxwYXRoIGlkPSJEZWphVnVTYW5zLTEzYWYiIGQ9Ik0gMzQzMSAzNTAwIApMIDM0MzEgMCAKTCAyODUzIDAgCkwgMjg1MyAzMDUzIApMIDEyNzUgMzA1MyAKTCAxMjc1IDAgCkwgNjk3IDAgCkwgNjk3IDMwNTMgCkwgMTQ3IDMwNTMgCkwgMTQ3IDM1MDAgCkwgNjk3IDM1MDAgCkwgNjk3IDM3NDQgClEgNjk3IDQzMTYgOTY3IDQ1ODkgClEgMTIzOCA0ODYzIDE3OTcgNDg2MyAKTCAyMzc1IDQ4NjMgCkwgMjM3NSA0Mzg0IApMIDE4MjUgNDM4NCAKUSAxNTE2IDQzODQgMTM5NSA0MjU5IApRIDEyNzUgNDEzNCAxMjc1IDM4MDkgCkwgMTI3NSAzNTAwIApMIDM0MzEgMzUwMCAKegpNIDI4NTMgNDg1NiAKTCAzNDMxIDQ4NTYgCkwgMzQzMSA0MTI4IApMIDI4NTMgNDEyOCAKTCAyODUzIDQ4NTYgCnoKIiB0cmFuc2Zvcm09InNjYWxlKDAuMDE1NjI1KSIvPgogICAgICA8cGF0aCBpZD0iRGVqYVZ1U2Fucy01NCIgZD0iTSA5NDcgMTc0NyAKUSA5NDcgMTExMyAxMjA4IDc1MiAKUSAxNDY5IDM5MSAxOTI1IDM5MSAKUSAyMzgxIDM5MSAyNjQzIDc1MiAKUSAyOTA2IDExMTMgMjkwNiAxNzQ3IApRIDI5MDYgMjM4MSAyNjQzIDI3NDIgClEgMjM4MSAzMTAzIDE5MjUgMzEwMyAKUSAxNDY5IDMxMDMgMTIwOCAyNzQyIApRIDk0NyAyMzgxIDk0NyAxNzQ3IAp6Ck0gMjkwNiA1MjUgClEgMjcyNSAyMTMgMjQ0OCA2MSAKUSAyMTcyIC05MSAxNzg0IC05MSAKUSAxMTUwIC05MSA3NTEgNDE1IApRIDM1MyA5MjIgMzUzIDE3NDcgClEgMzUzIDI1NzIgNzUxIDMwNzggClEgMTE1MCAzNTg0IDE3ODQgMzU4NCAKUSAyMTcyIDM1ODQgMjQ0OCAzNDMyIApRIDI3MjUgMzI4MSAyOTA2IDI5NjkgCkwgMjkwNiAzNTAwIApMIDM0ODEgMzUwMCAKTCAzNDgxIC0xMzMxIApMIDI5MDYgLTEzMzEgCkwgMjkwNiA1MjUgCnoKIiB0cmFuc2Zvcm09InNjYWxlKDAuMDE1NjI1KSIvPgogICAgIDwvZGVmcz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTU3Ii8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy01NSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzkuMjAzMTI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00NCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODAuMzEyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNTEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE0MS41OTM3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNTYiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIwNC45Njg3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNTAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI1Ny4wNjI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00YyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzU0LjQ2ODc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy01NyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzgyLjI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00YyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDIxLjQ1MzEyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDciIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ0OS4yMzQzNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTUyIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1MTIuNzE4NzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTFkIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1NzMuOTA2MjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYwNy41OTM3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtMzMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYzOS4zNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTE1IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2OTkuNjcxODc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3NjMuMjk2ODc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0xM2FmIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3OTUuMDc4MTI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00NiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODU4LjA2MjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ0IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg5MTMuMDQ2ODc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg5NzQuMzI4MTI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy01MSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAwNi4xMDkzNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ0IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMDY5LjQ4NDM3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtMyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTEzMC43NjU2MjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTEzYWYiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDExNjIuNTQ2ODc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00ZiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTIyNS41MzEyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyNTMuMzEyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtMyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTMxNC41OTM3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtYTIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEzNDYuMzc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNDA3LjY1NjI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00OCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTQzOS40Mzc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy01NiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTUwMC45Njg3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNTMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE1NTMuMDYyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDgiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE2MTYuNTQ2ODc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy01NSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTY3OC4wNzgxMjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ0IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxNzE5LjE4NzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE3ODAuNDY4NzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTU0IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxODEyLjI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy01OCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTg3NS43MzQzNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ4IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxOTM5LjEwOTM3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtMyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjAwMC42NDA2MjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTMzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMDMyLjQyMTg3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtMTQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIwOTIuNzE4NzUgMCkiLz4KICAgIDwvZz4KICAgIDwhLS0gYWNhYmUsIGUgc2FpIEwvQyBkZXBvaXMgZGVsZS4gLS0+CiAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMjUuNTIyNTE0IDI1MC41ODAyNTgpIHNjYWxlKDAuMDg1IC0wLjA4NSkiPgogICAgIDxkZWZzPgogICAgICA8cGF0aCBpZD0iRGVqYVZ1U2Fucy00NSIgZD0iTSAzMTE2IDE3NDcgClEgMzExNiAyMzgxIDI4NTUgMjc0MiAKUSAyNTk0IDMxMDMgMjEzOCAzMTAzIApRIDE2ODEgMzEwMyAxNDIwIDI3NDIgClEgMTE1OSAyMzgxIDExNTkgMTc0NyAKUSAxMTU5IDExMTMgMTQyMCA3NTIgClEgMTY4MSAzOTEgMjEzOCAzOTEgClEgMjU5NCAzOTEgMjg1NSA3NTIgClEgMzExNiAxMTEzIDMxMTYgMTc0NyAKegpNIDExNTkgMjk2OSAKUSAxMzQxIDMyODEgMTYxNyAzNDMyIApRIDE4OTQgMzU4NCAyMjc4IDM1ODQgClEgMjkxNiAzNTg0IDMzMTQgMzA3OCAKUSAzNzEzIDI1NzIgMzcxMyAxNzQ3IApRIDM3MTMgOTIyIDMzMTQgNDE1IApRIDI5MTYgLTkxIDIyNzggLTkxIApRIDE4OTQgLTkxIDE2MTcgNjEgClEgMTM0MSAyMTMgMTE1OSA1MjUgCkwgMTE1OSAwIApMIDU4MSAwIApMIDU4MSA0ODYzIApMIDExNTkgNDg2MyAKTCAxMTU5IDI5NjkgCnoKIiB0cmFuc2Zvcm09InNjYWxlKDAuMDE1NjI1KSIvPgogICAgICA8cGF0aCBpZD0iRGVqYVZ1U2Fucy0xMSIgZD0iTSA2ODQgNzk0IApMIDEzNDQgNzk0IApMIDEzNDQgMCAKTCA2ODQgMCAKTCA2ODQgNzk0IAp6CiIgdHJhbnNmb3JtPSJzY2FsZSgwLjAxNTYyNSkiLz4KICAgICA8L2RlZnM+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00NCIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDYiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYxLjI4MTI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00NCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTE2LjI2NTYyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE3Ny41NDY4NzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ4IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNDEuMDMxMjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLWYiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMwMi41NjI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzMzQuMzQzNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ4IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjYuMTI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0MjcuNjU2MjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTU2IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0NTkuNDM3NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUxMS41MzEyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNGMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDU3Mi44MTI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2MDAuNTkzNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTJmIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2MzIuMzc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0xMiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNjg4LjA5Mzc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0yNiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNzIxLjc4MTI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy0zIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3OTEuNjA5Mzc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00NyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODIzLjM5MDYyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDgiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDg4Ni44NzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTUzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg5NDguNDA2MjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTUyIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMDExLjg5MDYyNSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNGMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEwNzMuMDc4MTI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy01NiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTEwMC44NTkzNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDExNTIuOTUzMTI1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00NyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTE4NC43MzQzNzUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTQ4IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMjQ4LjIxODc1IDApIi8+CiAgICAgPHVzZSB4bGluazpocmVmPSIjRGVqYVZ1U2Fucy00ZiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTMwOS43NSAwKSIvPgogICAgIDx1c2UgeGxpbms6aHJlZj0iI0RlamFWdVNhbnMtNDgiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEzMzcuNTMxMjUgMCkiLz4KICAgICA8dXNlIHhsaW5rOmhyZWY9IiNEZWphVnVTYW5zLTExIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMzk5LjA2MjUgMCkiLz4KICAgIDwvZz4KICAgPC9nPgogIDwvZz4KIDwvZz4KIDxkZWZzPgogIDxjbGlwUGF0aCBpZD0icDliZGI0YzQ0M2IiPgogICA8cmVjdCB4PSIxMC44IiB5PSIxOS4zMzk5NDUiIHdpZHRoPSI0NTUuNDcyIiBoZWlnaHQ9IjI3Mi4yNjAwNTUiLz4KICA8L2NsaXBQYXRoPgogPC9kZWZzPgo8L3N2Zz4K" style="width:100.0%" alt="Par de pacotes: o espaçamento criado na ligação lenta mantém-se até ao recetor" />
+<figcaption aria-hidden="true">Par de pacotes: o espaçamento criado na
+ligação lenta mantém-se até ao recetor</figcaption>
+</figure>
+<ul>
+<li>O emissor transmite P1 e P2 seguidos, cada um em
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>/</mi><msub><mi>R</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">L/R_1</annotation></semantics></math>
+(ligação rápida).</li>
+<li>No <em>router</em>, a ligação de saída é a lenta: P1 demora
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>/</mi><mi>C</mi></mrow><annotation encoding="application/x-tex">L/C</annotation></semantics></math>
+a ser transmitido, e P2, que chegou entretanto, <strong>espera na
+fila</strong> que P1 acabe. P2 só acaba de sair
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>/</mi><mi>C</mi></mrow><annotation encoding="application/x-tex">L/C</annotation></semantics></math>
+depois de P1.</li>
+<li>No recetor, os dois chegam separados por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mo>=</mo><mi>L</mi><mi>/</mi><mi>C</mi></mrow><annotation encoding="application/x-tex">\Delta = L/C</annotation></semantics></math>.
+A máquina de destino responde a cada um (respostas pequenas), e as
+respostas voltam ao emissor <strong>com o mesmo
+espaçamento</strong>.</li>
+</ul>
+</div></details>
+<details class="sol" id="F2.5-b"><summary>
+(b) Fórmula da capacidade
+</summary><div class="corpo">
+<p>Na ligação mais lenta, o fim de P2 sai exatamente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>/</mi><mi>C</mi></mrow><annotation encoding="application/x-tex">L/C</annotation></semantics></math>
+depois do fim de P1 (P2 esperou que P1 acabasse de ser transmitido). As
+ligações mais rápidas a seguir não reduzem esse espaçamento: cada pacote
+atravessa-as depressa e os dois continuam separados por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>/</mi><mi>C</mi></mrow><annotation encoding="application/x-tex">L/C</annotation></semantics></math>.
+Se as respostas forem pequenas e voltarem sem mais atrasos, o tempo
+medido entre elas é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mo>=</mo><mi>L</mi><mi>/</mi><mi>C</mi></mrow><annotation encoding="application/x-tex">\Delta = L/C</annotation></semantics></math>,
+logo</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><menclose notation="box"><mrow><mi>C</mi><mo>=</mo><mfrac><mi>L</mi><mi mathvariant="normal">Δ</mi></mfrac></mrow></menclose><annotation encoding="application/x-tex">\boxed{C = \frac{L}{\Delta}}</annotation></semantics></math></p>
+<p>Exemplo:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><mn>1500</mn></mrow><annotation encoding="application/x-tex">L = 1500</annotation></semantics></math>
+bytes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>12</mn><mspace width="0.167em"></mspace><mn>000</mn></mrow><annotation encoding="application/x-tex">= 12\,000</annotation></semantics></math>
+bits e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">\Delta = 1{,}2</annotation></semantics></math>
+ms dão
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mn>12</mn><mspace width="0.167em"></mspace><mn>000</mn><mi>/</mi><mn>0</mn><mo>,</mo><mn>0012</mn><mo>=</mo><msup><mn>10</mn><mn>7</mn></msup></mrow><annotation encoding="application/x-tex">C = 12\,000 / 0{,}0012 = 10^7</annotation></semantics></math>
+b/s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">= 10</annotation></semantics></math>
+Mbps.</p>
+<p>Repara que a fórmula dá a capacidade da ligação <strong>mais
+lenta</strong> do caminho (o estrangulamento), não a de uma ligação
+qualquer.</p>
+</div></details>
+<details class="sol" id="F2.5-c"><summary>
+(c) O que pode estragar a estimativa, e como atenuar
+</summary><div class="corpo">
+<p><strong>Fatores:</strong></p>
+<ul>
+<li><strong>Tráfego cruzado</strong>: pacotes de outros fluxos que
+entram na fila <strong>entre</strong> P1 e P2 afastam-nos (Δ maior:
+<strong>subestima</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>C</mi><annotation encoding="application/x-tex">C</annotation></semantics></math>);
+se P1 esperar numa fila <strong>depois</strong> do estrangulamento e P2
+o apanhar, ficam mais juntos (Δ menor: <strong>sobrestima</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>C</mi><annotation encoding="application/x-tex">C</annotation></semantics></math>).</li>
+<li><strong>O caminho de volta</strong>: se as respostas forem grandes
+ou apanharem uma ligação lenta ou filas na volta, o espaçamento
+muda.</li>
+<li><strong>Processamento no destino</strong>: o tempo que a máquina
+demora a responder a cada pacote pode variar.</li>
+<li><strong>Resolução do relógio</strong>: com ligações rápidas,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Δ</mi><annotation encoding="application/x-tex">\Delta</annotation></semantics></math>
+é muito pequeno (microssegundos) e o erro da medição pesa muito.</li>
+<li>Os pacotes podem não sair mesmo “colados” do emissor.</li>
+</ul>
+<p><strong>Como atenuar:</strong></p>
+<ul>
+<li><strong>repetir muitas vezes</strong> e usar o valor mais frequente
+(a <strong>moda</strong>) ou a mediana, não a média (os valores
+estragados pelo tráfego cruzado espalham-se para os dois lados);</li>
+<li>usar pacotes <strong>grandes</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Δ</mi><annotation encoding="application/x-tex">\Delta</annotation></semantics></math>
+maior, menos erro relativo do relógio) e <strong>respostas
+pequenas</strong>;</li>
+<li>medir em alturas de <strong>pouco tráfego</strong>;</li>
+<li>descartar medições claramente impossíveis.</li>
+</ul>
+</div></details>
+<h2 id="camadas-protocolares">Camadas protocolares</h2>
+<h3 id="f2.1-arquitetura-em-camadas-o-chico-e-a-teresa-ficha-2">F2.1 —
+Arquitetura em camadas: o Chico e a Teresa (Ficha 2)</h3>
+<details class="sol" id="F2.1-1"><summary>
+Resposta
+</summary><div class="corpo">
+<p><strong>Porque discorda a Teresa do método.</strong> Um
+<em>router</em> é um dispositivo da <strong>camada de rede</strong>:
+deve decidir só com o <strong>cabeçalho de rede</strong> (é o que o
+resumo sublinha na secção de encapsulamento). Olhar para o
+<strong>cabeçalho de transporte</strong> quebra a separação em
+camadas:</p>
+<ul>
+<li>o <em>router</em> passa a depender de detalhes de uma camada que não
+é a sua: que protocolo de transporte é, que portas usa cada aplicação.
+Se aparecer uma aplicação nova, ou o email passar a usar outra porta ou
+protocolo, é preciso mudar todos os <em>routers</em>;</li>
+<li>o cabeçalho de transporte pode <strong>nem estar visível</strong>:
+pode ir cifrado, ou num fragmento de um datagrama que não o contém;</li>
+<li>é trabalho extra em cada pacote, em todos os <em>routers</em>.</li>
+</ul>
+<p><strong>Solução que agrada à Teresa.</strong> A decisão sobre a
+prioridade é tomada <strong>na origem</strong>, onde se sabe que o
+tráfego é email (a aplicação, ou o sistema operativo por pedido dela), e
+é <strong>marcada num campo do cabeçalho de rede</strong>. O
+<em>router</em> só lê esse campo, que é da sua camada. (Nota adicional:
+o IP tem mesmo um campo para isto, o <em>Type of Service</em>, hoje
+chamado DSCP.)</p>
+<p><strong>Problemas desta solução:</strong></p>
+<ul>
+<li><strong>Confiança e abuso</strong>: qualquer utilizador pode marcar
+<strong>todos</strong> os seus pacotes como prioritários. É preciso
+controlar quem pode marcar o quê (e, por exemplo, cobrar por isso).</li>
+<li><strong>Acordo entre redes</strong>: a marcação só funciona se os
+ISPs pelo caminho a respeitarem; cada domínio pode ignorá-la ou
+reescrevê-la.</li>
+<li><strong>Não cria capacidade</strong>: dar prioridade ao email só
+<strong>passa as perdas</strong> para as outras aplicações, que podem
+ficar sem serviço em congestionamentos longos.</li>
+<li>Os <em>routers</em> têm de implementar e configurar várias filas com
+prioridades.</li>
+</ul>
+</div></details>
+<h2 id="aula-2-web-e-http">Aula 2 — Web e HTTP</h2>
+<h3 id="c2.1-tempo-de-resposta-do-http-exercício-inventado">C2.1 — Tempo
+de resposta do HTTP (exercício inventado)</h3>
+<p>1 HTML + 5 objetos = <strong>6 objetos</strong>; RTT = 40 ms;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">T = 10</annotation></semantics></math>
+ms de transmissão por objeto.</p>
+<details class="sol" id="C2.1-a"><summary>
+(a) HTTP não persistente, um objeto de cada vez
+</summary><div class="corpo">
+<p>Cada objeto precisa da sua conexão TCP: 1 RTT para a conexão, 1 RTT
+para o pedido e os primeiros bytes, e o tempo de transmissão:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mspace width="0.167em"></mspace><mtext mathvariant="normal">RTT</mtext><mo>+</mo><mi>T</mi><mo>=</mo><mn>2</mn><mo>×</mo><mn>40</mn><mo>+</mo><mn>10</mn><mo>=</mo><mn>90</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> ms por objeto</mtext></mrow></mrow><annotation encoding="application/x-tex">2\,\text{RTT} + T = 2 \times 40 + 10 = 90\text{ ms por objeto}</annotation></semantics></math>
+São 6 objetos, um de cada vez:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>×</mo><mn>90</mn><mo>=</mo><mrow><mn mathvariant="bold">𝟓𝟒𝟎</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐦𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">6 \times 90 = \mathbf{540\text{ ms}}</annotation></semantics></math></p>
+</div></details>
+<details class="sol" id="C2.1-b"><summary>
+(b) HTTP persistente sem <em>pipelining</em>
+</summary><div class="corpo">
+<ul>
+<li>1 RTT para abrir a conexão (só uma vez): 40 ms.</li>
+<li>Cada um dos 6 objetos: pedido e resposta, 1 RTT +
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>
+= 50 ms, um de cada vez (o próximo pedido só sai quando a resposta
+anterior chega).</li>
+</ul>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>40</mn><mo>+</mo><mn>6</mn><mo>×</mo><mn>50</mn><mo>=</mo><mn>40</mn><mo>+</mo><mn>300</mn><mo>=</mo><mrow><mn mathvariant="bold">𝟑𝟒𝟎</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐦𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">40 + 6 \times 50 = 40 + 300 = \mathbf{340\text{ ms}}</annotation></semantics></math></p>
+</div></details>
+<details class="sol" id="C2.1-c"><summary>
+(c) HTTP persistente com <em>pipelining</em>
+</summary><div class="corpo">
+<ul>
+<li>Conexão: 40 ms. HTML: 1 RTT +
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>
+= 50 ms. Aos 90 ms o browser tem o HTML e conhece os 5 objetos.</li>
+<li>Envia <strong>os 5 pedidos de uma vez</strong>. A primeira resposta
+começa a chegar 1 RTT depois, e as 5 respostas vêm seguidas, cada uma a
+demorar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>40</mn><mo>+</mo><mn>5</mn><mo>×</mo><mn>10</mn><mo>=</mo><mn>90</mn></mrow><annotation encoding="application/x-tex">40 + 5 \times 10 = 90</annotation></semantics></math>
+ms.</li>
+</ul>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>90</mn><mo>+</mo><mn>90</mn><mo>=</mo><mrow><mn mathvariant="bold">𝟏𝟖𝟎</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐦𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">90 + 90 = \mathbf{180\text{ ms}}</annotation></semantics></math></p>
+<p>Resumo: 540
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+340
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+180 ms. Em RTTs: 12, 7 e 3 RTT, mais
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mi>T</mi></mrow><annotation encoding="application/x-tex">6T</annotation></semantics></math>
+= 60 ms de transmissão nos três casos (confirma:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>×</mo><mn>40</mn><mo>+</mo><mn>60</mn><mo>=</mo><mn>540</mn></mrow><annotation encoding="application/x-tex">12 \times 40 + 60 = 540</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mo>×</mo><mn>40</mn><mo>+</mo><mn>60</mn><mo>=</mo><mn>340</mn></mrow><annotation encoding="application/x-tex">7 \times 40 + 60 = 340</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>40</mn><mo>+</mo><mn>60</mn><mo>=</mo><mn>180</mn></mrow><annotation encoding="application/x-tex">3 \times 40 + 60 = 180</annotation></semantics></math>).</p>
+</div></details>
+<h3 id="c2.2-analisar-uma-sessão-http-real-exercício-inventado">C2.2 —
+Analisar uma sessão HTTP real (exercício inventado)</h3>
+<p>Captura <code>Teoricas/Aula_03_captura_http.cap</code>: browser
+192.168.50.41, servidor 10.0.0.251 (<code>www.dcc.fc.up.pt</code>),
+porta 80. Os valores abaixo foram tirados da própria captura.</p>
+<details class="sol" id="C2.2-a"><summary>
+(a) Quantas conexões TCP, e quantas transportam pedidos?
+</summary><div class="corpo">
+<p><strong>Três</strong> conexões TCP, das portas
+<strong>55956</strong>, <strong>55957</strong> e <strong>55958</strong>
+do cliente para a porta 80.</p>
+<ul>
+<li><strong>55956</strong>: a principal, com <strong>5 pedidos</strong>:
+<code>/~rprior/</code> (o HTML), <code>rprior.css</code>,
+<code>img/portonight.jpg</code> e <code>/favicon.ico</code> (duas
+vezes).</li>
+<li><strong>55957</strong>: <strong>1 pedido</strong>,
+<code>img/rprior.jpg</code>.</li>
+<li><strong>55958</strong>: aberta (há o <em>handshake</em>), mas
+<strong>nunca leva nenhum pedido</strong>; é fechada ao fim de cerca de
+1,9 s.</li>
+</ul>
+<p>Só <strong>duas</strong> transportam pedidos. O browser abriu mais
+duas conexões <strong>em paralelo</strong> quando encontrou as imagens
+(os slides dizem que os browsers fazem isto), mas acabou por só precisar
+de uma delas.</p>
+</div></details>
+<details class="sol" id="C2.2-b"><summary>
+(b) A conexão principal é persistente? Provas
+</summary><div class="corpo">
+<p><strong>Sim.</strong> Provas na captura:</p>
+<ul>
+<li>passam <strong>5 pedidos</strong> pela mesma conexão (55956): com
+HTTP não persistente seria uma conexão por objeto;</li>
+<li>o browser pede <code>Connection: keep-alive</code> e o servidor
+responde <code>Connection: Keep-Alive</code>;</li>
+<li>o cabeçalho <code>Keep-Alive</code> das respostas nessa conexão
+conta os pedidos que ainda aceita: <code>max=100</code>,
+<code>99</code>, <code>98</code>, <code>97</code>, <code>96</code>. Cada
+resposta gasta um. (Na conexão 55957 volta a <code>max=100</code>: é
+outra conexão.)</li>
+</ul>
+<p>Repara também que cada pedido só sai <strong>depois</strong> de a
+resposta anterior começar a chegar (o CSS é pedido aos 25,5 ms, depois
+de o HTML chegar aos 10,1 ms): é persistente <strong>sem
+<em>pipelining</em></strong>.</p>
+</div></details>
+<details class="sol" id="C2.2-c"><summary>
+(c) Que códigos de estado aparecem?
+</summary><div class="corpo">
+<ul>
+<li><strong>200 OK</strong>: para <code>/~rprior/</code>,
+<code>rprior.css</code>, <code>portonight.jpg</code> e
+<code>rprior.jpg</code>.</li>
+<li><strong>404 Not Found</strong>: para <code>/favicon.ico</code> (as
+duas vezes). O browser pede sozinho o ícone do site, que não existe
+neste servidor.</li>
+</ul>
+<p>Nota adicional: as respostas 200 dizem o tamanho com
+<code>Content-Length</code> (por exemplo, 2144 bytes para o HTML e 86
+267 para <code>portonight.jpg</code>). As 404 usam
+<code>Transfer-Encoding: chunked</code>: o corpo vai em pedaços, cada um
+precedido do seu tamanho, e acaba num pedaço de tamanho 0. É outra forma
+de o browser saber onde acaba a resposta sem saber o tamanho à
+partida.</p>
+</div></details>
+<details class="sol" id="C2.2-d"><summary>
+(d) RTT a partir do <em>handshake</em> TCP
+</summary><div class="corpo">
+<p>O cliente envia o primeiro pacote do <em>handshake</em> (SYN) no
+instante 0 e a resposta do servidor (SYN-ACK) chega aos <strong>0,24
+ms</strong>. O RTT é cerca de <strong>0,24 ms</strong>.</p>
+<p>Isso é muito pouco: à velocidade de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><msup><mn>10</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">2\times10^8</annotation></semantics></math>
+m/s, 0,24 ms de ida e volta são no máximo 24 km de fibra para cada lado,
+e na prática menos (há processamento). O cliente está na <strong>mesma
+rede local</strong> (ou muito perto) do servidor. Os endereços
+confirmam: 192.168.x.x e 10.x.x.x são endereços
+<strong>privados</strong>, de redes internas (aqui, dentro do DCC).</p>
+</div></details>
+<h2 id="aula-2-ftp">Aula 2 — FTP</h2>
+<h3 id="c2.3-analisar-uma-sessão-ftp-real-exercício-inventado">C2.3 —
+Analisar uma sessão FTP real (exercício inventado)</h3>
+<p>Captura <code>Teoricas/Aula_03_captura_ftp.cap</code>: cliente
+192.168.1.110, servidor 193.137.24.17 (vsFTPd). Valores tirados da
+captura.</p>
+<details class="sol" id="C2.3-a"><summary>
+(a) Quantas conexões TCP, entre que portas, e quem abre cada uma?
+</summary><div class="corpo">
+<p><strong>Duas:</strong></p>
+<ul>
+<li><strong>controlo</strong>: da porta 50212 do cliente para a
+<strong>porta 21</strong> do servidor. Abre-a o <strong>cliente</strong>
+(o primeiro SYN vem dele), logo no início;</li>
+<li><strong>dados</strong>: da <strong>porta 20</strong> do servidor
+para a porta <strong>50219</strong> do cliente. Abre-a o
+<strong>servidor</strong> (o SYN vem da porta 20), depois do comando
+<code>RETR</code>.</li>
+</ul>
+<p>É o FTP em <strong>modo ativo</strong>: o controlo é <em>out of
+band</em>, numa conexão separada dos dados.</p>
+</div></details>
+<details class="sol" id="C2.3-b"><summary>
+(b) Utilizador e <em>password</em>; o que mostra sobre a segurança
+</summary><div class="corpo">
+<pre><code>S: 220 (vsFTPd 2.0.5)
+C: USER anonymous
+S: 331 Please specify the password.
+C: PASS someone@the.inter.net
+S: 230 Login successful.</code></pre>
+<p>Utilizador <strong><code>anonymous</code></strong>, <em>password</em>
+<strong><code>someone@the.inter.net</code></strong>. É um FTP
+<strong>anónimo</strong> (servidor público de ficheiros, onde por
+tradição se usa um email como <em>password</em>). Mas a lição é geral: o
+FTP envia utilizador e <em>password</em> <strong>em texto
+claro</strong>. Qualquer pessoa que capture os pacotes (como nesta
+captura) lê a <em>password</em>. Com uma conta verdadeira seria grave; é
+o problema de “TCP e UDP não cifram” da secção de segurança.</p>
+</div></details>
+<details class="sol" id="C2.3-c"><summary>
+(c) Descodificar o <code>PORT</code>
+</summary><div class="corpo">
+<pre><code>C: PORT 192,168,1,110,196,43
+S: 200 PORT command successful. Consider using PASV.
+C: RETR iperf-1.7.0-source.tar.gz
+S: 150 Opening BINARY mode data connection for iperf-1.7.0-source.tar.gz (182773 bytes).
+S: 226 File send OK.</code></pre>
+<ul>
+<li>IP: os 4 primeiros números, <strong>192.168.1.110</strong> (o
+cliente).</li>
+<li>Porta:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>196</mn><mo>×</mo><mn>256</mn><mo>+</mo><mn>43</mn><mo>=</mo><mn>50176</mn><mo>+</mo><mn>43</mn><mo>=</mo><mn mathvariant="bold">𝟓𝟎𝟐𝟏𝟗</mn></mrow><annotation encoding="application/x-tex">196 \times 256 + 43 = 50176 + 43 = \mathbf{50219}</annotation></semantics></math>.</li>
+</ul>
+<p>Bate certo: a conexão de dados que aparece a seguir vai da porta 20
+do servidor para a porta <strong>50219</strong> do cliente.</p>
+<p>Um pormenor da captura: o primeiro SYN do servidor para a porta 50219
+(aos 43,0 s) <strong>não teve resposta</strong>; o servidor repetiu-o 3
+s depois (46,0 s), e aí a conexão abriu. Por isso o <code>150</code> só
+chega aos 46,06 s. O cliente tem um endereço <strong>privado</strong>
+(192.168.x.x), atrás de um <em>router</em> com NAT, e no modo ativo é o
+servidor que tem de conseguir chegar ao cliente, o que é frágil. É por
+isso que o servidor sugere “Consider using PASV” (modo passivo, em que é
+o cliente que abre a conexão de dados).</p>
+<p>Antes do <code>PORT</code>, o cliente mandou <code>SYST</code> (tipo
+de sistema), <code>CWD /pub/Linux</code> (muda de diretório) e
+<code>TYPE I</code> (modo binário): isto é o <strong>estado</strong> que
+o servidor FTP guarda (diretório corrente, modo), ao contrário do
+HTTP.</p>
+</div></details>
+<details class="sol" id="C2.3-d"><summary>
+(d) Tamanho do ficheiro e débito médio
+</summary><div class="corpo">
+<ul>
+<li><strong>Tamanho: 182 773 bytes</strong> (diz o <code>150</code>, e é
+também a soma dos dados que passam na conexão de dados).</li>
+<li>Primeiro pacote com dados: aos <strong>46,0736 s</strong>; último:
+aos <strong>46,2901 s</strong>. Duração:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>46</mn><mo>,</mo><mn>2901</mn><mo>−</mo><mn>46</mn><mo>,</mo><mn>0736</mn><mo>=</mo><mn>0</mn><mo>,</mo><mn>2165</mn></mrow><annotation encoding="application/x-tex">46{,}2901 - 46{,}0736 = 0{,}2165</annotation></semantics></math>
+s.</li>
+</ul>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">débito</mtext><mo>=</mo><mfrac><mrow><mn>182</mn><mspace width="0.167em"></mspace><mn>773</mn><mo>×</mo><mn>8</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> bits</mtext></mrow></mrow><mrow><mn>0</mn><mo>,</mo><mn>2165</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> s</mtext></mrow></mrow></mfrac><mo>=</mo><mfrac><mrow><mn>1</mn><mspace width="0.167em"></mspace><mn>462</mn><mspace width="0.167em"></mspace><mn>184</mn></mrow><mrow><mn>0</mn><mo>,</mo><mn>2165</mn></mrow></mfrac><mo>≈</mo><mrow><mn mathvariant="bold">𝟔</mn><mo mathvariant="bold">,</mo><mn mathvariant="bold">𝟕𝟓</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐌𝐛𝐢𝐭/𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">\text{débito} = \frac{182\,773 \times 8\text{ bits}}{0{,}2165\text{ s}} = \frac{1\,462\,184}{0{,}2165} \approx \mathbf{6{,}75\text{ Mbit/s}}</annotation></semantics></math></p>
+</div></details>
+<h2 id="aula-2-correio-eletrónico">Aula 2 — Correio eletrónico</h2>
+<h3 id="c2.4-e-mail-exercício-inventado">C2.4 — E-mail (exercício
+inventado)</h3>
+<details class="sol" id="C2.4-a"><summary>
+(a) Sessão SMTP para dois destinatários
+</summary><div class="corpo">
+<p>Resposta-modelo (só o lado do cliente; o servidor responderia
+<code>220</code>, <code>250</code>, <code>354</code>, <code>250</code>,
+<code>221</code> como no exemplo dos slides):</p>
+<pre><code>HELO exemplo.pt
+MAIL FROM: &lt;ana@exemplo.pt&gt;
+RCPT TO: &lt;rui@exemplo.pt&gt;
+RCPT TO: &lt;eva@outro.pt&gt;
+DATA
+From: ana@exemplo.pt
+To: rui@exemplo.pt, eva@outro.pt
+Subject: Reunião
+
+Olá aos dois. A reunião é amanhã às 10h.
+Ana
+.
+QUIT</code></pre>
+<ul>
+<li><strong>Um <code>RCPT TO</code> por destinatário</strong>: é o
+“envelope”, o que o servidor usa para entregar. O
+<strong>cabeçalho</strong> <code>To:</code> é outra coisa (parte da
+mensagem, para o leitor ver); os dois costumam coincidir, mas não têm
+de.</li>
+<li>Os cabeçalhos (<code>From:</code>, <code>To:</code>,
+<code>Subject:</code>) vão <strong>dentro</strong> do <code>DATA</code>,
+e uma <strong>linha vazia</strong> separa-os do corpo.</li>
+<li>A mensagem acaba numa linha <strong>só com
+<code>.</code></strong>.</li>
+<li>Pormenor: “Reunião” e “Olá” têm acentos. Com a regra dos 7 bits,
+eles teriam de ser codificados (no corpo, com MIME; no assunto, com uma
+codificação própria para cabeçalhos), a não ser que o servidor aceite 8
+bits (<code>8BITMIME</code>, como na captura do resumo).</li>
+</ul>
+</div></details>
+<details class="sol" id="C2.4-b"><summary>
+(b) POP3 “transfere e apaga” com dois aparelhos
+</summary><div class="corpo">
+<p>Quando o <strong>portátil</strong> vai buscar o correio, transfere as
+mensagens e <strong>apaga-as do servidor</strong>. Quando o
+<strong>telemóvel</strong> se liga depois, <strong>já não estão
+lá</strong>: vê só as mensagens que chegaram entretanto. O correio fica
+“partido” entre os dois aparelhos.</p>
+<p>Resolve-se com <strong>IMAP</strong>: as mensagens <strong>ficam no
+servidor</strong>, e todos os aparelhos veem as mesmas. Além disso o
+IMAP <strong>guarda estado entre sessões</strong> (pastas, que mensagem
+está em que pasta), por isso organizar o correio num aparelho aparece
+igual no outro. (O POP3 no modo “transfere e deixa ficar” evita perder
+as mensagens, mas não guarda estado entre sessões: pastas e organização
+não passam de um aparelho para o outro.)</p>
+</div></details>
+<h2 id="aula-2-dns">Aula 2 — DNS</h2>
+<h3 id="c2.5-dns-exercício-inventado">C2.5 — DNS (exercício
+inventado)</h3>
+<details class="sol" id="C2.5-a"><summary>
+(a) Quantas mensagens DNS em cada caso?
+</summary><div class="corpo">
+<p>Numeração do caso normal: 1 e 8 entre <code>khedo</code> e o servidor
+local; 2–3 com a raiz; 4–5 com o TLD <code>edu</code>; 6–7 com
+<code>ns.mit.edu</code>.</p>
+<ul>
+<li><strong>(i) <em>Caches</em> vazias</strong>: todas, <strong>8
+mensagens</strong>.</li>
+<li><strong>(ii) O servidor local já conhece o TLD
+<code>edu</code></strong>: não precisa de perguntar à raiz (sem 2 e 3).
+Ficam 1, 4, 5, 6, 7, 8: <strong>6 mensagens</strong>. É o caso mais
+comum, porque os TLD estão quase sempre em <em>cache</em> (por isso a
+raiz raramente é contactada).</li>
+<li><strong>(iii) O servidor local já tem o IP de
+<code>www.mit.edu</code></strong>: responde logo da <em>cache</em>. Só 1
+e 8: <strong>2 mensagens</strong>.</li>
+</ul>
+<p>Em todos os casos, a pergunta de <code>khedo</code> é
+<strong>recursiva</strong> (quer a resposta final) e as do servidor
+local são <strong>iterativas</strong>.</p>
+</div></details>
+<details class="sol" id="C2.5-b"><summary>
+(b) Registos de <code>ferramentas.pt</code>
+</summary><div class="corpo">
+<p>Formato (nome, valor, tipo); o ttl fica à escolha do
+administrador.</p>
+<p><strong>No servidor TLD <code>pt</code></strong> (inseridos pelo
+agente de registo), para que a hierarquia saiba a quem perguntar:</p>
+<ul>
+<li><code>(ferramentas.pt, dns1.ferramentas.pt, NS)</code>: o servidor
+com autoridade do domínio;</li>
+<li><code>(dns1.ferramentas.pt, 192.0.2.53, A)</code>: o IP desse
+servidor (sem ele, saber o nome do servidor não chegava para lá
+chegar).</li>
+</ul>
+<p><strong>No servidor com autoridade
+<code>dns1.ferramentas.pt</code>:</strong></p>
+<ul>
+<li><code>(servidor1.ferramentas.pt, 192.0.2.10, A)</code>: a máquina do
+site;</li>
+<li><code>(www.ferramentas.pt, servidor1.ferramentas.pt, CNAME)</code>:
+<code>www</code> é um <strong>pseudónimo</strong>, e o nome canónico é
+<code>servidor1</code>;</li>
+<li><code>(ferramentas.pt, mail.ferramentas.pt, MX)</code>: o servidor
+de email do <strong>domínio</strong> (é para aqui que vai o correio para
+<code>...@ferramentas.pt</code>);</li>
+<li><code>(mail.ferramentas.pt, 192.0.2.25, A)</code>: o IP do servidor
+de email;</li>
+<li>normalmente também os registos NS e A do próprio <code>dns1</code>,
+como no TLD.</li>
+</ul>
+<p>Resolver <code>www.ferramentas.pt</code> dá o CNAME
+<code>servidor1.ferramentas.pt</code>, e depois o registo A dá
+192.0.2.10.</p>
+</div></details>
+<h2 id="aula-2-aplicações-p2p">Aula 2 — Aplicações P2P</h2>
+<h3 id="c2.6-tempo-de-distribuição-exercício-inventado">C2.6 — Tempo de
+distribuição (exercício inventado)</h3>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">F = 1</annotation></semantics></math>
+Gbit
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><msup><mn>10</mn><mn>9</mn></msup></mrow><annotation encoding="application/x-tex">= 10^9</annotation></semantics></math>
+bits;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mi>s</mi></msub><mo>=</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">u_s = 100</annotation></semantics></math>
+Mbps
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><msup><mn>10</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">= 10^8</annotation></semantics></math>
+b/s;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">u = 5</annotation></semantics></math>
+Mbps
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>5</mn><mo>×</mo><msup><mn>10</mn><mn>6</mn></msup></mrow><annotation encoding="application/x-tex">= 5\times10^6</annotation></semantics></math>
+b/s;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>50</mn></mrow><annotation encoding="application/x-tex">d = 50</annotation></semantics></math>
+Mbps
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>5</mn><mo>×</mo><msup><mn>10</mn><mn>7</mn></msup></mrow><annotation encoding="application/x-tex">= 5\times10^7</annotation></semantics></math>
+b/s.</p>
+<p>Termos que não dependem de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>:</p>
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>/</mi><msub><mi>u</mi><mi>s</mi></msub><mo>=</mo><msup><mn>10</mn><mn>9</mn></msup><mi>/</mi><msup><mn>10</mn><mn>8</mn></msup><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">F/u_s = 10^9 / 10^8 = 10</annotation></semantics></math>
+s;</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>/</mi><msub><mi>d</mi><mi mathvariant="normal">min</mi></msub><mo>=</mo><msup><mn>10</mn><mn>9</mn></msup><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mo>×</mo><msup><mn>10</mn><mn>7</mn></msup><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">F/d_{\min} = 10^9 / (5\times10^7) = 20</annotation></semantics></math>
+s.</li>
+</ul>
+<p>Termos que dependem de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>:</p>
+<ul>
+<li>cliente-servidor:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>F</mi><mi>/</mi><msub><mi>u</mi><mi>s</mi></msub><mo>=</mo><mi>N</mi><mo>×</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">NF/u_s = N \times 10</annotation></semantics></math>
+s;</li>
+<li>P2P:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true"><mfrac><mrow><mi>N</mi><mi>F</mi></mrow><mrow><msub><mi>u</mi><mi>s</mi></msub><mo>+</mo><mi>N</mi><mi>u</mi></mrow></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mrow><mi>N</mi><mo>×</mo><msup><mn>10</mn><mn>9</mn></msup></mrow><mrow><msup><mn>10</mn><mn>8</mn></msup><mo>+</mo><mi>N</mi><mo>×</mo><mn>5</mn><mo>×</mo><msup><mn>10</mn><mn>6</mn></msup></mrow></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\dfrac{NF}{u_s + Nu} = \dfrac{N \times 10^9}{10^8 + N \times 5\times10^6}</annotation></semantics></math>.</li>
+</ul>
+<details class="sol" id="C2.6-a"><summary>
+(a)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">N = 10</annotation></semantics></math>
+</summary><div class="corpo">
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>C</mi><mi>S</mi></mrow></msub><mo>=</mo><mrow><mi mathvariant="normal">max</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">{</mo><mn>10</mn><mo>×</mo><mn>10</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>20</mn><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mrow><mi mathvariant="normal">max</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">{</mo><mn>100</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>20</mn><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mrow><mn mathvariant="bold">𝟏𝟎𝟎</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">d_{CS} = \max\{10 \times 10,\ 20\} = \max\{100,\ 20\} = \mathbf{100\text{ s}}</annotation></semantics></math>:
+manda o <em>upload</em> do servidor.</li>
+<li>P2P:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true"><mfrac><mrow><mn>10</mn><mo>×</mo><msup><mn>10</mn><mn>9</mn></msup></mrow><mrow><msup><mn>10</mn><mn>8</mn></msup><mo>+</mo><mn>5</mn><mo>×</mo><msup><mn>10</mn><mn>7</mn></msup></mrow></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><msup><mn>10</mn><mn>10</mn></msup><mrow><mn>1</mn><mo>,</mo><mn>5</mn><mo>×</mo><msup><mn>10</mn><mn>8</mn></msup></mrow></mfrac></mstyle><mo>≈</mo><mn>66</mn><mo>,</mo><mn>7</mn></mrow><annotation encoding="application/x-tex">\dfrac{10 \times 10^9}{10^8 + 5\times10^7} = \dfrac{10^{10}}{1{,}5\times10^8} \approx 66{,}7</annotation></semantics></math>
+s.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>P</mi><mn>2</mn><mi>P</mi></mrow></msub><mo>=</mo><mrow><mi mathvariant="normal">max</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">{</mo><mn>10</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>20</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>66</mn><mo>,</mo><mn>7</mn><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mrow><mn mathvariant="bold">𝟔𝟔</mn><mo mathvariant="bold">,</mo><mn mathvariant="bold">𝟕</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">d_{P2P} = \max\{10,\ 20,\ 66{,}7\} = \mathbf{66{,}7\text{ s}}</annotation></semantics></math>:
+manda o <em>upload</em> agregado.</li>
+</ul>
+</div></details>
+<details class="sol" id="C2.6-b"><summary>
+(b)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">N = 100</annotation></semantics></math>
+</summary><div class="corpo">
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>C</mi><mi>S</mi></mrow></msub><mo>=</mo><mrow><mi mathvariant="normal">max</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">{</mo><mn>1000</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>20</mn><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mrow><mn mathvariant="bold">𝟏𝟎𝟎𝟎</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">d_{CS} = \max\{1000,\ 20\} = \mathbf{1000\text{ s}}</annotation></semantics></math>
+(servidor).</li>
+<li>P2P:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true"><mfrac><msup><mn>10</mn><mn>11</mn></msup><mrow><msup><mn>10</mn><mn>8</mn></msup><mo>+</mo><mn>5</mn><mo>×</mo><msup><mn>10</mn><mn>8</mn></msup></mrow></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><msup><mn>10</mn><mn>11</mn></msup><mrow><mn>6</mn><mo>×</mo><msup><mn>10</mn><mn>8</mn></msup></mrow></mfrac></mstyle><mo>≈</mo><mn>166</mn><mo>,</mo><mn>7</mn></mrow><annotation encoding="application/x-tex">\dfrac{10^{11}}{10^8 + 5\times10^8} = \dfrac{10^{11}}{6\times10^8} \approx 166{,}7</annotation></semantics></math>
+s.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>P</mi><mn>2</mn><mi>P</mi></mrow></msub><mo>=</mo><mrow><mn mathvariant="bold">𝟏𝟔𝟔</mn><mo mathvariant="bold">,</mo><mn mathvariant="bold">𝟕</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">d_{P2P} = \mathbf{166{,}7\text{ s}}</annotation></semantics></math>
+(<em>upload</em> agregado).</li>
+</ul>
+</div></details>
+<details class="sol" id="C2.6-c"><summary>
+(c)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">N = 1000</annotation></semantics></math>
+</summary><div class="corpo">
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>C</mi><mi>S</mi></mrow></msub><mo>=</mo><mrow><mi mathvariant="normal">max</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">{</mo><mn>10</mn><mspace width="0.167em"></mspace><mn>000</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>20</mn><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mrow><mn mathvariant="bold">𝟏𝟎</mn><mspace width="0.167em"></mspace><mn mathvariant="bold">𝟎𝟎𝟎</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">d_{CS} = \max\{10\,000,\ 20\} = \mathbf{10\,000\text{ s}}</annotation></semantics></math>
+(quase 3 horas; servidor).</li>
+<li>P2P:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true"><mfrac><msup><mn>10</mn><mn>12</mn></msup><mrow><msup><mn>10</mn><mn>8</mn></msup><mo>+</mo><mn>5</mn><mo>×</mo><msup><mn>10</mn><mn>9</mn></msup></mrow></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><msup><mn>10</mn><mn>12</mn></msup><mrow><mn>5</mn><mo>,</mo><mn>1</mn><mo>×</mo><msup><mn>10</mn><mn>9</mn></msup></mrow></mfrac></mstyle><mo>≈</mo><mn>196</mn><mo>,</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\dfrac{10^{12}}{10^8 + 5\times10^9} = \dfrac{10^{12}}{5{,}1\times10^9} \approx 196{,}1</annotation></semantics></math>
+s.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>P</mi><mn>2</mn><mi>P</mi></mrow></msub><mo>=</mo><mrow><mn mathvariant="bold">𝟏𝟗𝟔</mn><mo mathvariant="bold">,</mo><mn mathvariant="bold">𝟏</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">d_{P2P} = \mathbf{196{,}1\text{ s}}</annotation></semantics></math>
+(<em>upload</em> agregado).</li>
+</ul>
+<p><strong>Leitura:</strong> de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">N = 10</annotation></semantics></math>
+para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">N = 1000</annotation></semantics></math>
+o cliente-servidor fica <strong>100 vezes</strong> mais lento; o P2P só
+<strong>3 vezes</strong>. Quando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+é muito grande, o termo P2P aproxima-se de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>/</mi><mi>u</mi><mo>=</mo><msup><mn>10</mn><mn>9</mn></msup><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>5</mn><mo>×</mo><msup><mn>10</mn><mn>6</mn></msup><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>200</mn></mrow><annotation encoding="application/x-tex">F/u = 10^9 / (5\times10^6) = 200</annotation></semantics></math>
+s: cada par novo traz tanta capacidade quanta pede. Contas confirmadas
+em Python.</p>
+</div></details>
+<h2 id="aula-2-programação-com-sockets">Aula 2 — Programação com
+sockets</h2>
+<h3 id="c2.7-sockets-exercício-inventado">C2.7 — Sockets (exercício
+inventado)</h3>
+<details class="sol" id="C2.7-a"><summary>
+(a) Servidor iterativo: quando é que o B recebe a resposta?
+</summary><div class="corpo">
+<p>O B só recebe a resposta <strong>depois de o A ser atendido</strong>,
+cerca de <strong>3 s</strong> depois (testado: o B recebeu a resposta ao
+fim de 3,01 s).</p>
+<p>Porquê: o <code>TCPServer</code> faz <code>accept()</code> e fica a
+tratar do A. A linha <code>inFromClient.readLine()</code>
+<strong>bloqueia</strong> à espera da linha do A, que só chega 3 s
+depois. Durante esse tempo o servidor não volta ao
+<code>accept()</code>. A conexão do B <strong>é estabelecida</strong> na
+mesma (o sistema operativo completa o <em>handshake</em> TCP e põe-na
+numa fila de conexões pendentes), e a linha que o B enviou fica no
+<em>buffer</em>. Mas ninguém a lê até o servidor acabar o A, fechar essa
+socket e voltar ao início do ciclo.</p>
+<p>É a limitação dos servidores <strong>iterativos</strong>: um cliente
+lento atrasa todos os outros.</p>
+</div></details>
+<details class="sol" id="C2.7-b"><summary>
+(b) Servidor concorrente com <em>threads</em>
+</summary><div class="corpo">
+<p>Resposta-modelo (compilada e testada: com o A parado 3 s, o B recebeu
+a resposta de imediato):</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">io</span><span class="op">.*;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">net</span><span class="op">.*;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TCPServerThreads <span class="op">{</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span> argv<span class="op">[])</span> <span class="kw">throws</span> <span class="bu">Exception</span> <span class="op">{</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">ServerSocket</span> welcomeSocket <span class="op">=</span> <span class="kw">new</span> <span class="bu">ServerSocket</span><span class="op">(</span><span class="dv">6789</span><span class="op">);</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>            <span class="bu">Socket</span> connectionSocket <span class="op">=</span> welcomeSocket<span class="op">.</span><span class="fu">accept</span><span class="op">();</span>   <span class="co">// espera um cliente</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="bu">Thread</span><span class="op">(()</span> <span class="op">-&gt;</span> <span class="fu">atende</span><span class="op">(</span>connectionSocket<span class="op">)).</span><span class="fu">start</span><span class="op">();</span> <span class="co">// atende-o noutra thread</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>                                                       <span class="co">// e volta logo ao accept()</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">static</span> <span class="dt">void</span> <span class="fu">atende</span><span class="op">(</span><span class="bu">Socket</span> connectionSocket<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            <span class="bu">BufferedReader</span> inFromClient <span class="op">=</span> <span class="kw">new</span> <span class="bu">BufferedReader</span><span class="op">(</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>                <span class="kw">new</span> <span class="bu">InputStreamReader</span><span class="op">(</span>connectionSocket<span class="op">.</span><span class="fu">getInputStream</span><span class="op">()));</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>            <span class="bu">DataOutputStream</span> outToClient <span class="op">=</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                <span class="kw">new</span> <span class="bu">DataOutputStream</span><span class="op">(</span>connectionSocket<span class="op">.</span><span class="fu">getOutputStream</span><span class="op">());</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>            <span class="bu">String</span> clientSentence <span class="op">=</span> inFromClient<span class="op">.</span><span class="fu">readLine</span><span class="op">();</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>            outToClient<span class="op">.</span><span class="fu">writeBytes</span><span class="op">(</span>clientSentence<span class="op">.</span><span class="fu">toUpperCase</span><span class="op">()</span> <span class="op">+</span> <span class="ch">&#39;\n&#39;</span><span class="op">);</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>            connectionSocket<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">IOException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">err</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;Erro com um cliente: &quot;</span> <span class="op">+</span> e<span class="op">.</span><span class="fu">getMessage</span><span class="op">());</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<ul>
+<li>A <em>thread</em> principal <strong>só</strong> faz
+<code>accept()</code>: assim que um cliente se liga, entrega a
+<code>connectionSocket</code> a uma <em>thread</em> nova e volta
+imediatamente a esperar pelo próximo.</li>
+<li>Cada <em>thread</em> faz o que o ciclo do servidor iterativo fazia
+para um cliente: ler a linha, responder, fechar.</li>
+<li>O <code>try/catch</code> fica dentro da <em>thread</em>: um erro com
+um cliente não deita abaixo o servidor (os métodos de uma
+<em>thread</em> não podem lançar <code>IOException</code> para
+fora).</li>
+</ul>
 </div></details>
 </main>
 <script>

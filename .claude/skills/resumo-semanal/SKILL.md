@@ -645,3 +645,15 @@ a não ser que sejam explicitamente substituídas por feedback mais recente.
   (absorção, complementaridade...) só pode aparecer como **atalho** a
   seguir à derivação feita com as leis oficiais, com uma frase a dizer
   porque é que vale.
+- 2026-09-28: Redes Cap. 2 (Camada de aplicação) trouxe **capturas de
+  pacotes** (`.cap`) junto aos slides. Não há Wireshark/tshark; lê-se com
+  `tcpdump -nn -A -r` ou com um leitor pcap de 30 linhas em Python. As
+  capturas dão exemplos reais (diálogo SMTP/FTP, cabeçalhos HTTP) e
+  exercícios "Pratica agora" com respostas verificáveis. Nomear como
+  `Teoricas/Aula_NN_captura_<proto>.cap`. Também: **correr o código dos
+  slides** (há `javac`) apanhou um erro real (o servidor UDP reaproveita o
+  buffer e devolve lixo); vai para o resumo como nota adicional. E quando
+  a prática trouxer **soluções oficiais**, comparar com as nossas e
+  assinalar nas soluções as diferenças de interpretação, sem apagar
+  nenhuma das duas. Cuidado ao gerar texto com `$` num heredoc sem aspas
+  (`<<EOF`): o shell come `$R`, `$57`, etc. Usar sempre `<<'EOF'`.

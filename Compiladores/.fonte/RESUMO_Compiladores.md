@@ -1,10 +1,10 @@
 ---
 title: "Compiladores (CC3001) --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 2 (Aulas 1--4)"
+date: "Atualizado: Semana 2 (Aulas 1--5)"
 ---
 
-<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf, Teoricas/Aula_04.pdf -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf, Teoricas/Aula_04.pdf, Teoricas/Aula_05.pdf -->
 
 # Aula 1 --- Introdução e fases de um compilador
 
@@ -777,6 +777,30 @@ novo seguido de `b`). (5) $B\to b$ no `B` que sobrou do passo anterior →
 foram eliminados: `aabbb` é uma palavra da linguagem.
 :::
 
+::: {.atencao title="--- Derivação mais à esquerda e mais à direita"}
+Nota adicional (não estava explícito nos slides, mas a Aula 5 usa o nome
+"*Rightmost derivation*" sem o definir): quando uma forma intermédia tem
+vários não-terminais, podemos escolher qual substituir primeiro.
+
+- **Derivação mais à esquerda** (*leftmost*): em cada passo substitui-se
+  sempre o não-terminal **mais à esquerda**. A derivação de `aabbb` acima
+  é deste tipo (em `aaBB` expandiu-se primeiro o `B` da esquerda).
+- **Derivação mais à direita** (*rightmost*): em cada passo substitui-se
+  sempre o não-terminal **mais à direita**. Para a mesma árvore de
+  `aabbb`:
+
+$$S \overset{1}{\Rightarrow} aS\underline{B} \overset{5}{\Rightarrow} a\underline{S}b \overset{1}{\Rightarrow} aaS\underline{B}b \overset{4}{\Rightarrow} aaS\underline{B}bb \overset{5}{\Rightarrow} aa\underline{S}bbb \overset{2}{\Rightarrow} aabbb$$
+
+(sublinhado: o não-terminal mais à direita, que é o próximo a ser
+substituído). Os dois `B` são resolvidos antes do `S` do meio, porque
+estão à direita dele.
+
+As duas derivações dão a **mesma árvore**; só muda a ordem dos passos.
+A análise *top-down* (LL) constrói uma derivação mais à esquerda; a
+análise *bottom-up* (LR, Aula 5) constrói uma derivação mais à direita,
+mas **de trás para a frente**.
+:::
+
 ## Linguagem descrita por uma gramática
 
 ::: {.definicao title="--- L(G)"}
@@ -787,8 +811,8 @@ gramática. Formalmente, para $G=(\Sigma,N,S,P)$:
 $$L(G) = \{\, w \in \Sigma^* : S \Rightarrow^* w \,\}$$
 :::
 
-::: exemplo
-**Exercício dos slides, resolvido por completo:** que linguagem descreve a
+::: {.exemplo title="--- Exercício 1(a) (Folha lab. 3, gramatica.pdf)"}
+**Exercício dos slides e da Folha 3, resolvido por completo:** que linguagem descreve a
 gramática do exemplo acima ($S\to aSB \mid \varepsilon \mid B$;
 $B \to Bb \mid b$)? Onde podem ocorrer `a`'s e `b`'s numa palavra aceite,
 e qual a relação entre o número de `a`'s e de `b`'s?
@@ -831,6 +855,74 @@ ou mais `b`'s, em que o número de `b`'s nunca é inferior ao número de
 `a`'s** (incluindo a palavra vazia, quando $n=m=0$). Todos os `a`'s
 aparecem sempre à esquerda de todos os `b`'s — a gramática nunca permite
 intercalar os dois símbolos.
+:::
+
+### Escrever uma gramática para uma linguagem
+
+O exercício inverso: dada uma linguagem, escrever uma gramática que a
+gere. Não há um algoritmo único, mas quando a linguagem vem dada por uma
+**expressão regular** há uma tradução mecânica.
+
+::: {.atencao title="--- De expressão regular para gramática"}
+Nota adicional (não estava explícito nos slides, mas a Folha 3 pede-o):
+cada construção de uma expressão regular (Aula 2) tem uma tradução direta
+em produções. Usa-se um não-terminal novo para cada sub-expressão com `*`,
+`+` ou `|`.
+
+| Expressão regular | Produções |
+|:--------|:--------------------|
+| $rs$ (concatenação) | um único lado direito com $r$ seguido de $s$ |
+| $r \mid s$ (alternativa) | duas produções: $X \to r$ e $X \to s$ |
+| $r^*$ (zero ou mais) | $X \to r\,X \mid \varepsilon$ |
+| $r^+$ (uma ou mais) | $X \to r\,X \mid r$ |
+
+Isto mostra que **toda a linguagem regular é independente de contexto**.
+O contrário não é verdade: $\{a^nb^m : m\geq n\}$ (a linguagem do
+exemplo acima) não é regular, porque um autómato finito não consegue
+contar os `a`'s para garantir que há pelo menos tantos `b`'s.
+:::
+
+::: {.exemplo title="--- Exercício 1(d) (Folha lab. 3, gramatica.pdf)"}
+Escrever uma gramática para a linguagem de `((ab*a)|(ba*b))`.
+
+**1. Separar pela alternativa de topo.** A expressão é `ab*a` **ou**
+`ba*b`. Isso dá duas produções para o símbolo inicial:
+$S \to (\text{algo para } ab^*a)$ e $S \to (\text{algo para } ba^*b)$.
+
+**2. Tratar `ab*a`.** É uma concatenação de três partes: `a`, `b*` e `a`.
+A parte `b*` precisa de um não-terminal próprio, $B$, com a regra do
+`*`: $B \to b\,B \mid \varepsilon$. A concatenação fica $S \to a\,B\,a$.
+
+**3. Tratar `ba*b`** da mesma forma: $A \to a\,A \mid \varepsilon$ gera
+`a*`, e $S \to b\,A\,b$.
+
+**Gramática final** (terminais $\{a,b\}$, inicial $S$):
+
+$$S \to a\,B\,a \mid b\,A\,b \qquad B \to b\,B \mid \varepsilon \qquad A \to a\,A \mid \varepsilon$$
+
+**Verificação com uma palavra:** `abba` deve ser aceite (é `a`, `bb`,
+`a`). Derivação: $S \Rightarrow aBa \Rightarrow abBa \Rightarrow abbBa
+\Rightarrow abba$ (as duas primeiras expansões de $B$ usam $B\to bB$ e a
+última usa $B\to\varepsilon$). E `ab` não deve ser aceite: começa por `a`,
+por isso só pode vir de $S\to aBa$, que obriga a acabar em `a`.
+:::
+
+::: {.pratica title="--- Escrever gramáticas (Folha lab. 3, Exercício 1)"}
+**Ex. 1(b)** Gramática para as palavras com o mesmo número de `a`s e `b`s,
+por qualquer ordem. Aqui não há expressão regular (a linguagem não é
+regular). Pista: olha para a **primeira** letra da palavra e para o
+ponto onde as contagens voltam a ficar iguais pela primeira vez.
+
+**Ex. 1(c)** Gramática para os parêntesis casados (`()`, `(())`, `()()`,
+...). Pista: uma palavra não vazia começa por um `(` que fecha num certo
+`)`; o que está lá dentro e o que vem a seguir são outra vez parêntesis
+casados.
+
+**Ex. 1(e)** Gramática para `((0|1)+"."(0|1)*)|((0|1)*"."(0|1)+)`. Usa a
+tabela acima, como no exemplo da 1(d). Um não-terminal para "um
+dígito" (`0|1`) simplifica tudo.
+
+A 1(a) está resolvida acima e a 1(d) no exemplo anterior.
 :::
 
 ## Árvores sintáticas
@@ -974,16 +1066,20 @@ por isso o resultado é sempre $1+(2\times3)=7$, nunca
 $(1+2)\times3$.
 :::
 
-::: {.pratica title="--- Exercício dos slides: ambiguidade em programas sequenciais"}
-Técnica análoga à acima: uma gramática de "programas sequenciais" com
+::: {.pratica title="--- Ambiguidade em programas sequenciais (Folha lab. 3, Exercício 2)"}
+Gramática de "programas sequenciais" (também um exercício dos slides):
 $S \to S;S \mid \texttt{ident}=E \mid \texttt{ident}{+}{+}$ e
-$E \to \texttt{ident} \mid \texttt{num} \mid E+E$ é ambígua em **dois**
-sítios distintos — não só nas expressões (`E`, mesmo problema do `E→E+E`
-acima, mesma técnica de correção com precedência/associatividade), mas
-também nas próprias instruções (`S→S;S` tem a mesma forma estrutural que
-`E→E+E`, logo sofre do mesmo tipo de ambiguidade de associatividade — a
-correção é a técnica de recursão à esquerda usada acima para `E→E+T|T`,
-aplicada agora a `S`).
+$E \to \texttt{ident} \mid \texttt{num} \mid E+E$.
+
+**Ex. 2(a)** Mostra que é ambígua, com duas árvores diferentes para a
+mesma frase. O enunciado pergunta se há mais do que um exemplo: há, em
+**dois** sítios distintos. Um é nas expressões (`E→E+E`, o mesmo
+problema do `E→E+E` acima). O outro é nas próprias instruções: `S→S;S`
+tem a mesma forma que `E→E+E`, por isso tem o mesmo problema de
+associatividade.
+
+**Ex. 2(b)** Reescreve a gramática sem ambiguidade. Usa a recursão à
+esquerda de `E→E+T|T` acima, aplicada nos dois sítios (também a `S`).
 :::
 
 ## O problema do "dangling else"
@@ -1025,6 +1121,755 @@ os ramos forem $M$ — isto impede que o `then` interno fique "por fechar"
 dentro de um `if...else` já completo, forçando o `else` externo a
 "descer" e agarrar o `if` mais próximo disponível. Na prática, contudo,
 **é frequente preferir não mexer na gramática** e resolver a ambiguidade
-diretamente na implementação do analisador sintático (técnica vista em
-aulas seguintes).
+diretamente na implementação do analisador sintático: é isso que faz um
+analisador LR, que escolhe *shift* no conflito que esta gramática cria
+(ver Aula 5, secção "Conflitos e como resolvê-los").
+:::
+
+# Aula 5 --- Análise sintática *bottom-up* (LR)
+
+A Aula 4 definiu **o que** o analisador sintático tem de reconhecer (uma
+gramática independente de contexto) e porque é que a gramática não pode
+ser ambígua. Esta aula mostra **como** se constrói um analisador que
+aceita ou rejeita uma sequência de tokens e, pelo caminho, descobre a
+árvore sintática: a análise **LR**. Plano da aula: o funcionamento de um
+analisador LR (pilha + tabela), como construir a tabela pelo método
+**LR(0)**, a melhoria **SLR(1)**, os **conflitos** e como resolvê-los, e,
+como extra, **LR(1)** e **LALR(1)**.
+
+## Análise *bottom-up* e analisadores LR
+
+::: {.definicao title="--- Análise LR"}
+**LR** = *Left-to-right parse, Rightmost derivation*: lê a entrada da
+esquerda para a direita, um token de cada vez, e constrói uma
+**derivação mais à direita** (Aula 4, "Derivações"), mas **ao contrário**:
+parte das folhas (os tokens) e vai juntando pedaços até chegar ao
+símbolo inicial. Por isso se chama análise ***bottom-up*** (de baixo para
+cima na árvore), ao contrário da análise *top-down* (LL), que parte do
+símbolo inicial.
+:::
+
+Vantagens da análise LR em relação à LL (*top-down*), segundo os slides:
+
+- reconhece **mais linguagens** (há gramáticas que são LR mas não LL);
+- é **mais fácil reescrever** uma gramática para análise LR do que para LL;
+- permite **resolver ambiguidades** definindo **prioridades** e
+  **associatividades** dos símbolos, **sem alterar a gramática** (ver
+  "Conflitos e como resolvê-los", abaixo).
+
+::: {.definicao title="--- Analisador LR (autómato de pilha)"}
+Um analisador LR é um **autómato de pilha** com:
+
+- uma **sequência de entrada** (*input*): os terminais ainda por ler;
+- uma **pilha** de símbolos (terminais **e** não-terminais), no início
+  vazia, com a entrada toda por ler.
+
+Em cada passo escolhe **uma** de duas ações:
+
+- ***Shift***: tira o próximo terminal da entrada e põe-no no topo da pilha.
+- ***Reduce***: escolhe uma produção $X \to \gamma$ tal que os símbolos de
+  $\gamma$ estão **no topo** da pilha, tira-os e empilha $X$ no lugar deles.
+
+Por razões técnicas, **acrescenta-se à gramática** um símbolo inicial novo
+$S'$, um terminal \$ (**marcador de fim** da entrada) e a produção
+$S' \to S\,\$$. Assim o analisador sabe quando a entrada acabou.
+:::
+
+::: {.exemplo title="--- Exemplo 1 dos slides: parêntesis equilibrados"}
+Gramática: $S' \to S\,\$$ e $S \to (S)S \mid \varepsilon$. Entrada `()`
+(o analisador vê `()$`).
+
+| Pilha | Entrada | Ação | Porquê |
+|:--|--:|:--|:----------------|
+| $\varepsilon$ | `()$` | shift | nada no topo para reduzir |
+| `(` | `)$` | reduce $S\to\varepsilon$ | dentro dos parêntesis tem de haver um $S$ (aqui vazio) |
+| `(S` | `)$` | shift | |
+| `(S)` | `$` | reduce $S\to\varepsilon$ | falta o $S$ final de $(S)S$; é vazio |
+| `(S)S` | `$` | reduce $S\to(S)S$ | o topo é exatamente o lado direito |
+| $S$ | `$` | accept | sobrou só $S$ e a entrada acabou |
+
+Repara que *reduce* $S\to\varepsilon$ tira **zero** símbolos e empilha um
+$S$. A decisão de quando fazer isto é o que a tabela de *parsing* (abaixo)
+vai resolver.
+
+**Lendo os *reduce* de baixo para cima** obtém-se a derivação: o último
+*reduce* foi $S\to(S)S$, o anterior $S \to\varepsilon$ (o $S$ da direita),
+e o primeiro $S\to\varepsilon$ (o $S$ de dentro):
+
+$$S \Rightarrow (S)\underline{S} \Rightarrow (\underline{S}) \Rightarrow ()$$
+
+É uma derivação **mais à direita**: em $(S)S$ substituiu-se primeiro o $S$
+da direita.
+:::
+
+::: {.exemplo title="--- Exemplo 2 dos slides: expressões simples"}
+Gramática: $E' \to E\,\$$ e $E \to E + \texttt{n} \mid \texttt{n}$.
+Entrada `n+n`.
+
+| Pilha | Entrada | Ação |
+|:--|--:|:--|
+| $\varepsilon$ | `n+n$` | shift |
+| `n` | `+n$` | reduce $E\to\texttt{n}$ |
+| $E$ | `+n$` | shift |
+| $E$`+` | `n$` | shift |
+| $E$`+n` | `$` | reduce $E\to E+\texttt{n}$ |
+| $E$ | `$` | accept |
+
+Os *reduce* lidos de baixo para cima: primeiro $E\to E+\texttt{n}$, depois
+$E\to\texttt{n}$. Dá a derivação mais à direita
+$E \Rightarrow E+\texttt{n} \Rightarrow \texttt{n}+\texttt{n}$.
+
+No passo 4 (pilha $E$`+`, entrada `n$`) repara que **não** se reduz o
+`n` que acabou de entrar para $E$: isso daria $E+E$, que não é lado
+direito de nenhuma produção. O analisador tem de saber **o que está por
+baixo** do topo da pilha, não só o topo. É isso que motiva os estados.
+:::
+
+## Tabela de *parsing* LR e o algoritmo
+
+Como escolhe o autómato a próxima ação? Olha para
+
+- a **configuração da pilha** (não só o símbolo do topo, como se viu no
+  Exemplo 2);
+- e possivelmente para os **próximos símbolos da entrada** (*look-ahead*).
+
+Para não ter de analisar a pilha inteira em cada passo, **resume-se a
+configuração da pilha num número inteiro, o estado**. O autómato muda de
+estado sempre que empilha ou desempilha, e as ações estão escritas numa
+**tabela de *parsing* LR**.
+
+::: {.definicao title="--- Tabela de parsing LR"}
+- Cada **linha** é um **estado** (um inteiro).
+- Cada **coluna** é um **símbolo** (terminais à esquerda, não-terminais à
+  direita).
+- Cada **entrada** tem uma ação:
+  - **$s\,q$** (*shift q*): passa o próximo terminal para a pilha e vai para
+    o estado $q$;
+  - **$r\,k$** (*reduce k*), sendo $X \to \alpha_1\dots\alpha_n$ a produção
+    número $k$: (1) tira da pilha os $n$ símbolos do lado direito; (2) fica
+    no estado que estava por baixo deles, e põe $X$ no topo; (3) procura
+    na tabela a entrada "$g\,q$" na coluna $X$ desse estado; (4) vai para o
+    estado $q$;
+  - **$g\,q$** (*go q*, ou *goto*): muda para o estado $q$ (só aparece nas
+    colunas dos não-terminais, e só se usa depois de um *reduce*);
+  - **$a$** (*accept*): termina e aceita a sequência;
+  - **vazia**: erro de sintaxe.
+:::
+
+::: {.exemplo title="--- Tabela dos slides"}
+Gramática (com as produções numeradas):
+
+| Nº | Produção |
+|:-:|:--|
+| (0) | $T' \to T\,\$$ |
+| (1) | $T \to R$ |
+| (2) | $T \to aTc$ |
+| (3) | $R \to \varepsilon$ |
+| (4) | $R \to bR$ |
+
+| | a | b | c | \$ | T | R |
+|---|---|---|---|---|---|---|
+| 0 | s3 | s4 | r3 | r3 | g1 | g2 |
+| 1 | | | | a | | |
+| 2 | | | r1 | r1 | | |
+| 3 | s3 | s4 | r3 | r3 | g5 | g2 |
+| 4 | | s4 | r3 | r3 | | g6 |
+| 5 | | | s7 | | | |
+| 6 | | | r4 | r4 | | |
+| 7 | | | r2 | r2 | | |
+
+Como se lê: no estado 0 com próximo símbolo `a`, faz *shift* e vai para
+o estado 3. No estado 3 com próximo `c`, faz *reduce* pela regra 3
+($R\to\varepsilon$). No estado 0, depois de um *reduce* para $T$, vai
+para o estado 1 (g1). No estado 1 com próximo \$, aceita.
+:::
+
+::: {.exemplo title="--- Análise de aabbbcc com a tabela acima (1/2)"}
+A coluna "Estados" mostra a **pilha de estados inteira** (o topo é o
+último número); os slides só mostram o topo. A coluna "Símbolos" é a
+pilha de símbolos correspondente (um símbolo por cada estado acima do 0).
+
+| Estados | Símbolos | Entrada | Ação |
+|:--|:--|--:|:-------------|
+| 0 | $\varepsilon$ | `aabbbcc$` | (0,a) = s3: shift 3 |
+| 0 3 | a | `abbbcc$` | (3,a) = s3: shift 3 |
+| 0 3 3 | a a | `bbbcc$` | (3,b) = s4: shift 4 |
+| 0 3 3 4 | a a b | `bbcc$` | (4,b) = s4: shift 4 |
+| 0 3 3 4 4 | a a b b | `bcc$` | (4,b) = s4: shift 4 |
+| 0 3 3 4 4 4 | a a b b b | `cc$` | (4,c) = r3 |
+| 0 3 3 4 4 4 6 | a a b b b R | `cc$` | (6,c) = r4 |
+| 0 3 3 4 4 6 | a a b b R | `cc$` | (6,c) = r4 |
+
+Os *reduce* explicados um a um:
+
+- **(4,c) = r3**, $R\to\varepsilon$: tira **0** estados. O topo continua 4;
+  (4,R) = g6, empilha 6.
+- **(6,c) = r4**, $R \to bR$: tira **2** estados (os de `b` e `R`), ficando
+  `0 3 3 4 4`. Topo 4; (4,R) = g6, empilha 6: `0 3 3 4 4 6`.
+- **(6,c) = r4** outra vez: tira 2, fica `0 3 3 4`; (4,R) = g6, empilha 6.
+:::
+
+::: {.exemplo title="--- Análise de aabbbcc com a tabela acima (2/2)"}
+| Estados | Símbolos | Entrada | Ação |
+|:--|:--|--:|:-------------|
+| 0 3 3 4 6 | a a b R | `cc$` | (6,c) = r4 |
+| 0 3 3 2 | a a R | `cc$` | (2,c) = r1 |
+| 0 3 3 5 | a a T | `cc$` | (5,c) = s7: shift 7 |
+| 0 3 3 5 7 | a a T c | `c$` | (7,c) = r2 |
+| 0 3 5 | a T | `c$` | (5,c) = s7: shift 7 |
+| 0 3 5 7 | a T c | `$` | (7,\$) = r2 |
+| 0 1 | T | `$` | (1,\$) = a: **accept** |
+
+- **(6,c) = r4**, $R\to bR$: tira 2 de `0 3 3 4 6`, fica `0 3 3`. Topo 3;
+  (3,R) = g2, empilha 2.
+- **(2,c) = r1**, $T\to R$: tira 1, fica `0 3 3`. (3,T) = g5, empilha 5.
+- **(7,c) = r2**, $T\to aTc$: tira **3** (os de `a`, `T`, `c`) de
+  `0 3 3 5 7`, fica `0 3`. (3,T) = g5, empilha 5.
+- **(7,\$) = r2**, $T\to aTc$: tira 3 de `0 3 5 7`, fica `0`. (0,T) = g1,
+  empilha 1. Com \$ na entrada, (1,\$) = a: aceita.
+:::
+
+::: {.definicao title="--- Algoritmo de parsing LR"}
+```
+stack = empty; push(0, stack); next = getToken()
+loop
+  case table[top(stack), next] of
+    shift s:  push(s, stack); next = getToken()
+    reduce p: let X = lado esquerdo da producao p
+                  n = comprimento do lado direito da producao p
+              pop n elementos da pilha
+              lookup table[top(stack), X] e encontra "go s"
+              push(s, stack)
+    accept:   termina com sucesso
+    vazio:    reporta erro
+```
+:::
+
+Observações dos slides sobre o algoritmo:
+
+- Em cada passo a decisão vem **só da tabela**.
+- Basta guardar **os estados** na pilha: cada estado já representa uma
+  configuração de símbolos. Os símbolos não são precisos (mas ajudam a
+  perceber a derivação, por isso aparecem nos exemplos).
+- **A parte crucial é construir a tabela**, e isso faz-se **a partir da
+  gramática**, antes e independentemente de qualquer entrada.
+
+::: {.definicao title="--- LR(0), LR(1), LR(k)"}
+A tabela pode decidir as ações só com a pilha, ou também com os próximos
+terminais (*look-ahead*):
+
+- **LR(0)**: só a pilha (0 símbolos de *look-ahead*);
+- **LR(1)**: 1 símbolo de *look-ahead*;
+- **LR(k)**: $k$ símbolos de *look-ahead* (o caso geral).
+
+A tabela LR(0) é a mais simples de construir, mas **reconhece poucas
+linguagens**. LR(k) com $k\geq2$ dá tabelas **muito grandes**. **LR(1) é
+suficiente para a maior parte das linguagens de programação.**
+:::
+
+## Autómato e tabela LR(0)
+
+### Items LR(0)
+
+::: {.definicao title="--- Item LR(0)"}
+Um **item** é uma produção com uma **posição marcada** no lado direito (um
+ponto, aqui $\bullet$). Os **estados** do autómato LR vão ser **conjuntos
+de items**.
+
+$A \to \beta \bullet \gamma$ quer dizer: $\beta$ **já está no topo da
+pilha**, e o autómato pode continuar reconhecendo $\gamma$.
+
+- $A \to \bullet\gamma$ é um **item inicial**: ainda não se reconheceu
+  nada; podemos começar com $\gamma$.
+- $A \to \gamma\bullet$ é um **item completo**: $\gamma$ está todo no topo
+  da pilha e podemos reconhecer $A$ (**reduce**).
+:::
+
+::: exemplo
+A gramática dos parêntesis tem 3 produções e **9 items** (uma produção com
+lado direito de comprimento $n$ dá $n+1$ items; $S\to\varepsilon$ dá só
+um, $S\to\bullet$):
+
+| Produções | Items |
+|:--|:--------|
+| $S' \to S\,\$$ | $S'\to\bullet S\,\$ \quad S'\to S\bullet\$ \quad S'\to S\,\$\bullet$ |
+| $S \to (S)S$ | $S\to\bullet(S)S \quad S\to(\bullet S)S \quad S\to(S\bullet)S$ |
+| | $S\to(S)\bullet S \quad S\to(S)S\bullet$ |
+| $S \to \varepsilon$ | $S\to\bullet$ |
+
+Por exemplo, $S \to (S)\bullet S$: no topo da pilha está `(S)` e o
+autómato já reconheceu `(S)`; pode continuar com um $S$.
+:::
+
+### Do NFA de items ao DFA
+
+::: {.definicao title="--- Transições entre items"}
+Primeiro constrói-se um **NFA** cujos estados são os items:
+
+- **Transição por um símbolo $X$** (terminal ou não-terminal): de
+  $A\to\alpha\bullet X\gamma$ para $A\to\alpha X\bullet\gamma$ (o ponto
+  "salta" o $X$). Por um **terminal** acontece depois de um **shift**; por
+  um **não-terminal** acontece depois de um **reduce** (é o *go*).
+- **Transições-$\varepsilon$**: sempre que o ponto está antes de um
+  **não-terminal** $B$, em $A\to\alpha\bullet B\gamma$, acrescenta-se uma
+  transição-$\varepsilon$ para **todos** os items iniciais de $B$,
+  $B\to\bullet\beta$. Ideia: para avançar sobre $B$ primeiro é preciso
+  reconhecer um $B$, começando uma das suas produções.
+- **Estado inicial**: o item $S' \to \bullet S\,\$$.
+- **Não há estados finais.** A aceitação acontece quando se faria *shift*
+  do \$; na tabela é a ação *accept*.
+:::
+
+::: {.exemplo title="--- NFA de items da gramática dos parêntesis"}
+![](figuras/lr0_nfa_parenteses.pdf){width=100%}
+
+*Setas a tracejado: transições-$\varepsilon$.* Por exemplo, de
+$S\to(\bullet S)S$ saem: a transição por $S$ para $S\to(S\bullet)S$, e
+duas transições-$\varepsilon$ para os items iniciais de $S$
+($S\to\bullet(S)S$ e $S\to\bullet$), porque o ponto está antes do
+não-terminal $S$.
+:::
+
+Por causa das transições-$\varepsilon$ este autómato é **não
+determinístico**. Converte-se num **DFA** com a **construção de
+subconjuntos** (Aula 2): os estados do DFA são **conjuntos de items**.
+Na prática não é preciso desenhar o NFA; faz-se diretamente com duas
+operações:
+
+::: {.definicao title="--- Fecho e transição (construção direta do DFA)"}
+- **fecho(I)** (é o $\varepsilon$-*closure* da Aula 2): começa com os items
+  de $I$; para cada item com o ponto antes de um não-terminal $B$,
+  acrescenta **todos** os items $B\to\bullet\beta$; repete até não entrar
+  nada novo.
+- **goto(I, X)**: pega nos items de $I$ com o ponto antes de $X$, avança o
+  ponto sobre $X$, e aplica o **fecho** ao resultado.
+
+Estado inicial: $\text{fecho}(\{S'\to\bullet S\,\$\})$. Depois calcula-se
+goto(I, X) para cada estado $I$ já encontrado e cada símbolo $X$; cada
+conjunto novo é um estado novo. Pára quando não aparecem conjuntos novos.
+:::
+
+::: {.exemplo title="--- DFA LR(0) dos parêntesis, passo a passo (1/2)"}
+Gramática: (0) $S'\to S\,\$$, (1) $S\to(S)S$, (2) $S\to\varepsilon$.
+Numeração dos estados como nos slides.
+
+**Estado 0** = fecho($\{S'\to\bullet S\,\$\}$). O ponto está antes de
+$S$, por isso entram os items iniciais de $S$: $S\to\bullet(S)S$ e
+$S\to\bullet$. Nestes dois, o ponto está antes de `(` (terminal) ou no
+fim: não entra mais nada.
+$$0 = \{\, S'\to\bullet S\,\$,\ \ S\to\bullet(S)S,\ \ S\to\bullet \,\}$$
+
+**Transições de 0** (os símbolos que aparecem logo a seguir a um ponto
+são `(` e $S$; com `)` e \$ não há transição):
+
+- goto(0, `(`): só $S\to\bullet(S)S$ tem o ponto antes de `(`; avança para
+  $S\to(\bullet S)S$. Fecho: ponto antes de $S$, entram $S\to\bullet(S)S$
+  e $S\to\bullet$. Conjunto novo: **estado 2** $= \{S\to(\bullet S)S,\
+  S\to\bullet(S)S,\ S\to\bullet\}$.
+- goto(0, $S$): só $S'\to\bullet S\,\$$; avança para $S'\to S\bullet\$$.
+  Ponto antes de \$ (terminal): o fecho não acrescenta nada. **Estado 1**
+  $= \{S'\to S\bullet\$\}$.
+
+**Transições de 1**: só por \$, que é o *accept* (não se cria estado).
+:::
+
+::: {.exemplo title="--- DFA LR(0) dos parêntesis, passo a passo (2/2)"}
+**Transições de 2** $= \{S\to(\bullet S)S,\ S\to\bullet(S)S,\ S\to\bullet\}$:
+
+- goto(2, `(`): de $S\to\bullet(S)S$ vem $S\to(\bullet S)S$, e o fecho dá
+  exatamente o **estado 2** outra vez (um ciclo em 2).
+- goto(2, $S$): de $S\to(\bullet S)S$ vem $S\to(S\bullet)S$. Ponto antes de
+  `)`: fecho não acrescenta nada. **Estado 3** $= \{S\to(S\bullet)S\}$.
+
+**Transições de 3**: goto(3, `)`) dá $S\to(S)\bullet S$. Ponto antes de
+$S$: entram $S\to\bullet(S)S$ e $S\to\bullet$. **Estado 4** $=
+\{S\to(S)\bullet S,\ S\to\bullet(S)S,\ S\to\bullet\}$.
+
+**Transições de 4**:
+
+- goto(4, `(`): de $S\to\bullet(S)S$ vem o **estado 2** (mesmo conjunto
+  que antes).
+- goto(4, $S$): de $S\to(S)\bullet S$ vem $S\to(S)S\bullet$. **Estado 5**
+  $= \{S\to(S)S\bullet\}$.
+
+**Transições de 5**: nenhuma (o único item é completo). Não apareceram
+conjuntos novos: o DFA tem os estados 0 a 5.
+
+![](figuras/lr0_dfa_parenteses.pdf){width=100%}
+
+*A rosa: os estados que vão ter conflitos na tabela LR(0) (ver a seguir).*
+:::
+
+### Construção da tabela LR(0)
+
+::: {.definicao title="--- Tabela LR(0)"}
+Numeram-se os estados do DFA (as linhas) e preenche-se:
+
+1. Cada transição por um **terminal** $t$, de $i$ para $j$: **$s\,j$** na
+   entrada $(i, t)$.
+2. Cada transição por um **não-terminal** $X$, de $i$ para $j$: **$g\,j$**
+   na entrada $(i, X)$.
+3. Cada estado $i$ com um **item completo** $A\to\gamma\bullet$ (produção
+   número $k$): **$r\,k$** em **todas** as colunas de terminais da linha $i$
+   (LR(0) não olha para o próximo símbolo).
+4. No estado que contém $S'\to S\bullet\$$, na coluna \$: **accept**.
+
+A gramática é **LR(0)** se **cada entrada tiver no máximo uma ação**.
+Duas ações na mesma entrada são um **conflito**.
+:::
+
+::: {.exemplo title="--- Tabela LR(0) dos parêntesis"}
+Aplicando as quatro regras ao DFA acima:
+
+1. *Shifts*: $0\xrightarrow{(}2$, $2\xrightarrow{(}2$, $3\xrightarrow{)}4$,
+   $4\xrightarrow{(}2$: s2 em (0,`(`), (2,`(`), (4,`(`), e s4 em (3,`)`).
+2. *Gotos*: $0\xrightarrow{S}1$, $2\xrightarrow{S}3$, $4\xrightarrow{S}5$:
+   g1, g3, g5 na coluna $S$.
+3. *Reduces*: os estados 0, 2 e 4 têm o item completo $S\to\bullet$
+   (produção 2): r2 em **todas** as colunas terminais dessas linhas. O
+   estado 5 tem $S\to(S)S\bullet$ (produção 1): r1 em todas as colunas.
+4. *Accept*: estado 1, coluna \$.
+
+| | ( | ) | \$ | S |
+|---|---|---|---|---|
+| 0 | **s2, r2** | r2 | r2 | g1 |
+| 1 | | | a | |
+| 2 | **s2, r2** | r2 | r2 | g3 |
+| 3 | | s4 | | |
+| 4 | **s2, r2** | r2 | r2 | g5 |
+| 5 | r1 | r1 | r1 | |
+
+Nos estados 0, 2 e 4, com próximo símbolo `(`, há **duas ações**: *shift*
+(começar um par de parêntesis novo) ou *reduce* $S\to\varepsilon$ (o $S$
+ali é vazio). São **conflitos shift/reduce**: **a gramática dos
+parêntesis não é LR(0)**. (Resolve-se com SLR(1), na secção seguinte.)
+:::
+
+::: {.exemplo title="--- Exercício 3(a) (Folha lab. 3) = Exercício 1 dos slides: construção"}
+Mostrar que $A \to (A) \mid \texttt{a}$ é LR(0). Gramática aumentada:
+(0) $A'\to A\,\$$, (1) $A\to(A)$, (2) $A\to\texttt{a}$.
+
+**Estado 0** = fecho($\{A'\to\bullet A\,\$\}$): ponto antes de $A$, entram
+$A\to\bullet(A)$ e $A\to\bullet\texttt{a}$ (ponto antes de terminais: pára).
+$0 = \{A'\to\bullet A\,\$,\ A\to\bullet(A),\ A\to\bullet\texttt{a}\}$.
+
+- goto(0, `(`) = fecho($\{A\to(\bullet A)\}$) = $\{A\to(\bullet A),\
+  A\to\bullet(A),\ A\to\bullet\texttt{a}\}$: **estado 1**.
+- goto(0, `a`) = $\{A\to\texttt{a}\bullet\}$: **estado 2**.
+- goto(0, $A$) = $\{A'\to A\bullet\$\}$: **estado 3**.
+
+**Transições de 1**: goto(1, `(`) = fecho($\{A\to(\bullet A)\}$) =
+**estado 1** outra vez; goto(1, `a`) = $\{A\to\texttt{a}\bullet\}$ =
+**estado 2**; goto(1, $A$) = $\{A\to(A\bullet)\}$: **estado 4**.
+
+**Transições de 2** (só item completo) e **de 3** (só \$, accept): nenhuma.
+
+**Transições de 4**: goto(4, `)`) = $\{A\to(A)\bullet\}$: **estado 5**,
+sem transições.
+
+![](figuras/lr0_dfa_A_parenteses.pdf){width=85%}
+:::
+
+::: {.exemplo title="--- Exercício 3(a) (Folha lab. 3): tabela e verificação"}
+*Shifts*: s1 em (0,`(`) e (1,`(`); s2 em (0,`a`) e (1,`a`); s5 em (4,`)`).
+*Gotos*: g3 em (0,$A$), g4 em (1,$A$). *Reduces*: estado 2 ($A\to\texttt{a}\bullet$,
+produção 2) r2 em todas as colunas terminais; estado 5 ($A\to(A)\bullet$,
+produção 1) r1 em todas. *Accept*: (3,\$).
+
+| | ( | ) | a | \$ | A |
+|---|---|---|---|---|---|
+| 0 | s1 | | s2 | | g3 |
+| 1 | s1 | | s2 | | g4 |
+| 2 | r2 | r2 | r2 | r2 | |
+| 3 | | | | a | |
+| 4 | | s5 | | | |
+| 5 | r1 | r1 | r1 | r1 | |
+
+**Nenhuma entrada tem duas ações**: os estados com *reduce* (2 e 5) não
+têm nenhum *shift*, e vice-versa. Logo a gramática **é LR(0)**.
+
+Teste com `((a))`:
+
+| Estados | Símbolos | Entrada | Ação |
+|:--|:--|--:|:------------|
+| 0 | $\varepsilon$ | `((a))$` | s1 |
+| 0 1 | ( | `(a))$` | s1 |
+| 0 1 1 | ( ( | `a))$` | s2 |
+| 0 1 1 2 | ( ( a | `))$` | r2: tira 1, topo 1, (1,A) = g4 |
+| 0 1 1 4 | ( ( A | `))$` | s5 |
+| 0 1 1 4 5 | ( ( A ) | `)$` | r1: tira 3, topo 1, (1,A) = g4 |
+| 0 1 4 | ( A | `)$` | s5 |
+| 0 1 4 5 | ( A ) | `$` | r1: tira 3, topo 0, (0,A) = g3 |
+| 0 3 | A | `$` | accept |
+:::
+
+::: {.pratica title="--- Autómato e tabela LR(0) (Folha lab. 3, Exercícios 4 e 5)"}
+**Ex. 4** Gramática $E \to (L) \mid \texttt{a}$, $L \to L,E \mid E$.
+
+- **(a)** Derivação de `((a),a,(a,a))`. Usa as derivações da Aula 4;
+  escolhe sempre o não-terminal mais à esquerda para não te perderes.
+- **(b)** Autómato LR(0). Atenção ao estado depois de `(`: tem o ponto
+  antes de $L$, e $L\to\bullet L,E$ também tem o ponto antes de $L$.
+- **(c)** É LR(0)? Procura estados com um item completo **e** outro item
+  (com *shift* ou outro *reduce*).
+
+**Ex. 5** Declarações de C: $Decl \to Type\ Varlist\ ;$,
+$Type \to \texttt{int} \mid \texttt{float}$,
+$Varlist \to Varlist\,,\,\texttt{ident} \mid \texttt{ident}$.
+
+- **(a)** Autómato e tabela LR(0), como no Exercício 3(a) acima.
+- **(b)** Simula `int x,y,z;` com a pilha de estados, como no teste de
+  `((a))` acima (o analisador lexical dá `int ident , ident , ident ;`).
+:::
+
+## Análise SLR(1)
+
+O autómato LR(0) usa **só a pilha** para decidir quando fazer *reduce*.
+Isso gera conflitos com frequência: **muitas gramáticas úteis não são
+LR(0)** (a dos parêntesis, acima, já não era). Reconhecem-se muito mais
+linguagens se também se usar o **próximo terminal** (*look-ahead*). A
+extensão mais simples é a **SLR(1)** (*Simple LR, 1 symbol look-ahead*),
+que precisa do conjunto FOLLOW.
+
+### FIRST e FOLLOW
+
+::: {.atencao title="--- Nota adicional: FIRST e FOLLOW"}
+Nota adicional (não estava explícito nos slides: usam FOLLOW sem o
+definir). São precisas três noções, calculadas a partir da gramática.
+
+- **Anulável**: $X$ é anulável se $X \Rightarrow^* \varepsilon$ (por
+  exemplo, se existe $X\to\varepsilon$, ou $X \to Y Z$ com $Y$ e $Z$
+  anuláveis).
+- **FIRST($\alpha$)**: os terminais que podem aparecer **no início** de uma
+  palavra derivada de $\alpha$. Para $\alpha = X_1X_2\dots X_n$: junta
+  FIRST($X_1$); se $X_1$ for anulável, junta também FIRST($X_2$); e assim
+  por diante, enquanto os anteriores forem anuláveis. O FIRST de um
+  terminal $t$ é $\{t\}$.
+- **FOLLOW($A$)**: os terminais que podem aparecer **imediatamente a
+  seguir** a $A$ numa forma derivada de $S'$. Como $S'\to S\,\$$, o \$
+  está sempre em FOLLOW($S$).
+
+**Cálculo de FOLLOW.** Começa com todos vazios e percorre cada
+ocorrência de um não-terminal $A$ no lado direito de cada produção,
+$X \to \alpha\,A\,\beta$:
+
+1. junta FIRST($\beta$) a FOLLOW($A$) (o que vem depois de $A$);
+2. se $\beta$ é vazio ou anulável, junta **FOLLOW($X$)** a FOLLOW($A$)
+   (o que vem depois de $X$ também pode vir depois de $A$).
+
+Repete a passagem até nenhum conjunto mudar.
+:::
+
+::: {.exemplo title="--- FOLLOW da gramática dos parêntesis"}
+Produções: $S'\to S\,\$$, $S\to(S)S$, $S\to\varepsilon$. As ocorrências de
+$S$ em lados direitos são três:
+
+1. $S'\to \underline{S}\,\$$: depois de $S$ vem \$. FIRST(\$) = $\{\$\}$,
+   logo $\$ \in$ FOLLOW($S$).
+2. $S\to(\underline{S})S$: depois vem $)S$. FIRST($)S$) = $\{)\}$ (começa
+   por um terminal), logo $) \in$ FOLLOW($S$).
+3. $S\to(S)\underline{S}$: depois não vem nada, por isso junta
+   FOLLOW($S$) a FOLLOW($S$): não acrescenta nada.
+
+Segunda passagem: nada muda. **FOLLOW($S$) = $\{\,),\ \$\,\}$**. Faz
+sentido: um $S$ acaba sempre antes de um `)` (dentro de parêntesis) ou
+no fim da entrada.
+:::
+
+::: {.exemplo title="--- FOLLOW das expressões aritméticas (Aula 4)"}
+Gramática desambiguada da Aula 4 com $E'\to E\,\$$: $E \to E+T \mid T$,
+$T\to T*F\mid F$, $F\to\texttt{num}\mid(E)$. Nada é anulável, por isso
+FIRST($F$) = FIRST($T$) = FIRST($E$) = $\{\texttt{num}, (\}$.
+
+- **$E$** aparece em $E'\to\underline{E}\,\$$ (dá \$), em
+  $E\to\underline{E}+T$ (dá $+$) e em $F\to(\underline{E})$ (dá `)`).
+  FOLLOW($E$) = $\{\$, +, )\}$.
+- **$T$** aparece em $E\to E+\underline{T}$ e $E\to\underline{T}$ (no fim:
+  junta FOLLOW($E$)) e em $T\to\underline{T}*F$ (dá $*$). FOLLOW($T$) =
+  $\{\$,+,),*\}$.
+- **$F$** aparece em $T\to T*\underline{F}$ e $T\to\underline{F}$, sempre
+  no fim: junta FOLLOW($T$). FOLLOW($F$) = $\{\$,+,),*\}$.
+
+Segunda passagem: nada muda.
+:::
+
+### Tabela SLR(1)
+
+::: {.definicao title="--- Tabela SLR(1)"}
+O **algoritmo de *parsing* é o mesmo**, e o **autómato é o mesmo** do
+LR(0). Só muda a construção da tabela:
+
+- *shift* e *goto* colocam-se como antes;
+- um *reduce* por um item completo $A\to\gamma\bullet$ coloca-se **apenas
+  nas colunas dos terminais que estão em FOLLOW($A$)** (em vez de em
+  todas).
+
+Ideia: só faz sentido reduzir para $A$ se o próximo símbolo puder
+aparecer a seguir a um $A$. A gramática é **SLR(1)** se esta tabela não
+tiver conflitos.
+:::
+
+::: {.exemplo title="--- Tabela SLR(1) dos parêntesis"}
+Mesmo DFA de antes (estados 0 a 5). Shifts e gotos iguais. Os *reduce*
+agora só vão para as colunas de FOLLOW($S$) = $\{\,),\ \$\,\}$:
+
+- estados 0, 2 e 4 ($S\to\bullet$, produção 2): r2 nas colunas `)` e \$,
+  **não** na coluna `(`;
+- estado 5 ($S\to(S)S\bullet$, produção 1): r1 nas colunas `)` e \$.
+
+| | ( | ) | \$ | S |
+|---|---|---|---|---|
+| 0 | s2 | r2 | r2 | g1 |
+| 1 | | | a | |
+| 2 | s2 | r2 | r2 | g3 |
+| 3 | | s4 | | |
+| 4 | s2 | r2 | r2 | g5 |
+| 5 | | r1 | r1 | |
+
+Já **não há conflitos**: a gramática dos parêntesis **é SLR(1)** (apesar
+de não ser LR(0)). O conflito na coluna `(` desapareceu porque `(` não
+está em FOLLOW($S$): se o próximo símbolo é `(`, um $S$ vazio nunca
+estaria certo ali, e o analisador faz *shift*.
+:::
+
+::: {.exemplo title="--- Análise de (()) com a tabela SLR(1)"}
+| Estados | Símbolos | Entrada | Ação |
+|:--|:--|--:|:-------------|
+| 0 | $\varepsilon$ | `(())$` | s2 |
+| 0 2 | ( | `())$` | s2 |
+| 0 2 2 | ( ( | `))$` | r2: tira 0, topo 2, (2,S) = g3 |
+| 0 2 2 3 | ( ( S | `))$` | s4 |
+| 0 2 2 3 4 | ( ( S ) | `)$` | r2: tira 0, topo 4, (4,S) = g5 |
+| 0 2 2 3 4 5 | ( ( S ) S | `)$` | r1: tira 4, topo 2, (2,S) = g3 |
+| 0 2 3 | ( S | `)$` | s4 |
+| 0 2 3 4 | ( S ) | `$` | r2: tira 0, topo 4, (4,S) = g5 |
+| 0 2 3 4 5 | ( S ) S | `$` | r1: tira 4, topo 0, (0,S) = g1 |
+| 0 1 | S | `$` | accept |
+
+Repara no terceiro passo: estado 2 com `)`. Em LR(0) a entrada (2,`)`)
+também era r2, mas no primeiro passo, com `(`, havia conflito; aqui a
+tabela SLR(1) diz s2 sem hesitar.
+:::
+
+::: {.pratica title="--- SLR(1) (Folha lab. 3, Exercício 3(b)) = Exercício 2 dos slides"}
+**Ex. 3(b)** Mostra que $T\to R$, $T\to aTc$, $R\to\varepsilon$,
+$R\to bR$ é SLR(1): constrói o autómato e a tabela. Justifica que **não**
+é LR(0) mostrando os conflitos da tabela LR(0).
+
+Pista: é a gramática da tabela dos slides (secção "Tabela de *parsing* LR"),
+por isso podes comparar no fim. Os slides avisam que a tua numeração dos
+estados pode sair diferente, mas sem conflitos. Calcula FOLLOW($T$) e
+FOLLOW($R$) primeiro (a produção $T\to R$ faz com que FOLLOW($T$) entre
+em FOLLOW($R$)).
+:::
+
+## Conflitos e como resolvê-los
+
+::: {.definicao title="--- Conflito"}
+Há um **conflito** quando uma entrada da tabela de *parsing* tem **duas
+(ou mais) ações**: o autómato tem mais do que uma ação possível.
+
+- **Conflito shift/reduce**: um *shift* e um (ou mais) *reduce* no mesmo
+  estado, para o mesmo símbolo.
+- **Conflito reduce/reduce**: dois (ou mais) *reduce* no mesmo estado, para
+  o mesmo símbolo.
+:::
+
+Os conflitos **podem** resultar de ambiguidade na gramática. **Mas nem
+sempre**: a gramática dos parêntesis **não é ambígua** e tinha conflitos
+shift/reduce na tabela LR(0). Uma gramática ambígua, pelo contrário, dá
+**sempre** conflitos em qualquer tabela LR (duas árvores quer dizer que,
+em algum passo, há duas ações que levam a uma aceitação).
+
+Os **geradores de analisadores LR** (Bison para C, Happy para Haskell,
+próxima aula) avisam de todos os conflitos da gramática. Formas de os
+eliminar:
+
+- **reescrever a gramática** (se for ambígua; técnicas da Aula 4);
+- definir **associatividades e precedências** para os *tokens*;
+- escolher ***shift* em vez de *reduce*** (é o que os geradores fazem por
+  omissão).
+
+::: {.exemplo title="--- Dangling else num analisador SLR(1)"}
+Gramática (a ambiguidade foi explicada na Aula 4, "O problema do
+dangling else"):
+$S \to \texttt{if cond then } S \texttt{ else } S \mid \texttt{if cond then } S \mid \texttt{skip}$.
+
+Ao construir o autómato SLR(1) aparece um estado com estes dois items:
+$$S \to \texttt{if cond then } S \bullet \qquad\qquad S \to \texttt{if cond then } S \bullet \texttt{ else } S$$
+
+Se o próximo *token* é `else`, o analisador pode:
+
+- fazer **shift** do `else`, pelo segundo item (a produção com `else`);
+- fazer **reduce** pela produção sem `else`, pelo primeiro item, porque
+  $\texttt{else} \in$ FOLLOW($S$) = $\{\texttt{else}, \$\}$ (em
+  $S\to\texttt{if cond then }\underline{S}\texttt{ else }S$ o $S$ é seguido
+  de `else`).
+
+**Conflito shift/reduce.** Em
+`if cond then if cond then skip else skip`, este estado aparece quando a
+pilha tem `if cond then if cond then S` e o próximo é `else`:
+
+- **shift**: o `else` junta-se ao `if` **de dentro** (o que está no topo
+  da pilha). Dá `if cond then { if cond then skip else skip }`.
+- **reduce**: fecha o `if` de dentro sem `else`, e o `else` fica para o
+  `if` **de fora**. Dá `if cond then { if cond then skip } else skip`.
+
+**Optando por *shift*** obtém-se a interpretação usual das linguagens de
+programação (Pascal, C, Java, ...): o `else` liga-se ao `if` mais próximo.
+É por isso que "escolher *shift* por omissão" resolve este caso sem mexer
+na gramática.
+:::
+
+## Extras: LR(1) e LALR(1)
+
+Apesar de SLR(1) reconhecer mais do que LR(0), **não chega para algumas
+construções das linguagens de programação**. A análise **LR(1)** é uma
+generalização de SLR(1) que resolve essas limitações. Contudo, o método
+LR(1) pode produzir autómatos com **muito mais estados** do que o SLR(1).
+Na prática, os geradores de analisadores usam uma variante mais
+"compacta", a **LALR(1)** (*Look-Ahead LR(1)*). As diferenças entre
+SLR(1), LR(1) e LALR(1) são bastante técnicas; segundo os slides,
+**percebendo SLR(1) já se consegue compreender e usar os geradores de
+analisadores**.
+
+::: {.definicao title="--- Items e autómato LR(1)"}
+Os estados LR(0) só representam posições nos lados direitos. Em LR(1)
+o *look-ahead* entra na **própria definição dos estados**, para os
+distinguir e evitar conflitos.
+
+- Um **item LR(1)** é um par $(A\to\alpha\bullet\beta,\ a)$: um item LR(0)
+  e um terminal $a$ (*look-ahead*). Quer dizer: $\alpha$ está no topo da
+  pilha e o resto da entrada é derivável a partir de $\beta a$.
+- Os estados continuam a ser **conjuntos** de items.
+- **Transição por um símbolo** $X$: de $(A\to\alpha\bullet X\gamma,\ a)$
+  para $(A\to\alpha X\bullet\gamma,\ a)$ (o *look-ahead* não muda).
+- **Transição-$\varepsilon$**: de $(A\to\alpha\bullet B\gamma,\ a)$ para
+  $(B\to\bullet\beta,\ b)$, para **todas** as produções $B\to\beta$ e
+  **todos** os $b\in$ FIRST($\gamma a$).
+- **Tabela**: *shift* e *go* como em LR(0)/SLR(1); *reduce* $A\to\alpha$
+  quando o estado tem o item completo $(A\to\alpha\bullet,\ a)$ **e o
+  próximo terminal é $a$**.
+:::
+
+::: {.exemplo title="--- Nota adicional: o início do autómato LR(1) dos parêntesis"}
+Nota adicional (exemplo construído para este resumo; os slides não
+trazem nenhum). Gramática $S'\to S\,\$$, $S\to(S)S\mid\varepsilon$.
+
+**Estado inicial.** Parte de $S'\to\bullet S\,\$$ (o *look-ahead* deste
+item não interessa, porque o \$ já está na produção). O ponto está antes
+de $S$, com $\gamma = \$$: FIRST(\$) = $\{\$\}$. Entram
+$(S\to\bullet(S)S,\ \$)$ e $(S\to\bullet,\ \$)$.
+
+**Depois de `(`.** De $(S\to\bullet(S)S,\ \$)$ vem $(S\to(\bullet S)S,\ \$)$.
+O ponto está antes de $S$ com $\gamma = )S$ e $a = \$$: FIRST($)S\$$) =
+$\{)\}$. Entram $(S\to\bullet(S)S,\ ))$ e $(S\to\bullet,\ ))$.
+
+Neste estado o *reduce* $S\to\varepsilon$ faz-se **só com `)`** (em SLR(1)
+era com `)` e \$). E um segundo `(` já não volta ao mesmo estado: vai para
+um estado com $(S\to(\bullet S)S,\ ))$, que tem outro *look-ahead*. É assim
+que LR(1) distingue mais situações, e também porque tem mais estados.
+A LALR(1) junta outra vez os estados LR(1) que só diferem nos
+*look-aheads* (mesmos items LR(0)), ficando com o número de estados do
+LR(0), mas com *look-aheads* mais precisos do que o FOLLOW.
 :::

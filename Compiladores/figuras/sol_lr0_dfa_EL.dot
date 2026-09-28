@@ -1,0 +1,28 @@
+digraph G {
+  rankdir=LR; nodesep=0.35; ranksep=0.5;
+  node [shape=plaintext, fontname="Helvetica", fontsize=11];
+  edge [fontname="Helvetica-Bold", fontsize=15];
+  start [shape=point];
+  s0 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>0</B></FONT></TD></TR><TR><TD ALIGN="LEFT">S&#x27; → • E $</TD></TR><TR><TD ALIGN="LEFT">E → • ( L )</TD></TR><TR><TD ALIGN="LEFT">E → • a</TD></TR></TABLE>>];
+  s1 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>1</B></FONT></TD></TR><TR><TD ALIGN="LEFT">E → ( • L )</TD></TR><TR><TD ALIGN="LEFT">E → • ( L )</TD></TR><TR><TD ALIGN="LEFT">E → • a</TD></TR><TR><TD ALIGN="LEFT">L → • L , E</TD></TR><TR><TD ALIGN="LEFT">L → • E</TD></TR></TABLE>>];
+  s2 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>2</B></FONT></TD></TR><TR><TD ALIGN="LEFT">E → a •</TD></TR></TABLE>>];
+  s3 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>3</B></FONT></TD></TR><TR><TD ALIGN="LEFT">S&#x27; → E • $</TD></TR></TABLE>>];
+  s4 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>4</B></FONT></TD></TR><TR><TD ALIGN="LEFT">L → E •</TD></TR></TABLE>>];
+  s5 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>5</B></FONT></TD></TR><TR><TD ALIGN="LEFT">E → ( L • )</TD></TR><TR><TD ALIGN="LEFT">L → L • , E</TD></TR></TABLE>>];
+  s6 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>6</B></FONT></TD></TR><TR><TD ALIGN="LEFT">E → ( L ) •</TD></TR></TABLE>>];
+  s7 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>7</B></FONT></TD></TR><TR><TD ALIGN="LEFT">L → L , • E</TD></TR><TR><TD ALIGN="LEFT">E → • ( L )</TD></TR><TR><TD ALIGN="LEFT">E → • a</TD></TR></TABLE>>];
+  s8 [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="3"><TR><TD ALIGN="LEFT"><FONT COLOR="#1f4fb4"><B>8</B></FONT></TD></TR><TR><TD ALIGN="LEFT">L → L , E •</TD></TR></TABLE>>];
+  start -> s0;
+  s0 -> s1 [label="("];
+  s0 -> s2 [label="a"];
+  s0 -> s3 [label="E"];
+  s1 -> s1 [label="("];
+  s1 -> s2 [label="a"];
+  s1 -> s4 [label="E"];
+  s1 -> s5 [label="L"];
+  s5 -> s6 [label=")"];
+  s5 -> s7 [label=","];
+  s7 -> s1 [label="("];
+  s7 -> s2 [label="a"];
+  s7 -> s8 [label="E"];
+}

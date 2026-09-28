@@ -708,3 +708,162 @@ horn_sat([(set(), "p"), ({"p"}, "q"), ({"q"}, None)])      # None -> insatisf.
 
 O último teste é extra: mostra o caso **insatisfazível** ($p$, $p\to q$,
 $\neg q$).
+
+## Aula 4 --- O algoritmo DLL
+
+### 1.22 --- Algoritmo de Davis-Putnam (DLL)
+
+Critério de escolha usado (o mesmo da 1.22(a) no resumo): a variável que
+**ocorre mais vezes**, em caso de empate a primeira por ordem alfabética,
+experimentando primeiro o literal positivo.
+
+#### (c) $\{p \lor \neg q \lor \neg r,\ \neg p \lor q \lor r,\ \neg p \lor q \lor r,\ \neg p \lor q,\ \neg p \lor r\}$
+
+**Conjunto.** $\neg p \lor q \lor r$ aparece duas vezes, mas num conjunto
+conta uma só vez:
+$$S = \{p \lor \neg q \lor \neg r,\ \neg p \lor q \lor r,\ \neg p \lor q,\ \neg p \lor r\}$$
+
+**Propagação:** não há cláusulas unitárias; não faz nada. $S$ não é vazio
+nem contém $F$.
+
+**Escolha:** $p$ ocorre nas 4 cláusulas, $q$ e $r$ em 3. Escolhe-se $p$.
+
+**Ramo $S \cup \{p\}$.** Propagar $p$:
+
+- sai $p \lor \neg q \lor \neg r$ (contém $p$), e a própria $\{p\}$;
+- $\neg p \lor q \lor r$ fica $q \lor r$; $\neg p \lor q$ fica $q$;
+  $\neg p \lor r$ fica $r$.
+
+Obtém-se $\{q \lor r,\ q,\ r\}$. Propagar $q$: saem $q \lor r$ e $q$,
+fica $\{r\}$. Propagar $r$: sai $r$, fica $\{\}$.
+
+**O conjunto ficou vazio: satisfazível.** Não foi preciso o ramo $\neg p$.
+
+**Valoração** (literais supostos e propagados): $p = V$, $q = V$, $r = V$.
+Verificação: $p \lor \neg q \lor \neg r = V$ (por $p$); as outras três
+têm $q$ ou $r$ a $V$. $\checkmark$
+
+#### (e) $\{p \lor \neg q \lor \neg r,\ \neg p \lor q \lor r,\ \neg p \lor \neg q \lor \neg r,\ \neg p \lor \neg q \lor r,\ \neg p \lor q \lor \neg r,\ p \lor q \lor \neg r\}$
+
+**Propagação:** não há unitárias. **Escolha:** $p$, $q$ e $r$ ocorrem 6
+vezes cada; escolhe-se $p$.
+
+**Ramo $p$.** Saem as 2 cláusulas com $p$ ($p \lor \neg q \lor \neg r$ e
+$p \lor q \lor \neg r$). Às 4 com $\neg p$ tira-se $\neg p$:
+$$\{q \lor r,\ \neg q \lor \neg r,\ \neg q \lor r,\ q \lor \neg r\}$$
+Não há unitárias; $q$ e $r$ ocorrem 4 vezes. Escolhe-se $q$.
+
+- **Ramo $q$**: saem $q \lor r$ e $q \lor \neg r$; $\neg q \lor \neg r$
+  fica $\neg r$ e $\neg q \lor r$ fica $r$. $\{\neg r, r\}$; propagar
+  $\neg r$ deixa $r$ vazia: $\{F\}$. **Falha.**
+- **Ramo $\neg q$**: saem $\neg q \lor \neg r$ e $\neg q \lor r$; $q \lor
+  r$ fica $r$ e $q \lor \neg r$ fica $\neg r$. $\{r, \neg r\} \Rightarrow
+  \{F\}$. **Falha.**
+
+O ramo $p$ falha todo. **Volta-se atrás.**
+
+**Ramo $\neg p$.** Saem as 4 cláusulas com $\neg p$. Às 2 com $p$ tira-se
+$p$: $p \lor \neg q \lor \neg r$ fica $\neg q \lor \neg r$ e $p \lor q
+\lor \neg r$ fica $q \lor \neg r$.
+$$\{\neg q \lor \neg r,\ q \lor \neg r\}$$
+Não há unitárias; $q$ e $r$ ocorrem 2 vezes. Escolhe-se $q$.
+
+- **Ramo $q$**: sai $q \lor \neg r$; $\neg q \lor \neg r$ fica $\neg r$.
+  $\{\neg r\}$; propagar $\neg r$: fica $\{\}$. **Vazio: satisfazível.**
+
+**Valoração**: $p = F$, $q = V$, $r = F$. Verificação: as 4 cláusulas com
+$\neg p$ são $V$; $p \lor \neg q \lor \neg r = F \lor F \lor V = V$;
+$p \lor q \lor \neg r = F \lor V \lor V = V$. $\checkmark$
+
+(Por força bruta, as únicas valorações que satisfazem são $p=F, r=F$ com
+$q$ qualquer: repara que, no último conjunto, $\neg r$ já satisfazia as
+duas cláusulas.)
+
+### 1.23 --- Implementar o algoritmo DLL
+
+#### Resposta
+
+Resposta-modelo em Python. Um literal é uma string: `"p"` ou `"-p"`. Uma
+cláusula é um `frozenset` de literais; o conjunto de cláusulas é uma
+lista. A função devolve uma valoração (dicionário) se o conjunto for
+satisfazível, e `None` se não for.
+
+```python
+def comp(l):
+    """Literal complementar: 'p' <-> '-p'."""
+    return l[1:] if l.startswith("-") else "-" + l
+
+def propagate(S, modelo):
+    """Propagação unitária. S: lista de frozensets. Devolve o novo S
+    (pode conter frozenset() = cláusula vazia = F)."""
+    while True:
+        if frozenset() in S:
+            return S
+        unit = next((c for c in S if len(c) == 1), None)
+        if unit is None:
+            return S
+        (l,) = unit
+        modelo[l.lstrip("-")] = not l.startswith("-")
+        novo = []
+        for c in S:
+            if l in c:                 # 1. cláusula satisfeita: sai
+                continue
+            if comp(l) in c:           # 2. tira o literal complementar
+                c = c - {comp(l)}
+            novo.append(c)
+        S = novo
+
+def select_literal(S):
+    """Critério: a variável que ocorre mais vezes (positiva)."""
+    conta = {}
+    for c in S:
+        for l in c:
+            v = l.lstrip("-")
+            conta[v] = conta.get(v, 0) + 1
+    return max(sorted(conta), key=lambda v: conta[v])
+
+def dll(S, modelo=None):
+    """Devolve um modelo (dict) se S é satisfazível, None se não é."""
+    modelo = dict(modelo or {})
+    S = propagate([frozenset(c) for c in S], modelo)
+    if not S:
+        return modelo                  # sem cláusulas: satisfazível
+    if frozenset() in S:
+        return None                    # contém F: insatisfazível
+    l = select_literal(S)
+    r = dll(S + [frozenset([l])], modelo)
+    if r is not None:
+        return r
+    return dll(S + [frozenset([comp(l)])], modelo)
+```
+
+Como corresponde ao pseudo-código dos slides:
+
+- `propagate` aplica as duas regras da propagação unitária até não haver
+  cláusulas unitárias (ou aparecer a cláusula vazia), e regista em
+  `modelo` o valor de cada literal propagado.
+- "S vazio" é `not S`; "S contém F" é `frozenset() in S`.
+- `S + [frozenset([l])]` é $S \cup \{l\}$; se falhar, tenta
+  $S \cup \{\tilde{l}\}$.
+- As variáveis que não estão no modelo devolvido podem ter qualquer valor.
+
+Testes (resultados obtidos a correr o código):
+
+```python
+def P(s):  # "p|-q, q" -> [{"p","-q"}, {"q"}]
+    return [set(c.strip() for c in cl.split("|")) for cl in s.split(",")]
+
+dll(P("-p|-q, -p|q, p|-q, p|q"))                     # None (slides)
+dll(P("p|q|r, -p|-q|-r, p|-q|-r, p|q|-r, -p|q, -p|r, p|-q|r"))
+                                                     # None  (1.22 a)
+dll(P("-p|q|r, p|q|r, p|q|-r, p|-q|r, p|-q|-r"))    # {'p': True, 'q': True}  (b)
+dll(P("p|-q|-r, -p|q|r, -p|q|r, -p|q, -p|r"))       # {'p': True, 'q': True, 'r': True}  (c)
+dll(P("p|-q|r, -p|q|r, p|-q|-r, -p|q|-r, -p|-q|-r"))
+                                                     # {'p': True, 'q': True, 'r': False}  (d)
+dll(P("p|-q|-r, -p|q|r, -p|-q|-r, -p|-q|r, -p|q|-r, p|q|-r"))
+                                                     # {'p': False, 'q': True, 'r': False}  (e)
+```
+
+Todos os resultados foram confirmados por força bruta (tabela de verdade
+completa): os `None` são mesmo insatisfazíveis e cada valoração devolvida
+satisfaz todas as cláusulas.

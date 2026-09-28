@@ -1,10 +1,10 @@
 ---
 title: "Lógica Computacional --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 2 (Aulas 1--3)"
+date: "Atualizado: Semana 2 (Aulas 1--4)"
 ---
 
-<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf, Teoricas/Aula_04.pdf -->
 
 # Aula 1 --- Introdução à Lógica e Sintaxe da Lógica Proposicional
 
@@ -1253,7 +1253,9 @@ Horn) e algoritmos que na prática funcionam bem para fórmulas em FNC.
 Uma fórmula está em **forma normal conjuntiva** se é uma **conjunção de
 disjunções de literais** ("um *e* de *ou*'s"):
 $$(\alpha_{11} \lor \dots \lor \alpha_{1k_1}) \land \dots \land (\alpha_{n1} \lor \dots \lor \alpha_{nk_n})$$
-Cada disjunção de literais chama-se uma **cláusula**.
+Cada disjunção de literais chama-se uma **cláusula**. (Na Aula 4 as
+cláusulas passam a escrever-se como **conjuntos de literais**; ver a
+secção "Cláusulas" dessa aula.)
 :::
 
 ::: {.definicao title="--- Lema dual (tautologia de uma FNC)"}
@@ -1615,5 +1617,280 @@ Verificação: $p = V$; $\neg p \lor q = F \lor V = V$; $\neg q \lor p = F \lor 
 - **1.21 (a)** --- implementar o algoritmo a partir do pseudo-código acima.
 :::
 
-Os exercícios **1.22 e 1.23** (algoritmo de Davis-Putnam/DPLL) ficam fora
-do resumo até serem dados nas teóricas.
+Os slides da Aula 4 começam por rever as fórmulas de Horn e o algoritmo
+acima (é a mesma matéria, por isso está toda aqui). O exercício dos
+slides dessa aula, $p \land (\neg p \lor q) \land \neg r$, é a 4.ª
+fórmula da 1.21(c), na caixa acima.
+
+# Aula 4 --- Satisfazibilidade: cláusulas e o algoritmo de Davis-Putnam
+
+Os slides desta aula começam por rever as formas normais (negativa,
+disjuntiva, conjuntiva), a satisfazibilidade de uma FND e as fórmulas de
+Horn com o seu algoritmo. Isso já está explicado na Aula 3 ("Fórmulas de
+Horn"). A matéria nova é o caso **geral**: decidir se uma fórmula
+qualquer em FNC é satisfazível, com o **algoritmo de Davis-Putnam (DLL)**.
+
+## O problema SAT
+
+Saber se uma fórmula da lógica proposicional é satisfazível é um problema
+**central na informática**, porque muitos problemas de outras áreas se
+podem escrever como uma fórmula e a pergunta "há solução?" passa a ser "a
+fórmula é satisfazível?":
+
+- **otimização**: planeamento, escalonamento de horários (*scheduling*),
+  etc.;
+- **combinatória**: coloração de grafos, etc.;
+- **teorias da lógica de primeira ordem**: programação linear, aritmética
+  de números reais, sequências de bits, apontadores, etc. (os ***SMT
+  solvers***).
+
+Se a fórmula não está em FND, nem numa classe em que a satisfazibilidade
+seja fácil (como Horn), a tabela de verdade é o único caminho? **No pior
+caso, sim**: não se conhece nenhum algoritmo para a satisfazibilidade que
+não seja **exponencial** no número de variáveis e conectivos (**SAT é
+NP-completo**; ver também a nota da Aula 3 sobre "P = NP?").
+
+Mas, **no caso geral**, há algoritmos muito melhores do que construir a
+tabela inteira. A ideia é **ir construindo uma valoração parcial** que
+satisfaça a fórmula, em vez de gerar valorações completas (linhas da
+tabela) e testar cada uma. Isto fica especialmente simples com fórmulas
+em **FNC**, escritas de forma compacta como conjuntos de **cláusulas**.
+
+## Cláusulas
+
+::: {.definicao title="--- Cláusula"}
+Uma **cláusula** é uma disjunção de literais $l_1 \lor l_2 \lor \dots \lor
+l_n$, com $n \geq 0$ (é o mesmo nome da Aula 3, "Forma normal
+conjuntiva"). Representa-se pelo **conjunto** dos seus literais
+$\{l_1, \dots, l_n\}$.
+
+- Se $n = 0$, a cláusula é **vazia** e corresponde a $F$.
+- Se $n = 1$, a cláusula é **unitária**.
+
+Exemplo: $p \lor \neg q \lor \neg p \lor s$ representa-se por
+$\{p, \neg q, \neg p, s\}$.
+
+Qualquer fórmula em **FNC** representa-se por um **conjunto de
+cláusulas** (a conjunção fica implícita).
+:::
+
+::: exemplo
+$$\neg p \land (q \lor r \lor q) \land (\neg r \lor \neg s) \land (p \lor s) \land (\neg q \lor \neg s)$$
+corresponde ao conjunto de cláusulas
+$$\{\{\neg p\},\ \{q, r\},\ \{\neg r, \neg s\},\ \{p, s\},\ \{\neg q, \neg s\}\}$$
+
+Repara na segunda cláusula: $q \lor r \lor q$ fica $\{q, r\}$, porque um
+conjunto não tem repetidos (é a idempotência, $q \lor q \Leftrightarrow
+q$). Pela mesma razão, uma cláusula repetida no conjunto conta uma só vez
+(idempotência do $\land$).
+:::
+
+::: {.atencao title="--- O que quer dizer um conjunto vazio"}
+Nota adicional (não estava explícito nos slides, mas o algoritmo DLL
+abaixo depende disto): há dois "vazios" diferentes.
+
+- **Cláusula vazia** $\{\}$ (escreve-se $F$): uma disjunção sem nenhum
+  literal é **falsa**. Se um conjunto de cláusulas contém a cláusula
+  vazia, é **insatisfazível** (uma conjunção com um $F$ é $F$).
+- **Conjunto de cláusulas vazio** $\{\}$: uma conjunção sem nenhum termo é
+  **verdadeira** (não há nenhuma cláusula para falhar). É
+  **satisfazível**.
+:::
+
+::: {.definicao title="--- Literal complementar"}
+Dado um literal $l$, o **literal complementar** $\tilde{l}$ é:
+$$\tilde{l} = \begin{cases} \neg l, & \text{se } l \text{ é uma variável (positivo)} \\ p, & \text{se } l \text{ é da forma } \neg p \text{ (negativo)} \end{cases}$$
+Por exemplo, $\tilde{p} = \neg p$ e $\widetilde{\neg p} = p$.
+:::
+
+Como se viu na Aula 3 (lema dual), uma cláusula é **tautologia** se
+contém um par de literais complementares $p$ e $\neg p$. Essas cláusulas
+**podem ser retiradas** do conjunto sem alterar a satisfazibilidade: são
+sempre $V$, e $V \land \varphi \Leftrightarrow \varphi$. Por exemplo,
+$\{p, \neg q, \neg p, s\}$ acima pode simplesmente sair.
+
+## Propagação unitária
+
+O algoritmo de **Davis-Putnam** tem uma versão inicial de **1960** e
+ainda é a base de muitos dos algoritmos mais eficientes de hoje (ver as
+competições de *SAT solvers*, <http://www.satcompetition.org/>). A ideia
+é **considerar os valores possíveis para cada variável e simplificar a
+fórmula** com essas atribuições, até se poder concluir se é satisfazível.
+A simplificação principal é a **propagação unitária**.
+
+::: {.definicao title="--- Propagação unitária"}
+Seja $S$ um conjunto de cláusulas. Obtém-se $S'$ a partir de $S$ por
+**propagação unitária** repetindo a seguinte transformação: se $S$ contém
+uma **cláusula unitária** $l$, então
+
+1. **retiram-se** de $S$ todas as cláusulas da forma $l \lor C'$ (as que
+   contêm $l$, incluindo a própria cláusula $l$);
+2. **substitui-se** cada cláusula da forma $\tilde{l} \lor C'$ pela
+   cláusula $C'$ (tira-se o literal complementar).
+:::
+
+::: {.atencao title="--- Porque é que a propagação não muda a satisfazibilidade"}
+Nota adicional (não estava explícito nos slides). Se $l$ é uma cláusula
+sozinha, qualquer valoração que satisfaça $S$ tem de pôr $l = V$ (é um
+elemento da conjunção, como os factos de Horn). Com $l = V$:
+
+- uma cláusula que contém $l$ fica $V$ de certeza: pode sair;
+- numa cláusula que contém $\tilde{l}$, esse literal é $F$ e não ajuda
+  nada ($F \lor C' \Leftrightarrow C'$): pode sair da cláusula.
+
+Se ao tirar $\tilde{l}$ uma cláusula fica **vazia** (era só $\tilde{l}$),
+aparece $F$: o conjunto é insatisfazível. Os literais propagados dizem
+também **que valores** têm as variáveis numa valoração que satisfaça $S$.
+:::
+
+::: {.exemplo title="--- Exemplo dos slides: só com propagação (1/2)"}
+$$S = \{p_1,\ \neg p_1 \lor \neg p_2,\ p_3 \lor p_2,\ \neg p_7 \lor p_2,\ \neg p_3 \lor p_4,\ \neg p_3 \lor p_5,$$
+$$\neg p_4 \lor \neg p \lor q,\ \neg p_5 \lor \neg p_6 \lor r,\ \neg p \lor \neg q \lor p_6,\ p \lor p_7,\ \neg r \lor p_7\}$$
+
+**Propagar $p_1$.** Saem as cláusulas com $p_1$: só a própria $p_1$. Às
+que têm $\neg p_1$ tira-se esse literal: $\neg p_1 \lor \neg p_2$ fica
+$\neg p_2$.
+$$\{\neg p_2,\ p_3 \lor p_2,\ \neg p_7 \lor p_2,\ \neg p_3 \lor p_4,\ \neg p_3 \lor p_5,\ \neg p_4 \lor \neg p \lor q,\ \neg p_5 \lor \neg p_6 \lor r,\ \neg p \lor \neg q \lor p_6,\ p \lor p_7,\ \neg r \lor p_7\}$$
+
+**Propagar $\neg p_2$.** Sai $\neg p_2$. O complementar é $p_2$:
+$p_3 \lor p_2$ fica $p_3$ e $\neg p_7 \lor p_2$ fica $\neg p_7$.
+$$\{p_3,\ \neg p_7,\ \neg p_3 \lor p_4,\ \neg p_3 \lor p_5,\ \neg p_4 \lor \neg p \lor q,\ \neg p_5 \lor \neg p_6 \lor r,\ \neg p \lor \neg q \lor p_6,\ p \lor p_7,\ \neg r \lor p_7\}$$
+
+**Propagar $p_3$.** Sai $p_3$. $\neg p_3 \lor p_4$ fica $p_4$;
+$\neg p_3 \lor p_5$ fica $p_5$.
+
+**Propagar $\neg p_7$.** Sai $\neg p_7$. $p \lor p_7$ fica $p$;
+$\neg r \lor p_7$ fica $\neg r$.
+$$\{p_4,\ p_5,\ \neg p_4 \lor \neg p \lor q,\ \neg p_5 \lor \neg p_6 \lor r,\ \neg p \lor \neg q \lor p_6,\ p,\ \neg r\}$$
+:::
+
+::: {.exemplo title="--- Exemplo dos slides: só com propagação (2/2)"}
+**Propagar $p_4$.** $\neg p_4 \lor \neg p \lor q$ fica $\neg p \lor q$.
+
+**Propagar $p_5$.** $\neg p_5 \lor \neg p_6 \lor r$ fica $\neg p_6 \lor r$.
+
+**Propagar $\neg r$.** $\neg p_6 \lor r$ fica $\neg p_6$.
+
+**Propagar $p$.** Sai $p$. $\neg p \lor q$ fica $q$;
+$\neg p \lor \neg q \lor p_6$ fica $\neg q \lor p_6$.
+$$\{q,\ \neg p_6,\ \neg q \lor p_6\}$$
+
+**Propagar $q$.** $\neg q \lor p_6$ fica $p_6$: $\{\neg p_6,\ p_6\}$.
+
+**Propagar $\neg p_6$.** Sai $\neg p_6$. A cláusula $p_6$ perde o seu
+único literal e fica **vazia**:
+$$\{F\}$$
+
+O conjunto inicial é **insatisfazível**, e aqui bastou a propagação
+unitária (nunca foi preciso "adivinhar" um valor). Os slides propagam
+alguns literais ao mesmo tempo ($p_3$ e $\neg p_7$; depois $p_4$, $p_5$,
+$\neg r$ e $p$); a ordem não altera o resultado.
+:::
+
+## O algoritmo DLL
+
+Quando a propagação pára e ainda não se chegou a uma conclusão (não há
+cláusulas unitárias, o conjunto não é vazio e não contém $F$), é preciso
+**escolher** um literal e experimentar os dois valores.
+
+::: {.definicao title="--- Algoritmo de Davis-Putnam (DLL)"}
+```
+DLL(S)
+  input:  conjunto de clausulas S
+  output: satisfazivel ou insatisfazivel
+  S := propagate(S)
+  if S vazio then return satisfazivel
+  if S contem F then return insatisfazivel
+  l := select_literal(S)
+  if DLL(S uniao {l}) = satisfazivel
+    then return satisfazivel
+    else return DLL(S uniao {~l})       -- ~l: o complementar de l
+```
+
+- Acrescentar a cláusula unitária $\{l\}$ é **supor $l = V$**; a
+  propagação da chamada recursiva trata do resto.
+- Se essa suposição dá insatisfazível, **volta-se atrás**
+  (*backtracking*) e supõe-se o contrário, $\tilde{l}$.
+- Só se responde "insatisfazível" quando **os dois ramos** falham.
+:::
+
+A função `select_literal` devolve um literal de uma das cláusulas. Pode
+ver-se como um **parâmetro** do algoritmo: uma boa escolha torna-o muito
+mais eficiente. Critérios possíveis, escolher uma variável que:
+
+- **ocorre mais vezes**;
+- tem o **produto** das ocorrências de $l$ e de $\tilde{l}$ **máximo**;
+- ocorre mais vezes em **cláusulas de tamanho mínimo**;
+- etc.
+
+::: {.atencao title="--- Ler uma valoração da resposta"}
+Nota adicional (não estava explícito nos slides). Quando o DLL responde
+"satisfazível", os literais que foram **supostos** e **propagados** no
+ramo que teve sucesso formam uma valoração que satisfaz $S$. As variáveis
+que não apareceram podem ter qualquer valor.
+:::
+
+::: {.exemplo title="--- Exemplo dos slides: é preciso escolher"}
+$$S = \{\neg p \lor \neg q,\ \neg p \lor q,\ p \lor \neg q,\ p \lor q\}$$
+
+Não há cláusulas unitárias: a propagação não faz nada. Escolhe-se um
+literal, por exemplo **$\neg p$**.
+
+**Ramo $S \cup \{\neg p\}$.** Propagar $\neg p$: saem as cláusulas com
+$\neg p$ ($\neg p \lor \neg q$ e $\neg p \lor q$). Às que têm $p$ tira-se
+$p$: $p \lor \neg q$ fica $\neg q$ e $p \lor q$ fica $q$. Obtém-se
+$\{\neg q, q\}$. Propagar $\neg q$: sai $\neg q$ e $q$ fica vazia:
+$\{F\}$. **Falha.**
+
+**Ramo $S \cup \{p\}$.** Propagar $p$: saem $p \lor \neg q$ e $p \lor q$;
+$\neg p \lor \neg q$ fica $\neg q$ e $\neg p \lor q$ fica $q$. Outra vez
+$\{\neg q, q\} \Rightarrow \{F\}$. **Falha.**
+
+Os dois ramos falham: o algoritmo devolve **insatisfazível**. (Faz
+sentido: as quatro cláusulas proíbem cada uma das quatro combinações de
+valores de $p$ e $q$.)
+:::
+
+::: {.exemplo title="--- Exercício 1.22(a) (lab, proplogic.pdf)"}
+$$S = \{p \lor q \lor r,\ \neg p \lor \neg q \lor \neg r,\ p \lor \neg q \lor \neg r,\ p \lor q \lor \neg r,\ \neg p \lor q,\ \neg p \lor r,\ p \lor \neg q \lor r\}$$
+
+Não há unitárias. Critério "ocorre mais vezes": $p$ está nas 7
+cláusulas, $q$ e $r$ em 6. Escolhe-se **$p$**.
+
+**Ramo $p$.** Saem as 4 cláusulas com $p$. Às 3 com $\neg p$ tira-se
+$\neg p$: $\{\neg q \lor \neg r,\ q,\ r\}$. Propagar $q$: $\neg q \lor
+\neg r$ fica $\neg r$, $\{\neg r, r\}$. Propagar $\neg r$: $r$ fica vazia,
+$\{F\}$. **Falha.**
+
+**Ramo $\neg p$.** Saem as 3 cláusulas com $\neg p$. Às 4 com $p$
+tira-se $p$: $\{q \lor r,\ \neg q \lor \neg r,\ q \lor \neg r,\ \neg q
+\lor r\}$. Não há unitárias; $q$ e $r$ ocorrem 4 vezes cada. Escolhe-se
+**$q$**.
+
+- **Ramo $q$**: saem $q \lor r$ e $q \lor \neg r$; $\neg q \lor \neg r$
+  fica $\neg r$ e $\neg q \lor r$ fica $r$. $\{\neg r, r\} \Rightarrow
+  \{F\}$. **Falha.**
+- **Ramo $\neg q$**: saem $\neg q \lor \neg r$ e $\neg q \lor r$; $q \lor
+  r$ fica $r$ e $q \lor \neg r$ fica $\neg r$. $\{r, \neg r\} \Rightarrow
+  \{F\}$. **Falha.**
+
+Todos os ramos falham: **insatisfazível**.
+
+![](figuras/dll_arvore_1_22a.pdf){width=62%}
+:::
+
+::: {.pratica title="--- Davis-Putnam (proplogic.pdf, 1.22 e 1.23)"}
+- **1.22 (c)** $\{p \lor \neg q \lor \neg r,\ \neg p \lor q \lor r,\ \neg p
+  \lor q \lor r,\ \neg p \lor q,\ \neg p \lor r\}$. Repara na cláusula
+  repetida. Depois de escolher o primeiro literal, a propagação faz o
+  resto.
+- **1.22 (e)** $\{p \lor \neg q \lor \neg r,\ \neg p \lor q \lor r,\ \neg p
+  \lor \neg q \lor \neg r,\ \neg p \lor \neg q \lor r,\ \neg p \lor q \lor
+  \neg r,\ p \lor q \lor \neg r\}$. Começa por $p$, como na 1.22(a); aqui
+  é preciso voltar atrás antes de encontrar uma valoração. Diz qual é.
+- **1.23** Implementar o algoritmo DLL (propagação + escolha + volta
+  atrás), a partir do pseudo-código acima.
+
+A 1.22(b) e a 1.22(d) são a mesma técnica com outros conjuntos; não é
+preciso fazê-las todas.
+:::

@@ -1,0 +1,28 @@
+digraph nfa {
+  rankdir=LR; nodesep=0.3; ranksep=0.45;
+  node [shape=ellipse, fontname="Helvetica", fontsize=11];
+  edge [fontname="Helvetica", fontsize=12];
+  start [shape=point];
+  i1 [label="S' → • S $"];
+  i2 [label="S' → S • $"];
+  i3 [label="S' → S $ •"];
+  i4 [label="S → • ( S ) S"];
+  i5 [label="S → ( • S ) S"];
+  i6 [label="S → ( S • ) S"];
+  i7 [label="S → ( S ) • S"];
+  i8 [label="S → ( S ) S •"];
+  i9 [label="S → •"];
+  start -> i1;
+  i1 -> i2 [label="S"];
+  i2 -> i3 [label="$"];
+  i1 -> i4 [label="ε", style=dashed];
+  i1 -> i9 [label="ε", style=dashed];
+  i4 -> i5 [label="("];
+  i5 -> i6 [label="S"];
+  i5 -> i4 [label="ε", style=dashed];
+  i5 -> i9 [label="ε", style=dashed];
+  i6 -> i7 [label=")"];
+  i7 -> i8 [label="S"];
+  i7 -> i4 [label="ε", style=dashed];
+  i7 -> i9 [label="ε", style=dashed];
+}

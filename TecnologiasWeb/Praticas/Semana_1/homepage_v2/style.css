@@ -1,0 +1,273 @@
+:root {
+  --paper: #fbfaf7;
+  --ink: #1c1b19;
+  --muted: #625f58;
+  --rule: #dedad2;
+  --link: #8b2f1c;
+  --serif: Charter, "Bitstream Charter", "Iowan Old Style", "Sitka Text", Cambria, Georgia, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #161614;
+    --ink: #e8e5de;
+    --muted: #a19d94;
+    --rule: #34322e;
+    --link: #e39a82;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 50rem;
+  padding: 3.5rem 1.5rem 3rem;
+  background: var(--paper);
+  color: var(--ink);
+  font: 1.0625rem/1.6 var(--serif);
+}
+
+a {
+  color: var(--link);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Intro */
+
+.intro {
+  margin-bottom: 3rem;
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.name img {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 4px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.lede {
+  margin: 0;
+  max-width: 36em;
+  font-size: 1.1875rem;
+  line-height: 1.55;
+}
+
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  overflow-wrap: anywhere;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  margin-right: 0.4em;
+  vertical-align: -0.15em;
+}
+
+.highlights {
+  margin: 1.25rem 0 0;
+  padding: 0 0 0 1rem;
+  max-width: 38em;
+  border-left: 2px solid var(--rule);
+  list-style: none;
+}
+
+.highlights li + li {
+  margin-top: 0.3rem;
+}
+
+/* Sections: label and dates in a narrow left column, content on the right */
+
+.block {
+  border-top: 1px solid var(--rule);
+  padding-top: 1.25rem;
+  margin-bottom: 2.75rem;
+}
+
+h2 {
+  margin: 0 0 1.25rem;
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 9.5rem 1fr;
+  column-gap: 2rem;
+  margin-bottom: 1.75rem;
+}
+
+.entry > :not(.when) {
+  grid-column: 2;
+}
+
+.when {
+  margin: 0.2rem 0 0;
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.meta {
+  margin: 0.1rem 0 0.5rem;
+  font-style: italic;
+  color: var(--muted);
+}
+
+.entry p {
+  margin-top: 0;
+}
+
+.entry ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.entry li {
+  margin-bottom: 0.35rem;
+}
+
+.entry li::marker {
+  color: var(--muted);
+}
+
+.notes {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.4rem 1.25rem;
+  margin: 0;
+}
+
+.notes dt {
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding-top: 0.15rem;
+}
+
+.notes dd {
+  margin: 0;
+}
+
+.colophon {
+  border-top: 1px solid var(--rule);
+  padding-top: 1rem;
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.colophon p {
+  margin: 0;
+}
+
+@media (max-width: 40rem) {
+  body {
+    padding: 2rem 1.25rem 2.5rem;
+    font-size: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .name img {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  .lede {
+    font-size: 1.0625rem;
+  }
+
+  .entry {
+    grid-template-columns: 1fr;
+  }
+
+  .entry > :not(.when) {
+    grid-column: 1;
+  }
+
+  .when {
+    margin: 0 0 0.15rem;
+  }
+
+  .notes {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .notes dd {
+    margin-bottom: 0.6rem;
+  }
+}
+
+/* Poker chart */
+
+.poker {
+  margin: 1.25rem 0 0;
+}
+
+.poker img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.poker figcaption {
+  margin-top: 0.5rem;
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  color: var(--muted);
+}

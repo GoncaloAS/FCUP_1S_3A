@@ -151,6 +151,13 @@ fórmulas</a></li>
 <li><a href="#algoritmo-de-satisfazibilidade-de-horn" id="toc-algoritmo-de-satisfazibilidade-de-horn">1.21 — Algoritmo de
 satisfazibilidade de Horn</a></li>
 </ul></li>
+<li><a href="#aula-4-o-algoritmo-dll" id="toc-aula-4-o-algoritmo-dll">Aula 4 — O algoritmo DLL</a>
+<ul>
+<li><a href="#algoritmo-de-davis-putnam-dll" id="toc-algoritmo-de-davis-putnam-dll">1.22 — Algoritmo de Davis-Putnam
+(DLL)</a></li>
+<li><a href="#implementar-o-algoritmo-dll" id="toc-implementar-o-algoritmo-dll">1.23 — Implementar o algoritmo
+DLL</a></li>
+</ul></li>
 </ul>
 </details></nav>
 
@@ -1504,6 +1511,303 @@ marcadas, por isso dispara logo. Testes (os quatro da 1.21(c)):</p>
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p\to q</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg q</annotation></semantics></math>).</p>
+</div></details>
+<h2 id="aula-4-o-algoritmo-dll">Aula 4 — O algoritmo DLL</h2>
+<h3 id="algoritmo-de-davis-putnam-dll">1.22 — Algoritmo de Davis-Putnam
+(DLL)</h3>
+<p>Critério de escolha usado (o mesmo da 1.22(a) no resumo): a variável
+que <strong>ocorre mais vezes</strong>, em caso de empate a primeira por
+ordem alfabética, experimentando primeiro o literal positivo.</p>
+<details class="sol" id="1.22-c"><summary>
+(c)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi><mo>,</mo><mspace width="0.222em"></mspace><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo>∨</mo><mi>r</mi><mo>,</mo><mspace width="0.222em"></mspace><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo>∨</mo><mi>r</mi><mo>,</mo><mspace width="0.222em"></mspace><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo>,</mo><mspace width="0.222em"></mspace><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{p \lor \neg q \lor \neg r,\ \neg p \lor q \lor r,\ \neg p \lor q \lor r,\ \neg p \lor q,\ \neg p \lor r\}</annotation></semantics></math>
+</summary><div class="corpo">
+<p><strong>Conjunto.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo>∨</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\neg p \lor q \lor r</annotation></semantics></math>
+aparece duas vezes, mas num conjunto conta uma só vez:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>=</mo><mo stretchy="false" form="prefix">{</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi><mo>,</mo><mspace width="0.222em"></mspace><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo>∨</mo><mi>r</mi><mo>,</mo><mspace width="0.222em"></mspace><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo>,</mo><mspace width="0.222em"></mspace><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">S = \{p \lor \neg q \lor \neg r,\ \neg p \lor q \lor r,\ \neg p \lor q,\ \neg p \lor r\}</annotation></semantics></math></p>
+<p><strong>Propagação:</strong> não há cláusulas unitárias; não faz
+nada.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>
+não é vazio nem contém
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>.</p>
+<p><strong>Escolha:</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+ocorre nas 4 cláusulas,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
+em 3. Escolhe-se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>.</p>
+<p><strong>Ramo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>p</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">S \cup \{p\}</annotation></semantics></math>.</strong>
+Propagar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>:</p>
+<ul>
+<li>sai
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">p \lor \neg q \lor \neg r</annotation></semantics></math>
+(contém
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>),
+e a própria
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>p</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{p\}</annotation></semantics></math>;</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo>∨</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\neg p \lor q \lor r</annotation></semantics></math>
+fica
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>∨</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">q \lor r</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg p \lor q</annotation></semantics></math>
+fica
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\neg p \lor r</annotation></semantics></math>
+fica
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>.</li>
+</ul>
+<p>Obtém-se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>q</mi><mo>∨</mo><mi>r</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>q</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{q \lor r,\ q,\ r\}</annotation></semantics></math>.
+Propagar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>:
+saem
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>∨</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">q \lor r</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>,
+fica
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{r\}</annotation></semantics></math>.
+Propagar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>:
+sai
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>,
+fica
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\}</annotation></semantics></math>.</p>
+<p><strong>O conjunto ficou vazio: satisfazível.</strong> Não foi
+preciso o ramo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p</annotation></semantics></math>.</p>
+<p><strong>Valoração</strong> (literais supostos e propagados):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">p = V</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">q = V</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">r = V</annotation></semantics></math>.
+Verificação:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">p \lor \neg q \lor \neg r = V</annotation></semantics></math>
+(por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>);
+as outras três têm
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+ou
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
+a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>✓</mi><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></p>
+</div></details>
+<details class="sol" id="1.22-e"><summary>
+(e)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi><mo>,</mo><mspace width="0.222em"></mspace><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo>∨</mo><mi>r</mi><mo>,</mo><mspace width="0.222em"></mspace><mo>¬</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi><mo>,</mo><mspace width="0.222em"></mspace><mo>¬</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo>∨</mo><mi>r</mi><mo>,</mo><mspace width="0.222em"></mspace><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>p</mi><mo>∨</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{p \lor \neg q \lor \neg r,\ \neg p \lor q \lor r,\ \neg p \lor \neg q \lor \neg r,\ \neg p \lor \neg q \lor r,\ \neg p \lor q \lor \neg r,\ p \lor q \lor \neg r\}</annotation></semantics></math>
+</summary><div class="corpo">
+<p><strong>Propagação:</strong> não há unitárias.
+<strong>Escolha:</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
+ocorrem 6 vezes cada; escolhe-se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>.</p>
+<p><strong>Ramo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>.</strong>
+Saem as 2 cláusulas com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">p \lor \neg q \lor \neg r</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">p \lor q \lor \neg r</annotation></semantics></math>).
+Às 4 com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p</annotation></semantics></math>
+tira-se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p</annotation></semantics></math>:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>q</mi><mo>∨</mo><mi>r</mi><mo>,</mo><mspace width="0.222em"></mspace><mo>¬</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi><mo>,</mo><mspace width="0.222em"></mspace><mo>¬</mo><mi>q</mi><mo>∨</mo><mi>r</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{q \lor r,\ \neg q \lor \neg r,\ \neg q \lor r,\ q \lor \neg r\}</annotation></semantics></math>
+Não há unitárias;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
+ocorrem 4 vezes. Escolhe-se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>.</p>
+<ul>
+<li><strong>Ramo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math></strong>:
+saem
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>∨</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">q \lor r</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">q \lor \neg r</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\neg q \lor \neg r</annotation></semantics></math>
+fica
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\neg r</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi><mo>∨</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\neg q \lor r</annotation></semantics></math>
+fica
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mo>¬</mo><mi>r</mi><mo>,</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\neg r, r\}</annotation></semantics></math>;
+propagar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\neg r</annotation></semantics></math>
+deixa
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
+vazia:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>F</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{F\}</annotation></semantics></math>.
+<strong>Falha.</strong></li>
+<li><strong>Ramo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg q</annotation></semantics></math></strong>:
+saem
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\neg q \lor \neg r</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi><mo>∨</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\neg q \lor r</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>∨</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">q \lor
+r</annotation></semantics></math> fica
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">q \lor \neg r</annotation></semantics></math>
+fica
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\neg r</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>r</mi><mo>,</mo><mo>¬</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo><mo>⇒</mo><mo stretchy="false" form="prefix">{</mo><mi>F</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{r, \neg r\} \Rightarrow
+\{F\}</annotation></semantics></math>. <strong>Falha.</strong></li>
+</ul>
+<p>O ramo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+falha todo. <strong>Volta-se atrás.</strong></p>
+<p><strong>Ramo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p</annotation></semantics></math>.</strong>
+Saem as 4 cláusulas com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p</annotation></semantics></math>.
+Às 2 com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+tira-se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">p \lor \neg q \lor \neg r</annotation></semantics></math>
+fica
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\neg q \lor \neg r</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">p \lor q
+\lor \neg r</annotation></semantics></math> fica
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">q \lor \neg r</annotation></semantics></math>.
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mo>¬</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\neg q \lor \neg r,\ q \lor \neg r\}</annotation></semantics></math>
+Não há unitárias;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
+ocorrem 2 vezes. Escolhe-se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>.</p>
+<ul>
+<li><strong>Ramo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math></strong>:
+sai
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">q \lor \neg r</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\neg q \lor \neg r</annotation></semantics></math>
+fica
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\neg r</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mo>¬</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\neg r\}</annotation></semantics></math>;
+propagar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\neg r</annotation></semantics></math>:
+fica
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\}</annotation></semantics></math>.
+<strong>Vazio: satisfazível.</strong></li>
+</ul>
+<p><strong>Valoração</strong>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">p = F</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">q = V</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>=</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">r = F</annotation></semantics></math>.
+Verificação: as 4 cláusulas com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p</annotation></semantics></math>
+são
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>V</mi><annotation encoding="application/x-tex">V</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi><mo>=</mo><mi>F</mi><mo>∨</mo><mi>F</mi><mo>∨</mo><mi>V</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">p \lor \neg q \lor \neg r = F \lor F \lor V = V</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mi>q</mi><mo>∨</mo><mo>¬</mo><mi>r</mi><mo>=</mo><mi>F</mi><mo>∨</mo><mi>V</mi><mo>∨</mo><mi>V</mi><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">p \lor q \lor \neg r = F \lor V \lor V = V</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>✓</mi><annotation encoding="application/x-tex">\checkmark</annotation></semantics></math></p>
+<p>(Por força bruta, as únicas valorações que satisfazem são
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>F</mi><mo>,</mo><mi>r</mi><mo>=</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">p=F, r=F</annotation></semantics></math>
+com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+qualquer: repara que, no último conjunto,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\neg r</annotation></semantics></math>
+já satisfazia as duas cláusulas.)</p>
+</div></details>
+<h3 id="implementar-o-algoritmo-dll">1.23 — Implementar o algoritmo
+DLL</h3>
+<details class="sol" id="1.23-1"><summary>
+Resposta
+</summary><div class="corpo">
+<p>Resposta-modelo em Python. Um literal é uma string: <code>&quot;p&quot;</code>
+ou <code>&quot;-p&quot;</code>. Uma cláusula é um <code>frozenset</code> de
+literais; o conjunto de cláusulas é uma lista. A função devolve uma
+valoração (dicionário) se o conjunto for satisfazível, e
+<code>None</code> se não for.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> comp(l):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Literal complementar: &#39;p&#39; &lt;-&gt; &#39;-p&#39;.&quot;&quot;&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> l[<span class="dv">1</span>:] <span class="cf">if</span> l.startswith(<span class="st">&quot;-&quot;</span>) <span class="cf">else</span> <span class="st">&quot;-&quot;</span> <span class="op">+</span> l</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> propagate(S, modelo):</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Propagação unitária. S: lista de frozensets. Devolve o novo S</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">    (pode conter frozenset() = cláusula vazia = F).&quot;&quot;&quot;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">frozenset</span>() <span class="kw">in</span> S:</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> S</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        unit <span class="op">=</span> <span class="bu">next</span>((c <span class="cf">for</span> c <span class="kw">in</span> S <span class="cf">if</span> <span class="bu">len</span>(c) <span class="op">==</span> <span class="dv">1</span>), <span class="va">None</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> unit <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> S</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        (l,) <span class="op">=</span> unit</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        modelo[l.lstrip(<span class="st">&quot;-&quot;</span>)] <span class="op">=</span> <span class="kw">not</span> l.startswith(<span class="st">&quot;-&quot;</span>)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        novo <span class="op">=</span> []</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> c <span class="kw">in</span> S:</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> l <span class="kw">in</span> c:                 <span class="co"># 1. cláusula satisfeita: sai</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> comp(l) <span class="kw">in</span> c:           <span class="co"># 2. tira o literal complementar</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>                c <span class="op">=</span> c <span class="op">-</span> {comp(l)}</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>            novo.append(c)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        S <span class="op">=</span> novo</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> select_literal(S):</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Critério: a variável que ocorre mais vezes (positiva).&quot;&quot;&quot;</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    conta <span class="op">=</span> {}</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> c <span class="kw">in</span> S:</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> l <span class="kw">in</span> c:</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>            v <span class="op">=</span> l.lstrip(<span class="st">&quot;-&quot;</span>)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>            conta[v] <span class="op">=</span> conta.get(v, <span class="dv">0</span>) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">max</span>(<span class="bu">sorted</span>(conta), key<span class="op">=</span><span class="kw">lambda</span> v: conta[v])</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> dll(S, modelo<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Devolve um modelo (dict) se S é satisfazível, None se não é.&quot;&quot;&quot;</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    modelo <span class="op">=</span> <span class="bu">dict</span>(modelo <span class="kw">or</span> {})</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    S <span class="op">=</span> propagate([<span class="bu">frozenset</span>(c) <span class="cf">for</span> c <span class="kw">in</span> S], modelo)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> S:</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> modelo                  <span class="co"># sem cláusulas: satisfazível</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">frozenset</span>() <span class="kw">in</span> S:</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span>                    <span class="co"># contém F: insatisfazível</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    l <span class="op">=</span> select_literal(S)</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> dll(S <span class="op">+</span> [<span class="bu">frozenset</span>([l])], modelo)</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> r <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> r</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dll(S <span class="op">+</span> [<span class="bu">frozenset</span>([comp(l)])], modelo)</span></code></pre></div>
+<p>Como corresponde ao pseudo-código dos slides:</p>
+<ul>
+<li><code>propagate</code> aplica as duas regras da propagação unitária
+até não haver cláusulas unitárias (ou aparecer a cláusula vazia), e
+regista em <code>modelo</code> o valor de cada literal propagado.</li>
+<li>“S vazio” é <code>not S</code>; “S contém F” é
+<code>frozenset() in S</code>.</li>
+<li><code>S + [frozenset([l])]</code> é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mi>l</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">S \cup \{l\}</annotation></semantics></math>;
+se falhar, tenta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mo>∪</mo><mo stretchy="false" form="prefix">{</mo><mover><mi>l</mi><mo accent="true">̃</mo></mover><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">S \cup \{\tilde{l}\}</annotation></semantics></math>.</li>
+<li>As variáveis que não estão no modelo devolvido podem ter qualquer
+valor.</li>
+</ul>
+<p>Testes (resultados obtidos a correr o código):</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> P(s):  <span class="co"># &quot;p|-q, q&quot; -&gt; [{&quot;p&quot;,&quot;-q&quot;}, {&quot;q&quot;}]</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">set</span>(c.strip() <span class="cf">for</span> c <span class="kw">in</span> cl.split(<span class="st">&quot;|&quot;</span>)) <span class="cf">for</span> cl <span class="kw">in</span> s.split(<span class="st">&quot;,&quot;</span>)]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>dll(P(<span class="st">&quot;-p|-q, -p|q, p|-q, p|q&quot;</span>))                     <span class="co"># None (slides)</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>dll(P(<span class="st">&quot;p|q|r, -p|-q|-r, p|-q|-r, p|q|-r, -p|q, -p|r, p|-q|r&quot;</span>))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                                                     <span class="co"># None  (1.22 a)</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>dll(P(<span class="st">&quot;-p|q|r, p|q|r, p|q|-r, p|-q|r, p|-q|-r&quot;</span>))    <span class="co"># {&#39;p&#39;: True, &#39;q&#39;: True}  (b)</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>dll(P(<span class="st">&quot;p|-q|-r, -p|q|r, -p|q|r, -p|q, -p|r&quot;</span>))       <span class="co"># {&#39;p&#39;: True, &#39;q&#39;: True, &#39;r&#39;: True}  (c)</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>dll(P(<span class="st">&quot;p|-q|r, -p|q|r, p|-q|-r, -p|q|-r, -p|-q|-r&quot;</span>))</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                                                     <span class="co"># {&#39;p&#39;: True, &#39;q&#39;: True, &#39;r&#39;: False}  (d)</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>dll(P(<span class="st">&quot;p|-q|-r, -p|q|r, -p|-q|-r, -p|-q|r, -p|q|-r, p|q|-r&quot;</span>))</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                                                     <span class="co"># {&#39;p&#39;: False, &#39;q&#39;: True, &#39;r&#39;: False}  (e)</span></span></code></pre></div>
+<p>Todos os resultados foram confirmados por força bruta (tabela de
+verdade completa): os <code>None</code> são mesmo insatisfazíveis e cada
+valoração devolvida satisfaz todas as cláusulas.</p>
 </div></details>
 </main>
 <script>
