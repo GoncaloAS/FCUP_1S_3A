@@ -1,10 +1,10 @@
 ---
 title: "Interação Pessoa-Máquina (IPM) --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 2 (Aulas 1--3, Módulos 01--03)"
+date: "Atualizado: Semana 2 (Aulas 1--3, Módulos 01--03, enunciado do projeto COL)"
 ---
 
-<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pptx -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pptx, Praticas/Semana_2/Enunciado_Projeto_COL.pdf (projeto, fundido na Aula 1) -->
 
 # Aula 1 --- Enquadramento da disciplina e do projeto
 
@@ -87,22 +87,56 @@ Trabalho de grupo baseado no **estudo e desenho** de um sistema capaz de
 fazer interação pessoa-máquina. Envolve: investigação (*research*), análise
 de requisitos, metodologia de implementação e resultados preliminares de
 avaliação. Feito em **grupos de 4**. Não há nota mínima, mas é avaliado de
-forma contínua ao longo do trabalho (não só no entregável final). Há uma
-apresentação intercalar do relatório (data a confirmar).
+forma contínua ao longo do trabalho (não só no entregável final). Os
+slides falam de uma apresentação intercalar do relatório (data a
+confirmar); o calendário do enunciado não a menciona.
 
 **O que o R1 cobre** (ver a sequência completa na Aula 3): da formação do
 grupo até à **proposta de modelos conceptuais e decisões de desenho** ---
 estudos exploratórios, stakeholders, recolha de dados, personas e estudo da
-tecnologia, modelos conceptuais.
+tecnologia, modelos conceptuais --- **e ainda a 1.ª avaliação** (o
+*cognitive walkthrough* sobre os esboços), segundo o enunciado do projeto.
+
+::: {.definicao title="--- R1: entrega e conteúdo obrigatório (enunciado do projeto COL)"}
+**Entrega:** domingo **8 de novembro, 23:30**, em PDF, no máximo **30 MB**.
+O R1 conta a história do grupo até à Fase 1: o que pensaram, o que
+desenharam, como escolheram e o que a primeira avaliação mostrou. **Não é
+um relatório de design bonito, é um relatório de decisões justificadas.**
+Tem de ter, **por esta ordem**:
+
+1. **O problema por palavras vossas** e os 3 ou 4 maiores desafios de
+   interface que identificaram.
+2. **Quem opera:** **três personas**, com nome, experiência e o que as põe
+   em dificuldade. **Uma tem de ser um operador com pouca experiência.**
+3. **As missões** escritas na S4 (**pelo menos cinco**), cada uma com
+   objetivo, situação de partida e o que tem de estar feito no fim. Têm de
+   cobrir situações **normais**, de **cheia** e **pelo menos uma avaria**
+   de equipamento.
+4. **A divisão da interface em painéis**, com a distribuição pelos **2
+   monitores e pela parede de ecrãs** justificada.
+5. **Os esboços:** todas as alternativas da S3 (fotografadas com bom
+   contraste), os **critérios** usados para as comparar (ex.: quanto ajuda
+   a cumprir as missões, quanto ruído acrescenta, quão nova é a
+   abordagem), as **escalas**, os **votos de cada membro** e os
+   resultados. As conclusões da votação escritas e as **iterações** feitas
+   a partir delas.
+6. **A lista de funcionalidades com prioridade (MoSCoW)** e os **dois
+   *storyboards***.
+7. **O *cognitive walkthrough* (Fase 1):** quem vos avaliou, a grelha
+   preenchida, os problemas encontrados e o que decidiram mudar por causa
+   deles.
+8. **O "ouro" do grupo**, tal como está nesse momento (mesmo que ainda seja
+   só uma ideia a começar).
+:::
 
 ### PR2 --- Protótipo + Segundo relatório (6 pontos)
 
 Trabalho baseado numa **implementação de protótipo**, associado ao trabalho
 anterior (R1). Envolve: materiais e ferramentas de prototipagem rápida, uso
-de software (**Figma**), e detalhes de implementação decididos caso a caso
-com o professor. É feito **pelo mesmo grupo** do R1. Também sem nota
-mínima, mas avaliado continuamente. Há uma apresentação final do protótipo
-desenvolvido + segundo relatório.
+de software (**Figma**, usado a partir da S7), e detalhes de implementação
+decididos caso a caso com o professor. É feito **pelo mesmo grupo** do R1.
+Também sem nota mínima, mas avaliado continuamente. Há uma apresentação
+final do protótipo desenvolvido + segundo relatório.
 
 **O que o PR2 cobre**: do **protótipo** em diante --- protótipo, avaliação
 de usabilidade e relatório final. O relatório final é uma "pasta enorme"
@@ -110,6 +144,50 @@ com **todo** o trabalho de cada etapa (esboços, diagramas e gráficos,
 texto, cor). Regra desta disciplina: juntar a **evidência de cada fase** e,
 para cada avaliação, o **antes/depois** do artefacto com a **razão da
 mudança** (o que a avaliação mostrou e o que se alterou por causa disso).
+
+::: {.definicao title="--- PR2: entrega e conteúdo obrigatório (enunciado do projeto COL)"}
+**Entrega:** domingo **13 de dezembro, 23:30**: o relatório em PDF (no
+máximo **50 MB**), o **link do protótipo Figma** (com permissão de
+visualização para os docentes) e a **evidência das três fases** numa pasta
+ou anexo. Continua a história do R1 e acaba na interface final. Tem de ter:
+
+1. Um **resumo do R1 em meia página**, a destacar o que mudou entretanto.
+2. Os ***wireframes*** e a passagem para o **protótipo Figma**, de
+   fidelidade **média a alta**, que permita cumprir **todas as missões do
+   grupo com cliques reais**.
+3. A **avaliação heurística (Fase 2):** lista de problemas com
+   severidade, quem os encontrou e o que mudaram por causa deles.
+4. Os **testes de usabilidade (Fase 3):** o protocolo (o que pediram, a
+   quem, como mediram), os resultados na aula e com as **5 pessoas de
+   fora**, e o que mudaram por causa deles.
+5. A **interface final:** descrição de cada painel, dos estados e de como
+   o operador interage, com imagens legíveis.
+6. O **"ouro" do grupo, defendido com os resultados das avaliações**.
+7. **Balanço:** o que ficou por fazer e o que fariam de outra maneira.
+:::
+
+::: {.definicao title="--- Apresentação final e peso do projeto"}
+**15 de dezembro**, na aula (P1 e P2 das 9:00 às 11:00; P3 das 11:00 às
+13:00). Cada grupo mostra o protótipo a funcionar, a cumprir **pelo menos
+três missões ao vivo**, e tem de mostrar **o caminho, não só o
+resultado**: que alternativas criaram, como as avaliaram e como o
+protótipo mudou por causa das avaliações. O tempo por grupo é anunciado na
+S9.
+
+A nota do projeto conta o R1, o PR2 com o protótipo, a **participação nas
+três fases de avaliação** (provada pela evidência) e a apresentação final.
+**Um grupo que falte a uma fase de avaliação sem justificação perde essa
+componente.** Há ainda um relatório de estado de cada grupo, por email aos
+docentes, a **4 de dezembro**.
+:::
+
+::: atencao
+Os slides da Aula 1 dão R1 = 4 e PR2 = 6 valores; o enunciado diz só que
+"o peso de cada componente é publicado na página da disciplina". Não há
+contradição, mas confirma na página da disciplina como se repartem os
+valores dentro do R1/PR2 (por exemplo, quanto vale a participação nas
+fases de avaliação).
+:::
 
 ### Exame final (10 pontos)
 
@@ -119,51 +197,408 @@ mudança** (o que a avaliação mostrou e o que se alterou por causa disso).
 - Duração aproximada: 70 a 90 minutos.
 - Mínimo: **35%** da nota do exame (ver caixa de exame acima).
 
-## O projeto: um sistema, três fases, três avaliações
+## O projeto deste ano: Centro de Operações do Lima (COL)
 
-Há **um projeto para toda a turma**: todos os grupos desenham um sistema
-dentro do mesmo domínio/tema geral, mas cada grupo tem de construir a sua
-própria abordagem e trazer algo que os outros grupos não têm — isso é o
-"ouro" do grupo (o seu diferencial).
+Há **um projeto para toda a turma**: todos os grupos desenham a **mesma**
+interface --- a interface gráfica da **sala de operações de um troço de rio
+com duas barragens**. O que distingue os grupos é a **qualidade das
+decisões**, a forma como as **justificam** e o **"ouro"** de cada grupo (o
+seu diferencial, ver abaixo). O enunciado completo está em
+`Praticas/Semana_2/Enunciado_Projeto_COL.pdf`; esta secção resume-o por
+inteiro, para não teres de voltar a ele.
 
-::: {.definicao title="--- As três fases do projeto"}
-| Fase | Mês | Artefacto (fidelidade) | Avaliação |
-|---|---|---|---|
-| Fase 1 | outubro | Esboços (*sketches*), baixa fidelidade | *Cognitive walkthrough* |
-| Fase 2 | novembro | *Wireframes*, fidelidade média | Avaliação heurística |
-| Fase 3 | dezembro | Protótipo interativo, alta fidelidade | Testes de usabilidade |
+### O problema
 
-Depois de cada fase: outros grupos avaliam o artefacto → escrevem
-conclusões → o grupo melhora o artefacto com base nisso. As datas exatas
-são publicadas no Moodle.
+O **rio Lima** nasce na Galiza e entra em Portugal em Ponte da Barca; daí
+até ao mar, em Viana do Castelo, corre cerca de 60 km. Nesse troço há **duas
+barragens**. A água retida atrás de cada barragem forma um lago artificial,
+a **albufeira**; a barragem tem aberturas que se abrem e fecham, e a água só
+passa quando alguém decide abrir as **comportas**.
+
+- **Alto Lindoso** (a montante) é o maior produtor de eletricidade de
+  origem hídrica do país. A água desce por dentro da montanha e faz girar as
+  turbinas: a isto chama-se **turbinar**. Não turbina continuamente: produz
+  quando a rede elétrica precisa (ex.: ao fim da tarde) e para quando não
+  precisa. Resultado: o Lima recebe, uns quilómetros abaixo, **grandes
+  golfadas de água durante algumas horas e quase nada no resto do dia**.
+- **Touvedo**, 12 km abaixo, existe precisamente para resolver isso: é muito
+  mais pequena, recebe as golfadas do Lindoso e devolve-as ao rio **de forma
+  regular, sem picos**. Mas a albufeira de Touvedo é pequena: quando chove
+  muito, os afluentes e a própria chuva enchem-na depressa, e Touvedo deixa
+  de conseguir reter o que recebe. Tem então de **largar água**: abrir as
+  comportas (grandes portas de aço no topo) e deixar passar para o rio
+  parte do que chega.
+
+O **caudal** (a quantidade de água que passa num ponto por unidade de tempo)
+mede-se em **m³/s**. 1 m³ = 1000 litros: "Touvedo está a largar 500 m³/s"
+são 500 000 litros por segundo, ou uma piscina olímpica a cada 5 segundos.
+Com tempo seco, o Lima leva bem menos de 100 m³/s em Ponte de Lima.
+
+Há ainda **dois fatores que ninguém controla**:
+
+- **Os afluentes** (rios mais pequenos que desaguam no Lima): o **Vez**, o
+  **Vade** e o **Estorãos**. Não têm barragens, por isso quando chove trazem
+  água para o Lima e não há forma de a reter.
+- **A maré.** Perto do mar, o nível do rio sobe e desce duas vezes por dia,
+  e isso chega até Ponte de Lima. Na **preia-mar** (o ponto mais alto da
+  maré) o rio escoa mais devagar e a água que vem de montante acumula-se.
+
+![O troço do Lima que o COL controla (figura 1 do enunciado): duas barragens, três afluentes sem controlo, três localidades e a maré](figuras/col_rio_lima.png){width=100%}
+
+::: {.exemplo title="--- O que aconteceu a 2 de fevereiro de 2026 (o caso que motiva o projeto)"}
+Depois de vários dias de chuva forte, Touvedo largava cerca de **500 m³/s**
+às 10h. O Vez e o Vade estavam cheios. A **preia-mar** em Ponte de Lima foi
+às **15h**. O rio cobriu o **areal** de Ponte de Lima, chegou ao muro do
+**Passeio 25 de Abril**, entrou no **Clube Náutico** e, em Ponte da Barca,
+galgou as margens no **Choupal** (parque ribeirinho). Não houve vítimas,
+mas houve muitos estragos.
+
+Repara que o problema é a **soma** de três coisas, só uma delas
+controlável: a descarga de Touvedo (controlável), os afluentes cheios (não
+controláveis) e a maré alta (não controlável, mas **previsível** pela tabela
+de marés). É isto que a interface tem de ajudar o operador a ver **em
+conjunto**.
+:::
+
+Hoje estas funções estão **espalhadas**: as descargas são decididas pela
+**EDP** (dona das barragens); avisar as pessoas é tarefa da **APA**
+(agência pública que gere os rios) e da **Proteção Civil**; responder no
+terreno é tarefa dos **bombeiros** dos dois municípios. Estão em sítios
+diferentes e falam por telefone. **A vossa tarefa é desenhar a interface
+gráfica de uma única sala de operações para este troço de rio, o Centro de
+Operações do Lima (COL)**, que junta as três funções num só sítio:
+**decidir o que as barragens fazem**, **avisar quem está em risco** e
+**coordenar as equipas no terreno**. O COL é fictício e os dados são
+inventados, mas as barragens, as localidades, os afluentes e a maré são
+reais.
+
+### Quem usa a interface: o operador (e o coordenador)
+
+O COL tem **três operadores**, um por turno de **8 horas**, e um
+**coordenador** que **não está na sala** mas pode ser contactado a qualquer
+hora. De **outubro a abril** (época das chuvas) a sala funciona **24 horas
+por dia**; fora disso, só de dia. **A interface é desenhada para o
+operador**; o coordenador só aparece como **quem autoriza** certas
+decisões.
+
+::: {.definicao title="--- O que o operador pode fazer sozinho e o que precisa de autorização"}
+**O operador decide sozinho:**
+
+- **Reconhecer um alerta** (marcar que o viu e que passa a ser
+  responsável por ele).
+- **Alterar o caudal turbinado** (mais ou menos água pelas turbinas ---
+  muda a eletricidade produzida **e** o caudal largado para o rio).
+- **Abrir ou fechar a descarga de fundo** (conduta com válvula junto à base
+  da barragem, que larga água sem passar pelas turbinas nem pelas
+  comportas).
+- **Mover as comportas de Touvedo**, desde que o total largado pela
+  barragem fique **abaixo de 300 m³/s**.
+- **Pedir análises de água** a uma estação e **enviar equipas** a um local.
+
+**Precisa de autorização do coordenador** (pedida e recebida **na
+interface**):
+
+- **Descargas acima de 300 m³/s.**
+- **Avisos à população.**
+- **Fechar pontes, parques ou o Passeio 25 de Abril.**
+
+**Cada turno acaba com uma passagem de turno registada**: um resumo, gravado
+na interface, do que aconteceu no turno e do que ficou pendente, que o
+operador seguinte lê antes de assumir a sala.
+:::
+
+### O sistema que existe no terreno
+
+Tudo o que está nesta secção é **dado**: não se podem acrescentar nem
+retirar barragens, sensores ou equipas. Os números das barragens são reais.
+
+::: {.definicao title="--- As duas barragens"}
+| | **Alto Lindoso** (1992) | **Touvedo** (1993) |
+|:------------|:------------------|:------------------|
+| Tipo | **Abóbada** (parede curva que se apoia na rocha dos dois lados do vale) | **Gravidade** (segura a água pelo próprio peso) |
+| Altura | 110 m | 42,5 m |
+| Albufeira | 379 hm³ (entra pela Galiza) | 15,5 hm³, dos quais **só 4,5 hm³ úteis** |
+| Comportas de segmento | **6** (2760 m³/s com todas abertas) | **3** (3200 m³/s com todas abertas) |
+| Descarga de fundo | 400 m³/s | 50 m³/s |
+| Grupos geradores | **2** (Francis), 630 MW no total, em central subterrânea | **1** (Kaplan), 22 MW, em central ao lado da barragem |
+
+**1 hm³** (hectómetro cúbico) = 1 milhão de m³ = mil milhões de litros.
+**Volume útil** é a parte da albufeira que o operador pode armazenar ou
+largar; o resto fica sempre abaixo das aberturas. As **comportas de
+segmento** são portas de aço curvas no topo da barragem que rodam para
+cima para deixar passar a água; o conjunto delas é o **descarregador de
+cheias**. Um **grupo gerador** (o "grupo", na linguagem das barragens) é
+uma turbina mais o gerador que ela faz girar. O tipo de turbina (Francis
+para grandes quedas, Kaplan em Touvedo) **não importa para a interface**:
+importa que cada grupo pode estar parado, a arrancar, a produzir N MW, a
+parar, ou indisponível. **Touvedo recebe tudo o que o Lindoso turbina.**
+:::
+
+![Esboço 1 do enunciado: Alto Lindoso em corte (comportas, descarga de fundo, grupos)](figuras/col_barragem_lindoso.png){width=88%}
+
+*Esboço 1 do enunciado: Alto Lindoso em corte --- 6 comportas no topo, descarga de fundo de 400 m³/s, 2 grupos numa central subterrânea.*
+
+![Esboço 2 do enunciado: Touvedo em corte (a linha a ponteado marca o limite do volume útil)](figuras/col_barragem_touvedo.png){width=88%}
+
+*Esboço 2 do enunciado: Touvedo em corte --- 3 comportas, descarga de fundo de 50 m³/s, 1 grupo; abaixo da linha a ponteado a água já não pode ser largada (é a fronteira do volume útil).*
+
+::: {.definicao title="--- Rios, sensores, previsões e recursos"}
+- **Afluentes sem controlo:** Vez (entra perto de Ponte da Barca, vem de
+  Arcos de Valdevez), Vade (vem de Vila Verde) e Estorãos (entra pouco antes
+  de Ponte de Lima). Cada um tem uma **estação hidrométrica**: um posto na
+  margem que mede a **altura da água** (o **nível**, em metros) e, a partir
+  dela, **estima o caudal** em m³/s.
+- **No Lima:** **8 estações hidrométricas** (nível e caudal) e **6 estações
+  de qualidade da água**, do Lindoso à foz. As de qualidade medem **pH**
+  (ácida ou alcalina), **oxigénio dissolvido** (de que os peixes precisam),
+  **condutividade** (sobe com sais ou poluição) e **turbidez** (quão turva
+  está a água).
+- **Maré e tempo:** um **marégrafo** em Viana do Castelo (mede a altura da
+  maré a cada instante), a **tabela de marés** dos dias seguintes e a
+  **previsão de chuva a 72 h** do IPMA.
+- **8 câmaras de vídeo** em direto: nas duas barragens, no Choupal, no areal
+  e no Passeio 25 de Abril, na ponte medieval de Ponte de Lima, na foz e
+  numa estrada ribeirinha.
+- **3 pontos de descarga de ETAR** (estação de tratamento de águas
+  residuais), em Ponte da Barca, Ponte de Lima e Viana do Castelo. Importam
+  porque, se o tratamento falhar, a qualidade da água **a jusante** (rio
+  abaixo) piora.
+- **Recursos:** **4 equipas de terreno** (2 das barragens, 2 da Proteção
+  Civil), **2 viaturas**, **sirenes** a jusante das barragens, **SMS** às
+  juntas de freguesia e à população, e **3 fechos possíveis**: (i) o
+  Passeio 25 de Abril, (ii) os parques do Choupal e do Campo da Feira,
+  (iii) as estradas municipais junto ao Estorãos.
+- **Cotas de referência:** uma **cota** é a altura da água medida a partir
+  de uma referência fixa. Para cada sítio sensível (**areal**, **Passeio 25
+  de Abril**, **Choupal**) há a cota a partir da qual a água o começa a
+  invadir; cada barragem tem a sua **cota de segurança** (o máximo que a
+  albufeira pode atingir). Isto permite à interface mostrar, a cada
+  momento, **a que distância a água está de cada limite**.
+:::
+
+### Os estados que a interface tem de mostrar e deixar mudar
+
+Cada elemento do sistema está, a cada momento, num **estado**. A interface
+tem de mostrar **sempre** o estado atual de cada elemento, de forma fácil
+de perceber, e deixar mudá-lo quando isso é permitido. Estes estados são
+**obrigatórios**; podem acrescentar-se outros, se justificados.
+
+::: {.definicao title="--- Estados obrigatórios"}
+| Elemento | Estados |
+|:-----------|:-----------------------------------|
+| Comporta de segmento | fechada, a abrir, aberta a N metros, a fechar, bloqueada, em manutenção, **em modo manual local** |
+| Descarga de fundo | fechada, a abrir, aberta, avariada |
+| Grupo gerador | parado, a arrancar, em carga (a produzir N MW), a parar, indisponível |
+| Troço de rio | normal, vigilância, alerta amarelo, alerta laranja, alerta vermelho, emergência |
+| Manobra (qualquer ação sobre comportas, descarga de fundo ou grupos) | pedida, à espera de autorização, autorizada, em curso, concluída, cancelada |
+| Alerta | novo, reconhecido, atribuído, em tratamento, escalado, resolvido, falso positivo |
+| Aviso público | rascunho, pendente, emitido, atualizado, cancelado |
+| Equipa de terreno | disponível, atribuída, a caminho, no local, a regressar |
+| Ponte, parque ou passeio | aberto, condicionado, fechado |
+| Sensor | ok, suspeito, avariado, em calibração |
+
+**Modo manual local** quer dizer que alguém na barragem assumiu o controlo
+no local e o **controlo remoto deixa de estar disponível**.
+:::
+
+O enunciado dá só a lista de estados, não as transições. Como exemplo de
+leitura, o ciclo de vida de uma **manobra** combina a lista de estados com
+a tabela de autorizações acima:
+
+![Ciclo de vida de uma manobra (interpretação: o enunciado dá os estados, não as setas)](figuras/col_estados_manobra.pdf){width=92%}
+
+::: atencao
+**Nota adicional (interpretação, não está no enunciado):** as setas do
+diagrama são a leitura mais natural, mas não estão escritas. Uma manobra
+dentro da autonomia do operador salta "à espera de autorização"; uma que
+exige o coordenador tem de passar por lá. Desenhar isto explicitamente
+para **cada** elemento ajuda muito: cada seta é um botão ou um evento que a
+interface tem de ter, e cada estado é algo que tem de ser **visível**. É
+também matéria-prima direta para as missões.
+:::
+
+### O que **não** é pedido
+
+- **Calcular a hidráulica real.** Não é preciso saber quanto sobe o rio se
+  Touvedo largar mais 100 m³/s: basta que os números inventados sejam
+  **plausíveis** face aos valores da secção anterior.
+- **Desenhar a app do cidadão.** O COL avisa a população, mas a app que a
+  população usaria é outro projeto.
+- **Desenhar o SCADA** (o sistema industrial interno da EDP que manda
+  comandos aos motores das comportas e lê os sensores), nem a rede
+  elétrica. O COL fala com esse sistema, mas o que se desenha é **o que o
+  operador vê e usa**.
+
+### A sala, os ecrãs e as regras de um sistema crítico
+
+O operador trabalha **sentado**, com **teclado e rato**. À frente tem **2
+monitores de 27" UHD** e, mais longe, uma **parede de 12 ecrãs (4 × 3)**
+para ser vista à distância. A interface tem de usar **os três espaços** e
+dizer o que vai em cada um.
+
+::: {.definicao title="--- As quatro regras da sala"}
+1. **É um sistema crítico:** a informação de que o operador precisa para
+   decidir tem de estar **sempre visível**, sem abrir menus e **sem fazer
+   scroll**.
+2. **Não há menus escondidos:** tudo o que se pode fazer está à vista ou
+   **a um gesto de distância**.
+3. **Um comando que muda o estado do rio** (largar água, emitir um aviso,
+   fechar uma ponte) tem de ser **difícil de acionar por engano** e **fácil
+   de confirmar**.
+4. **O operador às 3 da manhã, seis horas dentro do turno, tem de perceber
+   a situação num relance.**
 :::
 
 ::: atencao
-**Nota adicional (não estava explicado em detalhe nestes slides):** os
-três métodos de avaliação do projeto só são explicados em profundidade
-mais tarde na disciplina (aparecem apenas nomeados no Módulo 02, secção T4
-abaixo), mas já aqui fica o significado geral, para perceber a lógica do
-calendário:
+**Ligação com a teoria:** a regra 4 é, na prática, uma **persona** (Aula
+2): um operador cansado, de madrugada, com atenção reduzida. E a regra 3
+é o compromisso clássico entre **evitar erros** e **não tornar a ação
+lenta** --- um "tem a certeza?" genérico que o operador aprende a clicar
+sem ler **não** cumpre a regra; a confirmação tem de mostrar **o que vai
+acontecer** (ex.: "Touvedo passa de 280 para 420 m³/s --- precisa de
+autorização"). (Nota adicional: interpretação das regras, não está no
+enunciado.)
+:::
 
-- **Cognitive walkthrough** (Fase 1): outros grupos "percorrem" passo a
-  passo uma sequência de ações (uma *missão*) que um utilizador faria no
-  teu esboço, e para cada passo avaliam se seria óbvio o que fazer a
-  seguir (pontuação 0 / 1 / 2 por passo). Não precisa de utilizadores reais
-  nem de protótipo funcional — só o esboço e o percurso mental do
-  avaliador.
-- **Avaliação heurística**: um avaliador (ou vários) compara o design
-  contra uma lista de princípios de usabilidade já conhecidos — as
-  **heurísticas de Nielsen**, mais heurísticas próprias do grupo — e regista
-  a **severidade** e a **extensão** (quantas partes do sistema são afetadas)
-  de cada problema encontrado.
-- **Testes de usabilidade**: utilizadores reais (neste projeto, vindos de
-  *outros grupos*) tentam completar tarefas reais no protótipo, e
-  regista-se sucesso/insucesso, tempo, erros e frases ditas (*quotes*)
-  durante a tarefa.
+### O "ouro" do grupo
 
-Estes três métodos ficam cada vez mais dependentes de um artefacto mais
-acabado (esboço → wireframe → protótipo interativo), o que explica a
-ordem das fases.
+Como todos os grupos trabalham no mesmo problema, cada grupo tem de ter
+**algo que os outros não têm**: uma ideia, uma forma de mostrar ou de
+interagir que resolva **bem** um ponto difícil. Não tem de ser grande; tem
+de ser **vosso** e tem de ser **defendido com resultados das avaliações**.
+Exemplo dado no enunciado, só para dar a ideia: **como mostrar, em tempo
+real, quanto espaço ainda resta em Touvedo**.
+
+### Três fases, três avaliações --- o calendário
+
+O protótipo é avaliado **três vezes** ao longo do semestre, sempre na aula
+e sempre por membros de **outros grupos**. As três fases **contam para a
+nota**. O que se regista em cada fase chama-se **evidência** (grelhas
+preenchidas, fotos dos esboços, notas dos avaliadores, resultados dos
+testes) e é entregue com o PR2.
+
+::: {.definicao title="--- As três fases do projeto"}
+| Fase | Quando | Artefacto (fidelidade) | Avaliação |
+|:-:|:-----|:-----------|:-----------|
+| 1 | S6, semana de **3 nov** | Esboços (*sketches*), baixa | *Cognitive walkthrough* |
+| 2 | S8, semana de **17 nov** | *Wireframes* no Figma, média | Avaliação heurística |
+| 3 | S9, semana de **24 nov** | Protótipo interativo, média a alta | Testes de usabilidade (na aula + **5 pessoas de fora**, como TPC) |
+
+Depois de cada fase: outros grupos avaliam o artefacto → escrevem
+conclusões → o grupo melhora o artefacto com base nisso.
+:::
+
+::: atencao
+Os slides da Aula 1 punham as fases em **outubro / novembro / dezembro**; o
+enunciado (mais recente e com datas exatas) põe as três em **novembro**
+(3, 17 e 24). **Vale o enunciado.** Dezembro fica para acabar o protótipo,
+o PR2 (13 dez) e a apresentação (15 dez).
+:::
+
+::: {.definicao title="--- O trabalho semana a semana (aulas práticas)"}
+| Semana | Sessão | O que se faz na aula | O que fica feito |
+|:--|:-:|:--------------------|:------------|
+| 22 set | S1 | Aquecimento: exercícios curtos sobre interfaces e sobre como observar quem as usa | Grupos formados |
+| 29 set | S2 | Leitura guiada do enunciado; discussão do problema e de quem é o operador; perguntas | Todos percebem o problema e o sistema |
+| 6 out | S3 | Cada membro escolhe **um assunto** do sistema e faz **esboços** de como o mostraria e controlaria num ecrã | Um painel por membro, em esboço; **muitas alternativas, nenhuma escolhida** |
+| 13 out | S4 | Com post-its, listar tudo o que o operador tem de fazer e escrever as **missões**; priorizar funcionalidades com **MoSCoW** | Lista de missões; lista de funcionalidades com prioridade |
+| 20 out | S5 | Consolidação: escolher, **com critérios escritos**, entre as alternativas de cada painel e ligar os painéis num todo; **storyboards** de duas missões | Conjunto coerente de esboços + 2 storyboards |
+| 3 nov | S6 | **Fase 1:** cada grupo percorre uma missão, passo a passo, nos esboços de outro grupo e regista onde um operador novo se enganaria | Grelha do walkthrough (evidência); lista de correções |
+| 10 nov | S7 | Básico de **Figma**; início dos **wireframes** (os esboços corrigidos passam a ecrãs desenhados com precisão, nos 2 monitores e na parede) | Primeiros wireframes no Figma |
+| 17 nov | S8 | **Fase 2:** cada grupo examina os wireframes de outro contra uma lista de princípios e classifica a **severidade** de cada problema | Problemas com severidade (evidência); plano de correção |
+| 24 nov | S9 | **Fase 3:** membros de outro grupo tentam cumprir missões no protótipo, **sem ajuda**, medindo tempo e erros; TPC: repetir com 5 pessoas de fora | Protocolo e resultados (evidência) |
+| 15 dez | | Apresentações finais | |
+
+As turmas de terça (P1, P2) e de sexta (P3) fazem o mesmo na mesma semana.
+As sextas de **30 out, 4 dez e 11 dez** são sobretudo sessões de apoio.
+**Não há aulas a 27 out, 1 dez e 8 dez.**
+:::
+
+::: {.definicao title="--- Vocabulário das fases (pela ordem em que aparece)"}
+- **Esboço** (*sketch*): desenho rápido a lápis, sem preocupação de
+  precisão, para explorar ideias.
+- **Painel:** uma área do ecrã, ou um monitor inteiro, dedicada a um
+  assunto.
+- **Missão:** uma tarefa **completa, do início ao fim**, que o operador tem
+  de conseguir cumprir. Cada grupo escreve as suas na S4; têm de cobrir
+  situações **normais**, de **cheia** e **pelo menos uma avaria**. (É o
+  *task flow* da Aula 2, T4.)
+- **MoSCoW:** método para priorizar funcionalidades, dividindo-as em
+  **M**ust (tem de existir), **S**hould (devia existir), **C**ould (pode
+  existir) e **W**on't (fica de fora, por agora). (As letras "o" só estão
+  lá para se ler como uma palavra.)
+- ***Storyboard*:** sequência de quadros, como uma banda desenhada, a
+  mostrar o operador a cumprir uma missão na interface.
+- ***Cognitive walkthrough*:** avaliação em que se segue uma missão passo a
+  passo, perguntando em cada passo se **um operador novo** saberia o que
+  fazer.
+- ***Wireframe*:** desenho **preciso** de um ecrã, com a posição e o tamanho
+  de cada elemento, ainda **sem cores, sem acabamento gráfico e sem
+  comportamento**.
+- **Avaliação heurística:** exame de uma interface contra uma lista de
+  princípios de boas interfaces (as **heurísticas**), com uma **severidade**
+  para cada problema encontrado.
+- **Teste de usabilidade:** observar pessoas reais a tentar cumprir missões
+  no protótipo, **sem ajuda**, medindo tempo, erros e o que dizem.
+:::
+
+::: atencao
+**Nota adicional (não estava explicado em detalhe nos slides nem no
+enunciado):** os três métodos de avaliação só são explicados em
+profundidade mais tarde na disciplina (aparecem apenas nomeados no Módulo
+02, secção T4 abaixo). Para já, o que acrescenta ao vocabulário acima:
+
+- **Cognitive walkthrough** (Fase 1): não precisa de utilizadores reais nem
+  de protótipo funcional --- só do esboço e do percurso mental do
+  avaliador; cada passo da missão é pontuado (0 / 1 / 2).
+- **Avaliação heurística** (Fase 2): as heurísticas são normalmente as
+  **heurísticas de Nielsen**, mais heurísticas próprias do grupo; para cada
+  problema regista-se a **severidade** e a **extensão** (quantas partes do
+  sistema afeta).
+- **Testes de usabilidade** (Fase 3): regista-se sucesso/insucesso, tempo,
+  erros e frases ditas (*quotes*) durante a tarefa.
+
+Os três métodos dependem de um artefacto cada vez mais acabado (esboço →
+wireframe → protótipo interativo), o que explica a ordem das fases.
+:::
+
+::: atencao
+**Dúvidas a levar à aula (interpretação minha; o enunciado não as
+resolve):**
+
+1. A **descarga de fundo do Lindoso** larga até **400 m³/s**. O operador
+   pode "abrir ou fechar a descarga de fundo" sozinho, mas "descargas acima
+   de 300 m³/s" precisam de autorização. Abri-la toda precisa ou não de
+   autorização? (A leitura mais segura: sim, porque o total passa os 300.)
+2. O limite de 300 m³/s de Touvedo conta **tudo** o que a barragem larga
+   (turbina + descarga de fundo + comportas) ou só as comportas? O texto
+   diz "o total largado pela barragem", o que aponta para tudo.
+3. As **sirenes** contam como "aviso à população" (e portanto precisam de
+   autorização)? Estão na lista de recursos, ao lado das SMS.
+4. Como deve aparecer o coordenador quando **não responde** a um pedido de
+   autorização urgente? O enunciado só diz que "pode ser contactado a
+   qualquer hora".
+:::
+
+::: {.pratica title="--- Perceber o enunciado do COL"}
+**Exercício P.1** (inventado, a partir do enunciado). Para cada situação,
+diz o que a interface deve deixar fazer e porquê.
+
+**(a)** Touvedo está a largar 180 m³/s no total. O operador quer abrir uma
+comporta para largar mais 100 m³/s. Pode fazê-lo sozinho?
+
+**(b)** A mesma situação, mas agora quer largar mais 150 m³/s. Por que
+estados passa a manobra? (Usa o diagrama do ciclo de vida.)
+
+**(c)** Chove muito e o operador quer tocar as sirenes a jusante de
+Touvedo. Pode fazê-lo sozinho? (Pista: vê as dúvidas acima.)
+
+**(d)** A comporta 2 de Touvedo está "em modo manual local" e o operador
+precisa de a fechar. O que deve a interface mostrar e deixar fazer?
+
+**(e)** O volume útil de Touvedo está a meio e está a entrar mais água do
+que a sair: a diferença é de 250 m³/s. Quanto tempo falta até o volume útil
+encher? (É a conta por trás do exemplo de "ouro" do enunciado.)
 :::
 
 ## Como os grupos funcionam
@@ -709,6 +1144,22 @@ acrescentam-se os outros três campos:
   minutos para decidir.
 :::
 
+::: {.pratica title="--- Personas do COL (item 2 do R1)"}
+**Exercício P.2** (projeto COL). Escreve as **três personas** de operador
+que o R1 pede --- **uma com pouca experiência** --- aplicando as 10 regras
+acima e a ficha do Módulo 03 (objetivos, frustração, tecnologia, contexto).
+
+Pistas: o enunciado já te dá muito do **contexto** (turnos de 8 h, sala 24 h
+de outubro a abril, o coordenador fora da sala, "às 3 da manhã, seis horas
+dentro do turno"). Cuidado com a **regra 7**: "operador" é um **cargo**, e
+as três personas têm o mesmo cargo. O que as distingue tem de ser o
+**padrão de comportamento** e os **objetivos**, não o posto. E o enunciado
+pede explicitamente "**o que as põe em dificuldade**".
+
+Faz isto sozinho **antes** da discussão em grupo (regra "escolher sozinho,
+depois discutir", Aula 1).
+:::
+
 ## T2 --- Estudos iniciais
 
 Depois de identificados os stakeholders e as personas (T1), a T2 aprofunda
@@ -1074,7 +1525,7 @@ adequados, medir, e avaliar (*assess*) os resultados.
 Nesta disciplina, a sequência de métodos de avaliação usada ao longo do
 projeto é: **cognitive walkthrough → avaliação heurística → testes de
 usabilidade** — exatamente as três fases do projeto descritas na Aula 1
-(ver secção "O projeto: um sistema, três fases, três avaliações"). Os
+(ver "Três fases, três avaliações" no projeto COL). Os
 métodos em si (como se conduz cada um passo a passo) ainda não foram
 explicados em detalhe — isso fica para módulos futuros; aqui fica só o
 mapeamento entre a teoria (T4) e o calendário do projeto.
@@ -1134,6 +1585,22 @@ aula das 12h30.
 Repara: cada passo diz o que **ela faz** e o que o **sistema mostra**; o
 objetivo está nas palavras dela ("garantir um prato vegetariano"), não nas
 da interface ("usar o ecrã de reservas").
+:::
+
+::: {.pratica title="--- Missões do COL (item 3 do R1, S4)"}
+**Exercício P.3** (projeto COL). Escreve **cinco missões** para o operador
+do COL no formato *task flow* acima: objetivo (nas palavras do operador),
+**situação de partida**, uma linha por passo (o que ele faz / o que o
+sistema mostra) e **critério de sucesso** verificável. As cinco têm de
+cobrir, no conjunto, uma situação **normal**, uma de **cheia** e **pelo
+menos uma avaria** de equipamento (o enunciado exige as três).
+
+Pistas: o dia 2 de fevereiro de 2026 (Aula 1, projeto COL) é uma cheia
+pronta a usar. Para as avarias, a lista de estados obrigatórios está cheia
+delas (comporta bloqueada ou em modo manual local, descarga de fundo
+avariada, grupo indisponível, sensor suspeito). Pelo menos uma missão
+deve atravessar a **autorização do coordenador** e outra deve terminar numa
+**passagem de turno**.
 :::
 
 ## TPC (trabalho de casa) da Aula 2
@@ -1198,6 +1665,14 @@ até aos **modelos conceptuais e decisões** (etapa 5); o PR2 começa no
 **protótipo** (etapa 6) e inclui avaliação de usabilidade e relatório
 final. Perguntas de "arrastar e largar" no exame Moodle prestam-se muito a
 ordenar etapas deste tipo.
+:::
+
+::: atencao
+No projeto deste ano (COL, Aula 1), o **R1 inclui já a 1.ª avaliação** ---
+o *cognitive walkthrough* sobre os esboços (item 7 do R1). Não contradiz a
+fronteira acima: o walkthrough avalia os **esboços** (o conceito), não um
+protótipo, e a avaliação de usabilidade propriamente dita (heurística e
+testes, sobre wireframes e protótipo) continua no PR2.
 :::
 
 No "meio" deste processo (entre os modelos conceptuais e o protótipo) está

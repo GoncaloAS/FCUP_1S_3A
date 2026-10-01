@@ -530,8 +530,10 @@ $$(\neg p \land \neg q) \lor r
 
 ::: atencao
 Guarda a equivalência do Exercício 1.6(e) — $(p\lor q)\to r \Leftrightarrow (p\to r)\land(q\to r)$
-— porque vai reaparecer, já pronta a reutilizar, no Exercício 1.13(d) mais
-abaixo (justificação de consequência semântica sem trabalho extra).
+--- porque serve para **confirmar** o Exercício 1.13(d) mais abaixo: como
+$(p\to r)\land(q\to r)$ implica $(p\to r)\lor(q\to r)$, a consequência
+tem de valer. Em exame, porém, a 1.13(d) prova-se com a definição de
+$\models_v$, como lá está feito.
 :::
 
 ::: {.exemplo title="--- Exercício 1.8(a) e 1.8(b) (lab, proplogic.pdf) --- distribuir a implicação sobre a conjunção"}
@@ -643,33 +645,77 @@ mostrar que uma afirmação é **verdadeira**, usa diretamente a definição; pa
 mostrar que é **falsa**, basta um contraexemplo concreto (escolher $\Gamma$,
 $\Sigma$, $\theta$ específicos).
 
+::: {.definicao title="--- Método: provar com a definição de $\\models_v$ (formato de exame)"}
+Nota adicional: é assim que a professora resolve, e é o formato aceite em
+exame. Explicar "por palavras" não chega.
+
+**Para mostrar $\Gamma \models \phi$ (ou $\models \phi$, com $\Gamma=\emptyset$):**
+
+1. "Seja $v$ uma valoração tal que $\models_v \Gamma$." (Para $\models\phi$:
+   "seja $v$ uma valoração qualquer".)
+2. Abrir cada fórmula pelo seu **conectivo principal**, com a definição de
+   $\models_v$ (regras 1--5 acima). Quando a regra dá um **"ou"**,
+   **separar em casos** e fechar cada um.
+3. Chegar a $\models_v \phi$ em todos os casos. Concluir: "como $v$ é
+   arbitrária, $\Gamma \models \phi$." $\blacksquare$
+
+**Alternativa: prova por absurdo.** Supõe-se $\not\models_v \phi$ e
+abre-se com as regras da negação. Costuma ser a mais curta quando $\phi$
+é uma implicação, porque $\not\models_v \phi\to\psi$ força
+$\models_v \phi$ **e** $\not\models_v \psi$. Se se chega a
+$\models_v \theta$ e $\not\models_v \theta$, essa $v$ não existe.
+
+**Para mostrar que é falso:** dá-se uma **valoração concreta** e
+verifica-se com as regras que $\models_v \gamma$ para cada
+$\gamma\in\Gamma$ e $\not\models_v \phi$.
+
+Regras da negação, que saem das regras 2--5:
+
+- $\not\models_v \phi\land\psi$ sse $\not\models_v \phi$ ou $\not\models_v \psi$
+- $\not\models_v \phi\lor\psi$ sse $\not\models_v \phi$ e $\not\models_v \psi$
+- $\not\models_v \phi\to\psi$ sse $\models_v \phi$ e $\not\models_v \psi$
+
+*Modus ponens* pode ser citado: se $\models_v \phi$ e
+$\models_v \phi\to\psi$, então $\models_v \psi$ (pela regra 5,
+$\not\models_v\phi$ é impossível).
+:::
+
 ::: {.exemplo title="--- Exercício 1.16(a), (b) e (f) (lab, proplogic.pdf) --- monotonicidade"}
 **(a) Se $\Gamma \models \theta$ e $\Gamma \subseteq \Sigma$, então
-$\Sigma \models \theta$ — VERDADEIRO.** Seja $v$ uma valoração que satisfaz
-$\Sigma$. Como $\Gamma \subseteq \Sigma$, $v$ satisfaz em particular todas as
-fórmulas de $\Gamma$ (são também fórmulas de $\Sigma$), logo $\models_v \Gamma$.
-Por hipótese $\Gamma\models\theta$, logo $\models_v \theta$. Como isto vale
-para qualquer $v$ que satisfaça $\Sigma$, conclui-se $\Sigma \models \theta$.
+$\Sigma \models \theta$ --- VERDADEIRO.**
+
+Seja $v$ uma valoração tal que $\models_v \Sigma$, isto é,
+$\models_v \psi$ para todo o $\psi \in \Sigma$. Seja $\psi \in \Gamma$.
+Como $\Gamma \subseteq \Sigma$, $\psi \in \Sigma$, logo $\models_v \psi$.
+Portanto $\models_v \Gamma$. Como $\Gamma \models \theta$, por definição
+de $\models$ tem-se $\models_v \theta$. Como $v$ é arbitrária,
+$\Sigma \models \theta$. $\blacksquare$
+
 (Intuição: **acrescentar premissas nunca destrói** uma consequência já
-válida — chama-se **monotonicidade**.)
+válida. Chama-se **monotonicidade**.)
 
 **(b) Se $\Sigma \models \theta$ e $\Gamma \subseteq \Sigma$, então
-$\Gamma \models \theta$ — FALSO** (é o recíproco de (a), e a monotonicidade
-só funciona num sentido). Contraexemplo: $\theta = q$, $\Sigma = \{p, p\to q\}$,
-$\Gamma = \{p\} \subseteq \Sigma$. Tem-se $\Sigma \models q$ (modus ponens:
-qualquer $v$ que satisfaça $p$ e $p\to q$ satisfaz $q$). Mas
-$\Gamma = \{p\} \not\models q$: a valoração $v(p)=V, v(q)=F$ satisfaz
-$\Gamma=\{p\}$ mas não satisfaz $q$. **Menos premissas podem já não bastar**
-para a mesma conclusão.
+$\Gamma \models \theta$ --- FALSO** (é o recíproco de (a)).
+
+Contraexemplo: $\Sigma = \{p,\ p\to q\}$, $\Gamma = \{p\}$, $\theta = q$.
+Tem-se $\Gamma \subseteq \Sigma$.
+
+- $\Sigma \models q$: seja $v$ tal que $\models_v p$ e $\models_v p\to q$.
+  Como $\models_v p\to q$ sse $\not\models_v p$ ou $\models_v q$, e
+  $\not\models_v p$ é impossível, tem-se $\models_v q$.
+- $\Gamma \not\models q$: com $v(p)=V$, $v(q)=F$, tem-se $\models_v p$,
+  isto é, $\models_v \Gamma$, mas $\not\models_v q$.
+
+As hipóteses valem e a conclusão não. **Menos premissas podem já não
+bastar** para a mesma conclusão.
 
 **(f) Se $\Sigma \models \theta$ e $\Sigma \subseteq \Gamma$, então
-$\Sigma \cup \Gamma \models \theta$ — VERDADEIRO, e trivialmente.** Repara
-que, se $\Sigma \subseteq \Gamma$, então $\Sigma \cup \Gamma = \Gamma$ (a
-união de um conjunto com um dos seus sobreconjuntos é o sobreconjunto). A
-afirmação reduz-se exatamente a "$\Sigma \models \theta$ e
-$\Sigma \subseteq \Gamma$, logo $\Gamma \models \theta$" — que é **o mesmo
-enunciado da alínea (a)**, com $\Gamma$ e $\Sigma$ trocados de nome. Não é
-preciso prova nova.
+$\Sigma \cup \Gamma \models \theta$ --- VERDADEIRO.** Se
+$\Sigma \subseteq \Gamma$, então $\Sigma \cup \Gamma = \Gamma$. A
+afirmação passa a ser "se $\Sigma \models \theta$ e
+$\Sigma \subseteq \Gamma$, então $\Gamma \models \theta$", que é **a
+alínea (a)** com os nomes $\Gamma$ e $\Sigma$ trocados. Já está provada.
+$\blacksquare$
 :::
 
 ::: atencao
@@ -682,78 +728,122 @@ conclusão válida deixar de o ser. Isto explica intuitivamente porque é que
 :::
 
 ::: {.exemplo title="--- Exercício 1.13 (lab, proplogic.pdf)"}
-**(a) $\models (p\land\neg p) \to (p\land\neg r)$ — VERDADEIRO.** O
-antecedente $p\land\neg p$ é sempre falso (contradição), logo a implicação
-é sempre verdadeira, qualquer que seja o consequente — é tautologia.
+**(a) $\models (p\land\neg p) \to (p\land\neg r)$ --- VERDADEIRO.**
 
-**(b) $\models (q\lor\neg r) \to (q\land\neg q)$ — FALSO.** O consequente
-$q\land\neg q$ é sempre falso (contradição). Logo a implicação só é
-verdadeira quando o antecedente também é falso. Mas o antecedente
-$q\lor\neg r$ **não** é sempre falso: com $v(q)=V,v(r)=V$,
-$q\lor\neg r = V \lor F = V$, e então a implicação dá $V \to F = F$. Não é
-tautologia (contraexemplo: $q=V,r=V$).
+Seja $v$ uma valoração qualquer.
+$$\models_v (p\land\neg p)\to(p\land\neg r) \ \text{ sse }\ \not\models_v p\land\neg p \ \text{ ou }\ \models_v p\land\neg r$$
+Ora, $\models_v p\land\neg p$ sse $\models_v p$ e $\models_v \neg p$, isto
+é, sse $\models_v p$ e $\not\models_v p$, o que é impossível. Logo
+$\not\models_v p\land\neg p$ e, portanto,
+$\models_v (p\land\neg p)\to(p\land\neg r)$. Como $v$ é arbitrária,
+$\models (p\land\neg p)\to(p\land\neg r)$. $\blacksquare$
+
+**(b) $\models (q\lor\neg r) \to (q\land\neg q)$ --- FALSO.**
+
+Procura-se $v$ com $\not\models_v (q\lor\neg r)\to(q\land\neg q)$, isto
+é, com $\models_v q\lor\neg r$ e $\not\models_v q\land\neg q$. A segunda
+condição vale sempre, como em (a). Basta então $\models_v q\lor\neg r$.
+
+**Contraexemplo:** $v(q)=V$, $v(r)=V$.
+
+- $\models_v q$, logo $\models_v q\lor\neg r$.
+- $\models_v q$, logo $\not\models_v \neg q$, logo $\not\models_v q\land\neg q$.
+- Então $\not\models_v (q\lor\neg r)\to(q\land\neg q)$, e a fórmula
+  **não** é tautologia.
 
 **(c) $\{(p\to q)\lor r,\ ((p\to q)\lor r)\to\neg r,\ (p\to q)\to(q\to r)\} \models \neg q$
-— VERDADEIRO.** Seja $v$ uma valoração que satisfaz as três premissas.
-Chamando $\varphi_1 = (p\to q)\lor r$: como $\models_v \varphi_1$ e
-$\models_v \varphi_1 \to \neg r$, por modus ponens $\models_v \neg r$, ou
-seja $v(r)=F$. Com $r=F$, $\varphi_1 = (p\to q)\lor F$, e como
-$\models_v \varphi_1$, tem de ser $\models_v p\to q$. Agora a terceira
-premissa, $(p\to q)\to(q\to r)$: como $\models_v p\to q$, por modus ponens
-$\models_v q\to r$, isto é $q\to F$, que é equivalente a $\neg q$. Logo
-$\models_v \neg q$ — exatamente o que queríamos mostrar, para qualquer $v$
-que satisfaça as três premissas.
+--- VERDADEIRO.**
 
-**(d) $\{(p\lor q)\to r\} \models (p\to r)\lor(q\to r)$ — VERDADEIRO.** Já
-sabemos do Exercício 1.6(e) que $(p\lor q)\to r \Leftrightarrow (p\to r)\land(q\to r)$.
-Ora $(p\to r)\land(q\to r)$ implica trivialmente $(p\to r)\lor(q\to r)$
-(uma conjunção implica sempre a disjunção dos mesmos termos: se ambos são
-verdadeiros, em particular um deles é). Logo
-$(p\lor q)\to r \models (p\to r)\lor(q\to r)$.
+Seja $v$ tal que $\models_v (p\to q)\lor r$,
+$\models_v ((p\to q)\lor r)\to\neg r$ e $\models_v (p\to q)\to(q\to r)$.
+
+1. $\models_v ((p\to q)\lor r)\to\neg r$ sse
+   $\not\models_v (p\to q)\lor r$ ou $\models_v \neg r$. O primeiro é
+   impossível (é a 1.ª premissa), logo $\models_v \neg r$, isto é,
+   $\not\models_v r$.
+2. $\models_v (p\to q)\lor r$ sse $\models_v p\to q$ ou $\models_v r$.
+   Por 1, $\not\models_v r$, logo $\models_v p\to q$.
+3. $\models_v (p\to q)\to(q\to r)$ sse $\not\models_v p\to q$ ou
+   $\models_v q\to r$. Por 2, $\models_v q\to r$.
+4. $\models_v q\to r$ sse $\not\models_v q$ ou $\models_v r$. Por 1,
+   $\not\models_v r$, logo $\not\models_v q$, isto é, $\models_v \neg q$.
+
+Como $v$ é arbitrária,
+$\{(p\to q)\lor r,\ ((p\to q)\lor r)\to\neg r,\ (p\to q)\to(q\to r)\} \models \neg q$.
+$\blacksquare$
+
+**(d) $\{(p\lor q)\to r\} \models (p\to r)\lor(q\to r)$ --- VERDADEIRO.**
+
+Seja $v$ tal que $\models_v (p\lor q)\to r$. Queremos
+$\models_v (p\to r)\lor(q\to r)$.
+$$\models_v (p\lor q)\to r \ \text{ sse }\ \not\models_v p\lor q \ \text{ ou }\ \models_v r$$
+
+- **Caso 1: $\models_v r$.** Como $\models_v p\to r$ sse $\not\models_v p$
+  ou $\models_v r$, tem-se $\models_v p\to r$. Logo
+  $\models_v (p\to r)\lor(q\to r)$.
+- **Caso 2: $\not\models_v p\lor q$**, isto é, $\not\models_v p$ e
+  $\not\models_v q$. Como $\not\models_v p$, tem-se $\models_v p\to r$.
+  Logo $\models_v (p\to r)\lor(q\to r)$.
+
+Em ambos os casos $\models_v (p\to r)\lor(q\to r)$. Como $v$ é arbitrária,
+$\{(p\lor q)\to r\} \models (p\to r)\lor(q\to r)$. $\blacksquare$
+
+**Atenção:** os dois casos estão ligados por um **"ou"**. Basta um deles
+acontecer. Não se pode juntar "$v(r)=V$ **e** $v(p)=F$ **e** $v(q)=F$".
 :::
 
 ::: {.exemplo title="--- Exercício 1.14(a) e 1.14(d) (lab, proplogic.pdf) --- sem tabela de verdade"}
-**(a) $\models p \to (((q\to p)\to p) \to r)$ — FALSO.** Analisa-se por
-casos em $p$. Se $v(p)=V$: então $q\to p$ é sempre $V$ (consequente
-verdadeiro), logo $(q\to p)\to p = V\to V = V$, e a subfórmula
-$((q\to p)\to p)\to r$ reduz-se a $V \to r$, ou seja, ao próprio valor de
-$r$. Logo, com $p=V$, a fórmula inteira vale exatamente $v(r)$. Escolhendo
-$v(r)=F$ (e $v(q)$ arbitrário, por exemplo $V$), a fórmula dá $F$ — não é
-tautologia. **Contraexemplo:** $p=V, q=V, r=F$.
+**(a) $\models p \to (((q\to p)\to p) \to r)$ --- FALSO.**
 
-**(d) $\models ((p\land q)\to(s\lor t)) \to ((p\to s)\lor(q\to t))$ —
-VERDADEIRO.** Em vez de percorrer as 16 linhas da tabela (4 variáveis),
-procura-se diretamente uma forma do consequente ser falso. O consequente
-$(p\to s)\lor(q\to t)$ só é falso se **ambos** os lados forem falsos:
-$p\to s$ falso exige $p=V,s=F$; $q\to t$ falso exige $q=V,t=F$. Ou seja, o
-**único** caso em que o consequente poderia falhar é $p=V,q=V,s=F,t=F$.
-Mas nesse caso o antecedente $(p\land q)\to(s\lor t)$ vale
-$(V\land V)\to(F\lor F) = V \to F = F$ — ou seja, precisamente nesse caso o
-antecedente também é falso, o que torna a implicação exterior verdadeira
-($F\to\text{algo}=V$). Como não há mais nenhuma forma de o consequente ser
-falso, a implicação exterior nunca é falsa: é tautologia.
+Procura-se $v$ com $\not\models_v$ da fórmula:
+$$\not\models_v p \to (((q\to p)\to p)\to r) \ \text{ sse }\ \models_v p \ \text{ e }\ \not\models_v ((q\to p)\to p)\to r$$
+$$\not\models_v ((q\to p)\to p)\to r \ \text{ sse }\ \models_v (q\to p)\to p \ \text{ e }\ \not\models_v r$$
+Com $\models_v p$, a condição $\models_v (q\to p)\to p$ vale sempre, porque
+o consequente é satisfeito. Basta então $v(p)=V$ e $v(r)=F$.
+
+**Contraexemplo:** $v(p)=V$, $v(q)=V$, $v(r)=F$.
+
+- $\models_v p$, logo $\models_v (q\to p)\to p$ (consequente satisfeito).
+- $\models_v (q\to p)\to p$ e $\not\models_v r$, logo
+  $\not\models_v ((q\to p)\to p)\to r$.
+- $\models_v p$ e $\not\models_v ((q\to p)\to p)\to r$, logo
+  $\not\models_v p \to (((q\to p)\to p)\to r)$. Não é tautologia.
+
+**(d) $\models ((p\land q)\to(s\lor t)) \to ((p\to s)\lor(q\to t))$ ---
+VERDADEIRO.** Prova por absurdo.
+
+Suponha-se que existe $v$ com $\not\models_v$ da fórmula. Então:
+
+1. $\models_v (p\land q)\to(s\lor t)$ e
+   $\not\models_v (p\to s)\lor(q\to t)$ (regra da negação de $\to$).
+2. $\not\models_v (p\to s)\lor(q\to t)$ sse $\not\models_v p\to s$ e
+   $\not\models_v q\to t$, isto é: $\models_v p$, $\not\models_v s$,
+   $\models_v q$, $\not\models_v t$.
+3. De $\models_v p$ e $\models_v q$: $\models_v p\land q$. De
+   $\not\models_v s$ e $\not\models_v t$: $\not\models_v s\lor t$.
+4. Então $\not\models_v (p\land q)\to(s\lor t)$, o que contradiz 1.
+
+Logo não existe tal $v$: a fórmula é satisfeita por todas as valorações,
+$\models ((p\land q)\to(s\lor t)) \to ((p\to s)\lor(q\to t))$.
+$\blacksquare$
 :::
 
 ::: atencao
-Nota adicional sobre a técnica "sem tabela de verdade": o método geral é
-**tentar construir um contraexemplo** (fixar a fórmula toda a $F$: para uma
-implicação, isso força antecedente $V$ e consequente $F$; segue as
-consequências obrigatórias passo a passo). Se o processo chega a uma
-contradição (como em 1.14(d), onde a única forma de falhar o consequente
-também falha o antecedente), a fórmula é tautologia. Se o processo chega a
-uma atribuição consistente (como em 1.14(a)), encontraste mesmo um
-contraexemplo. É a mesma ideia usada em 1.13, só que aqui aplicada
-sistematicamente à procura do contraexemplo. (Na 1.14 o enunciado proíbe a
-tabela mas não obriga às leis: a procura do contraexemplo é o método
-natural. Na 1.9, pelo contrário, o enunciado manda simplificar pelas
-leis.)
+Nota adicional sobre "sem tabela de verdade": nos dois casos começa-se
+por **supor $\not\models_v$ da fórmula** e abrir com as regras da
+negação. Se se chega a uma valoração consistente, como em (a), essa
+valoração **é** o contraexemplo, e verifica-se regra a regra. Se se chega a
+$\models_v \theta$ e $\not\models_v \theta$, como em (d), é uma prova por
+absurdo de que a fórmula é tautologia. (Na 1.9, pelo contrário, o
+enunciado manda simplificar pelas leis.)
 :::
 
 ::: {.pratica title="--- Propriedades de $\models$ (proplogic.pdf)"}
 - **1.15** --- mesma ideia do Exercício 1.16 acima, mas com $\models$ e
   $\Leftrightarrow$ entre fórmulas genéricas $\varphi,\psi,\theta,\gamma$:
-  se for verdadeiro, justifica pelas definições; se for falso, dá
-  fórmulas concretas como contraexemplo.
+  se for verdadeiro, prova com a definição de $\models_v$ (método acima);
+  se for falso, instancia com fórmulas concretas ($\varphi=p$, ...) e dá a
+  valoração do contraexemplo, verificada regra a regra.
 :::
 
 ## Quantas proposições podem ser simultaneamente verdadeiras
@@ -950,21 +1040,53 @@ cálculos:
 | F | F | V | F | V | F |
 | F | F | F | F | V | F |
 
-**(a) As três declarações são compatíveis?** Procura-se uma linha com
-$S_A=S_B=S_C=V$: só a linha $g_a=F,g_b=V,g_c=F$. Sim, são compatíveis, e de
-forma **única** (só B culpado).
+**(a) As três declarações são compatíveis?** Pergunta-se se
+$\{S_A,S_B,S_C\}$ é satisfazível. Com $v(g_a)=F$, $v(g_b)=V$, $v(g_c)=F$:
+$\models_v S_A$ ($\models_v g_b$, $\not\models_v g_c$),
+$\models_v S_B$ ($\not\models_v g_a$) e
+$\models_v S_C$ ($\not\models_v g_c$, $\models_v g_b$). **Sim, são
+compatíveis**, e pela tabela essa é a **única** valoração que as satisfaz
+(só B culpado).
 
-**(b) Alguma declaração é consequência das outras duas?** $\{S_A,S_B\}\models S_C$?
-As linhas com $S_A=V$ e $S_B=V$ simultaneamente: só a linha
-$(F,V,F)$ (a segunda linha tem $S_A=V$ mas $S_B=F$, não conta) — e nessa
-linha $S_C=V$ também. Logo **sim**, $\{S_A,S_B\}\models S_C$.
-Já $\{S_A,S_C\}\models S_B$? As linhas com $S_A=V$ e $S_C=V$: a linha
-$(V,V,F)$ e a linha $(F,V,F)$. Na primeira, $S_B=F$ — contraexemplo! Logo
-**não**, $\{S_A,S_C\}\not\models S_B$. E $\{S_B,S_C\}\models S_A$? Só a linha
-$(F,V,F)$ tem $S_B=S_C=V$ em simultâneo, e aí $S_A=V$. Logo **sim**. (Nota
-como a relação de consequência não é simétrica entre os três pares — mais
-uma vez, a monotonicidade não "anda para trás".)
+:::
 
+::: {.exemplo title="--- Exercício 1.11 (cont.) --- consequência"}
+**(b) Alguma declaração é consequência das outras duas?** Há três
+consequências para testar.
+
+*$\{S_A,S_B\}\models S_C$: sim.* Seja $v$ tal que $\models_v S_A$ e
+$\models_v S_B$.
+
+- $\models_v g_b\land\neg g_c$ sse $\models_v g_b$ e $\not\models_v g_c$.
+- $\models_v g_a\to g_c$ sse $\not\models_v g_a$ ou $\models_v g_c$. Como
+  $\not\models_v g_c$, tem-se $\not\models_v g_a$.
+- Então $\models_v \neg g_c$ e, como $\models_v g_b$,
+  $\models_v g_a\lor g_b$. Logo $\models_v \neg g_c\land(g_a\lor g_b)$,
+  isto é, $\models_v S_C$. $\blacksquare$
+
+*$\{S_B,S_C\}\models S_A$: sim.* Seja $v$ tal que $\models_v S_B$ e
+$\models_v S_C$.
+
+- $\models_v \neg g_c\land(g_a\lor g_b)$ sse $\not\models_v g_c$ e
+  $\models_v g_a\lor g_b$.
+- $\models_v g_a\to g_c$ sse $\not\models_v g_a$ ou $\models_v g_c$. Como
+  $\not\models_v g_c$, tem-se $\not\models_v g_a$.
+- $\models_v g_a\lor g_b$ sse $\models_v g_a$ ou $\models_v g_b$. Como
+  $\not\models_v g_a$, tem-se $\models_v g_b$.
+- Logo $\models_v g_b\land\neg g_c$, isto é, $\models_v S_A$.
+  $\blacksquare$
+
+*$\{S_A,S_C\}\not\models S_B$.* Contraexemplo: $v(g_a)=V$, $v(g_b)=V$,
+$v(g_c)=F$ (2.ª linha da tabela).
+
+- $\models_v g_b$ e $\not\models_v g_c$, logo $\models_v S_A$.
+- $\not\models_v g_c$ e $\models_v g_a$, logo $\models_v S_C$.
+- $\models_v g_a$ e $\not\models_v g_c$, logo $\not\models_v g_a\to g_c$,
+  isto é, $\not\models_v S_B$.
+
+:::
+
+::: {.exemplo title="--- Exercício 1.11 (cont.) --- hipóteses sobre quem diz a verdade"}
 **(c) Assumindo que os três são inocentes, quem mentiu?** Linha
 $g_a=F,g_b=F,g_c=F$: $S_A=F$ (A mentiu), $S_B=V$ (B disse a verdade),
 $S_C=F$ (C mentiu). **A e C mentiram; B disse a verdade.**
@@ -973,13 +1095,42 @@ $S_C=F$ (C mentiu). **A e C mentiram; B disse a verdade.**
 Precisa de $S_A=S_B=S_C=V$ — é exatamente a linha de (a):
 $g_a=F,g_b=V,g_c=F$. **Só B é culpado; A e C são inocentes.**
 
+:::
+
+::: {.exemplo title="--- Exercício 1.11 (cont.) --- inocentes dizem a verdade"}
 **(e) Assumindo que o inocente disse a verdade e o culpado mentiu, quem é
-inocente/culpado?** Esta condição traduz-se, para cada pessoa $X$, por
-$S_X \leftrightarrow \neg g_X$ (inocente $\Leftrightarrow$ disse verdade).
-Percorrendo a tabela e comparando $S_A$ com $\neg g_a$, $S_B$ com $\neg g_b$
-e $S_C$ com $\neg g_c$ em cada linha, só a linha $g_a=V,g_b=F,g_c=V$
-satisfaz as três condições ao mesmo tempo ($S_A=F=\neg g_a$;
-$S_B=V=\neg g_b$; $S_C=F=\neg g_c$). **A e C são culpados; B é inocente.**
+inocente/culpado?** Para cada pessoa $X$: $X$ é inocente sse a sua
+declaração é verdadeira. Isso dá o conjunto
+$$\Delta = \{\, S_A\leftrightarrow\neg g_a,\ \ S_B\leftrightarrow\neg g_b,\ \ S_C\leftrightarrow\neg g_c \,\}$$
+e procuram-se as $v$ com $\models_v \Delta$. ($\models_v \phi\leftrightarrow\psi$
+sse $\models_v\phi$ e $\models_v\psi$ têm o mesmo valor: ou ambos valem ou
+nenhum vale.)
+
+Seja $v$ tal que $\models_v \Delta$.
+
+1. **$\models_v g_a$.** Suponha-se $\not\models_v g_a$. Então
+   $\models_v \neg g_a$, logo $\models_v S_A$: $\models_v g_b$ e
+   $\not\models_v g_c$. Como $\models_v g_b$, $\not\models_v \neg g_b$,
+   logo $\not\models_v S_B$, isto é, $\models_v g_a$ e $\not\models_v g_c$.
+   Mas supôs-se $\not\models_v g_a$. Contradição.
+2. **$\models_v g_c$.** Por 1, $\not\models_v \neg g_a$, logo
+   $\not\models_v S_A$: $\not\models_v g_b$ ou $\models_v g_c$. Suponha-se
+   $\not\models_v g_c$. Então $\not\models_v g_b$, logo $\models_v \neg g_b$
+   e $\models_v S_B$: $\not\models_v g_a$ ou $\models_v g_c$. Nenhuma das
+   duas vale (por 1 e pela suposição). Contradição.
+3. **$\not\models_v g_b$.** Suponha-se $\models_v g_b$. Então
+   $\not\models_v \neg g_b$, logo $\not\models_v S_B$: $\models_v g_a$ e
+   $\not\models_v g_c$. Isto contradiz 2.
+
+Logo a única hipótese é $v(g_a)=V$, $v(g_b)=F$, $v(g_c)=V$. Verificação de
+que $\models_v \Delta$:
+
+- $\not\models_v S_A$ (porque $\models_v g_c$) e $\not\models_v \neg g_a$. $\checkmark$
+- $\models_v S_B$ (porque $\models_v g_c$) e $\models_v \neg g_b$. $\checkmark$
+- $\not\models_v S_C$ (porque $\models_v g_c$) e $\not\models_v \neg g_c$. $\checkmark$
+
+**A e C são culpados; B é inocente.** (Na tabela, é a única linha onde
+$S_A$, $S_B$ e $S_C$ coincidem com $\neg g_a$, $\neg g_b$ e $\neg g_c$.)
 :::
 
 ::: atencao

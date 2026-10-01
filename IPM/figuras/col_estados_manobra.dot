@@ -1,0 +1,20 @@
+digraph G {
+  rankdir=LR; bgcolor="white";
+  node [shape=box, style="rounded,filled", fillcolor="#eef3fb", fontname="Helvetica", fontsize=11];
+  edge [fontname="Helvetica", fontsize=9];
+  req  [label="pedida\n(requested)"];
+  wait [label="à espera de\nautorização"];
+  auth [label="autorizada"];
+  prog [label="em curso"];
+  done [label="concluída", fillcolor="#e3f4e3"];
+  canc [label="cancelada", fillcolor="#f8e1e1"];
+  req -> prog  [label="dentro da autonomia\ndo operador"];
+  req -> wait  [label="precisa do\ncoordenador"];
+  wait -> auth [label="coordenador\naprova"];
+  auth -> prog [label="operador\nexecuta"];
+  prog -> done [label="equipamento\nchega ao alvo"];
+  req -> canc  [style=dashed];
+  wait -> canc [style=dashed, label="recusada /\ndesistência"];
+  auth -> canc [style=dashed];
+  {rank=same; done; canc}
+}

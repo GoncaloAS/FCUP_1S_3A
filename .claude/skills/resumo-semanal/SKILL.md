@@ -342,6 +342,16 @@ solução completa, passo a passo...
   equivalências). E o exercício só pode aparecer **depois** do tópico que
   ensina esse método --- se o método ainda não foi dado, o exercício está
   no sítio errado.
+- **Estilo de exame: prova matemática, não palavras (2026-10-01).** Os
+  exemplos resolvidos e as soluções escrevem-se como a professora resolve e
+  como é aceite em exame: notação das teóricas (em Lógica, `\models_v`,
+  `\not\models_v`, "sse"), cada passo justificado por uma definição ou
+  lei, divisão em casos quando a definição dá um "ou", e contraexemplo
+  explícito, verificado com as regras, quando a afirmação é falsa. Uma
+  explicação por palavras só pode aparecer **ao lado** da prova, como
+  intuição, e só substitui a prova se o exercício for demasiado simples.
+  Os esqueletos por tipo de exercício estão na skill `resolver-exercicio`
+  (`.claude/skills/resolver-exercicio/SKILL.md`): segue-os.
 - As soluções seguem as regras dos exemplos resolvidos: totalmente
   explícitas, com cada cálculo intermédio. **Verifica-as antes de
   escrever:** contas em Python, equivalências por força bruta, código
@@ -657,3 +667,28 @@ a não ser que sejam explicitamente substituídas por feedback mais recente.
   assinalar nas soluções as diferenças de interpretação, sem apagar
   nenhuma das duas. Cuidado ao gerar texto com `$` num heredoc sem aspas
   (`<<EOF`): o shell come `$R`, `$57`, etc. Usar sempre `<<'EOF'`.
+- 2026-09-29: IPM recebeu o **enunciado do projeto** (COL), não uma aula.
+  Ficou em `Praticas/Semana_2/Enunciado_Projeto_COL.pdf` (é material de
+  prática), mas, como descreve o projeto que já tinha uma secção na Aula 1,
+  foi **fundido nessa secção** (problema, sistema, estados, regras da sala,
+  calendário, conteúdo do R1/PR2) e listado no `<!-- processado -->`.
+  Datas do enunciado que contradizem os slides: vale o enunciado, com caixa
+  `atencao`. Figuras oficiais do PDF recortadas com `pdftoppm -r 200` +
+  `sips -c H W --cropOffset Y X` (não há PIL no sistema). Exercícios
+  "Pratica agora" que **são entregáveis avaliados do grupo** (personas,
+  missões): como as regras de IA da disciplina proíbem gerar esse
+  conteúdo, a "solução" é uma **grelha de verificação** + contraexemplo,
+  não uma resposta-modelo pronta a copiar. Os exercícios de compreensão do
+  enunciado (autorizações, estados, contas) levam solução completa.
+- 2026-10-01: Feedback do Gonçalo sobre a 1.11 e a 1.13 de Lógica: "a
+  forma que resolveste não é válida em exame". As soluções em prosa ("como
+  C é inocente, A não pode ser culpado...") e os raciocínios com
+  `V \to F = F` não são o formato da professora. Ela abre cada fórmula com
+  a definição de `\models_v` (ex.: `\models_v (p\lor q)\to r` sse
+  `\not\models_v p\lor q` ou `\models_v r`) e trata cada caso do "ou" em
+  separado. Criada a skill `resolver-exercicio` com o método e os
+  esqueletos, e regra nova no passo 7 ("Estilo de exame"). Foram reescritas
+  no resumo e nas soluções de Lógica as provas de consequência/tautologia
+  (1.11, 1.13, 1.14, 1.15, 1.16, 1.10 g). Aplica-se a todas as
+  disciplinas: resolver sempre na forma matemática do professor, e só em
+  palavras quando o exercício é trivial.

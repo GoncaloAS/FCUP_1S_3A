@@ -115,31 +115,38 @@ Não é coincidência: $\neg(p\lor q)$ e $\neg p\land\neg q$ são equivalentes
 
 #### (a) $(p \lor q) \to (p \land q)$
 
-- $p \lor q = V \lor F = V$
-- $p \land q = V \land F = F$
-- $V \to F = F$
+$$\models_v (p\lor q)\to(p\land q) \ \text{ sse }\ \not\models_v p\lor q \ \text{ ou }\ \models_v p\land q$$
 
-$\not\models_v$: **não** satisfaz.
+- $v(p)=V$, logo $\models_v p$ e $\models_v p\lor q$. A primeira hipótese falha.
+- $v(q)=F$, logo $\not\models_v q$ e $\not\models_v p\land q$. A segunda também falha.
+
+Logo $\not\models_v (p\lor q)\to(p\land q)$: $v$ **não** satisfaz a fórmula.
 
 #### (c) $(p \to q) \land (p \to \neg q)$
 
-- $p \to q = V \to F = F$
+$$\models_v (p\to q)\land(p\to\neg q) \ \text{ sse }\ \models_v p\to q \ \text{ e }\ \models_v p\to\neg q$$
 
-A conjunção já é falsa, não é preciso calcular o outro lado. $\not\models_v$:
-**não** satisfaz.
+$\models_v p\to q$ sse $\not\models_v p$ ou $\models_v q$. Como $v(p)=V$ e
+$v(q)=F$, nenhuma das duas vale, logo $\not\models_v p\to q$. A conjunção já
+falha: $\not\models_v (p\to q)\land(p\to\neg q)$, e $v$ **não** satisfaz a
+fórmula.
 
-(Por curiosidade: $p \to \neg q = V \to V = V$, mas não chega.)
+(Por curiosidade, $\models_v p\to\neg q$, porque $\not\models_v q$ dá
+$\models_v \neg q$. Mas não chega.)
 
 #### (d) $p \to (q \to (p \lor q))$
 
-- de dentro para fora: $p \lor q = V$
-- $q \to V = F \to V = V$
-- $p \to V = V \to V = V$
+$$\models_v p\to(q\to(p\lor q)) \ \text{ sse }\ \not\models_v p \ \text{ ou }\ \models_v q\to(p\lor q)$$
 
-$\models_v$: **satisfaz**. Na verdade é uma tautologia: a fórmula só
-podia ser falsa com $p = V$ e $q = V$ (para os dois $\to$ terem o
-antecedente verdadeiro), mas então $p \lor q = V$ e o último $\to$ também
-é verdadeiro.
+- $\models_v q\to(p\lor q)$ sse $\not\models_v q$ ou $\models_v p\lor q$.
+- $v(q)=F$, logo $\not\models_v q$, e portanto $\models_v q\to(p\lor q)$.
+- Então $\models_v p\to(q\to(p\lor q))$: $v$ **satisfaz** a fórmula.
+
+Na verdade, é uma tautologia. Prova por absurdo: se $\not\models_{v'}$ da
+fórmula para alguma $v'$, então $\models_{v'} p$ e
+$\not\models_{v'} q\to(p\lor q)$, isto é, $\models_{v'} q$ e
+$\not\models_{v'} p\lor q$. Mas $\models_{v'} p$ dá $\models_{v'} p\lor q$,
+o que é uma contradição.
 
 ### 1.6 --- Provar equivalências pelas leis
 
@@ -284,54 +291,76 @@ simplificada:
 
 #### (a) $\models (\theta \lor \varphi) \to (\neg\theta \to \varphi)$
 
-**Verdadeira.** Pela eliminação da implicação,
-$\neg\theta \to \varphi \Leftrightarrow \neg\neg\theta \lor \varphi
-\Leftrightarrow \theta \lor \varphi$. A fórmula é então da forma
-$X \to X$, com $X = \theta \lor\varphi$.
+**Verdadeira.** Prova por absurdo. Suponha-se que existe $v$ com
+$\not\models_v (\theta\lor\varphi)\to(\neg\theta\to\varphi)$. Então:
 
-Para qualquer valoração $v$: se $v(X) = V$, fica $V \to V = V$; se
-$v(X)=F$, fica $F \to F = V$. É verdadeira em todas as valorações, logo é
-**tautologia**.
+1. $\models_v \theta\lor\varphi$ e $\not\models_v \neg\theta\to\varphi$
+   (regra da negação de $\to$).
+2. $\not\models_v \neg\theta\to\varphi$ sse $\models_v \neg\theta$ e
+   $\not\models_v \varphi$, isto é, $\not\models_v \theta$ e
+   $\not\models_v \varphi$.
+3. Por 2, $\not\models_v \theta\lor\varphi$ (regra do $\lor$: nenhum dos
+   lados é satisfeito). Isto contradiz 1.
+
+Logo não existe tal $v$, e
+$\models (\theta\lor\varphi)\to(\neg\theta\to\varphi)$. $\blacksquare$
 
 #### (b) $\{\varphi \to \psi,\ \psi \to \varphi\} \models (\varphi \lor \psi) \to (\varphi \land \psi)$
 
-**Verdadeira.** Seja $v$ uma valoração que satisfaz as duas premissas.
-Então $v(\varphi) = v(\psi)$: se um fosse $V$ e o outro $F$, uma das
-implicações seria $V \to F$.
+**Verdadeira.** Seja $v$ tal que $\models_v \varphi\to\psi$ e
+$\models_v \psi\to\varphi$. Queremos
+$\models_v (\varphi\lor\psi)\to(\varphi\land\psi)$, isto é,
+$$\not\models_v \varphi\lor\psi \ \text{ ou }\ \models_v \varphi\land\psi$$
 
-- Se $v(\varphi) = v(\psi) = V$: a conclusão é $V \to V = V$.
-- Se $v(\varphi) = v(\psi) = F$: o antecedente $\varphi\lor\psi$ é $F$, logo
-  a conclusão é $V$.
+- **Caso 1: $\not\models_v \varphi\lor\psi$.** Já está.
+- **Caso 2: $\models_v \varphi\lor\psi$**, isto é, $\models_v \varphi$ ou
+  $\models_v \psi$.
+  - Se $\models_v \varphi$: de $\models_v \varphi\to\psi$, por *modus
+    ponens*, $\models_v \psi$. Logo $\models_v \varphi\land\psi$.
+  - Se $\models_v \psi$: de $\models_v \psi\to\varphi$, por *modus
+    ponens*, $\models_v \varphi$. Logo $\models_v \varphi\land\psi$.
 
-Em qualquer caso, $v$ satisfaz a conclusão. $\checkmark$
+Em todos os casos $\models_v (\varphi\lor\psi)\to(\varphi\land\psi)$. Como
+$v$ é arbitrária, a consequência vale. $\blacksquare$
 
 #### (c) $\{\psi \to (\neg\varphi \lor \gamma),\ \neg\gamma\} \models \neg\varphi \to \neg\psi$
 
-**Falsa.** Um contraexemplo tem de pôr as premissas verdadeiras e a
-conclusão falsa.
+**Falsa.** Procura-se $v$ que satisfaz as premissas e não a conclusão.
 
-- Conclusão falsa: $\neg\varphi \to \neg\psi = V \to F$, ou seja
-  $\varphi = F$ e $\psi = V$.
-- $\neg\gamma$ verdadeira: $\gamma = F$.
-- Verificar a 1.ª premissa: $\psi \to (\neg\varphi \lor \gamma) = V \to
-  (V \lor F) = V \to V = V$ $\checkmark$.
+- $\not\models_v \neg\varphi\to\neg\psi$ sse $\models_v \neg\varphi$ e
+  $\not\models_v \neg\psi$, isto é, $\not\models_v \varphi$ e
+  $\models_v \psi$.
+- $\models_v \neg\gamma$ sse $\not\models_v \gamma$.
+- $\models_v \psi\to(\neg\varphi\lor\gamma)$ sse $\not\models_v \psi$ ou
+  $\models_v \neg\varphi\lor\gamma$. Como $\models_v \neg\varphi$, a
+  disjunção é satisfeita e esta premissa vale.
 
-**Contraexemplo concreto:** $\varphi = p$, $\psi = q$, $\gamma = r$, com
-$v(p)=F$, $v(q)=V$, $v(r)=F$. As premissas são verdadeiras e a conclusão é
-falsa.
+**Contraexemplo:** $\varphi = p$, $\psi = q$, $\gamma = r$, com
+$v(p)=F$, $v(q)=V$, $v(r)=F$.
+
+- $\not\models_v p$, logo $\models_v \neg p$ e $\models_v \neg p\lor r$,
+  logo $\models_v q\to(\neg p\lor r)$.
+- $\not\models_v r$, logo $\models_v \neg r$.
+- $\models_v \neg p$ e $\not\models_v \neg q$ (porque $\models_v q$), logo
+  $\not\models_v \neg p\to\neg q$.
+
+As premissas são satisfeitas e a conclusão não:
+$\{q\to(\neg p\lor r),\ \neg r\} \not\models \neg p\to\neg q$.
 
 #### (d) Se $\varphi, \psi \models \theta \to \gamma$ e $\varphi \models \theta$, então $\varphi, \psi \models \gamma$
 
-**Verdadeira.** Seja $v$ uma valoração que satisfaz $\varphi$ e $\psi$.
+**Verdadeira.** Seja $v$ tal que $\models_v \varphi$ e $\models_v \psi$.
 
-1. Pela 2.ª hipótese, $v$ satisfaz $\varphi$, logo $v(\theta) = V$.
-2. Pela 1.ª hipótese, $v$ satisfaz $\varphi$ e $\psi$, logo
-   $v(\theta \to \gamma) = V$.
-3. Com $v(\theta) = V$ e $v(\theta\to\gamma) = V$, só pode ser
-   $v(\gamma) = V$. Se fosse $F$, teríamos $V \to F = F$.
+1. Como $\varphi \models \theta$ e $\models_v \varphi$, tem-se
+   $\models_v \theta$.
+2. Como $\varphi,\psi \models \theta\to\gamma$ e $\models_v \varphi$,
+   $\models_v \psi$, tem-se $\models_v \theta\to\gamma$.
+3. $\models_v \theta\to\gamma$ sse $\not\models_v \theta$ ou
+   $\models_v \gamma$. Por 1, $\not\models_v \theta$ é impossível, logo
+   $\models_v \gamma$.
 
-Logo toda a valoração que satisfaz $\{\varphi,\psi\}$ satisfaz $\gamma$.
-$\checkmark$ (É o *modus ponens*, na versão semântica.)
+Como $v$ é arbitrária, $\varphi,\psi \models \gamma$. $\blacksquare$ (É o
+*modus ponens* na versão semântica.)
 
 ### 1.10 --- Cavaleiros e vilões
 
@@ -339,8 +368,24 @@ $\checkmark$ (É o *modus ponens*, na versão semântica.)
 
 **Resposta: C disse "sim".**
 
-Variáveis: $A$, $B$, $C$ = "é cavaleiro". A afirmação de A dá
-$A \leftrightarrow (B \leftrightarrow C)$. Vê os quatro casos possíveis:
+Variáveis: $A$, $B$, $C$ = "é cavaleiro".
+
+- A frase de A é $B\leftrightarrow C$. A é cavaleiro sse a frase é
+  verdadeira, logo $\models_v A\leftrightarrow(B\leftrightarrow C)$.
+- A pergunta feita a C é $Q = A\leftrightarrow B$. C responde "sim" sse
+  ($C$ cavaleiro e $Q$ verdadeira) ou ($C$ vilão e $Q$ falsa), isto é, sse
+  $\models_v C\leftrightarrow(A\leftrightarrow B)$.
+
+Pela comutatividade e associatividade de $\leftrightarrow$ (nota adicional:
+não estão na tabela de leis, mas confirmam-se com uma tabela de 8 linhas,
+abaixo):
+$$C\leftrightarrow(A\leftrightarrow B) \;\Leftrightarrow\; (A\leftrightarrow B)\leftrightarrow C \;\Leftrightarrow\; A\leftrightarrow(B\leftrightarrow C)$$
+
+Como $\models_v A\leftrightarrow(B\leftrightarrow C)$, tem-se
+$\models_v C\leftrightarrow(A\leftrightarrow B)$: **C responde "sim"**,
+qualquer que seja o tipo de cada um.
+
+Confirmação, com os quatro casos compatíveis com a frase de A:
 
 | A | B, C | A e B do mesmo tipo? | C é... | C responde |
 |:-:|:-:|:-:|:-:|:-:|
@@ -348,10 +393,6 @@ $A \leftrightarrow (B \leftrightarrow C)$. Vê os quatro casos possíveis:
 | cav. | B = C = vil. | não | vil. (mente) | **sim** |
 | vil. | B vil., C cav. | sim | cav. | **sim** |
 | vil. | B cav., C vil. | não | vil. | **sim** |
-
-Nas linhas em que A é vilão, B e C são de tipos diferentes, porque a frase
-de A tem de ser falsa. Em todos os casos C responde "sim", mesmo sem se
-saber o tipo de ninguém.
 
 #### (j) Que pergunta de "sim/não" fazer para saber qual caminho leva à cidade?
 

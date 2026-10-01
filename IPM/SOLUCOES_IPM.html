@@ -105,6 +105,24 @@ primeiro sozinho.</p>
 
 <nav id="indice"><details><summary>Índice</summary>
 <ul>
+<li><a href="#aula-1-o-projeto-col" id="toc-aula-1-o-projeto-col">Aula 1
+— O projeto COL</a>
+<ul>
+<li><a href="#p.1-perceber-o-enunciado-do-col" id="toc-p.1-perceber-o-enunciado-do-col">P.1 — Perceber o enunciado do
+COL</a></li>
+</ul></li>
+<li><a href="#aula-2-personas" id="toc-aula-2-personas">Aula 2 —
+Personas</a>
+<ul>
+<li><a href="#p.2-personas-do-col" id="toc-p.2-personas-do-col">P.2 —
+Personas do COL</a></li>
+</ul></li>
+<li><a href="#aula-2-t4-task-flows" id="toc-aula-2-t4-task-flows">Aula 2
+— T4 (task flows)</a>
+<ul>
+<li><a href="#p.3-missões-do-col" id="toc-p.3-missões-do-col">P.3 —
+Missões do COL</a></li>
+</ul></li>
 <li><a href="#aula-3-o-método-10x10" id="toc-aula-3-o-método-10x10">Aula
 3 — O método 10x10</a>
 <ul>
@@ -114,6 +132,261 @@ projeto</a></li>
 </ul>
 </details></nav>
 
+<h2 id="aula-1-o-projeto-col">Aula 1 — O projeto COL</h2>
+<h3 id="p.1-perceber-o-enunciado-do-col">P.1 — Perceber o enunciado do
+COL</h3>
+<p>Regras usadas (enunciado, secção 2): o operador move as comportas de
+Touvedo <strong>sozinho</strong> desde que o <strong>total largado pela
+barragem fique abaixo de 300 m³/s</strong>; <strong>descargas acima de
+300 m³/s</strong>, <strong>avisos à população</strong> e
+<strong>fechos</strong> precisam de autorização do coordenador, pedida e
+recebida na interface.</p>
+<details class="sol" id="P.1-a"><summary>
+(a) Touvedo larga 180 m³/s; o operador quer mais 100 m³/s. Pode sozinho?
+</summary><div class="corpo">
+<p>Total depois da manobra:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>180</mn><mo>+</mo><mn>100</mn><mo>=</mo><mn>280</mn></mrow><annotation encoding="application/x-tex">180 + 100 = 280</annotation></semantics></math>
+m³/s.</p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>280</mn><mo>&lt;</mo><mn>300</mn></mrow><annotation encoding="application/x-tex">280 &lt; 300</annotation></semantics></math>,
+por isso <strong>está dentro da autonomia do operador</strong>: pode
+fazê-lo sozinho. A manobra passa por <strong>pedida → em curso →
+concluída</strong>, sem passar por “à espera de autorização”.</p>
+<p>Mesmo assim, é um comando que muda o estado do rio (regra 3 da sala):
+a confirmação deve mostrar <strong>o efeito</strong> (“Touvedo passa de
+180 para 280 m³/s”), e não um “tem a certeza?” genérico.</p>
+</div></details>
+<details class="sol" id="P.1-b"><summary>
+(b) Mesma situação, mas mais 150 m³/s. Por que estados passa a manobra?
+</summary><div class="corpo">
+<p>Total depois da manobra:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>180</mn><mo>+</mo><mn>150</mn><mo>=</mo><mn>330</mn></mrow><annotation encoding="application/x-tex">180 + 150 = 330</annotation></semantics></math>
+m³/s.</p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>330</mn><mo>&gt;</mo><mn>300</mn></mrow><annotation encoding="application/x-tex">330 &gt; 300</annotation></semantics></math>,
+por isso <strong>precisa de autorização do coordenador</strong>. Pelo
+ciclo de vida:</p>
+<ol type="1">
+<li><strong>pedida</strong> — o operador define a manobra (abrir a
+comporta para mais 150 m³/s);</li>
+<li><strong>à espera de autorização</strong> — a interface envia o
+pedido ao coordenador, e a comporta <strong>ainda não se
+mexe</strong>;</li>
+<li><strong>autorizada</strong> — o coordenador aprova, na
+interface;</li>
+<li><strong>em curso</strong> — o operador executa, e a comporta passa
+por “a abrir”;</li>
+<li><strong>concluída</strong> — a comporta fica “aberta a N metros” e o
+total chega a 330 m³/s.</li>
+</ol>
+<p>Se o coordenador recusar (ou o operador desistir), a manobra passa de
+“à espera de autorização” para <strong>cancelada</strong> e o total fica
+nos 180 m³/s.</p>
+<p>Repara que <strong>o mesmo gesto</strong> (abrir uma comporta) segue
+caminhos diferentes consoante o número final. A interface tem de mostrar
+isso <strong>antes</strong> de o operador confirmar (“isto ultrapassa
+300 m³/s: vai pedir autorização”), para não o surpreender.</p>
+</div></details>
+<details class="sol" id="P.1-c"><summary>
+(c) Tocar as sirenes a jusante de Touvedo. Pode sozinho?
+</summary><div class="corpo">
+<p><strong>Não, na leitura mais segura: precisa de autorização.</strong>
+As sirenes servem para avisar as pessoas junto ao rio, por isso são um
+<strong>aviso à população</strong>, e os avisos à população estão na
+lista do que precisa do coordenador.</p>
+<p>O enunciado não o diz com todas as letras: põe as sirenes na lista de
+recursos, ao lado das SMS, e nunca diz “sirene = aviso”. Por isso está
+na lista de dúvidas a levar à aula. No relatório, se assumirem isto,
+<strong>escrevam a suposição</strong> (o que conta é a decisão
+justificada).</p>
+<p>Um aviso segue os seus próprios estados: <strong>rascunho →
+pendente</strong> (à espera do coordenador) <strong>→
+emitido</strong>.</p>
+</div></details>
+<details class="sol" id="P.1-d"><summary>
+(d) A comporta 2 de Touvedo está em modo manual local e é preciso
+fechá-la. O que faz a interface?
+</summary><div class="corpo">
+<p>“Modo manual local” quer dizer que <strong>alguém na barragem assumiu
+o controlo no local</strong> e o <strong>controlo remoto deixou de estar
+disponível</strong>. Portanto:</p>
+<ul>
+<li>a interface <strong>não pode</strong> mandar fechar a comporta, e
+não deve fingir que pode. O comando “fechar” fica <strong>visível mas
+inativo</strong> (não escondido: regra 2, não há menus escondidos), com
+a razão escrita (“controlo local na barragem”);</li>
+<li>o estado “em modo manual local” tem de se distinguir <strong>num
+relance</strong> dos estados normais (regra 4: o operador cansado não
+pode confundir “não responde” com “está fechada”);</li>
+<li>o que o operador <strong>pode</strong> fazer sozinho: <strong>enviar
+uma equipa</strong> de terreno (há 2 equipas das barragens) à
+barragem.</li>
+</ul>
+<p>(Nota: a forma de falar com a pessoa que está no local não vem no
+enunciado. Aqui a suposição é que o contacto se faz pela equipa
+enviada.)</p>
+</div></details>
+<details class="sol" id="P.1-e"><summary>
+(e) Volume útil de Touvedo a meio e entrada − saída = 250 m³/s. Quanto
+tempo até encher?
+</summary><div class="corpo">
+<p>O volume útil total é 4,5 hm³ = 4 500 000 m³. A meio, falta encher
+metade:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mn>4</mn><mspace width="0.167em"></mspace><mn>500</mn><mspace width="0.167em"></mspace><mn>000</mn></mrow><mn>2</mn></mfrac><mo>=</mo><mn>2</mn><mspace width="0.167em"></mspace><mn>250</mn><mspace width="0.167em"></mspace><mn>000</mn><msup><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> m</mtext></mrow><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">\frac{4\,500\,000}{2} = 2\,250\,000 \text{ m}^3</annotation></semantics></math></p>
+<p>A albufeira ganha 250 m³ por segundo (é o que entra a mais do que
+sai):</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mn>2</mn><mspace width="0.167em"></mspace><mn>250</mn><mspace width="0.167em"></mspace><mn>000</mn><msup><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> m</mtext></mrow><mn>3</mn></msup></mrow><mrow><mn>250</mn><msup><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> m</mtext></mrow><mn>3</mn></msup><mi>/</mi><mtext mathvariant="normal">s</mtext></mrow></mfrac><mo>=</mo><mn>9</mn><mspace width="0.167em"></mspace><mn>000</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> s</mtext></mrow></mrow><annotation encoding="application/x-tex">\frac{2\,250\,000 \text{ m}^3}{250 \text{ m}^3/\text{s}} = 9\,000 \text{ s}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9</mn><mspace width="0.167em"></mspace><mn>000</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> s</mtext></mrow><mo>÷</mo><mn>60</mn><mo>=</mo><mn>150</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> min</mtext></mrow><mo>=</mo><mrow><mn mathvariant="bold">𝟐</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐡 </mtext><mspace width="0.333em"></mspace></mrow><mn mathvariant="bold">𝟑𝟎</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐦𝐢𝐧</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">9\,000 \text{ s} \div 60 = 150 \text{ min} = \mathbf{2 \text{ h } 30 \text{ min}}</annotation></semantics></math></p>
+<p>A conta supõe que a diferença se mantém constante. Na realidade muda
+(a chuva aumenta, o operador abre comportas), por isso o número tem de
+ser <strong>recalculado continuamente</strong>. É exatamente o que o
+exemplo de “ouro” do enunciado sugere mostrar: não só “está a 50 %”, mas
+<strong>“a este ritmo, enche dentro de 2 h 30”</strong>, que é o que o
+operador precisa para decidir.</p>
+</div></details>
+<h2 id="aula-2-personas">Aula 2 — Personas</h2>
+<h3 id="p.2-personas-do-col">P.2 — Personas do COL</h3>
+<p>As personas são o item 2 do R1, ou seja, <strong>trabalho avaliado do
+grupo</strong>, e as regras de IA da disciplina (Aula 1) proíbem que
+sejam geradas por IA. Por isso a “solução” aqui é uma <strong>grelha de
+verificação</strong> para corrigires as tuas. O exemplo da Mariana
+(cantina) no resumo serve de modelo de formato.</p>
+<details class="sol" id="P.2-1"><summary>
+Resposta
+</summary><div class="corpo">
+<p>Passa cada uma das tuas três personas por estas perguntas.</p>
+<p><strong>O que o enunciado exige:</strong></p>
+<ul>
+<li>São <strong>três</strong>, e <strong>uma tem pouca
+experiência</strong> (ex.: meses no posto e não anos). Esta é a que o
+<em>cognitive walkthrough</em> vai simular, porque a pergunta é “um
+<strong>operador novo</strong> saberia o que fazer?”.</li>
+<li>Cada uma tem <strong>nome</strong>, <strong>experiência</strong> e
+<strong>o que a põe em dificuldade</strong>.</li>
+</ul>
+<p><strong>As 10 regras (Aula 2):</strong></p>
+<ul>
+<li><strong>Regra 7:</strong> as três são operadores, com o mesmo cargo.
+Se, ao tirares o nome e a idade, as três ficam iguais, <strong>falhaste
+a regra 7</strong>. Têm de diferir no <strong>padrão de
+comportamento</strong>: por exemplo, como reagem à incerteza, quanto
+confiam nos sensores, se preferem agir cedo ou esperar por mais dados,
+ou se hesitam em incomodar o coordenador de madrugada.</li>
+<li><strong>Regras 2, 5 e 10:</strong> 3 ou 4 <strong>objetivos</strong>
+por persona, e objetivos, não tarefas. “Que a água não chegue ao Passeio
+sem a população ter sido avisada” é um objetivo. “Abrir a comporta 2” é
+uma tarefa.</li>
+<li><strong>Regra 4:</strong> um ou dois detalhes pessoais concretos, e
+não uma biografia.</li>
+<li><strong>Regra 8:</strong> não inventes uma quarta ou quinta “por via
+das dúvidas”.</li>
+</ul>
+<p><strong>A ficha do Módulo 03:</strong></p>
+<ul>
+<li><strong>Frustração:</strong> deve ligar-se a um <strong>desafio de
+interface</strong> (item 1 do R1). Por exemplo, “perder um alerta no
+meio de muitos” liga-se a um problema de desenho; “o café da sala é mau”
+não liga a nada.</li>
+<li><strong>Contexto:</strong> usa o que o enunciado dá: turno de 8 h, a
+regra “3 da manhã, seis horas dentro do turno”, o coordenador fora da
+sala, 2 monitores e a parede de ecrãs.</li>
+</ul>
+<p><strong>Erros comuns:</strong></p>
+<ul>
+<li>três personas que são “o júnior, o médio e o sénior” sem mais
+nada;</li>
+<li>objetivos que são funcionalidades (“quer um mapa do rio”);</li>
+<li>personas que não voltam a aparecer no resto do R1. Cada missão (item
+3) deve dizer <strong>de que persona</strong> é.</li>
+</ul>
+</div></details>
+<h2 id="aula-2-t4-task-flows">Aula 2 — T4 (task flows)</h2>
+<h3 id="p.3-missões-do-col">P.3 — Missões do COL</h3>
+<p>Tal como as personas, as missões são trabalho avaliado do grupo (item
+3 do R1, feito na S4). A solução é uma grelha de verificação e um
+<strong>contraexemplo</strong> comentado.</p>
+<details class="sol" id="P.3-1"><summary>
+Resposta
+</summary><div class="corpo">
+<p><strong>Contraexemplo (uma missão mal escrita):</strong></p>
+<blockquote>
+<p>Missão: usar o painel de comportas. 1. Clicar no separador “Touvedo”.
+2. Clicar em “Abrir comporta”. 3. Clicar OK.</p>
+</blockquote>
+<p>O que está mal:</p>
+<ol type="1">
+<li><strong>O objetivo está escrito com as palavras da
+interface</strong> (“usar o painel”), e não com o objetivo do operador
+(ex.: “baixar o nível de Touvedo antes da preia-mar”).</li>
+<li><strong>Não tem situação de partida.</strong> O enunciado exige-a em
+cada missão: caudais, estado dos equipamentos, hora, maré.</li>
+<li><strong>Não diz o que o sistema mostra</strong> em cada passo, só
+cliques.</li>
+<li><strong>Não tem critério de sucesso</strong> verificável.</li>
+<li><strong>Pressupõe já uma interface</strong> (“separador”) e, pior,
+um separador esconde informação: viola a regra 2 da sala (não há menus
+escondidos). A missão deve poder ser seguida em
+<strong>qualquer</strong> alternativa de esboço, porque é com ela que
+outro grupo vai avaliar os teus esboços.</li>
+<li><strong>Não diz quanto se abre.</strong> Por isso não se sabe se
+passa os 300 m³/s (e se precisa de autorização).</li>
+</ol>
+<p><strong>Grelha para verificar as tuas cinco:</strong></p>
+<table>
+<colgroup>
+<col style="width: 43%" />
+<col style="width: 56%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Verificação</th>
+<th style="text-align: left;">Como confirmar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Cobertura</td>
+<td style="text-align: left;">Pelo menos 1 normal, 1 de cheia e 1 avaria
+no conjunto</td>
+</tr>
+<tr>
+<td style="text-align: left;">Situação de partida</td>
+<td style="text-align: left;">Números inventados mas
+<strong>plausíveis</strong> face aos valores reais (ex.: Lima em seca
+&lt; 100 m³/s; nada acima da capacidade das comportas)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Objetivo</td>
+<td style="text-align: left;">Nas palavras do operador e ligado a uma
+<strong>persona</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">Passos</td>
+<td style="text-align: left;">Uma linha por passo: faz / o sistema
+mostra</td>
+</tr>
+<tr>
+<td style="text-align: left;">Sucesso</td>
+<td style="text-align: left;">Dito com os <strong>estados
+obrigatórios</strong> (ex.: “a manobra fica <em>concluída</em>”, “o
+alerta fica <em>resolvido</em>”)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Autorização</td>
+<td style="text-align: left;">Pelo menos uma missão passa por “à espera
+de autorização”</td>
+</tr>
+<tr>
+<td style="text-align: left;">Fim de turno</td>
+<td style="text-align: left;">Pelo menos uma acaba ou passa por uma
+<strong>passagem de turno</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">Avaliável</td>
+<td style="text-align: left;">Um colega de outro grupo consegue segui-la
+sem te perguntar nada</td>
+</tr>
+</tbody>
+</table>
+</div></details>
 <h2 id="aula-3-o-método-10x10">Aula 3 — O método 10x10</h2>
 <h3 id="cantina-10x10-aplicado-ao-projeto">Cantina — 10x10 aplicado ao
 projeto</h3>
