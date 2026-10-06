@@ -56,6 +56,9 @@
 \newunicodechar{∀}{\ensuremath{\forall}}
 \newunicodechar{∃}{\ensuremath{\exists}}
 \newunicodechar{×}{\ensuremath{\times}}
+% \not\models: sem isto o STIX Two Math sobrepõe um "/" desalinhado ao ⊧;
+% o \not do unicode-math usa \n<nome> quando existe, e o ⊭ tem glifo próprio.
+\def\nmodels{\nvDash}
 
 \linespread{1.06}
 \setlength{\parskip}{4pt}
@@ -93,11 +96,16 @@
 % estrutura (só {\LARGE #1}) abria espaços enormes entre linhas no índice
 % e noutras páginas --- causa não percebida; manter esta estrutura.
 \newcommand{\aulanum}{}
+\newcommand{\aularotulo}{Aula}  % "Tema" nas disciplinas sem aulas numeradas
 \newcommand{\aulavazia}{}
+% A coluna do número alarga-se quando o número é largo ("5–6" em "Aulas 5--6").
+\newlength{\aulanumwd}
 \newcommand{\aulahead}[1]{%
-  \begin{minipage}[b]{2.4em}{\fontsize{44}{40}\selectfont\bfseries\color{Teal}\aulanum}\end{minipage}%
-  \hspace{0.6em}\begin{minipage}[b]{\dimexpr\linewidth-3em}\raggedright
-  \ifx\aulanum\aulavazia\else{\small\bfseries\color{Teal}Aula \aulanum}\\[1pt]\fi
+  \settowidth{\aulanumwd}{\fontsize{44}{40}\selectfont\bfseries\aulanum}%
+  \ifdim\aulanumwd<3em\setlength{\aulanumwd}{2.4em}\fi
+  \begin{minipage}[b]{\aulanumwd}{\fontsize{44}{40}\selectfont\bfseries\color{Teal}\aulanum}\end{minipage}%
+  \hspace{0.6em}\begin{minipage}[b]{\dimexpr\linewidth-\aulanumwd-0.6em}\raggedright
+  \ifx\aulanum\aulavazia\else{\small\bfseries\color{Teal}\aularotulo\ \aulanum}\\[1pt]\fi
   {\LARGE\bfseries #1}\end{minipage}}
 % O pandoc não numera secções, por isso o titlesec usa o formato "numberless".
 \titleformat{\section}[block]{\sffamily\color{Ink}}{}{0pt}{\aulahead}

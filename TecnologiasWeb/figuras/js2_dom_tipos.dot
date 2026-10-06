@@ -1,0 +1,14 @@
+digraph dom {
+  rankdir=BT;
+  fontname="Helvetica";
+  node [shape=record, style="rounded,filled", fontname="Helvetica", fontsize=12, fillcolor="#EBF2FA", color="#1B4F72"];
+  edge [fontname="Helvetica", fontsize=10];
+  "Node" [label="{Node|parentNode, firstChild, nextSibling, childNodes...\lappendChild(), insertBefore(), replaceChild()\l}"];
+  "Element" [label="{Element|id, className, innerHTML...\lgetAttribute(), setAttribute()\l}", fillcolor="#E8F5E9", color="#2E7D32"];
+  "Text" [label="{Text|data, length\lappendData(), splitText()...\l}", fillcolor="#FFF8E1", color="#B7950B"];
+  "Document" [label="{Document (variável document)|getElementById(), querySelector()\lcreateElement(), createTextNode()\l}", fillcolor="#FDEDEC", color="#922B21"];
+  "NodeList" [label="{NodeList|length, item(i)\l}", fillcolor="#F4ECF7", color="#6C3483"];
+  "Element" -> "Node" [label=" é um"];
+  "Text" -> "Node" [label=" é um"];
+  "NodeList" -> "Node" [label=" agrega", style=dashed];
+}

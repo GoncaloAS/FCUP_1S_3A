@@ -42,14 +42,14 @@ centradas na Web em todas as vertentes:
    - Processamento HTTP — Node.js
    - Interface a processos — CGI e alternativas
 
-Este programa está mapeado às aulas concretas em `CALENDARIO.md`.
+Este programa está mapeado às aulas concretas em `CALENDARIO.pdf`.
 
 ## Modo de trabalho
 
 - **Teóricas:** aulas presenciais; vídeos e slides disponíveis online, também
   numa [playlist de YouTube](https://www.youtube.com/playlist?list=PLZmJhNlbpQ7_SM7JwKPiZiFBatWcMeXoa).
 - **Práticas laboratoriais:** exercícios preparatórios ("Folhas"), o trabalho
-  prático (o jogo — ver `TRABALHO_Tab.md`), e testes em computador.
+  prático (o jogo — ver `TRABALHO_Tab.pdf`), e testes em computador.
 - **Slack:** para dúvidas pontuais, dúvidas entre colegas, e marcar reuniões
   Zoom. [Link de registo](https://join.slack.com/t/tw-26-27/shared_invite/zt-49mxf2po2-EX8CWqkNPS_zYLPDQP9k5Q)
   — no perfil, definir "Nome Exibido" como `Nome Completo NúmeroMecanográfico`.
@@ -78,26 +78,25 @@ Este programa está mapeado às aulas concretas em `CALENDARIO.md`.
 ### Trabalho prático
 
 - Feito em **grupos de 3 alunos** (podem ser de turmas diferentes; grupos de
-  1 pessoa só em último recurso — ver FAQ em `TRABALHO_Tab.md`).
+  1 pessoa só em último recurso — ver FAQ em `TRABALHO_Tab.pdf`).
 - Realizado durante as aulas práticas, mas não só.
 - Cada entrega cobre a matéria das aulas teóricas precedentes.
 - Podem usar o Slack para formar grupo.
 - Detalhes completos do enunciado (regras do jogo + as 3 partes da entrega)
-  em `TRABALHO_Tab.md`.
+  em `TRABALHO_Tab.pdf`.
 
 ### Testes
 
 - Em computador, com avaliação automática, escolha múltipla (respostas
   erradas descontam o valor esperado).
 - Matéria: teóricas + trabalhos precedentes.
-- Datas: ver `CALENDARIO.md` — acontecem nas aulas práticas laboratoriais.
+- Datas: ver `CALENDARIO.pdf` — acontecem nas aulas práticas laboratoriais.
 
 ## Sumários das aulas
 
-O site tem uma folha de cálculo com os sumários previstos aula-a-aula:
-https://docs.google.com/spreadsheets/d/e/2PACX-1vRyqB5x0GbMhcJVv-mj23ug3YSIEVtYG2OQetiAMgeRJvTaDvuTx-mVfUOxkXR8lNqLKE7tNn-h3074/pubhtml
+O site tem uma folha de cálculo com os sumários previstos aula-a-aula ([folha de sumários](https://docs.google.com/spreadsheets/d/e/2PACX-1vRyqB5x0GbMhcJVv-mj23ug3YSIEVtYG2OQetiAMgeRJvTaDvuTx-mVfUOxkXR8lNqLKE7tNn-h3074/pubhtml))
 (não processada em detalhe ainda — é essencialmente o mesmo mapeamento
-aula→tópico que já está em `CALENDARIO.md`, mas pode ter mais pormenor
+aula→tópico que já está em `CALENDARIO.pdf`, mas pode ter mais pormenor
 dia-a-dia; útil para saber exatamente o que vai ser dado numa aula específica).
 
 ## Conteúdo completo do site (mirror local)

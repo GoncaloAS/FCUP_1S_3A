@@ -13,5 +13,4 @@ digraph HttpCiclo {
   Servidor -> Proxy [label="resposta HTTP\n(estado + cabeçalhos\n+ linha vazia + corpo)"];
   Proxy -> Cliente [label="encaminha a resposta\n(pode servir de cache)"];
 
-  { rank=same; Cliente; Proxy; Servidor; }
 }

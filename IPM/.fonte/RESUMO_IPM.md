@@ -28,28 +28,10 @@ modelo do processador humano (perceção, atenção, memória), prototipagem
 como algo que gera sentimento (não é só eficiência mecânica) e uma breve
 história da IPM.
 
-A definição formal de desenho de interfaces, as razões para a IPM existir
-e a sua história (marcos de 1963 a 2026) estão na **Aula 4**, "Porquê
-IPM?" e "Introdução à IPM".
-
-::: atencao
-Referências bibliográficas dadas como opcionais pelo professor (não são
-obrigatórias, mas são a bibliografia de referência do campo):
-
-- *Sketching User Experiences: The Workbook* --- Greenberg, Carpendale,
-  Marquardt, Buxton (Morgan Kaufmann, 2012).
-- *About Face: The Essentials of Interaction Design* --- Cooper, Reimann,
-  Cronin, Noessel (4.ª ed., 2014; a 3.ª ed. existe em PDF online).
-- *Interaction Design: Beyond Human-Computer Interaction* --- Preece,
-  Sharp, Rogers (5.ª ed. 2019, 6.ª ed. 2023).
-- *Measuring the User Experience* --- Tullis, Albert (3.ª ed., 2022).
-:::
-
 ## Frequência e regras de assiduidade
 
-- **Aulas teóricas**: presenciais. O professor sublinha que é importante
-  frequentá-las mesmo não sendo avaliadas por assiduidade diretamente,
-  porque o conteúdo é a base do exame.
+- **Aulas teóricas**: presenciais, sem controlo de assiduidade (a matéria
+  é a base do exame).
 - **Aulas práticas (lab)**: presenciais, trabalho em grupo.
   - Assiduidade mínima: **70%** das sessões de lab.
   - Máximo de **3 faltas**.
@@ -70,19 +52,9 @@ componentes:
 
 $$FG = R1 + PR2 + FE$$
 
-com a condição **FE $\geq$ 35%** (isto é, dos 10 pontos possíveis no exame, o
-Gonçalo tem de obter pelo menos 3,5 valores *no próprio exame* — é um
-patamar mínimo sobre a componente do exame, não sobre a nota final total).
-Os 10 pontos de trabalho contínuo (R1 + PR2) são feitos em grupo; os 10
-pontos do exame são individuais.
-:::
-
-::: exame
-O critério **FE $\geq$ 35%** é uma condição de exclusão independente da nota
-das componentes de grupo: mesmo com R1 e PR2 perfeitos, não atingir 3,5/10
-no exame impede a aprovação pela fórmula normal. Vale a pena confirmar
-sempre nas normas oficiais da disciplina se este mínimo se mantém igual ao
-longo do semestre.
+com a condição **FE $\geq$ 35%**: pelo menos 3,5 dos 10 valores *no próprio
+exame*. É eliminatório por si só: mesmo com R1 e PR2 perfeitos, abaixo
+disso não há aprovação.
 :::
 
 ### R1 --- Primeiro relatório (4 pontos)
@@ -183,14 +155,6 @@ três fases de avaliação** (provada pela evidência) e a apresentação final.
 **Um grupo que falte a uma fase de avaliação sem justificação perde essa
 componente.** Há ainda um relatório de estado de cada grupo, por email aos
 docentes, a **4 de dezembro**.
-:::
-
-::: atencao
-Os slides da Aula 1 dão R1 = 4 e PR2 = 6 valores; o enunciado diz só que
-"o peso de cada componente é publicado na página da disciplina". Não há
-contradição, mas confirma na página da disciplina como se repartem os
-valores dentro do R1/PR2 (por exemplo, quanto vale a participação nas
-fases de avaliação).
 :::
 
 ### Exame final (10 pontos)
@@ -411,15 +375,12 @@ a tabela de autorizações acima:
 
 ![Ciclo de vida de uma manobra (interpretação: o enunciado dá os estados, não as setas)](figuras/col_estados_manobra.pdf){width=92%}
 
-::: atencao
-**Nota adicional (interpretação, não está no enunciado):** as setas do
-diagrama são a leitura mais natural, mas não estão escritas. Uma manobra
-dentro da autonomia do operador salta "à espera de autorização"; uma que
-exige o coordenador tem de passar por lá. Desenhar isto explicitamente
-para **cada** elemento ajuda muito: cada seta é um botão ou um evento que a
-interface tem de ter, e cada estado é algo que tem de ser **visível**. É
-também matéria-prima direta para as missões.
-:::
+**As setas do diagrama† não estão escritas no enunciado**; esta é a
+leitura mais natural. Uma manobra dentro da autonomia do operador salta "à
+espera de autorização"; uma que exige o coordenador passa por lá. Desenhar
+isto para **cada** elemento ajuda muito: cada seta é um botão ou evento que
+a interface tem de ter, cada estado é algo que tem de ser **visível**, e
+tudo é matéria-prima direta para as missões.
 
 ### O que **não** é pedido
 
@@ -453,16 +414,12 @@ dizer o que vai em cada um.
    a situação num relance.**
 :::
 
-::: atencao
-**Ligação com a teoria:** a regra 4 é, na prática, uma **persona** (Aula
-2): um operador cansado, de madrugada, com atenção reduzida. E a regra 3
-é o compromisso clássico entre **evitar erros** e **não tornar a ação
-lenta** --- um "tem a certeza?" genérico que o operador aprende a clicar
-sem ler **não** cumpre a regra; a confirmação tem de mostrar **o que vai
-acontecer** (ex.: "Touvedo passa de 280 para 420 m³/s --- precisa de
-autorização"). (Nota adicional: interpretação das regras, não está no
-enunciado.)
-:::
+**Ligação com a teoria†:** a regra 4 é, na prática, uma **persona** (Aula
+2): um operador cansado, de madrugada, com atenção reduzida. A regra 3 é o
+compromisso clássico entre **evitar erros** e **não tornar a ação lenta**:
+um "tem a certeza?" genérico, que o operador aprende a clicar sem ler,
+**não** a cumpre. A confirmação tem de mostrar **o que vai acontecer**
+(ex.: "Touvedo passa de 280 para 420 m³/s --- precisa de autorização").
 
 ### O "ouro" do grupo
 
@@ -492,12 +449,9 @@ Depois de cada fase: outros grupos avaliam o artefacto → escrevem
 conclusões → o grupo melhora o artefacto com base nisso.
 :::
 
-::: atencao
-Os slides da Aula 1 punham as fases em **outubro / novembro / dezembro**; o
-enunciado (mais recente e com datas exatas) põe as três em **novembro**
-(3, 17 e 24). **Vale o enunciado.** Dezembro fica para acabar o protótipo,
-o PR2 (13 dez) e a apresentação (15 dez).
-:::
+As três fases são todas em **novembro** (3, 17 e 24; vale o enunciado,
+que é mais recente do que os slides). Dezembro fica para acabar o
+protótipo, o PR2 (13 dez) e a apresentação (15 dez).
 
 ::: {.definicao title="--- O trabalho semana a semana (aulas práticas)"}
 | Semana | Sessão | O que se faz na aula | O que fica feito |
@@ -546,43 +500,36 @@ As sextas de **30 out, 4 dez e 11 dez** são sobretudo sessões de apoio.
   no protótipo, **sem ajuda**, medindo tempo, erros e o que dizem.
 :::
 
-::: atencao
-**Nota adicional (não estava explicado em detalhe nos slides nem no
-enunciado):** os três métodos de avaliação só são explicados em
-profundidade mais tarde na disciplina (aparecem apenas nomeados no Módulo
-02, secção T4 abaixo). Para já, o que acrescenta ao vocabulário acima:
+**Os três métodos de avaliação†** (só nomeados no Módulo 02, T4; são
+explicados em detalhe mais tarde):
 
 - **Cognitive walkthrough** (Fase 1): não precisa de utilizadores reais nem
-  de protótipo funcional --- só do esboço e do percurso mental do
-  avaliador; cada passo da missão é pontuado (0 / 1 / 2).
-- **Avaliação heurística** (Fase 2): as heurísticas são normalmente as
-  **heurísticas de Nielsen**, mais heurísticas próprias do grupo; para cada
-  problema regista-se a **severidade** e a **extensão** (quantas partes do
-  sistema afeta).
+  de protótipo funcional, só do esboço e do percurso mental do avaliador;
+  cada passo da missão é pontuado (0 / 1 / 2).
+- **Avaliação heurística** (Fase 2): normalmente as **heurísticas de
+  Nielsen**, mais heurísticas próprias do grupo; para cada problema
+  regista-se a **severidade** e a **extensão** (quantas partes do sistema
+  afeta).
 - **Testes de usabilidade** (Fase 3): regista-se sucesso/insucesso, tempo,
   erros e frases ditas (*quotes*) durante a tarefa.
 
-Os três métodos dependem de um artefacto cada vez mais acabado (esboço →
-wireframe → protótipo interativo), o que explica a ordem das fases.
-:::
+Cada método precisa de um artefacto mais acabado do que o anterior (esboço
+→ wireframe → protótipo interativo), o que explica a ordem das fases.
 
-::: atencao
-**Dúvidas a levar à aula (interpretação minha; o enunciado não as
-resolve):**
+**Dúvidas que o enunciado não resolve† (levar à aula):**
 
 1. A **descarga de fundo do Lindoso** larga até **400 m³/s**. O operador
-   pode "abrir ou fechar a descarga de fundo" sozinho, mas "descargas acima
-   de 300 m³/s" precisam de autorização. Abri-la toda precisa ou não de
-   autorização? (A leitura mais segura: sim, porque o total passa os 300.)
+   pode abri-la ou fechá-la sozinho, mas "descargas acima de 300 m³/s"
+   precisam de autorização. Abri-la toda precisa? (Leitura mais segura:
+   sim, porque o total passa os 300.)
 2. O limite de 300 m³/s de Touvedo conta **tudo** o que a barragem larga
-   (turbina + descarga de fundo + comportas) ou só as comportas? O texto
-   diz "o total largado pela barragem", o que aponta para tudo.
-3. As **sirenes** contam como "aviso à população" (e portanto precisam de
+   (turbina + descarga de fundo + comportas) ou só as comportas? "O total
+   largado pela barragem" aponta para tudo.
+3. As **sirenes** contam como "aviso à população" (e precisam de
    autorização)? Estão na lista de recursos, ao lado das SMS.
-4. Como deve aparecer o coordenador quando **não responde** a um pedido de
+4. Como aparece o coordenador quando **não responde** a um pedido de
    autorização urgente? O enunciado só diz que "pode ser contactado a
    qualquer hora".
-:::
 
 ::: {.pratica title="--- Perceber o enunciado do COL"}
 **Exercício P.1** (inventado, a partir do enunciado). Para cada situação,
@@ -644,7 +591,7 @@ encher? (É a conta por trás do exemplo de "ouro" do enunciado.)
 
 ## Uso de Inteligência Artificial generativa na disciplina
 
-::: {.atencao title="--- Regras sobre IA generativa"}
+::: {.definicao title="--- Regras sobre IA generativa"}
 **Permitido** (como apoio instrumental):
 
 - Reformular e rever os teus próprios textos.
@@ -708,12 +655,9 @@ da complexidade real por trás.
 3. **Submeter no Moodle**: formato JPG, menos de 1 MB, antes da próxima
    aula teórica.
 
-::: atencao
-Critério de bom/mau exemplo mostrado nos slides: uma foto **sem** as
-anotações (nome, objeto, data) conta como mau exemplo mesmo que o objeto
-fotografado seja interessante — a anotação é parte obrigatória do
-exercício, não um extra.
-:::
+Uma foto **sem** as anotações (nome, objeto, data) conta como mau exemplo,
+mesmo que o objeto seja interessante: a anotação é parte obrigatória do
+exercício.
 
 # Aula 2 --- Como desenhar um sistema de IPM
 
@@ -796,12 +740,9 @@ De onde vêm as respostas a estas perguntas: **entrevistas e observação**
 (secções seguintes), questionários curtos, dados já existentes, e os
 próprios stakeholders já listados em T1.
 
-::: atencao
-Nota importante repetida várias vezes nos slides: **escreve sempre as
-palavras exatas usadas pelos utilizadores** durante a investigação — esse
-vocabulário *é* o material com que se constrói o modelo conceptual mais
-tarde (T3). Não parafrasear logo para "linguagem técnica".
-:::
+**Escreve sempre as palavras exatas dos utilizadores.** Esse vocabulário
+*é* o material com que se constrói o modelo conceptual (T3); não o
+parafraseies logo para linguagem técnica.
 
 ### Como os utilizadores se definem e diferem entre si
 
@@ -851,15 +792,6 @@ individuais, que podem criar subgrupos:
   utilizadores.
 :::
 
-::: exame
-**80% dos utilizadores ficam no nível "principiante avançado"** — este
-número foi sublinhado nos slides como o critério prático para decidir para
-quem se otimiza uma interface: não para o perito (que é raro e já se
-adapta sozinho), nem só para o principiante total (que rapidamente evolui),
-mas para quem já executa a tarefa mas não quer nem precisa de se tornar
-"power user".
-:::
-
 ### Métodos para investigar utilizadores
 
 Os métodos de investigação de utilizadores organizam-se tipicamente em
@@ -867,13 +799,9 @@ dois eixos: um eixo **qualitativo (direto)** vs. **quantitativo
 (indireto)**, e um eixo **comportamental** (o que as pessoas fazem) vs.
 **atitudinal** (o que as pessoas dizem).
 
-::: atencao
-Nota adicional (não estava detalhado nos slides além do diagrama): a
-pergunta que cada quadrante do eixo tende a responder é diferente —
-qualitativo tende a responder **"porquê" e "como resolver"**, quantitativo
-tende a responder **"quantos" e "quanto"**. Isto ajuda a escolher o método
-certo consoante a pergunta de investigação que se tem.
-:::
+Cada lado do eixo† responde a perguntas diferentes: o **qualitativo** a
+"porquê" e "como resolver", o **quantitativo** a "quantos" e "quanto". É
+isso que decide o método, consoante a pergunta de investigação.
 
 Exemplos de métodos, agrupados pelo tipo de resposta que dão:
 
@@ -1004,12 +932,9 @@ investigação. Para cada um, os slides dão um "antídoto" concreto:
   as pessoas que tens mais à mão.
 :::
 
-::: atencao
-Regra geral sublinhada nos slides: **observar mais do que perguntar**.
-Sempre que possível, vale mais ver alguém a fazer a tarefa do que perguntar
-como a fazem — o relato de uma ação é sempre filtrado pela memória e pelos
-enviesamentos acima; a observação direta não.
-:::
+**Observar mais do que perguntar.** Ver alguém fazer a tarefa vale mais do
+que perguntar como a faz: o relato passa pelo filtro da memória e dos
+enviesamentos acima, a observação direta não.
 
 ### Personas
 
@@ -1026,13 +951,11 @@ enviesamentos acima; a observação direta não.
 > Cooper
 :::
 
-::: atencao
-**Uma persona NÃO é:**
+**Uma persona não é:**
 
-- Baseada em dados demográficos ou segmentos de mercado.
-- Feita a partir de "sensações à barriga" (*gut feelings*) sobre o público.
-- Um perfil de utilizador genérico ou um estereótipo.
-:::
+- baseada em dados demográficos ou segmentos de mercado;
+- feita a partir de "sensações à barriga" (*gut feelings*) sobre o público;
+- um perfil de utilizador genérico ou um estereótipo.
 
 ### Como criar as personas: segmentar e escolher uma pessoa-exemplo
 
@@ -1063,17 +986,13 @@ a regra 8 abaixo). **Questionários e testes** aos utilizadores reais servem
 para prever como vão comportar-se com o produto e que conhecimentos prévios
 têm --- é isso que alimenta os campos da ficha, não a imaginação do grupo.
 
-::: atencao
-**Isto não contradiz** a caixa acima ("uma persona não é baseada em
-segmentos de mercado") nem a regra 9 abaixo --- é uma questão de *para que*
-se usa a segmentação. Nota adicional (interpretação para conciliar os dois
-módulos): a segmentação só serve de **ponto de partida para garantir
-cobertura** (não deixar nenhum tipo de utilizador de fora); a persona em si
-continua a ser definida pelos seus **objetivos, frustrações e contexto**,
-não pelos dados demográficos do segmento. Repara que as fichas da Susana e
-do Rogério têm idade e profissão, mas o que as distingue e orienta o
-desenho são os campos objetivo/frustração/contexto.
-:::
+**Isto não contradiz** "uma persona não é baseada em segmentos de mercado"
+nem a regra 9 abaixo† (interpretação para conciliar os dois módulos): a
+segmentação só serve de **ponto de partida para garantir cobertura** (não
+deixar nenhum tipo de utilizador de fora). A persona continua a ser
+definida pelos **objetivos, frustrações e contexto**, não pelos dados
+demográficos: as fichas da Susana e do Rogério têm idade e profissão, mas
+o que as distingue e orienta o desenho são esses três campos.
 
 ### As 10 regras para criar personas
 
@@ -1311,12 +1230,10 @@ deste processo é chegar ao "máximo" da melhor ideia, documentado com
   diz como as pontuações individuais se tornam a decisão do grupo.
 :::
 
-::: atencao
-Nota adicional --- porquê um número **par** de níveis: numa escala 1--5,
-um avaliador indeciso responde "3", que não diz nada sobre para que lado
-tende. Numa escala 1--4 não há meio; o avaliador é obrigado a inclinar-se
-para "mais bom" (3) ou "mais mau" (2), e a grelha fica mais informativa.
-:::
+**Porquê um número par de níveis†:** numa escala 1--5, um avaliador
+indeciso responde "3", que não diz para que lado tende. Numa escala 1--4
+não há meio: tem de se inclinar para "mais bom" (3) ou "mais mau" (2), e a
+grelha fica mais informativa.
 
 ::: {.exemplo title="--- Grelha de avaliação para o sistema da cantina (exemplo construído)"}
 Três modelos conceptuais: **A** --- reserva na app com hora marcada;
@@ -1420,12 +1337,8 @@ protótipo e o caderno de esboços.)
   a pena perseguir.
 :::
 
-::: exame
-**Muito importante, sublinhado explicitamente nos slides: evita misturar
-ideias diferentes no mesmo esboço.** Cada esboço deve corresponder a uma
-única ideia — misturar ideias no mesmo desenho torna difícil depois
-avaliar, comparar ou escolher entre elas individualmente.
-:::
+**Um esboço, uma ideia.** Misturar ideias diferentes no mesmo esboço
+impede depois avaliá-las, compará-las ou escolher entre elas.
 
 **"Queremos que falhes depressa"** (*"We want you to fail fast"*). O
 Módulo 04 responde assim às perguntas "porquê desenhos maus? porquê
@@ -1458,15 +1371,13 @@ lápis.
   interessa comparada com as outras).
 :::
 
-::: atencao
 **"Descartável" não quer dizer "deita fora".** O slide acrescenta: *"(Obs:
-in this course you shouldn't!)"* --- nesta disciplina **não se deitam fora
-os esboços**. Descartável é uma atitude: não te prendas a um esboço só
-porque já o fizeste. Mas o esboço fica guardado, porque é **evidência**: o
-R1 pede **todas as alternativas da S3 fotografadas** (Aula 1, R1), o passo
-4 do 10x10 diz "não deites fora os outros desenhos" (Aula 3) e a regra do
-caderno de esboços (abaixo) é "não apagues ideias".
-:::
+in this course you shouldn't!)"*. Descartável é uma atitude: não te
+prendas a um esboço só porque já o fizeste. Mas o esboço fica guardado,
+porque é **evidência**: o R1 pede **todas as alternativas da S3
+fotografadas** (Aula 1, R1), o passo 4 do 10x10 diz "não deites fora os
+outros desenhos" (Aula 3) e a regra do caderno de esboços (abaixo) é "não
+apagues ideias".
 
 ::: {.definicao title="--- Atributos de um esboço (2): a forma"}
 - **Vocabulário claro** (*clear vocabulary*): o traço e o estilo mostram
@@ -1528,14 +1439,10 @@ modais, fosse uma notificação (toaster) que aparece uns segundos?", com
 três variações dessa ideia à direita. O esboço não foi aprovado nem
 reprovado: gerou ideias novas.*
 
-::: exame
-A lista de atributos aparece no *wrap-up* do Módulo 04 e é boa matéria de
-pergunta direta: **rápido, oportuno, descartável, abundante, vocabulário
-claro, resolução limitada, coerente com o estado do desenho**. Os slides
-juntam-lhe, a meio, **sugere e explora** e **catalisador** (são nove na
-lista "So far" do slide 29). Sabe dizer cada um numa frase e dar um
-exemplo do que o viola.
-:::
+**A lista completa** (*wrap-up* do Módulo 04, slide 29): rápido, oportuno,
+descartável, abundante, vocabulário claro, resolução limitada, coerente
+com o estado do desenho, sugere e explora, catalisador. Para cada um,
+sabe dizer o que é numa frase e dar um exemplo do que o viola.
 
 ### Um esboço não é um protótipo
 
@@ -1579,13 +1486,9 @@ do esboço com a sua oposta no protótipo:
 | tentativo (*tentative*) | específico (*specific*) |
 | sem compromisso (*noncommittal*) | representação (*depiction*) |
 
-::: exame
-O *wrap-up* resume assim: **propriedades do esboço** --- evocativo,
-sugere, explora, pergunta, propõe, provoca; **propriedades do protótipo**
---- didático, descreve, refina, responde, testa, resolve, específico. É
-fácil perguntar "esta propriedade é de um esboço ou de um protótipo?", ou
-pedir para emparelhar as duas colunas.
-:::
+**Em resumo** (*wrap-up*): o esboço é evocativo, sugere, explora,
+pergunta, propõe, provoca; o protótipo é didático, descreve, refina,
+responde, testa, resolve, é específico.
 
 **Do desenho inicial ao desenho final.** À medida que o desenho avança, o
 artefacto usado passa de muitos esboços a um sistema que funciona:
@@ -1602,21 +1505,17 @@ artefacto usado passa de muitos esboços a um sistema que funciona:
 *Lê-se de cima (desenho inicial, early design) para baixo (desenho final,
 late design).*
 
-::: atencao
-**Nota adicional (comparação com o projeto COL; interpretação minha):** a
-tabela dos slides é genérica. O calendário do COL (Aula 1) segue-a quase à
+**No projeto COL†**, o calendário (Aula 1) segue esta tabela quase à
 letra: S3/S5 = muitos esboços e variações; Fase 1 (S6) = *cognitive
-walkthrough* sobre **esboços**; S7 = *wireframes*; Fase 3 (S9) = testes
-de usabilidade sobre o **protótipo interativo**. A única diferença é a
+walkthrough* sobre **esboços**; S7 = *wireframes*; Fase 3 (S9) = testes de
+usabilidade sobre o **protótipo interativo**. A única diferença é a
 **avaliação heurística** (Fase 2, S8): a tabela põe-na sobre protótipos de
-alta fidelidade, o COL põe-na sobre ***wireframes*** (média fidelidade).
-No projeto, vale o enunciado.
+alta fidelidade, o COL sobre ***wireframes*** (média fidelidade). No
+projeto, vale o enunciado.
 
-*Fidelidade* (nota adicional, o termo não é definido nos slides): quão
-parecido o artefacto é com o sistema final, no aspeto e no comportamento.
-Baixa fidelidade: papel, sem cores, sem interação real. Alta fidelidade:
-parece e comporta-se quase como o produto.
-:::
+**Fidelidade†:** quão parecido o artefacto é com o sistema final, no
+aspeto e no comportamento. Baixa: papel, sem cores, sem interação real.
+Alta: parece e comporta-se quase como o produto.
 
 ### Um esboço vs. uma maqueta gerada por IA
 
@@ -1632,14 +1531,11 @@ atributos** que tornam o esboço útil:
 | Sugere e provoca: as pessoas desenham por cima | Fecha a discussão: as pessoas reagem às cores, não à ideia |
 | Feito por ti: consegues explicar cada traço | Não é teu: as decisões lá dentro não foram tomadas por ninguém |
 
-::: {.atencao title="--- Regra da disciplina sobre imagens geradas por IA"}
-**Imagens geradas por IA são opcionais, e só para ilustrar um conceito que
-o grupo já escolheu. Nunca como fonte de ideias.** Completa as regras de IA
-da Aula 1 ("Uso de Inteligência Artificial generativa na disciplina"), que
-já proíbem gerar os esboços ou os conceitos de desenho. A tabela acima
-explica **porquê**: o problema não é só ético, é que uma maqueta polida
-estraga a discussão que o esboço devia provocar.
-:::
+**Regra da disciplina:** imagens geradas por IA são opcionais e só servem
+para **ilustrar um conceito que o grupo já escolheu**, nunca como fonte de
+ideias (completa as regras de IA da Aula 1). A tabela acima explica
+porquê: além da questão ética, uma maqueta polida estraga a discussão que
+o esboço devia provocar.
 
 ### O caderno de esboços (*sketchbook*)
 
@@ -1706,11 +1602,9 @@ mostrados com um sinal de proibido: **não é isso que se pede**.
   verdes a mostrar o que passa de um objeto para outro.
 :::
 
-::: atencao
-No projeto COL usas três destes tipos já nas próximas semanas: **muitas
-alternativas por painel** na S3, **visões gerais** a ligar os painéis num
-todo e **dois *storyboards*** de missões na S5 (Aula 1, calendário).
-:::
+No COL usas três destes tipos já nas próximas semanas: **muitas
+alternativas por painel** na S3, **visões gerais** a ligar os painéis e
+**dois *storyboards*** de missões na S5 (Aula 1, calendário).
 
 ::: {.pratica title="--- Esboços antes da S3"}
 **Exercício P.4** (inventado, a partir do Módulo 04 e do calendário do
@@ -1787,14 +1681,10 @@ onde há lugar para criatividade neste processo:
 2. A criatividade de **definir os critérios ou heurísticas** segundo os
    quais se fazem essas escolhas.
 
-::: atencao
-Nota adicional (útil para perceber porque isto não é contraditório com
-"getting the design right"): os dois modos não se excluem — na prática,
-usa-se **redução** (Getting the Right Design, entre várias ideias) para
-escolher em que ideia vale a pena investir tempo a **elaborar em
-profundidade** (Getting the Design Right, dentro dessa ideia). O funil de
-desenho abaixo mostra exatamente essa alternância.
-:::
+**Os dois modos não se excluem†:** usa-se **redução** (*Getting the Right
+Design*, entre várias ideias) para escolher em que ideia vale a pena
+investir, e depois **elabora-se em profundidade** (*Getting the Design
+Right*, dentro dessa ideia). O funil abaixo mostra essa alternância.
 
 ### O funil de desenho
 
@@ -1861,15 +1751,10 @@ vou saber que a imagem do sistema é boa?" A resposta é **avaliar**:
 construir um protótipo, usar medidas e procedimentos de avaliação
 adequados, medir, e avaliar (*assess*) os resultados.
 
-::: atencao
-Nesta disciplina, a sequência de métodos de avaliação usada ao longo do
-projeto é: **cognitive walkthrough → avaliação heurística → testes de
-usabilidade** — exatamente as três fases do projeto descritas na Aula 1
-(ver "Três fases, três avaliações" no projeto COL). Os
-métodos em si (como se conduz cada um passo a passo) ainda não foram
-explicados em detalhe — isso fica para módulos futuros; aqui fica só o
-mapeamento entre a teoria (T4) e o calendário do projeto.
-:::
+No projeto, a sequência é **cognitive walkthrough → avaliação heurística →
+testes de usabilidade**: as três fases do COL ("Três fases, três
+avaliações", Aula 1). Como se conduz cada um fica para módulos
+seguintes.
 
 ::: {.definicao title="--- O que se avalia (avaliação de usabilidade)"}
 **Não se está a avaliar um protótipo --- está-se a avaliar um conceito.** O
@@ -1963,17 +1848,6 @@ desenho).
 - Prestar atenção nas aulas e usar os slides como referência.
 - Usar as aulas de laboratório para discutir o projeto com o professor.
 
-::: atencao
-Nota adicional: os slides terminam com fotografias de esboços em quadro
-branco de projetos de anos anteriores (conceitos de *smartwatch* para
-diferentes públicos — pessoas invisuais, controlo de dispositivos IoT,
-identificação bancária, etc.). Servem só como ilustração do nível de
-detalhe e da quantidade de ideias geradas numa sessão real de
-*brainstorming* em grupo (ligado à regra "gerar ~5-10 ideias" acima) — não
-introduzem conceito teórico novo, por isso não são reproduzidos aqui em
-detalhe.
-:::
-
 # Aula 3 --- O procedimento de IPM: do problema ao protótipo
 
 ## Criar uma IPM é um processo
@@ -1999,21 +1873,14 @@ do PR2.*
 | 7 | Avaliação de usabilidade | Aula 2, T4 (inclui *task flows*) |
 | 8 | Relatório final | Aula 1, "PR2" |
 
-::: exame
-Saber **a ordem** das etapas e **onde passa a fronteira R1/PR2**: o R1 vai
-até aos **modelos conceptuais e decisões** (etapa 5); o PR2 começa no
-**protótipo** (etapa 6) e inclui avaliação de usabilidade e relatório
-final. Perguntas de "arrastar e largar" no exame Moodle prestam-se muito a
-ordenar etapas deste tipo.
-:::
+**A fronteira R1/PR2:** o R1 vai até aos **modelos conceptuais e
+decisões** (etapa 5); o PR2 começa no **protótipo** (etapa 6) e inclui a
+avaliação de usabilidade e o relatório final.
 
-::: atencao
-No projeto deste ano (COL, Aula 1), o **R1 inclui já a 1.ª avaliação** ---
-o *cognitive walkthrough* sobre os esboços (item 7 do R1). Não contradiz a
-fronteira acima: o walkthrough avalia os **esboços** (o conceito), não um
-protótipo, e a avaliação de usabilidade propriamente dita (heurística e
-testes, sobre wireframes e protótipo) continua no PR2.
-:::
+No COL, o **R1 já inclui a 1.ª avaliação** (o *cognitive walkthrough*
+sobre os esboços, item 7 do R1). Não contradiz a fronteira: o walkthrough
+avalia os **esboços** (o conceito), não um protótipo; a heurística e os
+testes, sobre wireframes e protótipo, continuam no PR2.
 
 No "meio" deste processo (entre os modelos conceptuais e o protótipo) está
 o passo em que se **criam muitas "soluções" diferentes**: é aí que entra o
@@ -2064,13 +1931,11 @@ alternam **expandir** e **reduzir** (o funil de desenho da Aula 2).
    1 (ou 4), mas **mais fundo no funil de desenho**.
 :::
 
-::: atencao
-Não confundir as duas "dezenas": o primeiro 10 é de **conceitos
-diferentes** (ideias distintas para o mesmo desafio --- largura); o
-segundo 10 é de **variações/detalhes** de um conceito já escolhido
-(profundidade). Dez variações da mesma ideia no passo 2 **não** contam como
-dez conceitos --- isso seria voltar ao problema do máximo local (Aula 2).
-:::
+**Não confundir as duas "dezenas":** o primeiro 10 são **conceitos
+diferentes** para o mesmo desafio (largura); o segundo 10 são
+**variações** de um conceito já escolhido (profundidade). Dez variações da
+mesma ideia no passo 2 **não** contam como dez conceitos: seria voltar ao
+máximo local (Aula 2).
 
 ## Exemplo trabalhado do 10x10: ligar dois telemóveis
 
@@ -2209,14 +2074,6 @@ sessão) e logo a seguir a **etapa 2** (perceber o problema: stakeholders,
 estudos exploratórios, marcos). (Nota adicional: é a interpretação
 coerente com o procedimento; o slide só deixa a pergunta.)
 
-::: atencao
-Nota: o ficheiro desta aula chegou em `.pptx` (`Teoricas/Aula_03.pptx`),
-não em PDF; foi lido diretamente (texto, notas do orador e imagens). As
-notas do orador que acrescentavam informação (ex.: "dos 10 iniciais podem
-ficar 6", a história do lojista) estão incluídas acima. O slide "Situações
-dos anos anteriores" estava vazio (a preencher em aula).
-:::
-
 # Aula 4 --- Introdução à IPM: porquê, como falham as interfaces, e porque se esboça
 
 O Módulo 04 (25 set 2026) tem quatro tópicos: **porquê IPM**, **introdução
@@ -2283,16 +2140,12 @@ interface**:
 *"Seja o que for que as máquinas produzam, uma pessoa ainda tem de o ver,
 perceber e agir. Esse é o trabalho."*
 
-::: atencao
-**Ligação ao projeto COL (nota adicional):** os cinco V são, quase palavra
-por palavra, perguntas que o COL vai ter de responder. **Variabilidade**: o
-enunciado pede situações **normais** e de **cheia**. **Veracidade**: um dos
-estados obrigatórios é **sensor suspeito**. **Velocidade**: caudais e
-níveis mudam ao minuto. **Volume** e **variedade**: duas barragens,
-comportas, grupos, níveis, previsões e câmaras em dois monitores e uma
-parede. Isto não decide nada pelo grupo: são as perguntas, não as
-respostas.
-:::
+**Ligação ao COL†:** os cinco V são, quase palavra por palavra, perguntas
+que o COL tem de responder. **Variabilidade**: situações **normais** e de
+**cheia**. **Veracidade**: o estado **sensor suspeito**. **Velocidade**:
+caudais e níveis mudam ao minuto. **Volume** e **variedade**: duas
+barragens, comportas, grupos, níveis, previsões e câmaras em dois
+monitores e uma parede.
 
 ### Investimento em IPM: de onde vem o próximo crescimento
 
@@ -2381,14 +2234,6 @@ vértices são objetivos, tecnologia e utilizador.)*
 | 2022 | Interfaces de conversa com LLMs (ChatGPT) |
 | 2025--2026 | Interfaces com agentes: **o sistema age, a pessoa supervisiona** |
 
-::: exame
-Uma linha do tempo destas presta-se a perguntas de **ordenar** ou de
-**associar** (ano, inovação, autor) no exame Moodle. Os quatro com autor
-são os mais prováveis: Sutherland (*Sketchpad*, 1963), Engelbart (rato,
-1965), Bricklin e Frankston (*VisiCalc*, 1979), Xerox Star (*desktop*,
-1981).
-:::
-
 ### A IPM é interdisciplinar
 
 A interface é o sítio onde **duas famílias de disciplinas** se encontram.
@@ -2456,11 +2301,9 @@ como falham as interfaces, e como ver isso antes dos utilizadores.
 
 ### *The Design of Everyday Things* (Don Norman)
 
-O livro de referência deste tópico é de **Don Norman**: publicado em 1988
-como ***The Psychology of Everyday Things***, revisto e aumentado em 2013
-como ***The Design of Everyday Things***. O professor recomenda a leitura
-(opcional). A capa tem um bule com o bico do mesmo lado da asa: um objeto
-que não se consegue usar.
+O livro de referência deste tópico é ***The Design of Everyday Things***,
+de **Don Norman** (leitura opcional). A capa tem um bule com o bico do
+mesmo lado da asa: um objeto que não se consegue usar.
 
 **A psicopatologia dos objetos do dia a dia** (título de um capítulo de
 Norman) são as frustrações típicas com objetos comuns:
@@ -2548,19 +2391,16 @@ trás; "auto" no anel.)
 está o manual?"*
 :::
 
-::: exame
-**Trinta anos de diferença, as mesmas três falhas:**
+**Trinta anos de diferença, as mesmas três falhas** --- uma grelha para
+analisar qualquer interface (o comando Leitz acima, o relógio de ginásio
+abaixo):
 
 1. **funções que não se veem** (estão lá, mas nada na interface as
    mostra);
-2. **códigos que não se conseguem lembrar** (a pessoa tem de saber de
-   cor uma combinação arbitrária);
+2. **códigos que não se conseguem lembrar** (combinações arbitrárias que
+   é preciso saber de cor);
 3. **um estado que não se consegue verificar** (o sistema está num modo,
    reencaminhado ou em "auto", e nada o mostra).
-
-Estas três falhas são uma boa grelha para analisar qualquer interface,
-incluindo o comando Leitz acima e o relógio de ginásio abaixo.
-:::
 
 ### As três preocupações da IPM: informação, apresentação, interação
 
@@ -2651,14 +2491,11 @@ porta abre a empurrar, a placa é um remendo para um erro de desenho. Pela
 lição 1, quem puxa a porta não se enganou: foi a porta que lhe disse para
 puxar.
 
-::: atencao
-**Nota adicional (não está nos slides, vem do livro de Norman):** estas
-portas são conhecidas como "portas de Norman". No livro, Norman chama
-**sinalizador** (*signifier*) a qualquer sinal que diz à pessoa que ação
-é possível e onde: a forma da pega é um sinalizador (diz "puxa"). Quando o
-sinalizador da forma contradiz a ação real, nenhuma placa escrita resolve
-bem o problema, porque as pessoas reagem à forma antes de lerem a placa.
-:::
+**Portas de Norman†** (do livro de Norman, não está nos slides): Norman
+chama **sinalizador** (*signifier*) a qualquer sinal que diz à pessoa que
+ação é possível e onde; a forma da pega é um sinalizador (diz "puxa").
+Quando a forma contradiz a ação real, nenhuma placa resolve bem o
+problema, porque as pessoas reagem à forma antes de lerem a placa.
 
 ::: {.pratica title="--- Analisar interfaces que falham"}
 **Exercício P.5** (perguntas dos slides do Módulo 04 e inventadas a partir

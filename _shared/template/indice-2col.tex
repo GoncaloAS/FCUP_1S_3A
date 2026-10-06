@@ -1,0 +1,10 @@
+% Índice a duas colunas (estilo v2), para disciplinas com muitas secções
+% em que o índice não cabia numa página. Ativado pela lista INDICE_2COL no
+% build.sh (acrescenta este ficheiro com um segundo -H).
+\usepackage{multicol}
+\setlength{\columnsep}{1.8em}
+\makeatletter
+\renewcommand{\tableofcontents}{%
+  \section*{\contentsname}\@mkboth{\contentsname}{\contentsname}%
+  \begin{multicols}{2}\@starttoc{toc}\end{multicols}}
+\makeatother

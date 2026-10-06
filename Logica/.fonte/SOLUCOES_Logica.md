@@ -81,6 +81,8 @@ $q$, $q \to p$.
 $p$ e $q$ aparecem duas vezes cada na árvore e só se listam uma vez. São
 **6** subfórmulas.
 
+## Aula 1 --- Tabelas de verdade
+
 ### 1.4 --- Tabelas de verdade
 
 #### (a) $p \to p$
@@ -109,7 +111,7 @@ alguma coisa, e aí $V \to V = V$.
 Não é coincidência: $\neg(p\lor q)$ e $\neg p\land\neg q$ são equivalentes
 (Lei de De Morgan). Uma fórmula implica sempre outra que lhe é equivalente.
 
-## Aula 2 --- Consequência, equivalência, modelação
+## Aula 2 --- A relação $\models_v$
 
 ### 1.5 --- A relação $\models_v$, com $v(p)=V$ e $v(q)=F$
 
@@ -147,6 +149,8 @@ fórmula para alguma $v'$, então $\models_{v'} p$ e
 $\not\models_{v'} q\to(p\lor q)$, isto é, $\models_{v'} q$ e
 $\not\models_{v'} p\lor q$. Mas $\models_{v'} p$ dá $\models_{v'} p\lor q$,
 o que é uma contradição.
+
+## Aula 2 --- Consequência e equivalência
 
 ### 1.6 --- Provar equivalências pelas leis
 
@@ -287,6 +291,8 @@ simplificada:
   seja $p=V, q=F$. Por exemplo $p=V,q=F,r=V$. Na original:
   $p\to q = V \to F = F$, e a conjunção fica logo $F$ $\checkmark$.
 
+## Aula 2 --- Propriedades de $\models$
+
 ### 1.15 --- Propriedades de $\models$
 
 #### (a) $\models (\theta \lor \varphi) \to (\neg\theta \to \varphi)$
@@ -362,6 +368,8 @@ $\{q\to(\neg p\lor r),\ \neg r\} \not\models \neg p\to\neg q$.
 Como $v$ é arbitrária, $\varphi,\psi \models \gamma$. $\blacksquare$ (É o
 *modus ponens* na versão semântica.)
 
+## Aula 2 --- Modelação
+
 ### 1.10 --- Cavaleiros e vilões
 
 #### (g) A diz: "B e C são do mesmo tipo." Pergunta-se a C: "A e B são do mesmo tipo?" O que respondeu C?
@@ -376,9 +384,8 @@ Variáveis: $A$, $B$, $C$ = "é cavaleiro".
   ($C$ cavaleiro e $Q$ verdadeira) ou ($C$ vilão e $Q$ falsa), isto é, sse
   $\models_v C\leftrightarrow(A\leftrightarrow B)$.
 
-Pela comutatividade e associatividade de $\leftrightarrow$ (nota adicional:
-não estão na tabela de leis, mas confirmam-se com uma tabela de 8 linhas,
-abaixo):
+Pela comutatividade e associatividade de $\leftrightarrow$† (não estão
+na tabela de leis, mas confirmam-se com uma tabela de 8 linhas, abaixo):
 $$C\leftrightarrow(A\leftrightarrow B) \;\Leftrightarrow\; (A\leftrightarrow B)\leftrightarrow C \;\Leftrightarrow\; A\leftrightarrow(B\leftrightarrow C)$$
 
 Como $\models_v A\leftrightarrow(B\leftrightarrow C)$, tem-se
@@ -1318,6 +1325,8 @@ e                     ; ~E, 8
 e \/ r                ; vI, 9
 (e \/ r) \/ (e /\ r)  ; vI, 10
 ```
+
+## Aulas 5--6 --- Dedução natural: deduções sem premissas
 
 ### 2.6 --- Deduções sem premissas
 

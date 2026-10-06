@@ -5,7 +5,7 @@
 O trabalho prático da disciplina consiste em implementar, em grupos de 3
 alunos, uma versão web do jogo de tabuleiro tradicional **Tâb**, em 2
 entregas avaliadas (que correspondem a 3 fases de implementação — ver nota
-sobre a "2ª entrega" mais abaixo). Ver `CALENDARIO.md` para os prazos.
+sobre a "2ª entrega" mais abaixo). Ver `CALENDARIO.pdf` para os prazos.
 
 ## 1. Regras do jogo (Tâb)
 
@@ -82,7 +82,7 @@ O jogo termina quando um jogador fica sem peças; ganha o outro.
 
 ## 2. Primeira entrega — cliente (single-page app, só contra o computador)
 
-**Prazo:** ver `CALENDARIO.md` (30 out / tolerância 2 nov). **Vale 3 valores.**
+**Prazo:** ver `CALENDARIO.pdf` (30 out / tolerância 2 nov). **Vale 3 valores.**
 
 Requisito estrutural: a aplicação é uma **single-page application** — uma
 única página HTML, sem carregar outras páginas. CSS num ou mais ficheiros
@@ -129,7 +129,7 @@ dados em JS para o tabuleiro, se quiseres uma referência mais concreta.)*
 
 ## 3. Segunda entrega — protocolo cliente/servidor (jogo distribuído)
 
-**Prazo:** ver `CALENDARIO.md` (11 dez / tolerância 14 dez). **Vale 5
+**Prazo:** ver `CALENDARIO.pdf` (11 dez / tolerância 14 dez). **Vale 5
 valores no total** — cobre as duas partes abaixo (protocolo + servidor
 Node), que no site aparecem como "entrega2" e "entrega3" mas são entregues
 e avaliadas em conjunto nesta única data.
@@ -145,20 +145,21 @@ pedidos são `fetch`/`XMLHttpRequest` com **POST** e dados em **JSON**,
 **Server-Sent Events** (é a forma como o servidor notifica os clientes de
 eventos do jogo, sem eles terem de andar a perguntar).
 
-**Tabela de pedidos** (✕ = argumento necessário):
+**Tabela de pedidos** (× = argumento necessário):
 
 | Função | group | nick | password | size | game | cell | Descrição |
 |---|:-:|:-:|:-:|:-:|:-:|:-:|---|
-| `register` | | ✕ | ✕ | | | | Regista utilizador com senha |
-| `join` | ✕ | ✕ | ✕ | ✕ | | | Junta jogadores para iniciar jogo |
-| `leave` | | ✕ | ✕ | | ✕ | | Desistir de jogo não terminado |
-| `roll` | | ✕ | ✕ | | ✕ | | Lança o dado de paus |
-| `pass` | | ✕ | ✕ | | ✕ | | Passa a vez |
-| `notify` | | ✕ | ✕ | | ✕ | ✕ | Notifica o servidor de uma jogada |
-| `update` † | | ✕ | | | ✕ | | GET/SSE — atualizações do jogo |
-| `ranking` | ✕ | | | ✕ | | | Tabela classificativa |
+| `register` | | × | × | | | | Regista utilizador com senha |
+| `join` | × | × | × | × | | | Junta jogadores para iniciar jogo |
+| `leave` | | × | × | | × | | Desistir de jogo não terminado |
+| `roll` | | × | × | | × | | Lança o dado de paus |
+| `pass` | | × | × | | × | | Passa a vez |
+| `notify` | | × | × | | × | × | Notifica o servidor de uma jogada |
+| `update` † | | × | | | × | | GET/SSE — atualizações do jogo |
+| `ranking` | × | | | × | | | Tabela classificativa |
 
 **Significado de cada argumento:**
+
 - `group` — nº do vosso grupo (ver pauta da 1ª entrega); serve só para
   isolar os testes do vosso grupo dos de outros grupos no servidor
   partilhado (há tabelas de ranking separadas por grupo).
@@ -171,7 +172,8 @@ eventos do jogo, sem eles terem de andar a perguntar).
   **cancela** a seleção e volta ao passo `from`).
 
 **Comportamento importante de cada função:**
-- `join`: empareceita 2 jogadores à espera do mesmo tamanho de tabuleiro;
+
+- `join`: emparelha 2 jogadores à espera do mesmo tamanho de tabuleiro;
   se ninguém estiver à espera, o jogador fica registado a aguardar. A
   função **retorna logo** (só dá o `game` id) — o emparelhamento em si é
   notificado a ambos via `update`.
@@ -188,23 +190,23 @@ Todas as funções podem devolver `{"error": "mensagem"}` com status HTTP
 diferente de 200 (ver secção 4 abaixo, códigos concretos).
 
 **Tabela de respostas** (campos que aparecem no JSON de resposta/evento,
-✕ indica em que função aparece — a maioria só faz sentido em `update`):
+× indica em que função aparece — a maioria só faz sentido em `update`):
 
 | Campo | register | join | leave | notify | update | ranking | O que é |
 |---|:-:|:-:|:-:|:-:|:-:|:-:|---|
-| `cell` | | | | | ✕ | | objeto `{square, position}` da última casa movida |
-| `dice` | | | | | ✕ | | `null`, ou `{stickValues[], value, keepPlaying}` |
-| `error` | ✕ | ✕ | ✕ | ✕ | ✕ | ✕ | mensagem de erro |
-| `game` | | ✕ | | | | | id do jogo criado/emparelhado |
-| `initial` | | | | | ✕ | | nick do jogador cujas peças começam nas posições 0..size-1 |
-| `mustPass` | | | | | ✕ | | `true`/`false` — o jogador tem de passar |
-| `pieces` | | | | | ✕ | | array com `4*size` posições (peça ou `null`) |
-| `players` | | | | | ✕ | | `{nick1: "Blue"/"Red", nick2: ...}` |
-| `ranking` | | | | | | ✕ | lista `[{nick, games, victories}, ...]`, máx. 10, ordenada |
-| `selected` | | | | | ✕ | | array de índices de casas destacáveis (última jogada) |
-| `step` | | | | | ✕ | | `"from"` / `"to"` / `"take"` — próxima escolha esperada |
-| `turn` | | | | | ✕ | | nick de quem tem a vez |
-| `winner` | | | | | ✕ | | nick do vencedor, ou `null` |
+| `cell` | | | | | × | | objeto `{square, position}` da última casa movida |
+| `dice` | | | | | × | | `null`, ou `{stickValues[], value, keepPlaying}` |
+| `error` | × | × | × | × | × | × | mensagem de erro |
+| `game` | | × | | | | | id do jogo criado/emparelhado |
+| `initial` | | | | | × | | nick do jogador cujas peças começam nas posições 0..size-1 |
+| `mustPass` | | | | | × | | `true`/`false` — o jogador tem de passar |
+| `pieces` | | | | | × | | array com `4*size` posições (peça ou `null`) |
+| `players` | | | | | × | | `{nick1: "Blue"/"Red", nick2: ...}` |
+| `ranking` | | | | | | × | lista `[{nick, games, victories}, ...]`, máx. 10, ordenada |
+| `selected` | | | | | × | | array de índices de casas destacáveis (última jogada) |
+| `step` | | | | | × | | `"from"` / `"to"` / `"take"` — próxima escolha esperada |
+| `turn` | | | | | × | | nick de quem tem a vez |
+| `winner` | | | | | × | | nick do vencedor, ou `null` |
 
 **Detalhe de `pieces`** (o array do estado do tabuleiro): `4*size`
 posições; posição `0` = canto inferior direito na perspetiva do jogador

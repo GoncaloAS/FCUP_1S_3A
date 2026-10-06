@@ -6,113 +6,73 @@ date: "Atualizado: Semana 3 (Aulas 1--6)"
 
 <!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf, Teoricas/Aula_04.pdf, Teoricas/Aula_05-06.pdf -->
 
+*O sinal † marca matéria que não está nos slides mas faz falta para as
+práticas.*
+
 # Aula 1 --- Introdução à Lógica e Sintaxe da Lógica Proposicional
 
-## O que é a lógica e porque interessa à informática
+## O que é a lógica
 
-A **lógica** estuda os métodos e princípios que distinguem um raciocínio
-correto de um incorreto. A lógica formal nasce com Aristóteles (silogismos:
-regras de inferência como o *modus ponens* — de $A \to B$ e $A$ infere-se
-$B$), mas só se torna **lógica matemática** a partir do séc. XIX (Boole,
-Frege, Hilbert, Gödel...), associada a problemas de fundamentação da
-matemática: teoria de modelos, teoria da dedução (prova) e sistemas
-axiomáticos.
+A **lógica** estuda os princípios que distinguem um raciocínio correto de
+um incorreto. O que conta é a **forma** do argumento: "todos os homens são
+mortais; Sócrates é homem; logo Sócrates é mortal" é válido, mas "todos os
+homens são mortais; Sócrates era mortal; logo todos os homens são
+Sócrates" não é, apesar de parecido.
 
-::: atencao
-Cuidado com silogismos "parecidos" que não são válidos. "Todos os homens são
-mortais; Sócrates é homem; logo Sócrates é mortal" é válido. Mas "Todos os
-homens são mortais; Sócrates era mortal; logo todos os homens são Sócrates"
-**não é válido**, apesar de ter a mesma aparência superficial — a forma do
-argumento é que importa, não o facto de as frases "soarem" parecidas.
-:::
+Uma **lógica** tem três partes:
 
-Uma **lógica** (no sentido abstrato) é composta por três partes:
+1. uma **linguagem** (sintaxe): um alfabeto e regras para construir
+   *fórmulas*;
+2. uma **semântica**: o que quer dizer uma fórmula ser verdadeira (pode
+   haver várias para a mesma sintaxe);
+3. um **sistema de dedução**: regras para obter fórmulas a partir de
+   outras. Quer-se **correto** (*sound*: tudo o que se deduz é verdadeiro)
+   e, se possível, **completo** (tudo o que é verdadeiro se deduz).
 
-1. uma **linguagem/sintaxe** — um alfabeto e regras para construir *fórmulas*;
-2. uma **semântica** — uma noção do que é verdadeiro (pode haver várias
-   interpretações semânticas para a mesma sintaxe);
-3. um **sistema de dedução** — um conjunto finito de regras que permite obter
-   fórmulas novas a partir de outras (raciocinar). Interessa que seja
-   **correto** (*sound*): tudo o que se deduz é verdadeiro; e idealmente
-   **completo**: tudo o que é verdadeiro é dedutível (nem sempre é possível
-   ter as duas coisas — é isso que o curso vai explorar com os teoremas de
-   correção e completude; ver "Semântica versus dedução" nas Aulas 5--6).
-
-Neste curso trabalha-se sobretudo com a **lógica clássica** (proposicional e
-de primeira ordem). Há outras famílias de lógica — lógica de ordem superior,
-lógicas sub-estruturais (ex: intuicionista, onde $\neg\neg A \not\Leftrightarrow A$,
-ao contrário do que veremos aqui) e lógicas modais (onde a verdade é
-parametrizada, ex: por tempo — "Hoje é segunda-feira" só é verdade nalguns
-"mundos"). É útil ter estas categorias em mente para perceber porque é que a
-lógica clássica que vamos estudar faz as suposições que faz (por exemplo,
-todas as proposições são verdadeiras ou falsas — nunca as duas nem nenhuma —
-o chamado *princípio do terceiro excluído*, que não vale em lógica
-intuicionista).
-
-A lógica é relevante para a informática em várias frentes: circuitos digitais
-(lógica booleana), inteligência artificial, autómatos finitos (correspondem a
-fórmulas de lógica monádica de segunda ordem), XML/documentos estruturados,
-classes de complexidade caracterizadas por classes de fórmulas, linguagens de
-programação (programação lógica como Prolog; sistemas de tipos = sistemas
-dedutivos), verificação e especificação formal (hardware, software, protocolos
-de segurança), dedução automática (SAT/SMT solvers) e provadores de teoremas
-assistidos (Coq, Isabelle, Agda).
+O curso trata a **lógica clássica** (proposicional e de primeira ordem),
+em que cada proposição é verdadeira ou falsa, e só uma das duas
+(*terceiro excluído*). Há outras: de ordem superior, sub-estruturais
+(ex.: a intuicionista, onde $\neg\neg A \not\Leftrightarrow A$) e modais
+(a verdade depende de um "mundo", ex.: do tempo). A lógica aparece na
+informática em circuitos digitais, inteligência artificial, autómatos,
+complexidade, programação lógica (Prolog), sistemas de tipos, verificação
+formal, *SAT/SMT solvers* e assistentes de prova (Coq, Isabelle, Agda).
 
 ## Proposições
 
 ::: {.definicao title="--- Proposição"}
-Uma **proposição** é uma frase declarativa à qual se pode atribuir um valor de
-verdade, **V** (verdadeiro) ou **F** (falso) — e apenas um dos dois. Frases
-que não afirmam nada com um valor de verdade definido (perguntas, ordens,
-expressões sem verbo, ou frases com variáveis livres cujo valor de verdade
-depende de algo não especificado) **não são proposições**.
+Uma **proposição** é uma frase declarativa à qual se pode atribuir um
+valor de verdade, **V** ou **F**, e só um. Perguntas, ordens, expressões
+sem verbo e frases com variáveis livres (cujo valor depende de algo não
+fixado) **não são proposições**.
 :::
 
-::: {.exemplo title="--- Exercício 1.1 (lab, proplogic.pdf) --- 5 das 8 alíneas, escolhidas para não repetir a mesma ideia"}
-Para cada frase, indicar se é proposição e, sendo, o seu valor de verdade
-(as 8 alíneas do enunciado testam só 5 ideias distintas — ver nota a
-seguir à caixa):
+::: {.exemplo title="--- Exercício 1.1 (lab, proplogic.pdf), 5 das 8 alíneas"}
+**(a)** "O Porto é a capital de Portugal." --- É proposição, **F**.
 
-**(a)** "O Porto é a capital de Portugal." — É proposição. **F** (a capital é
-    Lisboa). *(caso base: frase factual simples, com valor de verdade
-    definido.)*
+**(d)** "$1+2+3$" --- **Não é proposição**: é um termo (um número), não
+uma afirmação.
 
-**(d)** "$1+2+3$" — **Não é proposição**: é uma expressão/termo (um número), não
-    uma afirmação. Não diz nada que possa ser verdadeiro ou falso.
+**(c)** "Hei de comparar-te a um dia de verão?" --- **Não é proposição**:
+é uma pergunta.
 
-**(c)** "Hei de comparar-te a um dia de verão?" — **Não é proposição**: é uma
-    pergunta (interrogativa), não uma afirmação — não tem valor de verdade
-    (nota que isto é um motivo *diferente* do de (d): ali era por não ser
-    uma afirmação de todo, aqui é por ser uma pergunta).
+**(g)** "$x+y$ é um número par." --- **Não é proposição**: $x$ e $y$ são
+**variáveis livres**; é verdade para $x=y=1$ e falso para $x=1,y=2$.
 
-**(g)** "$x+y$ é um número par." — **Não é proposição**: $x$ e $y$ são
-    *variáveis livres* — o valor de verdade depende de que valores lhes
-    atribuirmos (é verdade para $x=1,y=1$, falso para $x=1,y=2$). A frase só
-    passa a ter um valor de verdade fixo depois de fixarmos $x$ e $y$.
+**(h)** "Existe um $x$ tal que $7+x$ é um número par." --- É proposição,
+**V** ($x=1$). O quantificador "existe" **fecha** a variável: a frase já
+não depende de nenhum $x$ de fora. (A diferença entre variável livre e
+quantificada fica formal na lógica de primeira ordem.)
 
-**(h)** "Existe um $x$ tal que $7+x$ é um número par." — É proposição, e **V**:
-    apesar de ter uma variável, o quantificador "existe um $x$" **fecha** a
-    variável — a frase inteira já não depende de nenhum $x$ externo (basta
-    $x=1$: $7+1=8$ é par). Compara com (g): a diferença entre uma variável
-    livre (não é proposição) e uma variável quantificada (é proposição) só
-    fica completamente formal em lógica de primeira ordem, mais à frente no
-    curso — mas já vale a pena notar a distinção agora.
-:::
-
-::: atencao
-As alíneas (b), (e) e (f) do Exercício 1.1 ficam de fora de propósito —
-testam exatamente a mesma ideia de (a) (frase factual simples, decidir V/F),
-só com outro assunto. Não precisas de as fazer; se quiseres confirmar que
-percebeste, é literalmente o mesmo passo de (a) com números diferentes.
+As alíneas (b), (e) e (f) são a mesma ideia de (a).
 :::
 
 ## Conectivos lógicos
 
-Cada proposição simples é representada por uma **variável proposicional**
-($p, q, r, \dots$), e proposições compostas obtêm-se combinando-as com
-**conectivos**:
+Cada proposição simples é uma **variável proposicional** ($p, q, r,
+\dots$); as compostas obtêm-se com **conectivos**:
 
-| Conectivo | Símbolo | Aridade | Outros símbolos equivalentes |
+| Conectivo | Símbolo | Aridade | Outros símbolos |
 |---|---|---|---|
 | Conjunção ("e") | $\land$ | 2 | `&`, `&&`, $\cdot$ |
 | Disjunção ("ou") | $\lor$ | 2 | `|`, `+` |
@@ -121,145 +81,100 @@ Cada proposição simples é representada por uma **variável proposicional**
 
 ## Linguagem da lógica proposicional
 
-::: {.definicao title="--- Alfabeto"}
-A linguagem da lógica proposicional é construída a partir dos símbolos
-primitivos:
+::: {.definicao title="--- Alfabeto e fórmulas"}
+**Alfabeto:** um conjunto **numerável** de variáveis proposicionais
+$\mathcal{V}_{Prop} = \{p, q, r, \dots, p_1, \dots\}$, os conectivos
+$\land, \lor, \neg, \to$ e os parêntesis `(` e `)`.
 
-- um conjunto **numerável** de variáveis proposicionais
-  $\mathcal{V}_{Prop} = \{p, q, r, \dots, p_1, \dots\}$;
-- os conectivos lógicos $\land, \lor, \neg, \to$;
-- os parêntesis `(` e `)`.
-:::
-
-::: {.definicao title="--- Fórmula bem formada"}
-O conjunto das **fórmulas** ($\phi, \psi, \theta, \dots$) é definido
+O conjunto das **fórmulas** ($\phi, \psi, \theta, \dots$) define-se
 indutivamente:
 
 1. uma variável proposicional $p$ é uma fórmula;
-2. se $\phi$ é fórmula, então $(\neg\phi)$ é fórmula;
-3. se $\phi$ e $\psi$ são fórmulas, então $(\phi \land \psi)$, $(\phi \lor \psi)$
+2. se $\phi$ é fórmula, $(\neg\phi)$ é fórmula;
+3. se $\phi$ e $\psi$ são fórmulas, $(\phi \land \psi)$, $(\phi \lor \psi)$
    e $(\phi \to \psi)$ são fórmulas.
 
-Nada mais é fórmula. Exemplo: $((p \land (\neg p)) \to (\neg(p \land (q \lor r))))$.
+Nada mais é fórmula. Ex.: $((p \land (\neg p)) \to (\neg(p \land (q \lor r))))$.
 :::
 
-Esta definição indutiva é o que permite desenhar a **árvore sintática** de
-uma fórmula: a raiz é o conectivo principal, e os seus filhos são as
-fórmulas que ele combina (recursivamente, até chegar às variáveis, que são
-as folhas).
+A definição indutiva dá a **árvore sintática** de uma fórmula: a raiz é o
+conectivo principal e os filhos são as fórmulas que ele combina, até às
+variáveis (as folhas).
 
 ### Convenção para omitir parêntesis
 
-Escrever todos os parêntesis torna as fórmulas ilegíveis, por isso usa-se
-uma convenção de precedência (tal como em aritmética, onde $\times$ tem
-prioridade sobre $+$):
-
-- os parêntesis mais exteriores podem ser omitidos;
-- $\neg$ tem prioridade sobre $\land$;
-- $\land$ tem prioridade sobre $\lor$;
-- $\lor$ tem prioridade sobre $\to$;
-- $\land$ e $\lor$ são **associativos à esquerda**;
-- $\to$ é **associativo à direita**.
+- os parêntesis mais exteriores podem omitir-se;
+- prioridade: $\neg$ > $\land$ > $\lor$ > $\to$;
+- $\land$ e $\lor$ associam **à esquerda**; $\to$ associa **à direita**.
 
 ::: exemplo
-- $\phi \land \psi \lor \theta$ abrevia $((\phi \land \psi) \lor \theta)$
-  (o $\land$ "agarra" primeiro).
-- $p \land \neg p \to \neg(p \land (q \lor r))$ corresponde a
+- $\phi \land \psi \lor \theta$ abrevia $((\phi \land \psi) \lor \theta)$.
+- $p \land \neg p \to \neg(p \land (q \lor r))$ é
   $((p \land (\neg p)) \to (\neg(p \land (q \lor r))))$.
-- $p \to q \to r$ corresponde a $p \to (q \to r)$ (associatividade à
-  direita do $\to$: lê-se "de dentro para fora", começando pelo lado
-  direito).
+- $p \to q \to r$ é $p \to (q \to r)$.
 :::
 
 ::: {.definicao title="--- Subfórmula"}
-Uma **subfórmula imediata** de $\psi$ é: (1) nenhuma, se $\psi$ é uma
-variável; (2) $\phi$, se $\psi = \neg\phi$; (3) $\phi$ e $\psi'$, se
+As **subfórmulas imediatas** de $\psi$ são: nenhuma, se $\psi$ é uma
+variável; $\phi$, se $\psi = \neg\phi$; $\phi$ e $\psi'$, se
 $\psi = \phi \land \psi'$, $\phi \lor \psi'$ ou $\phi \to \psi'$.
 
-$\phi$ é **subfórmula** de $\psi$ se $\phi$ é subfórmula imediata de $\psi$,
-ou se existe $\theta$ tal que $\phi$ é subfórmula de $\theta$ e $\theta$ é
-subfórmula de $\psi$ (fecho transitivo das subfórmulas imediatas). Por
-convenção, $\psi$ é sempre subfórmula de si própria.
+$\phi$ é **subfórmula** de $\psi$ se é subfórmula imediata de $\psi$, ou
+se é subfórmula de uma subfórmula de $\psi$ (fecho transitivo). Por
+convenção, $\psi$ é subfórmula de si própria.
 :::
 
-O exercício seguinte junta a convenção de precedência, a árvore sintática e a
-noção de subfórmula — a melhor forma de treinar os três em conjunto é
-desenhar a árvore completa e depois ler as subfórmulas diretamente dos nós
-dessa árvore (cada nó interno, incluindo a raiz, é uma subfórmula; as folhas
-são as variáveis).
+**Método† para a árvore e as subfórmulas.** Primeiro repõem-se os
+parêntesis pela convenção, e só depois se desenha a árvore. O conectivo
+**principal** (a raiz) é o de **menor prioridade** entre os que estão fora
+de parêntesis. As subfórmulas leem-se nos nós da árvore (cada nó é uma;
+uma fórmula repetida conta uma vez).
 
 ::: {.exemplo title="--- Exercício 1.3(a) (lab, proplogic.pdf)"}
 **Fórmula:** $p \land \neg q \to \neg p$.
 
-**Passo 1 — reintroduzir os parêntesis pela convenção de precedência.**
-$\neg$ agarra primeiro: $\neg q$ e $\neg p$. Depois $\land$: $p \land (\neg q)$.
-Por fim $\to$ (o conectivo de menor prioridade, por isso é a raiz):
+**Parêntesis.** $\neg$ primeiro: $\neg q$ e $\neg p$. Depois $\land$:
+$p \land (\neg q)$. Por fim $\to$, o de menor prioridade, que é a raiz
+(apesar de o $\land$ aparecer mais à esquerda):
 $$\big(p \land (\neg q)\big) \to (\neg p)$$
 
-**Passo 2 — árvore sintática** (raiz = conectivo principal, $\to$):
+::: center
+![Árvore sintática de p ∧ ¬q → ¬p](figuras/arvore_1_3a.pdf){height=4.3cm}
+:::
 
-![Árvore sintática de p ∧ ¬q → ¬p](figuras/arvore_1_3a.pdf){width=45%}
-
-**Passo 3 — lista de subfórmulas** (lidas diretamente dos nós da árvore, da
-raiz para as folhas): $p \land \neg q \to \neg p$ (a própria fórmula),
-$p \land \neg q$, $\neg p$, $p$, $\neg q$, $q$.
+**Subfórmulas:** $p \land \neg q \to \neg p$, $p \land \neg q$, $\neg p$,
+$p$, $\neg q$, $q$.
 :::
 
 ::: {.exemplo title="--- Exercício 1.3(c) (lab, proplogic.pdf)"}
-**Fórmula:** $\neg(s \to (\neg(p \to (q \lor \neg s))))$.
+**Fórmula:** $\neg(s \to (\neg(p \to (q \lor \neg s))))$. Os parêntesis já
+estão explícitos; nomeiam-se as subfórmulas de dentro para fora:
+$A = q \lor \neg s$, $B = p \to A$, $C = \neg B$, $D = s \to C$,
+$E = \neg D$ (a fórmula toda).
 
-Aqui os parêntesis já vêm quase todos explícitos no enunciado — só falta
-decompor "de fora para dentro" para identificar cada conectivo principal.
-Vamos dar um nome a cada subfórmula à medida que aparece, de dentro para
-fora (é a ordem inversa da leitura, mas é a ordem em que a árvore se
-constrói):
+::: center
+![Árvore sintática de ¬(s → ¬(p → (q ∨ ¬s)))](figuras/arvore_1_3c.pdf){height=7.6cm}
+:::
 
-- $A = q \lor \neg s$ (disjunção de $q$ com $\neg s$)
-- $B = p \to A$
-- $C = \neg B$
-- $D = s \to C$
-- $E = \neg D$ (a fórmula toda)
-
-**Árvore sintática:**
-
-![Árvore sintática de ¬(s → ¬(p → (q ∨ ¬s)))](figuras/arvore_1_3c.pdf){height=12cm}
-
-**Subfórmulas:** $E$ (a própria fórmula), $D = s \to \neg(p \to (q\lor\neg s))$,
-$s$, $C = \neg(p \to (q \lor \neg s))$, $B = p \to (q \lor \neg s)$, $p$,
-$A = q \lor \neg s$, $q$, $\neg s$, $s$ (repara que $s$ aparece **duas
-vezes** na árvore, como dois nós diferentes — mas é a mesma fórmula, só se
-lista uma vez no conjunto de subfórmulas).
+**Subfórmulas:** $E$, $D = s \to \neg(p \to (q\lor\neg s))$, $s$,
+$C = \neg(p \to (q \lor \neg s))$, $B = p \to (q \lor \neg s)$, $p$,
+$A = q \lor \neg s$, $q$, $\neg s$. ($s$ aparece em dois nós da árvore,
+mas lista-se uma vez.)
 :::
 
 ::: {.exemplo title="--- Exercício 1.3(e) (lab, proplogic.pdf)"}
-**Fórmula:** $(p \to q) \land (\neg r \to (q \lor (\neg p \land r)))$.
+**Fórmula:** $(p \to q) \land (\neg r \to (q \lor (\neg p \land r)))$. O
+conectivo principal é o $\land$ exterior, com dois ramos:
+$L = p \to q$ e $M = \neg r \to M_2$, onde $M_2 = q \lor M_1$ e
+$M_1 = \neg p \land r$.
 
-De novo os parêntesis já resolvem a ambiguidade; só falta identificar a
-estrutura. O conectivo principal é o $\land$ mais exterior, que combina dois
-ramos:
-
-- ramo esquerdo: $L = p \to q$
-- ramo direito: $M = \neg r \to M_2$, onde $M_2 = q \lor M_1$ e
-  $M_1 = \neg p \land r$
-
-**Árvore sintática:**
-
-![Árvore sintática de (p → q) ∧ (¬r → (q ∨ (¬p ∧ r)))](figuras/arvore_1_3e.pdf){width=85%}
+::: center
+![Árvore sintática de (p → q) ∧ (¬r → (q ∨ (¬p ∧ r)))](figuras/arvore_1_3e.pdf){height=6.6cm}
+:::
 
 **Subfórmulas:** a fórmula toda, $L = p \to q$, $p$, $q$,
 $M = \neg r \to (q \lor (\neg p \land r))$, $\neg r$, $r$,
-$M_2 = q \lor (\neg p \land r)$, $q$, $M_1 = \neg p \land r$, $\neg p$, $p$, $r$.
-:::
-
-::: atencao
-Nota adicional (não estava explícito nos slides, mas é essencial para não
-errar nos exercícios): quando reconstróis os parêntesis pela convenção de
-precedência, faz sempre isso **antes** de tentar desenhar a árvore — tentar
-fazer as duas coisas ao mesmo tempo é a fonte mais comum de erros. Também
-repara que o conectivo **principal** de uma fórmula (a raiz da árvore) é
-sempre o de **menor prioridade** entre os que aparecem "soltos" (não dentro
-de parêntesis explícitos) — por isso em 1.3(a) a raiz é $\to$ e não $\land$,
-mesmo aparecendo $\land$ mais à esquerda na leitura da fórmula.
+$M_2 = q \lor (\neg p \land r)$, $M_1 = \neg p \land r$, $\neg p$.
 :::
 
 ::: {.pratica title="--- Linguagem e árvores sintáticas (proplogic.pdf)"}
@@ -274,26 +189,15 @@ mesmo aparecendo $\land$ mais à esquerda na leitura da fórmula.
 
 ## Semântica: valorações e tabelas de verdade
 
-::: {.definicao title="--- Valoração (atribuição de valores de verdade)"}
-Uma **valoração** é uma função $v : \mathcal{V}_{Prop} \to \{V, F\}$ que
-atribui um valor de verdade a cada variável proposicional. Estende-se ao
-conjunto das fórmulas por indução na estrutura:
+::: {.definicao title="--- Valoração"}
+Uma **valoração** é uma função $v : \mathcal{V}_{Prop} \to \{V, F\}$.
+Estende-se às fórmulas por indução na estrutura:
 
 1. $v(p)$ já está definido, para $p \in \mathcal{V}_{Prop}$;
-2. $v(\neg\phi) = V$ se $v(\phi) = F$, e $v(\neg\phi) = F$ se $v(\phi) = V$;
-3. $v(\phi \land \psi) = V$ sse $v(\phi) = V$ e $v(\psi) = V$ (senão $F$);
-4. $v(\phi \lor \psi) = V$ sse $v(\phi) = V$ ou $v(\psi) = V$ (senão $F$);
-5. $v(\phi \to \psi) = F$ sse $v(\phi) = V$ e $v(\psi) = F$ (senão $V$).
-:::
-
-::: atencao
-O caso mais contra-intuitivo é a implicação: $\phi \to \psi$ só é **falsa**
-quando o antecedente é verdadeiro e o consequente é falso. Em particular,
-sempre que o antecedente $\phi$ é **falso**, a implicação inteira é
-**verdadeira**, independentemente do consequente ("de uma premissa falsa
-pode concluir-se o que quiser" — *ex falso quodlibet*). Isto vai ser usado
-constantemente nas provas "sem construir a tabela de verdade" (Exercício
-1.14, Aula 2).
+2. $v(\neg\phi) = V$ sse $v(\phi) = F$;
+3. $v(\phi \land \psi) = V$ sse $v(\phi) = V$ e $v(\psi) = V$;
+4. $v(\phi \lor \psi) = V$ sse $v(\phi) = V$ ou $v(\psi) = V$;
+5. $v(\phi \to \psi) = F$ sse $v(\phi) = V$ e $v(\psi) = F$.
 :::
 
 | $\phi$ | $\neg\phi$ | | $\phi$ | $\psi$ | $\phi\land\psi$ | | $\phi$ | $\psi$ | $\phi\lor\psi$ | | $\phi$ | $\psi$ | $\phi\to\psi$ |
@@ -303,15 +207,14 @@ constantemente nas provas "sem construir a tabela de verdade" (Exercício
 | | | | V | F | F | | V | F | V | | V | F | F |
 | | | | V | V | V | | V | V | V | | V | V | V |
 
-Uma fórmula $\phi$ com $n$ variáveis proposicionais tem $2^n$ valorações
-possíveis (cada variável pode ser $V$ ou $F$, independentemente das
-outras) — constrói-se uma **tabela de verdade** com uma linha por
-valoração, calculando o valor de $\phi$ coluna a coluna (dos operadores mais
-"internos" para o mais "externo", exatamente como na árvore sintática).
+A implicação só é **falsa** com antecedente verdadeiro e consequente
+falso: com antecedente **falso** é sempre verdadeira. Uma fórmula com $n$
+variáveis tem $2^n$ valorações; a **tabela de verdade** tem uma linha por
+valoração e calcula o valor da fórmula coluna a coluna, das subfórmulas
+interiores para a exterior (como na árvore).
 
 ::: {.exemplo title="--- Exercício 1.4(b) (lab, proplogic.pdf)"}
-Construir a tabela de verdade de $\neg q \land (p \to q)$ (2 variáveis, logo
-4 linhas):
+$\neg q \land (p \to q)$ (2 variáveis, 4 linhas):
 
 | $p$ | $q$ | $\neg q$ | $p \to q$ | $\neg q \land (p \to q)$ |
 |---|---|---|---|---|
@@ -320,16 +223,11 @@ Construir a tabela de verdade de $\neg q \land (p \to q)$ (2 variáveis, logo
 | F | V | F | V | F |
 | F | F | V | V | **V** |
 
-A fórmula só é verdadeira quando $p$ e $q$ são ambos falsos. Isto não é
-coincidência: por equivalências semânticas (ver mais abaixo),
-$\neg q \land (p \to q) \Leftrightarrow \neg q \land (\neg p \lor q)
-\Leftrightarrow (\neg q \land \neg p) \lor (\neg q \land q)
-\Leftrightarrow (\neg p \land \neg q) \lor F \Leftrightarrow \neg p \land \neg q$
-— exatamente o que a tabela mostra.
+Só é verdadeira com $p$ e $q$ ambos falsos.
 :::
 
 ::: {.exemplo title="--- Exercício 1.4(c) (lab, proplogic.pdf)"}
-Construir a tabela de verdade de $(p \land q) \to \neg(p \lor q)$:
+$(p \land q) \to \neg(p \lor q)$:
 
 | $p$ | $q$ | $p\land q$ | $p \lor q$ | $\neg(p\lor q)$ | $(p\land q) \to \neg(p\lor q)$ |
 |---|---|---|---|---|---|
@@ -338,10 +236,8 @@ Construir a tabela de verdade de $(p \land q) \to \neg(p \lor q)$:
 | F | V | F | V | F | **V** |
 | F | F | F | F | V | **V** |
 
-Só é falsa na linha $p=V, q=V$: aí o antecedente $p\land q$ é verdadeiro mas
-o consequente $\neg(p\lor q)$ é falso (porque $p \lor q$ é verdadeiro). Em
-todas as outras linhas o antecedente $p \land q$ já é falso, o que torna a
-implicação automaticamente verdadeira (ver nota acima sobre a implicação).
+Só é falsa em $p=q=V$: o antecedente é verdadeiro e o consequente falso.
+Nas outras linhas o antecedente já é falso, e a implicação é verdadeira.
 :::
 
 ::: {.pratica title="--- Tabelas de verdade (proplogic.pdf)"}
@@ -355,89 +251,58 @@ implicação automaticamente verdadeira (ver nota acima sobre a implicação).
 ::: {.definicao title="--- Satisfazibilidade, tautologia, contradição"}
 Uma fórmula $\phi$ é:
 
-- **satisfazível** se existe uma valoração $v$ tal que $v(\phi) = V$ —
-  escreve-se $\models_v \phi$ e diz-se que $v$ **satisfaz** $\phi$;
-- **tautologia** se **todas** as valorações $v$ dão $v(\phi) = V$ —
-  escreve-se $\models \phi$ (ex: $\models p \lor \neg p$, o princípio do
-  terceiro excluído);
-- **contradição** se **todas** as valorações $v$ dão $v(\phi) = F$ —
-  escreve-se $\not\models \phi$ (ex: $\not\models p \land \neg p$).
+- **satisfazível** se existe $v$ com $v(\phi) = V$ (escreve-se
+  $\models_v \phi$: $v$ **satisfaz** $\phi$);
+- **tautologia** se $v(\phi) = V$ para **todas** as $v$; escreve-se
+  $\models \phi$ (ex.: $\models p \lor \neg p$, o terceiro excluído);
+- **contradição** se $v(\phi) = F$ para **todas** as $v$; escreve-se
+  $\not\models \phi$ (ex.: $\not\models p \land \neg p$).
 
-Uma fórmula é **insatisfazível** sse é uma contradição. Uma fórmula
-satisfazível mas não tautologia diz-se por vezes **contingente**: é
-verdadeira nalgumas valorações e falsa noutras.
+**Insatisfazível** = contradição. Satisfazível sem ser tautologia diz-se
+**contingente**.
 :::
 
 # Aula 2 --- Consequência Semântica, Equivalência e Conectivos Completos
 
 ## A relação de satisfação $\models_v$
 
-A extensão de $v$ às fórmulas (aula anterior) pode ser reescrita como uma
-relação $\models_v$, definida indutivamente na estrutura da fórmula — é
-apenas outra notação para a mesma coisa, mas é a notação usada daqui em
-diante:
+A extensão de $v$ às fórmulas escreve-se como uma relação $\models_v$, a
+notação usada daqui em diante:
 
 ::: {.definicao title="--- Relação de satisfação"}
-Dada uma valoração $v$, a relação $\models_v$ define-se por:
+Dada uma valoração $v$:
 
 1. $\models_v p$ sse $v(p) = V$;
 2. $\models_v \neg\phi$ sse $\not\models_v \phi$;
 3. $\models_v \phi \land \psi$ sse $\models_v \phi$ e $\models_v \psi$;
 4. $\models_v \phi \lor \psi$ sse $\models_v \phi$ ou $\models_v \psi$;
 5. $\models_v \phi \to \psi$ sse $\not\models_v \phi$ ou $\models_v \psi$.
-
-Diz-se que $v$ **satisfaz** $\phi$ se $\models_v \phi$.
 :::
 
 ::: exemplo
-Com $v(p)=V, v(q)=v(r)=F$, para saber se $\models_v (p \to (q\lor r)) \lor (r \to \neg p)$
-basta que **um** dos dois lados da disjunção seja satisfeito. O lado direito,
-$r \to \neg p$, é satisfeito porque $\not\models_v r$ (implicação com
-antecedente falso). Logo $\models_v (p \to (q\lor r)) \lor (r \to \neg p)$ —
-nem foi preciso avaliar o lado esquerdo.
+Com $v(p)=V$, $v(q)=v(r)=F$: $\models_v (p \to (q\lor r)) \lor (r \to \neg p)$,
+porque basta **um** lado da disjunção, e $\models_v r \to \neg p$ já que
+$\not\models_v r$. Nem é preciso avaliar o lado esquerdo.
 :::
 
 ::: {.exemplo title="--- Exercício 1.5(b) (lab, proplogic.pdf)"}
-Com $v(p) = V$ e $v(q) = F$, verificar se $\models_v (p \lor \neg q) \land (\neg p \land q)$.
+Com $v(p) = V$, $v(q) = F$: $\models_v (p \lor \neg q) \land (\neg p \land q)$?
 
-O segundo conjunto, $\neg p \land q$: temos $v(p)=V$ logo $\not\models_v \neg p$
-(já falha aqui). Como um conjunto ($\land$) precisa dos **dois** lados
-satisfeitos e um deles já falha, $\not\models_v \neg p \land q$. Logo, mesmo
-sem avaliar o primeiro conjunto, a conjunção inteira falha:
+Como $v(p)=V$, $\not\models_v \neg p$, logo $\not\models_v \neg p \land q$.
+Uma conjunção precisa dos dois lados, por isso
 $\not\models_v (p \lor \neg q) \land (\neg p \land q)$.
 :::
 
 ::: {.exemplo title="--- Exercício 1.5(e) (lab, proplogic.pdf)"}
-Com $v(p) = V$ e $v(q) = F$, verificar se $\models_v ((p \to q) \to p) \to p$.
+Com $v(p) = V$, $v(q) = F$: $\models_v ((p \to q) \to p) \to p$?
 
-$p \to q$: $v(p)=V, v(q)=F$, logo $\not\models_v p \to q$ (antecedente
-verdadeiro, consequente falso — o único caso em que a implicação falha).
-$(p\to q) \to p$: antecedente falso ($\not\models_v p\to q$), logo esta
-implicação é automaticamente satisfeita: $\models_v (p\to q)\to p$.
-Fórmula toda: $((p\to q)\to p) \to p$: antecedente satisfeito
-($\models_v (p\to q)\to p$) **e** consequente satisfeito ($\models_v p$,
-porque $v(p)=V$) — logo $\models_v ((p\to q)\to p)\to p$.
-:::
+- $\models_v p$ e $\not\models_v q$, logo $\not\models_v p \to q$.
+- Antecedente não satisfeito: $\models_v (p\to q) \to p$.
+- $\models_v (p\to q)\to p$ e $\models_v p$, logo
+  $\models_v ((p\to q)\to p)\to p$.
 
-::: exame
-$((p\to q)\to p)\to p$ é a **Lei de Peirce**, e é de facto uma
-**tautologia** (é verdadeira para *qualquer* $v$, não só para o $v$ deste
-exercício — podes confirmar construindo a tabela completa com as 4
-valorações de $p,q$). É um resultado clássico e frequentemente pedido: é um
-dos exemplos-padrão de tautologia que **não é válida em lógica
-intuicionista** (relembra a nota da Aula 1 sobre lógicas sub-estruturais) —
-distingue-a da lógica clássica que estamos a estudar.
-:::
-
-::: atencao
-Nota adicional — armadilha comum: **não confundir** $(p\to q)\to p$ (que
-aparece na Lei de Peirce acima) com $(q\to p)\to p$ (parecida, mas com $p$ e
-$q$ trocados no antecedente). Ao contrário da primeira, $(q\to p)\to p$
-**não** é tautologia — falha, por exemplo, com $v(p)=F$: nesse caso
-$q \to p = \neg q$ (verdadeiro só se $q$ for falso), e se $v(q)=F$ então
-$q\to p$ é verdadeiro, tornando $(q\to p)\to p$ igual a $V \to F = F$. A
-posição exata de cada variável na fórmula importa — nunca assumas que uma
-fórmula "parecida" com uma tautologia conhecida também o é.
+Esta fórmula é a **Lei de Peirce**, e é tautologia: vale para qualquer
+$v$, não só para esta.
 :::
 
 ::: {.pratica title="--- A relação $\models_v$ (proplogic.pdf)"}
@@ -448,26 +313,22 @@ fórmula "parecida" com uma tautologia conhecida também o é.
 ## Satisfazibilidade de um conjunto de fórmulas
 
 ::: {.definicao title="--- Satisfazibilidade de um conjunto"}
-Seja $\Gamma$ um conjunto de fórmulas. Uma valoração $v$ **satisfaz**
-$\Gamma$ (notação $\models_v \Gamma$) se satisfaz **todas** as fórmulas de
-$\Gamma$: $\forall \psi \in \Gamma,\ \models_v \psi$. $\Gamma$ é
-**satisfazível** se existe alguma valoração que o satisfaz.
+Uma valoração $v$ **satisfaz** um conjunto $\Gamma$ ($\models_v \Gamma$)
+se satisfaz **todas** as suas fórmulas: $\forall \psi \in \Gamma,\
+\models_v \psi$. $\Gamma$ é **satisfazível** se alguma $v$ o satisfaz.
 :::
 
 ## Consequência semântica e equivalência
 
 ::: {.definicao title="--- Consequência semântica ($\\models$)"}
-$\phi$ é **consequência semântica** de $\Gamma$ (notação $\Gamma \models \phi$)
-se **toda** valoração $v$ que satisfaz $\Gamma$ também satisfaz $\phi$.
+$\phi$ é **consequência semântica** de $\Gamma$ ($\Gamma \models \phi$) se
+**toda** a valoração que satisfaz $\Gamma$ também satisfaz $\phi$.
 
-Casos especiais de notação:
-
-- $\emptyset \models \phi$ escreve-se $\models \phi$ — equivale a $\phi$ ser
-  tautologia (nenhuma condição sobre $v$: tem de valer sempre).
+- $\emptyset \models \phi$ escreve-se $\models \phi$: $\phi$ é tautologia.
 - Se $\Gamma = \{\psi\}$, escreve-se $\psi \models \phi$.
-- Se $\psi \models \phi$ **e** $\phi \models \psi$, $\psi$ e $\phi$ dizem-se
-  **semanticamente equivalentes**, escreve-se $\psi \Leftrightarrow \phi$
-  (têm exatamente o mesmo valor de verdade em qualquer valoração).
+- Se $\psi \models \phi$ **e** $\phi \models \psi$, as duas são
+  **semanticamente equivalentes**, $\psi \Leftrightarrow \phi$: têm o
+  mesmo valor em todas as valorações.
 :::
 
 ::: {.definicao title="--- Leis de equivalência semântica"}
@@ -482,16 +343,13 @@ Casos especiais de notação:
 | Implicação | $\phi\to\psi \Leftrightarrow \neg\phi\lor\psi$ |
 :::
 
-Estas leis funcionam como uma "álgebra booleana": permitem transformar uma
-fórmula noutra equivalente sem ter de recorrer à tabela de verdade —
-substituindo subfórmulas pelo seu equivalente, passo a passo (tal como se
-faz álgebra normal, mas com $\land,\lor,\neg$ em vez de $\times,+$).
+As leis transformam uma fórmula noutra equivalente sem tabela de verdade,
+substituindo uma subfórmula de cada vez, como na álgebra.
 
-::: {.atencao title="--- Leis extra para simplificar"}
-Nota adicional (não estão na tabela dos slides nem na do enunciado, mas
-são precisas para **simplificar** uma fórmula até se ver o que ela é ---
-cada uma confirma-se com uma tabela de 2 linhas). $V$ e $F$ representam
-uma fórmula sempre verdadeira e uma sempre falsa:
+::: {.definicao title="--- Leis extra para simplificar †"}
+Fazem falta para **simplificar** uma fórmula até se ver o que ela é; cada
+uma confirma-se com uma tabela de 2 linhas. $V$ e $F$ representam uma
+fórmula sempre verdadeira e uma sempre falsa.
 
 | Lei | Equivalência |
 |---|---|
@@ -502,81 +360,63 @@ uma fórmula sempre verdadeira e uma sempre falsa:
 :::
 
 ::: {.exemplo title="--- Exercício 1.6(a) (lab, proplogic.pdf)"}
-Mostrar que $\neg(p \to q) \Leftrightarrow p \land \neg q$, usando as leis
-(sem tabela de verdade):
+$\neg(p \to q) \Leftrightarrow p \land \neg q$, pelas leis:
 
 $$\neg(p\to q) \overset{\text{(implicação)}}{\Leftrightarrow} \neg(\neg p \lor q)
 \overset{\text{(De Morgan)}}{\Leftrightarrow} \neg\neg p \land \neg q
 \overset{\text{(dupla negação)}}{\Leftrightarrow} p \land \neg q$$
 
-Cada passo substitui uma subfórmula pelo seu equivalente segundo uma única
-lei da tabela — é assim que se lê/escreve qualquer prova por equivalências.
+Cada passo aplica **uma** lei a uma subfórmula.
 :::
 
 ::: {.exemplo title="--- Exercício 1.6(e) (lab, proplogic.pdf)"}
-Mostrar que $(p \lor q) \to r \Leftrightarrow (p \to r) \land (q \to r)$:
+$(p \lor q) \to r \Leftrightarrow (p \to r) \land (q \to r)$:
 
 $$(p\lor q) \to r
 \overset{\text{(implicação)}}{\Leftrightarrow} \neg(p\lor q) \lor r
 \overset{\text{(De Morgan)}}{\Leftrightarrow} (\neg p \land \neg q) \lor r$$
 
-Agora aplica-se a distributividade — $(\phi\land\psi)\lor\theta \Leftrightarrow (\phi\lor\theta)\land(\psi\lor\theta)$
-— com $\phi=\neg p$, $\psi=\neg q$, $\theta=r$:
+Distributividade $(\phi\land\psi)\lor\theta \Leftrightarrow (\phi\lor\theta)\land(\psi\lor\theta)$,
+com $\phi=\neg p$, $\psi=\neg q$, $\theta=r$:
 
 $$(\neg p \land \neg q) \lor r
 \overset{\text{(distributividade)}}{\Leftrightarrow} (\neg p \lor r) \land (\neg q \lor r)
 \overset{\text{(implicação, 2x)}}{\Leftrightarrow} (p \to r) \land (q \to r)$$
 :::
 
-::: atencao
-Guarda a equivalência do Exercício 1.6(e) — $(p\lor q)\to r \Leftrightarrow (p\to r)\land(q\to r)$
---- porque serve para **confirmar** o Exercício 1.13(d) mais abaixo: como
-$(p\to r)\land(q\to r)$ implica $(p\to r)\lor(q\to r)$, a consequência
-tem de valer. Em exame, porém, a 1.13(d) prova-se com a definição de
-$\models_v$, como lá está feito.
-:::
-
-::: {.exemplo title="--- Exercício 1.8(a) e 1.8(b) (lab, proplogic.pdf) --- distribuir a implicação sobre a conjunção"}
-**(a) $(p\to q) \land (p\to r) \Leftrightarrow p \to (q\land r)$ — é
-válida.** Prova pelas leis:
+::: {.exemplo title="--- Exercício 1.8(a) e 1.8(b) (lab, proplogic.pdf)"}
+**(a) $(p\to q) \land (p\to r) \Leftrightarrow p \to (q\land r)$ --- válida.**
 $$(p\to q)\land(p\to r) \Leftrightarrow (\neg p\lor q)\land(\neg p\lor r)
 \overset{\text{(distributividade)}}{\Leftrightarrow} \neg p \lor (q\land r)
 \Leftrightarrow p \to (q\land r)$$
 
-**(b) $(p\to r) \land (q\to r) \Leftrightarrow (p\land q) \to r$ — NÃO é
-válida.** Contraexemplo: $v(p)=V, v(q)=F, v(r)=F$.
-Lado esquerdo: $p\to r = V\to F = F$; logo $(p\to r)\land(q\to r) = F$.
-Lado direito: $p\land q = V\land F = F$; logo $(p\land q)\to r = F \to F = V$.
-Lado esquerdo é $F$, lado direito é $V$ — **não são equivalentes**.
-:::
+**(b) $(p\to r) \land (q\to r) \Leftrightarrow (p\land q) \to r$ --- NÃO é
+válida.** Contraexemplo: $v(p)=V$, $v(q)=F$, $v(r)=F$.
+Esquerda: $p\to r = V\to F = F$, logo $(p\to r)\land(q\to r) = F$.
+Direita: $p\land q = F$, logo $(p\land q)\to r = F \to F = V$.
 
-::: atencao
-Compara com atenção (a) e (b): olham parecidas (ambas "distribuem $\to$
-sobre $\land$"), mas só a que distribui $\land$ do lado do **consequente**
-(a) é válida — distribuir sobre o **antecedente** (b) já não é. É um erro
-muito fácil de cometer sem verificar — usa sempre as leis ou um
-contraexemplo para confirmar, nunca "por analogia visual".
+Distribuir $\to$ sobre o $\land$ do **consequente** vale; sobre o do
+**antecedente**, não.
 :::
 
 ### Classificar uma fórmula simplificando-a (Exercício 1.9)
 
-As leis servem também para **classificar** uma fórmula (tautologia,
-contradição ou satisfazível), que é o que o Exercício 1.9 pede --- e o
-enunciado diz o método: *"You can start by simplifying the formulas using
-semantic equivalences"*. Não se faz a tabela de verdade.
+O Exercício 1.9 pede para classificar fórmulas (tautologia, contradição ou
+satisfazível) e diz o método: *"You can start by simplifying the formulas
+using semantic equivalences"*. Não se faz a tabela de verdade.
 
 ::: {.definicao title="--- Método: classificar por equivalências"}
 1. **Eliminar as implicações** ($\phi\to\psi \Leftrightarrow \neg\phi\lor\psi$)
    e **empurrar as negações** para dentro (De Morgan, dupla negação).
 2. **Simplificar** com as leis (complementaridade, absorção, elemento
-   neutro/absorvente) até a fórmula ficar numa forma que se lê logo.
-3. **Ler a classificação** do resultado:
+   neutro/absorvente) até a fórmula se ler logo.
+3. **Ler a classificação**:
    - chegou a $V$ → **tautologia**;
    - chegou a $F$ → **contradição**;
    - chegou a outra coisa (ex.: $p\lor\neg q$) → **satisfazível** (nem
-     tautologia nem contradição). O enunciado pede então **uma valoração que a
-     torna verdadeira e outra que a torna falsa**: lêem-se da forma
-     simplificada, e **confirmam-se na fórmula original**.
+     tautologia nem contradição). O enunciado pede então **uma valoração
+     que a torna verdadeira e outra que a torna falsa**: leem-se da forma
+     simplificada e **confirmam-se na fórmula original**.
 :::
 
 ::: {.exemplo title="--- Exercício 1.9(d) (lab, proplogic.pdf) --- tautologia"}
@@ -588,18 +428,17 @@ $$\begin{aligned}
 \Leftrightarrow\ & V && \text{(elemento absorvente)}
 \end{aligned}$$
 
-Chegou a $V$: é **tautologia**. (Com o $\lor$ tudo ao mesmo nível, os
-parêntesis podem reorganizar-se à vontade --- foi isso que permitiu juntar
-$\neg p$ com $p$ e $\neg q$ com $q$.)
+Chegou a $V$: **tautologia**. (Com tudo ligado por $\lor$, os parêntesis
+reorganizam-se à vontade; foi isso que juntou $\neg p$ com $p$.)
 :::
 
 ::: {.exemplo title="--- Exercício 1.9(j) (lab, proplogic.pdf) --- contradição"}
-Truque: o segundo conjunto é a **negação** do primeiro.
+O segundo conjunto é a **negação** do primeiro:
 $$\neg(p \lor \neg q) \overset{\text{(De Morgan)}}{\Leftrightarrow} \neg p \land \neg\neg q \overset{\text{(dupla negação)}}{\Leftrightarrow} \neg p \land q$$
-Então, chamando $X = p\lor\neg q$:
+Com $X = p\lor\neg q$:
 $$(p \lor \neg q) \land (\neg p \land q) \;\Leftrightarrow\; X \land \neg X \;\overset{\text{(complementaridade)}}{\Leftrightarrow}\; F$$
 
-Chegou a $F$: é **contradição**.
+Chegou a $F$: **contradição**.
 :::
 
 ::: {.exemplo title="--- Exercício 1.9(i) (lab, proplogic.pdf) --- satisfazível"}
@@ -609,15 +448,11 @@ $$\begin{aligned}
 \Leftrightarrow\ & (\neg p \land \neg q) \lor (p \land q) && \text{(De Morgan)}
 \end{aligned}$$
 
-Já não simplifica mais: não é $V$ nem $F$. Lê-se diretamente: é verdadeira
-quando **$p$ e $q$ são ambos falsos** ou **ambos verdadeiros** (é
-"$p \leftrightarrow q$"). Logo é **satisfazível, mas não tautologia nem
-contradição**.
+Não simplifica mais: é verdadeira quando $p$ e $q$ são **ambos falsos** ou
+**ambos verdadeiros**. **Satisfazível, nem tautologia nem contradição.**
 
-- **Verdadeira** com $p=V, q=V$ (o segundo termo, $p\land q$, é $V$).
-  Confirmação na original: $(V\lor V)\to(V\land V) = V\to V = V$.
-- **Falsa** com $p=V, q=F$ (os dois termos têm um literal falso).
-  Confirmação na original: $(V\lor F)\to(V\land F) = V\to F = F$.
+- **Verdadeira** com $p=q=V$: $(V\lor V)\to(V\land V) = V\to V = V$.
+- **Falsa** com $p=V, q=F$: $(V\lor F)\to(V\land F) = V\to F = F$.
 :::
 
 ::: {.pratica title="--- Consequência e equivalência (proplogic.pdf)"}
@@ -638,118 +473,92 @@ simplificação repetida --- não precisas de as fazer todas.
 
 ## Propriedades da relação $\models$
 
-As afirmações seguintes envolvem $\Gamma \models \theta$ de forma mais
-abstrata (sem fixar fórmulas concretas) — testam se percebeste bem a
-**definição** de consequência semântica, não cálculo. A técnica geral: para
-mostrar que uma afirmação é **verdadeira**, usa diretamente a definição; para
-mostrar que é **falsa**, basta um contraexemplo concreto (escolher $\Gamma$,
-$\Sigma$, $\theta$ específicos).
+Para mostrar que uma afirmação sobre $\models$ é **verdadeira** usa-se a
+definição; para mostrar que é **falsa** basta um contraexemplo concreto.
 
-::: {.definicao title="--- Método: provar com a definição de $\\models_v$ (formato de exame)"}
-Nota adicional: é assim que a professora resolve, e é o formato aceite em
-exame. Explicar "por palavras" não chega.
-
-**Para mostrar $\Gamma \models \phi$ (ou $\models \phi$, com $\Gamma=\emptyset$):**
+::: {.definicao title="--- Método: provar com a definição de $\\models_v$ †"}
+**Para mostrar $\Gamma \models \phi$** (ou $\models \phi$, com
+$\Gamma=\emptyset$):
 
 1. "Seja $v$ uma valoração tal que $\models_v \Gamma$." (Para $\models\phi$:
    "seja $v$ uma valoração qualquer".)
-2. Abrir cada fórmula pelo seu **conectivo principal**, com a definição de
-   $\models_v$ (regras 1--5 acima). Quando a regra dá um **"ou"**,
-   **separar em casos** e fechar cada um.
-3. Chegar a $\models_v \phi$ em todos os casos. Concluir: "como $v$ é
+2. Abrir cada fórmula pelo **conectivo principal**, com as regras 1--5 de
+   $\models_v$. Quando a regra dá um **"ou"**, **separar em casos** e
+   fechar cada um.
+3. Chegar a $\models_v \phi$ em todos os casos e concluir: "como $v$ é
    arbitrária, $\Gamma \models \phi$." $\blacksquare$
 
-**Alternativa: prova por absurdo.** Supõe-se $\not\models_v \phi$ e
-abre-se com as regras da negação. Costuma ser a mais curta quando $\phi$
-é uma implicação, porque $\not\models_v \phi\to\psi$ força
-$\models_v \phi$ **e** $\not\models_v \psi$. Se se chega a
-$\models_v \theta$ e $\not\models_v \theta$, essa $v$ não existe.
+**Por absurdo:** supõe-se $\not\models_v \phi$ e abre-se com as regras da
+negação. É a mais curta quando $\phi$ é uma implicação, porque
+$\not\models_v \phi\to\psi$ força $\models_v \phi$ **e**
+$\not\models_v \psi$. Chegar a $\models_v \theta$ e $\not\models_v \theta$
+mostra que essa $v$ não existe.
 
 **Para mostrar que é falso:** dá-se uma **valoração concreta** e
 verifica-se com as regras que $\models_v \gamma$ para cada
 $\gamma\in\Gamma$ e $\not\models_v \phi$.
 
-Regras da negação, que saem das regras 2--5:
+Regras da negação (saem das regras 2--5):
 
 - $\not\models_v \phi\land\psi$ sse $\not\models_v \phi$ ou $\not\models_v \psi$
 - $\not\models_v \phi\lor\psi$ sse $\not\models_v \phi$ e $\not\models_v \psi$
 - $\not\models_v \phi\to\psi$ sse $\models_v \phi$ e $\not\models_v \psi$
 
-*Modus ponens* pode ser citado: se $\models_v \phi$ e
-$\models_v \phi\to\psi$, então $\models_v \psi$ (pela regra 5,
-$\not\models_v\phi$ é impossível).
+*Modus ponens*: se $\models_v \phi$ e $\models_v \phi\to\psi$, então
+$\models_v \psi$ (pela regra 5, $\not\models_v\phi$ é impossível).
 :::
 
 ::: {.exemplo title="--- Exercício 1.16(a), (b) e (f) (lab, proplogic.pdf) --- monotonicidade"}
 **(a) Se $\Gamma \models \theta$ e $\Gamma \subseteq \Sigma$, então
 $\Sigma \models \theta$ --- VERDADEIRO.**
 
-Seja $v$ uma valoração tal que $\models_v \Sigma$, isto é,
-$\models_v \psi$ para todo o $\psi \in \Sigma$. Seja $\psi \in \Gamma$.
-Como $\Gamma \subseteq \Sigma$, $\psi \in \Sigma$, logo $\models_v \psi$.
-Portanto $\models_v \Gamma$. Como $\Gamma \models \theta$, por definição
-de $\models$ tem-se $\models_v \theta$. Como $v$ é arbitrária,
-$\Sigma \models \theta$. $\blacksquare$
+Seja $v$ tal que $\models_v \Sigma$, isto é, $\models_v \psi$ para todo o
+$\psi \in \Sigma$. Seja $\psi \in \Gamma$. Como $\Gamma \subseteq \Sigma$,
+$\psi \in \Sigma$, logo $\models_v \psi$. Portanto $\models_v \Gamma$.
+Como $\Gamma \models \theta$, tem-se $\models_v \theta$. Como $v$ é
+arbitrária, $\Sigma \models \theta$. $\blacksquare$
 
-(Intuição: **acrescentar premissas nunca destrói** uma consequência já
-válida. Chama-se **monotonicidade**.)
+**Acrescentar premissas nunca destrói** uma consequência
+(**monotonicidade**).
 
 **(b) Se $\Sigma \models \theta$ e $\Gamma \subseteq \Sigma$, então
-$\Gamma \models \theta$ --- FALSO** (é o recíproco de (a)).
+$\Gamma \models \theta$ --- FALSO** (o recíproco de (a)).
 
-Contraexemplo: $\Sigma = \{p,\ p\to q\}$, $\Gamma = \{p\}$, $\theta = q$.
-Tem-se $\Gamma \subseteq \Sigma$.
+Contraexemplo: $\Sigma = \{p,\ p\to q\}$, $\Gamma = \{p\}$, $\theta = q$;
+$\Gamma \subseteq \Sigma$.
 
 - $\Sigma \models q$: seja $v$ tal que $\models_v p$ e $\models_v p\to q$.
   Como $\models_v p\to q$ sse $\not\models_v p$ ou $\models_v q$, e
   $\not\models_v p$ é impossível, tem-se $\models_v q$.
-- $\Gamma \not\models q$: com $v(p)=V$, $v(q)=F$, tem-se $\models_v p$,
-  isto é, $\models_v \Gamma$, mas $\not\models_v q$.
+- $\Gamma \not\models q$: com $v(p)=V$, $v(q)=F$, $\models_v \Gamma$ mas
+  $\not\models_v q$.
 
-As hipóteses valem e a conclusão não. **Menos premissas podem já não
-bastar** para a mesma conclusão.
+**Tirar premissas** pode fazer perder a conclusão.
 
 **(f) Se $\Sigma \models \theta$ e $\Sigma \subseteq \Gamma$, então
 $\Sigma \cup \Gamma \models \theta$ --- VERDADEIRO.** Se
-$\Sigma \subseteq \Gamma$, então $\Sigma \cup \Gamma = \Gamma$. A
-afirmação passa a ser "se $\Sigma \models \theta$ e
-$\Sigma \subseteq \Gamma$, então $\Gamma \models \theta$", que é **a
-alínea (a)** com os nomes $\Gamma$ e $\Sigma$ trocados. Já está provada.
-$\blacksquare$
+$\Sigma \subseteq \Gamma$, então $\Sigma \cup \Gamma = \Gamma$, e a
+afirmação é a alínea (a) com $\Gamma$ e $\Sigma$ trocados. $\blacksquare$
 :::
 
-::: atencao
-A lição de (a)/(b)/(f): $\Gamma \models \theta$ é **monótono ao acrescentar
-premissas** (mais hipóteses, no máximo, só ajudam a concluir mais coisas —
-nunca deixam de valer uma consequência já estabelecida), mas **não é
-monótono ao remover premissas** — retirar uma hipótese pode fazer uma
-conclusão válida deixar de o ser. Isto explica intuitivamente porque é que
-(a) e (f) são verdadeiros (só acrescentam) e (b) é falso (remove).
-:::
-
-::: {.exemplo title="--- Exercício 1.13 (lab, proplogic.pdf)"}
+::: {.exemplo title="--- Exercício 1.13(a), (b) e (c) (lab, proplogic.pdf)"}
 **(a) $\models (p\land\neg p) \to (p\land\neg r)$ --- VERDADEIRO.**
 
 Seja $v$ uma valoração qualquer.
 $$\models_v (p\land\neg p)\to(p\land\neg r) \ \text{ sse }\ \not\models_v p\land\neg p \ \text{ ou }\ \models_v p\land\neg r$$
-Ora, $\models_v p\land\neg p$ sse $\models_v p$ e $\models_v \neg p$, isto
-é, sse $\models_v p$ e $\not\models_v p$, o que é impossível. Logo
-$\not\models_v p\land\neg p$ e, portanto,
+Ora, $\models_v p\land\neg p$ sse $\models_v p$ e $\not\models_v p$, o que
+é impossível. Logo $\not\models_v p\land\neg p$ e
 $\models_v (p\land\neg p)\to(p\land\neg r)$. Como $v$ é arbitrária,
 $\models (p\land\neg p)\to(p\land\neg r)$. $\blacksquare$
 
 **(b) $\models (q\lor\neg r) \to (q\land\neg q)$ --- FALSO.**
 
-Procura-se $v$ com $\not\models_v (q\lor\neg r)\to(q\land\neg q)$, isto
-é, com $\models_v q\lor\neg r$ e $\not\models_v q\land\neg q$. A segunda
-condição vale sempre, como em (a). Basta então $\models_v q\lor\neg r$.
-
-**Contraexemplo:** $v(q)=V$, $v(r)=V$.
+Procura-se $v$ com $\models_v q\lor\neg r$ e $\not\models_v q\land\neg q$.
+A segunda vale sempre, como em (a). **Contraexemplo:** $v(q)=V$, $v(r)=V$.
 
 - $\models_v q$, logo $\models_v q\lor\neg r$.
 - $\models_v q$, logo $\not\models_v \neg q$, logo $\not\models_v q\land\neg q$.
-- Então $\not\models_v (q\lor\neg r)\to(q\land\neg q)$, e a fórmula
-  **não** é tautologia.
+- Então $\not\models_v (q\lor\neg r)\to(q\land\neg q)$: não é tautologia.
 
 **(c) $\{(p\to q)\lor r,\ ((p\to q)\lor r)\to\neg r,\ (p\to q)\to(q\to r)\} \models \neg q$
 --- VERDADEIRO.**
@@ -759,20 +568,19 @@ $\models_v ((p\to q)\lor r)\to\neg r$ e $\models_v (p\to q)\to(q\to r)$.
 
 1. $\models_v ((p\to q)\lor r)\to\neg r$ sse
    $\not\models_v (p\to q)\lor r$ ou $\models_v \neg r$. O primeiro é
-   impossível (é a 1.ª premissa), logo $\models_v \neg r$, isto é,
-   $\not\models_v r$.
+   impossível (1.ª premissa), logo $\models_v \neg r$: $\not\models_v r$.
 2. $\models_v (p\to q)\lor r$ sse $\models_v p\to q$ ou $\models_v r$.
-   Por 1, $\not\models_v r$, logo $\models_v p\to q$.
+   Por 1, $\models_v p\to q$.
 3. $\models_v (p\to q)\to(q\to r)$ sse $\not\models_v p\to q$ ou
    $\models_v q\to r$. Por 2, $\models_v q\to r$.
 4. $\models_v q\to r$ sse $\not\models_v q$ ou $\models_v r$. Por 1,
-   $\not\models_v r$, logo $\not\models_v q$, isto é, $\models_v \neg q$.
+   $\not\models_v q$, isto é, $\models_v \neg q$.
 
-Como $v$ é arbitrária,
-$\{(p\to q)\lor r,\ ((p\to q)\lor r)\to\neg r,\ (p\to q)\to(q\to r)\} \models \neg q$.
-$\blacksquare$
+Como $v$ é arbitrária, o conjunto $\models \neg q$. $\blacksquare$
+:::
 
-**(d) $\{(p\lor q)\to r\} \models (p\to r)\lor(q\to r)$ --- VERDADEIRO.**
+::: {.exemplo title="--- Exercício 1.13(d) (lab, proplogic.pdf)"}
+**$\{(p\lor q)\to r\} \models (p\to r)\lor(q\to r)$ --- VERDADEIRO.**
 
 Seja $v$ tal que $\models_v (p\lor q)\to r$. Queremos
 $\models_v (p\to r)\lor(q\to r)$.
@@ -782,60 +590,45 @@ $$\models_v (p\lor q)\to r \ \text{ sse }\ \not\models_v p\lor q \ \text{ ou }\ 
   ou $\models_v r$, tem-se $\models_v p\to r$. Logo
   $\models_v (p\to r)\lor(q\to r)$.
 - **Caso 2: $\not\models_v p\lor q$**, isto é, $\not\models_v p$ e
-  $\not\models_v q$. Como $\not\models_v p$, tem-se $\models_v p\to r$.
-  Logo $\models_v (p\to r)\lor(q\to r)$.
+  $\not\models_v q$. Como $\not\models_v p$, $\models_v p\to r$. Logo
+  $\models_v (p\to r)\lor(q\to r)$.
 
 Em ambos os casos $\models_v (p\to r)\lor(q\to r)$. Como $v$ é arbitrária,
 $\{(p\lor q)\to r\} \models (p\to r)\lor(q\to r)$. $\blacksquare$
 
-**Atenção:** os dois casos estão ligados por um **"ou"**. Basta um deles
-acontecer. Não se pode juntar "$v(r)=V$ **e** $v(p)=F$ **e** $v(q)=F$".
+Os dois casos estão ligados por um **"ou"**: basta um deles. Não se pode
+juntar "$v(r)=V$ **e** $v(p)=F$ **e** $v(q)=F$".
 :::
 
 ::: {.exemplo title="--- Exercício 1.14(a) e 1.14(d) (lab, proplogic.pdf) --- sem tabela de verdade"}
 **(a) $\models p \to (((q\to p)\to p) \to r)$ --- FALSO.**
 
-Procura-se $v$ com $\not\models_v$ da fórmula:
 $$\not\models_v p \to (((q\to p)\to p)\to r) \ \text{ sse }\ \models_v p \ \text{ e }\ \not\models_v ((q\to p)\to p)\to r$$
 $$\not\models_v ((q\to p)\to p)\to r \ \text{ sse }\ \models_v (q\to p)\to p \ \text{ e }\ \not\models_v r$$
-Com $\models_v p$, a condição $\models_v (q\to p)\to p$ vale sempre, porque
-o consequente é satisfeito. Basta então $v(p)=V$ e $v(r)=F$.
-
+Com $\models_v p$, $\models_v (q\to p)\to p$ vale sempre (consequente
+satisfeito). Basta $v(p)=V$ e $v(r)=F$.
 **Contraexemplo:** $v(p)=V$, $v(q)=V$, $v(r)=F$.
 
-- $\models_v p$, logo $\models_v (q\to p)\to p$ (consequente satisfeito).
+- $\models_v p$, logo $\models_v (q\to p)\to p$.
 - $\models_v (q\to p)\to p$ e $\not\models_v r$, logo
   $\not\models_v ((q\to p)\to p)\to r$.
 - $\models_v p$ e $\not\models_v ((q\to p)\to p)\to r$, logo
   $\not\models_v p \to (((q\to p)\to p)\to r)$. Não é tautologia.
 
 **(d) $\models ((p\land q)\to(s\lor t)) \to ((p\to s)\lor(q\to t))$ ---
-VERDADEIRO.** Prova por absurdo.
-
-Suponha-se que existe $v$ com $\not\models_v$ da fórmula. Então:
+VERDADEIRO.** Por absurdo: suponha-se $v$ com $\not\models_v$ da fórmula.
 
 1. $\models_v (p\land q)\to(s\lor t)$ e
-   $\not\models_v (p\to s)\lor(q\to t)$ (regra da negação de $\to$).
+   $\not\models_v (p\to s)\lor(q\to t)$ (negação de $\to$).
 2. $\not\models_v (p\to s)\lor(q\to t)$ sse $\not\models_v p\to s$ e
-   $\not\models_v q\to t$, isto é: $\models_v p$, $\not\models_v s$,
+   $\not\models_v q\to t$: $\models_v p$, $\not\models_v s$,
    $\models_v q$, $\not\models_v t$.
 3. De $\models_v p$ e $\models_v q$: $\models_v p\land q$. De
    $\not\models_v s$ e $\not\models_v t$: $\not\models_v s\lor t$.
 4. Então $\not\models_v (p\land q)\to(s\lor t)$, o que contradiz 1.
 
-Logo não existe tal $v$: a fórmula é satisfeita por todas as valorações,
-$\models ((p\land q)\to(s\lor t)) \to ((p\to s)\lor(q\to t))$.
-$\blacksquare$
-:::
-
-::: atencao
-Nota adicional sobre "sem tabela de verdade": nos dois casos começa-se
-por **supor $\not\models_v$ da fórmula** e abrir com as regras da
-negação. Se se chega a uma valoração consistente, como em (a), essa
-valoração **é** o contraexemplo, e verifica-se regra a regra. Se se chega a
-$\models_v \theta$ e $\not\models_v \theta$, como em (d), é uma prova por
-absurdo de que a fórmula é tautologia. (Na 1.9, pelo contrário, o
-enunciado manda simplificar pelas leis.)
+Não existe tal $v$, logo
+$\models ((p\land q)\to(s\lor t)) \to ((p\to s)\lor(q\to t))$. $\blacksquare$
 :::
 
 ::: {.pratica title="--- Propriedades de $\models$ (proplogic.pdf)"}
@@ -849,12 +642,9 @@ enunciado manda simplificar pelas leis.)
 ## Quantas proposições podem ser simultaneamente verdadeiras
 
 ::: {.exemplo title="--- Exercício 1.7 (lab, proplogic.pdf)"}
-Atribuindo valores de verdade a $p,q,r$, quantas das cinco disjunções
-$p\lor\neg q,\ \neg p\lor q,\ q\lor r,\ q\lor\neg r,\ \neg q\lor\neg r$ podem
-ser simultaneamente verdadeiras?
-
-Como há só 3 variáveis, é viável construir a tabela completa (8 linhas) e
-contar, em cada linha, quantas das 5 fórmulas são $V$:
+Quantas de $p\lor\neg q,\ \neg p\lor q,\ q\lor r,\ q\lor\neg r,\ \neg q\lor\neg r$
+podem ser verdadeiras ao mesmo tempo? Com 3 variáveis, faz-se a tabela (8
+linhas) e conta-se:
 
 | $p$ | $q$ | $r$ | $p\lor\neg q$ | $\neg p\lor q$ | $q\lor r$ | $q\lor\neg r$ | $\neg q\lor\neg r$ | nº de V |
 |---|---|---|---|---|---|---|---|---|
@@ -867,11 +657,7 @@ contar, em cada linha, quantas das 5 fórmulas são $V$:
 | F | F | V | V | V | V | F | V | 4 |
 | F | F | F | V | V | F | V | V | 4 |
 
-O **máximo** é **5** (todas simultaneamente verdadeiras), atingido em
-$p=V,q=V,r=F$ — por exemplo, verifica-se que $\neg q\lor\neg r$ dá
-$F\lor V = V$ porque $r=F$. O **mínimo** ao longo de todas as valorações é
-**3** (nunca é possível ter menos de 3 verdadeiras ao mesmo tempo, e isso
-acontece em três linhas diferentes da tabela).
+O **máximo** é **5** (todas), em $p=V,q=V,r=F$. O mínimo é 3.
 :::
 
 ## Conjuntos completos de conectivos
@@ -879,98 +665,69 @@ acontece em três linhas diferentes da tabela).
 ::: {.definicao title="--- Conjunto completo de conectivos"}
 Um conjunto de conectivos $C$ é **completo** se, para qualquer função de
 verdade $f : \{V,F\}^n \to \{V,F\}$, existe uma fórmula $\phi$ com $n$
-variáveis, usando só conectivos de $C$, tal que $\phi$ **induz** exatamente
-$f$ (isto é, $F_\phi = f$, onde $F_\phi(x_1,\dots,x_n) = v_\chi(\phi)$ para
-$v_\chi(p_i)=x_i$). Por outras palavras: $C$ chega para exprimir *qualquer*
-função booleana possível.
+variáveis, só com conectivos de $C$, que **induz** $f$: $F_\phi = f$, onde
+$F_\phi(x_1,\dots,x_n) = v_\chi(\phi)$ para $v_\chi(p_i)=x_i$. Isto é, $C$
+exprime qualquer função booleana.
 :::
 
-**Prova de que $\{\land,\lor,\neg\}$ é completo** (dos slides, por indução em
-$n$, o número de variáveis):
+**$\{\land,\lor,\neg\}$ é completo** (por indução em $n$):
 
-- **Base ($n=1$):** há exatamente 4 funções de verdade de aridade 1 (uma
-  tabela com 2 linhas tem $2^2=4$ combinações possíveis de saída). Para cada
-  uma, exibe-se uma fórmula que a realiza: $f_1 = $ "sempre F" $\to \phi_1 = p\land\neg p$;
-  $f_2=\neg p \to \phi_2=\neg p$; $f_3=p \to \phi_3=p$;
-  $f_4=$ "sempre V" $\to \phi_4 = p\lor\neg p$.
-- **Passo indutivo:** assumindo que a propriedade vale para $n$, seja
-  $f:\{V,F\}^{n+1}\to\{V,F\}$. Define-se $f_1(x_1,\dots,x_n)=f(x_1,\dots,x_n,V)$
-  e $f_2(x_1,\dots,x_n)=f(x_1,\dots,x_n,F)$ (fixando a última variável). Por
-  hipótese de indução existem $\phi_1,\phi_2$ com $F_{\phi_i}=f_i$. Toma-se
-  $\phi = (p_{n+1}\land\phi_1)\lor(\neg p_{n+1}\land\phi_2)$: quando
-  $x_{n+1}=V$, $\phi$ reduz-se a $\phi_1$; quando $x_{n+1}=F$, reduz-se a
-  $\phi_2$ — exatamente o comportamento de $f$.
+- **Base ($n=1$):** há $2^2=4$ funções de aridade 1, e cada uma tem
+  fórmula: "sempre F" $= p\land\neg p$; $\neg p$; $p$; "sempre V"
+  $= p\lor\neg p$.
+- **Passo:** dada $f:\{V,F\}^{n+1}\to\{V,F\}$, sejam
+  $f_1(x_1,\dots,x_n)=f(x_1,\dots,x_n,V)$ e
+  $f_2(x_1,\dots,x_n)=f(x_1,\dots,x_n,F)$. Por hipótese de indução há
+  $\phi_1,\phi_2$ com $F_{\phi_i}=f_i$. Então
+  $\phi = (p_{n+1}\land\phi_1)\lor(\neg p_{n+1}\land\phi_2)$ induz $f$:
+  com $x_{n+1}=V$ reduz-se a $\phi_1$, com $x_{n+1}=F$ a $\phi_2$.
 
-Como consequência imediata (usando as leis de De Morgan e a lei da
-implicação para reescrever $\land$ e $\lor$), também $\{\neg,\to\}$ é
-completo: $\phi\land\psi \Leftrightarrow \neg(\phi\to\neg\psi)$ e
+Daí, **$\{\neg,\to\}$ também é completo**:
+$\phi\land\psi \Leftrightarrow \neg(\phi\to\neg\psi)$ e
 $\phi\lor\psi \Leftrightarrow \neg\phi\to\psi$.
 
-(Na Aula 3 aparece uma segunda prova, mais direta, do mesmo resultado: a
-construção da **forma normal disjuntiva** a partir da tabela de verdade.)
-
 ::: {.exemplo title="--- Exercício 1.19(a) (lab, proplogic.pdf) --- {negação, disjunção} é completo"}
-Mostrar que $p\to q$, $p\leftrightarrow q$ e $p\land q$ se escrevem só com
-$\neg$ e $\lor$ (a mesma técnica da prova acima, mas explicitada
-concretamente):
+Escrever $p\to q$, $p\land q$ e $p\leftrightarrow q$ só com $\neg$ e $\lor$:
 
-- $p\to q \Leftrightarrow \neg p \lor q$ (é diretamente a lei da implicação).
-- $p\land q \Leftrightarrow \neg(\neg p \lor \neg q)$ (De Morgan aplicado ao
-  contrário: $\neg\neg(p\land q) \Leftrightarrow \neg(\neg p\lor\neg q)$, e
-  $\neg\neg(p\land q)\Leftrightarrow p\land q$).
-- $p\leftrightarrow q \Leftrightarrow (p\to q)\land(q\to p)$. Usando os dois
-  pontos anteriores para reescrever cada peça só com $\neg,\lor$:
-  $p\to q \Leftrightarrow \neg p\lor q$ e $q\to p \Leftrightarrow \neg q\lor p$;
-  e a conjunção dessas duas, pelo ponto anterior ($\phi\land\psi\Leftrightarrow\neg(\neg\phi\lor\neg\psi)$),
-  fica:
+- $p\to q \Leftrightarrow \neg p \lor q$ (lei da implicação).
+- $p\land q \Leftrightarrow \neg\neg(p\land q) \Leftrightarrow \neg(\neg p\lor\neg q)$
+  (dupla negação, De Morgan).
+- $p\leftrightarrow q \Leftrightarrow (p\to q)\land(q\to p)$. Cada
+  implicação dá $\neg p\lor q$ e $\neg q\lor p$, e a conjunção, pelo ponto
+  anterior ($\phi\land\psi\Leftrightarrow\neg(\neg\phi\lor\neg\psi)$):
   $$p\leftrightarrow q \;\Leftrightarrow\; \neg\big(\neg(\neg p\lor q)\lor\neg(\neg q\lor p)\big)$$
-  — uma fórmula só com $\neg$ e $\lor$, como pedido.
 :::
 
-::: {.exemplo title="--- Exercício 1.19(b) (lab, proplogic.pdf) --- NAND é universal"}
-Define-se um novo conectivo $\bar\land$ ("NAND") pela tabela: $V\bar\land V=F$;
-$V\bar\land F = F\bar\land V = F\bar\land F = V$ (ou seja,
-$p\bar\land q \Leftrightarrow \neg(p\land q)$: só é falso quando ambos são
-verdadeiros). Mostrar que $\neg p$, $p\land q$ e $p\lor q$ se escrevem só
-com $\bar\land$:
+::: {.exemplo title="--- Exercício 1.19(b) (lab, proplogic.pdf) --- NAND é completo"}
+$p\bar\land q \Leftrightarrow \neg(p\land q)$: só é falso com $p=q=V$.
+Escrever $\neg p$, $p\land q$ e $p\lor q$ só com $\bar\land$:
 
 **Negação:** $p \bar\land p \Leftrightarrow \neg(p\land p) \Leftrightarrow \neg p$
 (idempotência). Logo $\neg p = p\bar\land p$.
 
-**Conjunção:** $p\bar\land q \Leftrightarrow \neg(p\land q)$, logo
-$\neg(p\bar\land q) \Leftrightarrow p\land q$. E $\neg X = X\bar\land X$
-(pelo caso anterior, com $X = p\bar\land q$), logo:
+**Conjunção:** $\neg(p\bar\land q) \Leftrightarrow p\land q$, e
+$\neg X = X\bar\land X$ com $X = p\bar\land q$:
 $$p \land q \;=\; (p\bar\land q)\ \bar\land\ (p\bar\land q)$$
 
-**Disjunção:** por De Morgan, $p\lor q \Leftrightarrow \neg(\neg p\land\neg q) \Leftrightarrow \neg p \bar\land \neg q$
-(a própria definição de $\bar\land$ já é a negação de um $\land$). Substituindo
-$\neg p = p\bar\land p$ e $\neg q = q\bar\land q$:
+**Disjunção:** por De Morgan, $p\lor q \Leftrightarrow \neg(\neg p\land\neg q) \Leftrightarrow \neg p \bar\land \neg q$.
+Com $\neg p = p\bar\land p$ e $\neg q = q\bar\land q$:
 $$p \lor q \;=\; (p\bar\land p)\ \bar\land\ (q\bar\land q)$$
 
-Como $\{\neg,\land,\lor\}$ já é completo e todos os três se escrevem só com
-$\bar\land$, conclui-se que **$\{\bar\land\}$ sozinho já é um conjunto
-completo de conectivos** — é o princípio por trás dos circuitos NAND em
-eletrónica digital (qualquer circuito lógico pode ser construído só com
-portas NAND).
+Como $\{\neg,\land,\lor\}$ é completo, **$\{\bar\land\}$ sozinho é
+completo**.
 :::
 
 ## Aplicação: modelar problemas em lógica proposicional
 
-Os problemas seguintes não introduzem teoria nova — mostram como usar tudo
-o que já foi visto (tradução para fórmulas, tabelas de verdade,
-satisfazibilidade de conjuntos) para resolver problemas de raciocínio
-"do mundo real". A técnica chave nos problemas de cavaleiros/vilões é a
-**auto-referência**: se $a$ representa "A é cavaleiro" (diz sempre a
-verdade) e $S$ é a fórmula que traduz a frase que A disse, então tem de
-valer $a \leftrightarrow S$ — A é cavaleiro *sse* o que disse é verdade.
+Nos problemas de cavaleiros (dizem sempre a verdade) e vilões (mentem
+sempre), a chave é a **auto-referência**: se $a$ = "A é cavaleiro" e $S$
+traduz a frase de A, tem de valer $a \leftrightarrow S$.
 
-::: {.exemplo title="--- Exercício 1.10(a) (lab, proplogic.pdf) --- ilha dos cavaleiros e vilões"}
-A diz: "Pelo menos um de nós [A, B] é vilão." O que são A e B?
+::: {.exemplo title="--- Exercício 1.10(a) (lab, proplogic.pdf) --- cavaleiros e vilões"}
+A diz: "Pelo menos um de nós [A, B] é vilão."
 
-Seja $a$ = "A é cavaleiro", $b$ = "B é cavaleiro". A frase de A traduz-se
-por $S = \neg a \lor \neg b$. A condição de auto-referência é
-$a \leftrightarrow S$, isto é $a \leftrightarrow (\neg a\lor\neg b)$.
-Testam-se as 4 valorações de $(a,b)$:
+Com $a$, $b$ = "A/B é cavaleiro", $S = \neg a \lor \neg b$ e a condição é
+$a \leftrightarrow (\neg a\lor\neg b)$:
 
 | $a$ | $b$ | $S=\neg a\lor\neg b$ | $a\leftrightarrow S$ |
 |---|---|---|---|
@@ -979,28 +736,18 @@ Testam-se as 4 valorações de $(a,b)$:
 | F | V | V | F |
 | F | F | V | F |
 
-Só a linha $a=V,b=F$ é consistente (só nessa a biconditional dá $V$; nas
-outras a suposição contradiz-se a si própria). **A é cavaleiro, B é vilão.**
+Só $a=V,b=F$ é consistente. **A é cavaleiro, B é vilão.**
 :::
 
 ::: {.exemplo title="--- Exercício 1.10(e) (lab, proplogic.pdf) --- três pessoas"}
-A, B, C. A diz: "Somos todos vilões." B diz: "Exatamente um de nós é
-cavaleiro." O que são A, B e C?
+A diz: "Somos todos vilões." B diz: "Exatamente um de nós é cavaleiro."
 
-Sejam $a,b,c$ os indicadores "é cavaleiro" de A, B, C. Traduzindo:
-$S_A = \neg a\land\neg b\land\neg c$ (todos vilões) e
-$S_B = (b\land\neg c)\lor(\neg b\land c)$ (exatamente um entre B e C é
-cavaleiro — note-se que $S_B$ já não depende de $a$ diretamente, mas a
-condição "exatamente um dos três" só se decompõe assim depois de se saber o
-valor de $a$; para manter a tabela simples, calcula-se $S_B$ como "exatamente
-um de $\{a,b,c\}$" diretamente nas 8 linhas).
+Com $a,b,c$ = "A/B/C é cavaleiro": $S_A = \neg a\land\neg b\land\neg c$ e
+$S_B$ = "exatamente um de $a,b,c$ é V". Procuram-se as linhas em que
+$\mathrm{cond}_1 = (a\leftrightarrow S_A)$ e
+$\mathrm{cond}_2 = (b\leftrightarrow S_B)$ são **ambas** $V$:
 
-Constrói-se a tabela com as duas condições de auto-referência,
-$\mathrm{cond}_1 = (a\leftrightarrow S_A)$ e $\mathrm{cond}_2 = (b\leftrightarrow S_B)$,
-para as 8 valorações de $(a,b,c)$ — só interessam as linhas onde **ambas**
-são $V$:
-
-| $a$ | $b$ | $c$ | $S_A$ | cond$_1$ | $S_B$ (exat. 1 de a,b,c) | cond$_2$ |
+| $a$ | $b$ | $c$ | $S_A$ | cond$_1$ | $S_B$ | cond$_2$ |
 |---|---|---|---|---|---|---|
 | V | V | V | F | F | F | F |
 | V | V | F | F | F | F | F |
@@ -1011,23 +758,17 @@ são $V$:
 | F | F | V | F | V | F | F |
 | F | F | F | V | F | V | F |
 
-Só a linha $a=F,b=V,c=F$ tem $\mathrm{cond}_1=V$ **e** $\mathrm{cond}_2=V$
-simultaneamente. **A é vilão, B é cavaleiro, C é vilão** — e é a única
-solução consistente com as duas afirmações.
+Só $a=F,b=V,c=F$. **A é vilão, B é cavaleiro, C é vilão.**
 :::
 
 ::: {.exemplo title="--- Exercício 1.11 (lab, proplogic.pdf) --- suspeitos de um crime"}
-Três suspeitos, A, B, C, fazem declarações:
 A: "B é culpado, mas C é inocente." B: "Se A é culpado, então C é
 culpado." C: "Eu sou inocente, mas um dos outros dois é culpado."
 
-Sejam $g_a,g_b,g_c$ = "A/B/C é culpado". Traduzindo cada declaração:
+Com $g_a,g_b,g_c$ = "A/B/C é culpado":
 $$S_A = g_b\land\neg g_c \qquad S_B = g_a\to g_c \qquad S_C = \neg g_c\land(g_a\lor g_b)$$
 
-Constrói-se **uma única tabela de verdade** com as 8 combinações de
-$(g_a,g_b,g_c)$ e as três colunas $S_A,S_B,S_C$ — e todas as alíneas
-seguintes respondem-se lendo linhas/colunas desta mesma tabela, sem repetir
-cálculos:
+Uma só tabela responde a todas as alíneas:
 
 | $g_a$ | $g_b$ | $g_c$ | $S_A=g_b\land\neg g_c$ | $S_B=g_a\to g_c$ | $S_C=\neg g_c\land(g_a\lor g_b)$ |
 |---|---|---|---|---|---|
@@ -1040,19 +781,16 @@ cálculos:
 | F | F | V | F | V | F |
 | F | F | F | F | V | F |
 
-**(a) As três declarações são compatíveis?** Pergunta-se se
-$\{S_A,S_B,S_C\}$ é satisfazível. Com $v(g_a)=F$, $v(g_b)=V$, $v(g_c)=F$:
+**(a) As três declarações são compatíveis?** $\{S_A,S_B,S_C\}$ é
+satisfazível? Com $v(g_a)=F$, $v(g_b)=V$, $v(g_c)=F$:
 $\models_v S_A$ ($\models_v g_b$, $\not\models_v g_c$),
 $\models_v S_B$ ($\not\models_v g_a$) e
-$\models_v S_C$ ($\not\models_v g_c$, $\models_v g_b$). **Sim, são
-compatíveis**, e pela tabela essa é a **única** valoração que as satisfaz
-(só B culpado).
-
+$\models_v S_C$ ($\not\models_v g_c$, $\models_v g_b$). **Sim**, e pela
+tabela é a **única** valoração que as satisfaz (só B culpado).
 :::
 
 ::: {.exemplo title="--- Exercício 1.11 (cont.) --- consequência"}
-**(b) Alguma declaração é consequência das outras duas?** Há três
-consequências para testar.
+**(b) Alguma declaração é consequência das outras duas?**
 
 *$\{S_A,S_B\}\models S_C$: sim.* Seja $v$ tal que $\models_v S_A$ e
 $\models_v S_B$.
@@ -1077,69 +815,51 @@ $\models_v S_C$.
   $\blacksquare$
 
 *$\{S_A,S_C\}\not\models S_B$.* Contraexemplo: $v(g_a)=V$, $v(g_b)=V$,
-$v(g_c)=F$ (2.ª linha da tabela).
+$v(g_c)=F$ (2.ª linha).
 
 - $\models_v g_b$ e $\not\models_v g_c$, logo $\models_v S_A$.
 - $\not\models_v g_c$ e $\models_v g_a$, logo $\models_v S_C$.
 - $\models_v g_a$ e $\not\models_v g_c$, logo $\not\models_v g_a\to g_c$,
   isto é, $\not\models_v S_B$.
-
 :::
 
 ::: {.exemplo title="--- Exercício 1.11 (cont.) --- hipóteses sobre quem diz a verdade"}
-**(c) Assumindo que os três são inocentes, quem mentiu?** Linha
-$g_a=F,g_b=F,g_c=F$: $S_A=F$ (A mentiu), $S_B=V$ (B disse a verdade),
-$S_C=F$ (C mentiu). **A e C mentiram; B disse a verdade.**
+Cada hipótese dá uma resposta diferente; leem-se todas na mesma tabela.
 
-**(d) Assumindo que os três disseram a verdade, quem é inocente/culpado?**
-Precisa de $S_A=S_B=S_C=V$ — é exatamente a linha de (a):
-$g_a=F,g_b=V,g_c=F$. **Só B é culpado; A e C são inocentes.**
+**(c) Se os três são inocentes, quem mentiu?** Linha
+$g_a=g_b=g_c=F$: $S_A=F$, $S_B=V$, $S_C=F$. **A e C mentiram; B disse a
+verdade.**
 
-:::
+**(d) Se os três disseram a verdade, quem é culpado?**
+$S_A=S_B=S_C=V$ só na linha de (a): **só B é culpado.**
 
-::: {.exemplo title="--- Exercício 1.11 (cont.) --- inocentes dizem a verdade"}
-**(e) Assumindo que o inocente disse a verdade e o culpado mentiu, quem é
-inocente/culpado?** Para cada pessoa $X$: $X$ é inocente sse a sua
-declaração é verdadeira. Isso dá o conjunto
+**(e) Se o inocente disse a verdade e o culpado mentiu?** Cada pessoa é
+inocente sse a sua declaração é verdadeira:
 $$\Delta = \{\, S_A\leftrightarrow\neg g_a,\ \ S_B\leftrightarrow\neg g_b,\ \ S_C\leftrightarrow\neg g_c \,\}$$
-e procuram-se as $v$ com $\models_v \Delta$. ($\models_v \phi\leftrightarrow\psi$
-sse $\models_v\phi$ e $\models_v\psi$ têm o mesmo valor: ou ambos valem ou
-nenhum vale.)
-
-Seja $v$ tal que $\models_v \Delta$.
+($\models_v \phi\leftrightarrow\psi$ sse ambos valem ou nenhum vale.) Seja
+$v$ tal que $\models_v \Delta$.
 
 1. **$\models_v g_a$.** Suponha-se $\not\models_v g_a$. Então
    $\models_v \neg g_a$, logo $\models_v S_A$: $\models_v g_b$ e
    $\not\models_v g_c$. Como $\models_v g_b$, $\not\models_v \neg g_b$,
-   logo $\not\models_v S_B$, isto é, $\models_v g_a$ e $\not\models_v g_c$.
-   Mas supôs-se $\not\models_v g_a$. Contradição.
+   logo $\not\models_v S_B$: $\models_v g_a$ e $\not\models_v g_c$.
+   Contradição com $\not\models_v g_a$.
 2. **$\models_v g_c$.** Por 1, $\not\models_v \neg g_a$, logo
    $\not\models_v S_A$: $\not\models_v g_b$ ou $\models_v g_c$. Suponha-se
    $\not\models_v g_c$. Então $\not\models_v g_b$, logo $\models_v \neg g_b$
-   e $\models_v S_B$: $\not\models_v g_a$ ou $\models_v g_c$. Nenhuma das
-   duas vale (por 1 e pela suposição). Contradição.
+   e $\models_v S_B$: $\not\models_v g_a$ ou $\models_v g_c$. Nenhuma vale
+   (por 1 e pela suposição). Contradição.
 3. **$\not\models_v g_b$.** Suponha-se $\models_v g_b$. Então
    $\not\models_v \neg g_b$, logo $\not\models_v S_B$: $\models_v g_a$ e
-   $\not\models_v g_c$. Isto contradiz 2.
+   $\not\models_v g_c$. Contradiz 2.
 
-Logo a única hipótese é $v(g_a)=V$, $v(g_b)=F$, $v(g_c)=V$. Verificação de
-que $\models_v \Delta$:
+Logo $v(g_a)=V$, $v(g_b)=F$, $v(g_c)=V$. Verificação:
 
 - $\not\models_v S_A$ (porque $\models_v g_c$) e $\not\models_v \neg g_a$. $\checkmark$
 - $\models_v S_B$ (porque $\models_v g_c$) e $\models_v \neg g_b$. $\checkmark$
 - $\not\models_v S_C$ (porque $\models_v g_c$) e $\not\models_v \neg g_c$. $\checkmark$
 
-**A e C são culpados; B é inocente.** (Na tabela, é a única linha onde
-$S_A$, $S_B$ e $S_C$ coincidem com $\neg g_a$, $\neg g_b$ e $\neg g_c$.)
-:::
-
-::: atencao
-Repara como (c), (d) e (e) dão **três respostas diferentes** ao mesmo
-enunciado — cada uma corresponde a uma hipótese diferente sobre quem diz a
-verdade. É um erro comum tentar decidir "quem é mesmo culpado" sem antes
-fixar qual das três hipóteses está a ser assumida; a tabela de verdade
-única (com as colunas $S_A,S_B,S_C$) é o que permite responder às três sem
-ambiguidade nem trabalho repetido.
+**A e C são culpados; B é inocente.**
 :::
 
 ::: {.pratica title="--- Modelação (proplogic.pdf)"}
@@ -1158,37 +878,36 @@ técnica de (a)/(e) --- não precisas de as fazer.
 
 # Aula 3 --- Formas Normais e Satisfazibilidade
 
-Até aqui, para saber se uma fórmula é satisfazível ou tautologia, a única
-ferramenta geral era a tabela de verdade --- com $2^n$ linhas para $n$
-variáveis. Esta aula mostra que qualquer fórmula pode ser **transformada numa
-fórmula semanticamente equivalente com uma forma especial** (uma *forma
-normal*), e que, para algumas dessas formas, decidir a satisfazibilidade ou
-a validade passa a ser trivial (basta "olhar" para a fórmula). Algumas formas
-normais existem para **qualquer** fórmula (negativa, disjuntiva, conjuntiva);
-outras só existem para certas classes de fórmulas (Horn).
+Qualquer fórmula pode transformar-se numa fórmula equivalente com uma
+**forma normal**, e para algumas dessas formas a satisfazibilidade ou a
+validade decide-se só a olhar para a fórmula, sem a tabela de $2^n$
+linhas. A negativa, a disjuntiva e a conjuntiva existem para **qualquer**
+fórmula; a de Horn só para algumas.
 
 ## Literais e forma normal negativa (FNN)
 
 ::: {.definicao title="--- Literal e forma normal negativa"}
-Um **literal** é uma variável proposicional $p$ ou a sua negação $\neg p$.
-($p$ diz-se literal **positivo**, $\neg p$ literal **negativo**.)
+Um **literal** é uma variável $p$ (literal **positivo**) ou a sua negação
+$\neg p$ (literal **negativo**).
 
-Uma fórmula está em **forma normal negativa** se a negação $\neg$ só
-aparece aplicada diretamente a variáveis, isto é, só dentro de literais.
-Ex: $(\neg p \land \neg q) \lor p$ está em FNN; $\neg(p \lor q)$ não está.
+Uma fórmula está em **forma normal negativa** se $\neg$ só aparece
+aplicada a variáveis. Ex.: $(\neg p \land \neg q) \lor p$ está em FNN;
+$\neg(p \lor q)$ não está.
 :::
 
 ::: {.definicao title="--- Proposição (existência da FNN)"}
-Qualquer fórmula que só use os conectivos $\land$, $\lor$ e $\neg$ é
-semanticamente equivalente a uma fórmula em forma normal negativa.
+Qualquer fórmula só com $\land$, $\lor$ e $\neg$ é equivalente a uma
+fórmula em FNN: aplicam-se as **leis de De Morgan** (que empurram cada
+$\neg$ para dentro, trocando $\land$ por $\lor$) e a **dupla negação** até
+cada $\neg$ ficar encostado a uma variável.
 
-**Prova:** basta aplicar repetidamente as **leis de De Morgan** (que
-"empurram" cada $\neg$ para dentro de um $\land$/$\lor$, trocando-o pelo
-outro) e eliminar as **duplas negações** ($\neg\neg\phi \Leftrightarrow \phi$)
-até cada $\neg$ ficar encostado a uma variável.
+Se a fórmula tiver $\to$ ou $\leftrightarrow$, **eliminam-se primeiro**†:
+$\phi\to\psi \Leftrightarrow \neg\phi\lor\psi$ e
+$\phi\leftrightarrow\psi \Leftrightarrow (\phi\to\psi)\land(\psi\to\phi)$.
+($\neg(p \to q)$ é $p \land \neg q$, não $\neg p \to \neg q$.)
 :::
 
-::: {.exemplo title="--- FNN de $\\neg((p \\lor q) \\land \\neg p)$ (slides)"}
+::: {.exemplo title="--- FNN de $\\neg((p \\lor q) \\land \\neg p)$"}
 $$\begin{aligned}
 &\neg\big((p \lor q) \land \neg p\big) \\
 \overset{\text{(De Morgan, no } \land\text{ exterior)}}{\Leftrightarrow}\ & \neg(p \lor q) \lor \neg\neg p \\
@@ -1196,60 +915,43 @@ $$\begin{aligned}
 \overset{\text{(dupla negação)}}{\Leftrightarrow}\ & (\neg p \land \neg q) \lor p
 \end{aligned}$$
 
-Em cada passo o $\neg$ desce um nível na árvore sintática; quando todos os
-$\neg$ estão encostados a variáveis, parou-se: está em FNN.
-:::
-
-::: atencao
-Nota adicional (não estava explícito nos slides): a proposição só fala de
-fórmulas com $\land,\lor,\neg$. Se a fórmula tiver $\to$ (ou $\leftrightarrow$),
-**elimina-os primeiro**: $\phi\to\psi \Leftrightarrow \neg\phi\lor\psi$ e
-$\phi\leftrightarrow\psi \Leftrightarrow (\phi\to\psi)\land(\psi\to\phi)$. Só
-depois se empurram as negações. Esquecer este passo é o erro mais comum ---
-$\neg(p \to q)$ **não** é "$\neg p \to \neg q$"; é $p \land \neg q$ (ver
-Exercício 1.6(a) na Aula 2).
+Em cada passo o $\neg$ desce um nível na árvore, até ficar encostado às
+variáveis.
 :::
 
 ## Forma normal disjuntiva (FND)
 
 ::: {.definicao title="--- Forma normal disjuntiva"}
 Uma fórmula está em **forma normal disjuntiva** se é uma **disjunção de
-conjunções de literais**:
+conjunções de literais** ("um *ou* de *e*'s"):
 $$(\alpha_{11} \land \dots \land \alpha_{1k_1}) \lor \dots \lor (\alpha_{n1} \land \dots \land \alpha_{nk_n})$$
-onde cada $\alpha_{ij}$ é um literal. ("Um *ou* de *e*'s".)
-
-Exemplos: $p \land q$ (uma só conjunção); $p \lor \neg p$ (duas conjunções,
-cada uma com um só literal); $(p \land q \land \neg r) \lor (\neg p \land r)$.
+Ex.: $p \land q$; $p \lor \neg p$; $(p \land q \land \neg r) \lor (\neg p \land r)$.
 :::
 
-Há duas formas de obter uma FND: **a partir da tabela de verdade** (lema
-seguinte) ou **a partir da fórmula**, por equivalências.
+Obtém-se **a partir da tabela de verdade** ou **a partir da fórmula**,
+por equivalências.
 
 ### FND a partir da tabela de verdade
 
 ::: {.definicao title="--- Lema (toda a função de verdade tem uma FND)"}
-Para qualquer função $f : \{V,F\}^n \to \{V,F\}$ existe uma fórmula $\phi$ em
-FND, com $n$ variáveis, tal que $F_\phi = f$.
+Para qualquer $f : \{V,F\}^n \to \{V,F\}$ existe $\phi$ em FND, com $n$
+variáveis, tal que $F_\phi = f$. **Prova (é o próprio método):**
 
-**Prova (construtiva --- é o próprio método):**
+- Se $f$ dá sempre $F$, $\phi = p_1 \land \neg p_1$.
+- Senão, para cada linha $v$, seja $l_i^v = p_i$ se $v(p_i)=V$ e
+  $l_i^v = \neg p_i$ se $v(p_i)=F$, e $\phi_v = l_1^v \land \dots \land l_n^v$.
+  Cada $l_i^v$ é verdadeiro em $v$, logo $v(\phi_v)=V$; noutra linha $v'$
+  alguma variável muda, esse literal é falso e $\phi_v$ é falsa. Ou seja,
+  **$\phi_v$ é verdadeira exatamente na linha $v$.**
+- $\phi = \bigvee_{f(v)=V} \phi_v$ é verdadeira exatamente nas linhas em
+  que $f$ dá $V$: $F_\phi = f$.
 
-- Se $f$ dá $F$ em todas as linhas, toma-se $\phi = p_1 \land \neg p_1$
-  (sempre falsa).
-- Senão, para cada linha (valoração) $v$ da tabela, define-se o literal
-  $l_i^v = p_i$ se $v(p_i)=V$ e $l_i^v = \neg p_i$ se $v(p_i)=F$, e a
-  conjunção $\phi_v = l_1^v \land \dots \land l_n^v$.
-- **Porquê isto funciona:** cada $l_i^v$ é, por construção, verdadeiro em
-  $v$, logo $v(\phi_v) = V$. E em qualquer **outra** linha $v'$, pelo menos
-  uma variável tem valor diferente, o literal correspondente é falso, e
-  $\phi_v$ é falsa. Ou seja: **$\phi_v$ é verdadeira exatamente na linha $v$
-  e em mais nenhuma.**
-- Toma-se $\phi = \bigvee_{f(v)=V} \phi_v$: a disjunção das $\phi_v$ das
-  linhas em que $f$ dá $V$. Então $\phi$ é verdadeira exatamente nessas
-  linhas --- ou seja, $F_\phi = f$.
+Como $\phi$ só usa $\land$, $\lor$ e $\neg$, isto é outra prova (direta,
+linha a linha) de que $\{\land,\lor,\neg\}$ é completo.
 :::
 
-::: {.exemplo title="--- FND a partir de uma tabela (slides)"}
-| linha | $x_1$ | $x_2$ | $x_3$ | $f$ | conjunção $\phi_v$ (só para as linhas com $V$) |
+::: {.exemplo title="--- FND a partir de uma tabela"}
+| linha | $x_1$ | $x_2$ | $x_3$ | $f$ | conjunção $\phi_v$ (só nas linhas com $V$) |
 |---|---|---|---|---|---|
 | 1 | V | V | V | V | $p_1 \land p_2 \land p_3$ |
 | 2 | V | V | F | V | $p_1 \land p_2 \land \neg p_3$ |
@@ -1260,40 +962,24 @@ FND, com $n$ variáveis, tal que $F_\phi = f$.
 | 7 | F | F | V | F | --- |
 | 8 | F | F | F | F | --- |
 
-Regra para escrever cada conjunção: variável a $V$ na linha → entra
-**positiva**; variável a $F$ → entra **negada**. Ex.: linha 3 tem
-$x_1=V, x_2=F, x_3=V$, logo $p_1 \land \neg p_2 \land p_3$.
-
-Juntando com $\lor$ as 4 conjunções das linhas com $V$:
+Variável a $V$ na linha → entra **positiva**; a $F$ → entra **negada**
+(linha 3: $x_1=V, x_2=F, x_3=V$ dá $p_1 \land \neg p_2 \land p_3$).
+Juntando com $\lor$ as 4 conjunções:
 $$(p_1 \land p_2 \land p_3) \lor (p_1 \land p_2 \land \neg p_3) \lor (p_1 \land \neg p_2 \land p_3) \lor (\neg p_1 \land p_2 \land p_3)$$
-
-(Repara: $f$ é a função "maioria" --- é $V$ quando pelo menos duas das três
-variáveis são $V$.)
-:::
-
-::: atencao
-Este lema é **outra prova** de que $\{\land,\lor,\neg\}$ é um conjunto
-completo de conectivos (Aula 2, "Conjuntos completos de conectivos"): a
-fórmula construída só usa $\land$, $\lor$ e $\neg$ e realiza qualquer $f$.
-Lá a prova era por indução no número de variáveis; aqui é direta, linha a
-linha. Ambas chegam ao mesmo resultado.
 :::
 
 ### FND a partir de uma fórmula
 
 ::: {.definicao title="--- Corolário (toda a fórmula tem uma FND equivalente)"}
-Qualquer fórmula é semanticamente equivalente a uma fórmula em FND. Para a
-obter:
-
-1. eliminar $\to$ e $\leftrightarrow$, ficando só com $\land$, $\lor$, $\neg$;
-2. passar para **forma normal negativa** (De Morgan + dupla negação);
+1. eliminar $\to$ e $\leftrightarrow$;
+2. passar para **FNN** (De Morgan + dupla negação);
 3. aplicar a **distributividade do $\land$ sobre o $\lor$** até não haver
-   nenhum $\lor$ dentro de um $\land$:
+   $\lor$ dentro de um $\land$:
    $$(\phi \lor \psi) \land \theta \Leftrightarrow (\phi \land \theta) \lor (\psi \land \theta)
    \qquad \theta \land (\phi \lor \psi) \Leftrightarrow (\theta \land \phi) \lor (\theta \land \psi)$$
 :::
 
-::: {.exemplo title="--- FND de $(p \\lor r) \\leftrightarrow (q \\land \\neg p)$, parte 1: passos 1 e 2 (slides)"}
+::: {.exemplo title="--- FND de $(p \\lor r) \\leftrightarrow (q \\land \\neg p)$, passos 1 e 2"}
 **Passo 1 --- eliminar $\leftrightarrow$ e $\to$:**
 $$\begin{aligned}
 &(p \lor r) \leftrightarrow (q \land \neg p) \\
@@ -1301,35 +987,34 @@ $$\begin{aligned}
 \Leftrightarrow\ & \big(\neg(p \lor r) \lor (q \land \neg p)\big) \land \big(\neg(q \land \neg p) \lor (p \lor r)\big) && (\text{implicação, 2 vezes})
 \end{aligned}$$
 
-**Passo 2 --- forma normal negativa.** No lado esquerdo,
-$\neg(p\lor r) \Leftrightarrow \neg p \land \neg r$ (De Morgan). No lado direito,
-$\neg(q \land \neg p) \Leftrightarrow \neg q \lor \neg\neg p \Leftrightarrow \neg q \lor p$
-(De Morgan + dupla negação). Fica:
+**Passo 2 --- FNN.** $\neg(p\lor r) \Leftrightarrow \neg p \land \neg r$
+(De Morgan) e $\neg(q \land \neg p) \Leftrightarrow \neg q \lor \neg\neg p \Leftrightarrow \neg q \lor p$
+(De Morgan + dupla negação):
 $$\underbrace{\big((\neg p \land \neg r) \lor (q \land \neg p)\big)}_{X} \land \underbrace{\big((\neg q \lor p) \lor (p \lor r)\big)}_{A \,\lor\, B}$$
-com $A = \neg q \lor p$ e $B = p \lor r$. Isto já está em FNN, mas **não** em
-FND: há $\lor$ dentro do $\land$ principal.
+com $A = \neg q \lor p$ e $B = p \lor r$. Está em FNN, mas não em FND: há
+$\lor$ dentro do $\land$ principal.
 :::
 
-::: {.exemplo title="--- FND de $(p \\lor r) \\leftrightarrow (q \\land \\neg p)$, parte 2: distributividade (slides)"}
-**Passo 3a** --- $X \land (A \lor B) \Leftrightarrow (X \land A) \lor (X \land B)$:
+::: {.exemplo title="--- FND de $(p \\lor r) \\leftrightarrow (q \\land \\neg p)$, passo 3: distributividade"}
+**3a** --- $X \land (A \lor B) \Leftrightarrow (X \land A) \lor (X \land B)$:
 $$\big(((\neg p \land \neg r) \lor (q \land \neg p)) \land A\big) \lor \big(((\neg p \land \neg r) \lor (q \land \neg p)) \land B\big)$$
 
-**Passo 3b** --- em cada um dos dois blocos, $X = C_1 \lor C_2$ (com
-$C_1 = \neg p \land \neg r$, $C_2 = q \land \neg p$) volta a distribuir:
-$(C_1 \lor C_2) \land A \Leftrightarrow (C_1 \land A) \lor (C_2 \land A)$, e o
-mesmo com $B$:
+**3b** --- em cada bloco, $X = C_1 \lor C_2$ ($C_1 = \neg p \land \neg r$,
+$C_2 = q \land \neg p$) distribui outra vez:
+$(C_1 \lor C_2) \land A \Leftrightarrow (C_1 \land A) \lor (C_2 \land A)$, e
+o mesmo com $B$:
 $$(\neg p \land \neg r \land (\neg q \lor p)) \lor (q \land \neg p \land (\neg q \lor p)) \lor (\neg p \land \neg r \land (p \lor r)) \lor (q \land \neg p \land (p \lor r))$$
 
-**Passo 3c** --- cada um dos 4 termos ainda tem um $\lor$ lá dentro;
-distribui-se cada um ($K \land (a \lor b) \Leftrightarrow (K \land a) \lor (K \land b)$):
+**3c** --- cada termo ainda tem um $\lor$; distribui-se
+($K \land (a \lor b) \Leftrightarrow (K \land a) \lor (K \land b)$):
 
-- **Termo 1** --- $K = \neg p \land \neg r$, $(a \lor b) = \neg q \lor p$:
+- **Termo 1** --- $K = \neg p \land \neg r$, $a \lor b = \neg q \lor p$:
   $(\neg p \land \neg r \land \neg q) \lor (\neg p \land \neg r \land p)$
-- **Termo 2** --- $K = q \land \neg p$, $(a \lor b) = \neg q \lor p$:
+- **Termo 2** --- $K = q \land \neg p$, $a \lor b = \neg q \lor p$:
   $(q \land \neg p \land \neg q) \lor (q \land \neg p \land p)$
-- **Termo 3** --- $K = \neg p \land \neg r$, $(a \lor b) = p \lor r$:
+- **Termo 3** --- $K = \neg p \land \neg r$, $a \lor b = p \lor r$:
   $(\neg p \land \neg r \land p) \lor (\neg p \land \neg r \land r)$
-- **Termo 4** --- $K = q \land \neg p$, $(a \lor b) = p \lor r$:
+- **Termo 4** --- $K = q \land \neg p$, $a \lor b = p \lor r$:
   $(q \land \neg p \land p) \lor (q \land \neg p \land r)$
 
 A FND é a disjunção destas 8 conjunções:
@@ -1340,25 +1025,23 @@ $$(\neg p \land \neg r \land \neg q) \lor (\neg p \land \neg r \land p) \lor (q 
 
 ::: {.definicao title="--- Lema e corolário"}
 **Lema.** Uma conjunção de literais $l_1 \land \dots \land l_n$ é
-satisfazível **sse** não contém um par complementar, isto é, para todos os
-$i,j$, $l_i$ não é $\neg l_j$. (Se não há par $p$/$\neg p$, basta pôr cada
-literal positivo a $V$ e cada negativo a $F$ --- não há conflito. Se há
-$p$ e $\neg p$, nunca podem ser ambos verdadeiros.)
+satisfazível **sse** não contém um par complementar ($l_i$ e
+$l_j = \neg l_i$). Sem par, põe-se cada positivo a $V$ e cada negativo a
+$F$; com $p$ e $\neg p$, nunca são ambos verdadeiros.
 
-**Corolário.** Uma fórmula em FND é satisfazível **sse alguma** das suas
-conjunções é satisfazível (uma disjunção é verdadeira se **um** dos termos
-for).
+**Corolário.** Uma FND é satisfazível **sse alguma** das suas conjunções
+é satisfazível.
 :::
 
 ::: exemplo
-- $p \land \neg q \land \neg r \land q$: contém $\neg q$ e $q$ → **não** é
+- $p \land \neg q \land \neg r \land q$: tem $\neg q$ e $q$ → **não** é
   satisfazível.
-- $\neg p \land q \land \neg r \land \neg s$: nenhum par complementar → **é**
-  satisfazível (com $p=F$, $q=V$, $r=F$, $s=F$).
+- $\neg p \land q \land \neg r \land \neg s$: sem par → **é** satisfazível
+  ($p=F$, $q=V$, $r=F$, $s=F$).
 :::
 
-::: {.exemplo title="--- $(p \\lor r) \\leftrightarrow (q \\land \\neg p)$ é satisfazível? (slides)"}
-Usa-se a FND obtida acima e verifica-se **cada** uma das 8 conjunções:
+::: {.exemplo title="--- $(p \\lor r) \\leftrightarrow (q \\land \\neg p)$ é satisfazível?"}
+Verifica-se cada uma das 8 conjunções da FND acima:
 
 | # | conjunção | par complementar? | satisfazível? |
 |---|---|---|---|
@@ -1371,32 +1054,22 @@ Usa-se a FND obtida acima e verifica-se **cada** uma das 8 conjunções:
 | 7 | $q \land \neg p \land p$ | $\neg p$, $p$ | não |
 | 8 | $q \land \neg p \land r$ | nenhum | **sim** |
 
-Há (pelo menos) uma conjunção satisfazível → a fórmula **é satisfazível**. A
-conjunção 1 dá a valoração $p=q=r=F$; a 8 dá $p=F$, $q=r=V$.
-
-Como as conjunções insatisfazíveis são sempre falsas, podem ser **apagadas**
-da disjunção sem mudar nada ($\phi \lor F \Leftrightarrow \phi$), e fica a FND
-simplificada:
+Há uma conjunção satisfazível → a fórmula **é satisfazível**: a 1 dá
+$p=q=r=F$; a 8 dá $p=F$, $q=r=V$. As insatisfazíveis são sempre falsas e
+podem **apagar-se** ($\phi \lor F \Leftrightarrow \phi$):
 $$(p \lor r) \leftrightarrow (q \land \neg p) \;\Leftrightarrow\; (\neg p \land \neg q \land \neg r) \lor (\neg p \land q \land r)$$
 
-**Verificação direta** (para confirmar que não houve engano): se $p=V$, o
-lado esquerdo $p \lor r$ é $V$ e o direito $q \land \neg p$ é $F$ → a
-equivalência é $F$. Se $p=F$, fica $r \leftrightarrow q$, que é $V$ só para
-$q=r=F$ ou $q=r=V$. São exatamente as duas conjunções que sobraram. $\checkmark$
+**Verificação:** com $p=V$, $p \lor r = V$ e $q \land \neg p = F$, logo a
+equivalência é $F$. Com $p=F$ fica $r \leftrightarrow q$, verdadeira só
+para $q=r=F$ ou $q=r=V$: as duas conjunções que sobraram. $\checkmark$
 :::
 
-::: atencao
-Nota adicional (dos apontamentos da Prof.ª Nelma Moreira, em `Teoricas/`):
-se a fórmula **já está** em FND, este teste é **linear** no tamanho da
-fórmula --- muito melhor do que os $2^n$ da tabela de verdade. Mas
-**atenção**: *obter* a FND pode ser caro --- cada distributividade duplica
-parte da fórmula (o exemplo acima passou de uma fórmula pequena para 8
-conjunções), e no pior caso a FND tem tamanho exponencial. Não se conhece
-nenhum algoritmo polinomial para a satisfazibilidade de uma fórmula
-qualquer (problema **SAT**); encontrar um responderia à pergunta
-"P = NP?". O que há são classes de fórmulas em que o problema é fácil (FND,
-Horn) e algoritmos que na prática funcionam bem para fórmulas em FNC.
-:::
+**Custo†** (apontamentos de Nelma Moreira, em `Teoricas/`). Numa fórmula
+**já** em FND o teste é linear no tamanho da fórmula. Mas *obter* a FND
+pode ser caro: cada distributividade duplica parte da fórmula, e no pior
+caso a FND tem tamanho exponencial. Não se conhece algoritmo polinomial
+para a satisfazibilidade de uma fórmula qualquer (problema **SAT**; um
+algoritmo destes resolveria "P = NP?").
 
 ## Forma normal conjuntiva (FNC)
 
@@ -1404,46 +1077,33 @@ Horn) e algoritmos que na prática funcionam bem para fórmulas em FNC.
 Uma fórmula está em **forma normal conjuntiva** se é uma **conjunção de
 disjunções de literais** ("um *e* de *ou*'s"):
 $$(\alpha_{11} \lor \dots \lor \alpha_{1k_1}) \land \dots \land (\alpha_{n1} \lor \dots \lor \alpha_{nk_n})$$
-Cada disjunção de literais chama-se uma **cláusula**. (Na Aula 4 as
-cláusulas passam a escrever-se como **conjuntos de literais**; ver a
-secção "Cláusulas" dessa aula.)
+Cada disjunção de literais chama-se uma **cláusula**.
 :::
 
 ::: {.definicao title="--- Lema dual (tautologia de uma FNC)"}
-Por **dualidade** com o lema da FND: uma disjunção de literais
-$l_1 \lor \dots \lor l_n$ é **tautologia sse contém um par complementar**
-(algum $l_i$ é $\neg l_j$: se tem $p \lor \neg p$ lá dentro, é sempre
-verdadeira; se não tem, pondo cada literal a $F$ ela falha).
-
-Logo, uma fórmula em FNC é **tautologia sse todas as suas cláusulas são
-tautologias** (uma conjunção é sempre verdadeira sse cada termo é sempre
-verdadeiro).
+Uma disjunção de literais $l_1 \lor \dots \lor l_n$ é **tautologia sse
+contém um par complementar** (com $p \lor \neg p$ é sempre verdadeira;
+sem par, pondo cada literal a $F$ falha). Logo uma FNC é **tautologia sse
+todas as suas cláusulas o são**.
 :::
 
-::: exame
-Guarda a **simetria**: FND serve para decidir **satisfazibilidade** (basta
-**uma** conjunção sem par complementar); FNC serve para decidir se é
-**tautologia** (**todas** as cláusulas têm de ter um par complementar). O
-contrário **não** é fácil: decidir se uma FNC é satisfazível é exatamente o
-problema SAT difícil.
-:::
+A FND decide a **satisfazibilidade** (basta **uma** conjunção sem par); a
+FNC decide se é **tautologia** (**todas** as cláusulas com par). O
+contrário não é fácil: saber se uma FNC é satisfazível é o problema SAT.
 
-Duas formas de obter uma FNC --- as mesmas duas da FND, "ao contrário":
+A FNC obtém-se pelos mesmos dois caminhos, "ao contrário":
 
-1. **A partir da tabela de verdade**, pelo método dual: escolher as linhas
-   em que $f$ dá **F**; para cada uma, formar a **disjunção** em que a
-   variável entra **negada se está a $V$** nessa linha e **positiva se está
-   a $F$**; tomar a **conjunção** dessas disjunções.
-2. **A partir da fórmula**: passos 1 e 2 iguais aos da FND, mas no passo 3 usa-se
-   a distributividade do **$\lor$ sobre o $\land$**:
+1. **Da tabela**: para cada linha em que $f$ dá **F**, a **disjunção** com
+   a variável **negada se está a $V$** e **positiva se está a $F$**; a
+   FNC é a **conjunção** dessas disjunções.
+2. **Da fórmula**: passos 1 e 2 como na FND; no passo 3, distributividade
+   do **$\lor$ sobre o $\land$**:
    $$(\phi \land \psi) \lor \theta \Leftrightarrow (\phi \lor \theta) \land (\psi \lor \theta)
    \qquad \theta \lor (\phi \land \psi) \Leftrightarrow (\theta \lor \phi) \land (\theta \lor \psi)$$
 
-::: {.exemplo title="--- FNC a partir de uma tabela (slides; a mesma função da FND acima)"}
-Agora interessam as linhas com **F** (4, 6, 7, 8). Para cada uma, a
-cláusula é construída para ser **falsa exatamente nessa linha**: cada
-literal tem de ser $F$ ali, por isso variável a $V$ → entra **negada**,
-variável a $F$ → entra **positiva**.
+::: {.exemplo title="--- FNC a partir de uma tabela (a mesma função da FND acima)"}
+Interessam as linhas com **F** (4, 6, 7, 8). Cada cláusula é **falsa
+exatamente nessa linha**: cada literal tem de ser $F$ ali.
 
 | linha | $x_1$ | $x_2$ | $x_3$ | $f$ | cláusula |
 |---|---|---|---|---|---|
@@ -1452,63 +1112,54 @@ variável a $F$ → entra **positiva**.
 | 7 | F | F | V | F | $p_1 \lor p_2 \lor \neg p_3$ |
 | 8 | F | F | F | F | $p_1 \lor p_2 \lor p_3$ |
 
-Verificação da linha 4: com $x_1=V, x_2=F, x_3=F$, $\neg p_1 \lor p_2 \lor p_3 = F \lor F \lor F = F$;
-e em qualquer outra linha pelo menos um literal é $V$. A conjunção das 4
-cláusulas é $F$ exatamente nas linhas 4, 6, 7, 8 --- ou seja, realiza $f$:
+Linha 4: $\neg p_1 \lor p_2 \lor p_3 = F \lor F \lor F = F$, e em
+qualquer outra linha algum literal é $V$. A conjunção é $F$ exatamente
+nas linhas 4, 6, 7, 8:
 $$(\neg p_1 \lor p_2 \lor p_3) \land (p_1 \lor \neg p_2 \lor p_3) \land (p_1 \lor p_2 \lor \neg p_3) \land (p_1 \lor p_2 \lor p_3)$$
 :::
 
-::: {.exemplo title="--- FNC de $(p \\lor r) \\leftrightarrow (q \\land \\neg p)$ e é tautologia? (slides)"}
-Os passos 1 e 2 são **exatamente** os da FND (ver acima), e dão:
+::: {.exemplo title="--- FNC de $(p \\lor r) \\leftrightarrow (q \\land \\neg p)$ e é tautologia?"}
+Os passos 1 e 2 são os da FND:
 $$\big((\neg p \land \neg r) \lor (q \land \neg p)\big) \land \big((\neg q \lor p) \lor (p \lor r)\big)$$
+O lado direito já é a cláusula $\neg q \lor p \lor p \lor r$. Falta o
+esquerdo, um $\lor$ de $\land$'s.
 
-O lado direito já é uma cláusula: $\neg q \lor p \lor p \lor r$
-(associatividade). Falta o lado esquerdo, que é um $\lor$ de $\land$'s.
-
-**Passo 3a** --- distribuir com $\theta = \neg p \land \neg r$, $\phi = q$,
-$\psi = \neg p$, usando $\theta \lor (\phi \land \psi) \Leftrightarrow (\theta \lor \phi) \land (\theta \lor \psi)$:
+**3a** --- com $\theta = \neg p \land \neg r$, $\phi = q$, $\psi = \neg p$
+em $\theta \lor (\phi \land \psi) \Leftrightarrow (\theta \lor \phi) \land (\theta \lor \psi)$:
 $$(\neg p \land \neg r) \lor (q \land \neg p) \Leftrightarrow \big((\neg p \land \neg r) \lor q\big) \land \big((\neg p \land \neg r) \lor \neg p\big)$$
 
-**Passo 3b** --- cada bloco ainda tem um $\land$ dentro de um $\lor$;
-distribui-se outra vez ($(a \land b) \lor c \Leftrightarrow (a \lor c) \land (b \lor c)$):
+**3b** --- outra vez, com $(a \land b) \lor c \Leftrightarrow (a \lor c) \land (b \lor c)$:
 
 - $(\neg p \land \neg r) \lor q \Leftrightarrow (\neg p \lor q) \land (\neg r \lor q)$
 - $(\neg p \land \neg r) \lor \neg p \Leftrightarrow (\neg p \lor \neg p) \land (\neg r \lor \neg p)$
 
-**FNC final** (5 cláusulas):
+**FNC** (5 cláusulas):
 $$(\neg p \lor q) \land (\neg r \lor q) \land (\neg p \lor \neg p) \land (\neg r \lor \neg p) \land (\neg q \lor p \lor p \lor r)$$
 
-**É tautologia?** Verifica-se cada cláusula: $\neg p \lor q$ não tem par
-complementar → já não é tautologia, e a fórmula também **não** é
-(resposta dos slides: **Não**). Contraexemplo tirado da própria cláusula
-(pôr os seus literais a $F$): $p=V$, $q=F$ --- de facto, com $p=V$ o lado
-$p \lor r$ é $V$ e $q \land \neg p$ é $F$, logo a equivalência é $F$. $\checkmark$
+**É tautologia? Não**: $\neg p \lor q$ não tem par complementar.
+Contraexemplo, pondo os seus literais a $F$: $p=V$, $q=F$; de facto
+$p \lor r = V$ e $q \land \neg p = F$. $\checkmark$
 :::
 
-::: atencao
-Para "limpar" uma FND/FNC usam-se as leis extra da Aula 2
-(complementaridade, elemento neutro/absorvente, absorção).
-Na FNC acima, por exemplo: $\neg p \lor \neg p \Leftrightarrow \neg p$
-(idempotência), e a cláusula $\neg r \lor \neg p$ é absorvida por $\neg p$.
-Fica $(\neg p \lor q) \land (\neg r \lor q) \land \neg p \land (\neg q \lor p \lor r)$
---- com $p=F$ forçado, sobra $(\neg r \lor q) \land (\neg q \lor r)$, ou seja
-$q \leftrightarrow r$: coerente com a verificação feita na FND. Uma FND/FNC
-não é única; qualquer uma equivalente está certa.
-:::
+**Simplificar.** Uma FND/FNC limpa-se com as leis extra da Aula 2. Acima:
+$\neg p \lor \neg p \Leftrightarrow \neg p$ (idempotência) e
+$\neg r \lor \neg p$ é absorvida por $\neg p$, ficando
+$(\neg p \lor q) \land (\neg r \lor q) \land \neg p \land (\neg q \lor p \lor r)$;
+com $p=F$ forçado sobra $(\neg r \lor q) \land (\neg q \lor r)$, isto é,
+$q \leftrightarrow r$, como na FND. Uma FND/FNC não é única: qualquer
+uma equivalente está certa.
 
 ### Aplicação aos exercícios da prática: FND/FNC
 
 ::: {.exemplo title="--- Exercício 1.17(a) (lab, proplogic.pdf) --- FND e FNC a partir da tabela"}
-A função (a) tem esta coluna (na ordem de linhas do enunciado, $p,q,r$ de
-$VVV$ até $FFF$): $V, V, V, V, F, V, V, V$. Só **uma** linha dá $F$: a linha
-$p=F, q=V, r=V$.
+A coluna (com $p,q,r$ de $VVV$ a $FFF$) é $V, V, V, V, F, V, V, V$: só a
+linha $p=F, q=V, r=V$ dá $F$.
 
-**FNC** (uma cláusula por linha com $F$ --- só há uma): na linha
-$p=F,q=V,r=V$, $p$ está a $F$ → entra positivo; $q$ e $r$ estão a $V$ →
-entram negados:
+**FNC** (uma cláusula por linha com $F$): $p$ a $F$ entra positivo, $q$ e
+$r$ a $V$ entram negados:
 $$p \lor \neg q \lor \neg r$$
 
-**FND** (uma conjunção por linha com $V$ --- há sete):
+**FND** (uma conjunção por linha com $V$, sete):
 
 | $p$ | $q$ | $r$ | conjunção |
 |---|---|---|---|
@@ -1520,16 +1171,13 @@ $$p \lor \neg q \lor \neg r$$
 | F | F | V | $\neg p \land \neg q \land r$ |
 | F | F | F | $\neg p \land \neg q \land \neg r$ |
 
+Juntando-as com $\lor$:
 $$(p \land q \land r) \lor (p \land q \land \neg r) \lor (p \land \neg q \land r) \lor (p \land \neg q \land \neg r) \lor (\neg p \land q \land \neg r) \lor (\neg p \land \neg q \land r) \lor (\neg p \land \neg q \land \neg r)$$
 
-**Lição:** quando a tabela tem **poucos $F$**, a FNC sai muito mais curta;
-quando tem **poucos $V$**, é a FND. Ambas estão certas --- as duas
-representam a mesma função (confirma: a FNC só falha em $p=F,q=V,r=V$, que é
-a única linha que falta na FND). Também se podia simplificar a FND de 7
-termos, mas não é pedido.
+Com **poucos $F$** a FNC sai mais curta; com **poucos $V$**, a FND.
 :::
 
-::: {.exemplo title="--- Exercício 1.18(d) (lab, proplogic.pdf) --- FND e FNC de $(p \\to q) \\to (\\neg p \\to \\neg q)$"}
+::: {.exemplo title="--- Exercício 1.18(d) (lab, proplogic.pdf) --- $(p \\to q) \\to (\\neg p \\to \\neg q)$"}
 $$\begin{aligned}
 &(p \to q) \to (\neg p \to \neg q) \\
 \Leftrightarrow\ & \neg(p \to q) \lor (\neg p \to \neg q) && \text{(implicação, na } \to \text{ exterior)}\\
@@ -1538,48 +1186,39 @@ $$\begin{aligned}
 \Leftrightarrow\ & (p \land \neg q) \lor p \lor \neg q && \text{(dupla negação, 2 vezes; associatividade)}
 \end{aligned}$$
 
-**FND:** $(p \land \neg q) \lor p \lor \neg q$ já é FND --- três conjunções:
-$p \land \neg q$, $p$ (conjunção de um só literal), $\neg q$. Simplificando
-por absorção ($p \lor (p \land \neg q) \Leftrightarrow p$):
-$$p \lor \neg q$$
+**FND:** $(p \land \neg q) \lor p \lor \neg q$ já é FND (conjunções
+$p \land \neg q$, $p$, $\neg q$). Por absorção
+($p \lor (p \land \neg q) \Leftrightarrow p$): $p \lor \neg q$.
 
 **FNC:** distribui-se o $\lor$ sobre o $\land$ em $(p \land \neg q) \lor (p \lor \neg q)$,
 com $\theta = p \lor \neg q$:
 $$(p \lor p \lor \neg q) \land (\neg q \lor p \lor \neg q) \Leftrightarrow (p \lor \neg q) \land (p \lor \neg q) \Leftrightarrow p \lor \neg q$$
-(idempotência duas vezes). Repara que $p \lor \neg q$ é **ao mesmo tempo**
-FND (duas conjunções de um literal) e FNC (uma cláusula) --- é normal com
-fórmulas pequenas.
+(idempotência duas vezes). $p \lor \neg q$ é ao mesmo tempo FND e FNC.
 
-Não é tautologia (a cláusula não tem par complementar): com $p=F, q=V$,
-$p \to q = V$ e $\neg p \to \neg q = V \to F = F$. (A alínea (k) do enunciado
-é **igual** a esta.)
+Não é tautologia (a cláusula não tem par): com $p=F, q=V$, $p \to q = V$
+e $\neg p \to \neg q = V \to F = F$. (A alínea (k) é igual a esta.)
 :::
 
-::: {.exemplo title="--- Exercício 1.18(h) (lab, proplogic.pdf) --- FND e FNC de $(p \\to q) \\land (\\neg q \\to (p \\lor \\neg q))$"}
-**Eliminar implicações:**
-$p \to q \Leftrightarrow \neg p \lor q$; e
-$\neg q \to (p \lor \neg q) \Leftrightarrow \neg\neg q \lor p \lor \neg q \Leftrightarrow q \lor p \lor \neg q$.
+::: {.exemplo title="--- Exercício 1.18(h) (lab, proplogic.pdf) --- $(p \\to q) \\land (\\neg q \\to (p \\lor \\neg q))$"}
+**Eliminar implicações:** $p \to q \Leftrightarrow \neg p \lor q$ e
+$\neg q \to (p \lor \neg q) \Leftrightarrow \neg\neg q \lor p \lor \neg q \Leftrightarrow q \lor p \lor \neg q$:
 $$(\neg p \lor q) \land (q \lor p \lor \neg q)$$
 
-**FNC:** isto **já é** uma FNC (conjunção de duas cláusulas). Repara que a
-segunda cláusula contém $q$ e $\neg q$: é tautologia, logo vale sempre $V$
-e pode sair ($\phi \land V \Leftrightarrow \phi$). FNC simplificada: $\neg p \lor q$.
+**FNC:** já é. A segunda cláusula tem $q$ e $\neg q$: é tautologia e sai
+($\phi \land V \Leftrightarrow \phi$). FNC simplificada: $\neg p \lor q$.
 
-**FND** (fazendo a distribuição toda, sem simplificar antes, para treinar):
-$(\neg p \lor q) \land X$ com $X = q \lor p \lor \neg q$ distribui como
-$(\neg p \land X) \lor (q \land X)$, e cada um distribui outra vez sobre os 3
-literais de $X$:
+**FND** (distribuição toda, para treinar): com $X = q \lor p \lor \neg q$,
+$(\neg p \lor q) \land X \Leftrightarrow (\neg p \land X) \lor (q \land X)$,
+e cada um distribui sobre os 3 literais de $X$:
 $$(\neg p \land q) \lor (\neg p \land p) \lor (\neg p \land \neg q) \lor (q \land q) \lor (q \land p) \lor (q \land \neg q)$$
-Apagam-se as conjunções com par complementar ($\neg p \land p$ e
-$q \land \neg q$) e $q \land q \Leftrightarrow q$:
+Apagam-se $\neg p \land p$ e $q \land \neg q$, e $q \land q \Leftrightarrow q$:
 $$(\neg p \land q) \lor (\neg p \land \neg q) \lor q \lor (p \land q)$$
-Isto é uma FND correta. Simplificando por absorção ($q$ absorve
-$\neg p \land q$ e $p \land q$), sobra $(\neg p \land \neg q) \lor q$; e como
+Por absorção ($q$ absorve $\neg p \land q$ e $p \land q$) sobra
 $(\neg p \land \neg q) \lor q \Leftrightarrow (\neg p \lor q) \land (\neg q \lor q) \Leftrightarrow \neg p \lor q$,
-chega-se ao mesmo $\neg p \lor q$ da FNC --- que também é FND. $\checkmark$
+o mesmo da FNC. $\checkmark$
 
-**Lição:** detetar cedo uma cláusula-tautologia (ou uma conjunção
-contraditória) poupa imenso trabalho de distribuição.
+Detetar cedo uma cláusula-tautologia (ou uma conjunção contraditória)
+poupa a distribuição.
 :::
 
 ::: {.pratica title="--- Formas normais (proplogic.pdf)"}
@@ -1600,68 +1239,53 @@ todas (e repara que (a) = (c) e (d) = (k) no próprio enunciado).
 ## Fórmulas de Horn
 
 ::: {.definicao title="--- Fórmula de Horn"}
-Uma **fórmula de Horn** é uma fórmula em **FNC** em que **cada cláusula tem
-no máximo um literal positivo**.
+Uma **fórmula de Horn** é uma **FNC** em que **cada cláusula tem no
+máximo um literal positivo**. Exemplos (nº de positivos por cláusula):
 
-Exemplos (dos slides), com o nº de literais positivos por cláusula:
-
-- $p \land \neg q \land (q \lor \neg p)$: cláusulas $p$ (1), $\neg q$ (0),
-  $q \lor \neg p$ (1) → Horn.
+- $p \land \neg q \land (q \lor \neg p)$: 1, 0, 1 → Horn.
 - $(\neg p \lor \neg q \lor \neg s \lor p) \land (\neg q \lor \neg r \lor p) \land (\neg p \lor \neg s \lor s)$:
   1, 1, 1 → Horn.
 - $(\neg p \lor \neg q \lor \neg s) \land (\neg q \lor \neg r \lor p) \land s$:
   0, 1, 1 → Horn.
-
-Contra-exemplo: $(p \lor q) \land \neg r$ **não** é Horn --- a cláusula
-$p \lor q$ tem dois literais positivos.
+- $(p \lor q) \land \neg r$ **não** é Horn: $p \lor q$ tem dois positivos.
 :::
 
-Cada cláusula de Horn pode ler-se como uma **implicação** (usando
-$\neg a \lor b \Leftrightarrow a \to b$ e De Morgan
+Cada cláusula de Horn lê-se como uma **implicação**
+($\neg a \lor b \Leftrightarrow a \to b$ e
 $\neg p_1 \lor \dots \lor \neg p_n \Leftrightarrow \neg(p_1 \land \dots \land p_n)$):
 
 | forma da cláusula | lida como implicação | nome informal |
 |---|---|---|
 | $\neg p_1 \lor \dots \lor \neg p_n \lor p$ | $(p_1 \land \dots \land p_n) \to p$ | regra |
-| $\neg p_1 \lor \dots \lor \neg p_n$ (sem positivo) | $(p_1 \land \dots \land p_n) \to F$ | restrição ("não podem ser todos $V$") |
-| $p$ (sem negativos) | $V \to p$ | facto ($p$ tem de ser $V$) |
+| $\neg p_1 \lor \dots \lor \neg p_n$ (sem positivo) | $(p_1 \land \dots \land p_n) \to F$ | restrição |
+| $p$ (sem negativos) | $V \to p$ | facto |
 
-::: atencao
-**Nem todas as fórmulas têm uma fórmula de Horn equivalente** --- basta que
-a sua FNC tenha uma cláusula com mais de um literal positivo que não possa
-ser simplificada (ex.: $p \lor q$). A vantagem das fórmulas de Horn é que a
-sua satisfazibilidade decide-se com um **algoritmo eficiente** (linear/
-polinomial), sem tabela de verdade.
-:::
+Nem todas as fórmulas têm uma fórmula de Horn equivalente (ex.:
+$p \lor q$). A vantagem das de Horn é que a satisfazibilidade se decide
+com um **algoritmo eficiente** (polinomial).
 
 ### Algoritmo de satisfazibilidade para fórmulas de Horn
 
-A ideia: começar com todas as variáveis "desconhecidas" e só atribuir $V$ a
-uma variável quando **for obrigatório** (quando, sem isso, uma cláusula
-ficaria falsa). Se essas atribuições obrigatórias fizerem uma cláusula
-ficar $F$, a fórmula é insatisfazível; senão, põem-se todas as restantes
-variáveis a $F$ e está encontrada uma valoração que a satisfaz.
+Começa-se com todas as variáveis por decidir e só se põe uma a $V$ quando
+é **obrigatório** (senão uma cláusula ficava falsa). Se as atribuições
+obrigatórias tornam uma cláusula $F$, a fórmula é insatisfazível; senão,
+as restantes ficam a $F$ e a fórmula fica satisfeita.
 
-::: {.definicao title="--- Algoritmo (versão dos slides)"}
-1. Escrever numa linha as variáveis e a fórmula (como numa linha de tabela
-   de verdade, ainda vazia).
-2. Se alguma **variável sozinha** é um dos elementos da conjunção (um
-   **facto**, $V \to p$), atribuir-lhe $V$. **Porquê?** Porque uma
-   conjunção só é $V$ se cada elemento for $V$; se $p$ é um elemento, tem de
-   ser $p=V$ em qualquer valoração que satisfaça a fórmula.
-3. Com os valores já conhecidos, avaliar cada cláusula. Se numa cláusula
-   todos os literais negativos já estão a $F$ (as suas variáveis estão a
-   $V$), então, para a cláusula ser $V$, o **literal positivo** tem de ser
-   $V$ → atribuir $V$ a essa variável.
-4. Repetir o passo 3 até nada mais poder ser acrescentado.
-5. Se algum elemento da conjunção ficou com valor $F$, a fórmula é $F$ →
-   **não satisfazível**. Caso contrário, é **satisfazível**: atribui-se $F$
-   a todas as variáveis restantes e a fórmula fica $V$.
+::: {.definicao title="--- Algoritmo"}
+1. Escrever numa linha as variáveis e a fórmula (uma linha de tabela de
+   verdade, vazia).
+2. Cada **variável sozinha** na conjunção (um **facto**) fica a $V$: uma
+   conjunção só é $V$ se cada elemento o for.
+3. Se numa cláusula todos os literais negativos já estão a $F$ (as suas
+   variáveis estão a $V$), o **literal positivo** tem de ser $V$ →
+   atribuir-lhe $V$.
+4. Repetir o passo 3 até nada mudar.
+5. Se algum elemento da conjunção ficou $F$ → **não satisfazível**. Senão
+   → **satisfazível**: as variáveis restantes ficam a $F$.
 :::
 
-::: {.exemplo title="--- $p \\land \\neg q \\land (q \\lor \\neg p)$ (slides)"}
-Cláusulas: $C_1 = p$, $C_2 = \neg q$, $C_3 = q \lor \neg p$ (lida como
-$p \to q$).
+::: {.exemplo title="--- $p \\land \\neg q \\land (q \\lor \\neg p)$"}
+Cláusulas: $C_1 = p$, $C_2 = \neg q$, $C_3 = q \lor \neg p$ ($p \to q$).
 
 **Passo 1** --- linha vazia:
 
@@ -1669,55 +1293,47 @@ $p \to q$).
 |---|---|---|---|---|
 | | | | | |
 
-**Passo 2** --- $p$ é um elemento da conjunção (facto) → $p = V$:
+**Passo 2** --- $p$ é um facto → $p = V$:
 
 | $p$ | $q$ | $C_1 = p$ | $C_2 = \neg q$ | $C_3 = q \lor \neg p$ |
 |---|---|---|---|---|
 | V | | V | | ($\neg p = F$) |
 
-**Passo 3** --- em $C_3$, o literal negativo $\neg p$ já é $F$; para $C_3$
-ser $V$, o positivo $q$ tem de ser $V$ → $q = V$:
+**Passo 3** --- em $C_3$, $\neg p$ é $F$; para $C_3$ ser $V$, $q = V$:
 
 | $p$ | $q$ | $C_1 = p$ | $C_2 = \neg q$ | $C_3 = q \lor \neg p$ |
 |---|---|---|---|---|
 | V | V | V | | V |
 
-**Passo 4** --- repete-se: agora $C_2 = \neg q$ com $q = V$ dá $F$:
+**Passo 4** --- repete-se: $C_2 = \neg q$ com $q = V$ dá $F$:
 
 | $p$ | $q$ | $C_1 = p$ | $C_2 = \neg q$ | $C_3 = q \lor \neg p$ |
 |---|---|---|---|---|
 | V | V | V | **F** | V |
 
-**Passo 5** --- um elemento da conjunção ($C_2$) ficou $F$ → a fórmula é
-$F$ → **não é satisfazível**. (Não há escolha possível: $p=V$ e $q=V$
-foram ambos **obrigatórios**.)
+**Passo 5** --- $C_2$ ficou $F$ → **não é satisfazível** ($p=V$ e $q=V$
+foram ambos obrigatórios).
 :::
 
-::: atencao
-Nota adicional --- **porque é que o algoritmo está correto** (é o
-Exercício 1.21(b) do lab; nos slides fica só o "porquê?"):
+**Porque é que o algoritmo está correto†** (é o Exercício 1.21(b)):
 
-- **Se diz "insatisfazível", está certo:** cada $V$ atribuído foi
-  *obrigatório* --- qualquer valoração que satisfaça a fórmula tem de o ter.
-  Se as atribuições obrigatórias já tornam uma cláusula $F$, nenhuma
-  valoração satisfaz a fórmula.
-- **Se diz "satisfazível", está certo:** com as marcadas a $V$ e as outras a
-  $F$, pega-se numa cláusula qualquer. (i) Se o seu literal positivo está
-  marcado, ela é $V$. (ii) Senão, algum dos seus literais negativos $\neg x$
-  tem $x$ **não** marcado (se todos estivessem marcados, o passo 3 teria
-  obrigado a marcar o positivo, ou --- se não houver positivo --- a cláusula
-  seria $F$ e o algoritmo teria parado no passo 5); logo $x = F$ e
-  $\neg x = V$, e a cláusula é $V$.
+- **"Insatisfazível" está certo:** cada $V$ atribuído foi obrigatório,
+  isto é, qualquer valoração que satisfaça a fórmula o tem. Se essas
+  atribuições já tornam uma cláusula $F$, nenhuma valoração a satisfaz.
+- **"Satisfazível" está certo:** com as marcadas a $V$ e as outras a $F$,
+  seja uma cláusula qualquer. Se o seu positivo está marcado, é $V$.
+  Senão, algum negativo $\neg x$ tem $x$ **não** marcado (se todos
+  estivessem, o passo 3 marcava o positivo ou, sem positivo, a cláusula
+  era $F$ e o passo 5 parava); logo $x = F$, $\neg x = V$ e a cláusula é
+  $V$.
 
-É exatamente aqui que se usa "no máximo um literal positivo": pôr as
-restantes a $F$ torna verdadeiros **todos** os literais negativos por
-decidir, e nunca é preciso "escolher" entre dois positivos. Por isso nunca
-há retrocesso (*backtracking*) e o algoritmo é eficiente.
-:::
+É aqui que conta "no máximo um positivo": pôr as restantes a $F$ torna
+verdadeiros todos os negativos por decidir, e nunca é preciso escolher
+entre dois positivos. Nunca há retrocesso.
 
-::: {.exemplo title="--- O mesmo algoritmo em pseudo-código (base para o Exercício 1.21(a))"}
-Vendo cada cláusula como implicação $(p_1 \land \dots \land p_n) \to h$, com
-$h$ uma variável ou $F$ (e $n = 0$ para factos):
+::: {.exemplo title="--- O algoritmo em pseudo-código (base para o Exercício 1.21(a))"}
+Cada cláusula vista como $(p_1 \land \dots \land p_n) \to h$, com $h$ uma
+variável ou $F$ ($n = 0$ para factos):
 
 ```
 marcadas := {}                       -- variáveis que TÊM de ser V
@@ -1732,8 +1348,8 @@ até não mudou
 devolver SATISFAZÍVEL   -- v(x)=V se x em marcadas, senão v(x)=F
 ```
 
-Cada iteração do `repetir` marca pelo menos uma variável nova (ou pára),
-por isso há no máximo (nº de variáveis + 1) iterações --- polinomial.
+Cada volta marca uma variável nova (ou pára): no máximo (nº de variáveis
++ 1) voltas, polinomial.
 :::
 
 ::: {.exemplo title="--- Exercício 1.21(c), 1.ª e 2.ª fórmulas (lab, proplogic.pdf)"}
@@ -1741,12 +1357,12 @@ por isso há no máximo (nº de variáveis + 1) iterações --- polinomial.
 implicações: $(p \land q) \to F$, $q \to r$, $V \to q$.
 
 - Facto $q$ → $q = V$.
-- $q \to r$: antecedente $q$ marcado → $r = V$.
-- $(p \land q) \to F$: antecedente precisa de $p$ **e** $q$; $p$ não está
-  marcado → não dispara.
-- Nova volta: nada muda. Nenhuma cláusula ficou $F$.
+- $q \to r$: $q$ marcado → $r = V$.
+- $(p \land q) \to F$: precisa de $p$ **e** $q$; $p$ não está marcado →
+  não dispara.
+- Nova volta: nada muda; nenhuma cláusula ficou $F$.
 
-**Satisfazível**, com $q = V$, $r = V$ e a restante $p = F$. Verificação:
+**Satisfazível**, com $q = r = V$ e $p = F$. Verificação:
 $\neg p \lor \neg q = V \lor F = V$; $\neg q \lor r = F \lor V = V$; $q = V$. $\checkmark$
 
 **(ii) $p \land (\neg p \lor q) \land (\neg q \lor p)$.** Como implicações:
@@ -1754,11 +1370,11 @@ $V \to p$, $p \to q$, $q \to p$.
 
 - Facto $p$ → $p = V$.
 - $p \to q$: $p$ marcado → $q = V$.
-- $q \to p$: $q$ marcado, mas $p$ já estava marcado → nada novo.
+- $q \to p$: $p$ já estava marcado → nada novo.
 - Nova volta: nada muda; nenhuma cláusula ficou $F$.
 
-**Satisfazível**, com $p = q = V$ (não sobram variáveis para pôr a $F$).
-Verificação: $p = V$; $\neg p \lor q = F \lor V = V$; $\neg q \lor p = F \lor V = V$. $\checkmark$
+**Satisfazível**, com $p = q = V$. Verificação: $p = V$;
+$\neg p \lor q = F \lor V = V$; $\neg q \lor p = F \lor V = V$. $\checkmark$
 :::
 
 ::: {.pratica title="--- Horn (proplogic.pdf)"}
@@ -1768,139 +1384,86 @@ Verificação: $p = V$; $\neg p \lor q = F \lor V = V$; $\neg q \lor p = F \lor 
 - **1.21 (a)** --- implementar o algoritmo a partir do pseudo-código acima.
 :::
 
-Os slides da Aula 4 começam por rever as fórmulas de Horn e o algoritmo
-acima (é a mesma matéria, por isso está toda aqui). O exercício dos
-slides dessa aula, $p \land (\neg p \lor q) \land \neg r$, é a 4.ª
-fórmula da 1.21(c), na caixa acima.
-
 # Aula 4 --- Satisfazibilidade: cláusulas e o algoritmo de Davis-Putnam
-
-Os slides desta aula começam por rever as formas normais (negativa,
-disjuntiva, conjuntiva), a satisfazibilidade de uma FND e as fórmulas de
-Horn com o seu algoritmo. Isso já está explicado na Aula 3 ("Fórmulas de
-Horn"). A matéria nova é o caso **geral**: decidir se uma fórmula
-qualquer em FNC é satisfazível, com o **algoritmo de Davis-Putnam (DLL)**.
 
 ## O problema SAT
 
-Saber se uma fórmula da lógica proposicional é satisfazível é um problema
-**central na informática**, porque muitos problemas de outras áreas se
-podem escrever como uma fórmula e a pergunta "há solução?" passa a ser "a
-fórmula é satisfazível?":
+Decidir se uma fórmula é satisfazível é um problema central na
+informática, porque muitos problemas se escrevem como uma fórmula e "há
+solução?" passa a ser "a fórmula é satisfazível?": otimização
+(planeamento, horários), combinatória (coloração de grafos) e teorias da
+lógica de primeira ordem (programação linear, aritmética real, *bits*,
+apontadores: os ***SMT solvers***).
 
-- **otimização**: planeamento, escalonamento de horários (*scheduling*),
-  etc.;
-- **combinatória**: coloração de grafos, etc.;
-- **teorias da lógica de primeira ordem**: programação linear, aritmética
-  de números reais, sequências de bits, apontadores, etc. (os ***SMT
-  solvers***).
-
-Se a fórmula não está em FND, nem numa classe em que a satisfazibilidade
-seja fácil (como Horn), a tabela de verdade é o único caminho? **No pior
-caso, sim**: não se conhece nenhum algoritmo para a satisfazibilidade que
-não seja **exponencial** no número de variáveis e conectivos (**SAT é
-NP-completo**; ver também a nota da Aula 3 sobre "P = NP?").
-
-Mas, **no caso geral**, há algoritmos muito melhores do que construir a
-tabela inteira. A ideia é **ir construindo uma valoração parcial** que
-satisfaça a fórmula, em vez de gerar valorações completas (linhas da
-tabela) e testar cada uma. Isto fica especialmente simples com fórmulas
-em **FNC**, escritas de forma compacta como conjuntos de **cláusulas**.
+Fora da FND e de classes fáceis como Horn, **no pior caso** não se conhece
+algoritmo que não seja **exponencial** (**SAT é NP-completo**). Mas há
+algoritmos muito melhores do que a tabela inteira: em vez de gerar
+valorações completas e testar cada uma, **constrói-se uma valoração
+parcial**. Fica simples com fórmulas em **FNC**, escritas como conjuntos
+de **cláusulas**.
 
 ## Cláusulas
 
 ::: {.definicao title="--- Cláusula"}
-Uma **cláusula** é uma disjunção de literais $l_1 \lor l_2 \lor \dots \lor
-l_n$, com $n \geq 0$ (é o mesmo nome da Aula 3, "Forma normal
-conjuntiva"). Representa-se pelo **conjunto** dos seus literais
-$\{l_1, \dots, l_n\}$.
-
-- Se $n = 0$, a cláusula é **vazia** e corresponde a $F$.
-- Se $n = 1$, a cláusula é **unitária**.
-
-Exemplo: $p \lor \neg q \lor \neg p \lor s$ representa-se por
+Uma **cláusula** é uma disjunção de literais $l_1 \lor \dots \lor l_n$,
+$n \geq 0$, representada pelo **conjunto** $\{l_1, \dots, l_n\}$. Com
+$n = 1$ é **unitária**. Uma **FNC** é um **conjunto de cláusulas** (a
+conjunção fica implícita). Ex.: $p \lor \neg q \lor \neg p \lor s$ é
 $\{p, \neg q, \neg p, s\}$.
 
-Qualquer fórmula em **FNC** representa-se por um **conjunto de
-cláusulas** (a conjunção fica implícita).
+Os dois "vazios"† são diferentes:
+
+- **cláusula vazia** ($n = 0$, escreve-se $F$): uma disjunção sem
+  literais é **falsa**; um conjunto que a contém é **insatisfazível**;
+- **conjunto de cláusulas vazio**: uma conjunção sem termos é
+  **verdadeira** (nenhuma cláusula falha); é **satisfazível**.
 :::
 
 ::: exemplo
 $$\neg p \land (q \lor r \lor q) \land (\neg r \lor \neg s) \land (p \lor s) \land (\neg q \lor \neg s)$$
-corresponde ao conjunto de cláusulas
+é o conjunto de cláusulas
 $$\{\{\neg p\},\ \{q, r\},\ \{\neg r, \neg s\},\ \{p, s\},\ \{\neg q, \neg s\}\}$$
-
-Repara na segunda cláusula: $q \lor r \lor q$ fica $\{q, r\}$, porque um
-conjunto não tem repetidos (é a idempotência, $q \lor q \Leftrightarrow
-q$). Pela mesma razão, uma cláusula repetida no conjunto conta uma só vez
-(idempotência do $\land$).
-:::
-
-::: {.atencao title="--- O que quer dizer um conjunto vazio"}
-Nota adicional (não estava explícito nos slides, mas o algoritmo DLL
-abaixo depende disto): há dois "vazios" diferentes.
-
-- **Cláusula vazia** $\{\}$ (escreve-se $F$): uma disjunção sem nenhum
-  literal é **falsa**. Se um conjunto de cláusulas contém a cláusula
-  vazia, é **insatisfazível** (uma conjunção com um $F$ é $F$).
-- **Conjunto de cláusulas vazio** $\{\}$: uma conjunção sem nenhum termo é
-  **verdadeira** (não há nenhuma cláusula para falhar). É
-  **satisfazível**.
+$q \lor r \lor q$ fica $\{q, r\}$: um conjunto não tem repetidos
+(idempotência). Pela mesma razão, uma cláusula repetida conta uma vez.
 :::
 
 ::: {.definicao title="--- Literal complementar"}
-Dado um literal $l$, o **literal complementar** $\tilde{l}$ é:
 $$\tilde{l} = \begin{cases} \neg l, & \text{se } l \text{ é uma variável (positivo)} \\ p, & \text{se } l \text{ é da forma } \neg p \text{ (negativo)} \end{cases}$$
-Por exemplo, $\tilde{p} = \neg p$ e $\widetilde{\neg p} = p$.
+Ex.: $\tilde{p} = \neg p$ e $\widetilde{\neg p} = p$.
 :::
 
-Como se viu na Aula 3 (lema dual), uma cláusula é **tautologia** se
-contém um par de literais complementares $p$ e $\neg p$. Essas cláusulas
-**podem ser retiradas** do conjunto sem alterar a satisfazibilidade: são
-sempre $V$, e $V \land \varphi \Leftrightarrow \varphi$. Por exemplo,
-$\{p, \neg q, \neg p, s\}$ acima pode simplesmente sair.
+Uma cláusula com um par complementar $p$, $\neg p$ é **tautologia** e
+**pode retirar-se** sem alterar a satisfazibilidade ($V \land \varphi
+\Leftrightarrow \varphi$). Ex.: $\{p, \neg q, \neg p, s\}$ sai.
 
 ## Propagação unitária
 
-O algoritmo de **Davis-Putnam** tem uma versão inicial de **1960** e
-ainda é a base de muitos dos algoritmos mais eficientes de hoje (ver as
-competições de *SAT solvers*, <http://www.satcompetition.org/>). A ideia
-é **considerar os valores possíveis para cada variável e simplificar a
-fórmula** com essas atribuições, até se poder concluir se é satisfazível.
-A simplificação principal é a **propagação unitária**.
+O algoritmo de **Davis-Putnam** experimenta valores para as variáveis e
+simplifica a fórmula com eles até poder concluir. A simplificação
+principal é a **propagação unitária**.
 
 ::: {.definicao title="--- Propagação unitária"}
-Seja $S$ um conjunto de cláusulas. Obtém-se $S'$ a partir de $S$ por
-**propagação unitária** repetindo a seguinte transformação: se $S$ contém
-uma **cláusula unitária** $l$, então
+Seja $S$ um conjunto de cláusulas. Enquanto $S$ contém uma **cláusula
+unitária** $l$:
 
-1. **retiram-se** de $S$ todas as cláusulas da forma $l \lor C'$ (as que
-   contêm $l$, incluindo a própria cláusula $l$);
-2. **substitui-se** cada cláusula da forma $\tilde{l} \lor C'$ pela
-   cláusula $C'$ (tira-se o literal complementar).
+1. **retiram-se** de $S$ todas as cláusulas que contêm $l$ (incluindo a
+   própria $l$);
+2. em cada cláusula que contém $\tilde{l}$, **tira-se** $\tilde{l}$
+   ($\tilde{l} \lor C'$ passa a $C'$).
+
+**Porquê†.** Qualquer valoração que satisfaça $S$ tem $l = V$ ($l$ é um
+elemento da conjunção, como um facto de Horn). Com $l = V$, uma cláusula
+com $l$ é $V$ e sai; numa com $\tilde{l}$, esse literal é $F$ e não ajuda
+($F \lor C' \Leftrightarrow C'$). Se uma cláusula era só $\tilde{l}$,
+fica **vazia** ($F$): $S$ é insatisfazível. Os literais propagados dão os
+valores das variáveis numa valoração que satisfaça $S$.
 :::
 
-::: {.atencao title="--- Porque é que a propagação não muda a satisfazibilidade"}
-Nota adicional (não estava explícito nos slides). Se $l$ é uma cláusula
-sozinha, qualquer valoração que satisfaça $S$ tem de pôr $l = V$ (é um
-elemento da conjunção, como os factos de Horn). Com $l = V$:
-
-- uma cláusula que contém $l$ fica $V$ de certeza: pode sair;
-- numa cláusula que contém $\tilde{l}$, esse literal é $F$ e não ajuda
-  nada ($F \lor C' \Leftrightarrow C'$): pode sair da cláusula.
-
-Se ao tirar $\tilde{l}$ uma cláusula fica **vazia** (era só $\tilde{l}$),
-aparece $F$: o conjunto é insatisfazível. Os literais propagados dizem
-também **que valores** têm as variáveis numa valoração que satisfaça $S$.
-:::
-
-::: {.exemplo title="--- Exemplo dos slides: só com propagação (1/2)"}
+::: {.exemplo title="--- Só com propagação (1/2)"}
 $$S = \{p_1,\ \neg p_1 \lor \neg p_2,\ p_3 \lor p_2,\ \neg p_7 \lor p_2,\ \neg p_3 \lor p_4,\ \neg p_3 \lor p_5,$$
 $$\neg p_4 \lor \neg p \lor q,\ \neg p_5 \lor \neg p_6 \lor r,\ \neg p \lor \neg q \lor p_6,\ p \lor p_7,\ \neg r \lor p_7\}$$
 
-**Propagar $p_1$.** Saem as cláusulas com $p_1$: só a própria $p_1$. Às
-que têm $\neg p_1$ tira-se esse literal: $\neg p_1 \lor \neg p_2$ fica
-$\neg p_2$.
+**Propagar $p_1$.** Sai $p_1$. $\neg p_1 \lor \neg p_2$ fica $\neg p_2$.
 $$\{\neg p_2,\ p_3 \lor p_2,\ \neg p_7 \lor p_2,\ \neg p_3 \lor p_4,\ \neg p_3 \lor p_5,\ \neg p_4 \lor \neg p \lor q,\ \neg p_5 \lor \neg p_6 \lor r,\ \neg p \lor \neg q \lor p_6,\ p \lor p_7,\ \neg r \lor p_7\}$$
 
 **Propagar $\neg p_2$.** Sai $\neg p_2$. O complementar é $p_2$:
@@ -1915,7 +1478,7 @@ $\neg r \lor p_7$ fica $\neg r$.
 $$\{p_4,\ p_5,\ \neg p_4 \lor \neg p \lor q,\ \neg p_5 \lor \neg p_6 \lor r,\ \neg p \lor \neg q \lor p_6,\ p,\ \neg r\}$$
 :::
 
-::: {.exemplo title="--- Exemplo dos slides: só com propagação (2/2)"}
+::: {.exemplo title="--- Só com propagação (2/2)"}
 **Propagar $p_4$.** $\neg p_4 \lor \neg p \lor q$ fica $\neg p \lor q$.
 
 **Propagar $p_5$.** $\neg p_5 \lor \neg p_6 \lor r$ fica $\neg p_6 \lor r$.
@@ -1928,21 +1491,18 @@ $$\{q,\ \neg p_6,\ \neg q \lor p_6\}$$
 
 **Propagar $q$.** $\neg q \lor p_6$ fica $p_6$: $\{\neg p_6,\ p_6\}$.
 
-**Propagar $\neg p_6$.** Sai $\neg p_6$. A cláusula $p_6$ perde o seu
-único literal e fica **vazia**:
+**Propagar $\neg p_6$.** Sai $\neg p_6$; $p_6$ perde o único literal e
+fica **vazia**:
 $$\{F\}$$
 
-O conjunto inicial é **insatisfazível**, e aqui bastou a propagação
-unitária (nunca foi preciso "adivinhar" um valor). Os slides propagam
-alguns literais ao mesmo tempo ($p_3$ e $\neg p_7$; depois $p_4$, $p_5$,
-$\neg r$ e $p$); a ordem não altera o resultado.
+**Insatisfazível**, só com propagação. Os slides propagam alguns literais
+ao mesmo tempo; a ordem não altera o resultado.
 :::
 
 ## O algoritmo DLL
 
-Quando a propagação pára e ainda não se chegou a uma conclusão (não há
-cláusulas unitárias, o conjunto não é vazio e não contém $F$), é preciso
-**escolher** um literal e experimentar os dois valores.
+Quando a propagação pára sem conclusão (sem unitárias, $S$ não vazio e
+sem $F$), **escolhe-se** um literal e experimentam-se os dois valores.
 
 ::: {.definicao title="--- Algoritmo de Davis-Putnam (DLL)"}
 ```
@@ -1958,65 +1518,52 @@ DLL(S)
     else return DLL(S uniao {~l})       -- ~l: o complementar de l
 ```
 
-- Acrescentar a cláusula unitária $\{l\}$ é **supor $l = V$**; a
-  propagação da chamada recursiva trata do resto.
-- Se essa suposição dá insatisfazível, **volta-se atrás**
-  (*backtracking*) e supõe-se o contrário, $\tilde{l}$.
-- Só se responde "insatisfazível" quando **os dois ramos** falham.
+- Acrescentar $\{l\}$ é **supor $l = V$**; a propagação da chamada
+  recursiva faz o resto.
+- Se dá insatisfazível, **volta-se atrás** (*backtracking*) e supõe-se
+  $\tilde{l}$. "Insatisfazível" só quando **os dois ramos** falham.
+- Quando responde "satisfazível", os literais **supostos** e
+  **propagados** no ramo que teve sucesso formam uma valoração que
+  satisfaz $S$†; as variáveis que não apareceram podem ter qualquer valor.
 :::
 
-A função `select_literal` devolve um literal de uma das cláusulas. Pode
-ver-se como um **parâmetro** do algoritmo: uma boa escolha torna-o muito
-mais eficiente. Critérios possíveis, escolher uma variável que:
+`select_literal` devolve um literal de uma das cláusulas: é um
+**parâmetro** do algoritmo, e uma boa escolha torna-o muito mais
+eficiente. Critérios: a variável que **ocorre mais vezes**; a que tem o
+**produto** das ocorrências de $l$ e de $\tilde{l}$ **máximo**; a que
+ocorre mais em **cláusulas de tamanho mínimo**; etc.
 
-- **ocorre mais vezes**;
-- tem o **produto** das ocorrências de $l$ e de $\tilde{l}$ **máximo**;
-- ocorre mais vezes em **cláusulas de tamanho mínimo**;
-- etc.
-
-::: {.atencao title="--- Ler uma valoração da resposta"}
-Nota adicional (não estava explícito nos slides). Quando o DLL responde
-"satisfazível", os literais que foram **supostos** e **propagados** no
-ramo que teve sucesso formam uma valoração que satisfaz $S$. As variáveis
-que não apareceram podem ter qualquer valor.
-:::
-
-::: {.exemplo title="--- Exemplo dos slides: é preciso escolher"}
+::: {.exemplo title="--- É preciso escolher"}
 $$S = \{\neg p \lor \neg q,\ \neg p \lor q,\ p \lor \neg q,\ p \lor q\}$$
 
-Não há cláusulas unitárias: a propagação não faz nada. Escolhe-se um
-literal, por exemplo **$\neg p$**.
+Sem unitárias: a propagação não faz nada. Escolhe-se **$\neg p$**.
 
-**Ramo $S \cup \{\neg p\}$.** Propagar $\neg p$: saem as cláusulas com
-$\neg p$ ($\neg p \lor \neg q$ e $\neg p \lor q$). Às que têm $p$ tira-se
-$p$: $p \lor \neg q$ fica $\neg q$ e $p \lor q$ fica $q$. Obtém-se
-$\{\neg q, q\}$. Propagar $\neg q$: sai $\neg q$ e $q$ fica vazia:
-$\{F\}$. **Falha.**
+**Ramo $S \cup \{\neg p\}$.** Propagar $\neg p$: saem $\neg p \lor \neg q$
+e $\neg p \lor q$; $p \lor \neg q$ fica $\neg q$ e $p \lor q$ fica $q$:
+$\{\neg q, q\}$. Propagar $\neg q$: $q$ fica vazia, $\{F\}$. **Falha.**
 
 **Ramo $S \cup \{p\}$.** Propagar $p$: saem $p \lor \neg q$ e $p \lor q$;
-$\neg p \lor \neg q$ fica $\neg q$ e $\neg p \lor q$ fica $q$. Outra vez
+$\neg p \lor \neg q$ fica $\neg q$ e $\neg p \lor q$ fica $q$.
 $\{\neg q, q\} \Rightarrow \{F\}$. **Falha.**
 
-Os dois ramos falham: o algoritmo devolve **insatisfazível**. (Faz
-sentido: as quatro cláusulas proíbem cada uma das quatro combinações de
-valores de $p$ e $q$.)
+Os dois ramos falham: **insatisfazível** (as quatro cláusulas proíbem as
+quatro combinações de $p$ e $q$).
 :::
 
 ::: {.exemplo title="--- Exercício 1.22(a) (lab, proplogic.pdf)"}
 $$S = \{p \lor q \lor r,\ \neg p \lor \neg q \lor \neg r,\ p \lor \neg q \lor \neg r,\ p \lor q \lor \neg r,\ \neg p \lor q,\ \neg p \lor r,\ p \lor \neg q \lor r\}$$
 
-Não há unitárias. Critério "ocorre mais vezes": $p$ está nas 7
-cláusulas, $q$ e $r$ em 6. Escolhe-se **$p$**.
+Sem unitárias. "Ocorre mais vezes": $p$ está nas 7 cláusulas, $q$ e $r$
+em 6. Escolhe-se **$p$**.
 
-**Ramo $p$.** Saem as 4 cláusulas com $p$. Às 3 com $\neg p$ tira-se
+**Ramo $p$.** Saem as 4 cláusulas com $p$; nas 3 com $\neg p$ tira-se
 $\neg p$: $\{\neg q \lor \neg r,\ q,\ r\}$. Propagar $q$: $\neg q \lor
 \neg r$ fica $\neg r$, $\{\neg r, r\}$. Propagar $\neg r$: $r$ fica vazia,
 $\{F\}$. **Falha.**
 
-**Ramo $\neg p$.** Saem as 3 cláusulas com $\neg p$. Às 4 com $p$
-tira-se $p$: $\{q \lor r,\ \neg q \lor \neg r,\ q \lor \neg r,\ \neg q
-\lor r\}$. Não há unitárias; $q$ e $r$ ocorrem 4 vezes cada. Escolhe-se
-**$q$**.
+**Ramo $\neg p$.** Saem as 3 com $\neg p$; nas 4 com $p$ tira-se $p$:
+$\{q \lor r,\ \neg q \lor \neg r,\ q \lor \neg r,\ \neg q \lor r\}$. Sem
+unitárias; $q$ e $r$ ocorrem 4 vezes cada. Escolhe-se **$q$**.
 
 - **Ramo $q$**: saem $q \lor r$ e $q \lor \neg r$; $\neg q \lor \neg r$
   fica $\neg r$ e $\neg q \lor r$ fica $r$. $\{\neg r, r\} \Rightarrow
@@ -2048,20 +1595,14 @@ preciso fazê-las todas.
 
 # Aulas 5--6 --- Dedução Natural
 
-Os slides destas duas aulas vêm num único ficheiro ("Deduction"). Até
-aqui (Aulas 1--4) tratámos as duas primeiras partes de uma lógica: a
-**linguagem** (o que é uma fórmula) e a **semântica** (valorações,
-$\models_v$, $\models$). Agora passamos à terceira parte, o **sistema de
-dedução**: regras puramente sintáticas para obter fórmulas a partir de
-outras, sem falar em valorações. O sistema estudado é a **dedução natural
-(DN)**, escrito na **notação de Fitch**. É este o formato pedido em
-**todos** os exercícios da folha 2 ("All deductions must use the DN
-natural deduction system and the Fitch notation given in class").
+Falta a terceira parte de uma lógica, o **sistema de dedução**: regras
+puramente sintáticas para obter fórmulas a partir de outras, sem falar em
+valorações. O sistema é a **dedução natural (DN)**, na **notação de
+Fitch**, pedida em todos os exercícios da folha 2 ("All deductions must
+use the DN natural deduction system and the Fitch notation given in
+class").
 
 ## Semântica versus dedução
-
-Há duas maneiras de dizer que uma conclusão $\phi$ "segue" de um conjunto
-de premissas $\Gamma$:
 
 | | Semântica | Dedução |
 |---|---|---|
@@ -2070,55 +1611,44 @@ de premissas $\Gamma$:
 | Significa | toda a valoração que satisfaz $\Gamma$ satisfaz $\phi$ | existe uma dedução (sequência de passos, cada um dado por uma regra) de $\phi$ a partir de $\Gamma$ |
 | Natureza | fala de valores de verdade | só manipula símbolos (**sintática**) |
 
-As duas setas que ligam as duas colunas têm nome:
-
 $$\begin{aligned}
 \Gamma \models \phi \quad &\xrightarrow{\ \text{completude}\ } \quad \Gamma \vdash \phi\\
 \Gamma \vdash \phi \quad &\xrightarrow{\ \text{integridade (\emph{soundness})}\ } \quad \Gamma \models \phi
 \end{aligned}$$
 
-::: {.definicao title="--- Integridade e completude"}
-Nota adicional (os slides só desenham as setas; as definições vêm dos
-apontamentos de Nelma Moreira, secção 1.5):
+::: {.definicao title="--- Integridade e completude †"}
+(Os slides só desenham as setas; as definições são dos apontamentos de
+Nelma Moreira, 1.5.)
 
-- Um sistema dedutivo é **íntegro** (ou *correto*, *sound*) se tudo o que
-  se deduz é consequência semântica: se $\Gamma \vdash \phi$ então
-  $\Gamma \models \phi$. Em particular, se $\vdash \phi$ então $\phi$ é
-  tautologia. ("O que se deduz é verdade.")
+- Um sistema dedutivo é **íntegro** (*correto*, *sound*) se tudo o que se
+  deduz é consequência semântica: se $\Gamma \vdash \phi$ então
+  $\Gamma \models \phi$. Em particular, se $\vdash \phi$, $\phi$ é
+  tautologia.
 - É **completo** se tudo o que é consequência semântica se deduz: se
   $\Gamma \models \phi$ então $\Gamma \vdash \phi$. Em particular, toda a
-  tautologia tem uma dedução sem premissas. ("O que é verdade deduz-se.")
+  tautologia tem uma dedução sem premissas.
 
-A dedução natural DN é **íntegra e completa** para a lógica
-proposicional. Logo, para qualquer $\Gamma$ e $\phi$:
+DN é **íntegra e completa** para a lógica proposicional:
 $\Gamma \vdash \phi$ sse $\Gamma \models \phi$.
 :::
 
-**Porque é que se quer um sistema de dedução, se já temos a semântica?**
-Para ter um método automático, ou pelo menos semi-automático, de mostrar
-que uma fórmula é válida ou consequência de outras, sem percorrer todas as
-valorações (na lógica proposicional a tabela de verdade ainda é finita;
-na lógica de primeira ordem, mais à frente, deixa de ser). Uma dedução é
-um **método sintático**: cada passo verifica-se só a olhar para a forma das
-fórmulas.
+Um sistema de dedução dá um método automático, ou semi-automático, de
+mostrar que uma fórmula é válida ou consequência de outras sem percorrer
+as valorações (que na lógica de primeira ordem deixam de ser finitas):
+cada passo verifica-se só pela forma das fórmulas.
 
-::: exame
-**Como se mostra que $\Gamma \nvdash \phi$** (não existe dedução)? Não
-basta "não conseguir encontrar uma". Usa-se a **integridade**: se
-existisse uma dedução, ter-se-ia $\Gamma \models \phi$. Por isso basta dar
-um **contraexemplo**, uma valoração $v$ com $\models_v \gamma$ para todo o
-$\gamma \in \Gamma$ e $\not\models_v \phi$ (verificada com as regras de
-$\models_v$, como na Aula 2). Conclusão: $\Gamma \not\models \phi$, logo,
-pela integridade de DN, $\Gamma \nvdash \phi$. É assim que se respondem
-as alíneas "não é válida" das 2.4, 2.9 e 2.10.
-:::
+**Como se mostra $\Gamma \nvdash \phi$.** Não basta não encontrar uma
+dedução. Pela **integridade**, se existisse ter-se-ia
+$\Gamma \models \phi$; basta por isso um **contraexemplo**, uma valoração
+$v$ com $\models_v \gamma$ para todo o $\gamma \in \Gamma$ e
+$\not\models_v \phi$ (verificada com as regras de $\models_v$). Então
+$\Gamma \not\models \phi$ e, pela integridade de DN, $\Gamma \nvdash \phi$.
+É assim que se respondem as alíneas "não é válida" das 2.4, 2.9 e 2.10.
 
 ## Raciocínios válidos e contraexemplos
 
-Informalmente, um **raciocínio** é uma sequência de afirmações em que uma
-delas, a **conclusão**, deve ser consequência das outras, as
-**premissas**. Os slides escrevem-no em "caixa", com as premissas por cima
-de uma linha horizontal e a conclusão por baixo:
+Um **raciocínio** é uma sequência de afirmações em que uma, a
+**conclusão**, deve ser consequência das outras, as **premissas**:
 
 | | |
 |:-:|:--------------------------------------------|
@@ -2127,137 +1657,102 @@ de uma linha horizontal e a conclusão por baixo:
 | 3 | Ele não disse palavrões |
 | 4 | **Logo:** ninguém o acordou |
 
-Só interessa a **estrutura lógica** das frases. Com $p$ = "o Paulo
-adormece", $q$ = "alguém o acorda" e $r$ = "ele pragueja", o raciocínio é
+Só interessa a estrutura lógica. Com $p$ = "o Paulo adormece", $q$ =
+"alguém o acorda" e $r$ = "ele pragueja":
 $$(p\land q)\to r,\ \ p,\ \ \neg r \quad\text{logo}\quad \neg q.$$
 
 ::: definicao
-- A conclusão é **consequência lógica** das premissas se é verdadeira
-  **sempre que** as premissas são todas verdadeiras (é o
-  $\{(p\land q)\to r,\ p,\ \neg r\} \models \neg q$ da Aula 2). Nesse caso
-  o raciocínio é **válido**.
-- Um raciocínio válido cujas premissas são **de facto** verdadeiras diz-se
-  **sólido** (*sound*).
-- Para mostrar que uma conclusão **não** é consequência das premissas,
-  mostra-se uma situação em que as premissas são todas verdadeiras e a
-  conclusão falsa: um **contraexemplo**.
-- Para mostrar que **é** consequência, constrói-se uma **sucessão de
-  passos** em que cada passo é consequência dos anteriores e das
-  premissas. Formalizar isto dá os **sistemas de dedução**.
+- O raciocínio é **válido** se a conclusão é **consequência lógica** das
+  premissas: verdadeira sempre que as premissas o são (aqui,
+  $\{(p\land q)\to r,\ p,\ \neg r\} \models \neg q$).
+- Um raciocínio válido com premissas **de facto** verdadeiras é
+  **sólido** (*sound*; não confundir com um sistema dedutivo *sound*,
+  isto é, íntegro).
+- Para mostrar que **não** é válido: um **contraexemplo**, uma situação
+  com as premissas verdadeiras e a conclusão falsa.
+- Para mostrar que **é**: uma **sucessão de passos**, cada um
+  consequência dos anteriores e das premissas. Formalizar isto dá os
+  **sistemas de dedução**.
 :::
 
-::: atencao
-"*Sound*" aparece com dois sentidos: um **raciocínio** sólido (válido e
-com premissas verdadeiras) e um **sistema dedutivo** íntegro (tudo o que
-deduz é consequência semântica, secção anterior). São coisas diferentes.
-:::
-
-O segundo raciocínio dos slides: "Se chumbas, tens de repetir. Se não
-estudas, chumbas. Não estás a repetir. Logo: estudas, ou chumbas, ou as
-duas." Com $r$ = "chumbas", $t$ = "repetes" e $e$ = "estudas":
+Outro raciocínio válido: "Se chumbas, tens de repetir. Se não estudas,
+chumbas. Não estás a repetir. Logo: estudas, ou chumbas, ou as duas." Com
+$r$ = "chumbas", $t$ = "repetes" e $e$ = "estudas":
 $$r\to t,\ \ \neg e\to r,\ \ \neg t \quad\text{logo}\quad e\lor r\lor(e\land r).$$
-Também é **válido**. A dedução fica como exercício no fim da secção da
-implicação, depois de dadas as regras.
+A dedução fica como exercício na secção da implicação.
 
 ## Sistemas dedutivos axiomáticos
 
-No início do séc. XX, **Hilbert** lançou as bases da teoria da prova
-moderna, com os **sistemas dedutivos axiomáticos**.
-
 ::: {.definicao title="--- Sistema dedutivo axiomático $\\mathcal{D}$ e dedução"}
-Um sistema dedutivo $\mathcal{D}$ é formado por:
+Um sistema dedutivo $\mathcal{D}$ (à Hilbert) tem **axiomas** (fórmulas de
+base que traduzem as propriedades dos conectivos) e **regras de
+inferência** (maneiras de obter fórmulas a partir de outras).
 
-- **axiomas** (lógicos): fórmulas de base que traduzem as propriedades dos
-  conectivos;
-- **regras de inferência**: maneiras de obter fórmulas a partir de outras.
+Uma **dedução** de $\phi_n$ em $\mathcal{D}$ a partir de $\Sigma$ é uma
+sucessão **finita** $\phi_1, \dots, \phi_n$ em que cada $\phi_i$
+pertence a $\Sigma$ (premissa), **ou** é um axioma, **ou** resulta de
+fórmulas anteriores por uma regra. Escreve-se $\Sigma \vdash_{\mathcal{D}} \phi_n$.
 
-Uma **dedução** de $\phi_n$ em $\mathcal{D}$ a partir de um conjunto de
-fórmulas $\Sigma$ é uma sucessão **finita** de fórmulas
-$\phi_1, \dots, \phi_n$ em que cada $\phi_i$ ($1\le i\le n$):
-
-- pertence a $\Sigma$ (é uma premissa), **ou**
-- é um axioma, **ou**
-- resulta de fórmulas anteriores $\phi_1 \dots \phi_{i-1}$ por uma regra de
-  inferência.
-
-Escreve-se $\Sigma \vdash_{\mathcal{D}} \phi_n$.
-
-- **Teorema e prova.** Se $\Sigma = \emptyset$, $\phi_n$ é um **teorema**
-  de $\mathcal{D}$, escreve-se $\vdash_{\mathcal{D}} \phi_n$, e a dedução
-  $\phi_1, \dots, \phi_n$ chama-se uma **prova** de $\phi_n$.
-- Se $\Sigma = \{\theta_1, \dots, \theta_n\}$ é finito, escreve-se
-  $\theta_1, \dots, \theta_n \vdash_{\mathcal{D}} \phi$ e, quando o sistema
-  é claro pelo contexto, só $\theta_1, \dots, \theta_n \vdash \phi$.
+- Se $\Sigma = \emptyset$, $\phi_n$ é um **teorema** ($\vdash_{\mathcal{D}} \phi_n$)
+  e a dedução é uma **prova** de $\phi_n$.
+- Com $\Sigma = \{\theta_1, \dots, \theta_n\}$ finito, escreve-se
+  $\theta_1, \dots, \theta_n \vdash_{\mathcal{D}} \phi$, ou só
+  $\theta_1, \dots, \theta_n \vdash \phi$.
 :::
 
-::: {.definicao title="--- Equivalência dedutiva ($\\dashv\\vdash$)"}
-Nota adicional (não está nos slides, mas a folha 2 usa-a nas 2.11 e
-2.12; vem dos apontamentos de Nelma Moreira, 1.4.3.11): $\phi$ e $\psi$
-são **dedutivamente equivalentes**, $\phi \dashv\vdash \psi$, se
-$\phi \vdash \psi$ **e** $\psi \vdash \phi$. Mostrar uma equivalência
-dedutiva são **duas deduções**, uma em cada sentido ("you have to show
-that the second formula is deduced from the first formula and vice
-versa").
+::: {.definicao title="--- Equivalência dedutiva ($\\dashv\\vdash$) †"}
+(Usada nas 2.11 e 2.12; apontamentos de Nelma Moreira, 1.4.3.11.)
+$\phi \dashv\vdash \psi$ se $\phi \vdash \psi$ **e** $\psi \vdash \phi$:
+são **duas deduções**, uma em cada sentido.
 :::
 
 ## Dedução natural (DN) e a notação de Fitch
 
-O sistema de **dedução natural**, DN, foi inventado por **G. Gentzen**
-(1935). As regras querem imitar a forma como se raciocina numa prova
-matemática. Em relação a um sistema à Hilbert tem duas diferenças:
+As regras de DN imitam o raciocínio de uma prova matemática. Em relação a
+um sistema à Hilbert, DN **não tem axiomas**, só regras, e permite
+**introduzir hipóteses a meio** ("suponhamos que..."), que têm de ser
+**descartadas** antes do fim. Para cada conectivo ($\land$, $\lor$,
+$\neg$, $\mathbf{F}$, $\to$) há regras de **introdução** (como se chega a
+uma fórmula com esse conectivo) e de **eliminação** (o que se tira dela).
 
-- **não tem axiomas**, só regras de inferência;
-- permite **introduzir hipóteses a meio da dedução** ("suponhamos que
-  ..."), que têm de ser **descartadas** antes de a dedução acabar.
+::: {.exemplo title="--- A ideia, num exemplo informal"}
+Porque é que $(p \lor (q\land r)) \to ((p\lor q)\land(p\lor r))$ é
+tautologia?
 
-Para cada conectivo há dois tipos de regras: de **introdução** (como se
-chega a uma fórmula com esse conectivo) e de **eliminação** (o que se pode
-tirar de uma fórmula com esse conectivo). Os conectivos tratados são
-$\land$, $\lor$, $\neg$, $\mathbf{F}$ e $\to$.
-
-::: {.exemplo title="--- A ideia, num exemplo informal (slide 16)"}
-Porque é que $(p \lor (q\land r)) \to ((p\lor q)\land(p\lor r))$ é uma
-tautologia? Raciocínio "natural":
-
-- **Supõe-se** o antecedente, $p\lor(q\land r)$, e tenta-se chegar ao
-  consequente.
-- O antecedente é uma disjunção, por isso há **dois casos**:
-    - **caso $p$**: então $p\lor q$ (basta um lado de uma disjunção),
-      $p\lor r$, logo $(p\lor q)\land(p\lor r)$;
+- **Supõe-se** o antecedente, $p\lor(q\land r)$. É uma disjunção, por
+  isso há **dois casos**:
+    - **caso $p$**: então $p\lor q$ e $p\lor r$, logo $(p\lor q)\land(p\lor r)$;
     - **caso $q\land r$**: então $q$ e $r$; daí $p\lor q$ e $p\lor r$,
       logo $(p\lor q)\land(p\lor r)$.
-- Nos dois casos chega-se ao consequente. Como **supondo** o antecedente
+- Nos dois casos chega-se ao consequente; como **supondo** o antecedente
   se obteve o consequente, conclui-se a implicação.
 
-Cada "então" acima é uma regra de DN. A mesma prova, escrita
-formalmente, está no fim da secção da implicação.
+Cada "então" é uma regra de DN; a prova formal está na secção da
+implicação.
 :::
 
-**Representação das regras.** Uma regra de inferência "de
-$\phi_1 \dots \phi_k$ infere-se $\phi$" desenha-se como uma fração, com
-as premissas da regra em cima e a conclusão em baixo:
-$$\dfrac{\phi_1 \quad \cdots \quad \phi_k}{\phi}$$
-Como uma dedução é uma sequência de aplicações de regras, pode ser
-desenhada como uma **árvore**: as folhas são as premissas e a raiz é a
-conclusão. Por exemplo, $p\land q,\ r \vdash q\land r$:
+**Representação das regras.** "De $\phi_1 \dots \phi_k$ infere-se $\phi$"
+desenha-se como uma fração, $\dfrac{\phi_1 \quad \cdots \quad \phi_k}{\phi}$,
+e uma dedução como uma **árvore** (folhas = premissas, raiz =
+conclusão). Ex.: $p\land q,\ r \vdash q\land r$:
 $$\dfrac{\dfrac{p\land q}{q}\,{\scriptstyle\land\mathrm{E}_2} \qquad r}{q\land r}\,{\scriptstyle\land\mathrm{I}}$$
-Estas árvores ficam muito grandes depressa. Por isso usa-se a
-**notação de Fitch**, uma representação **linear**:
+As árvores crescem depressa; por isso usa-se a **notação de Fitch**,
+linear:
 
 ::: {.definicao title="--- Notação de Fitch"}
-- Cada passo numa linha **numerada**.
-- À direita, a **justificação**: a regra aplicada e os **números das
-  linhas** usadas (ex.: "$\land$E, 1"; "$\land$I, 3, 2").
-- As **premissas** vêm primeiro, sem justificação, e por baixo da última
-  há um **traço horizontal**.
-- A **barra vertical** à esquerda marca o alcance das hipóteses. Uma
-  **sub-dedução** (hipótese nova) abre uma barra mais à direita, com a
-  hipótese sublinhada no topo. Quando a sub-dedução acaba, a barra fecha.
-- Uma regra que usa uma sub-dedução inteira cita-a como um intervalo de
-  linhas (ex.: "$\lor$E, 1, 2--3, 4--5").
+- Cada passo numa linha **numerada**, com a **justificação** à direita:
+  a regra e os **números das linhas** usadas (ex.: "$\land$E, 1";
+  "$\land$I, 3, 2").
+- As **premissas** vêm primeiro, sem justificação, com um **traço
+  horizontal** por baixo da última.
+- A **barra vertical** marca o alcance das hipóteses. Uma
+  **sub-dedução** abre uma barra mais à direita, com a hipótese
+  sublinhada no topo; quando acaba, a barra fecha.
+- Uma regra que usa uma sub-dedução inteira cita o intervalo de linhas
+  (ex.: "$\lor$E, 1, 2--3, 4--5").
 :::
 
-O exemplo da árvore acima, em Fitch:
+O exemplo da árvore, em Fitch:
 
 ```{.fitch seq="p /\ q, r |- q /\ r"}
 p /\ q
@@ -2267,9 +1762,8 @@ q               ; &E, 1
 q /\ r          ; &I, 3, 2
 ```
 
-A tabela com **todas** as regras de DN em Fitch está na última página da
-folha 2 (`proplogicproofs.pdf`, na pasta `Praticas/Semana_3/`). Nas secções seguintes
-cada regra é explicada uma a uma.
+A tabela com todas as regras de DN está na última página da folha 2
+(`Praticas/Semana_3/proplogicproofs.pdf`).
 
 ## Regras da conjunção
 
@@ -2280,16 +1774,14 @@ $$\dfrac{\phi \qquad \psi}{\phi\land\psi}\,{\scriptstyle\land\mathrm{I}}
 \qquad
 \dfrac{\phi\land\psi}{\psi}\,{\scriptstyle\land\mathrm{E}_2}$$
 
-- **$\land$I**: se já se deduziu $\phi$ **e** já se deduziu $\psi$
-  (em quaisquer linhas anteriores, por qualquer ordem), pode deduzir-se
-  $\phi\land\psi$.
-- **$\land$E**: de $\phi\land\psi$ pode deduzir-se $\phi$, e também $\psi$.
-  Em Fitch as duas versões chamam-se só "$\land$E".
+- **$\land$I**: se já se deduziu $\phi$ **e** $\psi$ (em linhas
+  anteriores, por qualquer ordem), deduz-se $\phi\land\psi$.
+- **$\land$E**: de $\phi\land\psi$ deduz-se $\phi$, e também $\psi$ (em
+  Fitch as duas chamam-se "$\land$E").
 :::
 
-::: {.exemplo title="--- $(p\land q)\land r \vdash r\land q$ (slide 22)"}
-A premissa é uma conjunção de uma conjunção. Desmonta-se com $\land$E até
-se ter as peças $r$ e $q$ e monta-se o resultado com $\land$I:
+::: {.exemplo title="--- $(p\land q)\land r \vdash r\land q$"}
+Desmonta-se a premissa com $\land$E e monta-se o resultado com $\land$I:
 
 ```{.fitch seq="(p /\ q) /\ r |- r /\ q"}
 (p /\ q) /\ r
@@ -2300,8 +1792,8 @@ q               ; &E, 2
 r /\ q          ; &I, 3, 4
 ```
 
-Na linha 5, $\land$I cita "3, 4" porque $r$ (linha 3) é o lado esquerdo e
-$q$ (linha 4) o direito.
+A linha 5 cita "3, 4": $r$ (linha 3) é o lado esquerdo e $q$ (linha 4) o
+direito.
 :::
 
 ::: {.pratica title="--- Conjunção (proplogicproofs.pdf)"}
@@ -2318,25 +1810,19 @@ $$\dfrac{\phi}{\phi\lor\psi}\,{\scriptstyle\lor\mathrm{I}_1}
 \qquad\qquad
 \dfrac{\phi\lor\psi \qquad \begin{array}{c}[\phi]\\ \vdots\\ \gamma\end{array} \qquad \begin{array}{c}[\psi]\\ \vdots\\ \gamma\end{array}}{\gamma}\,{\scriptstyle\lor\mathrm{E}}$$
 
-- **$\lor$I**: se já se deduziu $\phi$, pode deduzir-se **qualquer**
-  disjunção que tenha $\phi$ como um dos lados ($\phi\lor\psi$ ou
-  $\psi\lor\phi$, com $\psi$ qualquer).
-- **$\lor$E** (raciocínio **por casos**): se
+- **$\lor$I**: de $\phi$ deduz-se **qualquer** disjunção com $\phi$ de um
+  dos lados ($\phi\lor\psi$ ou $\psi\lor\phi$).
+- **$\lor$E** (**por casos**): se já se deduziu $\phi\lor\psi$, **supondo**
+  $\phi$ se deduz $\gamma$ (numa sub-dedução) e **supondo** $\psi$ se
+  deduz $\gamma$ (noutra), então deduz-se $\gamma$. $[\phi]$ marca o
+  início de uma sub-dedução com a hipótese $\phi$, que só vale lá dentro.
 
-    1. já se deduziu $\phi\lor\psi$,
-    2. **supondo** $\phi$ se deduz $\gamma$ (numa sub-dedução), e
-    3. **supondo** $\psi$ se deduz $\gamma$ (noutra sub-dedução),
-
-  então pode deduzir-se $\gamma$. A notação $[\phi]$ quer dizer "início de
-  uma sub-dedução com a hipótese $\phi$", que só vale dentro dela.
-
-Em Fitch, $\lor$E cita **três** coisas: a linha da disjunção e os dois
-intervalos das sub-deduções. As duas sub-deduções têm de acabar **na
-mesma fórmula** $\gamma$.
+Em Fitch, $\lor$E cita a linha da disjunção e os dois intervalos; as duas
+sub-deduções têm de acabar **na mesma fórmula** $\gamma$.
 :::
 
-::: {.exemplo title="--- $(p\land q)\lor(q\land r) \vdash q$ (slide 25)"}
-Premissa é uma disjunção: dois casos. Em cada um tira-se $q$ com
+::: {.exemplo title="--- $(p\land q)\lor(q\land r) \vdash q$"}
+A premissa é uma disjunção: dois casos, e em cada um tira-se $q$ com
 $\land$E.
 
 ```{.fitch seq="(p /\ q) \/ (q /\ r) |- q"}
@@ -2349,19 +1835,17 @@ $\land$E.
 q                    ; vE, 1, 2-3, 4-5
 ```
 
-- Linhas 2--3: caso 1, hipótese $p\land q$ (sublinhada), deduz-se $q$.
-- Linhas 4--5: caso 2, hipótese $q\land r$, deduz-se $q$.
-- Linha 6: as duas sub-deduções acabaram em $q$, por isso $\lor$E dá $q$
-  **fora** das sub-deduções (de volta à barra principal).
+Linhas 2--3: caso $p\land q$; linhas 4--5: caso $q\land r$. Como as duas
+acabam em $q$, $\lor$E dá $q$ na linha 6, **fora** das sub-deduções.
 :::
 
 ### Repetição
 
-Numa dedução pode sempre **repetir-se** uma fórmula já obtida (e
-acessível). É a regra **R**: $\dfrac{\phi}{\phi}\,{\scriptstyle\mathrm{R}}$.
-Faz falta quando um dos casos de $\lor$E já é a própria conclusão:
+Pode sempre **repetir-se** uma fórmula já obtida e acessível: regra **R**,
+$\dfrac{\phi}{\phi}\,{\scriptstyle\mathrm{R}}$. Faz falta quando um caso
+de $\lor$E já é a conclusão:
 
-::: {.exemplo title="--- $(p\land q)\lor q \vdash q$ (slide 26)"}
+::: {.exemplo title="--- $(p\land q)\lor q \vdash q$"}
 ```{.fitch seq="(p /\ q) \/ q |- q"}
 (p /\ q) \/ q
 ---
@@ -2372,13 +1856,25 @@ Faz falta quando um dos casos de $\lor$E já é a própria conclusão:
 q                    ; vE, 1, 2-3, 4-5
 ```
 
-No segundo caso a hipótese **já é** $q$, mas a sub-dedução tem de
-"terminar em $q$" com um passo seu; a linha 5 repete a 4.
+No segundo caso a hipótese já é $q$, mas a sub-dedução tem de terminar em
+$q$ com um passo seu: a linha 5 repete a 4.
 :::
 
 ### Alcance das sub-deduções
 
-::: {.exemplo title="--- Uma dedução ERRADA (slide 27)"}
+::: {.definicao title="--- Alcance das hipóteses"}
+Uma sub-dedução começa com **hipóteses novas**, e tudo o que se deduz lá
+dentro **depende delas**. Quando acaba, as hipóteses deixam de estar
+assumidas: **nem elas nem nada do que se deduziu lá dentro pode ser usado
+depois**.
+
+Em Fitch, a linha $k$ pode citar a linha $a$ só se $a < k$ **e** todas
+as barras abertas na linha $a$ ainda estão abertas na linha $k$. Uma
+sub-dedução inteira ($i$--$j$) só pode ser citada depois do seu fim, ao
+nível da barra imediatamente à esquerda.
+:::
+
+::: {.exemplo title="--- Uma dedução ERRADA"}
 ```{.fitch .nocheck}
 (p /\ q) \/ (q /\ r)
 ---
@@ -2391,34 +1887,19 @@ q                    ; vE, 1, 2-4, 5-6
 q /\ p               ; &I, 7, 3
 ```
 
-O passo 8 está **errado**: usa a linha 3 ($p$), que foi deduzida dentro de
-uma sub-dedução (2--4) que **já terminou**. Esse $p$ só valia "no caso
-$p\land q$"; no outro caso não há $p$ nenhum.
+O passo 8 está **errado**: usa a linha 3 ($p$), de uma sub-dedução (2--4)
+**já terminada**. Esse $p$ só valia no caso $p\land q$.
 
-E não há maneira de corrigir: $q\land p$ nem sequer é consequência
-semântica da premissa (contraexemplo $v(p)=F$, $v(q)=V$, $v(r)=V$:
+Nem há correção possível: $q\land p$ não é consequência semântica da
+premissa (contraexemplo $v(p)=F$, $v(q)=V$, $v(r)=V$:
 $\models_v q\land r$, logo $\models_v (p\land q)\lor(q\land r)$, mas
-$\not\models_v p$, logo $\not\models_v q\land p$). Pela integridade de DN,
-não existe dedução nenhuma.
+$\not\models_v p$, logo $\not\models_v q\land p$). Pela integridade, não
+existe dedução.
 :::
 
-::: exame
-**MUITO IMPORTANTE** (slide 28, em letras grandes no original): uma
-sub-dedução começa com a introdução de **hipóteses novas**, e tudo o que
-se deduz lá dentro **depende delas**. Quando a sub-dedução acaba, as
-hipóteses deixam de estar assumidas e, por isso, **nem as hipóteses nem
-nada do que se deduziu dentro da sub-dedução pode ser usado** depois.
-
-Regra prática para Fitch: a linha $k$ pode citar a linha $a$ só se
-$a < k$ **e** todas as barras que estão "abertas" na linha $a$ ainda
-estão abertas na linha $k$. Uma sub-dedução inteira ($i$--$j$) só pode ser
-citada a partir da linha logo a seguir ao seu fim, ao nível da barra
-imediatamente à esquerda.
-:::
-
-::: {.exemplo title="--- $p\land(q\lor r) \vdash (p\land q)\lor(p\land r)$ (slide 40, a)"}
-Estratégia: tirar $p$ e $q\lor r$ da premissa; a disjunção pede $\lor$E
-com conclusão $\gamma = (p\land q)\lor(p\land r)$.
+::: {.exemplo title="--- $p\land(q\lor r) \vdash (p\land q)\lor(p\land r)$"}
+Tiram-se $p$ e $q\lor r$ da premissa; a disjunção pede $\lor$E com
+$\gamma = (p\land q)\lor(p\land r)$.
 
 ```{.fitch seq="p /\ (q \/ r) |- (p /\ q) \/ (p /\ r)"}
 p /\ (q \/ r)
@@ -2434,9 +1915,8 @@ q \/ r               ; &E, 1
 (p /\ q) \/ (p /\ r) ; vE, 3, 4-6, 7-9
 ```
 
-Repara que a linha 5 usa a linha 2 ($p$): é permitido, porque a linha 2
-está na barra principal, que continua aberta dentro das sub-deduções. O
-proibido é o contrário (usar cá fora o que está lá dentro).
+A linha 5 usa a linha 2 ($p$): é permitido, porque a barra principal
+continua aberta dentro das sub-deduções. O proibido é o contrário.
 :::
 
 ::: {.exemplo title="--- Exercício 2.4(b) (lab, proplogicproofs.pdf) --- encontrar o passo errado"}
@@ -2453,21 +1933,20 @@ Dedução dada (sem justificações):
 p /\ r
 ```
 
-Justificação de cada passo: 1 premissa; 2 hipótese; 3 $\land$E, 2;
-4 $\lor$I, 3; 5 hipótese; 6 $\lor$I, 5. Até aqui está tudo certo.
+Justificações: 1 premissa; 2 hipótese; 3 $\land$E, 2; 4 $\lor$I, 3;
+5 hipótese; 6 $\lor$I, 5. Tudo certo até aqui.
 
 **O passo 7 está errado.** As duas sub-deduções terminam em $p\lor r$,
-por isso $\lor$E só permite concluir $p\lor r$, não $p\land r$. E
-nenhuma outra regra dá $p\land r$: $p$ (linha 3) e $r$ (linha 5) estão em
-sub-deduções já fechadas.
+por isso $\lor$E só dá $p\lor r$. E nenhuma outra regra dá $p\land r$:
+$p$ (linha 3) e $r$ (linha 5) estão em sub-deduções fechadas.
 
-**Há uma dedução correta de $p\land r$ com a mesma premissa?** Não.
-Contraexemplo: $v(p)=F$, $v(q)=F$, $v(r)=V$. Então $\models_v r$, logo
+**Há dedução correta de $p\land r$?** Não. Contraexemplo: $v(p)=F$,
+$v(q)=F$, $v(r)=V$. Então $\models_v r$, logo
 $\models_v (p\land q)\lor r$; e $\not\models_v p$, logo
 $\not\models_v p\land r$. Assim $(p\land q)\lor r \not\models p\land r$ e,
-pela integridade de DN, $(p\land q)\lor r \nvdash p\land r$.
+pela integridade, $(p\land q)\lor r \nvdash p\land r$.
 
-O que a dedução **mostra** se corrigirmos o passo 7:
+Corrigindo o passo 7, a dedução mostra $p\lor r$:
 
 ```{.fitch seq="(p /\ q) \/ r |- p \/ r"}
 (p /\ q) \/ r
@@ -2492,16 +1971,10 @@ p \/ r               ; vE, 1, 2-4, 5-6
 
 ## Regras da negação e do absurdo ($\mathbf{F}$)
 
-$\mathbf{F}$ representa uma **contradição** (por exemplo $\phi\land\neg\phi$).
-
-::: atencao
-Nota adicional (não estava explícito nos slides): semanticamente,
-$\mathbf{F}$ é a fórmula **sempre falsa**: $\not\models_v \mathbf{F}$ para
-toda a valoração $v$. É o mesmo $\mathbf{F}$ que aparecia como "cláusula
-vazia" no algoritmo DLL (Aula 4). Um conjunto $\Sigma$ com $\Sigma
-\models \mathbf{F}$ é exatamente um conjunto insatisfazível (nenhuma $v$
-satisfaz $\Sigma$, porque nenhuma satisfaz $\mathbf{F}$).
-:::
+$\mathbf{F}$ representa uma **contradição** (ex.: $\phi\land\neg\phi$).
+Semanticamente† é a fórmula sempre falsa ($\not\models_v \mathbf{F}$ para
+toda a $v$), a mesma da cláusula vazia do DLL: $\Sigma \models \mathbf{F}$
+quer dizer que $\Sigma$ é insatisfazível.
 
 ::: {.definicao title="--- Regras de $\\neg$"}
 $$\dfrac{\neg\neg\phi}{\phi}\,{\scriptstyle\neg\mathrm{E}}
@@ -2509,40 +1982,35 @@ $$\dfrac{\neg\neg\phi}{\phi}\,{\scriptstyle\neg\mathrm{E}}
 \dfrac{\begin{array}{c}[\phi]\\ \vdots\\ \mathbf{F}\end{array}}{\neg\phi}\,{\scriptstyle\neg\mathrm{I}}$$
 
 - **$\neg$E** (eliminação da dupla negação): de $\neg\neg\phi$ deduz-se
-  $\phi$. Corresponde a uma das metades do princípio da dupla negação.
-- **$\neg$I** (prova **por contradição**): se, **supondo** $\phi$, se
-  deduz uma contradição $\mathbf{F}$, então pode deduzir-se $\neg\phi$ a
-  partir das premissas originais (fora da sub-dedução). Cita-se o
-  intervalo da sub-dedução: "$\neg$I, $i$--$j$".
+  $\phi$.
+- **$\neg$I** (**por contradição**): se, **supondo** $\phi$, se deduz
+  $\mathbf{F}$, deduz-se $\neg\phi$ fora da sub-dedução. Cita-se o
+  intervalo: "$\neg$I, $i$--$j$".
 :::
 
 ::: {.definicao title="--- Regras de $\\mathbf{F}$"}
-Se $\mathbf{F}$ não for visto como abreviatura de $\phi\land\neg\phi$, é
-preciso uma regra para o introduzir (e outra para o usar):
+Se $\mathbf{F}$ não for abreviatura de $\phi\land\neg\phi$, precisa de
+regras próprias:
 $$\dfrac{\phi \qquad \neg\phi}{\mathbf{F}}\,{\scriptstyle\mathbf{F}\mathrm{I}}
 \qquad\qquad
 \dfrac{\mathbf{F}}{\phi}\,{\scriptstyle\mathbf{F}\mathrm{E}}$$
 
-- **$\mathbf{F}$I**: se já se deduziu $\phi$ **e** $\neg\phi$, tem-se uma
-  contradição. Cita as duas linhas (por qualquer ordem).
-- **$\mathbf{F}$E**: de uma contradição deduz-se **qualquer** fórmula.
+- **$\mathbf{F}$I**: de $\phi$ **e** $\neg\phi$ tem-se $\mathbf{F}$ (cita
+  as duas linhas, por qualquer ordem).
+- **$\mathbf{F}$E**: de $\mathbf{F}$ deduz-se **qualquer** fórmula.
 
-Um conjunto de fórmulas $\Sigma$ diz-se **inconsistente** se
-$\Sigma \vdash \mathbf{F}$.
+$\Sigma$ é **inconsistente** se $\Sigma \vdash \mathbf{F}$.
 :::
 
-::: atencao
-Nota adicional: a regra $\neg$E é a que torna esta lógica **clássica**. Na
-lógica **intuicionista** (referida na Aula 1) não se aceita
-$\neg\neg\phi \vdash \phi$ em geral. Por isso, quando uma prova precisa de
-"chegar a $\phi$ por contradição", o caminho em DN tem **dois** passos:
-supor $\neg\phi$, chegar a $\mathbf{F}$, concluir $\neg\neg\phi$ por
-$\neg$I e só depois $\phi$ por $\neg$E (ver 2.4(c) e o exemplo (d) abaixo).
-:::
+É o $\neg$E que torna esta lógica **clássica**† (a intuicionista não
+aceita $\neg\neg\phi \vdash \phi$). Por isso, "chegar a $\phi$ por
+contradição" em DN são **dois** passos: supor $\neg\phi$, chegar a
+$\mathbf{F}$, concluir $\neg\neg\phi$ por $\neg$I e depois $\phi$ por
+$\neg$E (ex.: (d) abaixo).
 
-::: {.exemplo title="--- $\\phi \\vdash \\neg\\neg\\phi$ (slide 31)"}
-Queremos uma negação ($\neg(\neg\phi)$), por isso supõe-se $\neg\phi$ e
-procura-se $\mathbf{F}$:
+::: {.exemplo title="--- $\\phi \\vdash \\neg\\neg\\phi$"}
+Quer-se uma negação, $\neg(\neg\phi)$: supõe-se $\neg\phi$ e procura-se
+$\mathbf{F}$.
 
 ```{.fitch seq="phi |- ~~phi"}
 phi
@@ -2553,11 +2021,10 @@ phi
 ```
 :::
 
-::: {.exemplo title="--- Exemplos do slide 40: (b), (c) e (d)"}
+::: {.exemplo title="--- Duas negações: (b) e (c)"}
 **(b) $\neg p\lor\neg q \vdash \neg(p\land q)$.** O objetivo é uma
-negação: supõe-se $p\land q$ e procura-se $\mathbf{F}$. Para isso
-usa-se a premissa (uma disjunção) com $\lor$E, e o $\gamma$ dos dois casos
-é $\mathbf{F}$.
+negação: supõe-se $p\land q$ e procura-se $\mathbf{F}$, usando a premissa
+com $\lor$E e $\gamma = \mathbf{F}$.
 
 ```{.fitch seq="~p \/ ~q |- ~(p /\ q)"}
 ~p \/ ~q
@@ -2573,8 +2040,8 @@ usa-se a premissa (uma disjunção) com $\lor$E, e o $\gamma$ dos dois casos
 ~(p /\ q)            ; ~I, 2-9
 ```
 
-**(c) $\vdash \neg(p\land\neg p)$** (sem premissas). Outra negação:
-supõe-se $p\land\neg p$, que se contradiz a si própria.
+**(c) $\vdash \neg(p\land\neg p)$** (sem premissas). Supõe-se
+$p\land\neg p$, que se contradiz a si própria.
 
 ```{.fitch seq="|- ~(p /\ ~p)"}
 |> p /\ ~p
@@ -2585,11 +2052,9 @@ supõe-se $p\land\neg p$, que se contradiz a si própria.
 ```
 :::
 
-::: {.exemplo title="--- Exemplo do slide 40 (d): $\\neg(\\neg p\\lor q) \\vdash p$"}
-A conclusão $p$ não é uma negação nem tem conectivo para "introduzir".
-Usa-se **contradição**: supõe-se $\neg p$, chega-se a $\mathbf{F}$,
-tem-se $\neg\neg p$ e por fim $p$. A contradição vem da premissa: de
-$\neg p$ sai $\neg p\lor q$, o contrário da premissa.
+::: {.exemplo title="--- (d) $\\neg(\\neg p\\lor q) \\vdash p$"}
+$p$ não é negação nem tem conectivo para introduzir: **por contradição**.
+Supõe-se $\neg p$; daí sai $\neg p\lor q$, o contrário da premissa.
 
 ```{.fitch seq="~(~p \/ q) |- p"}
 ~(~p \/ q)
@@ -2600,14 +2065,6 @@ $\neg p$ sai $\neg p\lor q$, o contrário da premissa.
 ~~p                  ; ~I, 2-4
 p                    ; ~E, 5
 ```
-:::
-
-::: atencao
-Se consultares os apontamentos de Nelma Moreira (`Teoricas/`), há duas
-gralhas nestas provas: no Exemplo 1.15(c), a linha 6 diz "$\neg$E, 2--4"
-e deve ler-se "$\neg$E, 5"; no Exemplo 1.21(b), a linha 9 diz
-"$\lor$I, 3" e deve ler-se "$\lor$I, 8". As versões acima estão
-verificadas.
 :::
 
 ::: {.pratica title="--- Negação e F (proplogicproofs.pdf)"}
@@ -2627,12 +2084,11 @@ verificadas.
 
 ::: {.definicao title="--- Eliminação de $\\to$ (\\emph{modus ponens})"}
 $$\dfrac{\phi \qquad \phi\to\psi}{\psi}\,{\scriptstyle\to\mathrm{E}}$$
-Se já se deduziu $\phi$ e $\phi\to\psi$, deduz-se $\psi$. É o raciocínio
-condicional, conhecido por *modus ponens* ("modo que afirma"). Em Fitch
-citam-se as duas linhas.
+De $\phi$ e $\phi\to\psi$ deduz-se $\psi$ (*modus ponens*). Citam-se as
+duas linhas.
 :::
 
-::: {.exemplo title="--- $p,\\ p\\to q,\\ p\\to(q\\to r) \\vdash r$ (slide 35)"}
+::: {.exemplo title="--- $p\\to(q\\to r),\\ p\\to q,\\ p \\vdash r$"}
 ```{.fitch seq="p -> (q -> r), p -> q, p |- r"}
 p -> (q -> r)
 p -> q
@@ -2646,13 +2102,12 @@ r                    ; ->E, 4, 5
 
 ::: {.definicao title="--- Introdução de $\\to$ (regra da dedução)"}
 $$\dfrac{\begin{array}{c}[\phi]\\ \vdots\\ \psi\end{array}}{\phi\to\psi}\,{\scriptstyle\to\mathrm{I}}$$
-Para deduzir $\phi\to\psi$: **supõe-se** $\phi$ (abre-se uma
-sub-dedução) e tenta-se deduzir $\psi$. Se se conseguir, fecha-se a
-sub-dedução (a suposição é descartada) e conclui-se $\phi\to\psi$.
-Cita-se o intervalo: "$\to$I, $i$--$j$".
+Para deduzir $\phi\to\psi$: **supõe-se** $\phi$ (sub-dedução) e deduz-se
+$\psi$; fecha-se a sub-dedução e conclui-se $\phi\to\psi$. Cita-se o
+intervalo: "$\to$I, $i$--$j$".
 :::
 
-::: {.exemplo title="--- $(p\\lor q)\\to r \\vdash p\\to r$ (slide 37)"}
+::: {.exemplo title="--- $(p\\lor q)\\to r \\vdash p\\to r$"}
 ```{.fitch seq="(p \/ q) -> r |- p -> r"}
 (p \/ q) -> r
 ---
@@ -2665,14 +2120,12 @@ p -> r               ; ->I, 2-4
 
 ### Deduções sem premissas
 
-Com $\to$I, qualquer dedução com premissas pode ser convertida numa
-dedução **sem premissas**: em vez de partir da premissa $\phi$, supõe-se
-$\phi$ numa sub-dedução e no fim aplica-se $\to$I. Em Fitch, uma dedução
-sem premissas começa logo com uma sub-dedução.
+Com $\to$I, uma dedução com premissas converte-se numa **sem premissas**:
+supõe-se a premissa numa sub-dedução e no fim aplica-se $\to$I. Em Fitch,
+uma dedução sem premissas começa logo com uma sub-dedução.
 
-::: {.exemplo title="--- $\\vdash \\phi\\to\\neg\\neg\\phi$ (slide 39)"}
-É a dedução $\phi\vdash\neg\neg\phi$ (acima) "embrulhada" numa
-sub-dedução:
+::: {.exemplo title="--- $\\vdash \\phi\\to\\neg\\neg\\phi$"}
+É $\phi\vdash\neg\neg\phi$ "embrulhada" numa sub-dedução:
 
 ```{.fitch seq="|- phi -> ~~phi"}
 |> phi
@@ -2683,24 +2136,21 @@ phi -> ~~phi         ; ->I, 1-4
 ```
 :::
 
-::: {.definicao title="--- Lema da dedução"}
-Nota adicional (apontamentos de Nelma Moreira, Lema 1.4): em geral,
+::: {.definicao title="--- Lema da dedução †"}
+(Apontamentos de Nelma Moreira, Lema 1.4.)
 $$\Sigma \cup \{\phi\} \vdash \psi \quad\text{sse}\quad \Sigma \vdash \phi\to\psi.$$
 
-- ($\Rightarrow$) Dada a dedução de $\psi$ com a premissa extra $\phi$:
-  supõe-se $\phi$ numa sub-dedução, repetem-se lá dentro os passos dessa
-  dedução até $\psi$, e aplica-se $\to$I.
-- ($\Leftarrow$) Dada a dedução de $\phi\to\psi$ a partir de $\Sigma$:
-  acrescenta-se $\phi$ às premissas e aplica-se $\to$E.
+- ($\Rightarrow$) Supõe-se $\phi$ numa sub-dedução, repetem-se lá dentro
+  os passos da dedução de $\psi$ e aplica-se $\to$I.
+- ($\Leftarrow$) Acrescenta-se $\phi$ às premissas e aplica-se $\to$E.
 
-Por isso $\phi_1, \dots, \phi_n \vdash \psi$ sse
+Logo $\phi_1, \dots, \phi_n \vdash \psi$ sse
 $\vdash \phi_1 \to (\phi_2 \to \cdots (\phi_n \to \psi))$.
 :::
 
-::: {.exemplo title="--- A tautologia do slide 16, agora formal"}
-$\vdash (p\lor(q\land r))\to((p\lor q)\land(p\lor r))$. É o raciocínio
-informal do início da aula, passo a passo: $\to$I por fora, $\lor$E por
-dentro, e em cada caso $\lor$I + $\land$I.
+::: {.exemplo title="--- A tautologia do exemplo informal, agora formal"}
+$\vdash (p\lor(q\land r))\to((p\lor q)\land(p\lor r))$: $\to$I por fora,
+$\lor$E por dentro e, em cada caso, $\lor$I + $\land$I.
 
 ```{.fitch seq="|- (p \/ (q /\ r)) -> ((p \/ q) /\ (p \/ r))"}
 |> p \/ (q /\ r)
@@ -2719,10 +2169,9 @@ dentro, e em cada caso $\lor$I + $\land$I.
 ```
 :::
 
-::: {.exemplo title="--- O raciocínio do Paulo, agora deduzido"}
-$(p\land q)\to r,\ p,\ \neg r \vdash \neg q$. O objetivo é uma negação:
-supõe-se $q$ e procura-se $\mathbf{F}$. Com $p$ e $q$ monta-se $p\land q$,
-que pela primeira premissa dá $r$, contra $\neg r$.
+::: {.exemplo title="--- O raciocínio do Paulo, deduzido"}
+$(p\land q)\to r,\ p,\ \neg r \vdash \neg q$. Objetivo negação: supõe-se
+$q$; com $p$ monta-se $p\land q$, que dá $r$, contra $\neg r$.
 
 ```{.fitch seq="(p /\ q) -> r, p, ~r |- ~q"}
 (p /\ q) -> r
@@ -2753,15 +2202,13 @@ q -> r               ; ->I, 3-5
 :::
 
 ::: {.exemplo title="--- Exercício 2.5(d) (lab, proplogicproofs.pdf)"}
-$p\lor\neg q,\ \neg r\to q,\ r\to\neg s,\ s \vdash p$. A conclusão é uma
-letra só, mas há uma premissa disjunção com $p$ de um lado: $\lor$E com
-$\gamma = p$.
+$p\lor\neg q,\ \neg r\to q,\ r\to\neg s,\ s \vdash p$. A premissa
+$p\lor\neg q$ tem $p$ de um lado: $\lor$E com $\gamma = p$.
 
-- **Caso $p$**: é logo $p$ (repetição).
-- **Caso $\neg q$**: não há $p$ à vista, por isso mostra-se que este caso
-  é **impossível** ($\mathbf{F}$) e usa-se $\mathbf{F}$E. A contradição:
-  $\neg q$ e $\neg r\to q$ obrigam a $r$ (se $\neg r$, viria $q$); $r$ dá
-  $\neg s$, contra a premissa $s$.
+- **Caso $p$**: repetição.
+- **Caso $\neg q$**: mostra-se que é **impossível** ($\mathbf{F}$) e usa-se
+  $\mathbf{F}$E. $\neg q$ e $\neg r\to q$ obrigam a $r$ (com $\neg r$
+  vinha $q$); $r$ dá $\neg s$, contra $s$.
 
 ```{.fitch seq="p \/ ~q, ~r -> q, r -> ~s, s |- p"}
 p \/ ~q
@@ -2821,20 +2268,15 @@ técnicas.
 
 ## Regras derivadas e estratégias
 
-A partir das regras base podem obter-se **regras derivadas**: atalhos que
-correspondem a deduções já feitas, que se podem "colar" no meio de outra.
-São dos apontamentos de Nelma Moreira (1.4.3.10), não dos slides.
-
-::: atencao
-A folha 2 diz: "In case you use derived rules, you should prove them
-separately." Ou seja, em exame **podes** usar MT, RA, TE, $\neg\neg$I,
-mas tens de escrever também a dedução de cada uma (as de baixo). Na
-dúvida, escreve a prova só com as regras base (as soluções desta folha
-fazem isso).
-:::
+**Regras derivadas**† (apontamentos de Nelma Moreira, 1.4.3.10) são
+atalhos que correspondem a deduções já feitas e se podem "colar" noutra.
+A folha 2 diz "In case you use derived rules, you should prove them
+separately": pode usar-se MT, RA, TE ou $\neg\neg$I, mas escrevendo
+também a dedução de cada uma (as de baixo). As soluções usam só as regras
+base.
 
 ::: {.definicao title="--- Regras derivadas e as suas deduções"}
-**Modus tollens** ("modo que nega"):
+**Modus tollens** (MT):
 $$\dfrac{\phi\to\psi \qquad \neg\psi}{\neg\phi}\,{\scriptstyle\mathrm{MT}}$$
 
 ```{.fitch seq="phi -> psi, ~psi |- ~phi"}
@@ -2851,16 +2293,14 @@ phi -> psi
 $$\dfrac{\phi}{\neg\neg\phi}\,{\scriptstyle\neg\neg\mathrm{I}}
 \qquad\qquad
 \dfrac{\begin{array}{c}[\neg\phi]\\ \vdots\\ \mathbf{F}\end{array}}{\phi}\,{\scriptstyle\mathrm{RA}}$$
-$\neg\neg$I é o exemplo $\phi \vdash \neg\neg\phi$ da secção da negação. RA
-abrevia os dois passos "$\neg$I (dá $\neg\neg\phi$) e depois $\neg$E"
-que já se usaram no exemplo (d) do slide 40.
+$\neg\neg$I é $\phi \vdash \neg\neg\phi$ (secção da negação). RA abrevia
+"$\neg$I (dá $\neg\neg\phi$) e depois $\neg$E", como no exemplo (d).
 :::
 
 ::: {.definicao title="--- Terceiro excluído (TE): $\\vdash \\phi\\lor\\neg\\phi$"}
-Sem premissas, só com as regras base. Supõe-se o contrário,
-$\neg(\phi\lor\neg\phi)$, e mostra-se que dá $\mathbf{F}$: primeiro vê-se
-que $\phi$ é impossível (daria $\phi\lor\neg\phi$), logo $\neg\phi$; mas
-$\neg\phi$ também dá $\phi\lor\neg\phi$.
+Supõe-se $\neg(\phi\lor\neg\phi)$ e chega-se a $\mathbf{F}$: $\phi$ é
+impossível (daria $\phi\lor\neg\phi$), logo $\neg\phi$; mas $\neg\phi$
+também dá $\phi\lor\neg\phi$.
 
 ```{.fitch seq="|- phi \/ ~phi"}
 |> ~(phi \/ ~phi)
@@ -2876,8 +2316,8 @@ phi \/ ~phi          ; ~E, 8
 :::
 
 ::: {.definicao title="--- Contraposição: $\\phi\\to\\psi \\dashv\\vdash \\neg\\psi\\to\\neg\\phi$"}
-Sentido $\vdash$ (o outro é igual, com um $\neg$E no fim). É o MT
-dentro de um $\to$I:
+Sentido $\vdash$ (o outro é igual, com um $\neg$E no fim): MT dentro de
+um $\to$I.
 
 ```{.fitch seq="phi -> psi |- ~psi -> ~phi"}
 phi -> psi
@@ -2892,8 +2332,7 @@ phi -> psi
 :::
 
 ::: {.definicao title="--- Estratégias para encontrar uma dedução (folha 2, página 1)"}
-Olha para a **conclusão** que falta e para as **premissas/hipóteses**
-que tens:
+Olha para a **conclusão** que falta e para as **premissas/hipóteses**:
 
 1. Conclusão **implicação** $\psi\to\theta$: supõe $\psi$, deduz $\theta$,
    aplica $\to$I.
@@ -2901,27 +2340,24 @@ que tens:
    aplica $\neg$I.
 3. **Por contradição** (quando nada mais serve, ex.: conclusão é uma
    letra ou uma disjunção): supõe $\neg\phi$ e deduz $\mathbf{F}$ (depois
-   $\neg$I e $\neg$E). Se há uma negação $\neg\psi$ nas premissas, tenta
+   $\neg$I e $\neg$E). Com uma negação $\neg\psi$ nas premissas, tenta
    deduzir $\psi$ para ter $\mathbf{F}$.
 4. Premissa **disjunção** $\phi\lor\psi$ e queres $\gamma$: supõe $\phi$ e
    deduz $\gamma$, supõe $\psi$ e deduz $\gamma$, aplica $\lor$E.
-5. Hipótese $\neg\phi$ e queres $\mathbf{F}$: tenta obter $\phi$ e
-   aplica $\mathbf{F}$I.
-6. Tens uma implicação $\phi\to\theta$: tenta deduzir $\phi$ e aplica
-   $\to$E para obter $\theta$.
+5. Hipótese $\neg\phi$ e queres $\mathbf{F}$: obtém $\phi$ e aplica
+   $\mathbf{F}$I.
+6. Tens $\phi\to\theta$: deduz $\phi$ e aplica $\to$E para ter $\theta$.
 
-**Cada passo** tem de ser uma premissa, uma hipótese, ou o resultado de
-uma regra (ou repetição) aplicada a fórmulas já deduzidas e acessíveis.
-**Não se podem usar equivalências semânticas** (leis de De Morgan, etc.)
-como passos: se forem precisas, deduzem-se (é isso que pedem as 2.11 e
-2.12).
+**Cada passo** é uma premissa, uma hipótese ou uma regra (ou repetição)
+aplicada a fórmulas acessíveis. **Não se usam equivalências semânticas**
+(De Morgan, etc.) como passos: deduzem-se (é o que pedem as 2.11 e 2.12).
 :::
 
 ::: {.exemplo title="--- Exercício 2.11(e) (lab, proplogicproofs.pdf)"}
-$\delta_1\to\delta_2 \dashv\vdash \neg(\delta_1\land\neg\delta_2)$: são duas
+$\delta_1\to\delta_2 \dashv\vdash \neg(\delta_1\land\neg\delta_2)$: duas
 deduções.
 
-**($\vdash$)** Conclusão é negação (estratégia 2): supor
+**($\vdash$)** Conclusão negação (estratégia 2): supor
 $\delta_1\land\neg\delta_2$, chegar a $\mathbf{F}$.
 
 ```{.fitch seq="delta1 -> delta2 |- ~(delta1 /\ ~delta2)"}
@@ -2935,10 +2371,10 @@ delta1 -> delta2
 ~(delta1 /\ ~delta2) ; ~I, 2-6
 ```
 
-**($\dashv$)** Conclusão é implicação (estratégia 1): supor $\delta_1$,
-chegar a $\delta_2$. $\delta_2$ é uma letra: por contradição
-(estratégia 3), supor $\neg\delta_2$; com $\delta_1$ monta-se
-$\delta_1\land\neg\delta_2$, contra a premissa (estratégia 5).
+**($\dashv$)** Conclusão implicação (estratégia 1): supor $\delta_1$,
+chegar a $\delta_2$, uma letra: por contradição (estratégia 3), supor
+$\neg\delta_2$; com $\delta_1$ monta-se $\delta_1\land\neg\delta_2$,
+contra a premissa (estratégia 5).
 
 ```{.fitch seq="~(delta1 /\ ~delta2) |- delta1 -> delta2"}
 ~(delta1 /\ ~delta2)
@@ -2953,9 +2389,8 @@ delta1 -> delta2     ; ->I, 2-7
 ```
 :::
 
-::: {.definicao title="--- Formas de raciocínio com nome"}
-Nota adicional (a 2.1 pede para "identificar a regra de inferência"; os
-nomes clássicos são estes):
+::: {.definicao title="--- Formas de raciocínio com nome †"}
+(A 2.1 pede para "identificar a regra de inferência".)
 
 | Nome | Forma | Em DN |
 |:-------------|:-----------------------|:----------------|
@@ -2987,37 +2422,34 @@ Morgan, distributividade...): só se te sobrar tempo.
 
 ## Propriedades de $\vdash$
 
-Nota adicional: os slides não tratam isto explicitamente, mas a 2.10 e a
-2.15 (marcadas com seta na folha) pedem para provar ou refutar
-afirmações gerais sobre $\vdash$. Ferramentas:
+As 2.10 e 2.15 pedem para provar ou refutar afirmações gerais sobre
+$\vdash$†:
 
-- **Para provar que uma afirmação é verdadeira**, constrói-se a dedução
-  pedida **a partir das deduções dadas**: copiam-se as suas linhas (com
-  os números ajustados) e acrescentam-se os passos que faltam. Uma
-  dedução de $\phi$ a partir de $\Sigma$ continua a ser uma dedução de
-  $\phi$ a partir de qualquer $\Sigma' \supseteq \Sigma$: as regras não
-  olham para as premissas que **não** usam.
-- **Para provar que é falsa**, instancia-se com fórmulas concretas e, para
-  mostrar o "$\nvdash$", usa-se um contraexemplo + **integridade**
-  (secção "Semântica versus dedução").
+- **Verdadeira:** constrói-se a dedução pedida **a partir das deduções
+  dadas**, copiando as suas linhas (com os números ajustados) e
+  acrescentando os passos que faltam. Uma dedução de $\phi$ a partir de
+  $\Sigma$ é também dedução de $\phi$ a partir de qualquer
+  $\Sigma' \supseteq \Sigma$: as regras não olham para as premissas que
+  não usam.
+- **Falsa:** instancia-se com fórmulas concretas e, para o "$\nvdash$",
+  usa-se um contraexemplo + **integridade**.
 
 ::: {.exemplo title="--- Exercício 2.10(a) e (b) (lab, proplogicproofs.pdf)"}
 **(a) Se $\vdash\psi$, então $\delta_1, \dots, \delta_n \vdash \psi$ ---
 VERDADEIRO.**
 
-Seja $\phi_1, \dots, \phi_m$ (com $\phi_m = \psi$) uma dedução de $\psi$
-sem premissas. Escrevem-se $\delta_1, \dots, \delta_n$ como premissas
-(linhas $1, \dots, n$) e, a seguir, as linhas $\phi_1, \dots, \phi_m$,
-somando $n$ a todos os números de linha das justificações. Cada passo
-$\phi_i$ continua justificado pela mesma regra, aplicada às mesmas
-fórmulas (que continuam acessíveis: as premissas novas estão na barra
-principal e não fecham nenhuma sub-dedução). A última linha é $\psi$.
-Logo $\delta_1, \dots, \delta_n \vdash \psi$. $\blacksquare$
+Seja $\phi_1, \dots, \phi_m$ ($\phi_m = \psi$) uma dedução de $\psi$ sem
+premissas. Escrevem-se $\delta_1, \dots, \delta_n$ como premissas (linhas
+$1, \dots, n$) e a seguir $\phi_1, \dots, \phi_m$, somando $n$ aos números
+de linha das justificações. Cada $\phi_i$ continua justificado pela mesma
+regra, aplicada às mesmas fórmulas, que continuam acessíveis (as
+premissas novas estão na barra principal e não fecham nenhuma
+sub-dedução). A última linha é $\psi$: $\delta_1, \dots, \delta_n \vdash \psi$.
+$\blacksquare$
 
 **(b) Se $\delta_1, \dots, \delta_n \vdash \psi$, então $\vdash\psi$ ---
-FALSO.**
-
-Contraexemplo: $n=1$, $\delta_1 = p$, $\psi = p$. Tem-se $p \vdash p$:
+FALSO.** Contraexemplo: $n=1$, $\delta_1 = p$, $\psi = p$. Tem-se
+$p \vdash p$:
 
 ```{.fitch seq="p |- p"}
 p
@@ -3025,10 +2457,9 @@ p
 p                    ; R, 1
 ```
 
-Mas $\nvdash p$: com $v(p) = F$ tem-se $\not\models_v p$, logo
-$\not\models p$ ($p$ não é tautologia); se houvesse uma dedução
-$\vdash p$, pela integridade de DN ter-se-ia $\models p$. Logo $\nvdash p$.
-$\blacksquare$
+Mas $\nvdash p$: com $v(p) = F$, $\not\models_v p$, logo $\not\models p$;
+se houvesse uma dedução $\vdash p$, pela integridade ter-se-ia
+$\models p$. $\blacksquare$
 :::
 
 ::: {.pratica title="--- Propriedades de $\\vdash$ (proplogicproofs.pdf)"}

@@ -27,7 +27,7 @@ estar disponível para fazeres desde a Aula 3.
 | **1ª Entrega** (trabalho — jogo, versão só-cliente) | até **sexta-feira, 30 de outubro de 2026**; tolerância até **segunda, 2 de novembro às 10:00** *(prazo de submissão é igual para todas as turmas — não depende do teu dia de prática)* | 3 valores |
 | **1º Teste** | **quinta-feira, 5 de novembro de 2026, 14:00–16:00** — na tua aula prática (PL2), em computador | 4 valores |
 | **2ª Entrega(s)** (trabalho — protocolo cliente/servidor + servidor Node.js) | até **sexta-feira, 11 de dezembro de 2026**; tolerância até **segunda, 14 de dezembro às 10:00** | 5 valores |
-| **2º Teste** | **provavelmente segunda-feira, 14 de dezembro de 2026** — no site aparece marcado com "‼", símbolo cuja legenda ("num único momento, para todas as turmas") está desativada (comentada) na página fonte. Se for mesmo "um único momento para todas as turmas", aplica-se a ti mesmo sendo PL2 (não é à quinta); mas como a nota está desativada, **confirma esta data com o docente antes de a dares como certa** | 8 valores |
+| **2º Teste** | **provavelmente segunda-feira, 14 de dezembro de 2026** — no site aparece marcado com "!!", símbolo cuja legenda ("num único momento, para todas as turmas") está desativada (comentada) na página fonte. Se for mesmo "um único momento para todas as turmas", aplica-se a ti mesmo sendo PL2 (não é à quinta); mas como a nota está desativada, **confirma esta data com o docente antes de a dares como certa** | 8 valores |
 
 **Regra geral de prazos** (nota de rodapé do calendário): entrega até à
 sexta-feira da semana anterior à indicada, com tolerância até segunda-feira
@@ -63,7 +63,7 @@ seguinte às 10:00. É isso que já apliquei nas datas acima.
 | 3 dez | Qui | 22 | Comunicação | APIs | | |
 | 7 dez | Seg | 23 | Comunicação | APIs | | |
 | 10 dez | Qui | — | | | | |
-| **14 dez** | **Seg** | — | | | | **2º Teste ‼ / 2ª Entregas** |
+| **14 dez** | **Seg** | — | | | | **2º Teste !! / 2ª Entregas** |
 
 ## Que ficheiro é cada "Folha"
 
@@ -78,9 +78,10 @@ conteúdo de cada pasta):
 | **Folha 3** | `folhas/mashup/` | Combinar serviços web existentes (*mashup*) — usa AJAX. |
 
 **Legenda dos símbolos** (das notas de rodapé do calendário):
+
 - **†** — entrega até à sexta-feira da semana anterior, tolerância até segunda-feira às 10:00.
 - **‡** — na aula prática, em computador.
-- **‼** — nota comentada/desativada na página fonte (dizia "num único momento, para todas as turmas"); mantenho o símbolo mas não confio 100% no significado até confirmares com o docente ou veres o site atualizado.
+- **!!** — nota comentada/desativada na página fonte (dizia "num único momento, para todas as turmas"); mantenho o símbolo mas não confio 100% no significado até confirmares com o docente ou veres o site atualizado.
 
 ## Sumários detalhados, aula a aula
 
@@ -138,8 +139,9 @@ para além do tópico resumido da tabela acima.
 
 Esta folha só vai até 14 de dezembro de 2026. Não há (ainda) informação
 sobre:
+
 - Período de exames / época normal ou de recurso;
-- Datas exatas de apresentação dos trabalhos (ver `TRABALHO_Tab.md`, secção
+- Datas exatas de apresentação dos trabalhos (ver `TRABALHO_Tab.pdf`, secção
   "Apresentação" — usam um calendário partilhado à parte, à medida da
   disponibilidade de cada grupo, **na semana seguinte** ao prazo de cada entrega).
 

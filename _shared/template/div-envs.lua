@@ -52,13 +52,15 @@ end
 
 -- v2: "# Aula 7 --- Título" -> número grande + título (ver \aulahead no
 -- preamble-v2.tex). O índice e o cabeçalho das páginas ficam com o nome
--- completo "Aula 7 --- Título".
+-- completo "Aula 7 --- Título". Disciplinas sem aulas numeradas (Tecnologias
+-- Web, resumida a partir do site) usam "# Tema 3 --- Título" da mesma forma.
 local function Header(el)
   if not v2 or el.level ~= 1 then return nil end
   local txt = pandoc.utils.stringify(el)
-  local n = txt:match("^Aula%s+(%d+)%s*—")
-  if not n then return nil end
-  -- tira "Aula", espaço, número, espaço, travessão e espaço do início
+  -- "Aulas 5--6": um só PDF com duas aulas (Lógica); o número fica "5–6"
+  local rotulo, n = txt:match("^(%a+)%s+(%d+[^%s]*)%s*—")
+  if not n or (rotulo ~= "Aula" and rotulo ~= "Aulas" and rotulo ~= "Tema") then return nil end
+  -- tira "Aula"/"Tema", espaço, número, espaço, travessão e espaço do início
   local inl = el.content
   while #inl > 0 do
     local first = inl[1]
@@ -72,8 +74,8 @@ local function Header(el)
   end
   local titulo = tex(inl)
   local id = el.identifier ~= "" and ("\\label{" .. el.identifier .. "}") or ""
-  return pandoc.RawBlock("latex", "\\clearpage\\def\\aulanum{" .. n .. "}" ..
-    "\\section[Aula " .. n .. " --- " .. titulo .. "]{" .. titulo .. "}" .. id)
+  return pandoc.RawBlock("latex", "\\clearpage\\def\\aulanum{" .. n .. "}\\def\\aularotulo{" .. rotulo .. "}" ..
+    "\\section[" .. rotulo .. " " .. n .. " --- " .. titulo .. "]{" .. titulo .. "}" .. id)
 end
 
 local function Div(el)
@@ -136,6 +138,71 @@ local function linhas_tabela(el)
   return math.floor(n * 1.15) + 1
 end
 
+-- Altura aproximada de um bloco, em linhas de texto (para os títulos não
+-- ficarem sozinhos no fundo da página quando o bloco seguinte é uma caixa,
+-- tabela ou código que não se parte e passa inteiro para a página seguinte).
+-- Carateres que o parágrafo ocupa impresso. Uma fórmula conta ~40% do seu
+-- código TeX ("\not\models_v" ocupa 2 carateres, não 13) e uma fórmula em
+-- destaque conta como 2,5 linhas; sem isto, em Lógica cada título reservava
+-- espaço a mais e deixava meias páginas vazias.
+local function comprimento(b)
+  local n = 0
+  b:walk({
+    Str = function(s) n = n + (utf8.len(s.text) or #s.text) end,
+    Space = function() n = n + 1 end,
+    Code = function(c) n = n + #c.text end,
+    Math = function(m)
+      if m.mathtype == "DisplayMath" then n = n + 250
+      else n = n + math.ceil(#m.text * 0.4) end
+    end,
+  })
+  return n
+end
+
+local function linhas_bloco(b)
+  local t = b.t
+  if t == "Para" or t == "Plain" then
+    return math.ceil(comprimento(b) / 100) + 0.4
+  elseif t == "CodeBlock" then
+    local _, n = b.text:gsub("\n", ""); return n + 2
+  elseif t == "BulletList" or t == "OrderedList" then
+    local n = 0.5
+    for _, item in ipairs(b.content) do
+      for _, x in ipairs(item) do n = n + linhas_bloco(x) end
+    end
+    return n
+  elseif t == "Table" then return linhas_tabela(b)
+  elseif t == "Div" then
+    local n = 2
+    for _, x in ipairs(b.content) do n = n + linhas_bloco(x) end
+    return n
+  elseif t == "Header" then return 2.5
+  end
+  return 3
+end
+
+-- Linhas a reservar antes do título blocos[i]: o título mais o bloco
+-- seguinte, se este não se partir (caixa, tabela, código curto), ou o
+-- início do parágrafo/lista, se se partir.
+local function linhas_titulo(blocos, i)
+  local prox = blocos[i + 1]
+  if not prox then return 3 end
+  if prox.t == "Header" then return 2.5 + linhas_titulo(blocos, i + 1) end
+  local n = linhas_bloco(prox)
+  local depois = blocos[i + 2]
+  if prox.t == "Para" and n <= 3.5 and depois and
+     (depois.t == "Div" or depois.t == "Table") then
+    -- título + uma frase de introdução + caixa/tabela: reservar também a
+    -- caixa, senão o título e a frase ficam sozinhos no fundo da página
+    n = n + linhas_bloco(depois)
+  elseif prox.t == "Para" or prox.t == "BulletList" or prox.t == "OrderedList" then
+    n = math.min(n, 3)
+  end
+  -- imagens não têm altura conhecida aqui: reservar pelo menos meia página
+  if prox.t == "Para" and #prox.content == 1 and prox.content[1].t == "Image" then n = 22 end
+  return math.min(3 + n, 8)
+end
+
 -- Só no nível de topo: dentro das caixas (não-quebráveis) não é preciso.
 local function Pandoc(doc)
   if not v2 then return nil end
@@ -148,8 +215,10 @@ local function Pandoc(doc)
     end
   end
   local out = {}
-  for _, el in ipairs(doc.blocks) do
-    if el.t == "Table" then
+  for i, el in ipairs(doc.blocks) do
+    if el.t == "Header" and el.level >= 2 then
+      table.insert(out, needspace(math.ceil(linhas_titulo(doc.blocks, i))))
+    elseif el.t == "Table" then
       local n = linhas_tabela(el)
       if n <= 40 then table.insert(out, needspace(n)) end
     elseif el.t == "CodeBlock" then

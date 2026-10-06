@@ -42,7 +42,7 @@ $$P(X \geq 11) = 1 - P(X \leq 10) = 1 - \texttt{BINOM.DIST(10; 35; 0,1; VERDADEI
 
 $$= 1 - 0{,}999576 \approx \mathbf{0{,}000424}$$
 
-É o 0,0004 da nota do resumo (valor confirmado em Python com
+É o 0,0004 do exemplo do resumo (valor confirmado em Python com
 `scipy.stats.binom`). Na versão portuguesa do Excel a função pode
 aparecer como `DISTR.BINOM`. O erro a evitar é calcular
 `1 - BINOM.DIST(11; ...)`, que dá $P(X \geq 12)$.
@@ -261,7 +261,7 @@ muda é **onde** os pacotes esperam: na (c) esperam em T1, antes de
 entrar na LAN; na (d) acumulam-se na **fila do router**. Se a fila de R
 fosse pequena, na (d) podia haver **perdas**.
 
-## Atrasos --- filas de espera, ping e traceroute, perdas
+## Atrasos --- filas de espera
 
 ### F2.3 --- Espere, mas não desespere (Ficha 2)
 
@@ -309,6 +309,8 @@ como um passeio aleatório sem tendência para voltar a zero, e as suas
 oscilações vão ficando cada vez maiores com o tempo. Por isso o tempo de
 espera médio cresce sem limite. É a "explosão do atraso" do resumo: o
 problema não é a média, é a **variabilidade** com zero margem.
+
+## Atrasos --- ping e traceroute
 
 ### F2.7 --- Ferramentas: ping e traceroute (Ficha 2)
 
@@ -382,6 +384,8 @@ Se um salto tem RTT **menor** do que o mínimo que a distância permite
 (por exemplo, um IP que a geolocalização diz estar nos EUA com 5 ms a
 partir do Porto), a **geolocalização está errada** (é comum: o IP está
 registado na sede da empresa, não onde está o *router*).
+
+## Atrasos --- perdas e melhor esforço
 
 ### F2.4 --- Os dois generais (Ficha 2)
 
@@ -658,7 +662,7 @@ chamado DSCP.)
 - Os *routers* têm de implementar e configurar várias filas com
   prioridades.
 
-## Aula 2 --- Web e HTTP
+## Aula 2 --- Tempo de resposta do HTTP
 
 ### C2.1 --- Tempo de resposta do HTTP (exercício inventado)
 
@@ -694,6 +698,8 @@ $$90 + 90 = \mathbf{180\text{ ms}}$$
 Resumo: 540 $\to$ 340 $\to$ 180 ms. Em RTTs: 12, 7 e 3 RTT, mais $6T$ =
 60 ms de transmissão nos três casos (confirma: $12 \times 40 + 60 = 540$;
 $7 \times 40 + 60 = 340$; $3 \times 40 + 60 = 180$).
+
+## Aula 2 --- HTTP à mão
 
 ### F3.1 --- HTTP à mão: persistente, hã? (Ficha 3, Ex. 1)
 
@@ -805,6 +811,8 @@ Dois cuidados práticos:
   **três respostas chegaram seguidas, pela ordem dos pedidos**, cerca de
   0,27 s depois do envio, o tempo de **um** pedido e não de três. Depois
   da terceira, o servidor fechou.
+
+## Aula 2 --- Capturas HTTP
 
 ### F3.7a --- Captura HTTP (Ficha 3, Ex. 7a)
 
@@ -928,6 +936,8 @@ volta são no máximo 24 km de fibra para cada lado, e na prática menos
 (há processamento). O cliente está na **mesma rede local** (ou muito
 perto) do servidor. Os endereços confirmam: 192.168.x.x e 10.x.x.x são
 endereços **privados**, de redes internas (aqui, dentro do DCC).
+
+## Aula 2 --- Web caches: o proxy do Paulo
 
 ### F3.2 --- À volta do HTTP: o proxy do Paulo (Ficha 3, Ex. 2)
 
@@ -1239,7 +1249,7 @@ o correio num aparelho aparece igual no outro. (O POP3 no modo "transfere
 e deixa ficar" evita perder as mensagens, mas não guarda estado entre
 sessões: pastas e organização não passam de um aparelho para o outro.)
 
-## Aula 2 --- DNS
+## Aula 2 --- DNS: resolução e registos
 
 ### C2.5 --- DNS (exercício inventado)
 
@@ -1283,6 +1293,8 @@ hierarquia saiba a quem perguntar:
 
 Resolver `www.ferramentas.pt` dá o CNAME `servidor1.ferramentas.pt`, e
 depois o registo A dá 192.0.2.10.
+
+## Aula 2 --- DNS: host e dig
 
 ### F3.4 --- dig da name? (Ficha 3, Ex. 4)
 
@@ -1463,6 +1475,8 @@ podem chegar por outra ordem ou perder-se. Sem uma conexão por pergunta
 Nota adicional: ser **aleatório** também protege: um atacante que tente
 enviar uma resposta falsa tem de adivinhar o `id` (e a porta), senão a
 resposta é ignorada.
+
+## Aula 2 --- DNS: TTL e servidores de raiz
 
 ### F3.5 --- Quanto tempo me resta? (Ficha 3, Ex. 5)
 
