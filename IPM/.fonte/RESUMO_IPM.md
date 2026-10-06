@@ -1,10 +1,10 @@
 ---
 title: "Interação Pessoa-Máquina (IPM) --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 2 (Aulas 1--3, Módulos 01--03, enunciado do projeto COL)"
+date: "Atualizado: Semana 3 (Aulas 1--4, Módulos 01--04, enunciado do projeto COL)"
 ---
 
-<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pptx, Praticas/Semana_2/Enunciado_Projeto_COL.pdf (projeto, fundido na Aula 1) -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pptx, Teoricas/Aula_04.pdf (tópico Esboçar fundido na Aula 2), Praticas/Semana_2/Enunciado_Projeto_COL.pdf (projeto, fundido na Aula 1) -->
 
 # Aula 1 --- Enquadramento da disciplina e do projeto
 
@@ -27,6 +27,10 @@ modelo do processador humano (perceção, atenção, memória), prototipagem
 (definição do problema, ciclo de desenvolvimento, avaliação), a interação
 como algo que gera sentimento (não é só eficiência mecânica) e uma breve
 história da IPM.
+
+A definição formal de desenho de interfaces, as razões para a IPM existir
+e a sua história (marcos de 1963 a 2026) estão na **Aula 4**, "Porquê
+IPM?" e "Introdução à IPM".
 
 ::: atencao
 Referências bibliográficas dadas como opcionais pelo professor (não são
@@ -652,6 +656,10 @@ encher? (É a conta por trás do exemplo de "ouro" do enunciado.)
 **Não permitido** (como substituto do teu próprio raciocínio):
 
 - Gerar os esboços ou os conceitos de design.
+- Usar imagens geradas por IA **como fonte de ideias**. (Módulo 04: são
+  opcionais e só servem para **ilustrar um conceito que o grupo já
+  escolheu**; o porquê está na Aula 2, "Um esboço vs. uma maqueta gerada
+  por IA".)
 - Tomar as decisões de design pelo grupo.
 - Escrever as avaliações ou as conclusões.
 - Produzir "evidência" que o grupo não criou de facto.
@@ -1394,7 +1402,9 @@ do trabalho de grupo.
 **Esboçar não é sobre desenhar bem** — é uma ferramenta para **exprimir**,
 **desenvolver** e **comunicar** ideias de desenho. Faz parte do processo em
 várias fases: geração de ideias, elaboração do desenho, escolhas de
-desenho, e engenharia.
+desenho, e engenharia. (Esta secção junta o que os Módulos 02 e 04 dizem
+sobre esboços: as razões, os atributos de um esboço, a diferença para um
+protótipo e o caderno de esboços.)
 
 ### Porque esboçar?
 
@@ -1415,6 +1425,317 @@ desenho, e engenharia.
 ideias diferentes no mesmo esboço.** Cada esboço deve corresponder a uma
 única ideia — misturar ideias no mesmo desenho torna difícil depois
 avaliar, comparar ou escolher entre elas individualmente.
+:::
+
+**"Queremos que falhes depressa"** (*"We want you to fail fast"*). O
+Módulo 04 responde assim às perguntas "porquê desenhos maus? porquê
+esboçar? porque não desenhos de qualidade?": **os esboços tornam o falhar
+barato.** Uma ideia má descoberta num esboço de dois minutos custa dois
+minutos; a mesma ideia descoberta num protótipo Figma acabado custa dias,
+e descoberta no sistema já construído custa muito mais. Como quase todas as
+primeiras ideias falham (é o que a Aula 4 mostra, em "Como falham as
+interfaces"), o objetivo é falhar **cedo e muitas vezes**, enquanto é
+barato.
+
+### Os atributos de um esboço
+
+Os atributos vêm do livro *Sketching User Experiences* (Bill Buxton), em
+que o Módulo 04 se baseia. São o que distingue um esboço de qualquer outro
+desenho: um desenho que não os tem não é um esboço, mesmo que seja feito a
+lápis.
+
+::: {.definicao title="--- Atributos de um esboço (1): o processo"}
+- **Rápido** (*quick*) **de fazer.** Segundos ou minutos, não horas.
+- **Oportuno** (*timely*): está disponível **quando é preciso**, no
+  momento da discussão, e não dias depois.
+- **Descartável** (*disposable*): o investimento está **no processo e no
+  conceito, não na execução**. *"Se não te podes dar ao luxo de o deitar
+  fora, não é um esboço."*
+- **Abundante** (*plentiful*): os esboços fazem sentido **numa coleção ou
+  série de ideias**. Um esboço sozinho diz pouco; o significado e a
+  relevância vêm do contexto (por exemplo, os estudos de forma de um
+  despertador digital no slide: dezenas de formas lado a lado, cada uma só
+  interessa comparada com as outras).
+:::
+
+::: atencao
+**"Descartável" não quer dizer "deita fora".** O slide acrescenta: *"(Obs:
+in this course you shouldn't!)"* --- nesta disciplina **não se deitam fora
+os esboços**. Descartável é uma atitude: não te prendas a um esboço só
+porque já o fizeste. Mas o esboço fica guardado, porque é **evidência**: o
+R1 pede **todas as alternativas da S3 fotografadas** (Aula 1, R1), o passo
+4 do 10x10 diz "não deites fora os outros desenhos" (Aula 3) e a regra do
+caderno de esboços (abaixo) é "não apagues ideias".
+:::
+
+::: {.definicao title="--- Atributos de um esboço (2): a forma"}
+- **Vocabulário claro** (*clear vocabulary*): o traço e o estilo mostram
+  logo que é um esboço e **não uma implementação**. Quem o vê sabe que
+  ainda pode mudar tudo.
+- **Resolução limitada** (*constrained resolution*): o detalhe **não vai
+  além do necessário** para captar o conceito.
+- **Coerência com o estado** (*consistency with state*): o acabamento do
+  desenho **acompanha o estado de desenvolvimento** do conceito. Uma ideia
+  ainda vaga tem um desenho vago; uma ideia já decidida pode ter um desenho
+  mais definido.
+:::
+
+![](figuras/esboco_tres_estados_dialogo.png){width=92%}
+
+*O mesmo diálogo de alerta em três estados do conceito (slide 26): primeiro
+um rabisco com "?" e "OK" (só se sabe que há uma pergunta e um botão);
+depois um esboço mais limpo, com texto de enchimento (sabe-se a estrutura,
+ainda não o texto); por fim, o diálogo real, com o texto definitivo. O
+acabamento cresce com a ideia.*
+
+O Módulo 04 desdobra estes três atributos em mais três ideias, mostradas
+com exemplos do "ligar dois telemóveis" (o exemplo do 10x10, Aula 3):
+
+::: {.definicao title="--- Detalhe mínimo, refinamento adequado, abertura"}
+- **Detalhe mínimo** (*minimal detail*): incluir **só o que é preciso**
+  para mostrar o propósito ou o conceito. No slide, dois ecrãs "Connected!
+  with George / with Sally" com três botões (Photos, Contacts, ...) e uma
+  frase escrita ao lado ("uma vez ligadas, as pessoas podem trocar várias
+  coisas") chegam para explicar a ideia.
+- **Grau de refinamento adequado** (*appropriate degree of refinement*): o
+  esboço é **tão refinado como a ideia**. Ideia sólida, esboço mais
+  definido; ideia genérica, esboço menos definido. O contraexemplo do slide
+  é um telemóvel desenhado em perspetiva, sombreado, com etiquetas técnicas,
+  para uma ideia que ainda era só "encostar os dois telemóveis": o desenho
+  promete mais do que a ideia tem.
+- **Abertura e liberdade vs. fechado e preciso** (*openness and freedom
+  vs. tight and precise*): um bom esboço é **incompleto** e deixa espaço
+  para criar ("3 toques simultâneos nos dois telemóveis", desenhado à mão
+  com dois telemóveis e um dedo). Um desenho técnico de patente, com todas
+  as peças numeradas, está **completo**: não deixa nada para fazer, por
+  isso já não serve para explorar.
+:::
+
+::: {.definicao title="--- Atributos de um esboço (3): o efeito nas pessoas"}
+- **Sugere e explora, em vez de confirmar** (*suggest and explore rather
+  than confirm*): mostra e provoca **o que podia ser**, não o que já está
+  decidido.
+- **Catalisador** (*catalyst*): **provoca conversa e discussão**. Um
+  esboço é bom quando as pessoas pegam nele, escrevem por cima e propõem
+  outra coisa.
+:::
+
+![](figuras/esboco_catalisador.png){width=88%}
+
+*O esboço como catalisador (slide 29): ao lado do diálogo "Alert" alguém
+colou uma nota "'Alert' soa intimidante" e outra "e se, em vez de diálogos
+modais, fosse uma notificação (toaster) que aparece uns segundos?", com
+três variações dessa ideia à direita. O esboço não foi aprovado nem
+reprovado: gerou ideias novas.*
+
+::: exame
+A lista de atributos aparece no *wrap-up* do Módulo 04 e é boa matéria de
+pergunta direta: **rápido, oportuno, descartável, abundante, vocabulário
+claro, resolução limitada, coerente com o estado do desenho**. Os slides
+juntam-lhe, a meio, **sugere e explora** e **catalisador** (são nove na
+lista "So far" do slide 29). Sabe dizer cada um numa frase e dar um
+exemplo do que o viola.
+:::
+
+### Um esboço não é um protótipo
+
+::: {.definicao title="--- Esboço vs. protótipo"}
+A diferença entre os dois é:
+
+- um **contraste de propósito** (**sempre**): o **esboço serve para
+  comunicar** (explorar e discutir ideias); o **protótipo serve para
+  verificar** (testar se o desenho funciona);
+- um **contraste de forma** (**normalmente, mas nem sempre**): o esboço
+  costuma ser a lápis e o protótipo no computador, mas pode haver um
+  protótipo em papel, ou um esboço feito numa ferramenta digital.
+
+Não há uma fronteira nítida: é um **contínuo** (*continuum*), do esboço
+puro ao protótipo puro. *"Esboçar é sobre desenho da interface;
+prototipar é sobre teste da interface."*
+:::
+
+![](figuras/esboco_prototipo_buxton.png){width=48%}
+
+*Do esboço ao protótipo (Buxton, 2007). O eixo horizontal é o tempo e o
+vertical o investimento. A mancha começa larga e cor de laranja (esboço,
+"Design": muitas ideias em aberto) e estreita até ficar rosa (protótipo,
+"Usability": poucas ideias, já a ser testadas). A seta vermelha mostra que
+o investimento em cada artefacto cresce com o tempo; as setas curvas são as
+iterações, que continuam em todas as fases.*
+
+Os **esboços** servem a **ideação inicial**, nas fases iniciais do desenho
+(e dentro de cada fase); os **protótipos** servem para **captar e detalhar o
+desenho real**. As propriedades de cada um vêm aos pares, cada propriedade
+do esboço com a sua oposta no protótipo:
+
+| Esboço | Protótipo |
+|-----------------------------------|-----------------------------------|
+| evocativo (*evocative*) | didático (*didactic*) |
+| sugere (*suggest*) | descreve (*describe*) |
+| explora (*explore*) | refina (*refine*) |
+| pergunta (*question*) | responde (*answer*) |
+| propõe (*propose*) | testa (*test*) |
+| provoca (*provoke*) | resolve (*resolve*) |
+| tentativo (*tentative*) | específico (*specific*) |
+| sem compromisso (*noncommittal*) | representação (*depiction*) |
+
+::: exame
+O *wrap-up* resume assim: **propriedades do esboço** --- evocativo,
+sugere, explora, pergunta, propõe, provoca; **propriedades do protótipo**
+--- didático, descreve, refina, responde, testa, resolve, específico. É
+fácil perguntar "esta propriedade é de um esboço ou de um protótipo?", ou
+pedir para emparelhar as duas colunas.
+:::
+
+**Do desenho inicial ao desenho final.** À medida que o desenho avança, o
+artefacto usado passa de muitos esboços a um sistema que funciona:
+
+| Fase do desenho | Artefacto |
+|------------------------------------------------|---------------------------|
+| Gerar ideias e representações diferentes (*brainstorm*) | Muitos esboços |
+| Escolher uma representação; definir o estilo da interface em traços gerais | Variações e detalhes em esboço |
+| *Walkthrough* centrado nas tarefas e redesenho | Esboços ou protótipos de baixa fidelidade |
+| Afinar a interface, desenho dos ecrãs | Protótipos de baixa a média fidelidade |
+| Avaliação heurística e redesenho; testes de usabilidade e redesenho | Protótipos de alta fidelidade |
+| Testes de campo limitados; testes *alpha*/*beta* | Sistemas a funcionar |
+
+*Lê-se de cima (desenho inicial, early design) para baixo (desenho final,
+late design).*
+
+::: atencao
+**Nota adicional (comparação com o projeto COL; interpretação minha):** a
+tabela dos slides é genérica. O calendário do COL (Aula 1) segue-a quase à
+letra: S3/S5 = muitos esboços e variações; Fase 1 (S6) = *cognitive
+walkthrough* sobre **esboços**; S7 = *wireframes*; Fase 3 (S9) = testes
+de usabilidade sobre o **protótipo interativo**. A única diferença é a
+**avaliação heurística** (Fase 2, S8): a tabela põe-na sobre protótipos de
+alta fidelidade, o COL põe-na sobre ***wireframes*** (média fidelidade).
+No projeto, vale o enunciado.
+
+*Fidelidade* (nota adicional, o termo não é definido nos slides): quão
+parecido o artefacto é com o sistema final, no aspeto e no comportamento.
+Baixa fidelidade: papel, sem cores, sem interação real. Alta fidelidade:
+parece e comporta-se quase como o produto.
+:::
+
+### Um esboço vs. uma maqueta gerada por IA
+
+O Módulo 04 compara o esboço com uma maqueta (*mockup*) gerada por IA,
+usando os atributos acima. A maqueta gerada **falha precisamente nos
+atributos** que tornam o esboço útil:
+
+| O esboço | A maqueta gerada por IA |
+|----------------------------------------|----------------------------------------|
+| Rápido, descartável, abundante: dez numa hora, nenhum precioso | Parece acabada: o vocabulário errado para uma ideia em aberto |
+| Resolução limitada: mostra a ideia, não os píxeis | Resolução muito acima do estado do conceito |
+| Coerente com o estado do conceito | Uma única resposta polida, em vez de muitas diferentes |
+| Sugere e provoca: as pessoas desenham por cima | Fecha a discussão: as pessoas reagem às cores, não à ideia |
+| Feito por ti: consegues explicar cada traço | Não é teu: as decisões lá dentro não foram tomadas por ninguém |
+
+::: {.atencao title="--- Regra da disciplina sobre imagens geradas por IA"}
+**Imagens geradas por IA são opcionais, e só para ilustrar um conceito que
+o grupo já escolheu. Nunca como fonte de ideias.** Completa as regras de IA
+da Aula 1 ("Uso de Inteligência Artificial generativa na disciplina"), que
+já proíbem gerar os esboços ou os conceitos de desenho. A tabela acima
+explica **porquê**: o problema não é só ético, é que uma maqueta polida
+estraga a discussão que o esboço devia provocar.
+:::
+
+### O caderno de esboços (*sketchbook*)
+
+::: {.definicao title="--- Para que serve o caderno de esboços"}
+- Fazer *brainstorming* de **muitas ideias iniciais, boas e más**.
+- Explorar e refinar ideias, **no geral e no pormenor**.
+- Desenvolver **variações, alternativas e detalhes**.
+- **Refletir** sobre como o raciocínio foi mudando ao longo do tempo.
+- **Comunicar** ideias aos outros, mostrando-as.
+- **Escolher** as que vale a pena desenvolver.
+- **Registar** boas ideias que vês noutros sítios.
+- Recortar imagens inspiradoras (de revistas, por exemplo).
+- Fotografar, imprimir e colecionar fotografias inspiradoras.
+:::
+
+**Instrumentos.** O **lápis** (barato, flexível, fácil de levar, na
+argola do caderno; leva sempre um contigo); a **borracha e o afia**
+(práticos, mas opcionais); **fita-cola, tesoura e cola** para colar objetos
+encontrados (não precisas de os levar sempre contigo; junta-lhes a
+**câmara do telemóvel**); **outros materiais**, desde que não atrapalhem.
+
+::: {.definicao title="--- Boas práticas do caderno de esboços"}
+- **Leva-o e usa-o com regularidade**: esboça em qualquer sítio, a
+  qualquer hora. Só funciona se o tiveres contigo.
+- **Enche as páginas**: uma ideia bem composta, uma série de desenhos
+  relacionados, coisas que vês e que te dão ideias.
+- **Esboça alternativas** (*getting the right design*): aspetos diferentes
+  da interface, representações diferentes, contextos de uso diferentes...
+- **Esboça detalhes** (*getting the design right*): esboços detalhados que
+  desenvolvem as nuances da interface.
+- **Anota os desenhos**: o que não consegues desenhar, texto
+  complementar, de onde veio a ideia, a data...
+- **Não apagues ideias e não o uses para outras coisas**: é o registo de
+  todas as ideias em desenvolvimento, boas e más. Só para desenho.
+:::
+
+As duas boas práticas "alternativas" e "detalhes" são os dois modos de
+Buxton explicados logo a seguir, em "*Getting the Design Right* vs.
+*Getting the Right Design*".
+
+**Não precisas de ser artista.** *"Um desenho feio e tosco pode captar uma
+ideia tão bem como um bonito."* O exemplo do slide é uma página do caderno
+de Saul Greenberg: linhas tortas, pontos e setas, mas cheia de anotações
+("o primeiro evento é mostrado repetido", "o detalhe do evento fica
+visível", "como uma parede em perspetiva, mas nas duas dimensões"). Os
+cadernos de artistas (estudos de figuras e de narizes, no slide 39) são
+mostrados com um sinal de proibido: **não é isso que se pede**.
+
+::: {.definicao title="--- O que se encontra num caderno de esboços (exemplos dos slides)"}
+- **Ideias, variações e anotações**: formatos possíveis para um relógio
+  computador (de um estudante de *design* industrial); quatro versões
+  diferentes de uma ideia lado a lado (caderno de Nicolai Marquardt).
+- **Variações de desenho**: quatro comandos com disposições diferentes dos
+  mesmos botões (do livro *Paper Prototyping* de Carolyn Snyder).
+- **Visões gerais** (*overviews*): vários ecrãs numa página, com **setas a
+  mostrar as relações e o fluxo** entre eles.
+- ***Storyboards***: as **cenas-chave**, como numa banda desenhada (em
+  *post-its*, numerados).
+- **Transições de *storyboard***: ecrãs numerados (1 a 7) com o que o
+  utilizador faz para passar de um ao seguinte ("selecionar um indicador",
+  "clicar"...).
+- **Cenários** (*scenarios*): **histórias de usos imaginados**; no slide,
+  cinco cenários de uma tecnologia em ação, cada um num balão, com setas
+  verdes a mostrar o que passa de um objeto para outro.
+:::
+
+::: atencao
+No projeto COL usas três destes tipos já nas próximas semanas: **muitas
+alternativas por painel** na S3, **visões gerais** a ligar os painéis num
+todo e **dois *storyboards*** de missões na S5 (Aula 1, calendário).
+:::
+
+::: {.pratica title="--- Esboços antes da S3"}
+**Exercício P.4** (inventado, a partir do Módulo 04 e do calendário do
+COL).
+
+**(a)** Põe estes artefactos por ordem no contínuo esboço → protótipo e diz,
+para cada um, se serve sobretudo para **comunicar** ou para **verificar**:
+(1) um *wireframe* Figma com a posição exata de cada elemento, sem cor;
+(2) dez desenhos a lápis de um painel, feitos em 20 minutos; (3) o
+protótipo Figma clicável que 5 pessoas de fora vão testar; (4) um
+*storyboard* de uma missão em *post-its*.
+
+**(b)** Na S3 um colega aparece com **uma** imagem gerada por IA do painel
+dele, com cores, ícones e números. Que atributos de um esboço falham? Que
+risco traz para a discussão do grupo? Que regra da disciplina quebra?
+
+**(c)** Para cada fase de avaliação do COL (*walkthrough*, heurística,
+testes), diz que artefacto se usa e que fidelidade tem. Onde é que o COL
+se afasta da tabela "do desenho inicial ao desenho final"?
+
+**(d)** Aquecimento (10 minutos, fora do COL): esboça **5 formas
+diferentes** de pôr o "*reset* do cronómetro" no relógio de ginásio da
+Aula 4. Cada esboço tem de ter **um mecanismo diferente**, não só os
+botões noutro sítio. No fim, confirma os atributos: rápido? coerente com o
+estado? anotado?
 :::
 
 ## *Getting the Design Right* vs. *Getting the Right Design*
@@ -1492,6 +1813,25 @@ Cada iteração passa por: convergência (redução dos conceitos da iteração
 anterior) → geração (novos conceitos juntam-se aos que sobreviveram) →
 nova redução, num movimento em "zig-zag" até sobrar um único conceito
 selecionado no fim.
+
+**A visão de produto** (Módulo 04, slide 24). O funil não acaba no
+desenho: é a primeira parte da vida de um produto, que continua em
+engenharia e vendas.
+
+![](figuras/visao_produto_sequencial.png){width=47%} ![](figuras/visao_produto_integrada.png){width=50%}
+
+*À esquerda, a visão sequencial: o desenho (vermelho) considera **muitos
+desenhos em paralelo** e a redução filtra-os até convergirem; o semáforo
+verde marca o momento em que um (ou mais) desenhos recebem luz verde para
+passar à engenharia (verde) e, no navio, ao lançamento e às vendas. À
+direita, a visão integrada: **não há barreiras** entre as fases; desenho,
+engenharia, gestão e marketing, e vendas estão presentes ao mesmo tempo e
+trocam informação ao longo de todo o processo.*
+
+A lição do slide é a da direita: o desenho não "entrega" um resultado à
+engenharia e desaparece; **deve haver interação entre muitos intervenientes
+diferentes** (desenho, engenharia, gestão e marketing, vendas) desde o
+início, o que liga à regra de considerar **todos** os stakeholders (T1).
 
 ::: exemplo
 **Exemplo dado nos slides: evolução do design de telemóveis.**
@@ -1655,7 +1995,7 @@ do PR2.*
 | 3 | Recolher dados + agregar + concluir | Aula 2, T2 ("Racionalizar o processo: evidência") e métodos de T1.1 |
 | 4 | Estudar o utilizador + personas + tecnologia | Aula 2, T1.1, "Personas" e T2 |
 | 5 | Modelos conceptuais de desenho + decisões | Aula 2, T3 (pipeline, grelhas) + **método 10x10** (abaixo) |
-| 6 | Protótipo | "a descrever mais tarde" (módulos seguintes) |
+| 6 | Protótipo | Aula 2, "Um esboço não é um protótipo" (o que os distingue, fidelidade por fase); a construção no Figma fica para módulos seguintes |
 | 7 | Avaliação de usabilidade | Aula 2, T4 (inclui *task flows*) |
 | 8 | Relatório final | Aula 1, "PR2" |
 
@@ -1876,3 +2216,482 @@ notas do orador que acrescentavam informação (ex.: "dos 10 iniciais podem
 ficar 6", a história do lojista) estão incluídas acima. O slide "Situações
 dos anos anteriores" estava vazio (a preencher em aula).
 :::
+
+# Aula 4 --- Introdução à IPM: porquê, como falham as interfaces, e porque se esboça
+
+O Módulo 04 (25 set 2026) tem quatro tópicos: **porquê IPM**, **introdução
+à IPM**, **como falham as interfaces** e **esboçar**. Os três primeiros
+são matéria nova e estão nesta aula. O quarto aprofunda o que o Módulo 02
+já dizia sobre esboços, por isso foi **fundido na secção "Esboçar" da Aula
+2** (ver a tabela no fim desta aula).
+
+## Porquê IPM?
+
+### As máquinas melhoram exponencialmente; as pessoas não
+
+::: {.definicao title="--- Lei de Moore vs. “lei de Darwin”"}
+- **Lei de Moore:** a velocidade, o tamanho e o custo dos computadores
+  melhoram **exponencialmente** (o número de transístores num chip duplica
+  a intervalos regulares).
+- **"Lei de Darwin"** (nome irónico do slide): os **sentidos, o cérebro e
+  as mãos** das pessoas são **os mesmos do ano 0**. As capacidades humanas
+  são uma linha horizontal.
+
+**O fosso entre as duas curvas é onde vive o desenho de interação.** Cada
+ano, a máquina consegue fazer e mostrar mais, mas a pessoa continua a ter
+os mesmos dois olhos, a mesma memória curta e os mesmos dez dedos. Quem
+desenha a interface é quem faz caber uma coisa na outra.
+:::
+
+Em 2026 o slide junta **mais uma curva**: interfaces **geradas por
+máquinas**, mais depressa do que alguém as consegue avaliar.
+
+Além do fosso, há **três razões** para a IPM ser cada vez mais importante:
+
+1. **O estrangulamento mudou de sítio.** Computação é barata e abundante;
+   a **atenção, o tempo e a compreensão humanas não são**. A interface
+   define o teto do que toda essa computação vale para uma pessoa.
+2. **Hoje toda a gente é utilizador.** Em 1965 havia uns milhares de
+   computadores, com operadores treinados e manuais. Em 2026 são **mais de
+   cinco mil milhões de pessoas, sem formação e sem manual**. O desenho tem
+   de levar o conhecimento consigo.
+3. **Os erros custam mais.** Ecrãs controlam carros, bombas de infusão,
+   redes elétricas e **comportas de barragens**. Um número mal lido num
+   ecrã já não é uma chamada para o apoio técnico: **é um incidente**.
+
+### Onde o fosso aparece primeiro: os dados
+
+Hoje são as máquinas que produzem a maior parte dos dados, e produzem-nos
+**para outras máquinas** (no slide: uma t-shirt com sensores, sensores
+ligados a um *tablet*). Ao mesmo tempo, surgiram **novas formas de
+interagir**: toque (2007), voz (2011--2014), óculos de realidade
+virtual/aumentada (2019, 2024), interfaces de conversa e agentes
+(2022--2026). Estas mudaram **o como, não o quem**: do outro lado continua
+uma pessoa.
+
+Cada um dos "V" do *big data* é, na verdade, **uma pergunta de
+interface**:
+
+| V | A pergunta de interface |
+|--------------------|------------------------------------------------------|
+| Volume | Milhões de leituras. Quais são as poucas que a pessoa precisa de ver **agora**? |
+| Velocidade (*velocity*) | Valores novos a cada segundo. Redesenhar o ecrã sempre, ou só alertar quando algo muda? |
+| Variedade (*variety*) | Números, mapas, vídeo, alarmes. Como partilham um ecrã sem lutarem entre si? |
+| Veracidade (*veracity*) | Um sensor pode avariar. Como mostra o ecrã **quanto se pode confiar** num valor? |
+| Variabilidade (*variability*) | Um dia normal e um dia de cheia. O mesmo ecrã deve ter o mesmo aspeto nos dois? |
+
+*"Seja o que for que as máquinas produzam, uma pessoa ainda tem de o ver,
+perceber e agir. Esse é o trabalho."*
+
+::: atencao
+**Ligação ao projeto COL (nota adicional):** os cinco V são, quase palavra
+por palavra, perguntas que o COL vai ter de responder. **Variabilidade**: o
+enunciado pede situações **normais** e de **cheia**. **Veracidade**: um dos
+estados obrigatórios é **sensor suspeito**. **Velocidade**: caudais e
+níveis mudam ao minuto. **Volume** e **variedade**: duas barragens,
+comportas, grupos, níveis, previsões e câmaras em dois monitores e uma
+parede. Isto não decide nada pelo grupo: são as perguntas, não as
+respostas.
+:::
+
+### Investimento em IPM: de onde vem o próximo crescimento
+
+O slide mostra duas curvas em **S** cruzadas: o **investimento atual** (a
+GUI, interface gráfica) e o **crescimento futuro** (a próxima curva). Por
+baixo, ecrãs cada vez maiores: 1", 4", 10"--20" (a GUI), 42"--61", 72"+.
+
+::: {.definicao title="--- Como ler as curvas em S"}
+Cada tecnologia é uma curva em S: no início rende pouco, depois rende
+muito, e no fim **dá cada vez menos por cada euro a mais**. A curva
+seguinte começa com **uma nova forma de mostrar e manipular informação**,
+não com chips mais rápidos.
+
+- **Investimento atual: a GUI.** Desde 1981: ecrãs maiores, mais píxeis,
+  retornos cada vez menores. Um ecrã de 72" não duplica a tua
+  produtividade (mas aumenta-a).
+- **Crescimento futuro: a próxima curva.** Cada nova forma de mostrar e
+  manipular informação abriu um mercado que chips mais rápidos não
+  abriram:
+  - **GUI e rato (1984--1995):** a computação chegou a todas as
+    secretárias, não só aos especialistas;
+  - **multitoque (2007):** em 2011 já se vendiam mais *smartphones* do que
+    PCs;
+  - **interfaces de conversa (2022):** 100 milhões de utilizadores em dois
+    meses, **sem hardware novo**.
+
+**A próxima curva começa na interface.** Isso faz da IPM uma **decisão de
+investimento**, não um acabamento final.
+:::
+
+O investimento já lá está: **cerca de metade do código e do tempo de
+desenvolvimento** de uma aplicação típica vai para a interface com o
+utilizador (**Myers e Rosson, 1992**).
+
+## Introdução à IPM
+
+### O que é o desenho de interfaces
+
+::: {.definicao title="--- Desenho de interfaces (user interface design)"}
+**Métodos e teorias para, de forma iterativa, desenhar, implementar e
+avaliar a interação humana com um computador.**
+
+O desenho é o que fica no meio de um triângulo com **pessoas**
+(*humans*), **tarefas** (*tasks*) e **tecnologia** (*technology*): são as
+escolhas que fazem os três encaixar. E faz-se **iterativamente**.
+:::
+
+![](figuras/triangulo_hci.pdf){width=45%}
+
+*O triângulo da IPM: o desenho só faz sentido em relação às pessoas que
+vão usar o sistema, às tarefas que querem fazer e à tecnologia disponível.
+(É parecido com o triângulo mágico da Aula 2, mas não é o mesmo: lá os
+vértices são objetivos, tecnologia e utilizador.)*
+
+::: {.exemplo title="--- O Multibanco visto pelo triângulo (exemplo dos slides)"}
+- **Pessoas:** qualquer pessoa dos 15 aos 85 anos. Com pressa, na rua, ao
+  sol ou de noite, com alguém à espera atrás.
+- **Tarefas:** levantar dinheiro, pagar uma conta, ver o saldo. Raras,
+  curtas, e um erro custa dinheiro a sério.
+- **Tecnologia:** um ecrã pequeno, um teclado numérico, uma ranhura para o
+  cartão, outra para as notas. Sem rato, sem teclado, sem apoio ao
+  cliente.
+- **Desenho:** as escolhas que fazem os três encaixar: as palavras no
+  ecrã, a ordem dos passos, os bips. **Porque é que o cartão sai antes do
+  dinheiro?** Porque as pessoas vão-se embora quando têm **aquilo que
+  vieram buscar** (o dinheiro) e esquecem-se do resto. Se o dinheiro saísse
+  primeiro, o cartão ficava na máquina.
+- **Iterativamente:** nada disto era óbvio quando o primeiro Multibanco
+  (ATM) abriu, em 1967. **Cada passo foi aprendido a ver pessoas a usá-lo
+  e a falhar.**
+:::
+
+### Alguns marcos da história da IPM
+
+| Ano | Inovação |
+|-----------------|------------------------------------------------------|
+| 1963 | Manipulação direta de objetos (Sutherland, *Sketchpad*) |
+| 1965 | O rato (Engelbart) |
+| 1979 | A folha de cálculo (*VisiCalc*, Bricklin e Frankston) |
+| 1981 | A metáfora do ambiente de trabalho (*desktop*; Xerox Star) |
+| 1991 | A Web e o navegador |
+| 2007 | iPhone: o multitoque como forma principal de entrada |
+| 2010 | iPad. Kinect: o corpo como comando |
+| 2011--2014 | Assistentes de voz (Siri, Alexa) |
+| 2019, 2024 | Óculos de realidade virtual e aumentada (Quest, Vision Pro) |
+| 2022 | Interfaces de conversa com LLMs (ChatGPT) |
+| 2025--2026 | Interfaces com agentes: **o sistema age, a pessoa supervisiona** |
+
+::: exame
+Uma linha do tempo destas presta-se a perguntas de **ordenar** ou de
+**associar** (ano, inovação, autor) no exame Moodle. Os quatro com autor
+são os mais prováveis: Sutherland (*Sketchpad*, 1963), Engelbart (rato,
+1965), Bricklin e Frankston (*VisiCalc*, 1979), Xerox Star (*desktop*,
+1981).
+:::
+
+### A IPM é interdisciplinar
+
+A interface é o sítio onde **duas famílias de disciplinas** se encontram.
+Um estudante de Informática vem da coluna da esquerda; cada decisão de
+desenho no projeto vai buscar algo à da direita, quer se saiba quer não.
+
+| Do lado da máquina | Do lado humano |
+|----------------------------------------|----------------------------------------|
+| Computação gráfica | Arte, *design* gráfico e tátil: estética (disposição, cor, escolha de ícones, sensação ao toque) |
+| Sistemas operativos | Sociologia e antropologia: comportamento de grupo e cultural |
+| Linguagens de programação | Psicologia e cinesiologia: comportamento **cognitivo, percetivo e motor** |
+| Ambientes de desenvolvimento | **Capacidades humanas** para usar e aprender máquinas |
+| Redes; engenharia de software | |
+| ... e cada vez mais: *design* industrial e de produto, processamento de média digitais, robótica | |
+
+**Nota do professor:** esta disciplina existe para cobrir a **coluna da
+direita**; a da esquerda já está coberta pelo resto do curso.
+
+### O que faz disto IPM?
+
+O slide define a IPM por **quatro assuntos**, cada um com um exemplo e
+**a forma como falha**:
+
+::: {.definicao title="--- Os quatro assuntos da IPM (1--2)"}
+**1. Desempenho conjunto de tarefas por pessoas e máquinas.**
+*Exemplo:* o GPS do carro calcula o caminho; a pessoa conduz e avalia a
+estrada. **Decidir quem faz o quê é o desenho.**
+*Como falha:* quando a máquina fica com a parte fácil e deixa à pessoa a
+difícil. Um assistente de condução que guia durante horas e espera que a
+pessoa retome o controlo em dois segundos. **Vigiar uma máquina é o que as
+pessoas fazem pior.**
+
+**2. Comunicação: da máquina para a pessoa, e de pessoa para pessoa
+através da máquina.**
+*Exemplo:* "Error 0x80070057" vs. "O nome do ficheiro não pode conter /".
+Os vistos azuis: a máquina diz a alguém que leste a mensagem.
+*Como falha:* a máquina fala por códigos e bips. Os vistos azuis são **um
+estado, não uma mensagem**, mas são lidos como mensagem: "visto às 14:02,
+sem resposta". Um estado técnico torna-se uma afirmação social, e **ligada
+por omissão**.
+:::
+
+::: {.definicao title="--- Os quatro assuntos da IPM (3--4)"}
+**3. Métodos de desenho: especificar, desenhar, implementar e avaliar
+interfaces.**
+*Exemplo:* nesta disciplina, personas, esboços, protótipo Figma,
+*cognitive walkthrough*, avaliação heurística, testes com utilizadores
+reais.
+*Como falha:* o passo que costuma ser saltado é a **avaliação**. "Funciona
+para mim" não é um teste: **quem desenvolve não é o utilizador**.
+
+**4. Compromissos (*trade-offs*) de desenho.**
+*Exemplo:* simples vs. completo (um comando com 6 botões ou com 60). Seguro
+vs. rápido ("Tem a certeza?" antes de cada apagar).
+*Como falha:* quando "completo" ganha a "simples": o relógio de ginásio
+(abaixo), oito funções em quatro botões, e ninguém encontra o *reset*.
+Quando "seguro" ganha a "rápido": um aviso antes de cada apagar, e toda a
+gente carrega em OK sem ler.
+:::
+
+*"Todas as linhas acabam numa falha."* É a ponte para o tópico seguinte:
+como falham as interfaces, e como ver isso antes dos utilizadores.
+
+## Como falham as interfaces
+
+### *The Design of Everyday Things* (Don Norman)
+
+O livro de referência deste tópico é de **Don Norman**: publicado em 1988
+como ***The Psychology of Everyday Things***, revisto e aumentado em 2013
+como ***The Design of Everyday Things***. O professor recomenda a leitura
+(opcional). A capa tem um bule com o bico do mesmo lado da asa: um objeto
+que não se consegue usar.
+
+**A psicopatologia dos objetos do dia a dia** (título de um capítulo de
+Norman) são as frustrações típicas com objetos comuns:
+
+- um engenheiro não consegue perceber como aquecer duas chávenas de leite
+  com café no micro-ondas da empresa;
+- quantos conseguem programar, ou usar todas as funções, do comando da
+  smart TV e da *box*, do ecrã tátil do carro, da placa de indução, da
+  máquina de lavar e secar, da aparelhagem (de casa ou do carro), de uma
+  folha de Excel...?
+
+A foto do slide é uma **misturadora termostática** de duche: dois manípulos
+cromados iguais, sem marcas visíveis. Qual regula a temperatura e qual o
+caudal? Para que lado é mais quente? Só se descobre experimentando, debaixo
+de água.
+
+### Os primeiros tratores e o "erro do condutor"
+
+![](figuras/tratores_erro_condutor.png){width=50%}
+
+*Terreno típico: sem pavimento, irregular, inclinado. O desenho original
+tinha o **centro de gravidade alto** e as **rodas pouco afastadas**
+(distância entre eixos curta). Os tratores capotavam. Chamava-se a isso
+"erro do condutor"... mas os acidentes tornaram-se raros quando o desenho
+passou a ter **centro de gravidade baixo e rodas mais afastadas**.*
+
+Se mudar **só o desenho** (e não os condutores) fez desaparecer os
+acidentes, então o erro não era do condutor: era de um desenho que
+**ignorou o terreno, o centro de gravidade e a distância entre eixos**.
+
+::: {.definicao title="--- As duas lições da psicologia dos objetos do dia a dia"}
+**Lição 1: o mito do erro humano.** A maior parte das falhas dos sistemas
+pessoa-máquina deve-se a:
+
+- **desenhos fracos**, que não reconhecem as **capacidades** das pessoas
+  (o que elas fazem bem, $+$), e
+- às **falibilidades** das pessoas (o que elas fazem mal, $-$), que o
+  desenho também não teve em conta.
+
+É isto que dá origem a aparente "**mau uso da máquina**" e "**erro
+humano**".
+
+**Lição 2: um bom desenho tem em conta as limitações humanas.** (Lembra a
+lei de Moore vs. a "lei de Darwin": as pessoas não vão mudar; é o desenho
+que tem de se adaptar.)
+:::
+
+### O comando do projetor de diapositivos Leitz
+
+O comando tem **um único botão**. Pergunta do slide: como se avança? E
+como se recua? A resposta está no **manual de instruções**: **toque curto
+= diapositivo seguinte; toque longo = diapositivo anterior.**
+
+O problema: as duas funções estão no mesmo botão e **só a duração do
+toque** as distingue. Nada no comando mostra que recuar existe; ninguém
+adivinha a regra sem ler o manual; não se sabe **quanto tempo** é "longo";
+e quem quer avançar mas segura o botão um pouco demais **recua**, e
+pensa que foi ele que se enganou (lição 1). (O redesenho fica para o
+exercício P.5 abaixo.)
+
+### Funções escondidas, ontem e hoje
+
+::: {.exemplo title="--- O telefone de escritório (anos 90) e a alavanca do limpa-vidros (2026)"}
+**O telefone de escritório:** um teclado numérico com `*` e `#`. Dezenas
+de funções escondidas atrás de códigos: `*72` + número = reencaminhar
+todas as chamadas.
+
+- Consigo lembrar-me do código?
+- Se o marcar, como sei que funcionou?
+- Como me lembro de que deixei as chamadas reencaminhadas?
+
+**A alavanca do limpa-vidros:** uma alavanca, **sete funções**: uma
+passagem, intermitente, lento, rápido, lavar, limpa-vidros de trás,
+"auto". (No desenho do slide: rodar o anel = intervalo; para cima = lento,
+rápido; para baixo = uma passagem; puxar = lavar; empurrar = vidro de
+trás; "auto" no anel.)
+
+- Consigo lembrar-me de qual direção faz o quê? **Muda de marca para
+  marca.** Num carro japonês as alavancas estão trocadas: queres fazer
+  pisca e ligas o limpa-vidros.
+- Deixei-o ligado? O "auto" fica ligado, e o limpa-vidros arranca sozinho
+  na estação de lavagem.
+
+*"OK, vou ler o manual. Página 212, 'Comando do limpa e lava-vidros'. Onde
+está o manual?"*
+:::
+
+::: exame
+**Trinta anos de diferença, as mesmas três falhas:**
+
+1. **funções que não se veem** (estão lá, mas nada na interface as
+   mostra);
+2. **códigos que não se conseguem lembrar** (a pessoa tem de saber de
+   cor uma combinação arbitrária);
+3. **um estado que não se consegue verificar** (o sistema está num modo,
+   reencaminhado ou em "auto", e nada o mostra).
+
+Estas três falhas são uma boa grelha para analisar qualquer interface,
+incluindo o comando Leitz acima e o relógio de ginásio abaixo.
+:::
+
+### As três preocupações da IPM: informação, apresentação, interação
+
+::: {.definicao title="--- A lista de verificação da IPM"}
+1. **Informação:** *que* informação mostrar ao utilizador?
+   No carro: velocidade e avisos, **sempre**; pressão dos pneus, **só
+   quando interessa**.
+2. **Apresentação** (*display*): *como* mostrar essa informação?
+   Um ponteiro mostra uma variação **num relance**; um número **tem de ser
+   lido**. Vermelho **só para perigo**.
+3. **Interação:** *como* manipular e interagir com a informação?
+   Um botão rotativo de volume encontra-se **pelo tato** a 120 km/h; um menu
+   num ecrã tátil não.
+
+O professor pede para usar esta lista **em cada painel do trabalho
+prático**.
+:::
+
+**Pergunta para a turma (slide 19):** a partir de janeiro de 2026, o Euro
+NCAP (o programa europeu que classifica a segurança dos carros) tira pontos
+aos carros que põem os piscas, o limpa-vidros, a buzina, os quatro piscas
+e a chamada SOS num ecrã tátil. O que correu mal, em termos de IPM? (É a
+alínea (a) do exercício P.5, abaixo.)
+
+::: {.exemplo title="--- O relógio de ginásio pela lista de verificação (slide 20)"}
+O relógio do slide tem um ecrã LCD com três linhas e **quatro botões**
+(na foto leem-se "LIGHT" e "SET" nos botões de um lado). Funções:
+
+- hora (horas, minutos, segundos); data (ano, mês, dia, dia da semana);
+- luz;
+- cronómetro: iniciar, parar, *reset*;
+- alarme: acertar a hora, ligar/desligar;
+- Hora 1 e Hora 2 (dois fusos);
+- acertar a data (A/M/D); acertar a hora (H:M).
+
+**Contar as ações.** Ver hora, ver data, luz, iniciar, parar, *reset*,
+acertar o alarme, ligar/desligar o alarme, trocar Hora 1/Hora 2, acertar
+o ano, o mês, o dia, a hora e os minutos: são **14 ações** (sem contar
+"subir" e "descer" um valor ao acertar). Com 4 botões, cada botão tem de
+fazer, em média, $14/4 = 3{,}5$ coisas. Isto só se consegue com
+**modos** (o mesmo botão faz coisas diferentes consoante o modo) e com
+**toques longos ou combinações** de botões.
+
+**Informação.** O ecrã mostra hora, data e dia da semana ao mesmo tempo
+("9:42 41", "Yr 16", "FRI 02 1"), mais pequenos indicadores ("TIME",
+"HRM"). O modo atual aparece em letras minúsculas num canto: é a
+informação mais importante para saber o que cada botão faz, e é a menos
+visível.
+
+**Apresentação.** Algarismos de 7 segmentos, legíveis para a hora, mas as
+abreviaturas ("Yr", "FRI") e os indicadores pequenos têm de ser **lidos**
+com atenção, o que é difícil a meio de um treino.
+
+**Interação.** É aqui que falha, e com as três falhas da secção anterior:
+
+1. **funções que não se veem:** nada no relógio diz que o *reset* existe
+   nem onde está (por isso "ninguém encontra o *reset*", slide 11);
+2. **códigos que não se lembram:** os toques longos e as combinações de
+   que falámos acima (do género "segurar SET uns segundos para acertar" ou
+   "carregar em dois botões ao mesmo tempo"; o slide não diz quais são as
+   deste relógio) são códigos tão arbitrários como o `*72` do telefone;
+3. **estado que não se verifica:** em que modo estou? O alarme está
+   ligado? A Hora 2 está ativa? Só um ícone minúsculo, ou nada.
+
+**Conclusão:** é o compromisso "simples vs. completo" a correr mal (o
+quarto assunto da IPM): o relógio ficou **completo** e perdeu o
+**simples**, e o custo vai todo para a pessoa.
+:::
+
+### A psicologia dos objetos do dia a dia: conclusão
+
+- Muitos dos chamados "erros humanos" e "mau uso da máquina" são, na
+  verdade, **erros de desenho**.
+- Quem desenha ajuda as coisas a funcionar dando-lhes um **bom modelo
+  conceptual** (Aula 2, T3: funcionalidade, modelo conceptual e imagem do
+  sistema).
+- Quem desenha decide um conjunto de utilizadores como **público** do
+  desenho: **as personas** (Aula 2).
+- Mas **desenhar é difícil**, por muitas razões que vão além do desenho
+  (custos, prazos, tecnologia, interesses dos stakeholders: o triângulo
+  mágico da Aula 2).
+- **É preciso experimentar e testar várias vezes!** (O ciclo de desenho
+  iterativo, Aula 2.)
+
+O slide ilustra com **portas com uma placa "PUSH"** (empurrar): uma tem um
+puxador vertical, a outra uma pega. Uma pega convida a **puxar**; se a
+porta abre a empurrar, a placa é um remendo para um erro de desenho. Pela
+lição 1, quem puxa a porta não se enganou: foi a porta que lhe disse para
+puxar.
+
+::: atencao
+**Nota adicional (não está nos slides, vem do livro de Norman):** estas
+portas são conhecidas como "portas de Norman". No livro, Norman chama
+**sinalizador** (*signifier*) a qualquer sinal que diz à pessoa que ação
+é possível e onde: a forma da pega é um sinalizador (diz "puxa"). Quando o
+sinalizador da forma contradiz a ação real, nenhuma placa escrita resolve
+bem o problema, porque as pessoas reagem à forma antes de lerem a placa.
+:::
+
+::: {.pratica title="--- Analisar interfaces que falham"}
+**Exercício P.5** (perguntas dos slides do Módulo 04 e inventadas a partir
+deles).
+
+**(a)** A pergunta do slide 19: o Euro NCAP tira pontos, desde janeiro de
+2026, aos carros que põem piscas, limpa-vidros, buzina, quatro piscas e
+chamada SOS num ecrã tátil. O que correu mal em termos de IPM? Usa a lista
+**informação / apresentação / interação** e as **três falhas** das
+funções escondidas.
+
+**(b)** O comando do projetor Leitz (um botão; toque curto avança, toque
+longo recua). Diagnostica-o com as três falhas e propõe um redesenho que as
+resolva, justificado pela lista de verificação.
+
+**(c)** A porta com puxador e placa "PUSH". Porque precisa da placa? De
+quem é a culpa quando alguém puxa (lição 1)? Que mudança de desenho torna
+a placa desnecessária?
+:::
+
+## Esboçar: onde ficou o quarto tópico
+
+O quarto tópico do Módulo 04 (*Sketching*, adaptado de *Sketching User
+Experiences*) abre com *"We want you to fail fast"*: **os esboços tornam o
+falhar barato**, que é exatamente o que este tópico pede depois de se ver
+como as interfaces falham. Como aprofunda a secção "Esboçar" da Aula 2, o
+conteúdo foi fundido lá:
+
+| Conteúdo do Módulo 04 | Onde está neste resumo |
+|------------------------------------|----------------------------------------|
+| "Falhar depressa", porquê desenhos maus | Aula 2, "Esboçar", "Porque esboçar?" |
+| A visão de produto (desenho, engenharia, vendas) | Aula 2, "O funil de desenho" |
+| Atributos de um esboço (1), (2) e (3); detalhe mínimo, refinamento, abertura | Aula 2, "Os atributos de um esboço" |
+| Esboço vs. protótipo; propriedades; do desenho inicial ao final | Aula 2, "Um esboço não é um protótipo" |
+| Esboço vs. maqueta gerada por IA; regra da disciplina | Aula 2, "Um esboço vs. uma maqueta gerada por IA" (e Aula 1, regras de IA) |
+| O caderno de esboços: para quê, instrumentos, boas práticas, exemplos | Aula 2, "O caderno de esboços" |

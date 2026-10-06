@@ -150,6 +150,109 @@ Passa cada uma das tuas três personas por estas perguntas.
 - personas que não voltam a aparecer no resto do R1. Cada missão (item 3)
   deve dizer **de que persona** é.
 
+## Aula 2 --- Esboçar
+
+### P.4 --- Esboços antes da S3
+
+As alíneas (a)--(c) são de compreensão e têm uma resposta certa. A (d) é
+de desenho: a resposta é um **modelo** para comparares, não um gabarito.
+
+#### (a) Ordem no contínuo esboço → protótipo, e comunicar ou verificar?
+
+**Ordem (do esboço ao protótipo):** (2) → (4) → (1) → (3).
+
+| Artefacto | Posição | Serve sobretudo para |
+|:--------------------------|:----------------|:------------------------------|
+| (2) Dez desenhos a lápis em 20 min | Esboço puro | **Comunicar**: explorar e discutir ideias em aberto |
+| (4) *Storyboard* em *post-its* | Esboço | **Comunicar**: mostrar o fluxo de uma missão, cena a cena |
+| (1) *Wireframe* Figma, sem cor | Meio do contínuo | **Verificar** (começa a ser): é sobre ele que se faz a avaliação heurística |
+| (3) Protótipo Figma clicável | Protótipo | **Verificar**: testar com pessoas se a interface funciona |
+
+**Porquê esta ordem:** a diferença que conta **sempre** é o **propósito**
+(comunicar vs. verificar); a forma (lápis vs. computador) costuma
+acompanhar, mas nem sempre. Os dois primeiros ainda fazem perguntas
+("e se fosse assim?"), os dois últimos já dão respostas e são testados.
+
+**Cuidado com a (4):** um *storyboard* é um esboço (cenas-chave, como banda
+desenhada). Mas, se o usares no *cognitive walkthrough* para ver onde um
+operador novo se engana, nesse momento estás a usá-lo para **verificar**.
+É por isso que os slides dizem que é um contínuo e não duas caixas.
+
+#### (b) Uma imagem gerada por IA na S3: atributos, risco e regra
+
+**Atributos que falham** (compara com a tabela "esboço vs. maqueta gerada
+por IA"):
+
+- **Rápido, descartável, abundante:** é **uma** imagem, polida. Ninguém a
+  trata como descartável e não há outras para comparar.
+- **Vocabulário claro:** parece acabada, por isso diz "isto está
+  decidido" quando a S3 é para ideias em aberto.
+- **Resolução limitada** e **coerência com o estado:** cores, ícones e
+  números exatos estão muito acima do estado do conceito, que na S3 ainda
+  nem foi escolhido.
+- **Sugere e explora, catalisador:** fecha a discussão em vez de a abrir.
+
+**Risco para o grupo:** as pessoas **reagem às cores, não à ideia**; a
+discussão fica presa a uma única resposta (falta o *getting the right
+design*); e o colega **não consegue explicar cada decisão** que lá está,
+porque não foi ele que as tomou. Isso é grave porque o exame também avalia
+o trabalho do grupo.
+
+**Regra quebrada:** imagens geradas por IA são **opcionais e só para
+ilustrar um conceito que o grupo já escolheu, nunca como fonte de ideias**
+(Módulo 04). Quebra também as regras da Aula 1: gerar esboços ou conceitos
+de desenho com IA não é permitido, nem apresentar como evidência algo que
+o grupo não criou.
+
+**O que fazer:** deixar a imagem de lado e esboçar à mão **várias**
+alternativas para o painel, como pede a S3.
+
+#### (c) Artefacto e fidelidade em cada fase de avaliação do COL
+
+| Fase do COL | Método | Artefacto | Fidelidade |
+|:-------------------|:---------------------|:---------------------|:--------------|
+| Fase 1, S6 (3 nov) | *Cognitive walkthrough* | Esboços | Baixa |
+| Fase 2, S8 (17 nov) | Avaliação heurística | *Wireframes* no Figma | Média |
+| Fase 3, S9 (24 nov) | Testes de usabilidade | Protótipo interativo | Média a alta |
+
+**Onde se afasta da tabela dos slides:** a tabela "do desenho inicial ao
+desenho final" põe a **avaliação heurística** sobre **protótipos de alta
+fidelidade**. O COL fá-la sobre ***wireframes***, que são de média
+fidelidade (posição e tamanho exatos, mas sem cor, sem acabamento e sem
+comportamento). O resto coincide: *walkthrough* sobre esboços ou baixa
+fidelidade, testes de usabilidade mais tarde, sobre algo que já se
+comporta como o sistema. No projeto, **vale o enunciado**.
+
+#### (d) Cinco formas diferentes de pôr o *reset* no relógio de ginásio
+
+**Resposta-modelo** (as tuas podem ser outras; o que interessa é que os
+mecanismos sejam diferentes):
+
+1. **Botão próprio para o *reset***, com um ícone ↺ e ligeiramente
+   recolhido, para não se carregar sem querer. Mecanismo: um botão físico
+   dedicado.
+2. **Etiquetas no ecrã por cima de cada botão** (*soft keys*), que mudam
+   com o modo: no cronómetro parado, a etiqueta do botão de baixo diz
+   "RESET". Mecanismo: o ecrã diz o que cada botão faz.
+3. **Rodar a luneta para trás** até ao zero. Mecanismo: um controlo
+   rotativo, em que a direção tem significado.
+4. **Segurar START/STOP com o cronómetro parado**, com uma barra no ecrã a
+   encher e o texto "segura para reset". Mecanismo: toque longo, **mas com
+   retorno visível** (sem isso seria o erro do projetor Leitz).
+5. ***Reset* automático**: ao iniciar uma corrida nova, o cronómetro
+   anterior fica guardado num histórico e o novo começa em zero.
+   Mecanismo: não há *reset*, o sistema decide.
+
+**Verificação dos teus esboços:**
+
+| Pergunta | Se a resposta for "não" |
+|:-------------------------------|:-----------------------------------|
+| Os cinco têm mecanismos diferentes? | Dois que só mudam o botão de sítio contam como um |
+| Fizeste-os em cerca de 10 minutos? | Estás a desenhar demais: menos detalhe |
+| O acabamento é igual ao da ideia (vago)? | Coerência com o estado: tira pormenores |
+| Cada um tem uma anotação a explicar o que não se vê? | Acrescenta (ex.: "segurar 2 s") |
+| Cada um resolve pelo menos uma das três falhas? | Diz qual: ver, lembrar ou verificar o estado |
+
 ## Aula 2 --- T4 (task flows)
 
 ### P.3 --- Missões do COL
@@ -315,3 +418,102 @@ muda **o mecanismo**, ou só **a aparência**?"
 Se dois conceitos só diferissem em "botão verde" contra "lista de
 pratos", eram **um** conceito: isso é uma variação (passo 5), não um
 conceito novo (passo 2).
+
+## Aula 4 --- Como falham as interfaces
+
+### P.5 --- Analisar interfaces que falham
+
+Ferramentas a usar em todas as alíneas: a lista **informação /
+apresentação / interação** e as **três falhas** (funções que não se veem,
+códigos que não se lembram, estado que não se verifica). As propostas de
+redesenho são **respostas-modelo**.
+
+#### (a) Euro NCAP: piscas, limpa-vidros, buzina, quatro piscas e SOS num ecrã tátil
+
+**Informação.** São funções de segurança, precisas **a qualquer momento e
+sem aviso** (buzinar para evitar um choque, ligar os quatro piscas no fim
+de uma fila, chamar o SOS). Por isso têm de estar **sempre** disponíveis,
+como a velocidade no exemplo do slide, e não "quando o menu estiver
+aberto".
+
+**Apresentação.** Num ecrã tátil os comandos são desenhos num vidro liso,
+muitas vezes dentro de menus ou de outro separador. O **estado** (o pisca
+está ligado? o limpa-vidros está em "auto"?) também fica no ecrã, longe da
+mão.
+
+**Interação.** É aqui que falha mais. Um botão físico ou uma alavanca
+**encontra-se pelo tato** a 120 km/h, sem tirar os olhos da estrada; um
+ecrã tátil **não tem relevo nem retorno ao toque**, por isso obriga a
+olhar para baixo para acertar no sítio, e com o carro a abanar é fácil
+falhar.
+
+**As três falhas:**
+
+1. **Funções que não se veem:** se a função está num submenu, não está à
+   vista quando é precisa.
+2. **Códigos que não se lembram:** a sequência de toques (menu → separador
+   → botão) é uma combinação que se tem de saber de cor, e muda de marca
+   para marca (como as alavancas trocadas dos carros japoneses).
+3. **Estado que não se verifica:** numa alavanca, a **posição** mostra o
+   estado (alavanca para baixo = pisca para a esquerda); num ecrã, só se
+   sabe olhando.
+
+**O que correu mal, numa frase:** decidiu-se pelo lado da máquina (um
+ecrã é mais barato e mais "limpo" do que dez botões) e não pelas
+**limitações humanas** (lição 2): o condutor tem os mesmos olhos e a mesma
+atenção ("lei de Darwin"), e tirar os olhos da estrada é exatamente o que
+não pode fazer. E como **os erros custam mais**, um toque falhado já não é
+um incómodo: é um acidente. Daí o Euro NCAP tirar pontos.
+
+#### (b) O comando do projetor Leitz: diagnóstico e redesenho
+
+**Diagnóstico com as três falhas:**
+
+1. **Função que não se vê:** só há um botão, e nada nele mostra que
+   recuar existe.
+2. **Código que não se lembra:** "toque curto avança, toque longo recua" é
+   uma regra arbitrária, que só está no manual. E não se sabe **quanto
+   tempo** é "longo".
+3. **Estado que não se verifica:** enquanto se carrega no botão, nada
+   diz se aquilo já conta como toque longo. Só se descobre depois, quando
+   o diapositivo muda para o lado errado. Quem segura um pouco demais
+   recua sem querer e pensa que a culpa é sua (o mito do erro humano).
+
+**Redesenho (resposta-modelo):** **dois botões**, um para cada direção.
+
+- **Informação:** a única informação de que a pessoa precisa é "para que
+  lado vou". Cada botão mostra isso com uma seta (◀ e ▶).
+- **Apresentação:** o botão da direita é "avançar" e o da esquerda
+  "recuar", porque os diapositivos se leem da esquerda para a direita. As
+  setas e as formas são em **relevo** (por exemplo, o de avançar maior),
+  porque o orador está numa sala escura e a olhar para o público, não para
+  o comando.
+- **Interação:** **um toque = uma ação**, sem depender do tempo. Erra-se
+  menos, e quando se erra corrige-se com um toque no outro botão.
+
+Resolve as três falhas: as duas funções **veem-se**, não há **código** para
+lembrar, e o resultado de cada toque é imediato e previsível. (Um
+interruptor basculante, que inclina para um lado ou para o outro, seria
+uma variação da mesma ideia.)
+
+#### (c) A porta com puxador e placa "PUSH"
+
+**Porque precisa da placa:** a forma do puxador **diz "puxa"**. Uma pega
+que se agarra com a mão fechada convida a puxar. A porta abre a empurrar,
+por isso a forma e a ação estão em contradição, e a placa é um remendo
+escrito por cima de um erro de desenho.
+
+**De quem é a culpa (lição 1):** do **desenho**. A pessoa que puxa fez o
+que a porta lhe mostrou. É o mesmo caso dos tratores: chamar-lhe "erro
+humano" esconde que o desenho ignorou como as pessoas reagem (agarram e
+puxam antes de lerem uma placa).
+
+**Mudança que torna a placa desnecessária:** do lado em que se
+**empurra**, tirar o puxador e pôr uma **placa lisa de metal** à altura da
+mão: não se consegue agarrar uma superfície plana, por isso só dá para
+empurrar. Deixar a pega só do lado em que se **puxa**. Alternativa: uma
+porta de vaivém, que abre para os dois lados, e assim qualquer gesto
+funciona.
+
+(Nota adicional, do livro de Norman: a forma da pega é um **sinalizador**;
+o redesenho consiste em pôr o sinalizador certo em cada lado da porta.)

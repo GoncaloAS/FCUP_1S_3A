@@ -1,0 +1,139 @@
+% Estilo v2 (2026-10-06), desenhado com a skill frontend-design e ajustado
+% para ser compacto. Usado pelas disciplinas listadas em ESTILO_V2 no build.sh.
+% Letras (Charter / Avenir Next / Menlo / STIX Two Math) e margens vêm do
+% build.sh (-V mainfont=... -V geometry=...).
+%
+% Só há três caixas: definicao, exemplo e pratica. As caixas "atencao" e
+% "exame" deixaram de existir (pedido do Gonçalo): o que interessa vai para o
+% texto normal. Se uma aparecer, a compilação falha de propósito.
+\usepackage{graphicx}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{titlesec}
+\usepackage{newunicodechar}
+\usepackage{needspace}
+\usepackage[colorlinks=true,linkcolor=Teal,urlcolor=Teal]{hyperref}
+
+% Paleta: tinta + uma cor por função.
+\definecolor{Ink}{HTML}{1F2430}
+\definecolor{Teal}{HTML}{0F6B6E}     % definição e número da aula
+\definecolor{Graphite}{HTML}{5B6270} % exemplo resolvido
+\definecolor{Violet}{HTML}{4B3A8C}   % pratica agora
+\definecolor{Paper2}{HTML}{F4F5F7}
+\color{Ink}
+
+% Menlo sem a conversão "--" -> "–" do TeX (estraga código: "->", "--").
+\defaultfontfeatures{}
+\setmonofont{Menlo}[Scale=0.84]
+% A Charter não tem setas nem símbolos lógicos/de conjuntos: vão buscar-se
+% à fonte matemática (fora do código; no código o Menlo já os tem).
+\newunicodechar{→}{\ensuremath{\rightarrow}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+\newunicodechar{⇏}{\ensuremath{\not\Rightarrow}}
+\newunicodechar{⊆}{\ensuremath{\subseteq}}
+\newunicodechar{⊂}{\ensuremath{\subset}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∉}{\ensuremath{\notin}}
+\newunicodechar{∅}{\ensuremath{\emptyset}}
+\newunicodechar{∪}{\ensuremath{\cup}}
+\newunicodechar{∩}{\ensuremath{\cap}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{≡}{\ensuremath{\equiv}}
+\newunicodechar{⊢}{\ensuremath{\vdash}}
+\newunicodechar{⊨}{\ensuremath{\models}}
+\newunicodechar{∧}{\ensuremath{\land}}
+\newunicodechar{∨}{\ensuremath{\lor}}
+\newunicodechar{¬}{\ensuremath{\lnot}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{×}{\ensuremath{\times}}
+
+\linespread{1.06}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+\setlist{itemsep=1pt, topsep=2pt, parsep=1pt}
+% Nada de linhas soltas no fundo/topo da página, nem de hífenes a partir
+% uma palavra no fim da página.
+% Caixas não-quebráveis deixam espaço no fundo da página: não esticar o
+% texto para o encher (era o que abria espaços enormes entre linhas).
+\raggedbottom
+\widowpenalty=10000
+\clubpenalty=10000
+\brokenpenalty=10000
+
+% Rótulo das caixas: tipo (cor) e título, na mesma linha, sem travessão.
+\newcommand{\boxlabel}[3]{{\sffamily\small\bfseries\color{#1}#2}%
+  \if\relax\detokenize{#3}\relax\else\hspace{0.6em}{\sffamily\small\bfseries\color{Ink}#3}\fi\par\vspace{2pt}}
+% Caixas NÃO quebráveis de propósito: uma caixa nunca se parte entre duas
+% páginas. Se não couber numa página, divide-se em duas caixas.
+\tcbset{base/.style={enhanced, sharp corners, frame hidden, boxrule=0pt,
+  left=9pt, right=5pt, top=4pt, bottom=4pt, before skip=7pt, after skip=7pt}}
+\newtcolorbox{definicao}[1][]{base, colback=white,
+  borderline west={1.4pt}{0pt}{Teal}, before upper={\boxlabel{Teal}{Definição}{#1}}}
+\newtcolorbox{exemplo}[1][]{base, colback=Paper2,
+  before upper={\boxlabel{Graphite}{Exemplo resolvido}{#1}}}
+\newtcolorbox{pratica}[1][]{base, colback=white,
+  borderline west={1.4pt}{0pt}{Violet},
+  borderline={0.4pt}{0pt}{Violet!35, dashed},
+  before upper={\boxlabel{Violet}{Pratica agora}{#1}}}
+
+% "Aula N": número grande à esquerda e título ao lado (div-envs.lua define
+% \aulanum e passa o título sem o "Aula N ---"). Cada aula numa página nova.
+% \aulanum fica vazio até à primeira aula (o título do índice usa a mesma
+% caixa, sem número nem "Aula"). Nota: um título de índice com outra
+% estrutura (só {\LARGE #1}) abria espaços enormes entre linhas no índice
+% e noutras páginas --- causa não percebida; manter esta estrutura.
+\newcommand{\aulanum}{}
+\newcommand{\aulavazia}{}
+\newcommand{\aulahead}[1]{%
+  \begin{minipage}[b]{2.4em}{\fontsize{44}{40}\selectfont\bfseries\color{Teal}\aulanum}\end{minipage}%
+  \hspace{0.6em}\begin{minipage}[b]{\dimexpr\linewidth-3em}\raggedright
+  \ifx\aulanum\aulavazia\else{\small\bfseries\color{Teal}Aula \aulanum}\\[1pt]\fi
+  {\LARGE\bfseries #1}\end{minipage}}
+% O pandoc não numera secções, por isso o titlesec usa o formato "numberless".
+\titleformat{\section}[block]{\sffamily\color{Ink}}{}{0pt}{\aulahead}
+\titleformat{name=\section,numberless}[block]{\sffamily\color{Ink}}{}{0pt}{\aulahead}
+\titlespacing*{\section}{0pt}{0pt}{14pt}
+\titleformat{\subsection}{\sffamily\large\bfseries\color{Ink}\raggedright}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{12pt}{3pt}
+\titleformat{\subsubsection}{\sffamily\normalsize\bfseries\color{Graphite}\raggedright}{}{0pt}{}
+\titlespacing*{\subsubsection}{0pt}{8pt}{2pt}
+% A página nova antes de cada aula é posta pelo div-envs.lua (\clearpage
+% antes do \section), para o título e o índice ficarem na primeira página.
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\footnotesize\sffamily\color{Graphite}\nouppercase{\leftmark}}
+\fancyhead[R]{\footnotesize\sffamily\color{Graphite}\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+
+% --- Deduções em notação de Fitch (geradas por fitch.lua a partir de ```{.fitch}) ---
+\newcommand{\fitchbar}{\rule[-0.4em]{0.6pt}{1.45em}\hspace{0.55em}}
+\newcommand{\fitchbarstart}{\rule[-0.4em]{0.6pt}{1.2em}\hspace{0.55em}}
+\newcommand{\fitchhyp}[1]{\hspace{-0.5em}\underline{\hspace{0.5em}#1\hspace{0.9em}}}
+\newenvironment{fitchproof}{%
+  \par\smallskip\begingroup\centering\renewcommand{\arraystretch}{1}%
+  \begin{tabular}{@{}r@{\hspace{1em}}l@{\hspace{2.2em}}l@{}}}%
+  {\end{tabular}\par\endgroup\smallskip}
+
+% Título do documento compacto, na mesma página do índice.
+\makeatletter
+\renewcommand{\maketitle}{{\sffamily\raggedright
+  {\LARGE\bfseries\color{Ink}\@title\par}\vspace{2pt}
+  {\small\color{Graphite}\@author\quad\@date\par}}\vspace{10pt}\thispagestyle{empty}}
+\makeatother
+% Índice compacto (cabe numa página). Com o tocloft as listas dentro das
+% caixas ganhavam espaços enormes entre itens: usar o titletoc.
+\usepackage{titletoc}
+\titlecontents{section}[0pt]{\addvspace{4pt}\sffamily\bfseries\small}{}{}{\hfill\contentspage}
+\titlecontents{subsection}[1.5em]{\small}{}{}{\titlerule*[0.6em]{.}\contentspage}

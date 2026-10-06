@@ -1,6 +1,6 @@
 ---
 title: "Redes de Comunicação --- Soluções dos exercícios \"Pratica agora\""
-subtitle: "Ficha 1 (Praticas/Semana_1/exercicios_redes.pdf), Ficha 2 (Praticas/Semana_2/ficha_2.pdf, exercícios F2.x) e exercícios inventados para o Capítulo 2 (C2.x). Tenta primeiro sozinho; abre uma alínea só depois de a teres feito. Convenções: 1 MB = 10⁶ bytes, 1 Mbps = 10⁶ bit/s, 1 byte = 8 bits."
+subtitle: "Ficha 1 (Praticas/Semana_1/exercicios_redes.pdf), Ficha 2 (Praticas/Semana_2/ficha_2.pdf, exercícios F2.x), Ficha 3 (Praticas/Semana_3/ficha_3_protocolos_aplicacionais.pdf, exercícios F3.x) e exercícios inventados para o Capítulo 2 (C2.x). Tenta primeiro sozinho; abre uma alínea só depois de a teres feito. Convenções: 1 MB = 10⁶ bytes, 1 Mbps = 10⁶ bit/s, 1 byte = 8 bits."
 ---
 
 ## Comutação de pacotes --- multiplexagem estatística
@@ -695,44 +695,216 @@ Resumo: 540 $\to$ 340 $\to$ 180 ms. Em RTTs: 12, 7 e 3 RTT, mais $6T$ =
 60 ms de transmissão nos três casos (confirma: $12 \times 40 + 60 = 540$;
 $7 \times 40 + 60 = 340$; $3 \times 40 + 60 = 180$).
 
-### C2.2 --- Analisar uma sessão HTTP real (exercício inventado)
+### F3.1 --- HTTP à mão: persistente, hã? (Ficha 3, Ex. 1)
 
-Captura `Teoricas/Aula_03_captura_http.cap`: browser 192.168.50.41,
-servidor 10.0.0.251 (`www.dcc.fc.up.pt`), porta 80. Os valores abaixo
-foram tirados da própria captura.
+Testado em 2026-10-06 com o `nc` (o `telnet` do macOS não vem instalado;
+o comportamento é o mesmo). Os números (tamanhos, cabeçalhos) são os do
+`neverssl.com` nesse dia.
 
-#### (a) Quantas conexões TCP, e quantas transportam pedidos?
+#### (a) Para que serve o telnet e o que tem o utilizador de fazer?
 
-**Três** conexões TCP, das portas **55956**, **55957** e **55958** do
-cliente para a porta 80.
+O `telnet` é o cliente do protocolo TELNET (RFC 854, porta 23): serve
+para abrir uma **sessão de terminal numa máquina remota** e lá correr
+comandos, como se estivéssemos sentados nela.
 
-- **55956**: a principal, com **5 pedidos**: `/~rprior/` (o HTML),
-  `rprior.css`, `img/portonight.jpg` e `/favicon.ico` (duas vezes).
-- **55957**: **1 pedido**, `img/rprior.jpg`.
-- **55958**: aberta (há o *handshake*), mas **nunca leva nenhum pedido**;
-  é fechada ao fim de cerca de 1,9 s.
+Para o usar basta escrever `telnet <máquina> [porta]`, por exemplo
+`telnet neverssl.com 80`. Sem porta, liga à 23 (servidor TELNET). Depois
+escreve-se o que se quer enviar e lê-se o que o servidor responde. Para
+sair: `Ctrl+]` e depois `quit`.
 
-Só **duas** transportam pedidos. O browser abriu mais duas conexões **em
-paralelo** quando encontrou as imagens (os slides dizem que os browsers
-fazem isto), mas acabou por só precisar de uma delas.
+Está praticamente obsoleto como terminal remoto porque **não cifra
+nada**, *passwords* incluídas: quem capturar os pacotes lê tudo (como
+lemos a *password* na captura FTP). Usa-se o **SSH**. Mas continua útil
+como **cliente TCP genérico** para falar à mão com protocolos de texto
+(HTTP, SMTP, POP3).
 
-#### (b) A conexão principal é persistente? Provas
+#### (b) Como funciona internamente?
 
-**Sim.** Provas na captura:
+1. Resolve o nome da máquina para um IP (DNS) e abre uma **conexão TCP**
+   para esse IP e porta (é um cliente de *sockets*, como o `TCPClient`).
+2. Entra num ciclo: o que o utilizador escreve no teclado é **enviado
+   pela socket** (no fim de cada linha envia CR LF); o que chega da
+   socket é **escrito no ecrã**.
+3. Na porta 23 também negoceia opções do terminal (eco, tamanho da
+   janela) com comandos especiais começados pelo byte 255 (`IAC`).
+   Noutras portas é só um "tubo" de bytes de texto.
+4. Quando o servidor fecha a conexão, o `telnet` mostra
+   `Connection closed by foreign host.` e termina.
 
-- passam **5 pedidos** pela mesma conexão (55956): com HTTP não
+#### (c) Os pedidos ao neverssl.com: o que acontece
+
+**Sessão 1** (`telnet neverssl.com 80`), pedido HTTP/1.0 sem `Host:`:
+
+```
+GET / HTTP/1.0
+User-Agent: Mozilla/5.0
+                                 <- linha vazia: fim do pedido
+HTTP/1.1 200 OK
+Server: Apache/2.4.68 ()
+Upgrade: h2,h2c
+Connection: Upgrade, close
+Content-Length: 3961
+Content-Type: text/html; charset=UTF-8
+
+<!DOCTYPE html> ... (3961 bytes de HTML)
+Connection closed by foreign host.
+```
+
+O servidor responde **e fecha logo a conexão** (`Connection: close`).
+Para o pedido seguinte é preciso um `telnet` novo. (A resposta diz
+`HTTP/1.1` porque o servidor indica a versão mais alta que fala, mas
+trata o pedido com as regras do 1.0. O `Upgrade: h2,h2c` é o servidor a
+oferecer HTTP/2.)
+
+**Sessão 2** (outro `telnet neverssl.com 80`), os 4 pedidos HTTP/1.1,
+um a seguir ao outro:
+
+| Pedido | Resposta | O que acontece à conexão |
+|:--|:--|:----------|
+| `GET /` | `200 OK`, 3961 bytes | **fica aberta** |
+| `GET /` | `200 OK`, 3961 bytes | fica aberta (mesma conexão) |
+| `GET /favicon.ico` | `200 OK`, 124 bytes, `image/vnd.microsoft.icon` | fica aberta |
+| `GET /` + `Connection: close` | `200 OK`, 3961 bytes, `Connection: close` | o servidor **fecha** |
+
+Os três primeiros pedidos HTTP/1.1 passam **pela mesma conexão TCP**: o
+servidor responde e fica à espera. O `telnet` não sabe onde acaba cada
+resposta, mas o browser saberia pelo `Content-Length`. Só o último, com
+`Connection: close`, leva o servidor a fechar.
+
+Dois cuidados práticos:
+
+- Se demorares muito a escrever o pedido seguinte, o servidor fecha a
+  conexão por *timeout* (o Apache usa 5 s por omissão). Escreve os
+  pedidos num editor e **cola-os**.
+- Sem a linha `Host:` num pedido HTTP/1.1, a resposta é
+  `400 Bad Request` (o `Host:` é obrigatório no 1.1).
+
+#### (d) Persistência e *pipelining*, e o que se viu
+
+- **Conexão persistente**: a conexão TCP **fica aberta** depois de uma
+  resposta e serve para os pedidos seguintes. Poupa-se 1 RTT (o
+  estabelecimento da conexão) por objeto e o *overhead* de abrir e
+  fechar conexões. No HTTP/1.1 é o comportamento por omissão; para
+  fechar, envia-se `Connection: close`.
+- ***Pipelining***: numa conexão persistente, o cliente envia **vários
+  pedidos seguidos, sem esperar pelas respostas**. As respostas vêm
+  **pela mesma ordem** dos pedidos. Em vez de 1 RTT por objeto, gasta-se
+  ~1 RTT para todos.
+
+**Comentário dos resultados:**
+
+- HTTP/1.0: **não persistente**, uma conexão por objeto: o servidor
+  fechou depois da primeira resposta.
+- HTTP/1.1: **persistente**: três respostas na mesma conexão, que só
+  fechou com o `Connection: close`.
+- Nesta experiência **não houve *pipelining***, porque cada pedido só foi
+  escrito depois de ver a resposta anterior (é persistente **sem**
+  *pipelining*: 1 RTT por pedido).
+- Para ver o *pipelining*: colar três pedidos de uma vez (`GET /`,
+  `GET /favicon.ico`, `GET /` com `Connection: close`). No teste, as
+  **três respostas chegaram seguidas, pela ordem dos pedidos**, cerca de
+  0,27 s depois do envio, o tempo de **um** pedido e não de três. Depois
+  da terceira, o servidor fechou.
+
+### F3.7a --- Captura HTTP (Ficha 3, Ex. 7a)
+
+Captura `Teoricas/Aula_03_captura_http.cap` (a `Cap2-http.cap` do
+Moodle): browser 192.168.50.41, servidor 10.0.0.251 (`www.dcc.fc.up.pt`),
+porta 80. Os números de pacote são os do Wireshark (contados a partir de
+1), tirados da própria captura.
+
+#### (i) Método e URL de todos os pedidos
+
+Todos usam o método **GET** (o browser só vai buscar objetos; não envia
+formulários):
+
+| Pacote | Conexão (porta do cliente) | Pedido | Resposta |
+|:-:|:-:|:---------------------|:--|
+| 4 | 55956 | `GET /~rprior/` | 200 OK (o HTML) |
+| 8 | 55956 | `GET /~rprior/homepage/rprior.css` | 200 OK |
+| 13 | 55956 | `GET /~rprior/homepage/img/portonight.jpg` | 200 OK |
+| 19 | 55957 | `GET /~rprior/homepage/img/rprior.jpg` | 200 OK |
+| 96 | 55956 | `GET /favicon.ico` | 404 Not Found |
+| 99 | 55956 | `GET /favicon.ico` | 404 Not Found |
+
+Os URLs completos são `http://www.dcc.fc.up.pt` + o caminho (o nome vem
+do cabeçalho `Host:`). O HTML é o primeiro; os outros são objetos que ele
+referencia (o CSS e as duas imagens), mais o ícone que o browser pede
+sempre sozinho.
+
+#### (ii) Conexões simultâneas e persistência
+
+Pacotes **SYN** (aberturas): 1 (porta 55956), 14 (55957) e 15 (55958),
+os dois últimos aos 28 ms, quando o browser já tinha o HTML e viu que
+precisava das imagens. Pacotes **FIN** (fechos): 102, 103 e 104, os três
+do **browser**, aos 1,94 s.
+
+Logo, durante quase toda a sessão estiveram abertas **3 conexões
+simultâneas**. Só duas levaram pedidos: a 55956 (5 pedidos) e a 55957
+(1); a 55958 abriu e fechou vazia.
+
+**São persistentes**:
+
+- a 55956 transporta **5 pedidos** antes do FIN; com HTTP não
   persistente seria uma conexão por objeto;
-- o browser pede `Connection: keep-alive` e o servidor responde
-  `Connection: Keep-Alive`;
-- o cabeçalho `Keep-Alive` das respostas nessa conexão conta os pedidos
-  que ainda aceita: `max=100`, `99`, `98`, `97`, `96`. Cada resposta
-  gasta um. (Na conexão 55957 volta a `max=100`: é outra conexão.)
+- nenhuma conexão fecha depois de uma resposta: fecham todas **juntas**,
+  quase 2 s depois do último pedido, quando o browser as liberta;
+- os cabeçalhos confirmam: o browser envia `Connection: keep-alive` e o
+  servidor responde `Connection: Keep-Alive` com
+  `Keep-Alive: timeout=5, max=100`, e o `max` desce de resposta em
+  resposta na 55956 (100, 99, 98, 97, 96).
 
-Repara também que cada pedido só sai **depois** de a resposta anterior
-começar a chegar (o CSS é pedido aos 25,5 ms, depois de o HTML chegar aos
-10,1 ms): é persistente **sem *pipelining***.
+Não há *pipelining*: na 55956 cada pedido só sai depois de a resposta
+anterior começar a chegar (o CSS no pacote 8, depois do HTML no 6). Para
+ter paralelismo, o browser abriu **conexões paralelas** em vez disso.
 
-#### (c) Que códigos de estado aparecem?
+### F3.7d --- A tua captura de neverssl.com (Ficha 3, Ex. 7d)
+
+Resposta-modelo: o resultado exato depende do browser e da hora. Isto é
+o que se espera, verificado com pedidos feitos à mão ao `neverssl.com`.
+
+#### (i) O que observas?
+
+1. Um **pedido DNS** não aparece (o filtro é `port 80`, e o DNS usa a
+   porta 53). Aparece logo o **SYN** do browser para a porta 80 de
+   `neverssl.com`.
+2. `GET /` com `Host: neverssl.com` $\to$ `200 OK` com uma página HTML de
+   ~4 KB. A página tem um *script* que inventa um subdomínio aleatório
+   (ex.: `coolcalmzen.neverssl.com`) e manda o browser para
+   `http://<aleatório>.neverssl.com/online`.
+3. Nova conexão TCP (é outro nome, e o browser não reaproveita conexões
+   entre nomes diferentes) e `GET /online` $\to$ **`301 Moved
+   Permanently`** com `Location: .../online/` (falta a barra final).
+4. `GET /online/` $\to$ `200 OK`, a página final.
+5. Pedidos de `/favicon.ico`.
+
+O subdomínio aleatório serve para **fugir às *caches***: como o nome é
+sempre novo, nenhuma *cache* (do browser, de um *proxy*) tem a página, e
+o pedido chega mesmo ao servidor. Também se vê que, como o site é HTTP
+(sem TLS), tudo vai **em texto claro**: o Wireshark mostra os pedidos e o
+HTML inteiro.
+
+#### (ii) Foram usadas conexões persistentes?
+
+**Sim** (com um browser atual). Provas a procurar na captura:
+
+- o browser envia `Connection: keep-alive` e a conexão **não fecha**
+  depois da resposta (não há FIN logo a seguir);
+- na conexão para o subdomínio, o pedido a seguir ao `301` (`GET
+  /online/`) e o do `favicon.ico` vão **na mesma conexão** (mesma porta do
+  cliente);
+- os FIN só aparecem segundos depois, quando o browser ou o servidor
+  fecham a conexão parada.
+
+Pode haver mais do que uma conexão para o mesmo nome (os browsers abrem
+conexões paralelas), e a primeira, para `neverssl.com`, fica parada
+depois de o *script* mudar de página.
+
+### C2.2 --- Captura HTTP: códigos e RTT (exercício inventado)
+
+Mesma captura do F3.7a.
+
+#### (a) Que códigos de estado aparecem?
 
 - **200 OK**: para `/~rprior/`, `rprior.css`, `portonight.jpg` e
   `rprior.jpg`.
@@ -745,7 +917,7 @@ Nota adicional: as respostas 200 dizem o tamanho com `Content-Length`
 precedido do seu tamanho, e acaba num pedaço de tamanho 0. É outra forma
 de o browser saber onde acaba a resposta sem saber o tamanho à partida.
 
-#### (d) RTT a partir do *handshake* TCP
+#### (b) RTT a partir do *handshake* TCP
 
 O cliente envia o primeiro pacote do *handshake* (SYN) no instante 0 e a
 resposta do servidor (SYN-ACK) chega aos **0,24 ms**. O RTT é cerca de
@@ -757,28 +929,169 @@ volta são no máximo 24 km de fibra para cada lado, e na prática menos
 perto) do servidor. Os endereços confirmam: 192.168.x.x e 10.x.x.x são
 endereços **privados**, de redes internas (aqui, dentro do DCC).
 
+### F3.2 --- À volta do HTTP: o proxy do Paulo (Ficha 3, Ex. 2)
+
+Notação: $n$ objetos de tamanho $m$; $R = 10$ Mbps; $T = m/R$ o tempo
+de transmissão de um objeto; $\text{RTT}$ o tempo de ida e volta entre
+o computador do Paulo e o servidor. Como no resumo: um objeto em HTTP
+não persistente custa $2\,\text{RTT} + T$; numa conexão persistente já
+aberta, sem *pipelining*, custa $\text{RTT} + T$.
+
+#### (a) Ganho com o proxy HTTP/1.1 no próprio computador
+
+**Antes (browser HTTP/1.0 direto ao servidor).** Não persistente, um
+objeto de cada vez:
+$$t_{\text{antes}} = n\,(2\,\text{RTT} + T)$$
+
+**Depois (browser $\to$ proxy local $\to$ servidor).** O caminho
+parte-se em dois troços:
+
+- **browser $\leftrightarrow$ *proxy***: continua HTTP/1.0 (uma conexão
+  por objeto), mas é dentro da mesma máquina: RTT $\approx 0$ e cópia
+  instantânea. Custa $\approx 0$.
+- ***proxy* $\leftrightarrow$ servidor**: HTTP/1.1 com **uma conexão
+  persistente**, aberta uma só vez. Mas **sem *pipelining***: o browser
+  só pede o objeto $k+1$ depois de receber o $k$, por isso o *proxy* só
+  conhece um pedido de cada vez e não tem nada para "adiantar".
+
+Tempo no troço *proxy*--servidor:
+
+- 1.º objeto: 1 RTT (conexão) + 1 RTT (pedido) + $T$ $= 2\,\text{RTT} + T$;
+- cada um dos outros $n-1$: 1 RTT (pedido) + $T$.
+
+$$t_{\text{depois}} = (2\,\text{RTT} + T) + (n-1)(\text{RTT} + T) = (n+1)\,\text{RTT} + nT$$
+
+**Ganho:**
+$$t_{\text{antes}} - t_{\text{depois}} = 2n\,\text{RTT} + nT - (n+1)\,\text{RTT} - nT = \mathbf{(n-1)\,RTT}$$
+
+Poupa-se o estabelecimento da conexão TCP em todos os objetos menos o
+primeiro. O tempo de transmissão $nT$ fica igual (os bits têm de passar
+na mesma), por isso o ganho **relativo** é grande para muitos objetos
+pequenos (RTT domina) e pequeno para poucos objetos grandes ($T$
+domina).
+
+Exemplo numérico: $n = 10$, $m = 100$ kB, RTT = 100 ms.
+$T = 800\,000 / 10^7 = 0{,}08$ s.
+Antes: $10 \times (0{,}2 + 0{,}08) = 2{,}8$ s. Depois:
+$11 \times 0{,}1 + 10 \times 0{,}08 = 1{,}1 + 0{,}8 = 1{,}9$ s. Ganho
+$0{,}9$ s $= 9 \times 0{,}1$ s (32%).
+
+#### (b) E com o proxy noutro computador (RTT browser--proxy grande)?
+
+**Faz diferença, e pode deixar de compensar.** Seja $\text{RTT}_p$ o RTT
+browser--*proxy* (e suponha-se que o *proxy*--servidor continua a ter
+RTT $\approx$ RTT). O troço browser--*proxy* continua HTTP/1.0 **não
+persistente**, e agora custa a sério, em **cada** objeto:
+
+- $2\,\text{RTT}_p$ (conexão + pedido/resposta até ao *proxy*);
+- e, se o *proxy* só reencaminha o objeto depois de o ter todo
+  (*store-and-forward*), mais um $T$ para o enviar ao browser.
+
+$$t_{\text{depois}} = n\,(2\,\text{RTT}_p + T) + (n+1)\,\text{RTT} + nT$$
+$$\text{ganho} = (n-1)\,\text{RTT} - 2n\,\text{RTT}_p - nT$$
+
+(Se o *proxy* for reencaminhando os bytes à medida que chegam, o termo
+$-nT$ desaparece: ganho $= (n-1)\,\text{RTT} - 2n\,\text{RTT}_p$.)
+
+O *proxy* só ganha alguma coisa se $2n\,\text{RTT}_p < (n-1)\,\text{RTT}$,
+isto é, $\text{RTT}_p$ menor do que cerca de **metade do RTT** até ao
+servidor. Com o *proxy* longe, cada objeto paga dois RTT até ele, o que
+come (ou ultrapassa) o RTT poupado no outro troço: o ganho fica
+**negativo**.
+
+#### (c) Ganho se o browser suportasse HTTP/1.1 (proxy local)
+
+Com HTTP/1.1 o browser usa uma conexão **persistente com *pipelining***:
+envia os $n$ pedidos seguidos ao *proxy* (custo $\approx 0$, é local), e
+o *proxy* também os envia seguidos ao servidor. Supondo que o browser já
+conhece os $n$ objetos:
+
+- 1 RTT para abrir a conexão *proxy*--servidor;
+- 1 RTT até a primeira resposta começar a chegar (os $n$ pedidos seguem
+  juntos);
+- as $n$ respostas chegam umas atrás das outras: $nT$.
+
+$$t = 2\,\text{RTT} + nT$$
+$$\text{ganho} = n\,(2\,\text{RTT} + T) - (2\,\text{RTT} + nT) = \mathbf{2\,(n-1)\,RTT}$$
+
+O dobro do ganho da alínea (a). No exemplo numérico: $0{,}2 + 0{,}8 =
+1{,}0$ s, contra 2,8 s (ganho 1,8 s).
+
+Duas observações:
+
+- Aqui o *proxy* **já não serve para nada**: sem *cache* nem
+  compressão, o browser HTTP/1.1 ligado diretamente ao servidor teria o
+  mesmo $2\,\text{RTT} + nT$. O *proxy* só ajudava porque "traduzia"
+  HTTP/1.0 em conexões persistentes.
+- Se os $n$ objetos forem uma página (1 HTML + $n-1$ objetos
+  referenciados), o browser só conhece os outros depois de ter o HTML:
+  $t = 2\,\text{RTT} + T + \text{RTT} + (n-1)T = 3\,\text{RTT} + nT$, e o
+  ganho é $(2n-3)\,\text{RTT}$ (como no exemplo dos 3 RTT do resumo).
+
 ## Aula 2 --- FTP
 
-### C2.3 --- Analisar uma sessão FTP real (exercício inventado)
+### F3.7b --- Captura FTP (Ficha 3, Ex. 7b)
 
-Captura `Teoricas/Aula_03_captura_ftp.cap`: cliente 192.168.1.110,
-servidor 193.137.24.17 (vsFTPd). Valores tirados da captura.
+Captura `Teoricas/Aula_03_captura_ftp.cap` (a `Cap2-ftp.cap` do
+Moodle): cliente 192.168.1.110, servidor 193.137.24.17 (vsFTPd). Os
+números de pacote são os do Wireshark, tirados da captura.
 
-#### (a) Quantas conexões TCP, entre que portas, e quem abre cada uma?
+#### (i) Todos os comandos enviados ao servidor, e para que serve cada um
 
-**Duas:**
+Todos vão na conexão de **controlo** (porta 21), em texto:
 
-- **controlo**: da porta 50212 do cliente para a **porta 21** do
-  servidor. Abre-a o **cliente** (o primeiro SYN vem dele), logo no
-  início;
-- **dados**: da **porta 20** do servidor para a porta **50219** do
-  cliente. Abre-a o **servidor** (o SYN vem da porta 20), depois do
-  comando `RETR`.
+| Pacote | Comando | Para que serve | Resposta |
+|:-:|:----------|:--------------------|:----------|
+| 6 | `USER anonymous` | indica o utilizador | `331 Please specify the password.` |
+| 10 | `PASS someone@the.inter.net` | indica a *password* | `230 Login successful.` |
+| 12 | `SYST` | pergunta o tipo de sistema do servidor | `215 UNIX Type: L8` |
+| 15 | `CWD /pub/Linux` | muda o diretório corrente | `250 Directory successfully changed.` |
+| 18 | `TYPE I` | modo binário (byte a byte) | `200 Switching to Binary mode.` |
+| 20 | `PORT 192,168,1,110,196,43` | diz ao servidor o IP e a porta do cliente para a conexão de dados | `200 PORT command successful. Consider using PASV.` |
+| 22 | `RETR iperf-1.7.0-source.tar.gz` | pede o ficheiro | `150 Opening BINARY mode data connection ... (182773 bytes).` e, no fim, `226 File send OK.` |
+| 255 | `QUIT` | termina a sessão | `221 Goodbye.` |
 
-É o FTP em **modo ativo**: o controlo é *out of band*, numa conexão
+Antes do `USER`, o servidor apresentou-se com `220 (vsFTPd 2.0.5)`
+(pacote 4, logo depois do *handshake* TCP). `CWD` e `TYPE` mostram o
+**estado** que o servidor FTP guarda (diretório corrente, modo), ao
+contrário do HTTP.
+
+#### (ii) Em que pacote é pedido o estabelecimento da conexão de dados?
+
+No **pacote 20**, o comando **`PORT 192,168,1,110,196,43`**. É aí que o
+cliente diz onde está à espera da conexão de dados:
+
+- IP: os 4 primeiros números, **192.168.1.110** (o próprio cliente);
+- porta: $196 \times 256 + 43 = 50176 + 43 = \mathbf{50219}$.
+
+O `RETR` (pacote 22) é o que faz o servidor **abrir** de facto essa
+conexão: o SYN do servidor, da porta 20 para a 50219, é o **pacote 23**.
+
+Um pormenor: esse primeiro SYN (aos 43,0 s) **não teve resposta**; o
+servidor repetiu-o 3 s depois (pacote 25), e só então o cliente
+respondeu (SYN-ACK, pacote 26). O cliente tem um endereço privado, atrás
+de um *router* com NAT, e no modo ativo é o **servidor** que tem de
+chegar ao cliente, o que é frágil. Por isso o servidor sugere
+"Consider using PASV" (no modo passivo é o cliente que abre a conexão de
+dados).
+
+#### (iii) Portas do servidor: controlo e dados
+
+- **Controlo: porta 21** do servidor (da porta 50212 do cliente). Aberta
+  pelo **cliente** (SYN no pacote 1), dura a sessão toda.
+- **Dados: porta 20** do servidor (para a porta 50219 do cliente).
+  Aberta pelo **servidor** (SYN no pacote 23, repetido no 25), só para
+  este ficheiro; fecha no fim da transferência (FIN do servidor, que vai
+  junto com o último bloco de dados).
+
+É o FTP **ativo** dos slides: controlo *out of band*, numa conexão
 separada dos dados.
 
-#### (b) Utilizador e *password*; o que mostra sobre a segurança
+### C2.3 --- Captura FTP: segurança e débito (exercício inventado)
+
+Mesma captura do F3.7b.
+
+#### (a) Utilizador e *password*; o que mostra sobre a segurança
 
 ```
 S: 220 (vsFTPd 2.0.5)
@@ -795,36 +1108,7 @@ um email como *password*). Mas a lição é geral: o FTP envia utilizador e
 (como nesta captura) lê a *password*. Com uma conta verdadeira seria
 grave; é o problema de "TCP e UDP não cifram" da secção de segurança.
 
-#### (c) Descodificar o `PORT`
-
-```
-C: PORT 192,168,1,110,196,43
-S: 200 PORT command successful. Consider using PASV.
-C: RETR iperf-1.7.0-source.tar.gz
-S: 150 Opening BINARY mode data connection for iperf-1.7.0-source.tar.gz (182773 bytes).
-S: 226 File send OK.
-```
-
-- IP: os 4 primeiros números, **192.168.1.110** (o cliente).
-- Porta: $196 \times 256 + 43 = 50176 + 43 = \mathbf{50219}$.
-
-Bate certo: a conexão de dados que aparece a seguir vai da porta 20 do
-servidor para a porta **50219** do cliente.
-
-Um pormenor da captura: o primeiro SYN do servidor para a porta 50219
-(aos 43,0 s) **não teve resposta**; o servidor repetiu-o 3 s depois
-(46,0 s), e aí a conexão abriu. Por isso o `150` só chega aos 46,06 s. O
-cliente tem um endereço **privado** (192.168.x.x), atrás de um *router*
-com NAT, e no modo ativo é o servidor que tem de conseguir chegar ao
-cliente, o que é frágil. É por isso que o servidor sugere "Consider using
-PASV" (modo passivo, em que é o cliente que abre a conexão de dados).
-
-Antes do `PORT`, o cliente mandou `SYST` (tipo de sistema), `CWD
-/pub/Linux` (muda de diretório) e `TYPE I` (modo binário): isto é o
-**estado** que o servidor FTP guarda (diretório corrente, modo), ao
-contrário do HTTP.
-
-#### (d) Tamanho do ficheiro e débito médio
+#### (b) Tamanho do ficheiro e débito médio
 
 - **Tamanho: 182 773 bytes** (diz o `150`, e é também a soma dos dados
   que passam na conexão de dados).
@@ -835,41 +1119,113 @@ $$\text{débito} = \frac{182\,773 \times 8\text{ bits}}{0{,}2165\text{ s}} = \fr
 
 ## Aula 2 --- Correio eletrónico
 
-### C2.4 --- E-mail (exercício inventado)
+### F3.3 --- Correio direto (Ficha 3, Ex. 3)
 
-#### (a) Sessão SMTP para dois destinatários
+#### Resposta
 
-Resposta-modelo (só o lado do cliente; o servidor responderia `220`,
-`250`, `354`, `250`, `221` como no exemplo dos slides):
+Resposta-modelo. As linhas `C:` são o que escreves; as `S:` são o que o
+servidor responde. O início (até ao `EHLO`) foi testado em 2026-10-06;
+as respostas a partir do `MAIL FROM` são as típicas do servidor (Postfix
+com códigos estendidos, como `2.1.0`). Troca `upXXXXXXXXX` pelo teu
+endereço.
 
 ```
-HELO exemplo.pt
-MAIL FROM: <ana@exemplo.pt>
-RCPT TO: <rui@exemplo.pt>
-RCPT TO: <eva@outro.pt>
-DATA
-From: ana@exemplo.pt
-To: rui@exemplo.pt, eva@outro.pt
-Subject: Reunião
-
-Olá aos dois. A reunião é amanhã às 10h.
-Ana
-.
-QUIT
+$ gnutls-cli smtp.fc.up.pt -p 25 --starttls-proto=smtp --crlf
+  (... certificado e handshake TLS: o gnutls-cli já fez EHLO + STARTTLS)
+C: EHLO portatil
+S: 250-smtp.fc.up.pt
+S: 250-PIPELINING
+S: 250-SIZE 35840000
+S: 250-AUTH LOGIN PLAIN
+S: 250-ENHANCEDSTATUSCODES
+S: 250-8BITMIME
+S: 250 DSN
+C: MAIL FROM:<bugsbunny@warnerbros.com>
+S: 250 2.1.0 Ok
+C: RCPT TO:<upXXXXXXXXX@fc.up.pt>
+S: 250 2.1.5 Ok
+C: DATA
+S: 354 End data with <CR><LF>.<CR><LF>
+C: From: Bugs Bunny <bugsbunny@warnerbros.com>
+C: To: upXXXXXXXXX@fc.up.pt
+C: Subject: Eh... What's up, doc?
+C:
+C: Did you know email is insecure?
+C: .
+S: 250 2.0.0 Ok: queued as ...
+C: QUIT
+S: 221 2.0.0 Bye
 ```
 
-- **Um `RCPT TO` por destinatário**: é o "envelope", o que o servidor usa
-  para entregar. O **cabeçalho** `To:` é outra coisa (parte da mensagem,
-  para o leitor ver); os dois costumam coincidir, mas não têm de.
-- Os cabeçalhos (`From:`, `To:`, `Subject:`) vão **dentro** do `DATA`, e
-  uma **linha vazia** separa-os do corpo.
-- A mensagem acaba numa linha **só com `.`**.
-- Pormenor: "Reunião" e "Olá" têm acentos. Com a regra dos 7 bits, eles
-  teriam de ser codificados (no corpo, com MIME; no assunto, com uma
-  codificação própria para cabeçalhos), a não ser que o servidor aceite
-  8 bits (`8BITMIME`, como na captura do resumo).
+**Porque é assim:**
 
-#### (b) POP3 "transfere e apaga" com dois aparelhos
+- **`EHLO` outra vez**: o `gnutls-cli` fez o `EHLO` e o `STARTTLS` em
+  claro; depois do TLS o diálogo recomeça. Vê-se na lista: já não aparece
+  `STARTTLS` (já estamos em TLS) e aparece `AUTH` (o servidor só deixa
+  autenticar dentro do TLS).
+- **Envelope vs. cabeçalhos**: o remetente aparece **duas vezes**. O
+  `MAIL FROM` é o **envelope** (para onde voltam os erros de entrega); o
+  `From:` vai **dentro** do `DATA` e é o que o leitor de email mostra.
+  O destinatário igual: `RCPT TO` (envelope, é o que decide a entrega,
+  um por destinatário) e `To:` (só para mostrar).
+- O **assunto** é um cabeçalho (`Subject:`), não um comando SMTP.
+- A **linha vazia** separa os cabeçalhos do corpo; a linha **só com
+  `.`** acaba a mensagem.
+- `--crlf`: o SMTP exige CR LF no fim de cada linha.
+
+**Verificar que funcionou:** a mensagem aparece na caixa de correio da
+FCUP (muitas vezes no **spam**), "enviada" por Bugs Bunny. Abre o
+código-fonte da mensagem: os cabeçalhos `Received:` mostram por onde ela
+passou, **incluindo o teu IP**: o remetente é falso, mas o envio não é
+anónimo. É provável aparecer também um resultado de **SPF** a falhar
+(`warnerbros.com` não autoriza o servidor da FCUP a enviar por ele).
+
+**Possíveis problemas:**
+
+- `554 Relay access denied` no `RCPT TO`: o servidor só entrega sem
+  autenticação a endereços **dos domínios dele**. Usa o endereço da
+  FCUP que te foi atribuído.
+- Se o servidor fechar a conexão a meio, foi *timeout*: escreve as
+  linhas num editor e cola-as.
+
+**A lição** (o corpo da mensagem): o SMTP **não verifica o remetente**.
+Qualquer pessoa escreve o `MAIL FROM` e o `From:` que quiser. O TLS só
+cifra a conversa; não prova quem envia.
+
+### F3.7c --- Captura SMTP (Ficha 3, Ex. 7c)
+
+#### Resposta
+
+Captura `Teoricas/Aula_03_captura_smtp.cap` (a `Cap2-smtp.cap`):
+cliente Thunderbird 10.0.0.92 (porta 3152), servidor
+`smtp.dcc.fc.up.pt` 10.0.0.10 (porta 25). Pacotes 1--3: *handshake*
+TCP. Depois:
+
+| Pacote | Sentido | Comando / resposta | Significado |
+|:-:|:-:|:--------------|:--------------------|
+| 4 | S$\to$C | `220 smtp.dcc.fc.up.pt ESMTP Postfix` | o servidor apresenta-se |
+| 5 | C$\to$S | `EHLO [10.0.0.92]` | o cliente apresenta-se (SMTP estendido) |
+| 7 | S$\to$C | `250-smtp.dcc.fc.up.pt`, `250-PIPELINING`, ..., `250 8BITMIME` | aceita e lista as extensões |
+| 8 | C$\to$S | `MAIL FROM:<rprior@dcc.fc.up.pt> SIZE=639` | remetente (e tamanho) |
+| 9 | S$\to$C | `250 Ok` | remetente aceite |
+| 10 | C$\to$S | `RCPT TO:<rcprior@fc.up.pt>` | destinatário |
+| 11 | S$\to$C | `250 Ok` | destinatário aceite |
+| 12 | C$\to$S | `DATA` | "a seguir vai a mensagem" |
+| 13 | S$\to$C | `354 End data with <CR><LF>.<CR><LF>` | pode enviar |
+| 14 | C$\to$S | a mensagem: cabeçalhos, linha vazia, corpo | (639 bytes) |
+| 16 | C$\to$S | `.` | fim da mensagem |
+| 18 | S$\to$C | `250 Ok: queued as 588D7E837A` | aceite, na fila de entrega |
+| 19 | C$\to$S | `QUIT` | terminar |
+| 20 | S$\to$C | `221 Bye` | o servidor fecha (FIN no pacote 21) |
+
+Os pacotes que faltam (6, 15, 17, 22--24) são só confirmações (ACK) e o
+fecho do TCP, sem dados SMTP. Repara que as respostas seguem a regra
+"código + descrição", e que o `250-` com hífen quer dizer "há mais
+linhas" (o último é `250 ` com espaço).
+
+### C2.4 --- POP3 com dois aparelhos (exercício inventado)
+
+#### Resposta
 
 Quando o **portátil** vai buscar o correio, transfere as mensagens e
 **apaga-as do servidor**. Quando o **telemóvel** se liga depois, **já não
@@ -927,6 +1283,284 @@ hierarquia saiba a quem perguntar:
 
 Resolver `www.ferramentas.pt` dá o CNAME `servidor1.ferramentas.pt`, e
 depois o registo A dá 192.0.2.10.
+
+### F3.4 --- dig da name? (Ficha 3, Ex. 4)
+
+Saídas reais de 2026-10-06 (cortadas). Os IPs e TTL que te aparecerem
+podem ser outros: os registos mudam, e o teu servidor local também. O
+servidor local usado aqui foi o 1.1.1.1 (Cloudflare); na FCUP será o da
+universidade.
+
+#### (a) Com o host, o IP de www.dcc.fc.up.pt
+
+```
+$ host www.dcc.fc.up.pt
+www.dcc.fc.up.pt is an alias for echo.dcc.fc.up.pt.
+echo.dcc.fc.up.pt has address 193.136.39.92
+```
+
+O IP é **193.136.39.92**. O `host` mostra também que `www.dcc.fc.up.pt`
+é um **pseudónimo** (registo CNAME) do nome canónico `echo.dcc.fc.up.pt`.
+
+#### (b) Com o dig, o IP de www.google.com: secções e tipos de registo
+
+```
+$ dig www.google.com
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 29188
+;; flags: qr rd ra; QUERY: 1, ANSWER: 8, AUTHORITY: 0, ADDITIONAL: 1
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;www.google.com.            IN   A
+;; ANSWER SECTION:
+www.google.com.     228     IN   A    142.251.152.119
+www.google.com.     228     IN   A    142.251.157.119
+   (... mais 6 registos A, 142.251.15x.119)
+;; Query time: 11 msec
+;; SERVER: 1.1.1.1#53(1.1.1.1)
+```
+
+**Secções:**
+
+- **HEADER**: o cabeçalho da mensagem DNS. `id` (o *identification*),
+  `status: NOERROR` (correu bem), as *flags* `qr` (é resposta), `rd`
+  (pedimos recursão), `ra` (o servidor faz recursão), e os 4
+  contadores.
+- **OPT PSEUDOSECTION**: não é um registo verdadeiro; é a extensão EDNS,
+  onde cada lado diz o tamanho máximo de mensagem UDP que aceita (nota
+  adicional, não está nos slides).
+- **QUESTION**: a pergunta: nome `www.google.com`, classe `IN`, tipo `A`.
+- **ANSWER**: os registos que respondem: **8 registos A**, cada um com
+  um IP. O 228 é o TTL (segundos que faltam na *cache*).
+- **AUTHORITY** e **ADDITIONAL**: vazias aqui (contadores 0, fora o
+  OPT). O servidor local respondeu da *cache* e não juntou os NS da
+  Google. Noutros servidores (como no exemplo `mit.edu` do resumo)
+  aparecem os **NS** com autoridade e, na adicional, os **A** desses
+  servidores.
+
+**Tipos de registo:**
+
+- **A**: nome $\to$ endereço IPv4. Aqui há 8: a Google tem muitos
+  servidores para o mesmo nome (distribuição de carga).
+- Os que podem aparecer noutras respostas: **NS** (domínio $\to$ servidor
+  com autoridade, na secção de autoridade), **CNAME** (pseudónimo $\to$
+  nome canónico, como na alínea a), **AAAA** (nome $\to$ IPv6, nas
+  adicionais), **MX** (domínio $\to$ servidor de email).
+
+#### (d) A mesma resolução com +trace
+
+```
+$ dig +trace www.dcc.fc.up.pt
+.        517052  IN  NS  a.root-servers.net.   (... até m.root-servers.net)
+;; Received 525 bytes from 1.1.1.1#53(1.1.1.1) in 14 ms
+
+pt.      172800  IN  NS  c.dns.pt.             (... os 9 NS de pt)
+;; Received 943 bytes from 2001:dc3::35#53(m.root-servers.net) in 34 ms
+
+up.pt.   7200    IN  NS  ns1.up.pt.            (... os 5 NS de up.pt)
+;; Received 507 bytes from 2001:690:a80:4001::100#53(g.dns.pt) in 15 ms
+
+www.dcc.fc.up.pt.  300  IN  CNAME  echo.dcc.fc.up.pt.
+echo.dcc.fc.up.pt. 600  IN  A      193.136.39.92
+;; Received 1583 bytes from 193.136.2.228#53(ns02.fccn.pt) in 19 ms
+```
+
+Bate certo com os passos da alínea (c), com mais um passo no início:
+
+1. O `dig` pede ao **servidor local** a lista dos servidores de raiz
+   (`. NS`), para saber por onde começar.
+2. Pergunta a uma raiz (aqui `m.root-servers.net`) $\to$ referência para
+   os NS de `pt`.
+3. Pergunta a um servidor de `pt` (`g.dns.pt`) $\to$ referência para os
+   NS de `up.pt`.
+4. Pergunta a um servidor de `up.pt` (`ns02.fccn.pt`) $\to$ a resposta:
+   CNAME + A, IP **193.136.39.92**.
+
+Diferenças em relação à (c): o `+trace` **escolhe sozinho** um servidor
+de cada nível (aqui `m`, `g.dns.pt`, `ns02.fccn.pt`, outros que não os
+da (c), e às vezes por IPv6), e usa sempre pedidos **iterativos**. O
+resultado é o mesmo.
+
+#### (e) Lista de IPs de www.jn.pt
+
+```
+$ dig www.jn.pt +noall +answer
+www.jn.pt.                    228  IN  CNAME  dq9uigovq8yc3.cloudfront.net.
+dq9uigovq8yc3.cloudfront.net.  60  IN  A      3.160.132.5
+dq9uigovq8yc3.cloudfront.net.  60  IN  A      3.160.132.106
+dq9uigovq8yc3.cloudfront.net.  60  IN  A      3.160.132.90
+dq9uigovq8yc3.cloudfront.net.  60  IN  A      3.160.132.117
+```
+
+`www.jn.pt` é um **CNAME** para um nome da **CloudFront** (a rede de
+distribuição de conteúdos da Amazon), e esse nome tem **4 endereços**:
+3.160.132.5, .106, .90 e .117. O TTL dos A é só 60 s: a CDN quer poder
+mudar os endereços depressa.
+
+#### (f) Repetir e comparar a ordem; para que serve a rotação?
+
+Duas perguntas seguidas que caíram na mesma *cache* deram:
+
+```
+1.ª vez: 3.160.132.117  3.160.132.5    3.160.132.106  3.160.132.90
+2.ª vez: 3.160.132.5    3.160.132.106  3.160.132.90   3.160.132.117
+```
+
+São os **mesmos 4 endereços, por outra ordem**: o primeiro passou para
+o fim e os outros subiram uma posição (*round robin*). (Noutras perguntas,
+vindas de outra *cache*, até apareceram outros 4 endereços, 52.222.132.x:
+a CDN também escolhe réplicas conforme a localização e a hora.)
+
+**Objetivo: distribuição de carga.** Cada endereço é uma réplica do
+servidor. Os clientes usam normalmente o **primeiro** endereço da lista;
+se a ordem roda de resposta para resposta, clientes diferentes recebem
+primeiros diferentes e os pedidos repartem-se pelas réplicas. É o
+serviço "distribuição de carga" do DNS dos slides. Se uma réplica
+falhar, o cliente ainda tem as outras na lista.
+
+#### (g) O servidor de email de fc.up.pt e o seu IP
+
+O servidor de email de um domínio é o registo **MX**:
+
+```
+$ dig fc.up.pt MX +noall +answer
+fc.up.pt.   3600  IN  MX  10 mx01.up.pt.
+fc.up.pt.   3600  IN  MX  10 mx02.up.pt.
+   (... até mx06.up.pt, todos com preferência 10)
+$ dig mx01.up.pt +noall +answer
+mx01.up.pt. 3600  IN  A   193.137.55.24
+```
+
+A FCUP tem **6 servidores de email**, `mx01.up.pt` a `mx06.up.pt` (são
+da U.Porto, partilhados). O 10 é a **preferência**: como é igual em
+todos, a carga reparte-se entre eles. O MX dá um **nome**, por isso é
+preciso uma segunda pergunta (registo A) para o IP: `mx01.up.pt` tem o
+**193.137.55.24** (os outros obtêm-se da mesma forma).
+
+#### (h) +qr: o campo id. Para que serve, e porque é necessário no DNS?
+
+```
+$ dig +qr www.up.pt
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 51699     <- pedido
+;; flags: rd ad; QUERY: 1, ANSWER: 0, AUTHORITY: 0, ADDITIONAL: 1
+...
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 51699     <- resposta
+;; flags: qr rd ra ad; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 1
+```
+
+Noutra execução: `id: 45578` no pedido e na resposta. Em cada pergunta o
+`id` é **diferente** (aleatório), mas o da **resposta é sempre igual ao
+do pedido**. (O pedido não tem a *flag* `qr`; a resposta tem.)
+
+**Para que serve:** é o *identification* do cabeçalho: permite ao
+cliente **associar cada resposta à pergunta que lhe deu origem**.
+
+**Porque é necessário no DNS:** o DNS usa **UDP**, que **não tem
+conexões**. Um cliente (ou um servidor local, que faz muitas perguntas
+ao mesmo tempo) pode ter várias perguntas pendentes, e as respostas
+podem chegar por outra ordem ou perder-se. Sem uma conexão por pergunta
+(como no TCP), é o `id` que diz "esta resposta é para aquela pergunta".
+Nota adicional: ser **aleatório** também protege: um atacante que tente
+enviar uma resposta falsa tem de adivinhar o `id` (e a porta), senão a
+resposta é ignorada.
+
+### F3.5 --- Quanto tempo me resta? (Ficha 3, Ex. 5)
+
+#### (a) O que observas? Porquê?
+
+Com um servidor local "normal" (o da faculdade, o do *router* de casa):
+
+```
+dig www.google.com    ->  www.google.com.  228  IN  A  ...
+(10 s depois)         ->  www.google.com.  218  IN  A  ...
+```
+
+(Valores ilustrativos do comportamento esperado; o que se viu no teste
+está na nota abaixo.)
+
+O **TTL desce** de uma pergunta para a outra, **tanto quanto o tempo
+que passou** entre elas. Quando chega a 0, a pergunta seguinte volta a
+mostrar o valor **cheio** (300) e depois recomeça a descer.
+
+**Porquê:** o servidor local responde **da *cache*** e devolve o **tempo
+que falta** para essa entrada expirar. Quando expira, apaga-a; a pergunta
+seguinte vai outra vez aos servidores da Google, que dão o TTL original
+(300 s), e o ciclo recomeça.
+
+Nota (o que se viu no teste, com o servidor 1.1.1.1): os valores **não**
+desceram de forma regular (198, depois 237, depois 299 em 14 s). O
+1.1.1.1 não é uma máquina: são muitos servidores com o mesmo IP
+(*anycast*), cada um com a **sua** *cache*, e cada pergunta pode cair num
+diferente, com a entrada mais ou menos "velha". Num servidor local único
+vê-se a descida certinha.
+
+#### (b) Perguntando diretamente a um servidor da Google. A diferença?
+
+Os servidores com autoridade de `google.com` obtêm-se com
+`dig google.com NS` (`ns1.google.com` a `ns4.google.com`). Perguntando
+a um deles:
+
+```
+$ dig @ns1.google.com www.google.com +norecurse +noall +answer
+www.google.com.   300  IN  A  142.251.156.119
+(7 s depois)
+www.google.com.   300  IN  A  142.251.150.119
+```
+
+O TTL é **sempre 300**: **não desce**. (E a resposta traz a *flag* `aa`.)
+
+**Diferença:** o `ns1.google.com` é o servidor **com autoridade**: não
+responde de uma *cache*, tem o registo **original**, e devolve sempre o
+TTL que o administrador definiu (300 s = 5 min). Só as *caches* contam o
+tempo que falta. O IP também muda de resposta para resposta: a Google
+escolhe que réplica indicar (distribuição de carga).
+
+### F3.6 --- Descobrir as raízes (Ficha 3, Ex. 6)
+
+#### (a) Como se pode obter a lista atual de servidores de raiz?
+
+Há duas formas, que se usam juntas:
+
+1. **O ficheiro *root hints*** (`named.root`), publicado pela
+   IANA/InterNIC (`https://www.internic.net/domain/named.root`, ou por
+   FTP em `FTP.INTERNIC.NET`). Tem os nomes e IPs (IPv4 e IPv6) dos 13
+   servidores de raiz e vem instalado com o servidor de nomes. Pode
+   estar desatualizado.
+2. ***Priming***: ao arrancar, o servidor local usa um IP qualquer desse
+   ficheiro e **pergunta a um servidor de raiz quais são os servidores
+   da raiz**: registos **NS do nome `.`** (a raiz). A resposta vem do
+   próprio servidor de raiz (com autoridade), logo é a lista **atual**.
+   Basta que um dos IPs do ficheiro ainda funcione.
+
+#### (b) Obtê-la com o dig
+
+Pede-se os registos NS do nome `.`, de preferência **a um servidor de
+raiz** (por exemplo o `a.root-servers.net`, 198.41.0.4, que vem no
+enunciado):
+
+```
+$ dig @198.41.0.4 . NS +norecurse
+;; flags: qr aa; QUERY: 1, ANSWER: 13, AUTHORITY: 0, ADDITIONAL: 27
+;; ANSWER SECTION:
+.     518400  IN  NS  a.root-servers.net.
+.     518400  IN  NS  b.root-servers.net.
+   (... até m.root-servers.net: 13 registos)
+;; ADDITIONAL SECTION:
+a.root-servers.net.  518400  IN  A     198.41.0.4
+a.root-servers.net.  518400  IN  AAAA  2001:503:ba3e::2:30
+   (... A e AAAA de todos)
+```
+
+- **13 servidores**, `a` a `m.root-servers.net` (na resposta vêm por uma
+  ordem qualquer).
+- A *flag* `aa`: a resposta tem **autoridade** (é a raiz a falar de si
+  própria).
+- Na secção adicional vêm os IPs: 13 IPv4 + 13 IPv6 = 26 registos, mais
+  o OPT = os 27 do contador.
+- TTL 518 400 s = 6 dias: a lista quase nunca muda.
+
+`dig . NS` (sem `@`) também dá os 13 nomes, mas vem da *cache* do
+servidor local (sem `aa`, TTL a descer).
 
 ## Aula 2 --- Aplicações P2P
 

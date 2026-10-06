@@ -114,6 +114,14 @@ essa condição com a notação: "é satisfazível?" = existe v com ⊨ᵥ Γ;
 de verdade é aceitável quando tem ≤ 8 linhas e o enunciado não a proíbe,
 mas a conclusão escreve-se sempre com ⊨/⊭.
 
+**Deduções em DN (folha 2 em diante)**: notação de Fitch, só com as
+regras base ($\land$I/E, $\lor$I/E, $\neg$I/E, **F**I/E, $\to$I/E, R);
+regras derivadas (MT, RA, TE) só com a sua dedução à parte. Nunca usar
+equivalências semânticas como passo. Escrever em blocos ```{.fitch}``` e
+verificar com `python3 _shared/tools/fitch_check.py <ficheiros.md>`.
+Para mostrar **Γ ⊬ φ**: contraexemplo verificado com ⊨ᵥ + integridade
+de DN.
+
 ### Exemplo de referência (aprovado pelo Gonçalo, 2026-10-01)
 
 1.13 (d): `{ (p ∨ q) → r } ⊨ (p → r) ∨ (q → r)`

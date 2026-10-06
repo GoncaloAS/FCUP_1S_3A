@@ -1,0 +1,18 @@
+digraph G {
+  rankdir=LR; node [fontname="Helvetica", fontsize=12]; edge [fontname="Helvetica", fontsize=11];
+  subgraph cluster_h { label="Haskell"; fontname="Helvetica";
+    py [label="Parser.y", shape=plaintext]; lx [label="Lexer.x", shape=plaintext];
+    happy [shape=box]; alex [shape=box];
+    phs [label="Parser.hs", shape=plaintext]; lhs [label="Lexer.hs", shape=plaintext];
+    ghc [label="ghc\n(+ Main.hs ...)", shape=box]; exe1 [label="executável", shape=plaintext];
+    py -> happy -> phs -> ghc; lx -> alex -> lhs -> ghc; ghc -> exe1;
+  }
+  subgraph cluster_c { label="C"; fontname="Helvetica";
+    pyc [label="parser.y", shape=plaintext]; lxc [label="lexer.x", shape=plaintext];
+    bison [label="bison -d", shape=box]; flex [shape=box];
+    ptc [label="parser.tab.c\nparser.tab.h", shape=plaintext]; lyc [label="lex.yy.c", shape=plaintext];
+    gcc [label="gcc\n(+ main.c ...)", shape=box]; exe2 [label="executável", shape=plaintext];
+    pyc -> bison -> ptc -> gcc; lxc -> flex -> lyc -> gcc; gcc -> exe2;
+    ptc -> lxc [style=dashed, label="#include\nparser.tab.h", constraint=false];
+  }
+}

@@ -1,0 +1,13 @@
+digraph G {
+  rankdir=TB; ranksep=0.25; nodesep=0.25; edge [arrowhead=none]; node [shape=plaintext, fontname="Helvetica", fontsize=20];
+  E0 [label="E"]; T0 [label="T"]; T1 [label="T"]; st [label="*"]; F3 [label="F"]; n3 [label="3"];
+  F1 [label="F"]; lp [label="("]; E1 [label="E"]; rp [label=")"];
+  E2 [label="E"]; pl [label="+"]; T2 [label="T"];
+  T3 [label="T"]; F4 [label="F"]; n1 [label="1"];
+  F2 [label="F"]; n2 [label="2"];
+  E0 -> T0; T0 -> T1; T0 -> st; T0 -> F3; F3 -> n3;
+  T1 -> F1; F1 -> lp; F1 -> E1; F1 -> rp;
+  E1 -> E2; E1 -> pl; E1 -> T2;
+  E2 -> T3; T3 -> F4; F4 -> n1;
+  T2 -> F2; F2 -> n2;
+}

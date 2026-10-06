@@ -69,3 +69,15 @@
 
 \setlength{\parskip}{4pt}
 \setlength{\parindent}{0pt}
+
+% --- Deduções em notação de Fitch (geradas por fitch.lua a partir de ```{.fitch}) ---
+% Cada linha: nº & barras + fórmula & justificação. As barras são mais altas
+% do que a linha de texto, e o tabular não põe espaço entre linhas, por isso
+% as barras de linhas seguidas juntam-se numa linha vertical contínua.
+\newcommand{\fitchbar}{\rule[-0.4em]{0.6pt}{1.45em}\hspace{0.55em}}
+\newcommand{\fitchbarstart}{\rule[-0.4em]{0.6pt}{1.2em}\hspace{0.55em}}
+\newcommand{\fitchhyp}[1]{\hspace{-0.5em}\underline{\hspace{0.5em}#1\hspace{0.9em}}}
+\newenvironment{fitchproof}{%
+  \par\smallskip\begingroup\centering\renewcommand{\arraystretch}{1}%
+  \begin{tabular}{@{}r@{\hspace{1em}}l@{\hspace{2.2em}}l@{}}}%
+  {\end{tabular}\par\endgroup\smallskip}

@@ -1,6 +1,6 @@
 ---
 title: "Compiladores --- Soluções dos exercícios \"Pratica agora\""
-subtitle: "Folha laboratorial 2 (Praticas/Semana_1/scanner-c) e Folha laboratorial 3 (Praticas/Semana_2/gramatica). Tenta primeiro sozinho; abre uma alínea só depois de a teres feito."
+subtitle: "Folha laboratorial 2 (Praticas/Semana_1/scanner-c), Folha laboratorial 3 (Praticas/Semana_2/gramatica) e Folha laboratorial 4 (Praticas/Semana_3/Parsing). Tenta primeiro sozinho; abre uma alínea só depois de a teres feito."
 ---
 
 ## Aula 2 --- Expressões regulares
@@ -719,3 +719,477 @@ porque `a` e `b` não estão em FOLLOW($R$): se o próximo símbolo é `a` ou
 numeração: os estados 1, 2, 3, 4 daqui são os 3, 4, 1, 2 dos slides
 (0, 5, 6, 7 coincidem). É esta a "tabela diferente mas sem conflitos"
 de que os slides falam.
+
+## Aula 6 --- Ações semânticas
+
+### Ex. A --- Valores semânticos na pilha (inventado)
+
+Gramática: `Exp : Term | Exp '+' Term` e `Term : num | '(' Exp ')'`.
+
+#### (a) Tabela pilha / entrada / ação / valor para `2+(3+4)`, com as ações do interpretador
+
+Ações: `Exp : Term { $1 }`, `Exp : Exp '+' Term { $1 + $3 }`,
+`Term : num { $1 }`, `Term : '(' Exp ')' { $2 }`.
+
+| \# | Pilha | Entrada | Ação | Valor calculado |
+|:-:|:--------------|--:|:------------|:------------|
+| 1 | | `2+(3+4)` | shift `num` | valor do *token*: 2 |
+| 2 | `num:2` | `+(3+4)` | reduce `Term : num` | `$1` = 2 |
+| 3 | `Term:2` | `+(3+4)` | reduce `Exp : Term` | `$1` = 2 |
+| 4 | `Exp:2` | `+(3+4)` | shift `'+'` | |
+| 5 | `Exp:2` `+` | `(3+4)` | shift `'('` | |
+| 6 | `Exp:2` `+` `(` | `3+4)` | shift `num` | valor do *token*: 3 |
+| 7 | `Exp:2` `+` `(` `num:3` | `+4)` | reduce `Term : num` | `$1` = 3 |
+| 8 | `Exp:2` `+` `(` `Term:3` | `+4)` | reduce `Exp : Term` | `$1` = 3 |
+| 9 | `Exp:2` `+` `(` `Exp:3` | `+4)` | shift `'+'` | |
+| 10 | `Exp:2` `+` `(` `Exp:3` `+` | `4)` | shift `num` | valor do *token*: 4 |
+| 11 | `Exp:2` `+` `(` `Exp:3` `+` `num:4` | `)` | reduce `Term : num` | `$1` = 4 |
+| 12 | `Exp:2` `+` `(` `Exp:3` `+` `Term:4` | `)` | reduce `Exp : Exp '+' Term` | `$1+$3` = 3+4 = 7 |
+| 13 | `Exp:2` `+` `(` `Exp:7` | `)` | shift `')'` | |
+| 14 | `Exp:2` `+` `(` `Exp:7` `)` | | reduce `Term : '(' Exp ')'` | `$2` = 7 |
+| 15 | `Exp:2` `+` `Term:7` | | reduce `Exp : Exp '+' Term` | `$1+$3` = 2+7 = 9 |
+| 16 | `Exp:9` | | accept | resultado: **9** |
+
+Quem são `$1`, `$2`, `$3` em cada *reduce* de três símbolos:
+
+- **Passo 12**: o *reduce* só olha para os **três símbolos do topo**:
+  `$1` = `Exp:3`, `$2` = `+`, `$3` = `Term:4`. O `Exp:2 + (` que está
+  mais abaixo não é tocado.
+- **Passo 14**: `$1` = `(`, `$2` = `Exp:7`, `$3` = `)`. A ação é `$2`.
+- **Passo 15**: `$1` = `Exp:2`, `$2` = `+`, `$3` = `Term:7`.
+
+Repara que no passo 4 (pilha `Exp:2`, próximo `+`) o analisador **não**
+espera: o `2` já foi reduzido até `Exp` nos passos 2 e 3. Em contraste, no
+passo 12 a soma `3+4` só é fechada quando aparece o `)`. Isto é o que faz
+os parêntesis agruparem: a soma de dentro é reduzida **antes** da de fora.
+
+#### (b) Valor de `parser` com as ações que constroem a árvore
+
+Ações: `{ $1 }`, `{ Add $1 $3 }`, `{ Num $1 }`, `{ $2 }`. Os
+*shift*/*reduce* são os mesmos da alínea (a); mudam só os valores:
+
+- passos 2 e 3: `Num 2`;
+- passos 7 e 8: `Num 3`;
+- passo 11: `Num 4`;
+- passo 12: `Add (Num 3) (Num 4)`;
+- passo 14: `Add (Num 3) (Num 4)` (os parêntesis não criam nó);
+- passo 15: `Add (Num 2) (Add (Num 3) (Num 4))`.
+
+**Resultado: `Add (Num 2) (Add (Num 3) (Num 4))`.**
+
+Comparação: `(1+2)+3` deu `Add (Add (Num 1) (Num 2)) (Num 3)`, com a soma
+aninhada no filho **esquerdo**; aqui a soma aninhada está no filho
+**direito**. Os parêntesis desaparecem da AST, mas o agrupamento que
+impuseram fica na forma da árvore.
+
+## Aula 6 --- Conflitos, associatividade e precedência
+
+### Ex. B --- Precedências no papel (inventado)
+
+Gramática ambígua `Exp : num | Exp '+' Exp | Exp '-' Exp | Exp '*' Exp
+| Exp '<' Exp`. Regra a aplicar em cada conflito: a regra $R$ a reduzir
+tem a precedência do seu último terminal (o operador); compara-se com a
+do *token* da entrada. Maior → *shift*; menor → *reduce*; igual →
+`%left` *reduce*, `%right` *shift*, `%nonassoc` erro.
+
+(Confirmado com o Happy: geradas as gramáticas com estas declarações e
+corridas as entradas.)
+
+#### (a) `8-4-2` com `%right '-'`
+
+1. Lê `8`, reduz a `Exp`; *shift* `-`; lê `4`, reduz a `Exp`. Pilha:
+   `Exp - Exp`. Próximo: `-`.
+2. Conflito: reduzir `Exp - Exp` (precedência do `-`) ou *shift* do `-`
+   (precedência do `-`). **Mesma precedência** → associatividade.
+   `%right` → ***shift***.
+3. Pilha `Exp - Exp -`; lê `2`, reduz a `Exp`. Pilha: `Exp - Exp - Exp`,
+   fim da entrada → só se pode reduzir. Reduz o `Exp - Exp` do topo:
+   $4-2 = 2$. Pilha `Exp - Exp` (8 e 2). Reduz: $8-2 = 6$.
+
+**Árvore: $8-(4-2)$. Valor: 6.** (Com `%left` seria $(8-4)-2 = 2$, que
+é a convenção algébrica; por isso o lab pede `%left`.)
+
+#### (b) `1+2*3` com `%nonassoc '<'`, `%left '*'`, `%left '+' '-'` (por esta ordem)
+
+A ordem das linhas dá as precedências: `<` a mais baixa, depois `*`,
+e **`+` e `-` a mais alta**. É a ordem ao contrário da habitual.
+
+1. Lê `1`, reduz; *shift* `+`; lê `2`, reduz. Pilha: `Exp + Exp`.
+   Próximo: `*`.
+2. Conflito: reduzir `Exp + Exp` (precedência do `+`, a mais alta) ou
+   *shift* do `*` (precedência menor). O *token* tem **menos**
+   precedência do que a regra → ***reduce***: $1+2 = 3$.
+3. Pilha `Exp` (3); *shift* `*`; lê `3`, reduz; fim da entrada → reduz
+   `Exp * Exp`: $3 \times 3 = 9$.
+
+**Árvore: $(1+2)\times3$. Valor: 9** (e não 7). É o erro de pôr as
+declarações pela ordem errada: a última linha é a que "agarra" primeiro.
+
+#### (c) `1<2+3` e `1<2<3`, com as declarações da (b)
+
+**`1<2+3`.**
+
+1. Lê `1`, reduz; *shift* `<`; lê `2`, reduz. Pilha: `Exp < Exp`.
+   Próximo: `+`.
+2. Conflito: reduzir `Exp < Exp` (precedência do `<`, a mais baixa) ou
+   *shift* do `+` (mais alta). O *token* tem **mais** precedência →
+   ***shift***.
+3. Lê `3`, reduz. Pilha `Exp < Exp + Exp`, fim da entrada: reduz
+   $2+3 = 5$, depois `Exp < Exp`: $1 < 5$ é verdadeiro.
+
+**Árvore: $1 < (2+3)$. Valor: 1.** É o que se quer: os operadores
+aritméticos ligam mais do que as comparações.
+
+**`1<2<3`.**
+
+1. Pilha `Exp < Exp` (1 e 2), próximo `<`.
+2. Conflito: regra com a precedência do `<`, *token* `<`: **mesma
+   precedência**, e o `<` é `%nonassoc` → **erro sintático**.
+
+**`1<2<3` é rejeitado.** (Com o Happy 2.2 o erro aparece como `Internal
+Happy parser panic` em vez de chamar a `parseError`; o Bison diz `syntax
+error`.)
+
+## Aula 6 --- Calculadora com geradores
+
+### 1 --- Calculadora (Folha lab. 4, `Praticas/Semana_3/Parsing`)
+
+Gramática ambígua $E \to E{+}E \mid E{-}E \mid E{*}E \mid E/E \mid (E)
+\mid \texttt{num}$. As duas versões abaixo (C e Haskell) foram compiladas
+e passam os 5 testes de `testsC`/`testsHaskell`.
+
+#### (a) Calculadora com as quatro operações, precedência e associatividade
+
+**Ideia.** Dois níveis de precedência, ambos à esquerda:
+
+```
+%left '+' '-'        -- precedência mais baixa
+%left '*' '/'        -- precedência mais alta
+```
+
+Verificação contra os exemplos do enunciado, com a regra da Aula 6:
+
+- `1+2*3`: pilha `E + E`, próximo `*`; o `*` tem mais precedência do que
+  a regra do `+` → *shift* → $1+(2\times3) = 7$.
+- `1+2/3`: igual, com `/` na linha do `*` → $1+(2/3) \approx 1.667$.
+- `1-2-3`: pilha `E - E`, próximo `-`; mesma precedência, `%left` →
+  *reduce* → $(1-2)-3 = -4$.
+- `1/2/3`: igual com `/` → $(1/2)/3 \approx 0.167$.
+
+**Versão C (Flex + Bison).** `lexer.x`:
+
+```
+%{
+#include <stdlib.h>
+#include "parser.tab.h"
+void yyerror(char const *);
+%}
+%option noyywrap
+
+digit   [0-9]
+
+%%
+
+[ \t\r\n]+               ;  /* ignorar brancos */
+{digit}+("."{digit}+)?   { yylval = atof(yytext); return NUM; }
+[-+*/()]                 { return yytext[0]; }
+.                        { yyerror("caracter invalido"); }
+```
+
+- O `num` aceita inteiros e decimais (`1.5`). `yylval` é `float`
+  (porque o `parser.y` diz `%define api.value.type {float}`), e o
+  `atof` converte o texto.
+- Os operadores e parêntesis são devolvidos pelo próprio código do
+  carácter (`yytext[0]`), que é o que o Bison espera para `'+'`, `'('`,
+  etc. Dentro de `[...]` o `-` vem **primeiro** para não ser lido como
+  intervalo.
+- O `\n` também é ignorado: os testes têm linhas em branco no fim.
+
+`parser.y` (só as partes a completar; o resto é o fornecido):
+
+```
+%token NUM
+%left '+' '-'
+%left '*' '/'
+
+%%
+
+top : expr                    { printf("%f\n", $1); }
+    ;
+
+expr : expr '+' expr          { $$ = $1 + $3; }
+     | expr '-' expr          { $$ = $1 - $3; }
+     | expr '*' expr          { $$ = $1 * $3; }
+     | expr '/' expr          { $$ = $1 / $3; }
+     | '(' expr ')'           { $$ = $2; }
+     | NUM                    { $$ = $1; }
+     ;
+```
+
+Compilar e testar (com o Bison 3: o do macOS é o 2.3 e não aceita
+`%define api.value.type`; `brew install bison`):
+
+```
+export PATH=/opt/homebrew/opt/bison/bin:$PATH
+make
+for i in 1 2 3 4; do ./calc < ../testsC/input$i.txt | diff - ../testsC/output$i.txt; done
+```
+
+**Versão Haskell (Alex + Happy).** `Lexer.x`:
+
+```
+{
+module Lexer where
+}
+%wrapper "basic"
+
+$digit = [0-9]
+
+tokens :-
+
+$white+                    ;
+$digit+ ("." $digit+)?     { \s -> TOK_NUM (read s) }
+"+"                        { \_ -> TOK_PLUS }
+"-"                        { \_ -> TOK_MINUS }
+"*"                        { \_ -> TOK_TIMES }
+"/"                        { \_ -> TOK_DIV }
+"("                        { \_ -> TOK_LPAREN }
+")"                        { \_ -> TOK_RPAREN }
+
+{
+data Token = TOK_NUM Float
+           | TOK_PLUS | TOK_MINUS | TOK_TIMES | TOK_DIV
+           | TOK_LPAREN | TOK_RPAREN
+           deriving (Eq, Show)
+}
+```
+
+`read s :: Float` aceita tanto `"1"` como `"1.5"`.
+
+`Parser.y` (partes a completar):
+
+```
+%token
+
+num      { TOK_NUM $$ }
+'+'      { TOK_PLUS }
+'-'      { TOK_MINUS }
+'*'      { TOK_TIMES }
+'/'      { TOK_DIV }
+'('      { TOK_LPAREN }
+')'      { TOK_RPAREN }
+
+%left '+' '-'
+%left '*' '/'
+
+%%
+
+Exp : Exp '+' Exp          { $1 + $3 }
+    | Exp '-' Exp          { $1 - $3 }
+    | Exp '*' Exp          { $1 * $3 }
+    | Exp '/' Exp          { $1 / $3 }
+    | '(' Exp ')'          { $2 }
+    | num                  { $1 }
+```
+
+Compilar e testar:
+
+```
+alex Lexer.x && happy --ghc -i Parser.y && ghc -o calc Main.hs Lexer.hs Parser.hs
+./calc < ../testsHaskell/input1.txt          # 7.0
+```
+
+Com o `-i`, o `Parser.info` deve dizer que **não há conflitos**. Se
+retirares as linhas `%left`, aparecem 16 conflitos *shift/reduce* (4
+operadores × 4 operadores, em 4 estados).
+
+#### (b) Funções `sqrt`, `exp` e `log`
+
+**Léxico:** três *tokens* novos para as palavras. Não há identificadores
+nesta linguagem, por isso não há conflito com nenhuma outra regra, e a
+ordem só importaria se mais tarde se acrescentasse um `ID` (aí as
+palavras teriam de vir antes, *first match*).
+
+**Sintaxe:** $E \to F(E)$ com $F \to$ `sqrt` | `exp` | `log`. É mais
+simples pôr uma produção por função do que um não-terminal $F$, porque
+cada uma tem uma ação diferente. Estas produções **não criam conflitos**:
+começam por um *token* que nenhuma outra produção usa, e acabam em `)`.
+
+**Versão C.** No `lexer.x`, **antes** da regra dos números:
+
+```
+"sqrt"                   { return SQRT; }
+"exp"                    { return EXP; }
+"log"                    { return LOG; }
+```
+
+No `parser.y`: `%token NUM SQRT EXP LOG` e mais três alternativas de
+`expr`:
+
+```
+     | SQRT '(' expr ')'      { $$ = sqrtf($3); }
+     | EXP  '(' expr ')'      { $$ = expf($3); }
+     | LOG  '(' expr ')'      { $$ = logf($3); }
+```
+
+`$3` é o valor do `expr` dentro dos parêntesis (`$1` é o nome da função,
+`$2` o `(`). `sqrtf`/`expf`/`logf` são as versões `float` de `<math.h>`.
+
+**Versão Haskell.** No `Lexer.x`:
+
+```
+sqrt                       { \_ -> TOK_SQRT }
+exp                        { \_ -> TOK_EXP }
+log                        { \_ -> TOK_LOG }
+```
+
+e `| TOK_SQRT | TOK_EXP | TOK_LOG` no `data Token`. No `Parser.y`:
+
+```
+sqrt     { TOK_SQRT }
+exp      { TOK_EXP }
+log      { TOK_LOG }
+```
+
+em `%token`, e na gramática:
+
+```
+    | sqrt '(' Exp ')'     { sqrt $3 }
+    | exp '(' Exp ')'      { exp $3 }
+    | log '(' Exp ')'      { log $3 }
+```
+
+(Os nomes dos terminais do Happy, `sqrt`/`exp`/`log`, não colidem com as
+funções Haskell `sqrt`/`exp`/`log` das ações: os primeiros só existem na
+gramática.)
+
+**Teste 5:** `sqrt(2)+log(1)+exp(0)` → $1.4142135 + 0 + 1$ →
+`2.414214` em C e `2.4142137` em Haskell (o `print` de um `Float` mostra
+todos os dígitos significativos; o `%f` do C arredonda a 6 casas).
+
+## Aula 6 --- Representar sintaxe abstrata
+
+### Ex. C --- AST de `x = 1; y = x * (2 + 3); x++` (inventado)
+
+Agrupando à direita: `CompoundStm (x = 1) (CompoundStm (y = ...) (x++))`.
+A expressão `x * (2 + 3)` é um `OpExp` com `Times`, cujo filho direito é
+outro `OpExp` com `Plus` (os parêntesis não aparecem na AST).
+
+#### (a) Valor Haskell
+
+```haskell
+prog :: Stm
+prog =
+  CompoundStm
+    (AssignStm "x" (NumExp 1))
+    (CompoundStm
+       (AssignStm "y"
+          (OpExp (IdExp "x")
+                 Times
+                 (OpExp (NumExp 2) Plus (NumExp 3))))
+       (IncrStm "x"))
+```
+
+#### (b) Em C, com os construtores `mk_...`
+
+Os três construtores que faltam seguem o padrão de `mk_op`: reservar a
+estrutura, pôr a *tag*, preencher os campos **da alternativa certa** da
+`union`, e clonar as cadeias (como em `mk_ident`):
+
+```c
+static char *clone(char *txt) {
+  char *str = malloc(strlen(txt) + 1);
+  strcpy(str, txt);
+  return str;
+}
+
+Stm mk_assign(char *txt, Exp e) {
+  Stm s = (Stm) malloc(sizeof(struct _stm));
+  s->tag = ASSIGN;
+  s->assign.ident = clone(txt);
+  s->assign.expr = e;
+  return s;
+}
+
+Stm mk_incr(char *txt) {
+  Stm s = (Stm) malloc(sizeof(struct _stm));
+  s->tag = INCR;
+  s->ident = clone(txt);          // INCR: só um atributo
+  return s;
+}
+
+Stm mk_compound(Stm s1, Stm s2) {
+  Stm s = (Stm) malloc(sizeof(struct _stm));
+  s->tag = COMPOUND;
+  s->compound.fst = s1;
+  s->compound.snd = s2;
+  return s;
+}
+```
+
+O programa:
+
+```c
+Stm prog =
+  mk_compound(mk_assign("x", mk_num(1)),
+    mk_compound(mk_assign("y", mk_op(TIMES, mk_ident("x"),
+                                     mk_op(PLUS, mk_num(2), mk_num(3)))),
+                mk_incr("x")));
+```
+
+Verificado: compilado com `gcc -Wall -std=c11`, e uma função que imprime
+a AST percorrendo-a com `switch` na *tag* mostra
+`{x = 1; {y = (x * (2 + 3)); x++}}`.
+
+### Ex. D --- Interpretador para programas sequenciais (inventado)
+
+#### Resposta
+
+```haskell
+type Env = [(String, Int)]
+
+evalExp :: Env -> Exp -> Int
+evalExp env (IdExp x) = case lookup x env of
+  Just v  -> v
+  Nothing -> error ("variavel nao definida: " ++ x)
+evalExp _   (NumExp n) = n
+evalExp env (OpExp e1 op e2) =
+  let v1 = evalExp env e1
+      v2 = evalExp env e2
+  in case op of
+       Plus  -> v1 + v2
+       Minus -> v1 - v2
+       Times -> v1 * v2
+       Div   -> v1 `div` v2
+
+-- substitui (ou acrescenta) o valor de x
+update :: String -> Int -> Env -> Env
+update x v env = (x, v) : filter ((/= x) . fst) env
+
+exec :: Env -> Stm -> Env
+exec env (AssignStm x e)     = update x (evalExp env e) env
+exec env (IncrStm x)         = update x (evalExp env (IdExp x) + 1) env
+exec env (CompoundStm s1 s2) = exec (exec env s1) s2
+```
+
+- Um caso por construtor, como no `process` dos slides.
+- `CompoundStm s1 s2`: executa `s1` e usa o **ambiente que resulta** para
+  executar `s2` (é isso que faz a sequência `;`).
+- `IncrStm x` é açúcar sintático para `x = x + 1`: reaproveita o
+  `evalExp`.
+
+**Execução com o programa do Ex. C**, `exec [] prog`, passo a passo:
+
+1. `CompoundStm (x = 1) resto`: executa primeiro `x = 1`.
+   `evalExp [] (NumExp 1)` = 1. Ambiente: `[("x",1)]`.
+2. Executa o `resto` = `CompoundStm (y = ...) (x++)` com `[("x",1)]`.
+   Primeiro `y = x * (2 + 3)`: `evalExp` de `OpExp (IdExp "x") Times (...)`
+   calcula $v_1$ = valor de `x` = 1 e $v_2$ = `evalExp` de
+   `OpExp (NumExp 2) Plus (NumExp 3)` = $2+3 = 5$; `Times` → $1\times5 = 5$.
+   Ambiente: `[("y",5),("x",1)]`.
+3. `x++`: valor de `x` = 1, mais 1 = 2. `update` tira o `("x",1)` antigo
+   e põe `("x",2)`. Ambiente: `[("x",2),("y",5)]`.
+
+**Resultado: `[("x",2),("y",5)]`**, ou seja $x = 2$, $y = 5$ (corrido
+com `runghc`). O exemplo dos slides (`a = 5+3; b = a-2`) dá
+`[("b",6),("a",8)]`.

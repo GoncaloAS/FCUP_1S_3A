@@ -1,6 +1,6 @@
 ---
 title: "Lógica Computacional --- Soluções dos exercícios \"Pratica agora\""
-subtitle: "Exercícios de Praticas/Semana_1/proplogic.pdf sugeridos no resumo. Tenta primeiro sozinho; abre uma alínea só depois de a teres feito."
+subtitle: "Exercícios de Praticas/Semana_1/proplogic.pdf e Praticas/Semana_3/proplogicproofs.pdf sugeridos no resumo. Tenta primeiro sozinho; abre uma alínea só depois de a teres feito."
 ---
 
 ## Aula 1 --- Linguagem e árvores sintáticas
@@ -908,3 +908,821 @@ dll(P("p|-q|-r, -p|q|r, -p|-q|-r, -p|-q|r, -p|q|-r, p|q|-r"))
 Todos os resultados foram confirmados por força bruta (tabela de verdade
 completa): os `None` são mesmo insatisfazíveis e cada valoração devolvida
 satisfaz todas as cláusulas.
+
+## Aulas 5--6 --- Dedução natural: conjunção
+
+Todas as deduções usam só as regras base de DN, em notação de Fitch, e
+foram verificadas passo a passo com um verificador automático.
+
+### 2.11 --- Equivalência dedutiva (só $\land$)
+
+#### (c) $(\psi\land\phi)\land\delta \dashv\vdash \psi\land(\phi\land\delta)$
+
+São duas deduções. Em cada uma desmonta-se a premissa com $\land$E até às
+três peças $\psi$, $\phi$, $\delta$ e monta-se a conclusão com $\land$I.
+
+**($\vdash$)**
+
+```{.fitch seq="(psi /\ phi) /\ delta |- psi /\ (phi /\ delta)"}
+(psi /\ phi) /\ delta
+---
+psi /\ phi                ; &E, 1
+delta                     ; &E, 1
+psi                       ; &E, 2
+phi                       ; &E, 2
+phi /\ delta              ; &I, 5, 3
+psi /\ (phi /\ delta)     ; &I, 4, 6
+```
+
+**($\dashv$)**
+
+```{.fitch seq="psi /\ (phi /\ delta) |- (psi /\ phi) /\ delta"}
+psi /\ (phi /\ delta)
+---
+psi                       ; &E, 1
+phi /\ delta              ; &E, 1
+phi                       ; &E, 3
+delta                     ; &E, 3
+psi /\ phi                ; &I, 2, 4
+(psi /\ phi) /\ delta     ; &I, 6, 5
+```
+
+## Aulas 5--6 --- Dedução natural: disjunção
+
+### 2.4 --- Deduções válidas ou não (disjunção)
+
+#### (a) Dedução dada de $p\land q$ a partir de $p\lor q$
+
+```{.fitch .nocheck}
+p \/ q
+---
+|> p
+|  p
+|> q
+|  q
+p /\ q
+```
+
+Passos 1--5 estão corretos: 1 premissa; 2 hipótese; 3 R, 2; 4 hipótese;
+5 R, 4.
+
+**O passo 6 está errado.** As duas sub-deduções terminam em fórmulas
+**diferentes** ($p$ e $q$), e $\lor$E exige que terminem na **mesma**
+fórmula $\gamma$, que é a que se conclui. Também não é $\land$I, porque
+$p$ (linha 3) e $q$ (linha 5) estão em sub-deduções já fechadas e não
+podem ser usados na linha 6.
+
+**Não existe dedução correta** de $p\land q$ a partir de $p\lor q$.
+Contraexemplo: $v(p)=V$, $v(q)=F$.
+
+- $\models_v p\lor q$ sse $\models_v p$ ou $\models_v q$; como $v(p)=V$,
+  $\models_v p$, logo $\models_v p\lor q$.
+- $\not\models_v p\land q$ sse $\not\models_v p$ ou $\not\models_v q$;
+  como $v(q)=F$, $\not\models_v q$, logo $\not\models_v p\land q$.
+
+Assim $p\lor q \not\models p\land q$ e, pela integridade de DN,
+$p\lor q \nvdash p\land q$.
+
+### 2.11 --- Equivalência dedutiva (distributividade)
+
+#### (h) $(\delta\lor\phi)\land(\delta\lor\psi) \dashv\vdash \delta\lor(\phi\land\psi)$
+
+**($\vdash$)** Tiram-se as duas disjunções com $\land$E. A primeira,
+$\delta\lor\phi$, dá dois casos: no caso $\delta$ é imediato; no caso
+$\phi$ ainda falta $\psi$, por isso abre-se a segunda disjunção
+$\delta\lor\psi$ (outro $\lor$E, **dentro** do caso $\phi$).
+
+```{.fitch seq="(delta \/ phi) /\ (delta \/ psi) |- delta \/ (phi /\ psi)"}
+(delta \/ phi) /\ (delta \/ psi)
+---
+delta \/ phi                  ; &E, 1
+delta \/ psi                  ; &E, 1
+|> delta
+|  delta \/ (phi /\ psi)      ; vI, 4
+|> phi
+||> delta
+||  delta \/ (phi /\ psi)     ; vI, 7
+||> psi
+||  phi /\ psi                ; &I, 6, 9
+||  delta \/ (phi /\ psi)     ; vI, 10
+|  delta \/ (phi /\ psi)      ; vE, 3, 7-8, 9-11
+delta \/ (phi /\ psi)         ; vE, 2, 4-5, 6-12
+```
+
+A linha 10 usa a linha 6 ($\phi$): é permitido, porque a sub-dedução 6--12
+ainda está aberta na linha 10.
+
+**($\dashv$)** Premissa é disjunção: dois casos, e em cada um monta-se a
+conjunção das duas disjunções.
+
+```{.fitch seq="delta \/ (phi /\ psi) |- (delta \/ phi) /\ (delta \/ psi)"}
+delta \/ (phi /\ psi)
+---
+|> delta
+|  delta \/ phi                       ; vI, 2
+|  delta \/ psi                       ; vI, 2
+|  (delta \/ phi) /\ (delta \/ psi)   ; &I, 3, 4
+|> phi /\ psi
+|  phi                                ; &E, 6
+|  psi                                ; &E, 6
+|  delta \/ phi                       ; vI, 7
+|  delta \/ psi                       ; vI, 8
+|  (delta \/ phi) /\ (delta \/ psi)   ; &I, 9, 10
+(delta \/ phi) /\ (delta \/ psi)      ; vE, 1, 2-5, 6-11
+```
+
+## Aulas 5--6 --- Dedução natural: negação e F
+
+### 2.4 --- Deduções válidas ou não (negação)
+
+#### (c) Dedução dada de $q$ a partir de $\neg(p\lor\neg q)$
+
+**É válida.** As regras de cada passo:
+
+```{.fitch seq="~(p \/ ~q) |- q"}
+~(p \/ ~q)
+---
+|> ~q
+|  p \/ ~q            ; vI, 2
+|  F                  ; FI, 1, 3
+~~q                   ; ~I, 2-4
+q                     ; ~E, 5
+```
+
+1 premissa; 2 hipótese; 3 $\lor$I (de $\neg q$ obtém-se a disjunção com
+$\neg q$ do lado direito); 4 $\mathbf{F}$I com a premissa e a linha 3,
+que é a fórmula que a premissa nega; 5 $\neg$I sobre a sub-dedução 2--4;
+6 $\neg$E.
+
+### 2.9 --- Deduções válidas ou não
+
+#### (a) $\neg\delta,\ \delta\lor\phi \vdash \phi$
+
+**Válida.** $\lor$E sobre $\delta\lor\phi$ com $\gamma=\phi$. No caso
+$\delta$ há contradição com $\neg\delta$, e de $\mathbf{F}$ tira-se $\phi$
+($\mathbf{F}$E). No caso $\phi$ é repetição.
+
+```{.fitch seq="~delta, delta \/ phi |- phi"}
+~delta
+delta \/ phi
+---
+|> delta
+|  F                  ; FI, 3, 1
+|  phi                ; FE, 4
+|> phi
+|  phi                ; R, 6
+phi                   ; vE, 2, 3-5, 6-7
+```
+
+(É o *silogismo disjuntivo*.)
+
+#### (d) $\delta\lor\psi,\ \neg\psi\lor\phi \vdash \delta\lor\phi$
+
+**Válida.** $\lor$E sobre $\delta\lor\psi$ com $\gamma=\delta\lor\phi$.
+Caso $\delta$: $\lor$I. Caso $\psi$: ainda não se tem nada da forma
+$\delta\lor\phi$, por isso abre-se a segunda premissa $\neg\psi\lor\phi$
+(outro $\lor$E): no caso $\neg\psi$ há contradição com $\psi$
+($\mathbf{F}$E); no caso $\phi$, $\lor$I.
+
+```{.fitch seq="delta \/ psi, ~psi \/ phi |- delta \/ phi"}
+delta \/ psi
+~psi \/ phi
+---
+|> delta
+|  delta \/ phi       ; vI, 3
+|> psi
+||> ~psi
+||  F                 ; FI, 5, 6
+||  delta \/ phi      ; FE, 7
+||> phi
+||  delta \/ phi      ; vI, 9
+|  delta \/ phi       ; vE, 2, 6-8, 9-10
+delta \/ phi          ; vE, 1, 3-4, 5-11
+```
+
+### 2.11 --- Equivalência dedutiva (De Morgan)
+
+#### (d) $\neg(\neg\delta_1\land\neg\delta_2) \dashv\vdash \delta_1\lor\delta_2$
+
+**($\vdash$)** A conclusão é uma disjunção e nenhum dos lados se obtém
+diretamente: **por contradição**. Supõe-se $\neg(\delta_1\lor\delta_2)$.
+Daí $\delta_1$ é impossível (daria $\delta_1\lor\delta_2$), logo
+$\neg\delta_1$; o mesmo para $\neg\delta_2$. Juntas dão
+$\neg\delta_1\land\neg\delta_2$, que contradiz a premissa.
+
+```{.fitch seq="~(~delta1 /\ ~delta2) |- delta1 \/ delta2"}
+~(~delta1 /\ ~delta2)
+---
+|> ~(delta1 \/ delta2)
+||> delta1
+||  delta1 \/ delta2      ; vI, 3
+||  F                     ; FI, 4, 2
+|  ~delta1                ; ~I, 3-5
+||> delta2
+||  delta1 \/ delta2      ; vI, 7
+||  F                     ; FI, 8, 2
+|  ~delta2                ; ~I, 7-9
+|  ~delta1 /\ ~delta2     ; &I, 6, 10
+|  F                      ; FI, 11, 1
+~~(delta1 \/ delta2)      ; ~I, 2-12
+delta1 \/ delta2          ; ~E, 13
+```
+
+**($\dashv$)** A conclusão é uma negação: supõe-se
+$\neg\delta_1\land\neg\delta_2$ e procura-se $\mathbf{F}$, usando a
+premissa (disjunção) com $\lor$E e $\gamma=\mathbf{F}$.
+
+```{.fitch seq="delta1 \/ delta2 |- ~(~delta1 /\ ~delta2)"}
+delta1 \/ delta2
+---
+|> ~delta1 /\ ~delta2
+|  ~delta1                ; &E, 2
+|  ~delta2                ; &E, 2
+||> delta1
+||  F                     ; FI, 5, 3
+||> delta2
+||  F                     ; FI, 7, 4
+|  F                      ; vE, 1, 5-6, 7-8
+~(~delta1 /\ ~delta2)     ; ~I, 2-9
+```
+
+## Aulas 5--6 --- Dedução natural: implicação
+
+### 2.4 --- Deduções válidas ou não (implicação)
+
+#### (d) Dedução dada de $\neg p\lor q$ a partir de $p\to q$
+
+```{.fitch .nocheck}
+p -> q
+---
+|> p
+|  q
+|  ~p \/ q
+~p \/ q
+```
+
+Passos 1--4 corretos: 1 premissa; 2 hipótese; 3 $\to$E, 1, 2;
+4 $\lor$I, 3.
+
+**O passo 5 está errado.** Tira $\neg p\lor q$ de dentro da sub-dedução
+2--4, que dependia da hipótese $p$. Não é R (a linha 4 já não é
+acessível) e a única regra que fecha uma sub-dedução que começa em $p$ e
+acaba em $\neg p\lor q$ é $\to$I, que daria $p\to(\neg p\lor q)$, não
+$\neg p\lor q$.
+
+**Existe dedução correta**, porque $p\to q \models \neg p\lor q$ (e DN é
+completa). Como a conclusão é uma disjunção sem lado óbvio, faz-se **por
+contradição**: supõe-se $\neg(\neg p\lor q)$; daí $\neg p$ é impossível,
+logo $p$; com $p$, $q$; e $q$ dá $\neg p\lor q$, contradição.
+
+```{.fitch seq="p -> q |- ~p \/ q"}
+p -> q
+---
+|> ~(~p \/ q)
+||> ~p
+||  ~p \/ q           ; vI, 3
+||  F                 ; FI, 4, 2
+|  ~~p                ; ~I, 3-5
+|  p                  ; ~E, 6
+|  q                  ; ->E, 1, 7
+|  ~p \/ q            ; vI, 8
+|  F                  ; FI, 9, 2
+~~(~p \/ q)           ; ~I, 2-10
+~p \/ q               ; ~E, 11
+```
+
+#### (f) Dedução dada de $q\to p$ a partir de $\neg p\to\neg q$
+
+```{.fitch .nocheck}
+~p -> ~q
+---
+|> q
+|  ~q
+|  F
+|  p
+q -> p
+```
+
+**O passo 3 está errado.** $\neg q$ não se obtém de nada: para usar
+$\neg p\to\neg q$ com $\to$E era preciso ter $\neg p$, e não há $\neg p$
+nenhum (nem como premissa nem como hipótese). Os passos seguintes estariam
+bem se o 3 estivesse: 4 $\mathbf{F}$I, 2, 3; 5 $\mathbf{F}$E, 4;
+6 $\to$I, 2--5.
+
+**Existe dedução correta.** A ideia certa é supor $\neg p$ (para poder
+usar a premissa), chegar a $\mathbf{F}$, e concluir $p$ por contradição:
+
+```{.fitch seq="~p -> ~q |- q -> p"}
+~p -> ~q
+---
+|> q
+||> ~p
+||  ~q                ; ->E, 1, 3
+||  F                 ; FI, 2, 4
+|  ~~p                ; ~I, 3-5
+|  p                  ; ~E, 6
+q -> p                ; ->I, 2-7
+```
+
+### 2.5 --- Deduções com premissas
+
+#### (b) $q\to p,\ q\to\neg p \vdash \neg q$
+
+Conclusão é uma negação: supor $q$ e chegar a $\mathbf{F}$. Com $q$, as
+duas premissas dão $p$ e $\neg p$.
+
+```{.fitch seq="q -> p, q -> ~p |- ~q"}
+q -> p
+q -> ~p
+---
+|> q
+|  p                  ; ->E, 1, 3
+|  ~p                 ; ->E, 2, 3
+|  F                  ; FI, 4, 5
+~q                    ; ~I, 3-6
+```
+
+#### (e) $p\to(q\lor r),\ q\to s,\ r\to t \vdash p\to(s\lor t)$
+
+Conclusão é uma implicação: supor $p$, chegar a $s\lor t$. Com $p$ tem-se
+$q\lor r$, que pede $\lor$E com $\gamma = s\lor t$.
+
+```{.fitch seq="p -> (q \/ r), q -> s, r -> t |- p -> (s \/ t)"}
+p -> (q \/ r)
+q -> s
+r -> t
+---
+|> p
+|  q \/ r             ; ->E, 1, 4
+||> q
+||  s                 ; ->E, 2, 6
+||  s \/ t            ; vI, 7
+||> r
+||  t                 ; ->E, 3, 9
+||  s \/ t            ; vI, 10
+|  s \/ t             ; vE, 5, 6-8, 9-11
+p -> (s \/ t)         ; ->I, 4-12
+```
+
+#### (g) $(t\to(r\lor p))\to((\neg r\lor k)\land\neg k) \vdash \neg r$
+
+Conclusão é negação: supor $r$, chegar a $\mathbf{F}$. Para usar a
+premissa (estratégia 6) é preciso o seu antecedente $t\to(r\lor p)$: é
+uma implicação, obtém-se supondo $t$ e tirando $r\lor p$ de $r$ (que está
+disponível). Daí sai $(\neg r\lor k)\land\neg k$; o $\lor$E sobre
+$\neg r\lor k$ dá $\mathbf{F}$ nos dois casos.
+
+```{.fitch seq="(t -> (r \/ p)) -> ((~r \/ k) /\ ~k) |- ~r"}
+(t -> (r \/ p)) -> ((~r \/ k) /\ ~k)
+---
+|> r
+||> t
+||  r \/ p            ; vI, 2
+|  t -> (r \/ p)      ; ->I, 3-4
+|  (~r \/ k) /\ ~k    ; ->E, 1, 5
+|  ~r \/ k            ; &E, 6
+|  ~k                 ; &E, 6
+||> ~r
+||  F                 ; FI, 2, 9
+||> k
+||  F                 ; FI, 11, 8
+|  F                  ; vE, 7, 9-10, 11-12
+~r                    ; ~I, 2-13
+```
+
+Repara na linha 4: $r\lor p$ sai de $r$ (linha 2), que está acessível
+porque a sub-dedução 2--13 ainda está aberta. A hipótese $t$ nem chega a
+ser usada, o que é permitido.
+
+### S9 --- Raciocínio "estudar ou chumbar" (slide 9)
+
+$r$ = chumbas, $t$ = repetes, $e$ = estudas.
+
+#### Resposta: $r\to t,\ \neg e\to r,\ \neg t \vdash e\lor r\lor(e\land r)$
+
+A conclusão é uma disjunção (lida como $(e\lor r)\lor(e\land r)$): basta
+deduzir $e$ e aplicar $\lor$I duas vezes. Para ter $e$, por contradição:
+supor $\neg e$; dá $r$, que dá $t$, contra $\neg t$.
+
+```{.fitch seq="r -> t, ~e -> r, ~t |- e \/ r \/ (e /\ r)"}
+r -> t
+~e -> r
+~t
+---
+|> ~e
+|  r                  ; ->E, 2, 4
+|  t                  ; ->E, 1, 5
+|  F                  ; FI, 6, 3
+~~e                   ; ~I, 4-7
+e                     ; ~E, 8
+e \/ r                ; vI, 9
+(e \/ r) \/ (e /\ r)  ; vI, 10
+```
+
+### 2.6 --- Deduções sem premissas
+
+#### (b) $\vdash (\delta\to\psi)\to((\neg\delta\to\neg\phi)\to(\phi\to\psi))$
+
+Três implicações encaixadas: supor $\delta\to\psi$, depois
+$\neg\delta\to\neg\phi$, depois $\phi$, e chegar a $\psi$. Para ter $\psi$
+precisa-se de $\delta$ (primeira hipótese); $\delta$ obtém-se por
+contradição, porque $\neg\delta$ daria $\neg\phi$, contra $\phi$.
+
+```{.fitch seq="|- (delta -> psi) -> ((~delta -> ~phi) -> (phi -> psi))"}
+|> delta -> psi
+||> ~delta -> ~phi
+|||> phi
+||||> ~delta
+||||  ~phi                ; ->E, 2, 4
+||||  F                   ; FI, 3, 5
+|||  ~~delta              ; ~I, 4-6
+|||  delta                ; ~E, 7
+|||  psi                  ; ->E, 1, 8
+||  phi -> psi            ; ->I, 3-9
+|  (~delta -> ~phi) -> (phi -> psi)              ; ->I, 2-10
+(delta -> psi) -> ((~delta -> ~phi) -> (phi -> psi))   ; ->I, 1-11
+```
+
+#### (d) $\vdash \delta\to(\neg\phi\to\neg(\delta\to\phi))$
+
+Supor $\delta$, supor $\neg\phi$, e deduzir a negação
+$\neg(\delta\to\phi)$: supor $\delta\to\phi$ e chegar a $\mathbf{F}$ (dá
+$\phi$, contra $\neg\phi$).
+
+```{.fitch seq="|- delta -> (~phi -> ~(delta -> phi))"}
+|> delta
+||> ~phi
+|||> delta -> phi
+|||  phi                  ; ->E, 3, 1
+|||  F                    ; FI, 4, 2
+||  ~(delta -> phi)       ; ~I, 3-5
+|  ~phi -> ~(delta -> phi)          ; ->I, 2-6
+delta -> (~phi -> ~(delta -> phi))  ; ->I, 1-7
+```
+
+#### (e) $\vdash ((\phi\to\delta)\land(\delta\to\phi))\to((\phi\lor\delta)\to(\phi\land\delta))$
+
+Supor a conjunção e separá-la; supor $\phi\lor\delta$ e fazer $\lor$E
+com $\gamma=\phi\land\delta$. Em cada caso a implicação certa dá o
+lado que falta.
+
+```{.fitch seq="|- ((phi -> delta) /\ (delta -> phi)) -> ((phi \/ delta) -> (phi /\ delta))"}
+|> (phi -> delta) /\ (delta -> phi)
+|  phi -> delta           ; &E, 1
+|  delta -> phi           ; &E, 1
+||> phi \/ delta
+|||> phi
+|||  delta                ; ->E, 2, 5
+|||  phi /\ delta         ; &I, 5, 6
+|||> delta
+|||  phi                  ; ->E, 3, 8
+|||  phi /\ delta         ; &I, 9, 8
+||  phi /\ delta          ; vE, 4, 5-7, 8-10
+|  (phi \/ delta) -> (phi /\ delta)       ; ->I, 4-11
+((phi -> delta) /\ (delta -> phi)) -> ((phi \/ delta) -> (phi /\ delta))   ; ->I, 1-12
+```
+
+### 2.8 --- Mais deduções
+
+#### (a) $\delta\to(\phi\to\psi),\ \neg\psi,\ \delta \vdash \neg\phi$
+
+```{.fitch seq="delta -> (phi -> psi), ~psi, delta |- ~phi"}
+delta -> (phi -> psi)
+~psi
+delta
+---
+phi -> psi            ; ->E, 1, 3
+|> phi
+|  psi                ; ->E, 4, 5
+|  F                  ; FI, 6, 2
+~phi                  ; ~I, 5-7
+```
+
+Primeiro tira-se $\phi\to\psi$ (linha 4). Depois a conclusão é negação:
+supor $\phi$, dá $\psi$, contra $\neg\psi$. (É o MT, feito à mão.)
+
+#### (c) $\vdash (\delta\to(\phi\to\psi))\to(\phi\to(\delta\to\psi))$
+
+Troca da ordem das hipóteses: supor as três ($\delta\to(\phi\to\psi)$,
+$\phi$, $\delta$) e aplicar $\to$E duas vezes.
+
+```{.fitch seq="|- (delta -> (phi -> psi)) -> (phi -> (delta -> psi))"}
+|> delta -> (phi -> psi)
+||> phi
+|||> delta
+|||  phi -> psi           ; ->E, 1, 3
+|||  psi                  ; ->E, 4, 2
+||  delta -> psi          ; ->I, 3-5
+|  phi -> (delta -> psi)  ; ->I, 2-6
+(delta -> (phi -> psi)) -> (phi -> (delta -> psi))   ; ->I, 1-7
+```
+
+#### (e) $\vdash ((\phi\to\delta)\to\delta)\to((\delta\to\phi)\to\phi)$
+
+Supor $(\phi\to\delta)\to\delta$ e $\delta\to\phi$; falta $\phi$, que é
+uma letra: por contradição, supor $\neg\phi$. Com $\neg\phi$ consegue-se
+$\phi\to\delta$ (supor $\phi$: contradiz $\neg\phi$, e de $\mathbf{F}$
+tira-se $\delta$). Então a primeira hipótese dá $\delta$, a segunda dá
+$\phi$, contra $\neg\phi$.
+
+```{.fitch seq="|- ((phi -> delta) -> delta) -> ((delta -> phi) -> phi)"}
+|> (phi -> delta) -> delta
+||> delta -> phi
+|||> ~phi
+||||> phi
+||||  F                   ; FI, 4, 3
+||||  delta               ; FE, 5
+|||  phi -> delta         ; ->I, 4-6
+|||  delta                ; ->E, 7, 1
+|||  phi                  ; ->E, 2, 8
+|||  F                    ; FI, 9, 3
+||  ~~phi                 ; ~I, 3-10
+||  phi                   ; ~E, 11
+|  (delta -> phi) -> phi  ; ->I, 2-12
+((phi -> delta) -> delta) -> ((delta -> phi) -> phi)   ; ->I, 1-13
+```
+
+#### (g) $\delta,\ \neg\phi \vdash \neg(\delta\to\phi)$
+
+```{.fitch seq="delta, ~phi |- ~(delta -> phi)"}
+delta
+~phi
+---
+|> delta -> phi
+|  phi                ; ->E, 3, 1
+|  F                  ; FI, 4, 2
+~(delta -> phi)       ; ~I, 3-5
+```
+
+### 2.9 --- Deduções válidas ou não (implicação)
+
+#### (e) $\vdash (\neg\delta\to\delta)\to\delta$
+
+**Válida.** Supor $\neg\delta\to\delta$; falta $\delta$, por contradição:
+$\neg\delta$ dá $\delta$ pela hipótese, contradição.
+
+```{.fitch seq="|- (~delta -> delta) -> delta"}
+|> ~delta -> delta
+||> ~delta
+||  delta             ; ->E, 1, 2
+||  F                 ; FI, 3, 2
+|  ~~delta            ; ~I, 2-4
+|  delta              ; ~E, 5
+(~delta -> delta) -> delta   ; ->I, 1-6
+```
+
+#### (f) $\neg\delta\to\neg\psi \vdash \neg\psi\to\neg\delta$
+
+**Não é válida.** Contraexemplo: $\delta = p$, $\psi = q$, com $v(p)=V$,
+$v(q)=F$.
+
+- $\models_v \neg p\to\neg q$ sse $\not\models_v \neg p$ ou
+  $\models_v \neg q$. Como $v(p)=V$, $\models_v p$, logo
+  $\not\models_v \neg p$. Portanto $\models_v \neg p\to\neg q$.
+- $\not\models_v \neg q\to\neg p$ sse $\models_v \neg q$ e
+  $\not\models_v \neg p$. Como $v(q)=F$, $\models_v \neg q$; e
+  $\not\models_v \neg p$ (acima). Portanto
+  $\not\models_v \neg q\to\neg p$.
+
+Logo $\neg p\to\neg q \not\models \neg q\to\neg p$ e, pela integridade de
+DN, $\neg p\to\neg q \nvdash \neg q\to\neg p$. (A premissa equivale a
+$q\to p$ e a conclusão a $p\to q$: é a **recíproca**, não a contraposição.)
+
+## Aulas 5--6 --- Regras derivadas, raciocínios e equivalências
+
+### 2.1 --- Forma lógica de argumentos
+
+#### (a) Hugo resolve os exercícios → viaja para os Açores; vai viajar; logo resolveu
+
+$h$ = "o Hugo resolve corretamente os exercícios", $a$ = "o Hugo viaja
+para os Açores". Forma: $h\to a,\ a$ logo $h$.
+
+**Não é válido** (é a falácia da *afirmação do consequente*).
+Contraexemplo $v(h)=F$, $v(a)=V$:
+
+- $\models_v h\to a$ sse $\not\models_v h$ ou $\models_v a$: verdade
+  (as duas, até).
+- $\models_v a$, porque $v(a)=V$.
+- $\not\models_v h$, porque $v(h)=F$.
+
+Logo $\{h\to a,\ a\} \not\models h$ (e, pela integridade,
+$h\to a,\ a \nvdash h$).
+
+#### (b) Cinema → não resolvo; não resolvo → chumbo; logo cinema → chumbo
+
+$c$ = "vou ao cinema", $e$ = "resolvo os exercícios", $f$ = "chumbo a
+matemática". Forma: $c\to\neg e,\ \neg e\to f$ logo $c\to f$.
+
+**Válido**: é o *silogismo hipotético* (transitividade da implicação).
+
+```{.fitch seq="c -> ~e, ~e -> f |- c -> f"}
+c -> ~e
+~e -> f
+---
+|> c
+|  ~e                 ; ->E, 1, 3
+|  f                  ; ->E, 2, 4
+c -> f                ; ->I, 3-5
+```
+
+### 2.2 --- Completar argumentos
+
+$m$ = "a matemática é difícil", $s$ = "o Pai Natal existe".
+
+#### (a) Se a matemática é difícil, o Pai Natal existe. O Pai Natal não existe. Logo...
+
+**"...a matemática não é difícil"** ($\neg m$), por *modus tollens*:
+
+```{.fitch seq="m -> s, ~s |- ~m"}
+m -> s
+~s
+---
+|> m
+|  s                  ; ->E, 1, 3
+|  F                  ; FI, 4, 2
+~m                    ; ~I, 3-5
+```
+
+#### (b) Se a matemática é difícil, o Pai Natal existe. A matemática é difícil. Logo...
+
+**"...o Pai Natal existe"** ($s$), por *modus ponens*:
+
+```{.fitch seq="m -> s, m |- s"}
+m -> s
+m
+---
+s                     ; ->E, 1, 2
+```
+
+### 2.3 --- Tautologias e argumentos
+
+#### Resposta
+
+Em cada argumento, chama-se $p$, $q$, $r$ às frases na ordem em que
+aparecem no padrão da tautologia; o argumento "premissas logo
+conclusão" corresponde à tautologia "premissas $\to$ conclusão".
+
+| Argumento | Formalização | Tautologia |
+|:-:|:--------------------------------------|:-:|
+| (a) | $p$ = inscrito em LC, $q$ = em AED: $p$ logo $p\lor q$ | (3) |
+| (b) | $p$ = programa em Java, $q$ = em C: $q\land p$ logo $p$ (é (2) com os lados trocados) | (2) |
+| (c) | $p$ = trabalho em C, $q$ = em Java, $r$ = frequência: $(p\lor q)\to r,\ p$ logo $r$ | (6) |
+| (d) | $p$ = a Maria foi à aula: $p\lor\neg p$ | (1) |
+| (e) | $p$ = chove, $q$ = vou ao cinema: $p\to q$ logo $\neg q\to\neg p$ | (4) |
+| (f) | $p$ = neva, $q$ = fico em casa: $p\to q,\ \neg p\to q$ logo $q$ | (5) |
+
+### 2.7 --- Prova de "choveu"
+
+#### Resposta
+
+$c$ = "chove", $n$ = "há nevoeiro", $v$ = "a regata realiza-se",
+$d$ = "a demonstração de salvamento realiza-se", $t$ = "o troféu é
+entregue". Hipóteses:
+
+- "Se não chove ou não há nevoeiro, a regata e a demonstração
+  realizam-se": $(\neg c\lor\neg n)\to(v\land d)$
+- "Se a regata se realiza, o troféu é entregue": $v\to t$
+- "O troféu não foi entregue": $\neg t$
+
+Conclusão $c$. É uma letra: por contradição, supor $\neg c$; dá
+$\neg c\lor\neg n$, logo $v\land d$, logo $v$, logo $t$, contra $\neg t$.
+
+```{.fitch seq="(~c \/ ~n) -> (v /\ d), v -> t, ~t |- c"}
+(~c \/ ~n) -> (v /\ d)
+v -> t
+~t
+---
+|> ~c
+|  ~c \/ ~n           ; vI, 4
+|  v /\ d             ; ->E, 1, 5
+|  v                  ; &E, 6
+|  t                  ; ->E, 2, 7
+|  F                  ; FI, 8, 3
+~~c                   ; ~I, 4-9
+c                     ; ~E, 10
+```
+
+### 2.11 --- Equivalência dedutiva (implicação e disjunção)
+
+#### (g) $(\phi\lor\psi)\to\delta \dashv\vdash (\phi\to\delta)\land(\psi\to\delta)$
+
+**($\vdash$)** A conclusão é uma conjunção: deduzir cada lado e $\land$I.
+Cada lado é uma implicação: supor $\phi$ (ou $\psi$), fazer $\phi\lor\psi$
+com $\lor$I e usar a premissa.
+
+```{.fitch seq="(phi \/ psi) -> delta |- (phi -> delta) /\ (psi -> delta)"}
+(phi \/ psi) -> delta
+---
+|> phi
+|  phi \/ psi         ; vI, 2
+|  delta              ; ->E, 1, 3
+phi -> delta          ; ->I, 2-4
+|> psi
+|  phi \/ psi         ; vI, 6
+|  delta              ; ->E, 1, 7
+psi -> delta          ; ->I, 6-8
+(phi -> delta) /\ (psi -> delta)   ; &I, 5, 9
+```
+
+**($\dashv$)** A conclusão é uma implicação: supor $\phi\lor\psi$ e chegar
+a $\delta$ por casos, usando a implicação certa em cada caso.
+
+```{.fitch seq="(phi -> delta) /\ (psi -> delta) |- (phi \/ psi) -> delta"}
+(phi -> delta) /\ (psi -> delta)
+---
+phi -> delta          ; &E, 1
+psi -> delta          ; &E, 1
+|> phi \/ psi
+||> phi
+||  delta             ; ->E, 2, 5
+||> psi
+||  delta             ; ->E, 3, 7
+|  delta              ; vE, 4, 5-6, 7-8
+(phi \/ psi) -> delta ; ->I, 4-9
+```
+
+## Aulas 5--6 --- Propriedades de $\vdash$
+
+### 2.10 --- Verdadeiro ou falso
+
+#### (e) Se $\delta_1,\delta_2 \vdash \phi\to\psi$ e $\delta_1 \vdash \phi$, então $\delta_1,\delta_2 \vdash \psi$
+
+**Verdadeiro.** Sejam $D_1$ uma dedução de $\phi\to\psi$ a partir de
+$\delta_1,\delta_2$ e $D_2$ uma dedução de $\phi$ a partir de $\delta_1$.
+Constrói-se uma dedução de $\psi$ a partir de $\delta_1,\delta_2$:
+
+1. premissas $\delta_1$, $\delta_2$;
+2. as linhas de $D_1$ (sem repetir as premissas), com os números das
+   justificações ajustados; a última é $\phi\to\psi$, na barra principal;
+3. as linhas de $D_2$ (sem repetir a premissa $\delta_1$, que já é a
+   linha 1), com os números ajustados; a última é $\phi$, na barra
+   principal. Os passos de $D_2$ continuam válidos: só usam $\delta_1$ e
+   linhas de $D_2$, e a premissa $\delta_2$ a mais não muda nada;
+4. $\psi$ por $\to$E, citando as últimas linhas de 2 e 3 (ambas na barra
+   principal, logo acessíveis).
+
+Logo $\delta_1,\delta_2 \vdash \psi$. $\blacksquare$
+
+#### (f) Se $\delta_1,\delta_2 \vdash \phi\to\psi$ e $\delta_1 \vdash \phi$, então $\delta_1 \vdash \psi$
+
+**Falso.** Contraexemplo: $\delta_1 = p$, $\delta_2 = p\to q$, $\phi = p$,
+$\psi = q$.
+
+- $\delta_1,\delta_2 \vdash \phi\to\psi$, isto é, $p,\ p\to q \vdash p\to q$:
+
+```{.fitch seq="p, p -> q |- p -> q"}
+p
+p -> q
+---
+p -> q                ; R, 2
+```
+
+- $\delta_1 \vdash \phi$, isto é, $p \vdash p$:
+
+```{.fitch seq="p |- p"}
+p
+---
+p                     ; R, 1
+```
+
+- Mas $\delta_1 \nvdash \psi$, isto é, $p \nvdash q$: com $v(p)=V$,
+  $v(q)=F$ tem-se $\models_v p$ e $\not\models_v q$, logo
+  $p \not\models q$; pela integridade de DN, $p \nvdash q$. $\blacksquare$
+
+(A diferença para a (e): a dedução de $\phi\to\psi$ pode precisar de
+$\delta_2$, e na (f) $\delta_2$ deixou de estar disponível.)
+
+#### (g) Se $\delta_1 \vdash \phi\to\psi$ e $\delta_2 \vdash \phi$, então $\delta_1,\delta_2 \vdash \psi$
+
+**Verdadeiro.** Igual à (e): premissas $\delta_1$, $\delta_2$; depois as
+linhas da dedução de $\phi\to\psi$ (que só usa $\delta_1$); depois as
+linhas da dedução de $\phi$ (que só usa $\delta_2$), com os números
+ajustados; por fim $\psi$ por $\to$E. Cada passo copiado continua
+justificado, porque as premissas a mais não são usadas e não fecham
+nenhuma sub-dedução. Logo $\delta_1,\delta_2 \vdash \psi$. $\blacksquare$
+
+### 2.15 --- Se para todo o $\delta$, $\Sigma\vdash\delta$ ou $\Gamma\vdash\delta$
+
+#### (a) Um dos conjuntos $\Sigma$ ou $\Gamma$ não é satisfazível
+
+Toma-se $\delta = \mathbf{F}$. Por hipótese, $\Sigma \vdash \mathbf{F}$ ou
+$\Gamma \vdash \mathbf{F}$.
+
+**Caso $\Sigma \vdash \mathbf{F}$.** Pela integridade de DN,
+$\Sigma \models \mathbf{F}$: toda a valoração $v$ com $\models_v \Sigma$
+tem $\models_v \mathbf{F}$. Mas $\not\models_v \mathbf{F}$ para toda a
+$v$. Logo não existe $v$ com $\models_v \Sigma$: $\Sigma$ não é
+satisfazível.
+
+**Caso $\Gamma \vdash \mathbf{F}$.** Pelo mesmo argumento, $\Gamma$ não é
+satisfazível.
+
+Em ambos os casos, um dos conjuntos não é satisfazível. $\blacksquare$
+
+#### (b) $\Sigma\cup\Gamma$ não é satisfazível
+
+Por absurdo: suponha-se que existe $v$ com $\models_v \Sigma\cup\Gamma$,
+isto é, $\models_v \gamma$ para todo o $\gamma\in\Sigma\cup\Gamma$. Como
+$\Sigma \subseteq \Sigma\cup\Gamma$, $\models_v \Sigma$, e $\Sigma$ é
+satisfazível; da mesma forma $\Gamma$ é satisfazível. Isto contradiz (a).
+Logo $\Sigma\cup\Gamma$ não é satisfazível. $\blacksquare$

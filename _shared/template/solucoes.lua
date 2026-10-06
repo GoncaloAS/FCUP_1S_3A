@@ -10,6 +10,9 @@
 -- <= 4, fica escondido dentro de <details class="sol">. O id de cada alínea
 -- é "<nº do exercício>-<alínea>" (ex: "1.2-a", "Ex.4-c"), para se poder abrir
 -- diretamente com #id no URL; se se repetir, leva um sufixo "-2", "-3", ...
+-- No site único (SOLUCOES.html, várias disciplinas na mesma página) o id leva
+-- à frente o nome da disciplina, passado com -M disciplina=<Pasta>
+-- (ex: "Logica-1.2-a"), para não colidir entre disciplinas.
 
 function Pandoc(doc)
   local out = {}
@@ -17,6 +20,8 @@ function Pandoc(doc)
   local ex_num = "sol"
   local n = 0
   local seen = {}
+  local prefixo = doc.meta.disciplina
+    and (pandoc.utils.stringify(doc.meta.disciplina) .. "-") or ""
 
   local function close()
     if open then
@@ -39,7 +44,7 @@ function Pandoc(doc)
       n = n + 1
       local txt = pandoc.utils.stringify(b.content)
       local alinea = txt:match("^%((%w+)%)") or txt:match("^(%d+)%.") or tostring(n)
-      local id = ex_num .. "-" .. alinea
+      local id = prefixo .. ex_num .. "-" .. alinea
       if seen[id] then
         seen[id] = seen[id] + 1
         id = id .. "-" .. seen[id]
@@ -47,9 +52,10 @@ function Pandoc(doc)
         seen[id] = 1
       end
       table.insert(out, pandoc.RawBlock("html",
-        '<details class="sol" id="' .. id .. '"><summary>'))
+        '<details class="sol" id="' .. id .. '"><summary><span class="enun">'))
       table.insert(out, pandoc.Plain(b.content))
-      table.insert(out, pandoc.RawBlock("html", '</summary><div class="corpo">'))
+      table.insert(out, pandoc.RawBlock("html",
+        '</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">'))
       open = true
     else
       table.insert(out, b)

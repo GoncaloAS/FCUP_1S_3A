@@ -1,0 +1,5 @@
+digraph G {
+  rankdir=TB; ranksep=0.25; nodesep=0.25; edge [arrowhead=none]; node [shape=plaintext, fontname="Helvetica", fontsize=20];
+  S [label="Stm"]; i [label="if"]; e [label="Exp"]; t [label="then"]; s1 [label="Stm"]; el [label="else"]; s2 [label="Stm"];
+  S -> i; S -> e; S -> t; S -> s1; S -> el; S -> s2;
+}

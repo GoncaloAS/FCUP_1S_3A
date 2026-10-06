@@ -1,10 +1,11 @@
 ---
 title: "Redes de Comunicação --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 2 (Capítulos 1--2)"
+date: "Atualizado: Semana 3 (Capítulos 1--2 + Ficha 3)"
 ---
 
 <!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf -->
+<!-- práticas usadas nas caixas "Pratica agora": Praticas/Semana_1/exercicios_redes.pdf, Praticas/Semana_2/ficha_2.pdf, Praticas/Semana_3/ficha_3_protocolos_aplicacionais.pdf -->
 
 # Informação da Disciplina
 
@@ -1293,6 +1294,23 @@ trata cada pedido de forma independente.
   persistentes.
 :::
 
+::: atencao
+**Nota adicional (não estava explícito nos slides): quem decide se a
+conexão fica aberta.** É o cabeçalho `Connection:` e a versão do pedido:
+
+- **HTTP/1.0**: por omissão o servidor **fecha a conexão** depois de
+  enviar a resposta. Só fica aberta se o cliente pedir `Connection:
+  keep-alive` e o servidor aceitar (foi uma extensão posterior ao 1.0).
+- **HTTP/1.1**: por omissão a conexão é **persistente**: o servidor
+  responde e fica à espera do pedido seguinte (até um *timeout*). Quem
+  quiser fechar diz `Connection: close`: o servidor envia essa última
+  resposta e fecha.
+
+Como o servidor não fecha, o cliente **só sabe onde acaba cada resposta
+pelo `Content-Length`** (ou pelo `Transfer-Encoding: chunked`). Isto
+vê-se bem a fazer pedidos à mão (Ficha 3, Ex. 1, abaixo).
+:::
+
 ::: {.exemplo title="--- HTTP não persistente, passo a passo (slides)"}
 O utilizador escreve o URL `www.dcc.fc.up.pt/~rprior/homepage/index.html`
 (uma página com texto e referências para 10 imagens JPEG).
@@ -1391,6 +1409,11 @@ Formato genérico:
 - **linhas de cabeçalho**: `nome: valor` + CR LF, uma por cabeçalho;
 - **uma linha vazia** (um CR LF extra): marca o fim dos cabeçalhos;
 - **corpo da mensagem** (entidade), opcional (usado, por ex., no `POST`).
+
+Nota adicional: no **HTTP/1.1 o cabeçalho `Host:` é obrigatório** (o mesmo
+IP pode servir vários sites, e o servidor precisa de saber qual). Um
+pedido 1.1 sem `Host:` recebe `400 Bad Request` (testado em
+`neverssl.com`). No HTTP/1.0 é opcional.
 :::
 
 ::: {.definicao title="--- Métodos HTTP"}
@@ -1446,6 +1469,34 @@ porta 80 e escrever o pedido), ou com o **Wireshark** a capturar o que o
 browser envia e recebe. A captura do professor está em
 `Teoricas/Aula_03_captura_http.cap` (abre-se no Wireshark).
 
+::: {.atencao title="--- Nota adicional: o telnet como cliente TCP genérico"}
+Os slides usam o `telnet` mas não explicam o que é (a Ficha 3 pergunta-o).
+
+- **Para que serve**: o `telnet` é o cliente do protocolo **TELNET**
+  (RFC 854, porta 23), de **terminal remoto**: abre uma sessão de linha
+  de comandos numa máquina remota. Uso: `telnet <máquina> [porta]`
+  (ex.: `telnet neverssl.com 80`). Está **obsoleto** para isso porque
+  envia tudo, *passwords* incluídas, **em texto claro**; usa-se o
+  **SSH**, que cifra.
+- **Como funciona por dentro**: abre uma **conexão TCP** para a máquina
+  e porta indicadas (uma *socket* cliente, como o `TCPClient` em
+  "Programação com sockets"). Depois fica num ciclo: o que o utilizador
+  escreve no teclado é **enviado pela socket** (no fim de cada linha
+  manda CR LF), e o que chega pela socket é **mostrado no ecrã**. Na
+  porta 23 também negoceia opções do terminal (comandos especiais
+  começados pelo byte 255, `IAC`); nas outras portas é só um "tubo" de
+  texto.
+- **Porque é útil em Redes**: como HTTP, SMTP, FTP e POP3 são protocolos
+  **de texto** sobre TCP, com o `telnet` "fazemos de browser" (ou de
+  cliente de email): escrevemos os pedidos à mão e vemos as respostas
+  em bruto.
+
+No macOS não vem instalado: `brew install telnet`, ou usa o `nc`
+(*netcat*), que faz o mesmo (`nc neverssl.com 80`; com `nc -c` envia CR
+LF no fim de cada linha). Para servidores que exigem **TLS** usa-se o
+`gnutls-cli` ou o `openssl s_client` (ver "Correio eletrónico").
+:::
+
 ::: {.exemplo title="--- Primeiro pedido e resposta da captura"}
 O browser (Firefox, 192.168.50.41) abre uma conexão TCP para a porta 80 do
 servidor `www.dcc.fc.up.pt` (10.0.0.251) e envia:
@@ -1481,6 +1532,56 @@ Content-Type: text/html
   cabeçalho não está nos slides).
 - `Content-Length: 2144`: o HTML tem 2144 bytes; é assim que o browser
   sabe onde ele acaba.
+:::
+
+::: {.atencao title="--- Nota adicional: ler conexões TCP no Wireshark"}
+Ainda não demos o TCP (Cap. 3), mas para as capturas basta isto:
+
+- Cada conexão TCP é identificada pelo **par de portas** (a do cliente
+  muda de conexão para conexão; a do servidor é a 80, 21, 25...).
+- Uma conexão **abre** com um pacote **SYN** do cliente (o servidor
+  responde com SYN-ACK) e **fecha** com pacotes **FIN** (um de cada
+  lado). Filtro: `tcp.flags.syn==1 && tcp.flags.ack==0` mostra só as
+  aberturas.
+- *Statistics $\to$ Conversations $\to$ TCP* lista as conexões, com
+  início e duração. Botão direito num pacote $\to$ *Follow $\to$ TCP
+  Stream* mostra o diálogo de texto dessa conexão.
+- Conexões **simultâneas** são as que estão abertas ao mesmo tempo (o
+  SYN de uma chega antes do FIN da outra). Uma conexão é **persistente**
+  se transporta **mais do que um pedido** antes do FIN.
+:::
+
+::: {.pratica title="--- HTTP à mão (Ficha 3, Ex. 1)"}
+**F3.1** (`Praticas/Semana_3/ficha_3_protocolos_aplicacionais.pdf`).
+Usa a nota sobre o `telnet` e a de "quem decide se a conexão fica
+aberta".
+
+- **(a)** Para que serve o `telnet` e o que tem o utilizador de fazer?
+- **(b)** Como funciona por dentro (3 ou 4 frases)?
+- **(c)** Liga-te à porta 80 de `neverssl.com` e envia os 5 pedidos do
+  enunciado (o 1.º em HTTP/1.0; os outros em HTTP/1.1, o último com
+  `Connection: close`). Repara **quando é que a conexão fecha**.
+- **(d)** Explica conexões persistentes e *pipelining* e comenta o que
+  viste. Pista: experimenta também colar **vários pedidos de uma vez**,
+  antes de chegar a primeira resposta.
+:::
+
+::: {.pratica title="--- Capturas HTTP (Ficha 3, Ex. 7a e 7d)"}
+**F3.7(a)** Abre `Teoricas/Aula_03_captura_http.cap` (é a `Cap2-http.cap`
+do Moodle) no Wireshark, com o filtro `http`.
+
+- **(i)** Identifica o método e o URL de **todos** os pedidos.
+- **(ii)** Com os SYN e os FIN, descobre quantas conexões
+  **simultâneas** foram usadas e se são **persistentes**.
+
+**F3.7(d)** Faz a tua captura (filtro de captura `port 80`) enquanto
+visitas `http://neverssl.com/`. **(i)** O que observas? **(ii)** Foram
+usadas conexões persistentes?
+
+**C2.2** (inventado, complementa o 7a, na mesma captura): **(a)** que
+códigos de estado aparecem, e para que objetos? **(b)** Estima o RTT a
+partir do SYN do cliente e da resposta do servidor. O que diz esse
+valor sobre onde está o cliente?
 :::
 
 ### HTTP/2 e HTTP/3
@@ -1567,19 +1668,24 @@ reduz o **tráfego no acesso à Internet** da organização; e, havendo muitas
 *caches*, até servidores de baixa capacidade funcionam bem, porque os
 **acessos repetidos à mesma página** são servidos pelas *caches*.
 
-::: {.pratica title="--- Analisar uma sessão HTTP real (exercício inventado)"}
-**C2.2** Abre `Teoricas/Aula_03_captura_http.cap` no Wireshark (filtro
-`http`; em *Statistics > Conversations > TCP* vês as conexões).
+::: {.pratica title="--- À volta do HTTP: o proxy do Paulo (Ficha 3, Ex. 2)"}
+**F3.2** O browser do Paulo só fala **HTTP/1.0** (ligação a 10 Mbps).
+Ele instala um *proxy* **HTTP/1.1** sem *cache* nem compressão. Browser
+e *proxy* só têm uma sessão HTTP de cada vez; há um só servidor.
 
-- **(a)** Quantas conexões TCP abre o browser para o servidor, e quantas
-  chegam a transportar pedidos?
-- **(b)** A conexão principal é persistente? Que provas há na captura?
-  (Olha para quantos pedidos passam por ela e para o cabeçalho
-  `Keep-Alive`.)
-- **(c)** Que códigos de estado aparecem, e para que objetos?
-- **(d)** Estima o RTT a partir do estabelecimento da conexão TCP (o
-  primeiro pacote do cliente e a resposta do servidor). O que diz esse
-  valor sobre onde está o cliente?
+- **(a)** Quantifica o ganho no tempo total para $n$ objetos de tamanho
+  $m$, com o *proxy* no próprio computador e sem atrasos de
+  processamento.
+- **(b)** E se o *proxy* estivesse noutro computador, com um RTT
+  browser--*proxy* grande?
+- **(c)** E se o browser suportasse HTTP/1.1, com o *proxy* no
+  computador dele?
+
+Pista: o *proxy* parte o caminho em **dois troços**. Escreve o tempo de
+cada objeto com $2\,\text{RTT} + m/R$ (não persistente) ou
+$\text{RTT} + m/R$ (persistente), como no exemplo dos 22/12/3 RTT, e
+pensa: o *proxy* pode fazer *pipelining* se o browser só lhe pede um
+objeto de cada vez?
 :::
 
 ## FTP
@@ -1622,6 +1728,13 @@ As respostas têm um **código de estado e uma descrição**, como no HTTP:
 `331 Username OK, password required`; `125 data connection already open;
 transfer starting`; `425 Can't open data connection`; `452 Error writing
 file`.
+
+Nota adicional: na captura do professor aparecem mais quatro comandos que
+os slides não listam: `SYST` (pergunta o tipo de sistema do servidor),
+`CWD dir` (muda o diretório corrente), `TYPE I` (passa a modo binário,
+"*image*", para o ficheiro chegar byte a byte; `TYPE A` é o modo texto)
+e `QUIT` (termina a sessão).
+
 :::
 
 ::: atencao
@@ -1635,19 +1748,22 @@ modo **passivo** (`PASV`) é o **cliente** que abre a conexão de dados, o
 que funciona melhor quando o cliente está atrás de uma *firewall* ou NAT.
 :::
 
-::: {.pratica title="--- Analisar uma sessão FTP real (exercício inventado)"}
-**C2.3** Abre `Teoricas/Aula_03_captura_ftp.cap` no Wireshark (filtro
-`ftp || ftp-data`).
+::: {.pratica title="--- Captura FTP (Ficha 3, Ex. 7b)"}
+**F3.7(b)** Abre `Teoricas/Aula_03_captura_ftp.cap` (a `Cap2-ftp.cap` do
+Moodle) no Wireshark (filtro `ftp || ftp-data`).
 
-- **(a)** Quantas conexões TCP há, entre que portas, e **quem abre** cada
-  uma?
-- **(b)** Que utilizador e *password* foram usados? O que mostra isto
-  sobre a segurança do FTP?
-- **(c)** Descodifica o comando `PORT` e confirma que bate certo com a
-  conexão de dados que aparece a seguir.
-- **(d)** Qual o tamanho do ficheiro transferido, e qual o débito médio
-  da transferência? (Usa o tempo entre o primeiro e o último pacote com
-  dados da conexão de dados.)
+- **(i)** Identifica **todos** os comandos enviados ao servidor e diz
+  para que serve cada um.
+- **(ii)** Em que pacote é pedido o estabelecimento da conexão de dados?
+  (Descodifica o argumento com a nota sobre o `PORT`.)
+- **(iii)** Que portas usa o servidor para a conexão de controlo e para
+  a de dados? Quem abre cada uma?
+
+**C2.3** (inventado, complementa o 7b, na mesma captura): **(a)** que
+utilizador e *password* foram usados, e o que mostra isto sobre a
+segurança do FTP? **(b)** Qual o tamanho do ficheiro e o débito médio
+da transferência (do primeiro ao último pacote com dados da conexão de
+dados)?
 :::
 
 ## Correio eletrónico
@@ -1827,6 +1943,45 @@ leitor mostra). E o corpo tem acentos com `Content-Transfer-Encoding:
 sem ela, a regra dos 7 bits obrigava a codificar o texto.
 :::
 
+::: {.atencao title="--- Nota adicional: SMTP à mão com TLS (STARTTLS)"}
+Hoje quase nenhum servidor aceita SMTP em texto claro. Com
+**STARTTLS** a conexão começa normal na porta 25 (`220`, `EHLO`), o
+cliente envia `STARTTLS`, e a partir daí **tudo passa a ir cifrado com
+TLS**, na mesma conexão TCP. Depois disso o cliente tem de mandar
+**outra vez `EHLO`**: o diálogo anterior "não conta" (e a lista de
+extensões muda; na FCUP passa a aparecer `AUTH LOGIN PLAIN`).
+
+Como já não dá para escrever texto em claro, o `telnet` não serve. O
+`gnutls-cli` faz de `telnet` com TLS:
+
+```
+gnutls-cli smtp.fc.up.pt -p 25 --starttls-proto=smtp --crlf
+```
+
+- `--starttls-proto=smtp`: o próprio `gnutls-cli` faz o `EHLO` e o
+  `STARTTLS` em claro e o *handshake* TLS. Quando te dá o controlo, já
+  estás dentro do TLS: começas por `EHLO`.
+- `--crlf`: o Enter envia CR LF (o SMTP exige CR LF no fim das linhas).
+- Alternativa: `openssl s_client -starttls smtp -crlf -connect
+  smtp.fc.up.pt:25`. Cuidado: no `s_client` uma linha que começa por `R`
+  maiúsculo pede renegociação TLS e uma por `Q` fecha a conexão. Escreve
+  `rcpt to:` e `quit` em minúsculas (o SMTP aceita).
+
+Testado em 2026-10-06: o `smtp.fc.up.pt` aceita a conexão e o STARTTLS.
+:::
+
+::: {.atencao title="--- Nota adicional: o SMTP não verifica o remetente"}
+Nada no SMTP dos slides confirma que quem envia é quem diz ser: o
+`MAIL FROM` e o cabeçalho `From:` são **texto escrito pelo cliente**.
+Por isso consegue-se enviar um email "de" `bugsbunny@warnerbros.com`
+(é o objetivo do Ex. 3 da Ficha 3). O TLS cifra a conversa, mas **não
+prova o remetente**. Hoje há mecanismos à parte que o servidor que
+recebe pode verificar: **SPF** (um registo DNS do domínio diz que
+servidores podem enviar em nome dele), **DKIM** (o servidor de origem
+assina a mensagem) e **DMARC** (o que fazer se falharem). Uma mensagem
+forjada costuma ir parar ao *spam* ou levar um aviso.
+:::
+
 ::: {.definicao title="--- Protocolos de acesso ao email"}
 O SMTP faz a **entrega e o armazenamento** no servidor do destinatário.
 Para o destinatário **ir buscar** o email à caixa de correio usa-se um
@@ -1882,17 +2037,21 @@ entre sessões**.
 mensagem está em que pasta). É mais complexo.
 :::
 
-::: {.pratica title="--- E-mail (exercício inventado)"}
-**C2.4**
+::: {.pratica title="--- E-mail (Ficha 3, Ex. 3 e 7c)"}
+**F3.3** Com o `gnutls-cli` (nota acima), envia um email para a tua
+conta da FCUP com remetente `bugsbunny@warnerbros.com`, assunto "Eh...
+What's up, doc?" e corpo "Did you know email is insecure?". Verifica
+que chegou. Escreve primeiro, no papel, as linhas que vais enviar
+(comandos SMTP **e** cabeçalhos da mensagem) e onde fica a linha vazia.
 
-- **(a)** Escreve o que o **cliente** envia numa sessão SMTP (como no
-  diálogo dos slides) para a `ana@exemplo.pt` mandar a mesma mensagem,
-  com o assunto "Reunião", ao `rui@exemplo.pt` e à `eva@outro.pt`. Não te
-  esqueças dos cabeçalhos da mensagem, nem do que separa o cabeçalho do
-  corpo.
-- **(b)** O Bob lê o email no portátil e no telemóvel. Usando POP3 no
-  modo "transfere e apaga", o que vê no telemóvel depois de o portátil ir
-  buscar o correio? Que protocolo resolve isto, e porquê?
+**F3.7(c)** Abre `Teoricas/Aula_03_captura_smtp.cap` no Wireshark e
+identifica os comandos enviados e as respostas. A sessão está
+transcrita acima; o exercício é encontrá-la nos pacotes (filtro `smtp`,
+ou *Follow TCP Stream*) e dizer **em que pacote** vai cada comando.
+
+**C2.4** (inventado) O Bob lê o email no portátil e no telemóvel. Com
+POP3 no modo "transfere e apaga", o que vê no telemóvel depois de o
+portátil ir buscar o correio? Que protocolo resolve isto, e porquê?
 :::
 
 ## DNS
@@ -1918,7 +2077,10 @@ endereços IP**. É:
   canónico** e **pseudónimos**;
 - identificação do(s) **servidor(es) de email** de um domínio;
 - **distribuição de carga**: servidores replicados, com um **conjunto de
-  endereços IP para um só nome**.
+  endereços IP para um só nome**. (Nota adicional: o servidor devolve a
+  lista toda, mas **muda a ordem** de resposta para resposta, em
+  *round robin*. Como a maioria dos clientes usa o primeiro endereço da
+  lista, clientes diferentes acabam em réplicas diferentes.)
 
 **Porque não um servidor central?** Seria um **ponto único de falha**,
 teria um **volume de tráfego** enorme, ficaria **longe** da maioria dos
@@ -1932,7 +2094,13 @@ clientes, e a **manutenção** seria complexa. Não seria **escalável**.
   **domínio de topo** do nome pedido (ex.: `com`, `pt`). Para usar o DNS é
   preciso conhecer o IP de pelo menos um. Há **13 servidores de raiz**
   (letras a a m), espalhados pelo mundo e muitos deles replicados em
-  dezenas de locais.
+  dezenas de locais. Nota adicional: um servidor local conhece-os por um
+  ficheiro instalado com ele, as ***root hints*** (`named.root`,
+  publicado pela IANA/InterNIC em
+  `https://www.internic.net/domain/named.root`), com os nomes e IPs dos
+  13. Ao arrancar, pergunta a um deles "quais são os servidores da raiz?"
+  (registos **NS** do nome `.`) e fica com a lista **atual**: basta que
+  um dos IPs do ficheiro ainda esteja certo.
 - **Servidores de domínio de topo (TLD)**: responsáveis por `com`, `org`,
   `net`, `edu`, etc., e pelos domínios de topo de país (`pt`, `uk`, `fr`,
   ...). A Network Solutions mantém os de `com`; a DNS.PT os de `pt`.
@@ -1994,6 +2162,13 @@ mensagens com a *cache* vazia.
 - Quando um servidor aprende a resolução de um nome, **guarda-a em
   *cache***. As entradas são removidas ao fim de um certo tempo
   (*timeout*, o TTL do registo).
+- Nota adicional: o **TTL** é escolhido pelo **administrador do
+  domínio** e o servidor com autoridade devolve-o sempre igual (ex.:
+  300 s). Um servidor local que responde **da *cache*** devolve o **tempo
+  que falta** para a entrada expirar: o TTL vai **descendo** de pergunta
+  para pergunta, e quando chega a 0 a entrada é apagada e a próxima
+  pergunta volta a ir ao servidor com autoridade (o TTL "recomeça" no
+  valor original).
 - Os servidores TLD estão **quase sempre em *cache*** nos servidores
   locais, por isso **os servidores de raiz raramente são contactados**.
 - As atualizações aos registos são normalmente feitas pelo
@@ -2093,6 +2268,142 @@ Uma empresa nova, a Network Utopia, quer o domínio `networkutopia.com`:
   escrevem `www.ferramentas.pt`. O email do domínio é recebido por
   `mail.ferramentas.pt` (192.0.2.25). Escreve os RRs que ficam no
   **servidor TLD `pt`** e os que ficam no **servidor com autoridade**.
+:::
+
+### Ferramentas: `host` e `dig`
+
+Nota adicional: os slides mostram uma saída do `dig` mas não explicam as
+ferramentas. A Ficha 3 (Ex. 4--6) usa-as a fundo.
+
+::: {.definicao title="--- host e dig"}
+Os dois enviam perguntas DNS e mostram a resposta. O `host` dá uma
+resposta curta e legível; o `dig` mostra a **mensagem DNS inteira**
+(cabeçalho, *flags*, as quatro secções), como no exemplo do `mit.edu`.
+
+| Comando | O que faz |
+|:----------------|:--------------------------------------|
+| `host nome` | IP (e pseudónimos, servidores de email) do nome |
+| `host -t mx dominio` | só os registos de um tipo (aqui MX) |
+| `dig nome` | pergunta registos A ao servidor local |
+| `dig nome TIPO` | outro tipo: `MX`, `NS`, `CNAME`, `AAAA`... |
+| `dig @servidor nome` | pergunta a **outro servidor** (nome ou IP) |
+| `dig +short nome` | só os valores, sem o resto da mensagem |
+| `dig +noall +answer nome` | só a secção de resposta |
+| `dig +norecurse ...` | pedido **iterativo**: desliga a *flag* `rd` |
+| `dig +trace nome` | faz a resolução iterativa desde a raiz, sozinho |
+| `dig +qr nome` | mostra também a **pergunta** enviada |
+
+- **Flags** no cabeçalho: `qr` (é uma resposta), `rd` (recursão
+  pedida), `ra` (recursão disponível), `aa` (*authoritative answer*: a
+  resposta vem de um servidor **com autoridade** sobre o nome, não de uma
+  *cache*).
+- `AAAA` é o registo de endereço **IPv6** (o `A` é IPv4).
+- Um registo **MX** tem um **número de preferência** antes do nome
+  (`fc.up.pt. MX 10 mx01.up.pt.`): tenta-se primeiro o de número mais
+  baixo; com números iguais, reparte-se a carga entre eles.
+- A linha `;; SERVER:` no fim diz que servidor respondeu (o servidor
+  local, se não usaste `@`).
+:::
+
+::: {.exemplo title="--- Resolução iterativa à mão (Ficha 3, Ex. 4c), 1/2"}
+Objetivo: resolver `www.dcc.fc.up.pt` sem o servidor local, começando no
+servidor de raiz `a.root-servers.net` (198.41.0.4). Com `+norecurse` cada
+servidor responde **só com o que sabe**. Saídas reais (6 out. 2026),
+cortadas.
+
+**Passo 1 --- raiz.** `dig @198.41.0.4 www.dcc.fc.up.pt +norecurse`
+
+```
+;; flags: qr; QUERY: 1, ANSWER: 0, AUTHORITY: 9, ADDITIONAL: 19
+;; AUTHORITY SECTION:
+pt.        172800  IN  NS  a.dns.pt.
+pt.        172800  IN  NS  c.dns.pt.      (... mais 7 NS de pt.)
+;; ADDITIONAL SECTION:
+a.dns.pt.  172800  IN  A   185.39.208.1   (... os IPs dos outros)
+```
+
+`ANSWER: 0`: a raiz **não sabe** o IP. Responde com uma **referência**:
+os NS do TLD `pt` (autoridade) e os seus IPs (adicional). Não há `aa`.
+Escolhemos um, `a.dns.pt` = 185.39.208.1.
+
+**Passo 2 --- TLD `pt`.** `dig @185.39.208.1 www.dcc.fc.up.pt +norecurse`
+
+```
+;; flags: qr; QUERY: 1, ANSWER: 0, AUTHORITY: 5, ADDITIONAL: 11
+;; AUTHORITY SECTION:
+up.pt.     7200    IN  NS  ns1.up.pt.     (... ns2, ns3, ns4, ns02.fccn.pt)
+;; ADDITIONAL SECTION:
+ns1.up.pt. 7200    IN  A   193.137.55.30  (... os IPs dos outros)
+```
+
+Outra referência: o servidor de `pt` não conhece `fc.up.pt` nem
+`dcc.fc.up.pt`, mas sabe quem tem autoridade sobre **`up.pt`**. Passa
+logo para `up.pt`; não há um passo "`fc.up.pt`" porque a U.Porto não
+delegou esse subdomínio noutros servidores.
+:::
+
+::: {.exemplo title="--- Resolução iterativa à mão (Ficha 3, Ex. 4c), 2/2"}
+**Passo 3 --- servidor da U.Porto.**
+`dig @193.137.55.30 www.dcc.fc.up.pt +norecurse`
+
+```
+;; flags: qr aa; QUERY: 1, ANSWER: 2, AUTHORITY: 5, ADDITIONAL: 1
+;; ANSWER SECTION:
+www.dcc.fc.up.pt.   300   IN  CNAME  echo.dcc.fc.up.pt.
+echo.dcc.fc.up.pt.  600   IN  A      193.136.39.92
+;; AUTHORITY SECTION:
+dcc.fc.up.pt.     86400   IN  NS     ns1.up.pt.   (... e os outros 4)
+```
+
+Agora há **resposta** e a *flag* **`aa`**: este servidor tem autoridade
+sobre `dcc.fc.up.pt`. A resposta tem dois registos:
+
+- **CNAME**: `www.dcc.fc.up.pt` é um **pseudónimo**; o nome canónico é
+  `echo.dcc.fc.up.pt`;
+- **A**: `echo.dcc.fc.up.pt` tem o IP **193.136.39.92**.
+
+Como o servidor também tem autoridade sobre o nome canónico, mandou logo
+o A, e não foi preciso perguntar outra vez.
+
+**Resumo:** 3 perguntas iterativas (raiz $\to$ `pt` $\to$ `up.pt`), as
+duas primeiras com referências e a última com a resposta. É o que o
+servidor local faz por nós quando lhe mandamos um pedido recursivo (o
+"caso normal" acima). Os TTL também contam a história: 172 800 s (2
+dias) para os NS de `pt`, que quase nunca mudam; 300 s para o `www`.
+:::
+
+::: {.pratica title="--- dig da name? (Ficha 3, Ex. 4)"}
+**F3.4** Usa a tabela de comandos acima. A alínea (c) está resolvida
+acima.
+
+- **(a)** Com o `host`, obtém o IP de `www.dcc.fc.up.pt`.
+- **(b)** Com o `dig`, obtém o IP de `www.google.com`. O que tem cada
+  secção da resposta? Que tipos de registo aparecem e para que servem?
+- **(d)** Faz a mesma resolução da (c) com `+trace`. Bate certo com os
+  3 passos?
+- **(e)** Obtém a lista de IPs de `www.jn.pt`.
+- **(f)** Repete e compara a ordem. Para que serve irem rodando?
+- **(g)** Descobre o servidor de email de `fc.up.pt` e o seu IP (dois
+  comandos).
+- **(h)** Com `+qr`, compara o `id` da pergunta e da resposta, para
+  vários nomes. Para que serve, e porque é que o DNS precisa dele?
+  (Pensa no transporte que o DNS usa.)
+:::
+
+::: {.pratica title="--- TTL e servidores de raiz (Ficha 3, Ex. 5 e 6)"}
+**F3.5** Obtém os IPs de `www.google.com` (servidor local) e olha para o
+TTL. Repete passados uns segundos.
+
+- **(a)** O que observas? Porquê? (Nota sobre o TTL em "Caches e
+  atualização de registos".)
+- **(b)** Repete, perguntando diretamente a um servidor de nomes da
+  Google (descobre-o com `dig google.com NS`). Explica a diferença.
+
+**F3.6** Os servidores locais precisam da lista atual dos servidores de
+raiz.
+
+- **(a)** Como se pode obter essa lista?
+- **(b)** Obtém-na com o `dig`, usando essa técnica.
 :::
 
 ## Aplicações P2P

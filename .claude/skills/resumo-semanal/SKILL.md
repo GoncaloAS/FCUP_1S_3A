@@ -1,6 +1,6 @@
 ---
 name: resumo-semanal
-description: Gera ou estende o resumo teórico cumulativo em PDF de uma disciplina a partir dos slides colocados em Teoricas/, e o HTML com as soluções (uma alínea de cada vez) dos exercícios "Pratica agora". Usar sempre que o Gonçalo adiciona material novo de uma disciplina (teóricas novas) e pede para atualizar o resumo, ou quando começa uma disciplina nova.
+description: Gera ou estende o resumo teórico cumulativo em PDF de uma disciplina a partir dos slides colocados em Teoricas/, e as soluções (uma alínea de cada vez) dos exercícios "Pratica agora" no site único SOLUCOES.html (todas as disciplinas, um separador por disciplina). Usar sempre que o Gonçalo adiciona material novo de uma disciplina (teóricas novas) e pede para atualizar o resumo, ou quando começa uma disciplina nova.
 ---
 
 # Resumo semanal por disciplina
@@ -29,6 +29,12 @@ estudo em PDF, por disciplina, que se estende ao longo do semestre. Ver
   de referência do professor), não o forces no esquema `Aula_NN` — dá-lhe um
   nome descritivo dentro de `Teoricas/` e sinaliza ao Gonçalo que foi uma
   decisão tua.
+- **O número da aula é a ordem em que as aulas foram dadas, não o número
+  escrito no slide (2026-10-06).** Os slides do professor podem saltar
+  números (em Compiladores, a 6.ª aula diz "Aula 7"). O nome do ficheiro
+  que o Gonçalo deu (`Compiladores-6.pdf`) e a sequência das aulas já
+  processadas mandam. Na dúvida, pergunta. Nunca digas que "falta uma
+  aula" só por causa de um salto na numeração dos slides.
 - Se a aula chegar em **`.pptx`** (não PDF): não há LibreOffice instalado
   para converter, por isso fica como `Aula_NN.pptx` (mesmo esquema de
   nome, extensão original) e lê-se com `python-pptx` num venv no
@@ -82,13 +88,29 @@ quaisquer exercícios de prática incluídos.
 Escreve diretamente no `.fonte/RESUMO_<Disciplina>.md`, em português, denso mas
 claro — o objetivo é que o Gonçalo NÃO precise de voltar aos slides. Regras:
 
-- **Não omitir informação.** Todas as definições, teoremas e algoritmos dos
+- **Compacto e sem palha (2026-10-06).** O Gonçalo quer "informação
+  legível, compacta e bem resumida, sem informação inútil que vou ler e
+  esquecer". Fora do resumo: histórias e datas ("o primeiro compilador de C
+  foi em 1973", "Rust foi escrito em OCaml de 2006 a 2010"), citações e
+  definições de dicionário, frases de efeito, recapitulações no início de
+  cada aula ("a aula anterior mostrou..."), frases "como vimos na secção
+  X" que não acrescentam nada, comentários sobre gralhas dos slides
+  (corrige-se em silêncio), e curiosidades de ferramentas que não fazem
+  falta nas práticas. Uma ideia diz-se **uma vez**, no sítio certo. Um
+  exemplo concreto curto (ex.: "o Rust começou escrito em OCaml") pode
+  ficar se ilustrar a definição.
+- **Não omitir matéria.** Todas as definições, teoremas e algoritmos dos
   slides têm de aparecer, explicados por palavras próprias (não copiar o
   slide telegráfico — desenvolver o raciocínio, o "porquê", não só o "o quê").
+  "Compacto" quer dizer sem repetição nem palha, **nunca** saltar matéria
+  nem passos dos exemplos resolvidos.
 - **Preencher lacunas.** Se um slide assume conhecimento que não explica mas
   que é necessário para as práticas ou para perceber o resto, acrescenta essa
-  explicação. Marca-a claramente, por exemplo dentro de uma caixa `atencao`
-  com o prefixo "Nota adicional (não estava explícito nos slides):".
+  explicação **no texto normal ou na caixa de definição do tópico**, e
+  marca-a com um **†** (no título da caixa ou logo a seguir à primeira
+  expressão em negrito do parágrafo). O topo do documento tem a legenda
+  "O sinal † marca matéria que não está nos slides mas faz falta para as
+  práticas". Nada de caixas "Nota adicional (não estava nos slides)".
 - **Exemplos resolvidos sempre que houver um algoritmo ou procedimento —
   e têm de ficar totalmente explícitos.** Mesmo que o Gonçalo vá resolver
   os exercícios de prática sozinho, o resumo tem de ter pelo menos um
@@ -135,11 +157,26 @@ claro — o objetivo é que o Gonçalo NÃO precise de voltar aos slides. Regras
   `## Aula N — <título>` para o índice ficar navegável.
 - Usa as caixas semânticas (ver abaixo) com moderação — só quando o conteúdo
   realmente pede aquele destaque, não em todos os parágrafos.
+- **Sem caixas de atenção nem de exame (2026-10-06).** O Gonçalo não as
+  quer ("não quero saber disso"). Um aviso que faz falta para perceber a
+  matéria ou para as práticas vai para o texto, no sítio onde se aplica;
+  o que é só "cuidado com..." ou "isto sai em exame" sai. Instruções de
+  instalação de ferramentas para um lab vão para a caixa `pratica` desse
+  lab (ex.: "Em C precisas do Bison 3: `brew install bison`").
 
 ### 4. Caixas disponíveis
 
-Definidas em `_shared/template/preamble.tex`, convertidas pelo filtro
-`_shared/template/div-envs.lua`. Sintaxe no Markdown:
+**Estilo v2 (2026-10-06).** As disciplinas listadas em `ESTILO_V2` no
+`build.sh` (por agora só Compiladores) usam `_shared/template/preamble-v2.tex`:
+Charter (texto), Avenir Next (títulos), Menlo (código, com `∧ ∈ →` e sem
+caracteres em branco), 10pt, margens de 2,2cm, caixas leves (linha à
+esquerda em vez de caixa cheia), número grande na abertura de cada aula.
+Só tem **três** caixas; uma caixa `atencao` ou `exame` faz a compilação
+falhar de propósito. Ao converter outra disciplina: tirar as caixas
+`atencao`/`exame` (passo 3), juntá-la a `ESTILO_V2` e rever o PDF todo. As
+restantes disciplinas usam ainda o `preamble.tex` antigo.
+
+Convertidas pelo filtro `_shared/template/div-envs.lua`. Sintaxe no Markdown:
 
 ```
 ::: definicao
@@ -150,24 +187,20 @@ Conteúdo markdown normal aqui (negrito, $math$, etc. funcionam).
 Exemplo resolvido passo-a-passo.
 :::
 
-::: atencao
-Erro comum ou nota adicional preenchida por ti.
-:::
-
-::: exame
-Algo que o professor sublinhou como importante para o exame, ou que é
-claramente um padrão recorrente de exame.
-:::
-
 ::: pratica
 Exercícios sugeridos para o Gonçalo fazer sozinho (sem resposta), no fim
 do tópico cuja teoria aplicam --- ver passo 7.
 :::
 
 ::: {.definicao title="--- Autómato finito"}
-Caixa com título extra (aparece como "Definição --- Autómato finito").
+Caixa com título extra (aparece como "Definição  Autómato finito"; no v2
+o "--- " é tirado e o rótulo separa o tipo do título).
 :::
 ```
+
+**O título vai tal e qual para LaTeX:** nada de `% # & _ $` dentro de
+`title="..."` (um `%` comenta o resto da linha e dá um erro confuso numa
+caixa seguinte; `\%` também não serve, o pandoc come a barra).
 
 **Cuidado (bug de parsing do pandoc já apanhado):** no atributo
 `title="..."`, o **primeiro caráter a seguir às aspas de abertura não pode
@@ -197,7 +230,7 @@ depender da legenda automática; se precisares de legenda, escreve-a à mão
 como texto em itálico na linha a seguir.
 
 **Paginação (já configurada no `preamble.tex`, não mexer sem motivo):**
-as caixas (`definicao`/`exemplo`/`atencao`/`exame`/`pratica`) são propositadamente
+as caixas (`definicao`/`exemplo`/`pratica`) são propositadamente
 **não-quebráveis** (sem a opção `breakable`) — uma caixa nunca parte entre
 duas páginas, o LaTeX empurra-a inteira para a página seguinte se não
 couber. E cada `# Aula N` força uma página nova (`\clearpage` antes de
@@ -206,6 +239,18 @@ prática para quem escreve o Markdown: **uma caixa individual tem de caber
 numa única página** — se um exemplo ficar demasiado longo, corta-o em duas
 caixas `exemplo` consecutivas em vez de deixar uma caixa gigante (que ou
 transborda da página, ou deixa muito espaço em branco na página anterior).
+
+**Nunca texto a meio (2026-10-06, v2).** No estilo v2 o `div-envs.lua` põe
+um `\Needspace` antes de cada tabela (até 40 linhas) e de cada bloco de
+código (até 20 linhas) fora das caixas, para mudarem de página inteiros.
+Código mais comprido parte-se: **divide-o tu em blocos de até ~20 linhas
+em fronteiras naturais** (uma `struct`, um grupo de funções, as classes de
+uma categoria). Antes de dar o PDF por pronto, revê **todas** as páginas
+(não por amostragem): nada de tabelas, blocos de código, listas ou
+parágrafos cortados entre páginas, nem uma ou duas linhas sozinhas numa
+página. Se a última linha de uma secção cai sozinha na página seguinte,
+encurta o texto dessa secção. Menos páginas é melhor, mas nunca à custa de
+texto cortado.
 
 ### 5. Diagramas
 
@@ -218,14 +263,16 @@ transborda da página, ou deixa muito espaço em branco na página anterior).
   (`nfa_thompson_ab.pdf`, não `fig1.pdf`), para poderes referenciá-los ou
   regenerá-los mais tarde.
 
-### 6. Compilar o PDF (e o HTML de soluções)
+### 6. Compilar o PDF (e o site de soluções)
 
 ```
 bash _shared/template/build.sh <Disciplina>
 ```
 
 Gera `RESUMO_<Disciplina>.pdf` e, se existir `.fonte/SOLUCOES_<Disciplina>.md`,
-também `SOLUCOES_<Disciplina>.html` (ver passo 7). Corre a partir da raiz
+reconstrói o site único de soluções `SOLUCOES.html` na raiz, com **todas**
+as disciplinas (ver passo 7). Só esse passo:
+`python3 _shared/template/build_solucoes.py`. Corre a partir da raiz
 do repositório. Confirma que não há erros do tectonic
 (a primeira compilação por máquina pode demorar mais — vai buscar pacotes
 LaTeX à medida que são precisos). Se houver erro de LaTeX, o mais comum é:
@@ -264,7 +311,7 @@ PDF gerado e inspeciona visualmente pelo menos as páginas com caixas novas
 causa erro nenhum no tectonic, só faz a caixa sair como texto em bruto
 com `:::` literais. Isso só se apanha a olhar para o resultado.
 
-**Verificar o HTML de soluções:** o Read não abre HTML. Tira uma captura
+**Verificar o site de soluções (`SOLUCOES.html`):** o Read não abre HTML. Tira uma captura
 com o Chrome headless:
 
 ```
@@ -312,12 +359,24 @@ quando chega aos exercícios, já se esqueceu do que leu. Por isso:
 **Soluções de TODOS os exercícios das caixas `pratica` (2026-09-23): noutro
 documento, uma alínea de cada vez.** As caixas `pratica` do resumo nunca
 têm resposta. A resposta de **cada** exercício/alínea que lá aparece vai
-para `<Disciplina>/.fonte/SOLUCOES_<Disciplina>.md`, e o `build.sh` gera
-`<Disciplina>/SOLUCOES_<Disciplina>.html` (visível ao lado do PDF). No HTML
-cada alínea está fechada e só abre com um clique; abrir uma fecha as
-outras, para não haver spoilers. As caixas `pratica` do PDF ganham
-automaticamente um rodapé a apontar para o HTML. Convenção do `.md`
-(template `_shared/template/solucoes.html` + filtro `solucoes.lua`):
+para `<Disciplina>/.fonte/SOLUCOES_<Disciplina>.md`.
+
+**Site único de soluções (2026-10-06, pedido do Gonçalo): todas as soluções
+de todas as disciplinas ficam num só site, `SOLUCOES.html` na raiz do
+repositório**, com um separador por disciplina. **Já não há**
+`<Disciplina>/SOLUCOES_<Disciplina>.html`: não os voltes a criar, nem
+escrevas soluções diretamente em HTML. A fonte continua a ser o `.md` de
+cada disciplina; o `build.sh` (ou `python3
+_shared/template/build_solucoes.py`) junta todos os
+`*/.fonte/SOLUCOES_*.md` no site, por isso uma disciplina nova entra
+sozinha (separador e cor automáticos, por ordem alfabética da pasta).
+No site cada alínea está fechada e só abre com um clique; abrir uma fecha
+as outras, para não haver spoilers, e as alíneas já abertas ficam
+marcadas como vistas. As caixas `pratica` do PDF ganham automaticamente um
+rodapé a apontar para `../SOLUCOES.html#<Disciplina>`. Ficheiros:
+`build_solucoes.py` (junta tudo), `solucoes.html` (página: caderno
+quadriculado com separadores), `solucoes-disciplina.html` (bloco de cada
+disciplina), `solucoes.lua` (alíneas). Convenção do `.md`:
 
 ```
 ## Aula N --- tópico                 (secção; mesmo agrupamento das caixas)
@@ -327,7 +386,8 @@ solução completa, passo a passo...
 ```
 
 - O `###` tem de começar por "<número> --- ", porque o número dá o id da
-  alínea (`#1.2-a`, `#Ex.4-c`). Um exercício sem alíneas leva um único
+  alínea, com a pasta da disciplina à frente (`#Logica-1.2-a`,
+  `#Compiladores-Ex.4-c`); no site o número aparece numa etiqueta. Um exercício sem alíneas leva um único
   `#### Resposta`.
 - **Cada item de uma caixa `pratica` tem solução, pela mesma ordem e com
   a mesma numeração.** Quando acrescentares uma caixa `pratica`,
@@ -411,6 +471,14 @@ objetivo final (resolvido + sugerido, somados) por exercício com muitas
 alíneas repetitivas costuma ficar por volta de 4-6 alíneas no total, não o
 enunciado inteiro.
 
+**Uma secção `##` nas soluções por cada caixa `pratica`, pela mesma ordem
+(2026-10-06).** No estilo v2, o rodapé de cada caixa "Pratica agora" tem
+uma ligação por alínea, que abre o site já nessa alínea (ex.: "Soluções:
+Ex. A (a), Ex. A (b)"). O `div-envs.lua` emparelha a k-ésima caixa
+`pratica` do resumo com a k-ésima secção `##` do `SOLUCOES_<Disciplina>.md`.
+Por isso: uma caixa nova → uma `##` nova no sítio certo, nunca duas caixas
+na mesma `##`. O build avisa se as contagens não baterem.
+
 ### 8. Materiais suplementares em `Teoricas/` (não numerados) — usa como inspiração
 
 Se `Teoricas/` tiver um ficheiro que não é uma aula numerada (ex: apontamentos
@@ -419,10 +487,21 @@ não seguir o padrão `Aula_NN.pdf` (ver `CLAUDE.md`) — **não o ignores**: é
 uma fonte extra a consultar sempre que os slides oficiais das aulas
 estiverem incompletos, pouco claros, ou passarem por cima de um passo sem
 explicar. Usa esse material para preencher essas lacunas (marca a origem
-como nota adicional, tal como já fazes noutros casos), mas continua a
+com †, tal como já fazes noutros casos), mas continua a
 seguir a estrutura/terminologia das aulas oficiais como principal — o
 suplementar é para desempatar dúvidas, não para substituir o que o
 professor da disciplina realmente ensina.
+
+### 8b. Folha de revisão para o exame (2026-10-06)
+
+Além do resumo, cada disciplina pode ter `.fonte/REVISAO_<Disciplina>.md`
+→ `REVISAO_<Disciplina>.pdf` (o `build.sh` gera-a se existir). Tem 2--3
+páginas, só com receitas, regras e tabelas de comparação, sem exemplos nem
+explicações longas: é para rever na véspera. Usa só `##` (sem `# Aula`),
+para não abrir páginas novas. **Quando o resumo ganha matéria nova,
+acrescenta à folha as receitas novas** (ex.: um algoritmo novo dá uma
+linha ou uma lista curta). Compiladores tem uma; as outras disciplinas
+ganham a sua quando forem convertidas ao estilo v2.
 
 ### 9. Atualizar o cabeçalho de processados
 
@@ -434,7 +513,7 @@ já está feito), e atualiza a data no cabeçalho YAML (`date:`).
 de cada caixa `pratica` (exercício e alínea) tem de ter o seu `####` em
 `SOLUCOES_<Disciplina>.md`. Compara a lista das caixas
 (`grep -A12 "::: {.pratica" .fonte/RESUMO_*.md`) com os ids gerados
-(`grep -o 'details class="sol" id="[^"]*"' SOLUCOES_*.html`). Se faltar
+(`grep -o 'details class="sol" id="<Disciplina>-[^"]*"' SOLUCOES.html`). Se faltar
 algum, a tarefa não está feita. Atualiza também o `date:` do
 `SOLUCOES_…md` se mudou.
 
@@ -692,3 +771,90 @@ a não ser que sejam explicitamente substituídas por feedback mais recente.
   (1.11, 1.13, 1.14, 1.15, 1.16, 1.10 g). Aplica-se a todas as
   disciplinas: resolver sempre na forma matemática do professor, e só em
   palavras quando o exercício é trivial.
+- 2026-10-06: Compiladores Aula 6 (geradores Happy/Bison + ASTs). O PDF
+  chegou como `Compiladores-6.pdf`, com "Aula 7" escrito na 1.ª página.
+  Chamei-lhe Aula 7 e disse que faltava a 6: **errado**. O Gonçalo
+  corrigiu: é a 6.ª aula (os slides do professor saltam um número). Ficou
+  `Aula_06.pdf` e `# Aula 6`. Ver a regra nova no passo 0. A prática chegou
+  como `Praticas/Parsing/`, movida para `Praticas/Semana_3/Parsing/`. Duas lições: (1) o atributo
+  `title="..."` das caixas vai **tal e qual** para LaTeX: um `%` no
+  título (ex.: `%left`) comenta o resto da linha e dá um erro confuso
+  (`Paragraph ended before \verbatim@`) numa caixa *seguinte*. Nada de
+  `% # & _ $` em títulos; o `\%` também não serve (o pandoc come a
+  barra). (2) Para labs de geradores: o `bison` do macOS é o 2.3 e
+  rejeita `%define api.value.type`; usar `brew install bison`
+  (`/opt/homebrew/opt/bison/bin`). `happy`/`alex` com
+  `cabal install happy alex` (`~/.cabal/bin`). Correr o `happy -i`
+  dá relatórios reais (`.info`) para exemplos de conflitos no resumo.
+- 2026-10-06: IPM Módulo 04 (`IPM_M04_...pdf`, capa "Module 04 · Lecture 3").
+  O nome segue o **número do módulo** (`Aula_04.pdf`), para manter
+  Aula N = Módulo N como nas aulas anteriores, e não o "Lecture". Os tópicos
+  que aprofundam uma secção antiga foram **fundidos lá** (o "Sketching" foi
+  para a secção "Esboçar" da Aula 2), e a Aula 4 termina com uma tabela
+  "conteúdo → onde está". Figuras dos slides: `pdfimages -f N -l N -png`
+  tira as imagens originais, sem recortes; para composições usar
+  `pdftoppm -r 200` + `sips -c`. Captura do HTML de soluções: abrir
+  **uma só** alínea por cópia (com duas `open`, o "só uma aberta" fecha
+  as duas), e para ver uma secção do fundo da página **cortar o HTML**
+  (manter o `<head>` e a parte a partir do `<h2>` dessa secção). O
+  `sips --cropOffset` não corta capturas muito altas de forma fiável.
+- 2026-10-06: Lógica Aulas 5--6 (dedução natural) chegou como um só PDF
+  (`aula56.pdf` → `Teoricas/Aula_05-06.pdf`, uma secção "# Aulas 5--6") e
+  a folha 2 (`proplogicproofs.pdf`, "lab classes 3, 4 and 5") foi para
+  `Praticas/Semana_3/`. Para as provas em **notação de Fitch** criou-se
+  `_shared/template/fitch.lua` (bloco ```` ```{.fitch} ```` em ASCII:
+  `|` por nível, `|>` abre hipótese, `---` fecha premissas,
+  `; &E, 2` justificação), que desenha a prova no PDF e no HTML, e
+  `_shared/tools/fitch_check.py`, que **verifica cada passo** (regra,
+  linhas acessíveis, sub-deduções fechadas) e, com `seq="Γ |- φ"`, as
+  premissas e a conclusão. Regra: **correr o verificador sobre o RESUMO e
+  as SOLUCOES antes de compilar**; nenhuma dedução pode falhar
+  (`.nocheck` só para deduções erradas de propósito ou dadas sem
+  justificações). Apanhou também gralhas nos apontamentos de Nelma
+  Moreira (assinaladas no resumo).
+- 2026-10-06: Pedido do Gonçalo: as soluções num **só site** com todas as
+  disciplinas, a escolher por separador, e com um design melhor (o HTML
+  antigo era "muito feio"). Feito com a skill frontend-design da
+  Anthropic: um caderno quadriculado com separadores coloridos por
+  disciplina, cada alínea numa tira dobrada que se desdobra ao clicar,
+  índice lateral com "vistas x/y" por exercício e o mesmo "só uma aberta
+  de cada vez". `SOLUCOES.html` na raiz, gerado por
+  `_shared/template/build_solucoes.py` a partir de todos os
+  `.fonte/SOLUCOES_*.md`. Os `<Disciplina>/SOLUCOES_<Disciplina>.html`
+  foram apagados. Ver o passo 7.
+- 2026-10-06: Redes recebeu uma **ficha prática** (Ficha 3, protocolos de
+  aplicação) solta em `Praticas/`, sem teórica nova: foi movida para
+  `Praticas/Semana_3/` e não gerou secção nova, só caixas "Pratica agora",
+  notas adicionais (telnet, `dig`/`host`, STARTTLS, TTL, *root hints*)
+  e um exemplo resolvido, tudo **dentro das secções que já existiam**.
+  Três lições: (1) quando a ficha traz um exercício igual a um
+  **inventado** por nós (aqui, analisar as mesmas capturas), o oficial
+  substitui o inventado e só ficam as perguntas do inventado que a ficha
+  não faz (renumeradas), para ele não fazer o mesmo duas vezes. (2) Os
+  exercícios "corre este comando" (`dig`, `telnet`, `gnutls-cli`) foram
+  **corridos de verdade** e as soluções mostram a saída real, com data;
+  o que não deu para observar fica marcado como ilustrativo ou
+  resposta-modelo. Nunca enviar emails/ações com efeitos por ele (no
+  SMTP só se testou `EHLO`/`QUIT`). (3) Os números de pacote das
+  capturas tiram-se com `tcpdump -# -nn -r` **sem filtro** (com filtro
+  o `-#` numera só os pacotes filtrados e não bate com o Wireshark).
+- 2026-10-06: Pedido do Gonçalo depois de ver a amostra do estilo
+  `frontend-design`: "fica muito mais fácil de ler", mas (1) "não pode
+  ficar texto a meio", (2) cortar as caixas de atenção e de exame em todos
+  os PDFs ("não quero saber disso"), (3) tirar informação redundante,
+  repetida e inútil ("tou-me a cagar se o gajo nasceu em 1940"), (4) "o
+  menos páginas possível". Compiladores convertido primeiro: estilo v2
+  (`preamble-v2.tex`, ver passo 4), caixas fundidas no texto, palha
+  cortada, de 60 para 42 páginas com a mesma matéria, os mesmos exemplos e
+  as mesmas caixas "Pratica agora". O site de soluções passou ao mesmo
+  estilo (letras do sistema, sem Google Fonts nem quadrícula). Bugs
+  apanhados pelo caminho, todos silenciosos: (a) com o `tocloft`, listas e
+  parágrafos ganhavam espaços enormes entre linhas → usa-se o `titletoc`;
+  (b) um título de índice com estrutura diferente do das aulas (só
+  `{\LARGE #1}`) causava o mesmo sintoma → o índice usa a mesma caixa das
+  aulas, sem número (causa não percebida, ver comentário no
+  `preamble-v2.tex`); (c) "(1) ... (2) ..." no início de uma linha dentro
+  de um exemplo virou lista numerada (o bug do pandoc já conhecido, também
+  com números). Diagnosticar espaçamentos estranhos: compilar o `.tex` do
+  build (`KEEP_TMP=1 bash build.sh X` guarda a pasta) comentando uma linha
+  do preâmbulo de cada vez, e medir pela página onde o índice acaba.

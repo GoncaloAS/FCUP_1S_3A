@@ -1,135 +1,88 @@
 ---
 title: "Compiladores (CC3001) --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 2 (Aulas 1--5)"
+date: "Atualizado: Semana 3 (Aulas 1--6)"
 ---
 
-<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf, Teoricas/Aula_04.pdf, Teoricas/Aula_05.pdf -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf, Teoricas/Aula_04.pdf, Teoricas/Aula_05.pdf, Teoricas/Aula_06.pdf -->
+
+*O sinal † marca matéria que não está nos slides mas faz falta para as
+práticas.*
 
 # Aula 1 --- Introdução e fases de um compilador
 
 ## O que é um compilador
 
-Um **compilador** é um tradutor de programas: recebe um programa escrito
-numa linguagem (a *linguagem fonte*) e produz um programa equivalente
-noutra linguagem (a *linguagem destino*). Normalmente traduz de uma
-linguagem de **alto nível** (ex: C, Java) para uma de **baixo nível**
-(código máquina, ou uma representação intermédia como bytecode JVM). É a
-principal técnica usada para implementar linguagens de programação —
-GCC (C/C++ → código máquina), Javac (Java → bytecode JVM), GHC (Haskell →
-código máquina) e Scalac (Scala → bytecode JVM) são todos compiladores.
-
-::: exemplo
-Um caso interessante é **elm**, que compila Elm para **JavaScript** — o
-destino nem sempre é código máquina; pode ser outra linguagem de alto
-nível (a isto também se chama *transpilação*, mas o mecanismo interno é o
-mesmo de um compilador).
-:::
+Um **compilador** traduz um programa de uma **linguagem fonte** para um
+programa equivalente numa **linguagem destino**, normalmente de alto nível
+(C, Java) para baixo nível (código máquina, *bytecode* JVM). Exemplos: GCC
+(C/C++ → máquina), Javac (Java → JVM), GHC (Haskell → máquina), Scalac
+(Scala → JVM). O destino também pode ser de alto nível: o `elm` compila
+Elm para JavaScript.
 
 ## Compiladores vs. interpretadores
 
-Em vez de traduzir o programa todo antes de o correr, um **interpretador**
-faz a análise lexical e sintática da mesma forma que um compilador, mas
-depois **executa diretamente** o programa a partir da árvore sintática
-(ou, em alternativa, gera e executa código intermédio à medida que avança,
-sem produzir um executável final).
-
-::: {.definicao title="--- Compilação vs. interpretação"}
-**Compilação**: traduz o programa fonte inteiro para outra linguagem
-*antes* de o executar, produzindo um artefacto (executável) reutilizável.
-**Interpretação**: analisa e executa o programa diretamente, sem produzir
-um executável separado.
+::: {.definicao title="Compilação vs. interpretação"}
+**Compilação**: traduz o programa inteiro **antes** de o executar, e
+produz um executável reutilizável.
+**Interpretação**: faz a mesma análise lexical e sintática, mas
+**executa diretamente** o programa (a partir da árvore sintática ou de
+código intermédio), sem produzir executável.
 :::
 
 | | Vantagem |
-|---|---|
-| Interpretação | Mais simples de implementar; mais fácil suportar várias arquiteturas; permite REPL (*read-eval-print-loop*), útil para desenvolvimento interativo. |
-| Compilação | O código compilado é normalmente mais eficiente; o executável pode ser distribuído sem depender do compilador. |
+|:-----|:--------------------------|
+| Interpretação | Mais simples de implementar; suporta várias arquiteturas com facilidade; permite REPL (*read-eval-print-loop*). |
+| Compilação | Código normalmente mais eficiente; o executável distribui-se sem o compilador. |
 
-::: atencao
-Nota adicional: muitas implementações reais **combinam** as duas técnicas
-(ex: GHC pode compilar ou interpretar Haskell; OCaml tem `ocaml`
-— interpretador/REPL — e `ocamlopt` — compilador). Não penses nelas como
-mutuamente exclusivas.
-:::
+Muitas implementações combinam as duas (GHC compila e interpreta; OCaml
+tem `ocaml` e `ocamlopt`).
 
 ## Fases de um compilador
 
-Um compilador divide-se tradicionalmente em duas grandes partes, ligadas
-por uma **representação intermédia** (código intermédio) que é
-independente da linguagem fonte e da máquina destino:
+![Fases de um compilador: frontend, representação intermédia, backend](figuras/pipeline.pdf){width=85%}
 
-![Fases de um compilador: frontend, representação intermédia, backend](figuras/pipeline.pdf){width=95%}
-
-::: {.definicao title="--- Frontend / Backend"}
-**Frontend** (depende da linguagem fonte, não da máquina destino):
-análise lexical → análise sintática → análise semântica → AST + tabela de
+::: {.definicao title="Frontend / Backend"}
+**Frontend** (depende da linguagem fonte, não da máquina): análise
+lexical → análise sintática → análise semântica → AST + tabela de
 símbolos.
 
-**Backend** (depende da máquina destino, não da linguagem fonte):
-seleção de instruções → alocação de registos → assembler & linker.
+**Backend** (depende da máquina, não da linguagem): seleção de
+instruções → alocação de registos → *assembler* & *linker*.
 
-Entre os dois: **geração de código intermédio**, que não depende nem da
-linguagem fonte nem da máquina destino.
+Entre os dois, o **código intermédio**, que não depende de nenhuma das
+duas.
 :::
 
-Esta separação torna o compilador mais simples e permite **reutilizar
-componentes**: o *backend* do GCC serve para compilar C, C++ ou
-Objective-C; o *backend* LLVM é partilhado por Clang, Swift, Rust e
-(opcionalmente) GHC. Um mesmo *frontend* também pode, em teoria, ser usado
-com vários *backends* diferentes.
-
-Este semestre o foco está sobretudo no **frontend** — é aí que entram a
-análise lexical (Aulas 2--3, abaixo) e a análise sintática.
+A separação simplifica o compilador e permite **reutilizar componentes**:
+o *backend* do GCC serve C, C++ e Objective-C; o LLVM é partilhado por
+Clang, Swift, Rust e GHC. Este semestre o foco é o **frontend**.
 
 ## Self-hosting e bootstrapping
 
-::: {.definicao title="--- Self-hosting"}
-Um compilador é **self-hosted** quando está escrito na própria linguagem
-que compila. Exemplos: GCC é escrito em C, Javac em Java, GHC em Haskell,
-Rustc em Rust.
-:::
+::: {.definicao title="Self-hosting e bootstrapping"}
+Um compilador é **self-hosted** se está escrito na linguagem que compila
+(GCC em C, Javac em Java, GHC em Haskell, Rustc em Rust).
 
-Self-hosting é normalmente visto como prova de maturidade da linguagem e
-das suas ferramentas ("*eat your own dog food*") e facilita a comunicação
-entre programadores do próprio compilador (só precisam de saber uma
-linguagem). O problema óbvio é: **se o compilador de X está escrito em X,
-o que compilou a primeira versão?**
-
-::: {.atencao title="--- Bootstrapping"}
-Resolve-se por **bootstrapping**: escreve-se uma primeira versão do
-compilador numa *outra* linguagem, usa-se essa versão para compilar uma
-segunda versão já escrita na linguagem-alvo, e repete-se o processo até o
-compilador conseguir compilar-se a si próprio.
-
-- **C**: o primeiro compilador de C (1973) foi baseado no compilador de B
-  (uma linguagem anterior); o primeiro compilador de B tinha sido escrito
-  em TMG (uma linguagem do sistema Multics). O compilador foi depois
-  reescrito em B, por estágios, até ser capaz de compilar a si próprio.
-- **Rust**: o primeiro compilador (2006--2010) foi escrito em OCaml; a
-  partir de 2010 começou a reescrita em Rust (ainda compilada pelo
-  compilador OCaml); desde 2011 o compilador de Rust é *self-hosted*.
+A primeira versão faz-se por **bootstrapping**: escreve-se um compilador
+noutra linguagem, usa-se para compilar uma versão escrita na própria
+linguagem, e repete-se até o compilador se compilar a si próprio (ex.: o
+primeiro compilador de Rust foi escrito em OCaml).
 :::
 
 # Aula 2 --- Análise lexical
 
 ## O que faz a análise lexical
 
-O **léxico** de uma linguagem de programação é o conjunto de símbolos e
-palavras usados para compor programas — os *tokens*. Há várias categorias
-típicas: **identificadores** (nomes de variáveis/funções), **literais**
-(números, caracteres, cadeias), **palavras reservadas** (`if`, `else`,
-`while`, ...) e **operadores** (`+`, `*`, `=`, ...).
+O **léxico** de uma linguagem é o conjunto dos seus *tokens*:
+**identificadores**, **literais** (números, carateres, cadeias),
+**palavras reservadas** (`if`, `while`, ...) e **operadores**. O
+**analisador lexical** (*lexer*, *scanner*) parte o texto numa sequência
+de *tokens*, para o *parser* trabalhar sobre *tokens* já classificados e
+não sobre carateres.
 
-Um **analisador lexical** (também chamado *lexer*, *scanner* ou
-*tokenizer*) decompõe o texto de entrada numa sequência de *tokens*. Esta
-decomposição facilita a análise sintática seguinte — o *parser* trabalha
-sobre uma lista de *tokens* já classificados, não sobre texto em bruto
-carácter a carácter.
-
-::: {.definicao title="--- Representação de um token"}
-Cada *token* é identificado por uma **etiqueta** (*token type*), e alguns
-tipos têm também um **valor** associado:
+::: {.definicao title="Representação de um token"}
+Cada *token* tem uma **etiqueta** e, nalguns casos, um **valor**:
 
 | Entrada | Etiqueta | Valor |
 |---|---|---|
@@ -142,95 +95,69 @@ tipos têm também um **valor** associado:
 :::
 
 ::: exemplo
-Para o código C `float match0(char *s) { if (!strncmp(s, "0.0", 3)) return 0.0; }`,
-o analisador lexical produz a sequência:
+`float match0(char *s) { if (!strncmp(s, "0.0", 3)) return 0.0; }` dá:
 
 `FLOAT, ID("match0"), LPAREN, CHAR, STAR, ID("s"), RPAREN, LBRACE, IF, LPAREN, BANG, ID("strncmp"), LPAREN, ID("s"), COMMA, STRING("0.0"), COMMA, NUM(3), RPAREN, RPAREN, RETURN, REAL(0.0), SEMI, RBRACE, EOF`
 
-Repara que **espaços, mudanças de linha, tabulações e comentários não
-geram tokens** — são consumidos e descartados pelo analisador (servem só
-para separar tokens). Um token `EOF` marca explicitamente o fim da
-entrada.
+Espaços, mudanças de linha e comentários **não geram tokens**: só separam
+*tokens*. O `EOF` marca o fim da entrada.
 :::
 
 ## Expressões regulares
 
-Escrever um analisador lexical à mão, carácter a carácter (com um `switch`
-gigante, por exemplo), é simples mas repetitivo, difícil de manter e fácil
-de errar (ex: é preciso ter cuidado com a ordem das condições — `"if"` tem
-de ser reconhecido como palavra reservada e não como identificador). A
-alternativa é **descrever os tokens de forma declarativa** usando
-expressões regulares, e depois gerar automaticamente o analisador a partir
-dessa descrição — é isso que os geradores de analisadores (Aula 3) fazem.
+Escrever o *lexer* à mão (um `switch` gigante) é repetitivo e fácil de
+errar. A alternativa é **descrever os tokens com expressões regulares** e
+gerar o analisador automaticamente (Aula 3).
 
-::: {.definicao title="--- Expressões regulares (REs)"}
-Dado um alfabeto $\Sigma$, uma **linguagem** é um subconjunto
-$L \subseteq \Sigma^*$ de palavras formadas a partir de $\Sigma$. As
-expressões regulares constroem-se assim:
+::: {.definicao title="Expressões regulares (REs)"}
+Dado um alfabeto $\Sigma$, uma **linguagem** é um conjunto
+$L \subseteq \Sigma^*$. As expressões regulares são:
 
-- $a$ --- uma letra $a \in \Sigma$ (reconhece só a palavra `"a"`)
-- $\varepsilon$ --- a palavra vazia
-- $M \mid N$ --- **união**: reconhece o que $M$ ou $N$ reconhecem
-- $M \cdot N$ --- **concatenação**: palavras $u \cdot v$ tais que $u \in L(M)$ e $v \in L(N)$
-- $M^*$ --- **repetição** (fecho de Kleene): concatenação de zero ou mais palavras de $M$
+- $a$ --- uma letra $a \in \Sigma$ (reconhece só `"a"`);
+- $\varepsilon$ --- a palavra vazia;
+- $M \mid N$ --- **união**: o que $M$ ou $N$ reconhecem;
+- $M \cdot N$ --- **concatenação**: $u \cdot v$ com $u \in L(M)$ e $v \in L(N)$;
+- $M^*$ --- **repetição** (fecho de Kleene): zero ou mais palavras de $M$.
+
+A concatenação escreve-se implícita ($abc = (a \cdot b) \cdot c$) e a
+prioridade é repetição > concatenação > união: $ab|c = (ab)|c$ e
+$abb^* = ab(b^*)$.
 :::
 
-::: {.definicao title="--- Convenções e abreviaturas"}
-O símbolo de concatenação escreve-se muitas vezes de forma implícita:
-$abc = (a \cdot b) \cdot c$ (não é ambíguo, por associatividade). A
-prioridade dos operadores é `repetição > concatenação > união`, ou seja
-$ab|c = (ab)|c$ e $abb* = ab(b*)$.
-
-Abreviaturas comuns:
-
-| Notação | Significado |
-|---|---|
+| Abreviatura | Significado |
+|:-----|:----------------|
 | `M?` | opcional: $M \mid \varepsilon$ |
 | `M+` | uma ou mais vezes: $M \cdot M^*$ |
-| `[x1x2...xn]` | alternativa entre carateres: $x_1\|x_2\|\dots\|x_n$ |
-| `[a-z]` | intervalo de carateres contíguos |
-| `[^a-z]` | complementar: qualquer carater fora do intervalo |
-| `.` | qualquer carater exceto mudança de linha |
-| `"a+"` | cadeia literal (entre aspas, sem interpretar `+` como operador) |
-:::
+| `[x1x2...xn]` | um dos carateres: $x_1\|x_2\|\dots\|x_n$ |
+| `[a-z]` | intervalo de carateres |
+| `[^a-z]` | qualquer carácter fora do intervalo |
+| `.` | qualquer carácter exceto mudança de linha |
+| `"a+"` | cadeia literal (o `+` não é operador) |
 
 ::: exemplo
-Descrever os *tokens* de um pequeno analisador em C:
+Os *tokens* de um pequeno analisador em C:
 
 ```
-if                                palavra reservada (IF)
-[_a-zA-Z][_a-zA-Z0-9]*            identificadores (ID)
-[0-9]+                            número inteiro (NUM)
+if                                    palavra reservada (IF)
+[_a-zA-Z][_a-zA-Z0-9]*                identificadores (ID)
+[0-9]+                                número inteiro (NUM)
 ([0-9]+"."[0-9]*)|([0-9]*"."[0-9]+)   número fracionário (REAL)
-//.*                              comentário até ao final da linha
+//.*                                  comentário até ao fim da linha
 ```
 
-Note-se que `[_a-zA-Z][_a-zA-Z0-9]*` também reconheceria `if` — por isso a
-ordem/prioridade importa: as regras dos geradores (Aula 3) tratam este
-caso com a regra do "*first match*", colocando `if` antes do padrão de
-identificador.
+`[_a-zA-Z][_a-zA-Z0-9]*` também reconhece `if`: a ordem das regras
+resolve isto (*first match*, Aula 3).
 :::
 
-::: atencao
-**Nota adicional** (não estava explícito nos slides, mas é a razão pela
-qual o Exercício 2(c) do laboratório avisa que os comentários multi-linha
-"são mais difíceis do que parece"): à primeira vista pareceria bastar
-`"/*" . .* . "*/"` para reconhecer um comentário `/* ... */`. O problema é
-que `.` costuma **incluir tudo menos a mudança de linha**, e `.*` é
-*greedy* — tentará consumir o máximo de carateres possível. Numa entrada
-como `/* a */ x /* b */`, essa expressão reconheceria a linha inteira como
-**um único** comentário (desde o primeiro `/*` até ao **último** `*/`), em
-vez de dois comentários separados. A técnica geral para "parar no
-primeiro terminador" é excluir explicitamente o carácter do terminador do
-meio da expressão, por exemplo (usando `<!--`/`-->` como ilustração
-diferente do exercício, para não to resolver): um comentário
-`<!-- conteúdo -->` descreve-se como `"<!--" . ([^-]|"-"[^-])* . "-->"`
-— "qualquer carácter que não seja `-`, ou um `-` que não seja seguido de
-outro `-`", até fechar com `-->`. A mesma ideia aplica-se ao `/* ... */`
-do exercício, adaptada ao terminador `*/`.
-:::
+**Parar no primeiro terminador** †. Para um comentário `/* ... */`, a
+expressão `"/*" .* "*/"` não serve: `.*` consome o máximo possível, e em
+`/* a */ x /* b */` reconhece tudo como **um** comentário, do primeiro
+`/*` ao último `*/`. A técnica é proibir o terminador no meio. Por
+exemplo, para `<!-- ... -->`: `"<!--" ([^-]|"-"[^-])* "-->"` (qualquer
+carácter que não seja `-`, ou um `-` que não é seguido de outro `-`). Para
+`*/` a ideia é a mesma.
 
-::: {.pratica title="--- Expressões regulares (Folha lab. 2, Exercício 2)"}
+::: {.pratica title="Expressões regulares (Folha lab. 2, Exercício 2)"}
 Papel e lápis, usando só esta secção:
 
 - **(a)** --- expressões regulares para todos os tokens do `scanner-c`
@@ -240,273 +167,210 @@ Papel e lápis, usando só esta secção:
 - **(b)** --- generaliza `REAL` para notação científica (`12.34e+12`,
   `1e-12`, `123.4E+9`): repara que em `1e-12` não há ponto.
 - **(c)** --- comentários `// ...` e `/* ... */`. Para o multi-linha usa a
-  técnica da caixa de atenção acima (a do `<!-- -->`), adaptada ao
-  terminador `*/`.
+  técnica "parar no primeiro terminador" acima, adaptada a `*/`.
 :::
 
 ## Autómatos finitos determinísticos (DFA)
 
-As expressões regulares são **descrições declarativas**: dizem o que
-reconhecer, não como. Para implementar um analisador precisamos de um
-**modelo operacional** — um autómato finito.
+As expressões regulares dizem **o que** reconhecer; para implementar o
+analisador é preciso um modelo que diga **como**: um autómato finito.
 
-::: {.definicao title="--- DFA"}
-Um **autómato finito determinístico** é um quíntuplo
-$(\Sigma, Q, q_0, F, \delta)$:
+::: {.definicao title="DFA"}
+Um **autómato finito determinístico** é $(\Sigma, Q, q_0, F, \delta)$:
 
-- $\Sigma$ --- alfabeto
-- $Q$ --- conjunto finito de estados
-- $q_0 \in Q$ --- estado inicial (único)
-- $F \subseteq Q$ --- conjunto de estados finais (de aceitação)
-- $\delta \subseteq Q \times \Sigma \times Q$ --- transições, **determinísticas**: para cada $q \in Q$ e $\sigma \in \Sigma$ existe **no máximo um** $q'$ tal que $(q,\sigma,q') \in \delta$. Também se pode ver $\delta$ como uma função parcial $q' = \delta(q,\sigma)$.
+- $\Sigma$ --- alfabeto; $Q$ --- conjunto finito de estados;
+- $q_0 \in Q$ --- estado inicial; $F \subseteq Q$ --- estados finais;
+- $\delta \subseteq Q \times \Sigma \times Q$ --- transições, com **no
+  máximo um** $q'$ para cada $q$ e $\sigma$ (ou seja, uma função parcial
+  $q' = \delta(q,\sigma)$).
 
-Uma palavra é **aceite** se, partindo de $q_0$ e seguindo as transições
-para cada símbolo da palavra, se terminar num estado de $F$.
+Uma palavra é **aceite** se, a partir de $q_0$ e seguindo as transições
+dos seus símbolos, se termina num estado de $F$.
 :::
 
 ::: exemplo
-DFA equivalente à expressão regular de identificadores
-`[_a-zA-Z][_a-zA-Z0-9]*`:
+DFA de `[_a-zA-Z][_a-zA-Z0-9]*` (identificadores):
 
-![DFA para identificadores](figuras/dfa_identificadores.pdf){width=60%}
+![DFA para identificadores](figuras/dfa_identificadores.pdf){width=50%}
 
-Formalmente: $\Sigma$ = carateres ASCII, $Q=\{1,2\}$, $q_0=1$, $F=\{2\}$, e
-$\delta$ contém $(1,\ell,2)$ para toda a letra/underscore $\ell$, e
-$(2,\ell,2)$, $(2,d,2)$ para toda a letra/underscore $\ell$ e dígito $d$.
-
-Percorrendo `x1`: $1 \xrightarrow{x} 2 \xrightarrow{1} 2$. Como
-$2 \in F$, a palavra é **aceite**.
+$Q=\{1,2\}$, $q_0=1$, $F=\{2\}$; $\delta$ tem $(1,\ell,2)$ para cada
+letra ou `_` $\ell$, e $(2,\ell,2)$, $(2,d,2)$ para cada letra ou `_`
+$\ell$ e dígito $d$. Para `x1`: $1 \xrightarrow{x} 2 \xrightarrow{1} 2$,
+e $2 \in F$: **aceite**.
 :::
 
 ## Autómatos finitos não-determinísticos (NFA)
 
-::: {.definicao title="--- NFA"}
-Um **NFA** tem a mesma estrutura que um DFA, mas as transições podem ser
-**não-determinísticas**: $\delta \subseteq Q \times (\Sigma \cup \{\varepsilon\}) \times Q$.
-Isto permite duas coisas que um DFA não tem:
+::: {.definicao title="NFA"}
+Igual a um DFA, mas com $\delta \subseteq Q \times (\Sigma \cup \{\varepsilon\}) \times Q$:
 
-- **várias transições** com o mesmo símbolo a partir do mesmo estado
-  (ex: de $1$, duas transições distintas com `a`, para $2$ e para $3$);
-- **transições-$\varepsilon$**, que mudam de estado **sem consumir**
-  nenhum símbolo de entrada.
+- pode haver **várias transições** com o mesmo símbolo a partir do mesmo
+  estado;
+- há **transições-$\varepsilon$**, que mudam de estado **sem consumir**
+  nenhum símbolo.
 :::
 
-Um NFA não se pode implementar diretamente da mesma forma que um DFA
-(nunca sabemos, num dado momento, "em que estado estamos" — pode haver
-vários possíveis ao mesmo tempo, e as transições-$\varepsilon$ complicam
-ainda mais a leitura carácter a carácter). Por isso o percurso normal é:
-**expressão regular → NFA (fácil) → DFA equivalente (mais complexo, mas
-implementável diretamente)**.
+Um NFA não se implementa diretamente (pode estar em vários estados ao
+mesmo tempo). Por isso o caminho é **expressão regular → NFA (fácil) →
+DFA equivalente (implementável)**.
 
 ### Construção de Thompson: de expressão regular a NFA
 
-A construção de Thompson traduz uma expressão regular num NFA de forma
-composicional: cada sub-expressão vira um **fragmento** de autómato com
-uma única entrada e uma única saída, e os fragmentos combinam-se seguindo
-a estrutura da expressão.
+Cada sub-expressão vira um **fragmento** de autómato com uma entrada e
+uma saída, e os fragmentos combinam-se pela estrutura da expressão:
 
-![Regras de Thompson: concatenação, união e repetição](figuras/thompson_rules.pdf){width=95%}
+![Regras de Thompson: concatenação, união e repetição](figuras/thompson_rules.pdf){width=38%}
 
-::: {.definicao title="--- Regras de Thompson"}
-- **Símbolo** $\sigma \in \Sigma$: um fragmento com uma única transição
-  rotulada $\sigma$ da entrada para a saída (e igual para $\varepsilon$).
-- **Concatenação $A \cdot B$**: a saída do fragmento de $A$ liga-se
-  diretamente à entrada do fragmento de $B$.
-- **União $A \mid B$**: um novo estado de entrada liga-se, por
-  $\varepsilon$, às entradas de $A$ e de $B$; as saídas de $A$ e de $B$
-  ligam-se, por $\varepsilon$, a um novo estado de saída comum.
-- **Repetição $A^*$**: um novo par entrada/saída; a entrada liga-se por
-  $\varepsilon$ à entrada de $A$ (para iterar) e diretamente à saída (para
-  "saltar" zero repetições); a saída de $A$ liga-se por $\varepsilon$ de
-  volta à sua própria entrada (para repetir) e à nova saída (para
-  terminar).
+::: {.definicao title="Regras de Thompson"}
+- **Símbolo** $\sigma$ (ou $\varepsilon$): uma transição $\sigma$ da
+  entrada para a saída.
+- **Concatenação $A \cdot B$**: a saída de $A$ liga à entrada de $B$.
+- **União $A \mid B$**: entrada nova com $\varepsilon$ para as entradas de
+  $A$ e $B$; as saídas de $A$ e $B$ ligam por $\varepsilon$ a uma saída
+  nova.
+- **Repetição $A^*$**: entrada e saída novas; a entrada liga por
+  $\varepsilon$ à entrada de $A$ e diretamente à saída (zero
+  repetições); a saída de $A$ liga por $\varepsilon$ à entrada de $A$
+  (repetir) e à saída nova (terminar).
 :::
 
 ::: exemplo
-Construir o NFA para $(a\mid b)^* \cdot a \cdot c$ (o exemplo da aula), passo a passo:
+NFA de $(a\mid b)^* \cdot a \cdot c$ (o exemplo da aula):
 
-1. Fragmento para `a` (estados 3→4) e fragmento para `b` (estados 5→6).
-2. **União** `a|b`: novo estado 2 (entrada, $\varepsilon$ para 3 e para 5)
-   e novo estado 7 (saída, $\varepsilon$ a partir de 4 e de 6).
-3. **Repetição** `(a|b)*`: novo par 1 (entrada) / 8 (saída); $1 \to 2$
-   (entrar no corpo), $1 \to 8$ (saltar, zero repetições), $7 \to 2$
-   (repetir), $7 \to 8$ (terminar o ciclo).
-4. **Concatenação** com `a`: a saída do `*` (estado 8) liga-se por `a` a
-   um novo estado 9.
-5. **Concatenação** com `c`: o estado 9 liga-se por `c` ao estado final 10.
+1. Fragmento `a` (estados 3→4) e fragmento `b` (5→6).
+2. **União** `a|b`: estado 2 (entrada, $\varepsilon$ para 3 e 5) e
+   estado 7 (saída, $\varepsilon$ a partir de 4 e 6).
+3. **Repetição** `(a|b)*`: par 1 (entrada) / 8 (saída); $1 \to 2$
+   (entrar), $1 \to 8$ (zero repetições), $7 \to 2$ (repetir), $7 \to 8$
+   (terminar).
+4. **Concatenação** com `a`: $8 \xrightarrow{a} 9$.
+5. **Concatenação** com `c`: $9 \xrightarrow{c} 10$ (final).
 
-![NFA de (a|b)*ac obtido por construção de Thompson](figuras/nfa_ab_star_ac.pdf){width=90%}
+![NFA de (a|b)*ac obtido por construção de Thompson](figuras/nfa_ab_star_ac.pdf){width=85%}
 :::
 
 ## Conversão de NFA em DFA: construção de subconjuntos
 
-::: {.definicao title="--- closure e construção de subconjuntos"}
-Seja $\mathcal{A} = (\Sigma, Q, q_0, F, \delta)$ um NFA. Define-se
+::: {.definicao title="closure e construção de subconjuntos"}
+Para um NFA $\mathcal{A} = (\Sigma, Q, q_0, F, \delta)$:
 
-$$\text{closure}(S) = \{\, q' \in Q : \text{existe } q \in S \text{ e um caminho de transições-}\varepsilon \text{ entre } q \text{ e } q' \,\}$$
+$$\text{closure}(S) = \{\, q' \in Q : \text{há } q \in S \text{ e um caminho só de transições-}\varepsilon \text{ de } q \text{ a } q' \,\}$$
 
-(ou seja, todos os estados alcançáveis a partir de $S$ **sem consumir
-nenhum símbolo**). O NFA transforma-se no DFA equivalente
-$\mathcal{A}' = (\Sigma, 2^Q, S_0, F', \delta')$, onde **cada estado do
-DFA é um conjunto de estados do NFA**:
+(os estados alcançáveis a partir de $S$ **sem consumir símbolos**). O DFA
+equivalente $(\Sigma, 2^Q, S_0, F', \delta')$ tem como estados
+**conjuntos de estados do NFA**:
 
-$$S_0 = \text{closure}(\{q_0\}) \qquad F' = \{\, S \subseteq Q : S \cap F \neq \emptyset \,\} \qquad \delta'(S,\sigma) = \text{closure}(\{\, q' : q \in S \wedge (q,\sigma,q') \in \delta \,\})$$
-
-Como $\mathcal{A}'$ é determinístico, $\delta'$ pode ver-se como função.
+$$S_0 = \text{closure}(\{q_0\}) \qquad F' = \{\, S : S \cap F \neq \emptyset \,\} \qquad \delta'(S,\sigma) = \text{closure}(\{\, q' : q \in S,\ (q,\sigma,q') \in \delta \,\})$$
 :::
 
 ::: exemplo
-Aplicando a construção de subconjuntos ao NFA de $(a\mid b)^*ac$ construído
-acima. Transições-$\varepsilon$ do NFA (para calcular *closures*):
-$1{\to}2$, $1{\to}8$, $2{\to}3$, $2{\to}5$, $4{\to}7$, $6{\to}7$, $7{\to}2$,
-$7{\to}8$. Transições com símbolo: $3\xrightarrow{a}4$, $5\xrightarrow{b}6$,
-$8\xrightarrow{a}9$, $9\xrightarrow{c}10$.
+Construção de subconjuntos para o NFA de $(a\mid b)^*ac$ acima.
+Transições-$\varepsilon$: $1{\to}2$, $1{\to}8$, $2{\to}3$, $2{\to}5$,
+$4{\to}7$, $6{\to}7$, $7{\to}2$, $7{\to}8$. Com símbolo:
+$3\xrightarrow{a}4$, $5\xrightarrow{b}6$, $8\xrightarrow{a}9$,
+$9\xrightarrow{c}10$.
 
-**Estado inicial**: $S_0 = \text{closure}(\{1\}) = \{1,2,3,5,8\}$ — partindo
-de $1$, seguimos só $\varepsilon$: $1\to2$, $2\to3$, $2\to5$, $1\to8$;
-nenhum destes ($2,3,5,8$) tem mais $\varepsilon$-saídas, por isso o
-*closure* para aqui.
+**Estado inicial**: $S_0 = \text{closure}(\{1\}) = \{1,2,3,5,8\}$ (de 1:
+$1\to2$, $2\to3$, $2\to5$, $1\to8$; nenhum destes tem mais
+$\varepsilon$).
 
-Calculamos agora, **estado a estado**, para onde vai $S_0$ com cada símbolo:
-
-- **$S_0=\{1,2,3,5,8\}$ com `a`**: só os estados $3$ e $8$ (de $S_0$) têm
-  transição por `a` ($3\xrightarrow{a}4$ e $8\xrightarrow{a}9$), logo
-  $\text{move}=\{4,9\}$. $\text{closure}(\{4,9\})$: de $4$, $\varepsilon$
-  para $7$, depois $7\to2$ e $7\to8$, depois $2\to3$ e $2\to5$; de $9$ não
-  há mais $\varepsilon$. Total: $\{2,3,4,5,7,8,9\}$ — como este conjunto
-  ainda não tinha aparecido, chamamos-lhe $S_1$.
-- **$S_0$ com `b`**: só o estado $5$ tem transição por `b`
-  ($5\xrightarrow{b}6$), logo $\text{move}=\{6\}$.
-  $\text{closure}(\{6\})$: $6\to7$, depois $7\to2,7\to8$, depois
-  $2\to3,2\to5$. Total: $\{2,3,5,6,7,8\}$ — novo, chamamos-lhe $S_2$.
-- **$S_0$ com `c`**: nenhum estado de $S_0=\{1,2,3,5,8\}$ tem transição por
-  `c` (só o estado $9$ tem, e $9 \notin S_0$) — **sem transição definida**.
+- **$S_0$ com `a`**: em $S_0$ só 3 e 8 têm `a`, $\text{move}=\{4,9\}$.
+  $\text{closure}(\{4,9\})$: $4\to7$, $7\to2$, $7\to8$, $2\to3$, $2\to5$;
+  o 9 não tem $\varepsilon$. Dá $\{2,3,4,5,7,8,9\}$, novo: $S_1$.
+- **$S_0$ com `b`**: só 5 tem `b`, $\text{move}=\{6\}$.
+  $\text{closure}(\{6\})$: $6\to7$, $7\to2$, $7\to8$, $2\to3$, $2\to5$.
+  Dá $\{2,3,5,6,7,8\}$, novo: $S_2$.
+- **$S_0$ com `c`**: só o 9 tem `c`, e $9 \notin S_0$: sem transição.
 :::
 
 ::: exemplo
-Continuando a partir de $S_1=\{2,3,4,5,7,8,9\}$ e $S_2=\{2,3,5,6,7,8\}$:
+Continuação, com $S_1=\{2,3,4,5,7,8,9\}$ e $S_2=\{2,3,5,6,7,8\}$:
 
-- **$S_1$ com `a`**: estados de $S_1$ com transição `a`: $3$ e $8$ (os
-  mesmos de antes, ambos $\in S_1$) $\Rightarrow \text{move}=\{4,9\}$,
-  $\text{closure}=\{2,3,4,5,7,8,9\}=S_1$ — **fica no mesmo estado**
-  (*self-loop* em `a`).
-- **$S_1$ com `b`**: estado $5\in S_1$ tem transição `b`
-  $\Rightarrow \text{move}=\{6\}$, $\text{closure}=\{2,3,5,6,7,8\}=S_2$.
-- **$S_1$ com `c`**: estado $9\in S_1$ tem transição `c`
-  ($9\xrightarrow{c}10$) $\Rightarrow \text{move}=\{10\}$,
-  $\text{closure}(\{10\})=\{10\}$ (o $10$ não tem $\varepsilon$-saídas) —
-  novo, chamamos-lhe $S_3$. Como $10$ é o estado final do NFA,
+- **$S_1$ com `a`**: 3 e 8 $\in S_1$, $\text{move}=\{4,9\}$,
+  $\text{closure}=S_1$: ciclo em `a`.
+- **$S_1$ com `b`**: $5\in S_1$, $\text{move}=\{6\}$,
+  $\text{closure}=S_2$.
+- **$S_1$ com `c`**: $9\in S_1$, $\text{move}=\{10\}$,
+  $\text{closure}(\{10\})=\{10\}$, novo: $S_3$. Contém o final 10, logo
   $S_3 \in F'$.
-- **$S_2$ com `a`**: só o estado $3\in S_2$ tem transição `a` (o $8$
-  **não** está em $S_2$, por isso desta vez só contamos o $3$)
-  $\Rightarrow \text{move}=\{4\}$, $\text{closure}(\{4\})$: $4\to7$,
-  $7\to2,7\to8$, $2\to3,2\to5$. Total: $\{2,3,4,5,7,8\}$ — novo,
-  chamamos-lhe $S_4$.
-- **$S_2$ com `b`**: estado $5\in S_2$ $\Rightarrow \text{move}=\{6\}$,
-  $\text{closure}=\{2,3,5,6,7,8\}=S_2$ — *self-loop* em `b`.
-- **$S_2$ com `c`**: nenhum estado de $S_2$ tem transição `c` — sem
-  transição.
-- **$S_4=\{2,3,4,5,7,8\}$ com `a`**: estados $3$ e $8 \in S_4$
-  $\Rightarrow \text{move}=\{4,9\}$, $\text{closure}=\{2,3,4,5,7,8,9\}=S_1$
-  (já conhecido).
-- **$S_4$ com `b`**: estado $5\in S_4$ $\Rightarrow \text{move}=\{6\}$,
-  $\text{closure}=\{2,3,5,6,7,8\}=S_2$ (já conhecido).
-- **$S_4$ com `c`**: nenhum estado de $S_4$ tem transição `c` — sem
-  transição.
+- **$S_2$ com `a`**: só $3\in S_2$ (o 8 não está em $S_2$),
+  $\text{move}=\{4\}$. $\text{closure}(\{4\})$: $4\to7$, $7\to2$,
+  $7\to8$, $2\to3$, $2\to5$. Dá $\{2,3,4,5,7,8\}$, novo: $S_4$.
+- **$S_2$ com `b`**: $5\in S_2$, $\text{move}=\{6\}$,
+  $\text{closure}=S_2$: ciclo em `b`.
+- **$S_2$ com `c`**: nenhum estado de $S_2$ tem `c`: sem transição.
+- **$S_4$ com `a`**: 3 e 8 $\in S_4$, $\text{move}=\{4,9\}$,
+  $\text{closure}=S_1$.
+- **$S_4$ com `b`**: $5\in S_4$, $\text{move}=\{6\}$,
+  $\text{closure}=S_2$.
+- **$S_4$ com `c`**: sem transição.
 
-Todas as transições de $S_4$ vão para estados já conhecidos ($S_1$, $S_2$)
-— **não aparece nenhum estado novo**, o processo termina. Resultado final:
-5 estados $S_0$ a $S_4$, com $F' = \{S_3\}$ (único conjunto que contém o
-estado final $10$ do NFA):
+Não aparecem estados novos: o DFA tem $S_0$ a $S_4$, com $F'=\{S_3\}$.
 
-![DFA de (a|b)*ac obtido por construção de subconjuntos](figuras/dfa_ab_star_ac.pdf){width=72%}
+![DFA de (a|b)*ac obtido por construção de subconjuntos](figuras/dfa_ab_star_ac.pdf){width=65%}
 :::
 
 ## Minimização de autómatos
 
-O DFA obtido pela construção de subconjuntos pode ter **estados
-redundantes** — estados diferentes (como conjuntos) mas com exatamente o
-mesmo comportamento (as mesmas transições de saída para todo o alfabeto, e
-o mesmo estatuto de aceitação). Podemos "fundir" esses estados
-equivalentes e obter um **autómato mínimo** equivalente. Os geradores de
-analisadores lexicais (Alex, Flex — Aula 3) fazem esta minimização
-automaticamente.
+O DFA dos subconjuntos pode ter **estados equivalentes**: as mesmas
+transições para todo o alfabeto e o mesmo estatuto de aceitação.
+Fundindo-os obtém-se o **autómato mínimo**. Os geradores (Alex, Flex)
+minimizam automaticamente.
 
-::: exame
-**Sai frequentemente em exame**: reconhecer estados equivalentes. No
-exemplo acima, repara que $S_0=\{1,2,3,5,8\}$ e $S_4=\{2,3,4,5,7,8\}$ têm
-exatamente as mesmas transições ($\xrightarrow{a} S_1$,
-$\xrightarrow{b} S_2$, sem transição em `c`) — a diferença entre os
-conjuntos ($1$ vs. $\{4,7\}$) não afeta o comportamento, porque nenhum
-desses estados extra tem transições que consomem símbolos. Logo
-$S_0 \equiv S_4$: seriam fundidos na minimização, reduzindo o autómato de
-5 para 4 estados. Este é exatamente o tipo de equivalência ($S_0 \equiv
-S_2$ no exemplo da aula) que costuma aparecer nos exercícios de exame
-sobre minimização.
-:::
+Reconhecer estados equivalentes é uma pergunta típica de exame. No
+exemplo acima, $S_0=\{1,2,3,5,8\}$ e $S_4=\{2,3,4,5,7,8\}$ têm as mesmas
+transições ($\xrightarrow{a} S_1$, $\xrightarrow{b} S_2$, nada com `c`) e
+nenhum é final. Os estados em que diferem (1 de um lado, 4 e 7 do outro)
+não têm transições que consumam símbolos. Logo $S_0 \equiv S_4$, e o
+autómato mínimo tem 4 estados.
 
 # Aula 3 --- Geradores de analisadores lexicais
 
-Recapitulando o percurso: **expressão regular → NFA (Thompson) → DFA
-(subconjuntos) → implementação**. Esta aula cobre o último passo: como
-implementar um analisador a partir de um DFA, e como **gerar** esse
-analisador automaticamente a partir das expressões regulares (sem passar
-manualmente pelos passos intermédios).
+Esta aula cobre o último passo de **expressão regular → NFA → DFA →
+implementação**: implementar um DFA, e **gerar** esse código
+automaticamente a partir das expressões regulares.
 
 ## Implementação direta de um DFA em C
 
-Um DFA pequeno pode implementar-se com uma **tabela de transições**
-(`delta[estado][símbolo]`) e um ciclo que lê carateres e segue as
-transições:
+Um DFA implementa-se com uma **tabela de transições**
+`delta[estado][símbolo]` e um ciclo que lê carateres:
 
 ::: exemplo
-Para o DFA de identificadores (secção anterior), com estado `0` reservado
-para representar "erro" (ausência de transição válida) e estado final `2`:
+DFA dos identificadores, com o estado `0` a representar "erro" e o
+estado final `2`:
 
 ```c
 #define STATES  3    // estados 0 (erro), 1, 2
 #define SYMBOLS 128  // códigos ASCII
 const int delta[STATES][SYMBOLS] = {
-  /* estado 0 */ { 0, ..., 0, ... },       // erro é absorvente
-  /* estado 1 */ { 0, ..., 2, ..., 2, ... 0 },  // letra/_  -> 2
+  /* estado 0 */ { 0, ..., 0, ... },            // erro é absorvente
+  /* estado 1 */ { 0, ..., 2, ..., 2, ... 0 },  // letra/_ -> 2
   /* estado 2 */ { 0, ..., 2, ..., 2, ... 0 } };// letra/_/dígito -> 2
 
 int state = 1;         // estado inicial
 int c;
 while ((c = getchar()) != EOF) {
   state = delta[state][c];
-  if (state == 0) return ERROR;   // rejeita
-  if (FINAL(state)) return ACCEPT; // aceita (aqui, FINAL(state) é state==2)
+  if (state == 0) return ERROR;    // rejeita
+  if (FINAL(state)) return ACCEPT; // aceita (FINAL(state) é state==2)
 }
 return ERROR; // fim do input sem atingir estado final
 ```
 
-**Traçando a execução** com a entrada `"x1"`:
+Traço com a entrada `"x1"`:
 
 | Passo | `c` lido | `delta[state][c]` | novo `state` | ação |
 |:-:|:--------|:---------------|:-:|:-------------------------------|
-| 1 | `x` (letra) | `delta[1]['x']` = 2 | 2 | `state != 0` (não rejeita); `FINAL(2)` é verdade → **`return ACCEPT` imediatamente** |
+| 1 | `x` (letra) | `delta[1]['x']` = 2 | 2 | `FINAL(2)` → **`return ACCEPT`** já |
 
-O ciclo **nunca chega a ler o `1`**! Isto revela uma limitação importante
-deste pseudo-código, que vale a pena perceber bem: ele aceita assim que
-atinge **qualquer** estado final, não espera para ver se consumindo mais
-carateres continuaria num estado válido (não implementa *longest match*).
-Para este DFA de identificadores em particular isto até não causa erro de
-classificação (qualquer prolongamento de um identificador continua a ser
-um identificador válido), mas é exatamente o motivo por que os analisadores
-lexicais reais (Aula 3, secção "Longest match e first match", abaixo) têm
-de **guardar a posição do último estado final visto e continuar a tentar
-consumir mais carateres**, só decidindo aceitar quando deixar de haver
-transição possível — este pseudo-código simplificado dos slides ilustra a
-ideia da tabela de transições, mas não implementa essa regra.
-
-Isto funciona como ilustração da tabela de transições, mas é
-**específico de um único DFA** — cada novo token exigiria escrever/combinar
-mais tabelas à mão. É exatamente este trabalho mecânico que os geradores
-(abaixo) automatizam a partir de expressões regulares.
+O ciclo **nunca lê o `1`**: aceita no primeiro estado final que atinge,
+não implementa *longest match*. Um *lexer* real guarda a posição do
+último estado final visto e continua a ler até não haver transição (ver
+"Longest match e first match", abaixo). Cada novo *token* exigiria mais
+tabelas escritas à mão: é esse trabalho que os geradores automatizam.
 :::
 
-::: {.pratica title="--- DFA em C (Folha lab. 2, Exercício 1)"}
+::: {.pratica title="DFA em C (Folha lab. 2, Exercício 1)"}
 O `src/CLexer.c` do `scanner-c` segue o padrão "ler carácter, decidir por
 casos" desta secção (um `switch`/`while`, sem tabela explícita). Estende-o:
 
@@ -524,13 +388,11 @@ Cuidado com a ordem `if` vs. `ID` (ver "Longest match e first match").
 
 ## Alex (gerador para Haskell)
 
-::: {.definicao title="--- Alex"}
-O **Alex** é um gerador de analisadores lexicais para Haskell. Recebe um
-ficheiro de descrição (ex: `Lexer.x`) com regras "expressão regular →
-ação em Haskell" e definições auxiliares, e produz um ficheiro `Lexer.hs`
-que pode ser compilado com o resto do projeto.
-
-$$\texttt{Lexer.x} \xrightarrow{\texttt{alex}} \texttt{Lexer.hs} \xrightarrow{\text{compilador Haskell}} \text{executável}$$
+::: {.definicao title="Alex"}
+Gerador de analisadores lexicais para Haskell. Recebe um ficheiro
+(`Lexer.x`) com regras "expressão regular → ação em Haskell" e produz
+`Lexer.hs`:
+$\texttt{Lexer.x} \xrightarrow{\texttt{alex}} \texttt{Lexer.hs} \xrightarrow{\text{ghc}} \text{executável}$.
 :::
 
 ::: exemplo
@@ -544,20 +406,19 @@ $digit = [0-9]
 
 tokens :-
 $white+                      ;  -- ignorar carateres brancos
-if                            { \_ -> IF }
-$alpha($alpha|$digit)*        { \s -> ID s }
-$digit+                       { \s -> NUM (read s) }
-$digit+"."$digit+              { \s -> REAL (read s) }
+if                           { \_ -> IF }
+$alpha($alpha|$digit)*       { \s -> ID s }
+$digit+                      { \s -> NUM (read s) }
+$digit+"."$digit+            { \s -> REAL (read s) }
 
 {
 data Token = IF | ID String | NUM Int | REAL Double
 }
 ```
 
-As partes entre `{ }` são código Haskell; o resto são diretivas,
-definições e padrões. Cada regra tem a forma `padrão { ação }`, onde o
-padrão é uma expressão regular e a ação é uma função `String -> Token`.
-Usar: `Lexer.hs` exporta `alexScanTokens :: String -> [Token]`.
+O que está entre `{ }` é Haskell; o resto são diretivas, definições e
+regras `padrão { ação }`, em que a ação é uma função `String -> Token`. O
+`Lexer.hs` exporta `alexScanTokens :: String -> [Token]`:
 
 ```haskell
 module Main where
@@ -568,20 +429,16 @@ main = do
 ```
 :::
 
-O exemplo acima usa a interface `%wrapper "basic"`. Existe também
-`%wrapper "posn"`, que associa a cada token a sua **posição** (linha e
-coluna) — útil para reportar erros com precisão. Nesse caso, cada ação
-passa a ter tipo `AlexPosn -> String -> Token`, com
-`data AlexPosn = AlexPn Int Int Int` (posição absoluta, linha, coluna), e
-o padrão de cada regra recebe também `pos` (ex: `\pos s -> ID pos s`).
+Com `%wrapper "posn"` cada *token* recebe também a sua **posição**: a
+ação passa a ter tipo `AlexPosn -> String -> Token`, com
+`data AlexPosn = AlexPn Int Int Int` (posição absoluta, linha, coluna),
+ex.: `\pos s -> ID pos s`.
 
 ## Flex (gerador para C)
 
-::: {.definicao title="--- Flex"}
-O **Flex** é o equivalente do Alex mas para C. Recebe um ficheiro `.l`
-(ex: `lexer.l`) e produz `lex.yy.c`, compilável com o resto do projeto C.
-
-$$\texttt{ficheiro.l} \xrightarrow{\texttt{flex}} \texttt{lex.yy.c} \xrightarrow{\text{compilador C}} \text{executável}$$
+::: {.definicao title="Flex"}
+O equivalente do Alex para C. Recebe um `.l` e produz `lex.yy.c`:
+$\texttt{ficheiro.l} \xrightarrow{\texttt{flex}} \texttt{lex.yy.c} \xrightarrow{\text{gcc}} \text{executável}$.
 :::
 
 ::: exemplo
@@ -598,13 +455,12 @@ digit       [0-9]
 if                          { return IF; }
 {alpha}({alpha}|{digit})*   { return ID; }
 {digit}+                    { yynum = atoi(yytext); return NUM; }
-{digit}+"."{digit}+          { yyreal = atof(yytext); return REAL; }
+{digit}+"."{digit}+         { yyreal = atof(yytext); return REAL; }
 <<EOF>>                     { return EOF; /* end of input */ }
 ```
 
-Estrutura geral de um ficheiro Flex: `%{ declarações %}`, depois
-definições auxiliares, `%%`, depois as regras `padrão { ação em C }`, e
-opcionalmente mais `%%` seguido de código C auxiliar.
+Estrutura: `%{ declarações %}`, definições, `%%`, regras
+`padrão { ação em C }`, e opcionalmente outro `%%` com código C.
 
 ```c
 #include "tokens.h"
@@ -621,293 +477,183 @@ int main(void) {
 }
 ```
 
-A função `yylex()` devolve o próximo token (um inteiro, definido num
-ficheiro *header*). A variável global `yytext` contém sempre o texto do
-token atual — é assim que se acede ao valor (ex: o nome de um
-identificador). Os valores de tokens não-textuais (como `NUM`, `REAL`)
-costumam guardar-se em variáveis de estado globais (`yynum`, `yyreal`).
+`yylex()` devolve o próximo *token* (um inteiro, definido num *header*).
+A variável global `yytext` tem o texto do *token* atual; os valores de
+`NUM`/`REAL` guardam-se em globais (`yynum`, `yyreal`).
 :::
 
-::: atencao
-Nota adicional: por omissão o Flex **não** guarda a posição de cada token.
-Para isso usa-se `%option yylineno`, que mantém a variável global
-`yylineno` com o número da linha atual — mas é **responsabilidade do
-programador** ir guardando essa posição à medida que os tokens são
-consumidos (ao contrário do Alex com `%wrapper "posn"`, que já entrega a
-posição em cada ação).
-:::
+O Flex não guarda posições: com `%option yylineno` mantém o número da
+linha em `yylineno`, mas é o programador que a guarda em cada *token* †.
 
 ## Longest match e first match
 
-::: {.definicao title="--- Regras de desambiguação"}
-Tanto o Alex como o Flex (e geradores semelhantes) usam duas regras, por
-esta ordem, para decidir qual regra aplicar quando várias expressões
-regulares poderiam casar com o *input*:
+::: {.definicao title="Regras de desambiguação"}
+Quando várias regras casam com a entrada, o Alex e o Flex escolhem, por
+esta ordem:
 
-1. **Longest match**: escolhe-se a regra que consome o **maior número de
-   carateres** de entrada.
-2. **First match**: em caso de empate no comprimento, escolhe-se a regra
-   que aparece **primeiro** no ficheiro de descrição.
+1. **Longest match**: a regra que consome **mais carateres**;
+2. **First match**: em caso de empate, a regra que aparece **primeiro** no
+   ficheiro.
 :::
 
-::: exame
-Consequência prática (e fonte comum de bugs/perguntas de exame):
-identificadores e palavras reservadas partilham o mesmo texto possível
-(`if` casa tanto com o padrão literal `if` como com o padrão de
-identificador `[_a-zA-Z][_a-zA-Z0-9]*`, com o **mesmo comprimento** — 2
-carateres). Por *first match*, a regra que resolve a ambiguidade
-corretamente é **colocar os padrões mais específicos (palavras
-reservadas) antes dos mais gerais (identificadores)** no ficheiro `.x`/
-`.l`. Se a ordem for trocada, `if` seria sempre lido como `ID`, nunca
-como `IF`.
-:::
+Consequência (pergunta típica): `if` casa com a regra `if` e com a de
+identificadores, ambas com 2 carateres. Por *first match*, as **palavras
+reservadas têm de vir antes dos identificadores**; com a ordem trocada,
+`if` sairia sempre como `ID`. E `iffy` sai como `ID` por *longest match*.
 
-::: {.pratica title="--- Flex (Folha lab. 2, Exercício 3)"}
+::: {.pratica title="Flex (Folha lab. 2, Exercício 3)"}
 - Reimplementa o `scanner-c` num ficheiro `Lexer.l`, com a estrutura de
   três partes da secção "Flex" acima e as expressões regulares que
   escreveste no Exercício 2. Compila com `flex Lexer.l` e
   `gcc lex.yy.c -o Lexer`.
-- Põe as palavras reservadas **antes** da regra de `ID` (*first match*,
-  caixa acima) e confirma que `iffy` sai como `ID` (*longest match*).
+- Põe as palavras reservadas **antes** da regra de `ID` (*first match*)
+  e confirma que `iffy` sai como `ID` (*longest match*).
 :::
 
-## Comparação rápida Alex vs. Flex
-
 | | Alex | Flex |
-|---|---|---|
+|:-----|:----------|:----------|
 | Linguagem gerada | Haskell (`.hs`) | C (`lex.yy.c`) |
 | Ficheiro de entrada | `.x` | `.l` |
-| Acesso ao texto do token | argumento da ação (`\s -> ...`) | variável global `yytext` |
-| Posição do token | `%wrapper "posn"` (automático, por ação) | `%option yylineno` (manual) |
-| Função de arranque | `alexScanTokens :: String -> [Token]` | `yylex()` (chamado em ciclo) |
+| Texto do token | argumento da ação (`\s -> ...`) | global `yytext` |
+| Posição do token | `%wrapper "posn"` (automático) | `%option yylineno` (manual) |
+| Arranque | `alexScanTokens :: String -> [Token]` | `yylex()` em ciclo |
 
 # Aula 4 --- Análise sintática e gramáticas independentes de contexto
 
-As Aulas 2--3 cobriram a **análise lexical**: transformar texto em bruto
-numa sequência de *tokens*. Esta aula avança para o passo seguinte do
-*frontend* (ver o diagrama de fases na Aula 1, secção "Fases de um
-compilador" — a análise sintática é a fase logo a seguir à lexical): a
-**análise sintática**, que verifica se a sequência de tokens respeita a
-estrutura gramatical da linguagem e constrói uma **árvore sintática**.
-
 ## O que é a análise sintática
 
-::: {.definicao title="--- Sintaxe"}
-*Sintaxe*: "estudo das regras e dos princípios que regem a organização dos
-constituintes das frases" (Dicionário Priberam). Aplicado a uma linguagem
-de programação: um programa é **sintaticamente bem formado** se respeitar
-regras de estrutura — chavetas `{ }` e parêntesis `( )` "casados",
-operadores com o número correto de operandos, instruções terminadas ou
-separadas corretamente (`;`), etc.
-:::
-
-Tal como na linguagem natural, um programa pode estar sintaticamente
-correto e ainda assim não fazer sentido — o exemplo clássico de Chomsky
-(1957) é a frase em inglês *"Colorless green ideas sleep furiously"*
-(gramaticalmente válida, semanticamente absurda). Verificar o "faz
-sentido" é trabalho da **análise semântica** (fase seguinte, fora do
-âmbito desta aula); a análise sintática só verifica estrutura.
-
-O **analisador sintático** (*parser*) constrói a árvore sintática a partir
-da sequência de tokens (ou reporta um erro, se a sequência não respeitar
-nenhuma estrutura válida). A ferramenta matemática usada para especificar
-essa estrutura é a **gramática independente de contexto**.
+A **análise sintática** verifica se a sequência de *tokens* respeita a
+estrutura da linguagem (parêntesis e chavetas casados, operadores com o
+número certo de operandos, instruções separadas por `;`, ...) e constrói
+a **árvore sintática**. Não verifica se o programa faz sentido: isso é a
+**análise semântica**, a fase seguinte. A estrutura especifica-se com uma
+**gramática independente de contexto**.
 
 ## Gramáticas independentes de contexto
 
-::: {.definicao title="--- Gramática independente de contexto (CFG)"}
-Uma **gramática independente de contexto** é um quádruplo
-$G = (\Sigma, N, S, P)$:
+::: {.definicao title="Gramática independente de contexto (CFG)"}
+Um quádruplo $G = (\Sigma, N, S, P)$:
 
-- $\Sigma$ --- conjunto de símbolos **terminais** (os tokens — os mesmos
-  que saem do analisador lexical);
-- $N$ --- conjunto de símbolos **não-terminais** (categorias sintáticas
-  abstratas, ex: "expressão", "instrução");
+- $\Sigma$ --- **terminais** (os *tokens* do analisador lexical);
+- $N$ --- **não-terminais** (categorias sintáticas: "expressão",
+  "instrução", ...);
 - $S \in N$ --- símbolo **inicial**;
-- $P$ --- conjunto de **produções** da forma $X \to \alpha$, onde $X$ é um
-  não-terminal e $\alpha$ é uma sequência (possivelmente vazia) de
-  terminais e/ou não-terminais.
+- $P$ --- **produções** $X \to \alpha$, com $X \in N$ e $\alpha$ uma
+  sequência (possivelmente vazia) de terminais e não-terminais.
+
+"Independente de contexto": o lado esquerdo é sempre **um só
+não-terminal**, por isso uma produção aplica-se sem olhar ao que está à
+volta.
 :::
 
-Chama-se "independente de contexto" porque o lado esquerdo de cada
-produção é **sempre um único não-terminal isolado** (nunca depende do que
-está à sua volta na frase para saber se a produção se pode aplicar — ao
-contrário de gramáticas mais gerais, fora do âmbito deste curso).
-
-::: exemplo
-Gramática usada como fio condutor ao longo desta secção (é a gramática
-usada nos slides para introduzir derivações, árvores e ambiguidade — vai
-reaparecer várias vezes abaixo, sempre com a mesma numeração de produções):
-
-$$\Sigma = \{a, b\} \qquad N = \{S, B\} \qquad \text{inicial: } S$$
-
-Produções:
+Gramática usada ao longo desta aula (a dos slides), com as produções
+numeradas: $\Sigma = \{a, b\}$, $N = \{S, B\}$, inicial $S$.
 
 | Nº | Produção |
-|---|---|
+|:-:|:--|
 | (1) | $S \to aSB$ |
 | (2) | $S \to \varepsilon$ |
 | (3) | $S \to B$ |
 | (4) | $B \to Bb$ |
 | (5) | $B \to b$ |
-:::
 
 ## Derivações
 
-::: {.definicao title="--- Derivação"}
-A relação de **derivação** $\Rightarrow$ substitui um não-terminal pelo
-lado direito de alguma produção que o tenha como lado esquerdo.
-$\Rightarrow^*$ (fecho transitivo) representa zero ou mais passos de
-derivação.
+::: {.definicao title="Derivação"}
+$\Rightarrow$ substitui um não-terminal pelo lado direito de uma das suas
+produções. $\Rightarrow^*$ é zero ou mais passos.
+
+Quando há vários não-terminais, escolhe-se qual substituir †:
+
+- **mais à esquerda** (*leftmost*): sempre o mais à esquerda;
+- **mais à direita** (*rightmost*): sempre o mais à direita.
+
+As duas dão a **mesma árvore**. A análise *top-down* (LL) constrói uma
+derivação mais à esquerda; a *bottom-up* (LR, Aula 5) constrói uma
+derivação mais à direita, de trás para a frente.
 :::
 
 ::: exemplo
-Derivação completa de $aabbb$ a partir de $S$, usando a gramática acima,
-anotando cada passo com o número da produção aplicada:
+Derivação **mais à esquerda** de $aabbb$ (número da produção por cima):
 
 $$S \overset{1}{\Rightarrow} aSB \overset{1}{\Rightarrow} aaSBB \overset{2}{\Rightarrow} aaBB \overset{4}{\Rightarrow} aaBbB \overset{5}{\Rightarrow} aabbB \overset{5}{\Rightarrow} aabbb$$
 
-Passo a passo: (1) $S\to aSB$ substitui o $S$ inicial → `aSB`. (1)
-novamente, no `S` que sobrou → `aaSBB` (repara que a produção acrescenta
-sempre um `a` à esquerda e um `B` à direita). (2) $S\to\varepsilon$ faz o
-`S` desaparecer → `aaBB` (dois `a`'s, dois `B`'s por resolver). (4)
-$B\to Bb$ no primeiro `B` → `aaBbB` (esse `B` vira `Bb`, ou seja um `B`
-novo seguido de `b`). (5) $B\to b$ no `B` que sobrou do passo anterior →
-`aabbB`. (5) outra vez, no último `B` → `aabbb`. Todos os não-terminais
-foram eliminados: `aabbb` é uma palavra da linguagem.
-:::
+A produção 1 aplicada duas vezes dá dois `a` à esquerda e dois $B$ à
+direita; a 2 apaga o $S$; a 4 transforma o primeiro $B$ em $Bb$; a 5
+resolve esse $B$ em `b`, e outra vez a 5 resolve o último $B$.
 
-::: {.atencao title="--- Derivação mais à esquerda e mais à direita"}
-Nota adicional (não estava explícito nos slides, mas a Aula 5 usa o nome
-"*Rightmost derivation*" sem o definir): quando uma forma intermédia tem
-vários não-terminais, podemos escolher qual substituir primeiro.
-
-- **Derivação mais à esquerda** (*leftmost*): em cada passo substitui-se
-  sempre o não-terminal **mais à esquerda**. A derivação de `aabbb` acima
-  é deste tipo (em `aaBB` expandiu-se primeiro o `B` da esquerda).
-- **Derivação mais à direita** (*rightmost*): em cada passo substitui-se
-  sempre o não-terminal **mais à direita**. Para a mesma árvore de
-  `aabbb`:
+Derivação **mais à direita** da mesma árvore (sublinhado: o próximo a
+substituir):
 
 $$S \overset{1}{\Rightarrow} aS\underline{B} \overset{5}{\Rightarrow} a\underline{S}b \overset{1}{\Rightarrow} aaS\underline{B}b \overset{4}{\Rightarrow} aaS\underline{B}bb \overset{5}{\Rightarrow} aa\underline{S}bbb \overset{2}{\Rightarrow} aabbb$$
 
-(sublinhado: o não-terminal mais à direita, que é o próximo a ser
-substituído). Os dois `B` são resolvidos antes do `S` do meio, porque
-estão à direita dele.
-
-As duas derivações dão a **mesma árvore**; só muda a ordem dos passos.
-A análise *top-down* (LL) constrói uma derivação mais à esquerda; a
-análise *bottom-up* (LR, Aula 5) constrói uma derivação mais à direita,
-mas **de trás para a frente**.
+Os dois $B$ resolvem-se antes do $S$ do meio, porque estão à direita
+dele.
 :::
 
 ## Linguagem descrita por uma gramática
 
-::: {.definicao title="--- L(G)"}
-Partindo do símbolo inicial e substituindo não-terminais pelas produções
-até só restarem terminais, obtemos uma **palavra** descrita pela
-gramática. Formalmente, para $G=(\Sigma,N,S,P)$:
-
-$$L(G) = \{\, w \in \Sigma^* : S \Rightarrow^* w \,\}$$
+::: {.definicao title="L(G)"}
+$L(G) = \{\, w \in \Sigma^* : S \Rightarrow^* w \,\}$: as palavras só de
+terminais que se derivam do símbolo inicial.
 :::
 
-::: {.exemplo title="--- Exercício 1(a) (Folha lab. 3, gramatica.pdf)"}
-**Exercício dos slides e da Folha 3, resolvido por completo:** que linguagem descreve a
-gramática do exemplo acima ($S\to aSB \mid \varepsilon \mid B$;
-$B \to Bb \mid b$)? Onde podem ocorrer `a`'s e `b`'s numa palavra aceite,
-e qual a relação entre o número de `a`'s e de `b`'s?
+::: {.exemplo title="Exercício 1(a) (Folha lab. 3, também nos slides)"}
+Que linguagem descreve a gramática acima? Onde ficam os `a` e os `b`, e
+qual a relação entre as quantidades?
 
-Primeiro, o que faz cada não-terminal:
-
-- $B$ só gera sequências de **um ou mais `b`'s**: $B\to b$ dá `b`; $B\to Bb$
-  acrescenta sempre mais um `b` à direita de um $B$ já formado. Logo $B$
-  gera exatamente a linguagem $b^+$ (nunca $b^0$, porque não há produção
-  $B\to\varepsilon$).
-- $S\to aSB$ aplicada $n$ vezes seguidas produz $a^n\,S\,B_1B_2\cdots B_n$
-  ($n$ cópias de $B$, cada uma independente das outras — ver a derivação
-  acima, onde duas aplicações de (1) geram exatamente dois `B`'s
-  pendentes). Cada $B_i$ resolve-se depois, independentemente, num
-  $b^{k_i}$ com $k_i \geq 1$.
-- O $S$ que sobra no meio tem de terminar de duas formas possíveis:
-  - via (2) $S\to\varepsilon$: não acrescenta mais nada. Com $n$ cópias de
-    $B$ já geradas, o total de `b`'s é $m=\sum_{i=1}^n k_i$, e como cada
-    $k_i\geq 1$, temos $m\geq n$ (com $m=n$ exatamente quando todos os
-    $k_i=1$, e $m$ pode crescer arbitrariamente aumentando qualquer
-    $k_i$ — logo **todos** os valores $m\geq n$ são atingíveis). Caso
-    particular $n=0$: dá a palavra vazia.
-  - via (3) $S\to B$: acrescenta mais **um** $B$ extra (o $(n{+}1)$-ésimo),
-    que por si só já gera $b^k$ com $k\geq1$. Isto dá $m\geq n+1$ — mas
-    este intervalo já está contido no anterior (para o mesmo $n$, a via
-    (2) já atinge qualquer $m\geq n$, incluindo $m=n+1,n+2,\dots$), por
-    isso não acrescenta palavras novas à linguagem, só dá origem a
-    **derivações alternativas** para palavras que já eram atingíveis —
-    é precisamente esta segunda via que torna a gramática **ambígua**
-    (ver secção seguinte).
-
-Juntando tudo: $n$ pode ser qualquer natural $\geq 0$, e para cada $n$,
-$m$ (número de `b`'s) pode ser qualquer natural $\geq n$. Logo:
+- $B$ gera **um ou mais `b`**: $B\to b$ dá `b`, e $B\to Bb$ junta mais
+  um. Logo $B$ gera $b^+$ (não há $B\to\varepsilon$).
+- $S\to aSB$ aplicada $n$ vezes dá $a^n\,S\,B_1\cdots B_n$, e cada $B_i$
+  dá $b^{k_i}$ com $k_i \geq 1$.
+- O $S$ do meio acaba de uma de duas formas:
+  - (2) $S\to\varepsilon$: o total de `b` é $m=k_1+\dots+k_n \geq n$, e
+    qualquer $m \geq n$ se atinge (aumentando um dos $k_i$). Com $n=0$ dá
+    a palavra vazia.
+  - (3) $S\to B$: junta mais um $B$, ou seja $m \geq n+1$. Estas
+    palavras **já se obtinham** pela via (2): a produção (3) não acrescenta
+    palavras, só **derivações alternativas** (é o que torna a gramática
+    ambígua, ver abaixo).
 
 $$L(G) = \{\, a^n b^m : n \geq 0,\ m \geq n \,\}$$
 
-Em palavras (a resposta pedida "numa frase" pelo exercício): **a
-linguagem das palavras formadas por zero ou mais `a`'s seguidos de zero
-ou mais `b`'s, em que o número de `b`'s nunca é inferior ao número de
-`a`'s** (incluindo a palavra vazia, quando $n=m=0$). Todos os `a`'s
-aparecem sempre à esquerda de todos os `b`'s — a gramática nunca permite
-intercalar os dois símbolos.
+Numa frase: **zero ou mais `a` seguidos de zero ou mais `b`, com pelo
+menos tantos `b` como `a`**. Os `a` estão sempre todos antes dos `b`.
 :::
 
 ### Escrever uma gramática para uma linguagem
 
-O exercício inverso: dada uma linguagem, escrever uma gramática que a
-gere. Não há um algoritmo único, mas quando a linguagem vem dada por uma
-**expressão regular** há uma tradução mecânica.
-
-::: {.atencao title="--- De expressão regular para gramática"}
-Nota adicional (não estava explícito nos slides, mas a Folha 3 pede-o):
-cada construção de uma expressão regular (Aula 2) tem uma tradução direta
-em produções. Usa-se um não-terminal novo para cada sub-expressão com `*`,
-`+` ou `|`.
+Não há algoritmo geral, mas uma **expressão regular** traduz-se
+mecanicamente †, com um não-terminal novo para cada `*`, `+` ou `|`:
 
 | Expressão regular | Produções |
 |:--------|:--------------------|
-| $rs$ (concatenação) | um único lado direito com $r$ seguido de $s$ |
-| $r \mid s$ (alternativa) | duas produções: $X \to r$ e $X \to s$ |
+| $rs$ (concatenação) | um lado direito com $r$ seguido de $s$ |
+| $r \mid s$ (alternativa) | $X \to r$ e $X \to s$ |
 | $r^*$ (zero ou mais) | $X \to r\,X \mid \varepsilon$ |
 | $r^+$ (uma ou mais) | $X \to r\,X \mid r$ |
 
-Isto mostra que **toda a linguagem regular é independente de contexto**.
-O contrário não é verdade: $\{a^nb^m : m\geq n\}$ (a linguagem do
-exemplo acima) não é regular, porque um autómato finito não consegue
-contar os `a`'s para garantir que há pelo menos tantos `b`'s.
-:::
+Por isso **toda a linguagem regular é independente de contexto**. O
+contrário é falso: $\{a^nb^m : m\geq n\}$ não é regular (um autómato
+finito não consegue contar os `a`).
 
-::: {.exemplo title="--- Exercício 1(d) (Folha lab. 3, gramatica.pdf)"}
-Escrever uma gramática para a linguagem de `((ab*a)|(ba*b))`.
+::: {.exemplo title="Exercício 1(d) (Folha lab. 3)"}
+Gramática para `((ab*a)|(ba*b))`.
 
-**1. Separar pela alternativa de topo.** A expressão é `ab*a` **ou**
-`ba*b`. Isso dá duas produções para o símbolo inicial:
-$S \to (\text{algo para } ab^*a)$ e $S \to (\text{algo para } ba^*b)$.
-
-**2. Tratar `ab*a`.** É uma concatenação de três partes: `a`, `b*` e `a`.
-A parte `b*` precisa de um não-terminal próprio, $B$, com a regra do
-`*`: $B \to b\,B \mid \varepsilon$. A concatenação fica $S \to a\,B\,a$.
-
-**3. Tratar `ba*b`** da mesma forma: $A \to a\,A \mid \varepsilon$ gera
-`a*`, e $S \to b\,A\,b$.
-
-**Gramática final** (terminais $\{a,b\}$, inicial $S$):
+1. **Alternativa de topo**: `ab*a` ou `ba*b`, duas produções para $S$.
+2. **`ab*a`**: `b*` precisa de um não-terminal, $B \to b\,B \mid
+   \varepsilon$; a concatenação fica $S \to a\,B\,a$.
+3. **`ba*b`**: da mesma forma, $A \to a\,A \mid \varepsilon$ e
+   $S \to b\,A\,b$.
 
 $$S \to a\,B\,a \mid b\,A\,b \qquad B \to b\,B \mid \varepsilon \qquad A \to a\,A \mid \varepsilon$$
 
-**Verificação com uma palavra:** `abba` deve ser aceite (é `a`, `bb`,
-`a`). Derivação: $S \Rightarrow aBa \Rightarrow abBa \Rightarrow abbBa
-\Rightarrow abba$ (as duas primeiras expansões de $B$ usam $B\to bB$ e a
-última usa $B\to\varepsilon$). E `ab` não deve ser aceite: começa por `a`,
-por isso só pode vir de $S\to aBa$, que obriga a acabar em `a`.
+**Verificação**: `abba` é aceite, $S \Rightarrow aBa \Rightarrow abBa
+\Rightarrow abbBa \Rightarrow abba$. `ab` não é: começa por `a`, só pode
+vir de $S\to aBa$, que acaba em `a`.
 :::
 
-::: {.pratica title="--- Escrever gramáticas (Folha lab. 3, Exercício 1)"}
+::: {.pratica title="Escrever gramáticas (Folha lab. 3, Exercício 1)"}
 **Ex. 1(b)** Gramática para as palavras com o mesmo número de `a`s e `b`s,
 por qualquer ordem. Aqui não há expressão regular (a linguagem não é
 regular). Pista: olha para a **primeira** letra da palavra e para o
@@ -922,151 +668,110 @@ casados.
 tabela acima, como no exemplo da 1(d). Um não-terminal para "um
 dígito" (`0|1`) simplifica tudo.
 
-A 1(a) está resolvida acima e a 1(d) no exemplo anterior.
+A 1(a) e a 1(d) estão resolvidas acima.
 :::
 
 ## Árvores sintáticas
 
-::: {.definicao title="--- Árvore sintática"}
-Cada passo de uma derivação pode representar-se como um nó numa **árvore
-sintática**: uma produção $X \to \alpha_1 \dots \alpha_n$ corresponde a um
-nó $X$ com $n$ sub-árvores, uma por cada símbolo de $\alpha_1,\dots,\alpha_n$
-(por ordem, da esquerda para a direita).
+::: {.definicao title="Árvore sintática"}
+Uma produção $X \to \alpha_1 \dots \alpha_n$ usada numa derivação é um nó
+$X$ com $n$ filhos, um por cada símbolo $\alpha_i$, da esquerda para a
+direita. Esta árvore, com um nó por símbolo, é a **árvore sintática
+concreta**; o compilador guarda uma versão compacta, a **árvore
+sintática abstrata** (Aula 6).
 :::
 
 ::: exemplo
-Árvore sintática correspondente à derivação de $aabbb$ feita acima
-($S \overset{1}{\Rightarrow} aSB \overset{1}{\Rightarrow} aaSBB
-\overset{2}{\Rightarrow} aaBB \overset{4}{\Rightarrow} aaBbB
-\overset{5}{\Rightarrow} aabbB \overset{5}{\Rightarrow} aabbb$):
+Árvore da derivação de $aabbb$ acima:
 
-![Árvore sintática de aabbb, usando (2) S→ε no S mais interno](figuras/arvore_aabbb_1.pdf){width=55%}
+![Árvore sintática de aabbb, usando (2) S→ε no S mais interno](figuras/arvore_aabbb_1.pdf){height=4.2cm}
 
-Lendo a árvore de cima para baixo: a raiz $S$ usa a produção (1) e tem três
-filhos — `a`, o $S$ do meio, e o $B$ mais à direita (o "$B$ exterior").
-O $S$ do meio usa (1) outra vez — três filhos: `a`, o $S$ mais interno, e
-um segundo $B$ (o "$B$ do meio"). O $S$ mais interno usa (2) e resolve-se
-em $\varepsilon$ (fim da recursão). O "$B$ do meio" usa (4) $B\to Bb$ —
-dois filhos: um novo $B$, e `b`; esse novo $B$ usa (5) $B\to b$. O "$B$
-exterior" usa diretamente (5) $B \to b$. Lendo as folhas da esquerda para
-a direita: `a`, `a`, (nada, do $\varepsilon$), `b` (do $B$ novo dentro do
-$B$ do meio), `b` (do próprio $B$ do meio), `b` (do $B$ exterior) — dá
-exatamente `aabbb`.
+A raiz $S$ usa (1): filhos `a`, o $S$ do meio e um $B$ (o "exterior"). O
+$S$ do meio usa (1): `a`, o $S$ interno e um segundo $B$. O $S$ interno
+usa (2) e fica vazio. O segundo $B$ usa (4), com filhos $B$ (que usa (5))
+e `b`. O $B$ exterior usa (5). Folhas, da esquerda para a direita: `a`,
+`a`, `b`, `b`, `b`.
 :::
 
 ## Gramáticas ambíguas
 
-::: {.definicao title="--- Ambiguidade"}
-Uma gramática diz-se **ambígua** se existe pelo menos uma palavra da sua
-linguagem que admite **duas (ou mais) árvores sintáticas distintas**.
-Nota: derivações diferentes podem corresponder à **mesma** árvore
-(diferindo só na ordem em que os não-terminais são substituídos) — o que
-importa para a ambiguidade é a árvore, não a derivação.
+::: {.definicao title="Ambiguidade"}
+Uma gramática é **ambígua** se alguma palavra tem **duas ou mais árvores
+sintáticas diferentes**. Duas derivações diferentes não chegam: podem dar
+a mesma árvore (só muda a ordem dos passos).
 :::
 
 ::: exemplo
-A mesma gramática do exemplo acima é **ambígua**: a palavra `aabbb` também
-se obtém pela derivação alternativa
+A gramática acima é ambígua. `aabbb` também se obtém com (3) $S\to B$ no
+$S$ interno, em vez de (2):
 $S \overset{1}{\Rightarrow} aSB \overset{1}{\Rightarrow} aaSBB
 \overset{3}{\Rightarrow} aaBBB \overset{5}{\Rightarrow} aabBB
-\overset{5}{\Rightarrow} aabbB \overset{5}{\Rightarrow} aabbb$ — que usa
-(3) $S\to B$ no $S$ mais interno (em vez de (2) $S\to\varepsilon$), dando
-**três** $B$'s independentes, cada um resolvido diretamente por (5)
-$B\to b$, sem nenhum usar (4) $B\to Bb$:
+\overset{5}{\Rightarrow} aabbB \overset{5}{\Rightarrow} aabbb$.
+Ficam três $B$, todos resolvidos por (5), sem usar (4):
 
-![Segunda árvore sintática de aabbb, usando (3) S→B](figuras/arvore_aabbb_2.pdf){width=55%}
+![Segunda árvore sintática de aabbb, usando (3) S→B](figuras/arvore_aabbb_2.pdf){height=4.2cm}
 
-Esta árvore é **estruturalmente diferente** da anterior (a primeira tinha
-um $B$ que se expandia em `Bb`; esta tem três $B$'s todos "folha única"
-via (5)) apesar de produzir a mesma palavra `aabbb` — por definição, isto
-basta para a gramática ser ambígua. Esta é exatamente a razão, identificada
-na secção anterior, por que a via (3) $S\to B$ não alarga a linguagem: só
-dá um caminho alternativo para palavras já alcançáveis por (2).
+A árvore é diferente da anterior e a palavra é a mesma: a gramática é
+ambígua.
 :::
 
-::: exame
-**Porque é que a ambiguidade importa?** Como modelo matemático para
-*descrever* uma linguagem, uma gramática ambígua é perfeitamente válida.
-Mas num compilador a gramática também serve para **atribuir significado**
-aos fragmentos do programa (é a árvore sintática que a análise semântica e
-a geração de código percorrem depois) — se a mesma palavra tem duas
-árvores possíveis, o compilador não sabe qual significado escolher. Por
-isso as linguagens de programação são desenhadas para que a sua gramática
-não seja ambígua (ou, quando é impraticável evitar completamente, para que
-existam regras explícitas de desambiguação — ver "dangling else" abaixo).
-Este é um tema clássico de exame: identificar que uma gramática é ambígua
-exibindo **duas árvores diferentes** para a mesma palavra (não basta
-exibir duas derivações — têm de corresponder a árvores diferentes).
-:::
+**Porque importa.** Para *descrever* uma linguagem, uma gramática ambígua
+serve. Mas o compilador usa a árvore para dar **significado** ao
+programa: com duas árvores, não sabe qual escolher. Por isso as
+gramáticas das linguagens de programação não são ambíguas, ou têm regras
+explícitas de desambiguação. Em exame, para mostrar que uma gramática é
+ambígua, exibem-se **duas árvores** diferentes para a mesma palavra.
 
 ## Exemplo central: expressões aritméticas
 
 ::: exemplo
-Gramática de expressões aritméticas (não-terminal $E$, terminais
-$\texttt{num}, +, *, (, )$):
+$E \to E+E \mid E*E \mid \texttt{num} \mid (E)$ é ambígua. `1+2+3` tem
+duas árvores (mesmo resultado, 6, mas árvores diferentes):
 
-$$E \to E+E \mid E*E \mid \texttt{num} \mid (E)$$
+![1+2+3 associado à direita: 1+(2+3)](figuras/arith_soma_dir.pdf){height=2.8cm}\hspace{1cm} ![1+2+3 associado à esquerda: (1+2)+3](figuras/arith_soma_esq.pdf){height=2.8cm}\hspace{1cm}
 
-Esta gramática é **ambígua** — a palavra `1+2+3` admite duas árvores:
+E em `1+2*3` as duas árvores dão **resultados diferentes**:
 
-![1+2+3 associado à direita: 1+(2+3)](figuras/arith_soma_dir.pdf){width=40%} ![1+2+3 associado à esquerda: (1+2)+3](figuras/arith_soma_esq.pdf){width=40%}
+![Árvore correta: 1+(2*3)=7 — * agrupado primeiro](figuras/arith_mix_correta.pdf){height=2.8cm}\hspace{1cm} ![Árvore errada: (1+2)*3=9 — + agrupado primeiro](figuras/arith_mix_errada.pdf){height=2.8cm}\hspace{1cm}
 
-Ambas as árvores calculam o mesmo resultado (6), mas são **árvores
-diferentes** — isso já basta para a gramática ser ambígua, mesmo sem
-nenhuma consequência prática neste caso particular.
-:::
-
-::: exemplo
-A palavra `1+2*3` já revela o problema **na prática**: as duas árvores
-possíveis dão **resultados diferentes**.
-
-![Árvore correta: 1+(2*3)=7 — * agrupado primeiro](figuras/arith_mix_correta.pdf){width=42%} ![Árvore errada: (1+2)*3=9 — + agrupado primeiro](figuras/arith_mix_errada.pdf){width=42%}
-
-Se um compilador usasse esta gramática tal como está, a árvore que
-calhasse ser construída determinaria se `1+2*3` valeria `7` ou `9` — um
-comportamento imprevisível e obviamente inaceitável para uma linguagem de
-programação.
+Conforme a árvore construída, `1+2*3` valeria 7 ou 9.
 :::
 
 ## Eliminar ambiguidade: associatividade e precedência
 
-Frequentemente consegue-se eliminar a ambiguidade **reescrevendo a
-gramática** (sem mudar a linguagem que ela descreve). Para expressões
-aritméticas há duas escolhas a fixar explicitamente:
+Muitas vezes elimina-se a ambiguidade **reescrevendo a gramática**, sem
+mudar a linguagem. Há duas coisas a fixar:
 
-- **Associatividade** dos operadores: `1+2+3` interpretado à esquerda
-  $((1{+}2){+}3)$ ou à direita $(1{+}(2{+}3))$?
-- **Prioridade (precedência)** entre operadores: `1+2*3` interpretado
-  como $1+(2{\times}3)$ ou como $(1{+}2){\times}3$?
+- **associatividade**: `1+2+3` é $((1{+}2){+}3)$ ou $(1{+}(2{+}3))$?
+- **precedência**: `1+2*3` é $1+(2{\times}3)$ ou $(1{+}2){\times}3$?
 
-::: {.definicao title="--- Gramática de expressões desambiguada"}
+A alternativa, sem mexer na gramática, é declarar associatividade e
+precedência no gerador de analisadores (Aula 6).
+
+::: {.definicao title="Gramática de expressões desambiguada"}
 $$E \to E+T \mid T \qquad T \to T*F \mid F \qquad F \to \texttt{num} \mid (E)$$
 
-Novos não-terminais e ideia da construção: uma **expressão** ($E$) é uma
-soma de **termos** ($T$); um **termo** é um produto de **fatores** ($F$);
-um **fator** é uma constante ou uma expressão entre parêntesis. As
-produções de $E$ e $T$ têm **recursão à esquerda** ($E\to E+T$, não
-$E \to T+E$) — é isso que força **associatividade à esquerda** para `+` e
-`*`. E como só se pode chegar a um `*` **através** de um $T$ (nunca
-diretamente a partir de $E$), um `*` "agarra" sempre o seu operando antes
-de ele poder ser usado numa soma — é isso que dá **precedência maior** ao
-`*` sobre o `+`.
+Uma **expressão** ($E$) é uma soma de **termos** ($T$), um termo é um
+produto de **fatores** ($F$), e um fator é um número ou uma expressão
+entre parêntesis.
+
+- A **recursão à esquerda** ($E\to E+T$, não $E\to T+E$) dá
+  **associatividade à esquerda**.
+- Como um `*` só aparece **dentro** de um $T$, agarra os seus operandos
+  antes de a soma os usar: **`*` tem mais precedência que `+`**.
 :::
 
 ::: exemplo
-Com a gramática desambiguada, `1+2*3` só tem **uma** árvore possível:
+Com esta gramática, `1+2*3` só tem uma árvore:
 
-![Árvore única de 1+2*3 com a gramática desambiguada](figuras/arith_desambiguada.pdf){width=55%}
+![Árvore única de 1+2*3 com a gramática desambiguada](figuras/arith_desambiguada.pdf){height=4.2cm}
 
-$E$ (raiz) usa $E\to E+T$: filho esquerdo $E\to T\to F\to \texttt{1}$;
-filho direito $T$, que por sua vez usa $T\to T*F$: $T\to F\to\texttt{2}$
-à esquerda do `*`, $F\to\texttt{3}$ à direita. O `*` fica "preso" dentro
-do ramo direito do `+`, antes de esse ramo poder combinar-se com o `1` —
-por isso o resultado é sempre $1+(2\times3)=7$, nunca
-$(1+2)\times3$.
+A raiz usa $E\to E+T$: à esquerda $E\to T\to F\to 1$; à direita um $T$
+que usa $T\to T*F$, com $T\to F\to 2$ e $F\to 3$. O `*` fica preso no
+ramo direito do `+`: o resultado é sempre $1+(2\times3)=7$.
 :::
 
-::: {.pratica title="--- Ambiguidade em programas sequenciais (Folha lab. 3, Exercício 2)"}
+::: {.pratica title="Ambiguidade em programas sequenciais (Folha lab. 3, Exercício 2)"}
 Gramática de "programas sequenciais" (também um exercício dos slides):
 $S \to S;S \mid \texttt{ident}=E \mid \texttt{ident}{+}{+}$ e
 $E \to \texttt{ident} \mid \texttt{num} \mid E+E$.
@@ -1084,125 +789,73 @@ esquerda de `E→E+T|T` acima, aplicada nos dois sítios (também a `S`).
 
 ## O problema do "dangling else"
 
-Muitas linguagens de programação permitem `if`/`then` com `else`
-opcional:
-
 $$S \to \texttt{if } E \texttt{ then } S \texttt{ else } S \mid \texttt{if } E \texttt{ then } S \mid \dots$$
 
-::: {.atencao title="--- Dangling else"}
-Esta gramática é ambígua de uma forma particular: em
+Com o `else` opcional, `if e1 then if e2 then s1 else s2` tem duas
+árvores: o `else` liga-se ao `if e2` (o mais próximo) ou ao `if e1`. A
+convenção de quase todas as linguagens é **o `else` liga-se ao `if` mais
+próximo**. Impõe-se de duas formas:
 
-```
-if e1 then if e2 then s1 else s2
-```
-
-o `else s2` pode ligar-se ao `if e1` **ou** ao `if e2` — duas
-interpretações válidas segundo a gramática:
-
-- `if e1 then { if e2 then s1 else s2 }` (else liga ao `if` mais próximo)
-- `if e1 then { if e2 then s1 } else s2` (else liga ao `if` mais afastado)
-
-Normalmente prefere-se a primeira: **o `else` associa-se sempre ao `if`
-mais próximo** (a convenção universal na maioria das linguagens).
-:::
-
-::: exame
-**Resolução formal**, para o caso de se preferir corrigir a gramática em
-vez de tratar isto no analisador: introduzir dois não-terminais, $M$
-(*matched statements* — instruções onde todo `if` já tem o seu `else`) e
-$U$ (*unmatched* — instruções com um `if` ainda por fechar):
-
-$$S \to M \mid U$$
-$$M \to \texttt{if } E \texttt{ then } M \texttt{ else } M \mid \dots$$
-$$U \to \texttt{if } E \texttt{ then } S \mid \texttt{if } E \texttt{ then } M \texttt{ else } U$$
-
-A ideia: um `if...then...else...` só pode ser $M$ (fechado) se **ambos**
-os ramos forem $M$ — isto impede que o `then` interno fique "por fechar"
-dentro de um `if...else` já completo, forçando o `else` externo a
-"descer" e agarrar o `if` mais próximo disponível. Na prática, contudo,
-**é frequente preferir não mexer na gramática** e resolver a ambiguidade
-diretamente na implementação do analisador sintático: é isso que faz um
-analisador LR, que escolhe *shift* no conflito que esta gramática cria
-(ver Aula 5, secção "Conflitos e como resolvê-los").
-:::
+- **Corrigir a gramática**, com $M$ (*matched*: todo o `if` tem `else`) e
+  $U$ (*unmatched*: há um `if` por fechar):
+  $$S \to M \mid U \qquad M \to \texttt{if } E \texttt{ then } M \texttt{ else } M \mid \dots \qquad U \to \texttt{if } E \texttt{ then } S \mid \texttt{if } E \texttt{ then } M \texttt{ else } U$$
+  Um `if-then-else` só é $M$ se os dois ramos forem $M$, o que obriga o
+  `else` a agarrar o `if` mais próximo.
+- **Deixar a gramática** e resolver no analisador: um analisador LR
+  escolhe *shift* no conflito (Aula 5, "Conflitos e como resolvê-los").
+  É o mais comum.
 
 # Aula 5 --- Análise sintática *bottom-up* (LR)
 
-A Aula 4 definiu **o que** o analisador sintático tem de reconhecer (uma
-gramática independente de contexto) e porque é que a gramática não pode
-ser ambígua. Esta aula mostra **como** se constrói um analisador que
-aceita ou rejeita uma sequência de tokens e, pelo caminho, descobre a
-árvore sintática: a análise **LR**. Plano da aula: o funcionamento de um
-analisador LR (pilha + tabela), como construir a tabela pelo método
-**LR(0)**, a melhoria **SLR(1)**, os **conflitos** e como resolvê-los, e,
+Como se constrói um analisador que aceita ou rejeita uma sequência de
+*tokens* e descobre a árvore: o funcionamento de um analisador LR (pilha
++ tabela), a tabela **LR(0)**, a melhoria **SLR(1)**, os **conflitos** e,
 como extra, **LR(1)** e **LALR(1)**.
 
 ## Análise *bottom-up* e analisadores LR
 
-::: {.definicao title="--- Análise LR"}
+::: {.definicao title="Análise LR"}
 **LR** = *Left-to-right parse, Rightmost derivation*: lê a entrada da
-esquerda para a direita, um token de cada vez, e constrói uma
-**derivação mais à direita** (Aula 4, "Derivações"), mas **ao contrário**:
-parte das folhas (os tokens) e vai juntando pedaços até chegar ao
-símbolo inicial. Por isso se chama análise ***bottom-up*** (de baixo para
-cima na árvore), ao contrário da análise *top-down* (LL), que parte do
-símbolo inicial.
+esquerda para a direita e constrói uma **derivação mais à direita** ao
+contrário, das folhas (os *tokens*) até ao símbolo inicial. Por isso é
+***bottom-up***; a análise LL (*top-down*) parte do símbolo inicial.
 :::
 
-Vantagens da análise LR em relação à LL (*top-down*), segundo os slides:
+Em relação à LL, a análise LR reconhece **mais linguagens**, é **mais
+fácil reescrever** uma gramática para ela, e permite **resolver
+ambiguidades** com **prioridades** e **associatividades**, sem alterar a
+gramática (Aula 6).
 
-- reconhece **mais linguagens** (há gramáticas que são LR mas não LL);
-- é **mais fácil reescrever** uma gramática para análise LR do que para LL;
-- permite **resolver ambiguidades** definindo **prioridades** e
-  **associatividades** dos símbolos, **sem alterar a gramática** (ver
-  "Conflitos e como resolvê-los", abaixo).
+::: {.definicao title="Analisador LR (autómato de pilha)"}
+Tem uma **entrada** (os terminais por ler) e uma **pilha** de símbolos
+(terminais e não-terminais), no início vazia. Em cada passo faz:
 
-::: {.definicao title="--- Analisador LR (autómato de pilha)"}
-Um analisador LR é um **autómato de pilha** com:
+- ***Shift***: tira o próximo terminal da entrada e empilha-o.
+- ***Reduce***: para uma produção $X \to \gamma$ com $\gamma$ no **topo**
+  da pilha, tira $\gamma$ e empilha $X$.
 
-- uma **sequência de entrada** (*input*): os terminais ainda por ler;
-- uma **pilha** de símbolos (terminais **e** não-terminais), no início
-  vazia, com a entrada toda por ler.
-
-Em cada passo escolhe **uma** de duas ações:
-
-- ***Shift***: tira o próximo terminal da entrada e põe-no no topo da pilha.
-- ***Reduce***: escolhe uma produção $X \to \gamma$ tal que os símbolos de
-  $\gamma$ estão **no topo** da pilha, tira-os e empilha $X$ no lugar deles.
-
-Por razões técnicas, **acrescenta-se à gramática** um símbolo inicial novo
-$S'$, um terminal \$ (**marcador de fim** da entrada) e a produção
-$S' \to S\,\$$. Assim o analisador sabe quando a entrada acabou.
+Acrescenta-se à gramática um símbolo inicial $S'$, o terminal \$
+(**fim da entrada**) e a produção $S' \to S\,\$$.
 :::
 
-::: {.exemplo title="--- Exemplo 1 dos slides: parêntesis equilibrados"}
-Gramática: $S' \to S\,\$$ e $S \to (S)S \mid \varepsilon$. Entrada `()`
-(o analisador vê `()$`).
+::: {.exemplo title="Exemplo 1 dos slides: parêntesis equilibrados"}
+Gramática: $S' \to S\,\$$ e $S \to (S)S \mid \varepsilon$. Entrada `()`.
 
 | Pilha | Entrada | Ação | Porquê |
-|:--|--:|:--|:----------------|
+|:--|--:|:--------|:------------|
 | $\varepsilon$ | `()$` | shift | nada no topo para reduzir |
-| `(` | `)$` | reduce $S\to\varepsilon$ | dentro dos parêntesis tem de haver um $S$ (aqui vazio) |
+| `(` | `)$` | reduce $S\to\varepsilon$ | dentro dos parêntesis há um $S$ (vazio) |
 | `(S` | `)$` | shift | |
 | `(S)` | `$` | reduce $S\to\varepsilon$ | falta o $S$ final de $(S)S$; é vazio |
-| `(S)S` | `$` | reduce $S\to(S)S$ | o topo é exatamente o lado direito |
-| $S$ | `$` | accept | sobrou só $S$ e a entrada acabou |
+| `(S)S` | `$` | reduce $S\to(S)S$ | o topo é o lado direito |
+| $S$ | `$` | accept | sobrou $S$ e a entrada acabou |
 
-Repara que *reduce* $S\to\varepsilon$ tira **zero** símbolos e empilha um
-$S$. A decisão de quando fazer isto é o que a tabela de *parsing* (abaixo)
-vai resolver.
-
-**Lendo os *reduce* de baixo para cima** obtém-se a derivação: o último
-*reduce* foi $S\to(S)S$, o anterior $S \to\varepsilon$ (o $S$ da direita),
-e o primeiro $S\to\varepsilon$ (o $S$ de dentro):
-
-$$S \Rightarrow (S)\underline{S} \Rightarrow (\underline{S}) \Rightarrow ()$$
-
-É uma derivação **mais à direita**: em $(S)S$ substituiu-se primeiro o $S$
-da direita.
+*Reduce* $S\to\varepsilon$ tira **zero** símbolos e empilha $S$. Lendo
+os *reduce* de baixo para cima obtém-se a derivação mais à direita:
+$S \Rightarrow (S)\underline{S} \Rightarrow (\underline{S}) \Rightarrow ()$.
 :::
 
-::: {.exemplo title="--- Exemplo 2 dos slides: expressões simples"}
+::: {.exemplo title="Exemplo 2 dos slides: expressões simples"}
 Gramática: $E' \to E\,\$$ e $E \to E + \texttt{n} \mid \texttt{n}$.
 Entrada `n+n`.
 
@@ -1215,50 +868,34 @@ Entrada `n+n`.
 | $E$`+n` | `$` | reduce $E\to E+\texttt{n}$ |
 | $E$ | `$` | accept |
 
-Os *reduce* lidos de baixo para cima: primeiro $E\to E+\texttt{n}$, depois
-$E\to\texttt{n}$. Dá a derivação mais à direita
-$E \Rightarrow E+\texttt{n} \Rightarrow \texttt{n}+\texttt{n}$.
-
-No passo 4 (pilha $E$`+`, entrada `n$`) repara que **não** se reduz o
-`n` que acabou de entrar para $E$: isso daria $E+E$, que não é lado
-direito de nenhuma produção. O analisador tem de saber **o que está por
-baixo** do topo da pilha, não só o topo. É isso que motiva os estados.
+Derivação: $E \Rightarrow E+\texttt{n} \Rightarrow \texttt{n}+\texttt{n}$.
+Com a pilha $E$`+n`, **não** se reduz o `n` a $E$: daria $E+E$, que não é
+lado direito de nenhuma produção. O analisador precisa de saber **o que
+está por baixo** do topo, não só o topo: é isso que motiva os estados.
 :::
 
 ## Tabela de *parsing* LR e o algoritmo
 
-Como escolhe o autómato a próxima ação? Olha para
+A ação depende da **configuração da pilha** e, possivelmente, dos
+próximos símbolos da entrada (*look-ahead*). Para não olhar para a pilha
+toda, **resume-se a pilha num estado** (um inteiro), e as ações ficam
+numa **tabela**.
 
-- a **configuração da pilha** (não só o símbolo do topo, como se viu no
-  Exemplo 2);
-- e possivelmente para os **próximos símbolos da entrada** (*look-ahead*).
+::: {.definicao title="Tabela de parsing LR"}
+Linhas = **estados**; colunas = **símbolos** (terminais à esquerda,
+não-terminais à direita). Cada entrada é:
 
-Para não ter de analisar a pilha inteira em cada passo, **resume-se a
-configuração da pilha num número inteiro, o estado**. O autómato muda de
-estado sempre que empilha ou desempilha, e as ações estão escritas numa
-**tabela de *parsing* LR**.
-
-::: {.definicao title="--- Tabela de parsing LR"}
-- Cada **linha** é um **estado** (um inteiro).
-- Cada **coluna** é um **símbolo** (terminais à esquerda, não-terminais à
-  direita).
-- Cada **entrada** tem uma ação:
-  - **$s\,q$** (*shift q*): passa o próximo terminal para a pilha e vai para
-    o estado $q$;
-  - **$r\,k$** (*reduce k*), sendo $X \to \alpha_1\dots\alpha_n$ a produção
-    número $k$: (1) tira da pilha os $n$ símbolos do lado direito; (2) fica
-    no estado que estava por baixo deles, e põe $X$ no topo; (3) procura
-    na tabela a entrada "$g\,q$" na coluna $X$ desse estado; (4) vai para o
-    estado $q$;
-  - **$g\,q$** (*go q*, ou *goto*): muda para o estado $q$ (só aparece nas
-    colunas dos não-terminais, e só se usa depois de um *reduce*);
-  - **$a$** (*accept*): termina e aceita a sequência;
-  - **vazia**: erro de sintaxe.
+- **$s\,q$** (*shift q*): empilha o próximo terminal e vai para $q$;
+- **$r\,k$** (*reduce k*), com $X \to \alpha_1\dots\alpha_n$ a produção
+  $k$: tira $n$ estados da pilha, olha para o estado que fica no topo, e
+  vai para o estado da entrada "$g\,q$" na coluna $X$ desse estado;
+- **$g\,q$** (*go q*): muda para $q$ (só nas colunas de não-terminais,
+  depois de um *reduce*);
+- **$a$** (*accept*): aceita;
+- **vazia**: erro de sintaxe.
 :::
 
-::: {.exemplo title="--- Tabela dos slides"}
-Gramática (com as produções numeradas):
-
+::: {.exemplo title="Tabela dos slides"}
 | Nº | Produção |
 |:-:|:--|
 | (0) | $T' \to T\,\$$ |
@@ -1278,16 +915,14 @@ Gramática (com as produções numeradas):
 | 6 | | | r4 | r4 | | |
 | 7 | | | r2 | r2 | | |
 
-Como se lê: no estado 0 com próximo símbolo `a`, faz *shift* e vai para
-o estado 3. No estado 3 com próximo `c`, faz *reduce* pela regra 3
-($R\to\varepsilon$). No estado 0, depois de um *reduce* para $T$, vai
-para o estado 1 (g1). No estado 1 com próximo \$, aceita.
+Leitura: estado 0 com `a` → *shift*, vai para 3. Estado 3 com `c` →
+*reduce* pela regra 3 ($R\to\varepsilon$). Estado 0 depois de um *reduce*
+para $T$ → g1. Estado 1 com \$ → aceita.
 :::
 
-::: {.exemplo title="--- Análise de aabbbcc com a tabela acima (1/2)"}
-A coluna "Estados" mostra a **pilha de estados inteira** (o topo é o
-último número); os slides só mostram o topo. A coluna "Símbolos" é a
-pilha de símbolos correspondente (um símbolo por cada estado acima do 0).
+::: {.exemplo title="Análise de aabbbcc com a tabela acima (1/2)"}
+"Estados" é a **pilha de estados inteira** (o topo é o último número);
+"Símbolos" é a pilha de símbolos correspondente.
 
 | Estados | Símbolos | Entrada | Ação |
 |:--|:--|--:|:-------------|
@@ -1300,16 +935,14 @@ pilha de símbolos correspondente (um símbolo por cada estado acima do 0).
 | 0 3 3 4 4 4 6 | a a b b b R | `cc$` | (6,c) = r4 |
 | 0 3 3 4 4 6 | a a b b R | `cc$` | (6,c) = r4 |
 
-Os *reduce* explicados um a um:
-
-- **(4,c) = r3**, $R\to\varepsilon$: tira **0** estados. O topo continua 4;
+- **(4,c) = r3**, $R\to\varepsilon$: tira **0** estados. Topo 4;
   (4,R) = g6, empilha 6.
-- **(6,c) = r4**, $R \to bR$: tira **2** estados (os de `b` e `R`), ficando
-  `0 3 3 4 4`. Topo 4; (4,R) = g6, empilha 6: `0 3 3 4 4 6`.
+- **(6,c) = r4**, $R \to bR$: tira **2** estados, fica `0 3 3 4 4`.
+  Topo 4; (4,R) = g6, empilha 6.
 - **(6,c) = r4** outra vez: tira 2, fica `0 3 3 4`; (4,R) = g6, empilha 6.
 :::
 
-::: {.exemplo title="--- Análise de aabbbcc com a tabela acima (2/2)"}
+::: {.exemplo title="Análise de aabbbcc com a tabela acima (2/2)"}
 | Estados | Símbolos | Entrada | Ação |
 |:--|:--|--:|:-------------|
 | 0 3 3 4 6 | a a b R | `cc$` | (6,c) = r4 |
@@ -1320,16 +953,16 @@ Os *reduce* explicados um a um:
 | 0 3 5 7 | a T c | `$` | (7,\$) = r2 |
 | 0 1 | T | `$` | (1,\$) = a: **accept** |
 
-- **(6,c) = r4**, $R\to bR$: tira 2 de `0 3 3 4 6`, fica `0 3 3`. Topo 3;
-  (3,R) = g2, empilha 2.
+- **(6,c) = r4**: tira 2 de `0 3 3 4 6`, fica `0 3 3`. (3,R) = g2,
+  empilha 2.
 - **(2,c) = r1**, $T\to R$: tira 1, fica `0 3 3`. (3,T) = g5, empilha 5.
-- **(7,c) = r2**, $T\to aTc$: tira **3** (os de `a`, `T`, `c`) de
-  `0 3 3 5 7`, fica `0 3`. (3,T) = g5, empilha 5.
-- **(7,\$) = r2**, $T\to aTc$: tira 3 de `0 3 5 7`, fica `0`. (0,T) = g1,
-  empilha 1. Com \$ na entrada, (1,\$) = a: aceita.
+- **(7,c) = r2**, $T\to aTc$: tira **3** de `0 3 3 5 7`, fica `0 3`.
+  (3,T) = g5, empilha 5.
+- **(7,\$) = r2**: tira 3 de `0 3 5 7`, fica `0`. (0,T) = g1, empilha 1.
+  Com \$, (1,\$) = a: aceita.
 :::
 
-::: {.definicao title="--- Algoritmo de parsing LR"}
+::: {.definicao title="Algoritmo de parsing LR"}
 ```
 stack = empty; push(0, stack); next = getToken()
 loop
@@ -1343,52 +976,37 @@ loop
     accept:   termina com sucesso
     vazio:    reporta erro
 ```
+
+A decisão vem **só da tabela**, e basta guardar **estados** na pilha
+(cada estado já resume os símbolos). **O difícil é construir a tabela**,
+que se faz a partir da gramática, antes de qualquer entrada.
 :::
 
-Observações dos slides sobre o algoritmo:
-
-- Em cada passo a decisão vem **só da tabela**.
-- Basta guardar **os estados** na pilha: cada estado já representa uma
-  configuração de símbolos. Os símbolos não são precisos (mas ajudam a
-  perceber a derivação, por isso aparecem nos exemplos).
-- **A parte crucial é construir a tabela**, e isso faz-se **a partir da
-  gramática**, antes e independentemente de qualquer entrada.
-
-::: {.definicao title="--- LR(0), LR(1), LR(k)"}
-A tabela pode decidir as ações só com a pilha, ou também com os próximos
-terminais (*look-ahead*):
-
-- **LR(0)**: só a pilha (0 símbolos de *look-ahead*);
-- **LR(1)**: 1 símbolo de *look-ahead*;
-- **LR(k)**: $k$ símbolos de *look-ahead* (o caso geral).
-
-A tabela LR(0) é a mais simples de construir, mas **reconhece poucas
-linguagens**. LR(k) com $k\geq2$ dá tabelas **muito grandes**. **LR(1) é
-suficiente para a maior parte das linguagens de programação.**
+::: {.definicao title="LR(0), LR(1), LR(k)"}
+Número de símbolos de *look-ahead* que a tabela usa: **LR(0)** nenhum
+(só a pilha), **LR(1)** um, **LR(k)** $k$. LR(0) é a mais simples mas
+**reconhece poucas linguagens**; LR(k) com $k\geq2$ dá tabelas **muito
+grandes**; **LR(1) chega para a maior parte das linguagens de
+programação**.
 :::
 
 ## Autómato e tabela LR(0)
 
 ### Items LR(0)
 
-::: {.definicao title="--- Item LR(0)"}
-Um **item** é uma produção com uma **posição marcada** no lado direito (um
-ponto, aqui $\bullet$). Os **estados** do autómato LR vão ser **conjuntos
-de items**.
+::: {.definicao title="Item LR(0)"}
+Uma produção com uma **posição marcada** ($\bullet$) no lado direito. Os
+**estados** do autómato LR são **conjuntos de items**.
+$A \to \beta \bullet \gamma$: $\beta$ **já está no topo da pilha**, e
+falta reconhecer $\gamma$.
 
-$A \to \beta \bullet \gamma$ quer dizer: $\beta$ **já está no topo da
-pilha**, e o autómato pode continuar reconhecendo $\gamma$.
-
-- $A \to \bullet\gamma$ é um **item inicial**: ainda não se reconheceu
-  nada; podemos começar com $\gamma$.
-- $A \to \gamma\bullet$ é um **item completo**: $\gamma$ está todo no topo
-  da pilha e podemos reconhecer $A$ (**reduce**).
+- $A \to \bullet\gamma$ --- **item inicial**: ainda nada reconhecido.
+- $A \to \gamma\bullet$ --- **item completo**: pode-se reduzir a $A$.
 :::
 
 ::: exemplo
-A gramática dos parêntesis tem 3 produções e **9 items** (uma produção com
-lado direito de comprimento $n$ dá $n+1$ items; $S\to\varepsilon$ dá só
-um, $S\to\bullet$):
+Os **9 items** da gramática dos parêntesis (um lado direito de
+comprimento $n$ dá $n+1$ items; $S\to\varepsilon$ dá só $S\to\bullet$):
 
 | Produções | Items |
 |:--|:--------|
@@ -1396,139 +1014,114 @@ um, $S\to\bullet$):
 | $S \to (S)S$ | $S\to\bullet(S)S \quad S\to(\bullet S)S \quad S\to(S\bullet)S$ |
 | | $S\to(S)\bullet S \quad S\to(S)S\bullet$ |
 | $S \to \varepsilon$ | $S\to\bullet$ |
-
-Por exemplo, $S \to (S)\bullet S$: no topo da pilha está `(S)` e o
-autómato já reconheceu `(S)`; pode continuar com um $S$.
 :::
 
 ### Do NFA de items ao DFA
 
-::: {.definicao title="--- Transições entre items"}
-Primeiro constrói-se um **NFA** cujos estados são os items:
+::: {.definicao title="Transições entre items"}
+Um **NFA** cujos estados são os items:
 
-- **Transição por um símbolo $X$** (terminal ou não-terminal): de
-  $A\to\alpha\bullet X\gamma$ para $A\to\alpha X\bullet\gamma$ (o ponto
-  "salta" o $X$). Por um **terminal** acontece depois de um **shift**; por
-  um **não-terminal** acontece depois de um **reduce** (é o *go*).
-- **Transições-$\varepsilon$**: sempre que o ponto está antes de um
-  **não-terminal** $B$, em $A\to\alpha\bullet B\gamma$, acrescenta-se uma
-  transição-$\varepsilon$ para **todos** os items iniciais de $B$,
-  $B\to\bullet\beta$. Ideia: para avançar sobre $B$ primeiro é preciso
-  reconhecer um $B$, começando uma das suas produções.
-- **Estado inicial**: o item $S' \to \bullet S\,\$$.
-- **Não há estados finais.** A aceitação acontece quando se faria *shift*
-  do \$; na tabela é a ação *accept*.
+- **por um símbolo $X$**: de $A\to\alpha\bullet X\gamma$ para
+  $A\to\alpha X\bullet\gamma$. Por um terminal, depois de um **shift**;
+  por um não-terminal, depois de um **reduce** (o *go*).
+- **$\varepsilon$**: de $A\to\alpha\bullet B\gamma$ ($B$ não-terminal)
+  para **todos** os $B\to\bullet\beta$: para avançar sobre $B$ é preciso
+  começar a reconhecer um $B$.
+- **Estado inicial**: $S' \to \bullet S\,\$$. **Não há estados finais**:
+  aceita-se quando se faria *shift* do \$ (ação *accept*).
 :::
 
-::: {.exemplo title="--- NFA de items da gramática dos parêntesis"}
-![](figuras/lr0_nfa_parenteses.pdf){width=100%}
+::: {.exemplo title="NFA de items da gramática dos parêntesis"}
+![](figuras/lr0_nfa_parenteses.pdf){width=95%}
 
-*Setas a tracejado: transições-$\varepsilon$.* Por exemplo, de
-$S\to(\bullet S)S$ saem: a transição por $S$ para $S\to(S\bullet)S$, e
-duas transições-$\varepsilon$ para os items iniciais de $S$
-($S\to\bullet(S)S$ e $S\to\bullet$), porque o ponto está antes do
-não-terminal $S$.
+*Tracejado: transições-$\varepsilon$.* De $S\to(\bullet S)S$ sai a
+transição por $S$ para $S\to(S\bullet)S$, e duas transições-$\varepsilon$
+para $S\to\bullet(S)S$ e $S\to\bullet$.
 :::
 
-Por causa das transições-$\varepsilon$ este autómato é **não
-determinístico**. Converte-se num **DFA** com a **construção de
-subconjuntos** (Aula 2): os estados do DFA são **conjuntos de items**.
-Na prática não é preciso desenhar o NFA; faz-se diretamente com duas
-operações:
+O NFA converte-se num **DFA** pela **construção de subconjuntos** (Aula
+2), em que cada estado é um **conjunto de items**. Na prática faz-se
+diretamente, sem desenhar o NFA:
 
-::: {.definicao title="--- Fecho e transição (construção direta do DFA)"}
-- **fecho(I)** (é o $\varepsilon$-*closure* da Aula 2): começa com os items
-  de $I$; para cada item com o ponto antes de um não-terminal $B$,
-  acrescenta **todos** os items $B\to\bullet\beta$; repete até não entrar
-  nada novo.
+::: {.definicao title="Fecho e goto (construção direta do DFA)"}
+- **fecho(I)** (o $\varepsilon$-*closure*): parte dos items de $I$; para
+  cada item com o ponto antes de um não-terminal $B$, junta **todos** os
+  $B\to\bullet\beta$; repete até não entrar nada novo.
 - **goto(I, X)**: pega nos items de $I$ com o ponto antes de $X$, avança o
-  ponto sobre $X$, e aplica o **fecho** ao resultado.
+  ponto e aplica o **fecho**.
 
-Estado inicial: $\text{fecho}(\{S'\to\bullet S\,\$\})$. Depois calcula-se
-goto(I, X) para cada estado $I$ já encontrado e cada símbolo $X$; cada
-conjunto novo é um estado novo. Pára quando não aparecem conjuntos novos.
+Estado inicial: $\text{fecho}(\{S'\to\bullet S\,\$\})$. Calcula-se
+goto(I, X) para cada estado e cada símbolo; cada conjunto novo é um
+estado novo, até não aparecerem mais.
 :::
 
-::: {.exemplo title="--- DFA LR(0) dos parêntesis, passo a passo (1/2)"}
+::: {.exemplo title="DFA LR(0) dos parêntesis, passo a passo (1/2)"}
 Gramática: (0) $S'\to S\,\$$, (1) $S\to(S)S$, (2) $S\to\varepsilon$.
 Numeração dos estados como nos slides.
 
 **Estado 0** = fecho($\{S'\to\bullet S\,\$\}$). O ponto está antes de
-$S$, por isso entram os items iniciais de $S$: $S\to\bullet(S)S$ e
-$S\to\bullet$. Nestes dois, o ponto está antes de `(` (terminal) ou no
-fim: não entra mais nada.
+$S$: entram $S\to\bullet(S)S$ e $S\to\bullet$. Nestes, o ponto está antes
+de `(` ou no fim: não entra mais nada.
 $$0 = \{\, S'\to\bullet S\,\$,\ \ S\to\bullet(S)S,\ \ S\to\bullet \,\}$$
 
-**Transições de 0** (os símbolos que aparecem logo a seguir a um ponto
-são `(` e $S$; com `)` e \$ não há transição):
+**Transições de 0** (só `(` e $S$ aparecem a seguir a um ponto):
 
-- goto(0, `(`): só $S\to\bullet(S)S$ tem o ponto antes de `(`; avança para
-  $S\to(\bullet S)S$. Fecho: ponto antes de $S$, entram $S\to\bullet(S)S$
-  e $S\to\bullet$. Conjunto novo: **estado 2** $= \{S\to(\bullet S)S,\
+- goto(0, `(`): de $S\to\bullet(S)S$ vem $S\to(\bullet S)S$; o fecho junta
+  $S\to\bullet(S)S$ e $S\to\bullet$. **Estado 2** $= \{S\to(\bullet S)S,\
   S\to\bullet(S)S,\ S\to\bullet\}$.
-- goto(0, $S$): só $S'\to\bullet S\,\$$; avança para $S'\to S\bullet\$$.
-  Ponto antes de \$ (terminal): o fecho não acrescenta nada. **Estado 1**
-  $= \{S'\to S\bullet\$\}$.
+- goto(0, $S$): de $S'\to\bullet S\,\$$ vem $S'\to S\bullet\$$; ponto antes
+  de \$, o fecho não junta nada. **Estado 1** $= \{S'\to S\bullet\$\}$.
 
-**Transições de 1**: só por \$, que é o *accept* (não se cria estado).
+**Transições de 1**: só por \$, que é o *accept*.
 :::
 
-::: {.exemplo title="--- DFA LR(0) dos parêntesis, passo a passo (2/2)"}
+::: {.exemplo title="DFA LR(0) dos parêntesis, passo a passo (2/2)"}
 **Transições de 2** $= \{S\to(\bullet S)S,\ S\to\bullet(S)S,\ S\to\bullet\}$:
 
-- goto(2, `(`): de $S\to\bullet(S)S$ vem $S\to(\bullet S)S$, e o fecho dá
-  exatamente o **estado 2** outra vez (um ciclo em 2).
-- goto(2, $S$): de $S\to(\bullet S)S$ vem $S\to(S\bullet)S$. Ponto antes de
-  `)`: fecho não acrescenta nada. **Estado 3** $= \{S\to(S\bullet)S\}$.
+- goto(2, `(`): de $S\to\bullet(S)S$ vem $S\to(\bullet S)S$, cujo fecho é
+  o **estado 2** outra vez (ciclo).
+- goto(2, $S$): de $S\to(\bullet S)S$ vem $S\to(S\bullet)S$; ponto antes de
+  `)`. **Estado 3** $= \{S\to(S\bullet)S\}$.
 
-**Transições de 3**: goto(3, `)`) dá $S\to(S)\bullet S$. Ponto antes de
-$S$: entram $S\to\bullet(S)S$ e $S\to\bullet$. **Estado 4** $=
+**Transições de 3**: goto(3, `)`) dá $S\to(S)\bullet S$; ponto antes de
+$S$, entram $S\to\bullet(S)S$ e $S\to\bullet$. **Estado 4** $=
 \{S\to(S)\bullet S,\ S\to\bullet(S)S,\ S\to\bullet\}$.
 
 **Transições de 4**:
 
-- goto(4, `(`): de $S\to\bullet(S)S$ vem o **estado 2** (mesmo conjunto
-  que antes).
+- goto(4, `(`): de $S\to\bullet(S)S$ vem o **estado 2**.
 - goto(4, $S$): de $S\to(S)\bullet S$ vem $S\to(S)S\bullet$. **Estado 5**
   $= \{S\to(S)S\bullet\}$.
 
-**Transições de 5**: nenhuma (o único item é completo). Não apareceram
-conjuntos novos: o DFA tem os estados 0 a 5.
+**Transições de 5**: nenhuma (só um item completo). Fim: estados 0 a 5.
 
-![](figuras/lr0_dfa_parenteses.pdf){width=100%}
+![](figuras/lr0_dfa_parenteses.pdf){width=95%}
 
-*A rosa: os estados que vão ter conflitos na tabela LR(0) (ver a seguir).*
+*A rosa: os estados que vão ter conflitos na tabela LR(0).*
 :::
 
 ### Construção da tabela LR(0)
 
-::: {.definicao title="--- Tabela LR(0)"}
-Numeram-se os estados do DFA (as linhas) e preenche-se:
+::: {.definicao title="Tabela LR(0)"}
+1. Transição por um **terminal** $t$ de $i$ para $j$: **$s\,j$** em
+   $(i, t)$.
+2. Transição por um **não-terminal** $X$ de $i$ para $j$: **$g\,j$** em
+   $(i, X)$.
+3. Estado $i$ com um **item completo** $A\to\gamma\bullet$ (produção $k$):
+   **$r\,k$** em **todas** as colunas de terminais da linha $i$ (LR(0) não
+   olha para o próximo símbolo).
+4. Estado com $S'\to S\bullet\$$, coluna \$: **accept**.
 
-1. Cada transição por um **terminal** $t$, de $i$ para $j$: **$s\,j$** na
-   entrada $(i, t)$.
-2. Cada transição por um **não-terminal** $X$, de $i$ para $j$: **$g\,j$**
-   na entrada $(i, X)$.
-3. Cada estado $i$ com um **item completo** $A\to\gamma\bullet$ (produção
-   número $k$): **$r\,k$** em **todas** as colunas de terminais da linha $i$
-   (LR(0) não olha para o próximo símbolo).
-4. No estado que contém $S'\to S\bullet\$$, na coluna \$: **accept**.
-
-A gramática é **LR(0)** se **cada entrada tiver no máximo uma ação**.
-Duas ações na mesma entrada são um **conflito**.
+A gramática é **LR(0)** se **cada entrada tem no máximo uma ação**. Duas
+ações na mesma entrada são um **conflito**.
 :::
 
-::: {.exemplo title="--- Tabela LR(0) dos parêntesis"}
-Aplicando as quatro regras ao DFA acima:
-
-1. *Shifts*: $0\xrightarrow{(}2$, $2\xrightarrow{(}2$, $3\xrightarrow{)}4$,
-   $4\xrightarrow{(}2$: s2 em (0,`(`), (2,`(`), (4,`(`), e s4 em (3,`)`).
-2. *Gotos*: $0\xrightarrow{S}1$, $2\xrightarrow{S}3$, $4\xrightarrow{S}5$:
-   g1, g3, g5 na coluna $S$.
-3. *Reduces*: os estados 0, 2 e 4 têm o item completo $S\to\bullet$
-   (produção 2): r2 em **todas** as colunas terminais dessas linhas. O
-   estado 5 tem $S\to(S)S\bullet$ (produção 1): r1 em todas as colunas.
-4. *Accept*: estado 1, coluna \$.
+::: {.exemplo title="Tabela LR(0) dos parêntesis"}
+1. *Shifts*: s2 em (0,`(`), (2,`(`), (4,`(`); s4 em (3,`)`).
+2. *Gotos*: g1, g3, g5 na coluna $S$ das linhas 0, 2, 4.
+3. *Reduces*: 0, 2 e 4 têm $S\to\bullet$ (produção 2): r2 em todas as
+   colunas terminais. O 5 tem $S\to(S)S\bullet$ (produção 1): r1 em todas.
+4. *Accept*: (1, \$).
 
 | | ( | ) | \$ | S |
 |---|---|---|---|---|
@@ -1539,18 +1132,17 @@ Aplicando as quatro regras ao DFA acima:
 | 4 | **s2, r2** | r2 | r2 | g5 |
 | 5 | r1 | r1 | r1 | |
 
-Nos estados 0, 2 e 4, com próximo símbolo `(`, há **duas ações**: *shift*
-(começar um par de parêntesis novo) ou *reduce* $S\to\varepsilon$ (o $S$
-ali é vazio). São **conflitos shift/reduce**: **a gramática dos
-parêntesis não é LR(0)**. (Resolve-se com SLR(1), na secção seguinte.)
+Em 0, 2 e 4 com `(` há **duas ações**: *shift* (abrir um par novo) ou
+*reduce* $S\to\varepsilon$. São **conflitos shift/reduce**: a gramática
+**não é LR(0)** (resolve-se com SLR(1), abaixo).
 :::
 
-::: {.exemplo title="--- Exercício 3(a) (Folha lab. 3) = Exercício 1 dos slides: construção"}
+::: {.exemplo title="Exercício 3(a) (Folha lab. 3) = Exercício 1 dos slides: construção"}
 Mostrar que $A \to (A) \mid \texttt{a}$ é LR(0). Gramática aumentada:
 (0) $A'\to A\,\$$, (1) $A\to(A)$, (2) $A\to\texttt{a}$.
 
 **Estado 0** = fecho($\{A'\to\bullet A\,\$\}$): ponto antes de $A$, entram
-$A\to\bullet(A)$ e $A\to\bullet\texttt{a}$ (ponto antes de terminais: pára).
+$A\to\bullet(A)$ e $A\to\bullet\texttt{a}$.
 $0 = \{A'\to\bullet A\,\$,\ A\to\bullet(A),\ A\to\bullet\texttt{a}\}$.
 
 - goto(0, `(`) = fecho($\{A\to(\bullet A)\}$) = $\{A\to(\bullet A),\
@@ -1558,23 +1150,22 @@ $0 = \{A'\to\bullet A\,\$,\ A\to\bullet(A),\ A\to\bullet\texttt{a}\}$.
 - goto(0, `a`) = $\{A\to\texttt{a}\bullet\}$: **estado 2**.
 - goto(0, $A$) = $\{A'\to A\bullet\$\}$: **estado 3**.
 
-**Transições de 1**: goto(1, `(`) = fecho($\{A\to(\bullet A)\}$) =
-**estado 1** outra vez; goto(1, `a`) = $\{A\to\texttt{a}\bullet\}$ =
+**Transições de 1**: goto(1, `(`) = **estado 1**; goto(1, `a`) =
 **estado 2**; goto(1, $A$) = $\{A\to(A\bullet)\}$: **estado 4**.
 
-**Transições de 2** (só item completo) e **de 3** (só \$, accept): nenhuma.
+**De 2** (só item completo) e **de 3** (só \$, accept): nenhuma.
 
-**Transições de 4**: goto(4, `)`) = $\{A\to(A)\bullet\}$: **estado 5**,
-sem transições.
+**De 4**: goto(4, `)`) = $\{A\to(A)\bullet\}$: **estado 5**, sem
+transições.
 
-![](figuras/lr0_dfa_A_parenteses.pdf){width=85%}
+![](figuras/lr0_dfa_A_parenteses.pdf){width=80%}
 :::
 
-::: {.exemplo title="--- Exercício 3(a) (Folha lab. 3): tabela e verificação"}
+::: {.exemplo title="Exercício 3(a) (Folha lab. 3): tabela e verificação"}
 *Shifts*: s1 em (0,`(`) e (1,`(`); s2 em (0,`a`) e (1,`a`); s5 em (4,`)`).
-*Gotos*: g3 em (0,$A$), g4 em (1,$A$). *Reduces*: estado 2 ($A\to\texttt{a}\bullet$,
-produção 2) r2 em todas as colunas terminais; estado 5 ($A\to(A)\bullet$,
-produção 1) r1 em todas. *Accept*: (3,\$).
+*Gotos*: g3 em (0,$A$), g4 em (1,$A$). *Reduces*: estado 2 (produção 2)
+r2 em todas as colunas terminais; estado 5 (produção 1) r1 em todas.
+*Accept*: (3,\$).
 
 | | ( | ) | a | \$ | A |
 |---|---|---|---|---|---|
@@ -1585,10 +1176,8 @@ produção 1) r1 em todas. *Accept*: (3,\$).
 | 4 | | s5 | | | |
 | 5 | r1 | r1 | r1 | r1 | |
 
-**Nenhuma entrada tem duas ações**: os estados com *reduce* (2 e 5) não
-têm nenhum *shift*, e vice-versa. Logo a gramática **é LR(0)**.
-
-Teste com `((a))`:
+**Nenhuma entrada tem duas ações** (os estados com *reduce* não têm
+*shift*): a gramática **é LR(0)**. Teste com `((a))`:
 
 | Estados | Símbolos | Entrada | Ação |
 |:--|:--|--:|:------------|
@@ -1603,7 +1192,7 @@ Teste com `((a))`:
 | 0 3 | A | `$` | accept |
 :::
 
-::: {.pratica title="--- Autómato e tabela LR(0) (Folha lab. 3, Exercícios 4 e 5)"}
+::: {.pratica title="Autómato e tabela LR(0) (Folha lab. 3, Exercícios 4 e 5)"}
 **Ex. 4** Gramática $E \to (L) \mid \texttt{a}$, $L \to L,E \mid E$.
 
 - **(a)** Derivação de `((a),a,(a,a))`. Usa as derivações da Aula 4;
@@ -1624,98 +1213,77 @@ $Varlist \to Varlist\,,\,\texttt{ident} \mid \texttt{ident}$.
 
 ## Análise SLR(1)
 
-O autómato LR(0) usa **só a pilha** para decidir quando fazer *reduce*.
-Isso gera conflitos com frequência: **muitas gramáticas úteis não são
-LR(0)** (a dos parêntesis, acima, já não era). Reconhecem-se muito mais
-linguagens se também se usar o **próximo terminal** (*look-ahead*). A
-extensão mais simples é a **SLR(1)** (*Simple LR, 1 symbol look-ahead*),
-que precisa do conjunto FOLLOW.
+Muitas gramáticas úteis **não são LR(0)** (a dos parêntesis já não era).
+Usando também o **próximo terminal** (*look-ahead*) reconhecem-se muito
+mais. A extensão mais simples é a **SLR(1)** (*Simple LR*), que usa o
+conjunto FOLLOW.
 
 ### FIRST e FOLLOW
 
-::: {.atencao title="--- Nota adicional: FIRST e FOLLOW"}
-Nota adicional (não estava explícito nos slides: usam FOLLOW sem o
-definir). São precisas três noções, calculadas a partir da gramática.
+::: {.definicao title="Anulável, FIRST e FOLLOW †"}
+- **Anulável**: $X \Rightarrow^* \varepsilon$ (ex.: há $X\to\varepsilon$,
+  ou $X \to Y Z$ com $Y$ e $Z$ anuláveis).
+- **FIRST($\alpha$)**: os terminais que podem **começar** uma palavra
+  derivada de $\alpha = X_1\dots X_n$: FIRST($X_1$), mais FIRST($X_2$) se
+  $X_1$ for anulável, e assim por diante. FIRST($t$) = $\{t\}$ para um
+  terminal.
+- **FOLLOW($A$)**: os terminais que podem aparecer **logo a seguir** a
+  $A$. Como $S'\to S\,\$$, o \$ está sempre em FOLLOW($S$).
 
-- **Anulável**: $X$ é anulável se $X \Rightarrow^* \varepsilon$ (por
-  exemplo, se existe $X\to\varepsilon$, ou $X \to Y Z$ com $Y$ e $Z$
-  anuláveis).
-- **FIRST($\alpha$)**: os terminais que podem aparecer **no início** de uma
-  palavra derivada de $\alpha$. Para $\alpha = X_1X_2\dots X_n$: junta
-  FIRST($X_1$); se $X_1$ for anulável, junta também FIRST($X_2$); e assim
-  por diante, enquanto os anteriores forem anuláveis. O FIRST de um
-  terminal $t$ é $\{t\}$.
-- **FOLLOW($A$)**: os terminais que podem aparecer **imediatamente a
-  seguir** a $A$ numa forma derivada de $S'$. Como $S'\to S\,\$$, o \$
-  está sempre em FOLLOW($S$).
+**Cálculo de FOLLOW**: começa vazio; para cada ocorrência
+$X \to \alpha\,A\,\beta$ de um não-terminal $A$:
 
-**Cálculo de FOLLOW.** Começa com todos vazios e percorre cada
-ocorrência de um não-terminal $A$ no lado direito de cada produção,
-$X \to \alpha\,A\,\beta$:
+1. junta FIRST($\beta$) a FOLLOW($A$);
+2. se $\beta$ é vazio ou anulável, junta **FOLLOW($X$)** a FOLLOW($A$).
 
-1. junta FIRST($\beta$) a FOLLOW($A$) (o que vem depois de $A$);
-2. se $\beta$ é vazio ou anulável, junta **FOLLOW($X$)** a FOLLOW($A$)
-   (o que vem depois de $X$ também pode vir depois de $A$).
-
-Repete a passagem até nenhum conjunto mudar.
+Repete até nenhum conjunto mudar.
 :::
 
-::: {.exemplo title="--- FOLLOW da gramática dos parêntesis"}
-Produções: $S'\to S\,\$$, $S\to(S)S$, $S\to\varepsilon$. As ocorrências de
-$S$ em lados direitos são três:
+::: {.exemplo title="FOLLOW da gramática dos parêntesis"}
+Produções: $S'\to S\,\$$, $S\to(S)S$, $S\to\varepsilon$. Ocorrências de
+$S$:
 
-1. $S'\to \underline{S}\,\$$: depois de $S$ vem \$. FIRST(\$) = $\{\$\}$,
-   logo $\$ \in$ FOLLOW($S$).
-2. $S\to(\underline{S})S$: depois vem $)S$. FIRST($)S$) = $\{)\}$ (começa
-   por um terminal), logo $) \in$ FOLLOW($S$).
-3. $S\to(S)\underline{S}$: depois não vem nada, por isso junta
-   FOLLOW($S$) a FOLLOW($S$): não acrescenta nada.
+1. $S'\to \underline{S}\,\$$: FIRST(\$) = $\{\$\}$, logo $\$ \in$ FOLLOW($S$).
+2. $S\to(\underline{S})S$: FIRST($)S$) = $\{)\}$, logo $) \in$ FOLLOW($S$).
+3. $S\to(S)\underline{S}$: no fim, junta FOLLOW($S$) a si próprio: nada.
 
-Segunda passagem: nada muda. **FOLLOW($S$) = $\{\,),\ \$\,\}$**. Faz
-sentido: um $S$ acaba sempre antes de um `)` (dentro de parêntesis) ou
-no fim da entrada.
+Segunda passagem: nada muda. **FOLLOW($S$) = $\{\,),\ \$\,\}$**: um $S$
+acaba antes de um `)` ou no fim da entrada.
 :::
 
-::: {.exemplo title="--- FOLLOW das expressões aritméticas (Aula 4)"}
-Gramática desambiguada da Aula 4 com $E'\to E\,\$$: $E \to E+T \mid T$,
-$T\to T*F\mid F$, $F\to\texttt{num}\mid(E)$. Nada é anulável, por isso
-FIRST($F$) = FIRST($T$) = FIRST($E$) = $\{\texttt{num}, (\}$.
+::: {.exemplo title="FOLLOW das expressões aritméticas (Aula 4)"}
+$E'\to E\,\$$, $E \to E+T \mid T$, $T\to T*F\mid F$,
+$F\to\texttt{num}\mid(E)$. Nada é anulável, e FIRST($F$) = FIRST($T$) =
+FIRST($E$) = $\{\texttt{num}, (\}$.
 
-- **$E$** aparece em $E'\to\underline{E}\,\$$ (dá \$), em
-  $E\to\underline{E}+T$ (dá $+$) e em $F\to(\underline{E})$ (dá `)`).
-  FOLLOW($E$) = $\{\$, +, )\}$.
-- **$T$** aparece em $E\to E+\underline{T}$ e $E\to\underline{T}$ (no fim:
-  junta FOLLOW($E$)) e em $T\to\underline{T}*F$ (dá $*$). FOLLOW($T$) =
+- **$E$** em $E'\to\underline{E}\,\$$ (\$), $E\to\underline{E}+T$ ($+$) e
+  $F\to(\underline{E})$ (`)`). FOLLOW($E$) = $\{\$, +, )\}$.
+- **$T$** em $E\to E+\underline{T}$ e $E\to\underline{T}$ (no fim: junta
+  FOLLOW($E$)) e em $T\to\underline{T}*F$ ($*$). FOLLOW($T$) =
   $\{\$,+,),*\}$.
-- **$F$** aparece em $T\to T*\underline{F}$ e $T\to\underline{F}$, sempre
-  no fim: junta FOLLOW($T$). FOLLOW($F$) = $\{\$,+,),*\}$.
+- **$F$** em $T\to T*\underline{F}$ e $T\to\underline{F}$, sempre no fim:
+  junta FOLLOW($T$). FOLLOW($F$) = $\{\$,+,),*\}$.
 
 Segunda passagem: nada muda.
 :::
 
 ### Tabela SLR(1)
 
-::: {.definicao title="--- Tabela SLR(1)"}
-O **algoritmo de *parsing* é o mesmo**, e o **autómato é o mesmo** do
-LR(0). Só muda a construção da tabela:
-
-- *shift* e *goto* colocam-se como antes;
-- um *reduce* por um item completo $A\to\gamma\bullet$ coloca-se **apenas
-  nas colunas dos terminais que estão em FOLLOW($A$)** (em vez de em
-  todas).
-
-Ideia: só faz sentido reduzir para $A$ se o próximo símbolo puder
-aparecer a seguir a um $A$. A gramática é **SLR(1)** se esta tabela não
-tiver conflitos.
+::: {.definicao title="Tabela SLR(1)"}
+Mesmo **algoritmo** e mesmo **autómato** do LR(0). Só muda a tabela:
+*shift* e *goto* como antes, mas o *reduce* de um item completo
+$A\to\gamma\bullet$ só vai para as **colunas dos terminais em
+FOLLOW($A$)**. Só faz sentido reduzir para $A$ se o próximo símbolo puder
+vir a seguir a um $A$. A gramática é **SLR(1)** se a tabela não tiver
+conflitos.
 :::
 
-::: {.exemplo title="--- Tabela SLR(1) dos parêntesis"}
-Mesmo DFA de antes (estados 0 a 5). Shifts e gotos iguais. Os *reduce*
-agora só vão para as colunas de FOLLOW($S$) = $\{\,),\ \$\,\}$:
+::: {.exemplo title="Tabela SLR(1) dos parêntesis"}
+Mesmo DFA (estados 0 a 5), mesmos *shifts* e *gotos*. Os *reduce* vão só
+para FOLLOW($S$) = $\{\,),\ \$\,\}$:
 
-- estados 0, 2 e 4 ($S\to\bullet$, produção 2): r2 nas colunas `)` e \$,
-  **não** na coluna `(`;
-- estado 5 ($S\to(S)S\bullet$, produção 1): r1 nas colunas `)` e \$.
+- 0, 2 e 4 ($S\to\bullet$, produção 2): r2 em `)` e \$, **não** em `(`;
+- 5 ($S\to(S)S\bullet$, produção 1): r1 em `)` e \$.
 
 | | ( | ) | \$ | S |
 |---|---|---|---|---|
@@ -1726,13 +1294,12 @@ agora só vão para as colunas de FOLLOW($S$) = $\{\,),\ \$\,\}$:
 | 4 | s2 | r2 | r2 | g5 |
 | 5 | | r1 | r1 | |
 
-Já **não há conflitos**: a gramática dos parêntesis **é SLR(1)** (apesar
-de não ser LR(0)). O conflito na coluna `(` desapareceu porque `(` não
-está em FOLLOW($S$): se o próximo símbolo é `(`, um $S$ vazio nunca
-estaria certo ali, e o analisador faz *shift*.
+**Sem conflitos**: a gramática **é SLR(1)** (sem ser LR(0)). O conflito
+em `(` desaparece porque `(` não está em FOLLOW($S$): com `(` à frente,
+um $S$ vazio nunca estaria certo, e faz-se *shift*.
 :::
 
-::: {.exemplo title="--- Análise de (()) com a tabela SLR(1)"}
+::: {.exemplo title="Análise de (()) com a tabela SLR(1)"}
 | Estados | Símbolos | Entrada | Ação |
 |:--|:--|--:|:-------------|
 | 0 | $\varepsilon$ | `(())$` | s2 |
@@ -1746,12 +1313,11 @@ estaria certo ali, e o analisador faz *shift*.
 | 0 2 3 4 5 | ( S ) S | `$` | r1: tira 4, topo 0, (0,S) = g1 |
 | 0 1 | S | `$` | accept |
 
-Repara no terceiro passo: estado 2 com `)`. Em LR(0) a entrada (2,`)`)
-também era r2, mas no primeiro passo, com `(`, havia conflito; aqui a
-tabela SLR(1) diz s2 sem hesitar.
+No primeiro passo, estado 0 com `(`, onde a tabela LR(0) tinha conflito,
+a SLR(1) diz s2 sem hesitar.
 :::
 
-::: {.pratica title="--- SLR(1) (Folha lab. 3, Exercício 3(b)) = Exercício 2 dos slides"}
+::: {.pratica title="SLR(1) (Folha lab. 3, Exercício 3(b)) = Exercício 2 dos slides"}
 **Ex. 3(b)** Mostra que $T\to R$, $T\to aTc$, $R\to\varepsilon$,
 $R\to bR$ é SLR(1): constrói o autómato e a tabela. Justifica que **não**
 é LR(0) mostrando os conflitos da tabela LR(0).
@@ -1765,111 +1331,868 @@ em FOLLOW($R$)).
 
 ## Conflitos e como resolvê-los
 
-::: {.definicao title="--- Conflito"}
-Há um **conflito** quando uma entrada da tabela de *parsing* tem **duas
-(ou mais) ações**: o autómato tem mais do que uma ação possível.
+::: {.definicao title="Conflito"}
+Uma entrada da tabela com **duas ou mais ações**.
 
-- **Conflito shift/reduce**: um *shift* e um (ou mais) *reduce* no mesmo
-  estado, para o mesmo símbolo.
-- **Conflito reduce/reduce**: dois (ou mais) *reduce* no mesmo estado, para
-  o mesmo símbolo.
+- **shift/reduce**: um *shift* e um *reduce* no mesmo estado e símbolo.
+- **reduce/reduce**: dois *reduce* no mesmo estado e símbolo.
 :::
 
-Os conflitos **podem** resultar de ambiguidade na gramática. **Mas nem
-sempre**: a gramática dos parêntesis **não é ambígua** e tinha conflitos
-shift/reduce na tabela LR(0). Uma gramática ambígua, pelo contrário, dá
-**sempre** conflitos em qualquer tabela LR (duas árvores quer dizer que,
-em algum passo, há duas ações que levam a uma aceitação).
-
-Os **geradores de analisadores LR** (Bison para C, Happy para Haskell,
-próxima aula) avisam de todos os conflitos da gramática. Formas de os
+Os conflitos **podem** vir de ambiguidade, **mas nem sempre**: a
+gramática dos parêntesis não é ambígua e tinha conflitos LR(0). Já uma
+gramática ambígua dá **sempre** conflitos (duas árvores querem dizer
+que, nalgum passo, duas ações levam à aceitação). Os geradores de
+analisadores (Aula 6) avisam de todos os conflitos. Formas de os
 eliminar:
 
-- **reescrever a gramática** (se for ambígua; técnicas da Aula 4);
-- definir **associatividades e precedências** para os *tokens*;
-- escolher ***shift* em vez de *reduce*** (é o que os geradores fazem por
+- **reescrever a gramática** (Aula 4);
+- declarar **associatividades e precedências** dos *tokens* (Aula 6);
+- escolher ***shift*** em vez de *reduce* (o que os geradores fazem por
   omissão).
 
-::: {.exemplo title="--- Dangling else num analisador SLR(1)"}
-Gramática (a ambiguidade foi explicada na Aula 4, "O problema do
-dangling else"):
+::: {.exemplo title="Dangling else num analisador SLR(1)"}
 $S \to \texttt{if cond then } S \texttt{ else } S \mid \texttt{if cond then } S \mid \texttt{skip}$.
-
-Ao construir o autómato SLR(1) aparece um estado com estes dois items:
+Há um estado com estes dois items:
 $$S \to \texttt{if cond then } S \bullet \qquad\qquad S \to \texttt{if cond then } S \bullet \texttt{ else } S$$
 
-Se o próximo *token* é `else`, o analisador pode:
+Com `else` à frente, o analisador pode:
 
-- fazer **shift** do `else`, pelo segundo item (a produção com `else`);
-- fazer **reduce** pela produção sem `else`, pelo primeiro item, porque
-  $\texttt{else} \in$ FOLLOW($S$) = $\{\texttt{else}, \$\}$ (em
-  $S\to\texttt{if cond then }\underline{S}\texttt{ else }S$ o $S$ é seguido
-  de `else`).
+- **shift** do `else` (segundo item);
+- **reduce** pela produção sem `else` (primeiro item), porque
+  $\texttt{else} \in$ FOLLOW($S$) = $\{\texttt{else}, \$\}$.
 
-**Conflito shift/reduce.** Em
-`if cond then if cond then skip else skip`, este estado aparece quando a
-pilha tem `if cond then if cond then S` e o próximo é `else`:
+Em `if cond then if cond then skip else skip`, com a pilha
+`if cond then if cond then S` e `else` à frente:
 
-- **shift**: o `else` junta-se ao `if` **de dentro** (o que está no topo
-  da pilha). Dá `if cond then { if cond then skip else skip }`.
-- **reduce**: fecha o `if` de dentro sem `else`, e o `else` fica para o
-  `if` **de fora**. Dá `if cond then { if cond then skip } else skip`.
+- **shift**: o `else` junta-se ao `if` **de dentro**:
+  `if cond then { if cond then skip else skip }`;
+- **reduce**: fecha o `if` de dentro sem `else`, e o `else` fica para o de
+  fora: `if cond then { if cond then skip } else skip`.
 
-**Optando por *shift*** obtém-se a interpretação usual das linguagens de
-programação (Pascal, C, Java, ...): o `else` liga-se ao `if` mais próximo.
-É por isso que "escolher *shift* por omissão" resolve este caso sem mexer
-na gramática.
+**Escolhendo *shift*** obtém-se a interpretação usual (Pascal, C,
+Java): o `else` liga-se ao `if` mais próximo. Por isso o *shift* por
+omissão resolve este caso sem mexer na gramática.
 :::
 
 ## Extras: LR(1) e LALR(1)
 
-Apesar de SLR(1) reconhecer mais do que LR(0), **não chega para algumas
-construções das linguagens de programação**. A análise **LR(1)** é uma
-generalização de SLR(1) que resolve essas limitações. Contudo, o método
-LR(1) pode produzir autómatos com **muito mais estados** do que o SLR(1).
-Na prática, os geradores de analisadores usam uma variante mais
-"compacta", a **LALR(1)** (*Look-Ahead LR(1)*). As diferenças entre
-SLR(1), LR(1) e LALR(1) são bastante técnicas; segundo os slides,
-**percebendo SLR(1) já se consegue compreender e usar os geradores de
-analisadores**.
+A SLR(1) **não chega para algumas construções das linguagens de
+programação**. A **LR(1)** resolve essas limitações, mas pode ter **muito
+mais estados**. Na prática os geradores usam a **LALR(1)** (*Look-Ahead
+LR(1)*), mais compacta. As diferenças são técnicas: **percebendo SLR(1)
+já se percebe e usa um gerador**.
 
-::: {.definicao title="--- Items e autómato LR(1)"}
-Os estados LR(0) só representam posições nos lados direitos. Em LR(1)
-o *look-ahead* entra na **própria definição dos estados**, para os
+::: {.definicao title="Items e autómato LR(1)"}
+Em LR(1) o *look-ahead* entra na **definição dos estados**, para os
 distinguir e evitar conflitos.
 
-- Um **item LR(1)** é um par $(A\to\alpha\bullet\beta,\ a)$: um item LR(0)
-  e um terminal $a$ (*look-ahead*). Quer dizer: $\alpha$ está no topo da
-  pilha e o resto da entrada é derivável a partir de $\beta a$.
-- Os estados continuam a ser **conjuntos** de items.
-- **Transição por um símbolo** $X$: de $(A\to\alpha\bullet X\gamma,\ a)$
-  para $(A\to\alpha X\bullet\gamma,\ a)$ (o *look-ahead* não muda).
-- **Transição-$\varepsilon$**: de $(A\to\alpha\bullet B\gamma,\ a)$ para
+- **Item LR(1)**: $(A\to\alpha\bullet\beta,\ a)$, um item LR(0) e um
+  terminal $a$. Quer dizer: $\alpha$ está no topo da pilha e o resto da
+  entrada deriva de $\beta a$. Os estados são **conjuntos** destes items.
+- **Por um símbolo** $X$: de $(A\to\alpha\bullet X\gamma,\ a)$ para
+  $(A\to\alpha X\bullet\gamma,\ a)$ (o *look-ahead* não muda).
+- **$\varepsilon$**: de $(A\to\alpha\bullet B\gamma,\ a)$ para
   $(B\to\bullet\beta,\ b)$, para **todas** as produções $B\to\beta$ e
   **todos** os $b\in$ FIRST($\gamma a$).
-- **Tabela**: *shift* e *go* como em LR(0)/SLR(1); *reduce* $A\to\alpha$
-  quando o estado tem o item completo $(A\to\alpha\bullet,\ a)$ **e o
-  próximo terminal é $a$**.
+- **Tabela**: *shift* e *go* como antes; *reduce* $A\to\alpha$ quando o
+  estado tem $(A\to\alpha\bullet,\ a)$ **e o próximo terminal é $a$**.
 :::
 
-::: {.exemplo title="--- Nota adicional: o início do autómato LR(1) dos parêntesis"}
-Nota adicional (exemplo construído para este resumo; os slides não
-trazem nenhum). Gramática $S'\to S\,\$$, $S\to(S)S\mid\varepsilon$.
+::: {.exemplo title="O início do autómato LR(1) dos parêntesis †"}
+Gramática $S'\to S\,\$$, $S\to(S)S\mid\varepsilon$.
 
-**Estado inicial.** Parte de $S'\to\bullet S\,\$$ (o *look-ahead* deste
-item não interessa, porque o \$ já está na produção). O ponto está antes
-de $S$, com $\gamma = \$$: FIRST(\$) = $\{\$\}$. Entram
-$(S\to\bullet(S)S,\ \$)$ e $(S\to\bullet,\ \$)$.
+**Estado inicial.** De $S'\to\bullet S\,\$$, o ponto está antes de $S$
+com $\gamma = \$$: FIRST(\$) = $\{\$\}$. Entram $(S\to\bullet(S)S,\ \$)$ e
+$(S\to\bullet,\ \$)$.
 
 **Depois de `(`.** De $(S\to\bullet(S)S,\ \$)$ vem $(S\to(\bullet S)S,\ \$)$.
-O ponto está antes de $S$ com $\gamma = )S$ e $a = \$$: FIRST($)S\$$) =
+Ponto antes de $S$, com $\gamma = )S$ e $a = \$$: FIRST($)S\$$) =
 $\{)\}$. Entram $(S\to\bullet(S)S,\ ))$ e $(S\to\bullet,\ ))$.
 
-Neste estado o *reduce* $S\to\varepsilon$ faz-se **só com `)`** (em SLR(1)
-era com `)` e \$). E um segundo `(` já não volta ao mesmo estado: vai para
-um estado com $(S\to(\bullet S)S,\ ))$, que tem outro *look-ahead*. É assim
-que LR(1) distingue mais situações, e também porque tem mais estados.
-A LALR(1) junta outra vez os estados LR(1) que só diferem nos
-*look-aheads* (mesmos items LR(0)), ficando com o número de estados do
-LR(0), mas com *look-aheads* mais precisos do que o FOLLOW.
+Aqui o *reduce* $S\to\varepsilon$ faz-se **só com `)`** (em SLR(1) era
+com `)` e \$). Um segundo `(` vai para um estado novo, com
+$(S\to(\bullet S)S,\ ))$: outro *look-ahead*. Assim a LR(1) distingue
+mais situações e tem mais estados. A **LALR(1)** volta a juntar os estados
+LR(1) com os mesmos items LR(0), e fica com o número de estados do LR(0),
+mas com *look-aheads* mais precisos do que o FOLLOW.
+:::
+
+# Aula 6 --- Geradores de analisadores sintáticos e sintaxe abstrata
+
+Construir a tabela LR à mão só é viável para gramáticas pequenas; para
+uma linguagem real usa-se um **programa que a gera**. Esta aula tem duas
+partes: os **geradores** *Happy* (Haskell) e *Bison* (C), com **ações
+semânticas** e resolução de **conflitos**; e a **sintaxe abstrata** (a
+AST), que é a saída da análise sintática.
+
+## Geradores de analisadores LR
+
+::: {.definicao title="Gerador de analisadores sintáticos"}
+Recebe uma **gramática** (com ações em cada produção) e produz o
+**código-fonte** de um analisador LR para ela: o autómato, a tabela e o
+ciclo de *parsing* da Aula 5.
+
+- **Yacc** (*Yet Another Compiler Compiler*): o original do UNIX, para C.
+  Gera analisadores **LALR(1)**.
+- **Bison**: reimplementação GNU do Yacc, para C ou C++.
+- **Happy**: semelhante, gera analisadores **LALR(1)** em Haskell.
+
+Também há geradores LL (*top-down*), que não vamos usar.
+:::
+
+Cada gerador trabalha com um gerador lexical da Aula 3: **Happy + Alex**
+em Haskell, **Bison + Flex** em C.
+
+![Pipeline Alex/Happy e Flex/Bison](figuras/pipeline_happy_bison.pdf){width=70%}
+
+```
+$ alex Lexer.x                        $ bison -d parser.y
+$ happy Parser.y                      $ flex lexer.x
+$ ghc -o prog Lexer.hs Parser.hs ...  $ gcc -o prog parser.tab.c lex.yy.c ...
+```
+
+Em C, o `-d` do Bison gera o *header* `parser.tab.h` com os códigos dos
+*tokens*, que o `lexer.x` inclui para devolver os mesmos números. Em
+Haskell esse papel é do tipo `Token`, definido no `Lexer.x` e importado
+pelo `Parser.y`.
+
+## Happy
+
+::: {.definicao title="Happy"}
+Gerador **LALR(1)** para Haskell, integrado com o **Alex**. Recebe um
+ficheiro (`Parser.y`) com a **gramática anotada**: produções com **ações
+semânticas** (expressões Haskell entre chavetas), **diretivas**
+(`%name`, `%token`, ...) e **código auxiliar** Haskell. Gera
+`Parser.hs`.
+:::
+
+::: {.exemplo title="Um reconhecedor em Happy (slides)"}
+Expressões com `+` e parêntesis, já desambiguadas como na Aula 4:
+
+```
+{                                   -- (1) código Haskell do início
+module Parser where
+import Lexer
+}
+
+%name parser                        -- (2) diretivas
+%tokentype { Token }
+%error { parseError }
+
+%token                              -- (3) tokens
+num         { TOK_NUM $$ }
+'+'         { TOK_PLUS }
+'('         { TOK_LPAREN }
+')'         { TOK_RPAREN }
+
+%%                                  -- (4) gramática
+
+Exp : Term                 { () }
+    | Exp '+' Term         { () }
+
+Term : num                 { () }
+     | '(' Exp ')'         { () }
+
+{                                   -- (5) código Haskell do fim
+parseError :: [Token] -> a
+parseError toks = error "parse error"
+}
+```
+
+No `Lexer.x`: `data Token = TOK_NUM Int | TOK_PLUS | TOK_LPAREN | TOK_RPAREN`.
+:::
+
+- **(1)** e **(5)**: Haskell copiado para o `Parser.hs`. A `parseError`
+  é chamada num erro sintático (entrada vazia da tabela).
+- **(2)**: `%name parser` é o **nome da função** gerada; `%tokentype` o
+  tipo dos *tokens*; `%error` a função de erro.
+- **(3)**: `%token` liga cada **terminal** (à esquerda) ao **padrão
+  Haskell** do *token* (à direita). O `$$` marca o **valor semântico** do
+  *token*: o valor de `TOK_NUM 42` é `42`. Sem `$$`, o valor é o próprio
+  *token*.
+- **(4)**: as produções, com `:` no lugar de $\to$. **O primeiro
+  não-terminal é o símbolo inicial.**
+
+Aqui as ações devolvem todas `()`, por isso `parser :: [Token] -> ()`:
+só **reconhece**. O programa principal:
+
+```haskell
+module Main where
+import Parser
+import Lexer
+
+main :: IO ()
+main = do
+  txt <- getContents
+  print (parser $ alexScanTokens txt)
+```
+
+Imprime `()` se a entrada respeita a gramática; senão `parseError` lança
+uma exceção.
+
+## Ações semânticas
+
+Além de reconhecer, um **compilador** constrói uma **representação do
+programa** (a árvore) e um **interpretador** **executa-o**. Ambos se
+fazem com **ações semânticas** em cada produção.
+
+::: {.definicao title="Ação semântica e valor semântico"}
+Cada símbolo tem um **valor semântico**: o de um **terminal** vem do
+`%token` (o `$$`); o de um **não-terminal** é o resultado da ação da sua
+produção. Numa ação, **`$1`, `$2`, `$3`, ...** são os valores dos
+símbolos do **lado direito**, por ordem: em
+`Exp : Exp '+' Term { Add $1 $3 }`, `$1` é o `Exp`, `$2` o `'+'` e `$3`
+o `Term`.
+
+**A ação corre no *reduce*** dessa produção †: os símbolos do lado
+direito estão no topo da pilha, cada um com o seu valor; a ação calcula
+o valor do lado esquerdo, que é empilhado no lugar deles. Por isso as
+ações correm **de baixo para cima** na árvore: as sub-árvores antes do
+nó pai.
+:::
+
+### Construir a árvore sintática
+
+Declara-se um **tipo algébrico** para as árvores e cada ação monta o nó a
+partir das sub-árvores:
+
+```
+Exp : Term                 { $1 }
+    | Exp '+' Term         { Add $1 $3 }
+
+Term : num                 { Num $1 }
+     | '(' Exp ')'         { $2 }
+
+{
+data Exp = Num Int
+         | Add Exp Exp
+         deriving Show
+}
+```
+
+- `Exp : Term { $1 }`: a árvore é a do termo, sem nó novo.
+- `Exp '+' Term { Add $1 $3 }`: nó `Add` com as duas sub-árvores; o `'+'`
+  não entra, o construtor já diz que é uma soma.
+- `num { Num $1 }`: `$1` é o `Int` dentro do `TOK_NUM`.
+- `'(' Exp ')' { $2 }`: os parêntesis **desaparecem**; a forma da árvore
+  já guarda o agrupamento.
+
+A função passa a `parser :: [Token] -> Exp`, e o resultado já é uma
+**árvore sintática abstrata** (ver abaixo).
+
+### Calcular o resultado
+
+Em vez de construir a árvore, **calcula-se logo o valor**:
+
+```
+Exp : Term                 { $1 }
+    | Exp '+' Term         { $1 + $3 }
+
+Term : num                 { $1 }
+     | '(' Exp ')'         { $2 }
+```
+
+`parser :: [Token] -> Int` é um **interpretador**: recebe os *tokens* e
+calcula o valor (ou lança uma exceção num erro sintático).
+
+::: {.exemplo title="Os valores na pilha ao analisar (1+2)+3"}
+Ações do interpretador; cada símbolo aparece como `símbolo:valor`. As
+decisões *shift*/*reduce* são as da tabela LALR(1) do Happy.
+
+| \# | Pilha | Entrada | Ação | Valor |
+|:-:|:---------|--:|:--------------------|:---------|
+| 1 | | `(1+2)+3` | shift `(` | |
+| 2 | `(` | `1+2)+3` | shift `num` | *token*: 1 |
+| 3 | `(` `num:1` | `+2)+3` | reduce `Term : num` | `$1` = 1 |
+| 4 | `(` `Term:1` | `+2)+3` | reduce `Exp : Term` | `$1` = 1 |
+| 5 | `(` `Exp:1` | `+2)+3` | shift `'+'` | |
+| 6 | `(` `Exp:1` `+` | `2)+3` | shift `num` | *token*: 2 |
+| 7 | `(` `Exp:1` `+` `num:2` | `)+3` | reduce `Term : num` | `$1` = 2 |
+| 8 | `(` `Exp:1` `+` `Term:2` | `)+3` | reduce `Exp : Exp '+' Term` | 1+2 = 3 |
+| 9 | `(` `Exp:3` | `)+3` | shift `')'` | |
+| 10 | `(` `Exp:3` `)` | `+3` | reduce `Term : '(' Exp ')'` | `$2` = 3 |
+| 11 | `Term:3` | `+3` | reduce `Exp : Term` | `$1` = 3 |
+| 12 | `Exp:3` | `+3` | shift `'+'` | |
+| 13 | `Exp:3` `+` | `3` | shift `num` | *token*: 3 |
+| 14 | `Exp:3` `+` `num:3` | | reduce `Term : num` | `$1` = 3 |
+| 15 | `Exp:3` `+` `Term:3` | | reduce `Exp : Exp '+' Term` | 3+3 = 6 |
+| 16 | `Exp:6` | | accept | **6** |
+
+No passo 8 o *reduce* tira os três símbolos do topo: `Exp:1` é `$1`, `+`
+é `$2`, `Term:2` é `$3`, e a ação dá `$1 + $3`. No passo 10, `(` é `$1`,
+`Exp:3` é `$2` e `)` é `$3`: a ação é `$2`.
+
+Com as ações que constroem a árvore, os *shift*/*reduce* são os mesmos
+(a tabela só depende da gramática); só mudam os valores: passos 3--4
+`Num 1`; 7 `Num 2`; 8 `Add (Num 1) (Num 2)`; 10--11 o mesmo; 14 `Num 3`;
+15 `Add (Add (Num 1) (Num 2)) (Num 3)`, que é o resultado.
+:::
+
+::: {.pratica title="Ações semânticas (exercício inventado)"}
+**Ex. A** Com a gramática `Exp : Term | Exp '+' Term`,
+`Term : num | '(' Exp ')'` desta secção:
+
+- **(a)** Faz a tabela "pilha / entrada / ação / valor" para `2+(3+4)`,
+  com as ações do interpretador (`$1 + $3`, ...). Diz em cada *reduce*
+  quem são `$1`, `$2`, `$3`.
+- **(b)** Que valor devolve `parser` para a mesma entrada com as ações
+  que constroem a árvore (`Add $1 $3`, `Num $1`, `$2`)? Compara a forma da
+  árvore com a de `(1+2)+3` no exemplo acima.
+:::
+
+## Bison
+
+::: {.definicao title="Bison"}
+Gerador LR do projeto GNU para C e C++, semelhante ao Yacc (e ao Happy),
+integrado com o **Flex**.
+:::
+
+::: {.exemplo title="Uma calculadora em Bison (slides)"}
+```
+%{
+#include <stdio.h>
+#include <stdlib.h>
+int yylex (void);
+void yyerror (char const *);
+%}
+%define api.value.type {int}
+%token TOK_NUM
+
+%%
+
+top : exp            { printf("%d\n", $1); }
+    ;
+
+exp :  term          { $$ = $1; }
+    | exp '+' term   { $$ = $1 + $3; }
+    ;
+
+term : TOK_NUM       { $$ = $1; }
+     | '(' exp ')'   { $$ = $2; }
+     ;
+
+%%
+
+void yyerror (char const *msg) {
+  printf("parse error: %s\n", msg);
+  exit(-1);
+}
+
+int main(void) {
+  yyparse();
+}
+```
+:::
+
+A estrutura é a do Flex: `%{ código C %}` e declarações, `%%`, regras,
+`%%`, código C. Em relação ao Happy:
+
+- cada **ação é um bloco C**; o resultado dá-se por **atribuição a `$$`**
+  (no Happy é o valor da expressão); cada regra acaba em `;`;
+- o **tipo dos valores** declara-se com `%define api.value.type {int}`
+  (o mesmo para todos os símbolos; por omissão `int`);
+- o **valor de um terminal** é posto pelo *lexer* na global **`yylval`**
+  antes de devolver o *token*, ex.:
+  `[0-9]+ { yylval = atoi(yytext); return TOK_NUM; }`;
+- a função gerada é `yyparse()`, que chama `yylex()` para cada *token*,
+  e `yyerror` em caso de erro;
+- a regra `top` é o símbolo inicial (a primeira regra): a sua ação corre
+  uma vez, no último *reduce*, e imprime o resultado.
+
+**Terminais de um carácter** †, como `'+'` e `'('`, usam-se na gramática
+sem os declarar; o código do *token* é o código ASCII, por isso o Flex
+pode fazer `return yytext[0];`. Os *tokens* com nome (`%token TOK_NUM`)
+recebem números a partir de 258. O fim da entrada é o *token* 0.
+
+| | Happy | Bison |
+|:------|:----------|:----------|
+| Linguagem gerada | Haskell (`Parser.hs`) | C (`parser.tab.c`, `.h` com `-d`) |
+| Analisador lexical | Alex | Flex |
+| Ação semântica | expressão Haskell | bloco C com `$$ = ...;` |
+| Tipo dos valores | um por não-terminal (inferido) | `%define api.value.type` ou `%union` |
+| Valor dos terminais | `$$` no padrão de `%token` | o *lexer* escreve em `yylval` |
+| Função gerada | nome de `%name`, recebe `[Token]` | `yyparse()`, chama `yylex()` |
+| Símbolo inicial | primeiro não-terminal | primeira regra |
+| Erros | função de `%error` | `yyerror` |
+| Relatório do autómato | `happy -i` → `Parser.info` | `bison --report=all` → `parser.output` |
+
+## Conflitos, associatividade e precedência
+
+Os geradores constroem a tabela LALR(1) e **reportam conflitos** (Aula 5)
+se a gramática for ambígua (ou não for LALR(1)). Com a gramática ambígua
+da Aula 4:
+
+```
+Exp : num               { ... }
+    | Exp '+' Exp       { ... }
+    | Exp '*' Exp       { ... }
+
+$ happy Parser.y
+shift/reduce conflicts:  4
+```
+
+Os dois geradores escrevem um **relatório** com os estados e os
+conflitos: `happy -i Parser.y` dá `Parser.info`,
+`bison --report=all parser.y` dá `parser.output`.
+
+::: {.exemplo title="De onde vêm os 4 conflitos (relatório real do Happy) †"}
+Os conflitos estão em dois estados (o Happy escreve `.` em vez de
+$\bullet$):
+
+```
+State 6
+    Exp -> Exp . '+' Exp        (rule 2)
+    Exp -> Exp . '*' Exp        (rule 3)
+    Exp -> Exp '*' Exp .        (rule 3)
+
+    '+'     shift, and enter state 4
+            (reduce using rule 3)
+    '*'     shift, and enter state 5
+            (reduce using rule 3)
+    %eof    reduce using rule 3
+```
+
+No estado 6 a pilha acaba em `Exp * Exp`. O item completo diz "reduz";
+os outros dizem que o último `Exp` pode começar um `Exp + Exp` ou
+`Exp * Exp` maior, e então faz-se *shift* do operador. Com `+` à frente
+há conflito, com `*` também: 2. O estado 7 é igual com
+`Exp -> Exp '+' Exp .` (regra 2): mais 2. **Total: 2 estados × 2
+operadores = 4.** Com `%eof` só se pode reduzir. A linha entre parêntesis
+é a ação que **perdeu**: o gerador **escolheu *shift***.
+:::
+
+Por omissão, Happy e Bison resolvem os conflitos *shift/reduce* com
+***shift*** (e avisam), o que **pode não ser o correto**. Sem
+declarações, `2*3+4` dá **14** † : com a pilha `Exp * Exp` e `+` à
+frente, faz *shift* em vez de fechar `2*3`; no fim reduz `3+4 = 7` e
+depois `2*7 = 14`. O *shift* sistemático faz **todos os operadores
+associarem à direita, com a mesma precedência**. As saídas são
+**reescrever a gramática** (Aula 4) ou **declarar associatividade e
+precedência** (iguais no Happy e no Bison).
+
+::: {.definicao title="Declarações de associatividade e precedência"}
+Antes do `%%`:
+
+```
+%nonassoc '<' '>' '=='           -- precedência mais baixa
+%left '+' '-'
+%left '*' '/'                    -- precedência mais elevada
+```
+
+- Associatividade: `%left` (esquerda), `%right` (direita) ou
+  `%nonassoc` (não associativo).
+- **A ordem das linhas dá a precedência**: cada linha tem **mais** do que
+  as anteriores; *tokens* na mesma linha têm a mesma.
+
+**Regra que o gerador aplica** † num conflito entre **reduzir pela regra
+$R$** e **fazer *shift* do *token* $a$**:
+
+1. a precedência de $R$ é a do seu **último terminal** (em
+   `Exp : Exp '+' Exp`, a do `'+'`);
+2. $a$ com **mais** precedência → *shift*; com **menos** → *reduce*; com
+   **a mesma** → `%left` *reduce*, `%right` *shift*, `%nonassoc` **erro
+   sintático**;
+3. se a regra ou o *token* não tiverem precedência, fica o *shift* e o
+   conflito continua a ser reportado.
+:::
+
+::: {.exemplo title="Associatividade: 1+2+3 (um só operador)"}
+Depois de `1+2`, pilha `Exp + Exp`, próximo `+`:
+
+```
+Exp -> Exp . '+' Exp        (rule 2)
+Exp -> Exp '+' Exp .        (rule 2)
+
+'+'     shift, and enter state 6
+        (reduce using rule 2)
+```
+
+Regra e *token* têm a precedência do `'+'`: decide a associatividade.
+
+- `%left '+'` → ***reduce***: $(1+2)+3$.
+- `%right '+'` → ***shift***: $1+(2+3)$.
+- `%nonassoc '+'` → `1+2+3` é **erro sintático** (é o que se quer para
+  `<`: `1<2<3` não deve ser aceite).
+:::
+
+::: {.exemplo title="Precedência: 1+2*3 (dois operadores)"}
+Depois de `1+2`, próximo `*`:
+
+```
+Exp -> Exp . '+' Exp        (rule 2)
+Exp -> Exp '+' Exp .        (rule 2)
+Exp -> Exp . '*' Exp        (rule 3)
+
+'*'     shift, and enter state 7
+        (reduce using rule 2)
+```
+
+A regra 2 tem a precedência do `'+'` e o *token* é `'*'`. Com
+`%left '+'` **antes** de `%left '*'`, o `*` tem mais precedência →
+***shift***: $1+(2\times3)$.
+
+No caso inverso, `2*3+4`, a pilha é `Exp * Exp` (precedência do `*`) e
+o *token* `+` tem menos → ***reduce***: $(2\times3)+4 = 10$. Com estas
+duas declarações o relatório deixa de ter conflitos.
+:::
+
+**Dangling else.** Nem sempre é preciso eliminar o conflito. No
+*dangling else* (Aula 5) o relatório mostra:
+
+```
+Stm -> if Exp then Stm .                (rule 1)
+Stm -> if Exp then Stm . else Stm       (rule 2)
+
+else    shift, and enter state 15
+        (reduce using rule 1)
+```
+
+O *shift* por omissão liga o `else` ao `if` mais próximo, que é o
+correto: o gerador avisa, mas o analisador fica certo.
+
+**Em resumo**, para cada conflito pergunta que árvore dá cada ação e qual
+queres; depois reescreve a gramática, declara `%left`/`%right`/`%nonassoc`
+(operadores binários) ou deixa o *shift* (só quando é o que queres), e
+confirma no relatório que os conflitos desapareceram.
+
+::: {.pratica title="Precedências no papel (exercício inventado)"}
+**Ex. B** Gramática ambígua `Exp : num | Exp '+' Exp | Exp '-' Exp |
+Exp '*' Exp | Exp '<' Exp`, com a regra acima. Diz que árvore é
+escolhida e que valor dá:
+
+- **(a)** `8-4-2` com `%right '-'`.
+- **(b)** `1+2*3` com as declarações por esta ordem: `%nonassoc '<'`,
+  `%left '*'`, `%left '+' '-'` (repara na ordem!).
+- **(c)** `1<2+3` e `1<2<3`, com as mesmas declarações da (b). Para a
+  comparação, conta verdadeiro como 1 e falso como 0.
+:::
+
+::: {.pratica title="Calculadora com Flex/Bison ou Alex/Happy (Folha lab. 4, Exercício 1)"}
+Ficheiros em `Praticas/Semana_3/Parsing/` (`srcC` ou `srcHaskell`, e
+os testes em `testsC`/`testsHaskell`). Em C precisas do Bison 3
+(`brew install bison`, fica em `/opt/homebrew/opt/bison/bin`): o do macOS
+é o 2.3 e não aceita `%define api.value.type`. O Happy e o Alex
+instalam-se com `cabal install happy alex`.
+
+**Ex. 1(a)** Completa o *lexer* e o *parser* para a gramática ambígua
+$E \to E{+}E \mid E{-}E \mid E{*}E \mid E/E \mid (E) \mid \texttt{num}$,
+calculando o valor durante a análise (como em "Calcular o resultado").
+Resolve as ambiguidades com `%left` (dois níveis de precedência). Usa
+vírgula flutuante (`float`/`Float`): o `num` tem de aceitar `1.5`.
+Confirma `1+2*3` = 7, `1+2/3` $\approx$ 1.667, `1-2-3` = −4 e `1/2/3`
+$\approx$ 0.167, e corre os testes.
+
+**Ex. 1(b)** Acrescenta $E \to F(E)$ com $F \to$ `sqrt` | `exp` | `log`.
+Pistas: as palavras `sqrt`/`exp`/`log` são *tokens* novos no *lexer* (a
+ordem das regras importa? há identificadores aqui?). Em C, `sqrtf`,
+`expf`, `logf` de `<math.h>` (o `Makefile` já liga com `-lm`). O
+`input5.txt` testa isto.
+:::
+
+## Sintaxe concreta e abstrata
+
+A árvore de derivação (Aula 4) tem detalhes que **não interessam** ao
+resto do compilador: **parêntesis** de agrupamento, **palavras
+reservadas** que delimitam blocos (`if`/`then`/`else`, `begin`/`end`) e
+**não-terminais que só servem para desambiguar** (o $T$ e o $F$ das
+expressões).
+
+::: {.definicao title="Sintaxe concreta vs. sintaxe abstrata"}
+- **Árvore sintática concreta** (de derivação): um nó por cada símbolo de
+  cada produção usada.
+- **Árvore sintática abstrata** (AST): só a **estrutura essencial**, com
+  **um nó por operação** (ou construção da linguagem) e os operandos como
+  filhos.
+
+As ações semânticas constroem logo a AST, e a árvore concreta nunca
+chega a existir em memória.
+:::
+
+::: {.exemplo title="(1+2)*3 com a gramática desambiguada"}
+$E\to E+T \mid T$, $T\to T*F \mid F$, $F\to \texttt{num} \mid (E)$.
+Derivação: $E \Rightarrow T \Rightarrow T*F \Rightarrow F*F \Rightarrow
+(E)*F \Rightarrow \dots \Rightarrow$ `(1+2)*3`.
+
+![Árvore concreta](figuras/arvore_concreta_1mais2vezes3.pdf){height=6cm}
+\hspace{1.5cm}
+![AST](figuras/ast_1mais2vezes3.pdf){height=2.6cm}
+
+*Árvore concreta (17 nós) e AST (5 nós).* As cadeias $E\to T\to F$ só
+impõem a precedência e os parêntesis só agrupam. A AST tem **um nó por
+operação** (`Mult`, `Add`) e um por constante; o agrupamento `(1+2)` está
+na **forma** da árvore (o `Add` é filho do `Mult`).
+:::
+
+::: {.exemplo title="Comandos: if-then-else"}
+$Stm \to \texttt{if } Exp \texttt{ then } Stm \texttt{ else } Stm \mid \dots$
+Na árvore concreta **cada palavra reservada é um nó**; na AST
+`if`/`then`/`else` é **um só nó** com três filhos:
+
+![Árvore concreta de if-then-else](figuras/arvore_concreta_ifthenelse.pdf){width=45%}
+\hspace{1cm}
+![AST de if-then-else](figuras/ast_ifthenelse.pdf){width=22%}
+
+`then` e `else` só servem ao analisador para saber onde acaba cada
+parte; depois, a posição do filho já diz isso.
+:::
+
+**Vantagens da sintaxe abstrata:**
+
+- **simplifica as fases seguintes**, que não lidam com os detalhes da
+  gramática;
+- a análise semântica e a geração de código ficam **menos ligadas à
+  linguagem-fonte**;
+- facilita o **açúcar sintático**: o analisador reescreve logo
+  $x > y \longrightarrow y < x$ e $x >= y \longrightarrow y <= x$, e as
+  fases seguintes só implementam **2 comparações em vez de 4**.
+
+## Representar sintaxe abstrata
+
+O compilador tem de **construir e processar** ASTs. O exemplo é a
+linguagem de **programas sequenciais** (Folha lab. 3, Exercício 2):
+instruções `ident = exp`, `ident++` e `stm1; stm2`; expressões com
+identificadores, números e operadores binários.
+
+### Linguagens funcionais (Haskell, ML, OCaml, F#)
+
+::: {.definicao title="AST como tipo algébrico"}
+Cada **categoria sintática** (instrução, expressão, operador) é um **tipo
+algébrico**: alternativas etiquetadas por **construtores**, cada um com
+**atributos** de tipos e número diferentes, possivelmente **recursivas**.
+Distinguem-se por **encaixe de padrões**.
+:::
+
+```haskell
+data Stm = AssignStm String Exp    -- ident = exp
+         | IncrStm String          -- ident++
+         | CompoundStm Stm Stm     -- stm1; stm2
+
+data Exp = IdExp String            -- x, y, z, etc.
+         | NumExp Int              -- 123, etc.
+         | OpExp Exp BinOp Exp     -- e1+e2, e1*e2, ...
+
+data BinOp = Plus | Minus | Times | Div
+```
+
+::: {.exemplo title="A AST de a = 5+3; b = a-2"}
+```haskell
+example :: Stm
+example =
+  CompoundStm
+    (AssignStm "a"
+       (OpExp (NumExp 5) Plus (NumExp 3)))
+    (AssignStm "b"
+       (OpExp (IdExp "a") Minus (NumExp 2)))
+```
+
+![AST de a = 5+3; b = a-2](figuras/ast_exemplo_stm.pdf){height=3.8cm}
+:::
+
+Processa-se com uma função por casos, um por construtor, com equações ou
+com `case`:
+
+```haskell
+process :: Stm -> ...                 process stm = case stm of
+process (IncrStm id)         = ...       IncrStm id         -> ...
+process (AssignStm id exp)   = ...       AssignStm id exp   -> ...
+process (CompoundStm s1 s2)  = ...       CompoundStm s1 s2  -> ...
+```
+
+### Linguagem C
+
+::: {.definicao title="AST em C"}
+- Uma **`struct`** por categoria sintática, com uma **etiqueta** (*tag*,
+  um `enum` com a alternativa) e uma **`union`** das alternativas; cada
+  alternativa com mais de um atributo é ela própria uma `struct`.
+- **Funções construtoras** que inicializam todos os campos.
+- **Estilo funcional**: estruturas **imutáveis** e memória **libertada só
+  no fim** (de uma fase ou do programa).
+- Distinguem-se alternativas pela **tag** (num `switch`).
+:::
+
+```c
+struct _stm {
+  enum {COMPOUND, ASSIGN, INCR} tag;
+  union {
+    struct { struct _stm *fst, *snd; } compound;          // COMPOUND
+    struct { char *ident; struct _exp *expr; } assign;    // ASSIGN
+    char *ident;                                          // INCR
+  };
+};
+typedef struct _stm *Stm;
+```
+
+```c
+typedef enum {PLUS, MINUS, TIMES, DIV} binop;
+struct _exp {
+  enum {ID, NUM, OP} tag;
+  union {
+    int val;                                              // NUM
+    char *id;                                             // ID
+    struct { binop op; struct _exp *left, *right; } binop;// OP
+  };
+};
+typedef struct _exp *Exp;
+```
+
+Os construtores reservam memória e preenchem a *tag* e os campos da
+alternativa:
+
+```c
+Exp mk_num(int v) {
+  Exp e = (Exp) malloc(sizeof(struct _exp));
+  e->tag = NUM;
+  e->val = v;
+  return e;
+}
+
+Exp mk_ident(char *txt) {
+  Exp e = (Exp) malloc(sizeof(struct _exp));
+  char *str = malloc(strlen(txt)+1);
+  strcpy(str, txt);     // "clonar" a cadeia
+  e->tag = ID;
+  e->id = str;
+  return e;
+}
+```
+
+```c
+Exp mk_op(binop op, Exp e1, Exp e2) {
+  Exp e = (Exp) malloc(sizeof(struct _exp));
+  e->tag = OP;
+  e->binop.op = op;
+  e->binop.left = e1;
+  e->binop.right = e2;
+  return e;
+}
+```
+
+(E o mesmo para `mk_assign`, `mk_incr`, `mk_compound`.) A cadeia
+clona-se porque, numa ação do Bison, o `txt` vem do `yytext` do Flex,
+que o próximo *token* reescreve †.
+
+```c
+Stm example =
+    mk_compound
+    (mk_assign("a", mk_op(PLUS, mk_num(5), mk_num(3))),
+     mk_assign("b", mk_op(TIMES, mk_ident("a"), mk_num(2))));
+```
+
+Nas ações do Bison:
+
+```
+exp : term             { $$ = $1; }
+    | exp '+' term     { $$ = mk_op(PLUS, $1, $3); }
+    ;
+term : TOK_NUM         { $$ = mk_num($1); }
+     | '(' exp ')'     { $$ = $2; }
+     ;
+```
+
+Aqui os valores **não têm todos o mesmo tipo** (`TOK_NUM` é `int`,
+`exp`/`term` são `Exp`), por isso usa-se `%union` em vez de
+`%define api.value.type` †:
+
+```
+%union { int num; Exp exp; }
+%token <num> TOK_NUM
+%type  <exp> exp term
+```
+
+e no Flex escreve-se no campo certo: `yylval.num = atoi(yytext);`.
+
+Análise de casos com `switch` sobre a *tag* (cada caso só deve usar os
+campos da sua alternativa, porque o C não o impede):
+
+```c
+void process(Stm stm) {
+  switch(stm->tag) {
+  case COMPOUND: /* stm->compound.fst e stm->compound.snd */ break;
+  case ASSIGN:   /* stm->assign.ident e stm->assign.expr  */ break;
+  case INCR:     /* stm->ident                             */ break;
+  }
+}
+```
+
+### Java e linguagens OO
+
+::: {.definicao title="AST em Java"}
+Uma **classe abstrata** por categoria sintática e uma **subclasse** por
+alternativa, com um **construtor** que inicializa todos os atributos;
+objetos **imutáveis**. Distinguem-se com **`instanceof`** e ***downcasts***
+(ou com o padrão ***visitor***).
+:::
+
+```java
+public abstract class Stm {}
+public class CompoundStm extends Stm {
+  public Stm fst, snd;
+  public CompoundStm(Stm s1, Stm s2) { fst = s1; snd = s2; }
+}
+public class AssignStm extends Stm {
+  public String id;
+  public Exp exp;
+  public AssignStm(String i, Exp e) { id = i; exp = e; }
+}
+```
+
+```java
+public abstract class Exp {}
+public class IdExp extends Exp {
+  public String id;
+  public IdExp(String i) { id = i; }
+}
+public class NumExp extends Exp {
+  public int num;
+  public NumExp(int n) { num = n; }
+}
+public class OpExp extends Exp {
+  public Exp left, right;
+  public int oper;
+  final public static int Plus=1, Minus=2, Times=3, Div=4;
+  public OpExp(Exp e1, int op, Exp e2) { left = e1; oper = op; right = e2; }
+}
+```
+
+Construção e análise de casos:
+
+```java
+Stm prog =
+  new CompoundStm(new AssignStm("a",
+                    new OpExp(new NumExp(5), OpExp.Plus, new NumExp(3))),
+                  new AssignStm("b",
+                    new OpExp(new IdExp("a"), OpExp.Times, new NumExp(2))));
+
+public void process(Stm stm) {
+  if (stm instanceof CompoundStm) {
+    CompoundStm cstm = (CompoundStm) stm;  ...
+  } else if (stm instanceof AssignStm) {
+    AssignStm astm = (AssignStm) stm;  ...
+  } else ...
+}
+```
+
+### Outras linguagens
+
+Scala (*case classes*), Kotlin (*data classes*), Swift e Rust
+(*enumerations*) têm tipos algébricos e encaixe de padrões. **Para ASTs,
+prefere-se a abordagem funcional à OO**: em Haskell cada caso recebe os
+campos com nome e o compilador avisa se faltar um caso; em C é preciso
+disciplina com a `union`; em Java fica uma cadeia de `instanceof` e
+*casts*.
+
+::: {.pratica title="Construir e processar ASTs (exercícios inventados)"}
+**Ex. C** Escreve a AST do programa `x = 1; y = x * (2 + 3); x++`,
+agrupando as instruções à direita (`x = 1; (y = ...; x++)`):
+
+- **(a)** como valor Haskell, com os tipos `Stm`/`Exp`/`BinOp` acima;
+- **(b)** em C, com os construtores `mk_...` (escreve também `mk_assign`,
+  `mk_incr` e `mk_compound`, que os slides não mostram).
+
+**Ex. D** Escreve um **interpretador** em Haskell para a linguagem dos
+programas sequenciais: `exec :: Env -> Stm -> Env`, com
+`type Env = [(String, Int)]` (o valor atual de cada variável). Usa
+encaixe de padrões, como no `process` acima, e uma função auxiliar
+`evalExp :: Env -> Exp -> Int`. Testa com o programa do Ex. C: no fim
+deve dar `x = 2` e `y = 5`.
 :::

@@ -1,0 +1,17 @@
+graph triangulo_hci {
+  layout=neato;
+  node [shape=box, style="rounded,filled", fillcolor="#1f3864", fontcolor=white, color="#1f3864", fontname="Helvetica", fontsize=12, margin="0.2,0.12"];
+  edge [color="#1f3864", penwidth=1.4];
+
+  Pessoas [label="Pessoas\n(humans)", pos="1.6,2.6!"];
+  Tarefas [label="Tarefas\n(tasks)", pos="0,0!"];
+  Tecnologia [label="Tecnologia\n(technology)", pos="3.2,0!"];
+  Desenho [label="Desenho\n(design)", shape=ellipse, style=filled, fillcolor=white, fontcolor="#1f3864", pos="1.6,0.95!"];
+
+  Pessoas -- Tarefas;
+  Pessoas -- Tecnologia;
+  Tarefas -- Tecnologia;
+  Desenho -- Pessoas [style=dashed];
+  Desenho -- Tarefas [style=dashed];
+  Desenho -- Tecnologia [style=dashed];
+}

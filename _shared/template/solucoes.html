@@ -3,137 +3,420 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>$title$</title>
+<title>Soluções das práticas</title>
+<!-- Gerado por _shared/template/build_solucoes.py a partir de
+     <Disciplina>/.fonte/SOLUCOES_<Disciplina>.md. Não editar à mão. -->
 <style>
+/* Estilo v2 (2026-10-06): o mesmo do PDF (preamble-v2.tex). Letras do
+   sistema (Charter / Avenir Next / Menlo): funciona sem internet.
+   Cada disciplina tem a sua cor (data-cor 0..5, ordem alfabética das pastas). */
 :root {
-  --bg: #fbfaf8;
-  --fg: #1d1b20;
-  --muted: #6b6570;
-  --line: #e4dfe8;
-  --accent: #5b2c6f;          /* o mesmo roxo das caixas "Pratica agora" do PDF */
-  --accent-soft: #f4ecf7;
-  --card: #ffffff;
-  --code-bg: #f3f1f5;
+  --mesa: #eceef1;
+  --folha: #ffffff;
+  --papel2: #f4f5f7;
+  --tinta: #1f2430;
+  --suave: #5b6270;
+  --linha: #dcdfe5;
+  --codigo: #f4f5f7;
+  --c0: #0f6b6e; --c1: #9e2a64; --c2: #3f6f1f; --c3: #9a5b10; --c4: #4b3a8c; --c5: #7a5230;
+  --d: var(--c0);
+  --texto: Charter, "Bitstream Charter", "Iowan Old Style", Georgia, serif;
+  --ui: "Avenir Next", Avenir, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: Menlo, ui-monospace, SFMono-Regular, Consolas, monospace;
+  color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #17151a;
-    --fg: #ece8ef;
-    --muted: #a39ca8;
-    --line: #34303a;
-    --accent: #c9a2dc;
-    --accent-soft: #2a2230;
-    --card: #1f1c23;
-    --code-bg: #26222b;
+    --mesa: #101318; --folha: #171b22; --papel2: #1e232c; --tinta: #e4e7ec;
+    --suave: #9aa2b0; --linha: #2c333f; --codigo: #1e232c;
+    --c0: #5fbfc1; --c1: #e07fb0; --c2: #98c66a; --c3: #e3a45f; --c4: #a59af0; --c5: #d0a67e;
+    color-scheme: dark;
   }
 }
+:root[data-cor="1"] { --d: var(--c1); }
+:root[data-cor="2"] { --d: var(--c2); }
+:root[data-cor="3"] { --d: var(--c3); }
+:root[data-cor="4"] { --d: var(--c4); }
+:root[data-cor="5"] { --d: var(--c5); }
+
 * { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 76px; }
 body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--fg);
-  font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  margin: 0; background: var(--mesa); color: var(--tinta);
+  font: 400 1.0625rem/1.6 var(--texto);
 }
-main { max-width: 820px; margin: 0 auto; padding: 24px 16px 96px; }
-header h1 { font-size: 1.7rem; line-height: 1.25; margin: 8px 0 4px; }
-header p { color: var(--muted); margin: 0 0 16px; }
+:focus-visible { outline: 2px solid var(--d); outline-offset: 2px; border-radius: 2px; }
+button { font: inherit; color: inherit; }
+
+/* ---------- moldura ---------- */
+.mesa {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 800px);
+  gap: 0 36px; justify-content: center;
+  padding: 40px 24px 120px;
+}
+.lado { position: sticky; top: 28px; align-self: start; max-height: calc(100vh - 56px);
+  overflow-y: auto; scrollbar-width: thin; font-family: var(--ui); padding-right: 4px; }
+.lado h1 { font-size: 1.5rem; line-height: 1.15; margin: 0 0 8px; font-weight: 700; }
+.lado > p { font-size: 0.9rem; line-height: 1.45; color: var(--suave); margin: 0 0 28px; max-width: 30ch; }
+
+.caderno { display: flex; align-items: flex-start; min-width: 0; }
+.folha {
+  flex: 1; min-width: 0;
+  background: var(--folha);
+  border: 1px solid var(--linha);
+  min-height: 80vh;
+}
+
+/* ---------- separadores (um por disciplina) ---------- */
+.separadores { display: flex; flex-direction: column; gap: 4px; padding-top: 28px;
+  position: sticky; top: 28px; }
+.separador {
+  --t: var(--c0);
+  writing-mode: vertical-rl;
+  border: 0; cursor: pointer;
+  padding: 16px 8px; min-height: 116px;
+  background: var(--papel2);
+  border-left: 3px solid transparent;
+  color: var(--suave);
+  font: 600 0.9rem/1 var(--ui); text-align: center;
+}
+.separador[data-cor="1"] { --t: var(--c1); }
+.separador[data-cor="2"] { --t: var(--c2); }
+.separador[data-cor="3"] { --t: var(--c3); }
+.separador[data-cor="4"] { --t: var(--c4); }
+.separador[data-cor="5"] { --t: var(--c5); }
+.separador:hover { color: var(--t); }
+.separador[aria-selected="true"] { background: var(--folha); color: var(--t); border-left-color: var(--t); }
+
+/* ---------- barra de ferramentas ---------- */
 .barra {
   position: sticky; top: 0; z-index: 5;
-  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
-  padding: 10px 0; margin-bottom: 8px;
-  background: var(--bg); border-bottom: 1px solid var(--line);
-  font-size: 0.9rem; color: var(--muted);
+  display: flex; align-items: center; gap: 10px 18px; flex-wrap: wrap;
+  padding: 12px 40px; min-height: 56px;
+  background: color-mix(in srgb, var(--folha) 94%, transparent);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--linha);
+  font: 500 0.875rem/1.3 var(--ui); color: var(--suave);
 }
+.progresso { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+.progresso .trilho { width: 88px; height: 4px; background: var(--linha); overflow: hidden; }
+.progresso .feito { display: block; height: 100%; width: 0; background: var(--d); transition: width .3s ease; }
+.barra label { display: inline-flex; align-items: center; gap: 7px; cursor: pointer; }
+.barra input { accent-color: var(--d); width: 15px; height: 15px; margin: 0; }
 .barra button {
-  font: inherit; color: var(--accent); background: none;
-  border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; cursor: pointer;
+  background: none; border: 1px solid var(--linha);
+  padding: 5px 11px; cursor: pointer; color: var(--tinta);
 }
-.barra label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
-nav#indice { margin: 16px 0 24px; }
-nav#indice > details > summary { cursor: pointer; font-weight: 600; color: var(--accent); }
-nav#indice ul { margin: 6px 0; padding-left: 20px; }
-nav#indice a { color: inherit; text-decoration: none; }
-nav#indice a:hover { color: var(--accent); text-decoration: underline; }
-h2 {
-  font-size: 1.35rem; margin: 48px 0 8px; padding-bottom: 6px;
-  border-bottom: 2px solid var(--accent);
+.barra button:hover { border-color: var(--d); color: var(--d); }
+#abrir-indice { display: none; }
+
+/* ---------- índice ---------- */
+.indice { font-size: 0.875rem; line-height: 1.35; }
+.indice .grupo { margin: 0 0 18px; }
+.indice .grupo > a { display: block; font-weight: 600; color: var(--tinta); text-decoration: none; margin-bottom: 6px; }
+.indice ol { list-style: none; margin: 0; padding: 0 0 0 10px; border-left: 1px solid var(--linha); }
+.indice li a {
+  display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: baseline;
+  padding: 4px 8px; margin-left: -11px; border-left: 2px solid transparent;
+  color: var(--suave); text-decoration: none;
 }
-h3 { font-size: 1.1rem; margin: 32px 0 6px; color: var(--accent); scroll-margin-top: 56px; }
-details.sol {
-  background: var(--card); border: 1px solid var(--line); border-radius: 8px;
-  margin: 8px 0; scroll-margin-top: 56px;
+.indice li a:hover { color: var(--tinta); }
+.indice li a.atual { color: var(--tinta); border-left-color: var(--d); }
+.indice .n { font-variant-numeric: tabular-nums; color: var(--d); font-weight: 600; }
+.indice .conta { font-variant-numeric: tabular-nums; font-size: 0.8rem; color: var(--suave); white-space: nowrap; }
+.indice .conta.tudo { color: var(--d); }
+.indice math { font-size: 0.95em; }
+
+/* ---------- conteúdo ---------- */
+.disciplina { padding: 8px 40px 64px; }
+.capa { padding: 32px 0 8px; }
+.capa h1 { font: 700 clamp(1.9rem, 4.2vw, 2.6rem)/1.05 var(--ui); margin: 0; color: var(--d); }
+.capa .sub { margin: 12px 0 0; color: var(--suave); font-size: 0.95rem; line-height: 1.55; max-width: 62ch; }
+
+section.level2 > h2 {
+  font: 700 1.35rem/1.25 var(--ui);
+  margin: 48px 0 4px; padding-top: 14px; border-top: 1px solid var(--linha);
 }
-details.sol > summary {
-  cursor: pointer; padding: 10px 14px; list-style: none;
+section.level3 { margin-top: 30px; }
+section.level3 > h3 {
+  font: 600 1.1rem/1.3 var(--ui); margin: 0 0 8px;
   display: flex; gap: 10px; align-items: baseline;
 }
-details.sol > summary::-webkit-details-marker { display: none; }
-details.sol > summary::before {
-  content: "▸"; color: var(--accent); flex: none; transition: transform .15s;
+h3 .num { flex: none; font-variant-numeric: tabular-nums; color: var(--d); font-weight: 700; }
+section.level4 > h4, .disciplina h4 { font: 600 1rem/1.3 var(--ui); margin: 20px 0 6px; }
+.disciplina p, .disciplina li { max-width: 72ch; }
+a { color: var(--d); }
+
+/* ---------- alínea: o mesmo desenho das caixas "Pratica agora" do PDF ---------- */
+details.sol { margin: 8px 0; }
+details.sol > summary {
+  list-style: none; cursor: pointer;
+  display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center;
+  padding: 10px 18px 10px 14px;
+  background: var(--papel2);
+  border-left: 3px solid var(--d);
 }
-details.sol[open] > summary::before { transform: rotate(90deg); }
-details.sol[open] { border-color: var(--accent); }
-details.sol[open] > summary { background: var(--accent-soft); border-radius: 8px 8px 0 0; }
-details.sol > .corpo { padding: 4px 16px 12px; overflow-x: auto; }
-pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.88em; }
-pre { background: var(--code-bg); padding: 10px 12px; border-radius: 6px; overflow-x: auto; }
-:not(pre) > code { background: var(--code-bg); padding: 1px 4px; border-radius: 4px; }
-table { border-collapse: collapse; margin: 10px 0; display: block; overflow-x: auto; }
-th, td { border: 1px solid var(--line); padding: 4px 10px; text-align: left; }
-th { background: var(--accent-soft); }
-img { max-width: 100%; height: auto; display: block; margin: 8px auto; }
-@media (prefers-color-scheme: dark) { img { filter: invert(0.9) hue-rotate(180deg); } }
-blockquote { margin: 10px 0; padding: 4px 14px; border-left: 3px solid var(--accent); color: var(--muted); }
+details.sol > summary::-webkit-details-marker { display: none; }
+details.sol > summary:hover { background: color-mix(in srgb, var(--d) 8%, var(--papel2)); }
+.enun { min-width: 0; overflow-wrap: anywhere; }
+.estado { font: 600 0.8125rem/1 var(--ui); color: var(--d); white-space: nowrap; }
+.estado::after { content: "Ver solução"; }
+details.sol.vista > summary .estado::after { content: "Rever ✓"; }
+details.sol[open] > summary { background: color-mix(in srgb, var(--d) 10%, var(--folha)); font-weight: 600; }
+details.sol[open] > summary .estado::after { content: "Esconder"; }
+details.sol > .corpo {
+  padding: 6px 20px 14px 17px;
+  border-left: 3px solid var(--d);
+  overflow-x: auto;
+}
+details.sol[open] > .corpo { animation: abre .18s ease-out; }
+@keyframes abre { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  details.sol[open] > .corpo { animation: none; }
+  .progresso .feito { transition: none; }
+}
+
+/* ---------- elementos do pandoc ---------- */
+pre, code { font-family: var(--mono); font-size: 0.84em; }
+pre { background: var(--codigo); padding: 10px 14px; overflow-x: auto; line-height: 1.5; }
+:not(pre) > code { background: var(--codigo); padding: 1px 4px; }
+table { border-collapse: collapse; margin: 14px 0; display: block; overflow-x: auto; max-width: 100%;
+  font-variant-numeric: tabular-nums; }
+th, td { padding: 4px 12px; border-bottom: 1px solid var(--linha); }
+thead th { border-bottom: 1.5px solid var(--tinta); font-family: var(--ui); font-weight: 600; font-size: 0.92em; text-align: left; }
+img { max-width: 100%; height: auto; display: block; margin: 12px auto; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .disciplina img { filter: invert(0.9) hue-rotate(180deg); }
+}
+blockquote { margin: 14px 0; padding: 4px 16px; border-left: 2px solid var(--linha); color: var(--suave); }
 math[display="block"] { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+hr { border: 0; border-top: 1px solid var(--linha); margin: 24px 0; }
+/* deduções em notação de Fitch (fitch.lua) */
+table.fitch { border-collapse: collapse; margin: 12px 0; width: auto; overflow-y: hidden; padding-bottom: 2px; background: none; }
+table.fitch td { border: none; padding: 0; height: 1.9em; vertical-align: middle; }
+table.fitch td.n { color: var(--suave); text-align: right; padding-right: 14px; }
+table.fitch td.b { width: 0.8em; min-width: 0.8em;
+  background: linear-gradient(var(--tinta), var(--tinta)) no-repeat left bottom / 1.5px 100%; }
+table.fitch td.b.s { background-size: 1.5px calc(100% - 6px); }
+table.fitch td.f { padding-right: 28px; white-space: nowrap; }
+table.fitch td.f.hyp span { border-bottom: 1.5px solid var(--tinta); padding: 0 14px 2px 0.7em; margin-left: -0.7em; }
+table.fitch td.j { color: var(--suave); white-space: nowrap; }
+
+/* ---------- ecrãs estreitos ---------- */
+@media (max-width: 1080px) {
+  .mesa { grid-template-columns: minmax(0, 820px); padding: 20px 16px 96px; }
+  .lado { position: static; max-height: none; overflow: visible; padding: 0; }
+  .lado > p { margin-bottom: 18px; max-width: none; }
+  .lado .indice { display: none; }
+  #abrir-indice { display: inline-block; }
+  .caderno { flex-direction: column-reverse; }
+  .separadores { position: static; flex-direction: row; padding: 0 0 0 10px; gap: 4px;
+    overflow-x: auto; width: 100%; scrollbar-width: none; }
+  .separador { writing-mode: horizontal-tb; min-height: 0; padding: 10px 14px;
+    border-left: 0; border-bottom: 3px solid transparent; white-space: nowrap; }
+  .separador[aria-selected="true"] { border-bottom-color: var(--t); }
+  .folha { width: 100%; }
+  .barra { padding: 10px 16px; }
+  .disciplina { padding: 4px 16px 48px; }
+  .indice-movel { padding: 12px 16px 4px; border-bottom: 1px solid var(--linha); font-family: var(--ui);
+    background: var(--folha); }
+}
+@media (min-width: 1081px) { .indice-movel { display: none !important; } }
 </style>
 </head>
 <body>
-<main>
-<header>
-<h1>$title$</h1>
-$if(subtitle)$<p>$subtitle$</p>$endif$
-</header>
+<div class="mesa">
+  <aside class="lado">
+    <h1>Soluções das práticas</h1>
+    <p>Escolhe a disciplina no separador. Cada alínea fica tapada até a abrires.</p>
+    <nav class="indice" id="indice" aria-label="Exercícios desta disciplina"></nav>
+  </aside>
 
-<div class="barra">
-  <span>Clica numa alínea para ver a solução.</span>
-  <label><input type="checkbox" id="uma" checked> Só uma aberta de cada vez</label>
-  <button type="button" id="fechar">Fechar todas</button>
+  <div class="caderno">
+    <main class="folha">
+      <div class="barra">
+        <span class="progresso"><span class="trilho"><span class="feito" id="feito"></span></span><span id="contagem"></span></span>
+        <button type="button" id="abrir-indice" aria-expanded="false" aria-controls="indice-movel">Índice</button>
+        <label><input type="checkbox" id="uma" checked> Só uma aberta</label>
+        <button type="button" id="fechar">Fechar todas</button>
+      </div>
+      <nav class="indice indice-movel" id="indice-movel" aria-label="Exercícios desta disciplina" hidden></nav>
+<!--DISCIPLINAS-->
+    </main>
+    <nav class="separadores" role="tablist" aria-label="Disciplinas">
+<!--SEPARADORES-->
+    </nav>
+  </div>
 </div>
-
-$if(toc)$
-<nav id="indice"><details><summary>Índice</summary>
-$table-of-contents$
-</details></nav>
-$endif$
-
-$body$
-</main>
 <script>
 (function () {
-  var sols = Array.prototype.slice.call(document.querySelectorAll("details.sol"));
+  var raiz = document.documentElement;
+  var seccoes = [].slice.call(document.querySelectorAll("section.disciplina"));
+  var separadores = [].slice.call(document.querySelectorAll(".separador"));
   var uma = document.getElementById("uma");
-  try { var g = localStorage.getItem("solucoes-uma"); if (g !== null) uma.checked = g === "1"; } catch (e) {}
-  uma.addEventListener("change", function () {
-    try { localStorage.setItem("solucoes-uma", uma.checked ? "1" : "0"); } catch (e) {}
+  var indice = document.getElementById("indice");
+  var indiceMovel = document.getElementById("indice-movel");
+  var botaoIndice = document.getElementById("abrir-indice");
+  var atual = null, observador = null;
+
+  function ler(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function guardar(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  var vistas = {};
+  try { (JSON.parse(ler("solucoes-vistas")) || []).forEach(function (id) { vistas[id] = 1; }); } catch (e) {}
+  if (ler("solucoes-uma") !== null) uma.checked = ler("solucoes-uma") === "1";
+  uma.addEventListener("change", function () { guardar("solucoes-uma", uma.checked ? "1" : "0"); });
+
+  function sols(s) { return [].slice.call((s || document).querySelectorAll("details.sol")); }
+  function trocarHash(h) { if (history.replaceState) history.replaceState(null, "", "#" + h); }
+
+  // "1.2 — Traduzir..." -> <span class="num">1.2</span> Traduzir...
+  [].forEach.call(document.querySelectorAll("section.level3 > h3"), function (h) {
+    var t = h.firstChild;
+    if (!t || t.nodeType !== 3) return;
+    var m = t.nodeValue.match(/^\s*(\S+(?:\s[\dA-Z][\w.()]*)?)\s+—\s+/);
+    if (!m) return;
+    var n = document.createElement("span");
+    n.className = "num"; n.textContent = m[1];
+    t.nodeValue = t.nodeValue.slice(m[0].length);
+    h.insertBefore(n, t);
   });
-  sols.forEach(function (d) {
+  sols().forEach(function (d) { if (vistas[d.id]) d.classList.add("vista"); });
+
+  function conteudo(el) {
+    var c = el.cloneNode(true), s = document.createElement("span");
+    while (c.firstChild) s.appendChild(c.firstChild);
+    return s;
+  }
+  function construirIndice(sec) {
+    var nav = document.createDocumentFragment();
+    [].forEach.call(sec.querySelectorAll("section.level2"), function (s2) {
+      var g = document.createElement("div"); g.className = "grupo";
+      var a = document.createElement("a"); a.href = "#" + s2.id;
+      a.appendChild(conteudo(s2.querySelector("h2"))); g.appendChild(a);
+      var ol = document.createElement("ol");
+      [].forEach.call(s2.querySelectorAll("section.level3"), function (s3) {
+        var h = s3.querySelector("h3").cloneNode(true), li = document.createElement("li");
+        var l = document.createElement("a"); l.href = "#" + s3.id; l.dataset.sec = s3.id;
+        var num = h.querySelector(".num");
+        var n = document.createElement("span"); n.className = "n";
+        if (num) { n.textContent = num.textContent; num.remove(); }
+        var c = document.createElement("span"); c.className = "conta"; c.dataset.sec = s3.id;
+        l.appendChild(n); l.appendChild(conteudo(h)); l.appendChild(c);
+        li.appendChild(l); ol.appendChild(li);
+      });
+      g.appendChild(ol); nav.appendChild(g);
+    });
+    indice.innerHTML = ""; indice.appendChild(nav.cloneNode(true));
+    indiceMovel.innerHTML = ""; indiceMovel.appendChild(nav);
+    atualizarContas();
+    vigiar(sec);
+  }
+  function atualizarContas() {
+    if (!atual) return;
+    var todas = sols(atual), vistasAqui = todas.filter(function (d) { return vistas[d.id]; }).length;
+    document.getElementById("contagem").textContent = vistasAqui + " de " + todas.length + " alíneas vistas";
+    document.getElementById("feito").style.width = (todas.length ? 100 * vistasAqui / todas.length : 0) + "%";
+    [].forEach.call(document.querySelectorAll(".conta"), function (c) {
+      var ds = sols(document.getElementById(c.dataset.sec)), v = ds.filter(function (d) { return vistas[d.id]; }).length;
+      c.textContent = ds.length ? v + "/" + ds.length : "";
+      c.classList.toggle("tudo", ds.length > 0 && v === ds.length);
+    });
+  }
+  // marca no índice o exercício que está a ser lido
+  function vigiar(sec) {
+    if (observador) observador.disconnect();
+    if (!("IntersectionObserver" in window)) return;
+    observador = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        [].forEach.call(document.querySelectorAll(".indice li a"), function (a) {
+          a.classList.toggle("atual", a.dataset.sec === e.target.id);
+        });
+      });
+    }, { rootMargin: "-80px 0px -65% 0px" });
+    [].forEach.call(sec.querySelectorAll("section.level3"), function (s) { observador.observe(s); });
+  }
+
+  function mostrar(id) {
+    var sec = document.getElementById(id);
+    if (!sec || seccoes.indexOf(sec) < 0) sec = seccoes[0];
+    if (sec === atual) return sec;
+    seccoes.forEach(function (s) { s.hidden = s !== sec; });
+    separadores.forEach(function (t) { t.setAttribute("aria-selected", String(t.dataset.alvo === sec.id)); });
+    raiz.dataset.cor = sec.dataset.cor;
+    atual = sec;
+    guardar("solucoes-disciplina", sec.id);
+    construirIndice(sec);
+    return sec;
+  }
+
+  separadores.forEach(function (t) {
+    t.addEventListener("click", function () {
+      mostrar(t.dataset.alvo); trocarHash(t.dataset.alvo); window.scrollTo(0, 0);
+    });
+  });
+  document.querySelector(".separadores").addEventListener("keydown", function (e) {
+    var i = separadores.indexOf(document.activeElement);
+    if (i < 0 || ["ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft"].indexOf(e.key) < 0) return;
+    e.preventDefault();
+    var j = (i + (e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : -1) + separadores.length) % separadores.length;
+    separadores[j].focus(); separadores[j].click();
+  });
+
+  sols().forEach(function (d) {
     d.addEventListener("toggle", function () {
       if (!d.open) return;
-      if (uma.checked) sols.forEach(function (o) { if (o !== d && o.open) o.open = false; });
-      // depois de fechar as outras a página pode "saltar": manter a alínea à vista
+      if (uma.checked) sols(atual).forEach(function (o) { if (o !== d && o.open) o.open = false; });
+      // fechar as outras pode fazer a página "saltar": manter a alínea à vista
       var r = d.getBoundingClientRect();
-      if (r.top < 48 || r.top > window.innerHeight * 0.6) d.scrollIntoView({ block: "start" });
-      if (history.replaceState) history.replaceState(null, "", "#" + d.id);
+      if (r.top < 64 || r.top > window.innerHeight * 0.6) d.scrollIntoView({ block: "start" });
+      if (!vistas[d.id]) {
+        vistas[d.id] = 1; d.classList.add("vista");
+        guardar("solucoes-vistas", JSON.stringify(Object.keys(vistas)));
+        atualizarContas();
+      }
+      trocarHash(d.id);
     });
   });
   document.getElementById("fechar").addEventListener("click", function () {
-    sols.forEach(function (o) { o.open = false; });
+    sols(atual).forEach(function (o) { o.open = false; });
   });
-  // abrir diretamente uma alínea com #id no URL
-  var h = decodeURIComponent(location.hash.slice(1));
-  var alvo = h && document.getElementById(h);
-  if (alvo && alvo.tagName === "DETAILS") { alvo.open = true; alvo.scrollIntoView({ block: "start" }); }
+
+  function irPara(alvo) {
+    alvo.scrollIntoView({ block: "start" });
+    trocarHash(alvo.id);
+  }
+  [indice, indiceMovel].forEach(function (nav) {
+    nav.addEventListener("click", function (e) {
+      var a = e.target.closest("a"); if (!a) return;
+      e.preventDefault();
+      var alvo = document.getElementById(decodeURIComponent(a.getAttribute("href").slice(1)));
+      if (nav === indiceMovel) { indiceMovel.hidden = true; botaoIndice.setAttribute("aria-expanded", "false"); }
+      if (alvo) irPara(alvo);
+    });
+  });
+  botaoIndice.addEventListener("click", function () {
+    indiceMovel.hidden = !indiceMovel.hidden;
+    botaoIndice.setAttribute("aria-expanded", String(!indiceMovel.hidden));
+  });
+
+  // #Logica abre a disciplina; #Logica-1.2-a abre também essa alínea
+  function seguirHash() {
+    var h = decodeURIComponent(location.hash.slice(1));
+    var el = h && document.getElementById(h);
+    var sec = el && (el.classList.contains("disciplina") ? el : el.closest("section.disciplina"));
+    mostrar(sec ? sec.id : ler("solucoes-disciplina"));
+    if (el && el !== sec) {
+      if (el.tagName === "DETAILS") el.open = true;
+      el.scrollIntoView({ block: "start" });
+    } else if (el) {
+      // #Disciplina: começar no topo (e não no salto nativo para a secção)
+      requestAnimationFrame(function () { window.scrollTo(0, 0); });
+    }
+  }
+  window.addEventListener("hashchange", seguirHash);
+  seguirHash();
 })();
 </script>
 </body>

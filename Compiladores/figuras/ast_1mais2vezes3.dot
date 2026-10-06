@@ -1,0 +1,5 @@
+digraph G {
+  rankdir=TB; ranksep=0.25; nodesep=0.25; edge [arrowhead=none]; node [shape=box, style=rounded, fontname="Helvetica", fontsize=20];
+  M [label="Mult"]; A [label="Add"]; N3 [label="Num 3"]; N1 [label="Num 1"]; N2 [label="Num 2"];
+  M -> A; M -> N3; A -> N1; A -> N2;
+}

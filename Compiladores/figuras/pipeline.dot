@@ -1,39 +1,31 @@
 digraph pipeline {
-  rankdir=TB;
-  node [shape=box, fontname="Helvetica", fontsize=11, margin="0.15,0.08"];
-  edge [fontname="Helvetica", fontsize=10];
-  compound=true;
+  rankdir=TB; nodesep=0.15; ranksep=0.35;
+  node [shape=box, fontname="Helvetica", fontsize=11, margin="0.1,0.05"];
+  edge [fontname="Helvetica", fontsize=10, arrowsize=0.7];
 
-  texto [label="texto do programa", shape=plain];
-  lex [label="Análise lexical"];
-  toks [label="sequência de tokens", shape=plain];
-  syn [label="Análise sintática"];
-  ast [label="árvore sintática abstrata", shape=plain];
-  sem [label="Análise semântica"];
-  astf [label="AST + tabela de símbolos", shape=plain];
+  texto [label="texto do\nprograma", shape=plain];
+  lex [label="Análise\nlexical"];
+  toks [label="tokens", shape=plain];
+  syn [label="Análise\nsintática"];
+  ast [label="árvore\nsintática", shape=plain];
+  sem [label="Análise\nsemântica"];
+  astf [label="AST + tabela\nde símbolos", shape=plain];
 
   gc [label="Geração de código"];
   ci [label="código intermédio", shape=plain];
 
-  si [label="Seleção de instruções"];
-  asm1 [label="assembly simbólico", shape=plain];
-  ar [label="Alocação de registos"];
-  asm2 [label="assembly concreto", shape=plain];
-  al [label="Assembler & linker"];
-  exe [label="código executável", shape=plain];
+  si [label="Seleção de\ninstruções"];
+  asm1 [label="assembly\nsimbólico", shape=plain];
+  ar [label="Alocação\nde registos"];
+  asm2 [label="assembly\nconcreto", shape=plain];
+  al [label="Assembler\n& linker"];
+  exe [label="código\nexecutável", shape=plain];
 
-  subgraph cluster_front {
-    label="Frontend";
-    style=dashed;
-    texto -> lex -> toks -> syn -> ast -> sem -> astf;
-  }
-  subgraph cluster_back {
-    label="Backend";
-    style=dashed;
-    si -> asm1 -> ar -> asm2 -> al -> exe;
-  }
-
-  astf -> gc [ltail=cluster_front];
-  gc -> ci;
-  ci -> si [lhead=cluster_back];
+  subgraph cluster_front { label="Frontend"; fontname="Helvetica"; style=dashed;
+    {rank=same; texto -> lex -> toks -> syn -> ast -> sem -> astf;} }
+  {rank=same; gc -> ci;}
+  subgraph cluster_back { label="Backend"; fontname="Helvetica"; style=dashed;
+    {rank=same; si -> asm1 -> ar -> asm2 -> al -> exe;} }
+  astf -> gc;
+  ci -> si;
 }

@@ -1,0 +1,8 @@
+digraph G {
+  rankdir=TB; ranksep=0.25; nodesep=0.25; edge [arrowhead=none]; node [shape=box, style=rounded, fontname="Helvetica", fontsize=20];
+  C [label="CompoundStm"];
+  A1 [label="AssignStm \"a\""]; A2 [label="AssignStm \"b\""];
+  O1 [label="OpExp  Plus"]; O2 [label="OpExp  Minus"];
+  N5 [label="NumExp 5"]; N3 [label="NumExp 3"]; Ia [label="IdExp \"a\""]; N2 [label="NumExp 2"];
+  C -> A1; C -> A2; A1 -> O1; A2 -> O2; O1 -> N5; O1 -> N3; O2 -> Ia; O2 -> N2;
+}
