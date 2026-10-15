@@ -1,6 +1,6 @@
 ---
 title: "Redes de Comunicação --- Soluções dos exercícios \"Pratica agora\""
-subtitle: "Ficha 1 (Praticas/Semana_1/exercicios_redes.pdf), Ficha 2 (Praticas/Semana_2/ficha_2.pdf, exercícios F2.x), Ficha 3 (Praticas/Semana_3/ficha_3_protocolos_aplicacionais.pdf, exercícios F3.x) e exercícios inventados para o Capítulo 2 (C2.x). Tenta primeiro sozinho; abre uma alínea só depois de a teres feito. Convenções: 1 MB = 10⁶ bytes, 1 Mbps = 10⁶ bit/s, 1 byte = 8 bits."
+subtitle: "Ficha 1 (Praticas/Semana_1/exercicios_redes.pdf), Ficha 2 (Praticas/Semana_2/ficha_2.pdf, exercícios F2.x), Ficha 3 (Praticas/Semana_3/ficha_3_protocolos_aplicacionais.pdf, exercícios F3.x), Ficha 4 (Praticas/Semana_4/ficha_4_sockets_smtp.pdf, exercícios F4.x) o Teste modelo 1 (Testes/Teste_Modelo_1.pdf, M1.x) e exercícios inventados para o Capítulo 2 (C2.x). As fichas 1 a 3 e o teste modelo têm soluções oficiais; as diferenças estão assinaladas. Tenta primeiro sozinho; abre uma alínea só depois de a teres feito. Convenções: 1 MB = 10⁶ bytes, 1 Mbps = 10⁶ bit/s, 1 byte = 8 bits."
 ---
 
 ## Comutação de pacotes --- multiplexagem estatística
@@ -261,6 +261,54 @@ muda é **onde** os pacotes esperam: na (c) esperam em T1, antes de
 entrar na LAN; na (d) acumulam-se na **fila do router**. Se a fila de R
 fosse pequena, na (d) podia haver **perdas**.
 
+### M1.11 --- *Store-and-forward* LAN + WAN (Teste modelo 1, P. 11)
+
+$L = 1000$ B $= 8000$ b $= 8\times10^3$ b; $R_{LAN} = 10$ Mb/s $=
+10^7$ b/s; $l_{LAN} = 20$ m; $v = 2\times10^8$ m/s. Na WAN são dados
+$d_{trans,WAN} = 0{,}6$ ms $= 6\times10^{-4}$ s e $d_{prop,WAN} = 15$ ms
+$= 1{,}5\times10^{-2}$ s.
+
+#### (a) Atrasos de transmissão e de propagação na LAN
+
+$$d_{trans,LAN} = \frac{L}{R_{LAN}} = \frac{8\times10^3}{10^7} = \mathbf{8\times10^{-4}\text{ s}} = 0{,}8\text{ ms}$$
+$$d_{prop,LAN} = \frac{l_{LAN}}{v} = \frac{20}{2\times10^8} = \mathbf{10^{-7}\text{ s}} = 0{,}1\ \mu s$$
+
+#### (b) Um pacote de T1 a T2
+
+Com *store-and-forward*, R1 só começa a transmitir depois de receber o
+pacote todo. Sem filas nem processamento, somam-se as quatro parcelas:
+$$d_{total,1} = d_{trans,LAN} + d_{prop,LAN} + d_{trans,WAN} + d_{prop,WAN}$$
+$$= 8\times10^{-4} + 10^{-7} + 6\times10^{-4} + 1{,}5\times10^{-2} = \mathbf{1{,}64001\times10^{-2}\text{ s}} \approx 16{,}4\text{ ms}$$
+
+#### (c) Diagrama temporal de 4 pacotes
+
+![4 pacotes de T1 a T2: a LAN (0,8 ms por pacote) é a ligação mais lenta, por isso nunca há fila em R1](figuras/sol_m1_store_forward.svg){width=100%}
+
+Na LAN os pacotes saem colados, um a cada 0,8 ms, e a propagação
+(0,1 µs) quase não se vê: as faixas ficam horizontais. Em R1 a WAN
+despacha cada pacote em 0,6 ms, **antes** de chegar o seguinte (0,8 ms
+depois): não há fila. Na WAN as faixas descem 15 ms (propagação).
+Instantes em ms em que cada pacote acaba de chegar:
+
+| pacote | sai de T1 | chega a R1 | sai de R1 | chega a T2 |
+|:-:|:-:|:-:|:-:|:-:|
+| 1 | 0,8 | 0,8001 | 1,4001 | 16,4001 |
+| 2 | 1,6 | 1,6001 | 2,2001 | 17,2001 |
+| 3 | 2,4 | 2,4001 | 3,0001 | 18,0001 |
+| 4 | 3,2 | 3,2001 | 3,8001 | **18,8001** |
+
+#### (d) Tempo dos 4 pacotes
+
+A ligação mais lenta (a LAN) transmite os 4 pacotes seguidos; o último
+precisa depois das mesmas parcelas que o pacote sozinho, menos a
+transmissão na LAN, que já está contada:
+$$d_{total,4} = 4\,d_{trans,LAN} + d_{prop,LAN} + d_{trans,WAN} + d_{prop,WAN}$$
+$$= 3{,}2\times10^{-3} + 10^{-7} + 6\times10^{-4} + 1{,}5\times10^{-2} = \mathbf{1{,}88001\times10^{-2}\text{ s}} \approx 18{,}8\text{ ms}$$
+
+É a resolução oficial (`Testes/Teste_Modelo_1_resolucao.pdf`), com os
+mesmos valores. O oficial desenha o diagrama à mão e não faz a tabela: no
+teste basta o desenho, com os quatro atrasos assinalados.
+
 ## Atrasos --- filas de espera
 
 ### F2.3 --- Espere, mas não desespere (Ficha 2)
@@ -414,6 +462,13 @@ qualquer mensageiro possa ser apanhado.
    mensagens, o que contradiz a escolha de $n$ como mínimo.
 
 A contradição mostra que o protocolo não existe.
+
+**Comparação com as respostas oficiais** (`Semana_2/respostas.pdf`): o
+oficial faz a mesma prova pelo outro lado. Se um protocolo funciona com
+$N$ mensagens, como cada uma se pode perder, também funciona com $N-1$;
+aplicando isto repetidamente, funcionaria com 0 mensagens, o que é
+impossível. Escolher o $n$ mínimo, como acima, é a forma rigorosa desse
+"repetidamente".
 
 **Intuição:** o general A envia a hora; mas A só ataca se souber que B a
 recebeu, por isso B tem de confirmar; mas B só ataca se souber que a
@@ -698,6 +753,36 @@ $$90 + 90 = \mathbf{180\text{ ms}}$$
 Resumo: 540 $\to$ 340 $\to$ 180 ms. Em RTTs: 12, 7 e 3 RTT, mais $6T$ =
 60 ms de transmissão nos três casos (confirma: $12 \times 40 + 60 = 540$;
 $7 \times 40 + 60 = 340$; $3 \times 40 + 60 = 180$).
+
+### M1.12 --- A página com duas imagens (Teste modelo 1, P. 12)
+
+#### (a) MSC com HTTP/1.1 persistente sem *pipelining*
+
+![Uma conexão TCP para tudo; cada pedido só sai quando a resposta anterior acabou de chegar](figuras/sol_m1_http_msc.svg){width=70%}
+
+- 1 RTT para abrir a conexão TCP (o pedido do HTML vai com o último
+  ACK);
+- GET do HTML; a resposta chega 1 RTT depois e demora $d_{trans,HTML}$;
+- só então o GET da imagem 1 (sem *pipelining*, nunca há dois pedidos
+  pendentes); idem para a imagem 2.
+
+As faixas largas são o tempo de transmissão dos ficheiros (no desenho,
+não estão à escala).
+
+#### (b) Tempo até ter a página e as imagens
+
+- $d_{prop} = 30$ ms $= 3\times10^{-2}$ s, logo $\text{RTT} = 2\,d_{prop} = 6\times10^{-2}$ s.
+- $R = 80$ Mb/s $= 8\times10^7$ b/s.
+- $L_{HTML} = 10$ kB $= 8\times10^4$ b, logo $d_{trans,HTML} = \dfrac{8\times10^4}{8\times10^7} = 10^{-3}$ s.
+- $L_{img} = 200$ kB $= 1{,}6\times10^6$ b, logo $d_{trans,img} = \dfrac{1{,}6\times10^6}{8\times10^7} = 2\times10^{-2}$ s.
+
+Pelo diagrama: 1 RTT de conexão + 3 pedidos de 1 RTT cada + as três
+transmissões:
+$$d_{total} = 4\,\text{RTT} + d_{trans,HTML} + 2\,d_{trans,img}$$
+$$= 24\times10^{-2} + 10^{-3} + 4\times10^{-2} = \mathbf{2{,}81\times10^{-1}\text{ s}} = 281\text{ ms}$$
+
+Igual à resolução oficial. É a fórmula da folha de revisão com $n = 2$:
+$2\,\text{RTT} + 2\,\text{RTT} + \sum T$.
 
 ## Aula 2 --- HTTP à mão
 
@@ -1009,6 +1094,16 @@ servidor. Com o *proxy* longe, cada objeto paga dois RTT até ele, o que
 come (ou ultrapassa) o RTT poupado no outro troço: o ganho fica
 **negativo**.
 
+**Comparação com as respostas oficiais** (`Semana_3/respostas-2.pdf`): o
+oficial dá $2n\,\text{RTT}_{BP} + (n+1)\,\text{RTT}_{PS} + nT$, que é a
+nossa variante em que o *proxy* reencaminha à medida que recebe ($T$
+contado uma vez só). Assume que a ligação browser--*proxy* não é mais
+lenta do que a *proxy*--servidor. Conclusão igual: com o *proxy* na rede
+local ($\text{RTT}_{BP} \ll \text{RTT}_{PS}$) poupa-se quase tanto como
+na (a); com $\text{RTT}_{BP}$ parecido com $\text{RTT}_{PS}$ demora mais
+do que sem *proxy*. As alíneas (a) e (c) dão o mesmo que o oficial:
+$(n-1)\,\text{RTT}$ e $(2n-2)\,\text{RTT}$.
+
 #### (c) Ganho se o browser suportasse HTTP/1.1 (proxy local)
 
 Com HTTP/1.1 o browser usa uma conexão **persistente com *pipelining***:
@@ -1293,6 +1388,29 @@ hierarquia saiba a quem perguntar:
 
 Resolver `www.ferramentas.pt` dá o CNAME `servidor1.ferramentas.pt`, e
 depois o registo A dá 192.0.2.10.
+
+### M1.13 --- Resolução iterativa de www.jn.pt (Teste modelo 1, P. 13)
+
+#### Resposta
+
+![Resolução iterativa: o cliente pergunta a cada nível e cada um devolve só a referência para o seguinte](figuras/sol_m1_dns_iterativo.svg){width=100%}
+
+São **6 mensagens**, sempre entre o cliente e um servidor de cada vez:
+
+1. cliente → raiz: "A de `www.jn.pt`?";
+2. raiz → cliente: não sabe, mas manda os **NS do TLD `pt`** (e os seus
+   IPs, na secção adicional);
+3. cliente → TLD `pt`: a mesma pergunta;
+4. TLD → cliente: os **NS de `jn.pt`**;
+5. cliente → servidor com autoridade de `jn.pt`: a mesma pergunta;
+6. servidor com autoridade → cliente: o **registo A** de `www.jn.pt`
+   (com a *flag* `aa`).
+
+Em **iterativo**, nenhuma seta liga dois servidores entre si: é a
+diferença para o recursivo, em que a raiz perguntaria ao TLD, e assim
+por diante. O "cliente" é, na prática, o servidor de nomes local. A
+resolução oficial tem as mesmas 6 setas, sem legendas; no teste convém
+escrever o que leva cada uma.
 
 ## Aula 2 --- DNS: host e dig
 
@@ -1619,30 +1737,77 @@ vezes** mais lento; o P2P só **3 vezes**. Quando $N$ é muito grande, o
 termo P2P aproxima-se de $F/u = 10^9 / (5\times10^6) = 200$ s: cada par
 novo traz tanta capacidade quanta pede. Contas confirmadas em Python.
 
-## Aula 2 --- Programação com sockets
+## Aula 2 --- Sockets TCP: servidor persistente e concorrente
 
-### C2.7 --- Sockets (exercício inventado)
+### F4.1 --- Um servidor com letra grande (Ficha 4, Ex. 1)
 
-#### (a) Servidor iterativo: quando é que o B recebe a resposta?
+O servidor é o persistente do exemplo (Ex. 1a), em `TCPServer.java`.
 
-O B só recebe a resposta **depois de o A ser atendido**, cerca de **3 s**
-depois (testado: o B recebeu a resposta ao fim de 3,01 s).
+#### (b) Cliente com o servidor na linha de comando, até CTRL-D
 
-Porquê: o `TCPServer` faz `accept()` e fica a tratar do A. A linha
-`inFromClient.readLine()` **bloqueia** à espera da linha do A, que só
-chega 3 s depois. Durante esse tempo o servidor não volta ao `accept()`.
-A conexão do B **é estabelecida** na mesma (o sistema operativo completa
-o *handshake* TCP e põe-na numa fila de conexões pendentes), e a linha
-que o B enviou fica no *buffer*. Mas ninguém a lê até o servidor acabar o
-A, fechar essa socket e voltar ao início do ciclo.
+Muda o `main` do `TCPClient` (o resto fica igual):
 
-É a limitação dos servidores **iterativos**: um cliente lento atrasa
-todos os outros.
+```java
+        Socket clientSocket = new Socket(argv[0], 6789);   // servidor da linha de comando
+        ...
+        String sentence;
+        // readLine() devolve null no fim da stream (CTRL-D)
+        while ((sentence = inFromUser.readLine()) != null) {
+            outToServer.writeBytes(sentence + '\n');
+            System.out.println("FROM SERVER: " + inFromServer.readLine());
+        }
+        clientSocket.close();
+```
 
-#### (b) Servidor concorrente com *threads*
+- O `"hostname"` fixo passa a `argv[0]`: `java TCPClient localhost`.
+- O pedido e a resposta ficam dentro de um ciclo, que acaba quando o
+  `readLine()` do **teclado** devolve `null` (CTRL-D). Só então o cliente
+  fecha a socket, e é isso que faz o `readLine()` do **servidor**
+  devolver `null`.
 
-Resposta-modelo (compilada e testada: com o A parado 3 s, o B recebeu a
-resposta de imediato):
+Saída real (compilado e testado):
+
+```
+$ java TCPClient localhost
+ola mundo
+FROM SERVER: OLA MUNDO
+segunda linha
+FROM SERVER: SEGUNDA LINHA
+^D
+```
+
+#### (c) Dois clientes com o servidor iterativo
+
+**O que se vê:** o primeiro cliente (A) funciona normalmente. O segundo
+(B) arranca sem erro, mas a primeira linha que escreve **fica sem
+resposta**. Só quando o A faz CTRL-D é que o B recebe a resposta, e daí
+em diante funciona. No teste, o A ligou-se e fechou 3 s depois; o B, que
+enviou `sou o B` logo a seguir ao A, só recebeu `SOU O B` no instante em
+que o A fechou.
+
+**Porquê:**
+
+1. O servidor é **iterativo**: faz `accept()` para o A e fica no ciclo
+   `while (readLine() != null)` **até o A fechar**. Durante esse tempo
+   não volta a chamar `accept()`.
+2. A conexão do B **é estabelecida** na mesma: o sistema operativo faz o
+   *handshake* TCP e põe a conexão numa **fila de conexões pendentes**
+   da *welcome socket*. Por isso o `new Socket(...)` do B não dá erro.
+3. A linha que o B envia chega e fica no *buffer* de receção dessa
+   conexão, mas **ninguém a lê**. O B fica bloqueado no seu
+   `inFromServer.readLine()`.
+4. Quando o A fecha, o `readLine()` do servidor devolve `null`, o servidor
+   fecha a socket do A e volta ao `accept()`, que devolve logo a conexão
+   do B (já estava na fila). Lê a linha que lá estava e responde.
+
+Com conexões persistentes isto agrava-se: o servidor iterativo atende
+**um cliente de cada vez durante a sessão inteira dele**, não só durante
+um pedido.
+
+#### (d) Servidor concorrente com *threads*
+
+Resposta-modelo, com a estrutura sugerida na ficha (compilado e
+testado):
 
 ```java
 import java.io.*;
@@ -1652,19 +1817,27 @@ class TCPServerThreads {
     public static void main(String argv[]) throws Exception {
         ServerSocket welcomeSocket = new ServerSocket(6789);
         while (true) {
-            Socket connectionSocket = welcomeSocket.accept();   // espera um cliente
-            new Thread(() -> atende(connectionSocket)).start(); // atende-o noutra thread
-        }                                                       // e volta logo ao accept()
+            Socket connectionSocket = welcomeSocket.accept();
+            Helper h = new Helper(connectionSocket);
+            new Thread(h).start();      // atende este cliente noutra thread
+        }                               // e volta logo ao accept()
     }
+}
 
-    static void atende(Socket connectionSocket) {
+class Helper implements Runnable {
+    private Socket connectionSocket;
+
+    Helper(Socket s) { connectionSocket = s; }
+
+    public void run() {
         try {
             BufferedReader inFromClient = new BufferedReader(
                 new InputStreamReader(connectionSocket.getInputStream()));
             DataOutputStream outToClient =
                 new DataOutputStream(connectionSocket.getOutputStream());
-            String clientSentence = inFromClient.readLine();
-            outToClient.writeBytes(clientSentence.toUpperCase() + '\n');
+            String clientSentence;
+            while ((clientSentence = inFromClient.readLine()) != null)
+                outToClient.writeBytes(clientSentence.toUpperCase() + '\n');
             connectionSocket.close();
         } catch (IOException e) {
             System.err.println("Erro com um cliente: " + e.getMessage());
@@ -1673,11 +1846,207 @@ class TCPServerThreads {
 }
 ```
 
-- A *thread* principal **só** faz `accept()`: assim que um cliente se
-  liga, entrega a `connectionSocket` a uma *thread* nova e volta
-  imediatamente a esperar pelo próximo.
-- Cada *thread* faz o que o ciclo do servidor iterativo fazia para um
-  cliente: ler a linha, responder, fechar.
-- O `try/catch` fica dentro da *thread*: um erro com um cliente não deita
-  abaixo o servidor (os métodos de uma *thread* não podem lançar
-  `IOException` para fora).
+- A *thread* principal **só** faz `accept()`: entrega cada
+  `connectionSocket` a um `Helper` numa *thread* nova e volta logo a
+  esperar o próximo cliente.
+- O `run()` faz o que o ciclo do servidor iterativo fazia para um
+  cliente. O `try/catch` tem de ficar lá dentro, porque o `run()` não
+  pode lançar `IOException`, e assim um erro com um cliente não deita
+  abaixo o servidor.
+
+**Repetindo a (c):** os dois clientes são atendidos ao mesmo tempo. No
+teste, o B recebeu `SOU O B` no mesmo segundo em que a enviou, com o A
+ainda ligado, e as respostas dos dois intercalaram-se.
+
+## Aula 2 --- Um cliente SMTP com sockets
+
+### F4.2 --- Message for you, sir (Ficha 4, Ex. 2)
+
+#### (a) Cliente SMTP com HELO, MAIL FROM, RCPT TO, DATA e QUIT
+
+Resposta-modelo: as funções `resposta()` e `comando()` do exemplo mais
+o `main`.
+
+```java
+import java.io.*;
+import java.net.*;
+
+class SMTPClient {
+    static BufferedReader inFromServer;
+    static DataOutputStream outToServer;
+
+    // resposta() e comando(): as do exemplo do resumo
+
+    // uso: java SMTPClient servidor remetente destinatario < corpo.txt
+    public static void main(String argv[]) throws Exception {
+        Socket clientSocket = new Socket(argv[0], 25);
+        inFromServer = new BufferedReader(
+            new InputStreamReader(clientSocket.getInputStream()));
+        outToServer = new DataOutputStream(clientSocket.getOutputStream());
+
+        if (resposta() != 220) throw new IOException("servidor indisponivel");
+        comando("HELO portatil", 250);
+        comando("MAIL FROM:<" + argv[1] + ">", 250);
+        comando("RCPT TO:<" + argv[2] + ">", 250);
+        comando("DATA", 354);
+
+        BufferedReader inFromUser =
+            new BufferedReader(new InputStreamReader(System.in));
+        String linha;
+        while ((linha = inFromUser.readLine()) != null) {
+            if (linha.startsWith(".")) linha = "." + linha;  // dot-stuffing
+            outToServer.writeBytes(linha + "\r\n");
+        }
+        comando(".", 250);                             // fim da mensagem
+        comando("QUIT", 221);
+        clientSocket.close();
+    }
+}
+```
+
+**Os códigos esperados:** `220` ao ligar, `250` ao `HELO`, ao
+`MAIL FROM`, ao `RCPT TO` e ao `.` final, `354` ao `DATA` e `221` ao
+`QUIT`.
+
+- O corpo **não** passa pelo `comando()`: entre o `354` e o `.` o servidor
+  não responde a cada linha, só no fim.
+- Se um código não for o esperado (ex.: `550` no `RCPT TO`), o
+  `comando()` envia `QUIT` e lança uma exceção: não faz sentido mandar o
+  `DATA` de uma mensagem que não tem destinatário.
+
+**Testado** contra um servidor SMTP falso local, que regista os bytes
+recebidos. Com o corpo `Ola!` / `.linha a comecar por ponto` / `Adeus`:
+
+```
+S: 220 fake ESMTP
+C: HELO portatil
+S: 250 fake
+C: MAIL FROM:<eu@fc.up.pt>
+S: 250 2.1.0 Ok
+C: RCPT TO:<up123@fc.up.pt>
+S: 250 2.1.5 Ok
+C: DATA
+S: 354 End data with <CR><LF>.<CR><LF>
+C: .
+S: 250 2.0.0 Ok: queued as 1234
+C: QUIT
+S: 221 2.0.0 Bye
+```
+
+O servidor recebeu `Ola!\r\n`, `..linha a comecar por ponto\r\n`
+(o ponto extra do *dot-stuffing*), `Adeus\r\n` e `.\r\n`. Com um
+servidor que recusa o destinatário:
+
+```
+C: RCPT TO:<naoexiste@fc.up.pt>
+S: 550 5.1.1 <x>: Recipient address rejected: User unknown
+Exception in thread "main" java.io.IOException: esperava 250 e veio 550
+```
+
+Contra o `smtp.fc.up.pt` foram testados só o `220`, o `EHLO` e o `QUIT`
+(ver o exemplo do resumo). O envio real fica para ti: `java SMTPClient
+smtp.fc.up.pt upXXXXXXXXX@fc.up.pt upXXXXXXXXX@fc.up.pt`. Se a porta 25
+estiver bloqueada fora da rede da faculdade, a ligação dá *timeout*: usa
+a VPN.
+
+#### (b) Cabeçalhos From:, To: e Subject:
+
+Os cabeçalhos fazem parte da **mensagem** (RFC 2822), não do diálogo
+SMTP. Por isso vão **dentro do `DATA`**, antes do corpo, separados dele
+por uma **linha vazia**. O assunto passa a ser o 4.º argumento:
+
+```java
+        comando("DATA", 354);
+        // cabecalhos RFC 2822, uma linha vazia, e so depois o corpo
+        outToServer.writeBytes("From: " + argv[1] + "\r\n");
+        outToServer.writeBytes("To: " + argv[2] + "\r\n");
+        outToServer.writeBytes("Subject: " + argv[3] + "\r\n");
+        outToServer.writeBytes("\r\n");
+        // ... o ciclo do corpo, como na (a)
+```
+
+Testado no servidor falso com `java SMTPClient localhost eu@fc.up.pt
+up123@fc.up.pt "Teste da ficha 4"` e o corpo `Corpo`. Depois do `DATA`,
+o servidor recebeu:
+
+```
+From: eu@fc.up.pt
+To: up123@fc.up.pt
+Subject: Teste da ficha 4
+
+Corpo
+.
+```
+
+- Sem a linha vazia, o servidor e o leitor de email tomariam a primeira
+  linha do corpo por mais um cabeçalho.
+- Sem estes cabeçalhos, a mensagem da (a) chega **sem assunto** e o
+  leitor de email não tem `From:` nem `To:` para mostrar. O `From:` pode
+  até ser diferente do `MAIL FROM`, como na F3.3.
+
+## Teste modelo 1 --- escolha múltipla
+
+### M1.1--10 --- Parte I (Teste modelo 1)
+
+Grelha oficial: 1a, 2b, 3a, 4d, 5b, 6b, 7a, 8a, 9c, 10a.
+
+#### (1) Característica do HTTP
+
+**(a)**. O HTTP é pedido/resposta e as mensagens são texto ASCII
+(linhas de pedido e cabeçalhos). (b) o HTTPS é que cifra; (c) é o FTP
+(controlo *out-of-band*); (d) o HTTP corre sobre TCP (só o HTTP/3 vai
+sobre QUIC/UDP).
+
+#### (2) Servidor de *chat*
+
+**(b) *multiplex***. Um só processo atende todas as *sockets* com
+`select()` e tem logo acesso a todas, por isso reenvia uma mensagem de
+uma conexão para as outras sem comunicar entre processos. Com processos
+(a, d), cada conexão está num processo diferente e era preciso IPC; o
+iterativo (c) atende um cliente de cada vez.
+
+#### (3) Camada de rede
+
+**(a)**. A rede leva datagramas de máquina a máquina **através de
+*routers***, extremo-a-extremo. (b) é a camada de ligação (um salto);
+(c) e (d) são o transporte (processos, identificados por portas).
+
+#### (4) Servidor de nomes local
+
+**(d)**. O terminal faz-lhe um pedido **recursivo** ("dá-me a resposta
+final") e ele resolve com pedidos **iterativos** à raiz, ao TLD e ao
+servidor com autoridade.
+
+#### (5) Aplicação elástica
+
+**(b)**. Elástica = usa o débito que houver (transferência de ficheiros,
+email, web), ao contrário das multimédia, que precisam de um mínimo.
+
+#### (6) `new Socket("api.example.com", 80)`
+
+**(b) cliente TCP**. A classe `Socket` (sem `Server`) com um nome e uma
+porta **liga-se** a um servidor: é o cliente. Um servidor TCP usaria
+`ServerSocket(porta)`; UDP usaria `DatagramSocket`.
+
+#### (7) Multiplexagem estatística
+
+**(a)**. Não há reserva: um fluxo sozinho usa toda a capacidade da
+ligação. (b) é FDM; (c) e (d) são comutação de circuitos (reserva, TDM
+com padrão fixo).
+
+#### (8) Cliente em UDP
+
+**(a)**. Em UDP não há conexão, por isso (c) não se aplica; o cliente é
+quem **toma a iniciativa**, enviando a primeira mensagem. (b) descreve o
+servidor.
+
+#### (9) Intensidade de tráfego
+
+**(c)**. Mais tráfego só enche as filas. A propagação depende da
+distância e do meio, e a transmissão de $L/R$; nenhuma muda com a carga.
+
+#### (10) Fim de uma mensagem SMTP
+
+**(a)**. Depois do `DATA`, a mensagem acaba numa linha só com `.`
+(`CRLF.CRLF`). Não pode ser (c): a conexão é persistente e pode levar
+mais mensagens.

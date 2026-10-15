@@ -186,8 +186,11 @@ table { border-collapse: collapse; margin: 14px 0; display: block; overflow-x: a
 th, td { padding: 4px 12px; border-bottom: 1px solid var(--linha); }
 thead th { border-bottom: 1.5px solid var(--tinta); font-family: var(--ui); font-weight: 600; font-size: 0.92em; text-align: left; }
 img { max-width: 100%; height: auto; display: block; margin: 12px auto; }
+.arvore { overflow-x: auto; margin: 12px 0; text-align: center; }
+.arvore svg { max-width: 100%; height: auto; }
+.arvore svg > g > polygon:first-of-type { fill: transparent; }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .disciplina img { filter: invert(0.9) hue-rotate(180deg); }
+  :root:not([data-theme="light"]) .disciplina img, :root:not([data-theme="light"]) .disciplina .arvore svg { filter: invert(0.9) hue-rotate(180deg); }
 }
 blockquote { margin: 14px 0; padding: 4px 16px; border-left: 2px solid var(--linha); color: var(--suave); }
 math[display="block"] { overflow-x: auto; overflow-y: hidden; padding: 4px 0; }

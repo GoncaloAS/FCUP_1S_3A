@@ -1,6 +1,6 @@
 ---
 title: "Compiladores --- Soluções dos exercícios \"Pratica agora\""
-subtitle: "Folha laboratorial 2 (Praticas/Semana_1/scanner-c), Folha laboratorial 3 (Praticas/Semana_2/gramatica) e Folha laboratorial 4 (Praticas/Semana_3/Parsing). Tenta primeiro sozinho; abre uma alínea só depois de a teres feito."
+subtitle: "Folha laboratorial 2 (Praticas/Semana_1/scanner-c), Folha laboratorial 3 (Praticas/Semana_2/gramatica) Folha laboratorial 4 (Praticas/Semana_3/Parsing) lab. ASTs (Praticas/Semana_4/Abstract_Syntax_Trees) e exercícios da Aula 7 (slides e inventados). Tenta primeiro sozinho; abre uma alínea só depois de a teres feito."
 ---
 
 ## Aula 2 --- Expressões regulares
@@ -1069,6 +1069,384 @@ todos os dígitos significativos; o `%f` do C arredonda a 6 casas).
 
 ## Aula 6 --- Representar sintaxe abstrata
 
+### ASTs 2 --- Operadores `-`, `*`, `/`, `%` e `printExpr` (lab. ASTs, `Praticas/Semana_4`)
+
+Tudo foi compilado com o Bison 3.8 e corrido com os `example*.txt`. Começa por
+definir o `root` em falta: `Expr* root = NULL;` depois do segundo `%%`
+do `parser.bison`.
+
+#### Resposta
+
+**`scanner.flex`**: um *token* por operador, a seguir ao `"+"`:
+
+```c
+"-" { return MINUS; }
+"*" { return TIMES; }
+"/" { return DIV; }
+"%" { return MOD; }
+```
+
+**`parser.bison`**: os *tokens* novos, a precedência e as regras. Cada
+`%left` declarado mais abaixo tem precedência maior, por isso `*`, `/`
+e `%` ficam acima de `+` e `-`, e todos são associativos à esquerda:
+
+```
+%token INT PLUS MINUS TIMES DIV MOD
+%left PLUS MINUS
+%left TIMES DIV MOD
+...
+expr:
+    INT              { $$ = ast_integer($1); }
+  | expr PLUS expr   { $$ = ast_operation(PLUS, $1, $3); }
+  | expr MINUS expr  { $$ = ast_operation(MINUS, $1, $3); }
+  | expr TIMES expr  { $$ = ast_operation(TIMES, $1, $3); }
+  | expr DIV expr    { $$ = ast_operation(DIV, $1, $3); }
+  | expr MOD expr    { $$ = ast_operation(MOD, $1, $3); }
+  ;
+%%
+Expr* root = NULL;
+```
+
+**`interpreter.c`**: no `switch` do `eval`, em vez do `TODO`:
+
+```c
+      case MINUS: result = vLeft - vRight; break;
+      case TIMES: result = vLeft * vRight; break;
+      case DIV:   result = vLeft / vRight; break;
+      case MOD:   result = vLeft % vRight; break;
+```
+
+**`printAbsTree.c`** (novo) e um `printAbsTree.h` com o protótipo
+`void printExpr(Expr* exp);`. A árvore imprime-se em pré-ordem, com dois
+espaços de indentação por nível:
+
+```c
+#include <stdio.h>
+#include "parser.h"        // PLUS, MINUS, ... e ast.h
+#include "printAbsTree.h"
+
+static void printExprAt(Expr* e, int depth) {
+  for (int i = 0; i < depth; i++) printf("  ");
+  if (e->kind == E_INTEGER) {
+    printf("INT %d\n", e->attr.value);
+  } else {
+    switch (e->attr.op.operator) {
+      case PLUS:  printf("OP +\n"); break;
+      case MINUS: printf("OP -\n"); break;
+      case TIMES: printf("OP *\n"); break;
+      case DIV:   printf("OP /\n"); break;
+      case MOD:   printf("OP %%\n"); break;
+    }
+    printExprAt(e->attr.op.left, depth + 1);
+    printExprAt(e->attr.op.right, depth + 1);
+  }
+}
+
+void printExpr(Expr* exp) { printExprAt(exp, 0); }
+```
+
+No `main`, `printExpr(root);` antes do `printf("Result = ...")`, e no
+`Makefile`, `OBJS=scanner.o parser.o ast.o printAbsTree.o interpreter.o`.
+
+**Saída real para `example3.txt`** (`900 + 3 * 32 + 2 % 5 + 4 / 2 - 1`):
+
+```
+OP -
+  OP +
+    OP +
+      OP +
+        INT 900
+        OP *
+          INT 3
+          INT 32
+      OP %
+        INT 2
+        INT 5
+    OP /
+      INT 4
+      INT 2
+  INT 1
+Result = 999
+```
+
+Conta: $3\cdot32 = 96$, $2 \bmod 5 = 2$ e $4/2 = 2$. Depois, da esquerda para
+a direita, $900+96 = 996$, $996+2 = 998$, $998+2 = 1000$ e $1000-1 = 999$.
+
+**`4-1` sem espaços** dá `Line 1: syntax error - '-1'`. Depois do `4`,
+o Flex tenta as regras em `-1`. A `\-?[0-9]+` apanha 2 caracteres e a `"-"`
+só 1, e ganha o *longest match*. Os *tokens* ficam `INT(4) INT(-1)`, e
+nenhuma regra aceita dois `INT` seguidos. Com espaços, `4 - -1` dá 5. A
+correção habitual é tirar o `\-?` ao `INT` e tratar o menos unário na
+gramática.
+
+O `example4.txt` (três expressões seguidas) dá erro de sintaxe na linha
+4, porque o `program` só aceita **uma** expressão.
+
+### ASTs 3 --- Expressões booleanas e `printBool` (lab. ASTs)
+
+#### Resposta
+
+**`ast.h`**: um tipo novo, com a mesma estrutura de *tag* e `union`:
+
+```c
+struct _BoolExpr {
+  enum { B_CONST, B_RELOP } kind;   // 0/1  ou  expr <relop> expr
+  union {
+    int value;
+    struct { int operator; Expr* left; Expr* right; } relop;
+  } attr;
+};
+typedef struct _BoolExpr BoolExpr;
+
+BoolExpr* ast_bool_const(int v);
+BoolExpr* ast_relop(int operator, Expr* left, Expr* right);
+```
+
+**`ast.c`**:
+
+```c
+BoolExpr* ast_bool_const(int v) {
+  BoolExpr* node = (BoolExpr*) malloc(sizeof(BoolExpr));
+  node->kind = B_CONST;
+  node->attr.value = v;
+  return node;
+}
+
+BoolExpr* ast_relop(int operator, Expr* left, Expr* right) {
+  BoolExpr* node = (BoolExpr*) malloc(sizeof(BoolExpr));
+  node->kind = B_RELOP;
+  node->attr.relop.operator = operator;
+  node->attr.relop.left = left;
+  node->attr.relop.right = right;
+  return node;
+}
+```
+
+**`scanner.flex`**: os operadores de dois caracteres. O *longest match* já
+faz `<=` ganhar a `<` em qualquer ordem, mas pô-los primeiro deixa isso
+claro:
+
+```c
+"==" { return EQ; }
+"!=" { return NE; }
+"<=" { return LE; }
+">=" { return GE; }
+"<"  { return LT; }
+">"  { return GT; }
+```
+
+**`parser.bison`**: os *tokens* `EQ NE LT GT LE GE`, um campo novo no
+`%union` e as regras:
+
+```
+%union { int intValue; Expr* exprValue; BoolExpr* boolValue; }
+%type <boolValue> bexpr
+...
+bexpr:
+    INT            { $$ = ast_bool_const($1); }
+  | expr EQ expr   { $$ = ast_relop(EQ, $1, $3); }
+  | expr NE expr   { $$ = ast_relop(NE, $1, $3); }
+  | expr LT expr   { $$ = ast_relop(LT, $1, $3); }
+  | expr GT expr   { $$ = ast_relop(GT, $1, $3); }
+  | expr LE expr   { $$ = ast_relop(LE, $1, $3); }
+  | expr GE expr   { $$ = ast_relop(GE, $1, $3); }
+  ;
+```
+
+Os relacionais **não precisam de `%left`**, porque o `bexpr` não é
+recursivo: `1 + 2 < 3` só pode ser `(1+2) < 3`, já que nenhuma regra de
+`expr` aceita um `LT` a seguir. O `INT` de `bexpr` e o de `expr` também
+não chocam. Depois de `INT`, se o *lookahead* for um relacional ou
+aritmético reduz-se a `expr`, e se for o que vem depois de uma condição
+(`then`, `{`, ...) reduz-se a `bexpr`. O Bison 3.8 não reporta conflitos.
+
+**`printAbsTree.c`**: o mesmo esquema do `printExpr`, com um nível a mais.
+O `indent(depth)` é o ciclo de espaços do `printExprAt`, e o `opName`
+devolve o texto de cada operador (`EQ` → `"=="`, etc.):
+
+```c
+static void printBoolAt(BoolExpr* b, int depth) {
+  indent(depth);
+  switch (b->kind) {
+    case B_CONST: printf("BOOL %d\n", b->attr.value); break;
+    case B_RELOP:
+      printf("RELOP %s\n", opName(b->attr.relop.operator));
+      printExprAt(b->attr.relop.left, depth + 1);
+      printExprAt(b->attr.relop.right, depth + 1);
+      break;
+  }
+}
+void printBool(BoolExpr* b) { printBoolAt(b, 0); }
+```
+
+Para testar sozinho, basta pôr `program: bexpr` e `BoolExpr* root`. No Ex. 4
+a raiz passa a ser um comando, e as condições aparecem dentro do
+`if`/`while` (ver a saída abaixo).
+
+### ASTs 4 --- Comandos e `printCmd` (lab. ASTs)
+
+#### Resposta
+
+**Variáveis** †: uma atribuição `x = ...` precisa de um *token* `ID` e
+de variáveis nas expressões (senão `x = x - 1` não se escreve). Por isso
+o `Expr` ganha a alternativa `E_VAR` (`char* var`, construtor
+`ast_var`), e há a regra `expr: ID { $$ = ast_var($1); }`.
+
+**`ast.h`**:
+
+```c
+struct _Cmd {
+  enum { C_ASSIGN, C_IF, C_WHILE, C_SEQ } kind;
+  union {
+    struct { char* var; Expr* expr; } assign;
+    struct { BoolExpr* cond; struct _Cmd* thenCmd;
+             struct _Cmd* elseCmd; } ifCmd;      // elseCmd == NULL: sem else
+    struct { BoolExpr* cond; struct _Cmd* body; } whileCmd;
+    struct { struct _Cmd* fst; struct _Cmd* snd; } seq;
+  } attr;
+};
+typedef struct _Cmd Cmd;
+
+Cmd* ast_assign(char* var, Expr* expr);
+Cmd* ast_if(BoolExpr* cond, Cmd* thenCmd, Cmd* elseCmd);
+Cmd* ast_while(BoolExpr* cond, Cmd* body);
+Cmd* ast_seq(Cmd* fst, Cmd* snd);
+```
+
+**`ast.c`**: os construtores seguem o padrão de sempre, como este:
+
+```c
+Cmd* ast_if(BoolExpr* cond, Cmd* thenCmd, Cmd* elseCmd) {
+  Cmd* node = (Cmd*) malloc(sizeof(Cmd));
+  node->kind = C_IF;
+  node->attr.ifCmd.cond = cond;
+  node->attr.ifCmd.thenCmd = thenCmd;
+  node->attr.ifCmd.elseCmd = elseCmd;
+  return node;
+}
+```
+
+(`ast_assign`, `ast_while` e `ast_seq` são iguais, cada um com os seus
+campos.)
+
+**`scanner.flex`**: as palavras reservadas vêm **antes** do `ID`. Em
+empate de comprimento ganha a primeira regra (*first match*), por isso
+`if` dá `IF` e não `ID`. O nome **copia-se logo aqui**:
+
+```c
+"="     { return ASSIGN; }
+";"     { return SEMI; }
+"{"     { return LBRACE; }
+"}"     { return RBRACE; }
+"if"    { return IF; }
+"then"  { return THEN; }
+"else"  { return ELSE; }
+"while" { return WHILE; }
+[a-zA-Z_][a-zA-Z0-9_]* { yylval.strValue = strdup(yytext); return ID; }
+```
+
+Sem o `strdup` (com `yylval.strValue = yytext`), a primeira versão
+imprimiu `ASSIGN x = 10;` em vez de `ASSIGN x`. Quando se reduz
+`ID ASSIGN expr`, o Flex já leu a expressão toda, e o ponteiro guardado
+aponta para o *buffer* sem o `\0` no sítio.
+
+**`parser.bison`**:
+
+```
+%token INT ID PLUS MINUS TIMES DIV MOD EQ NE LT GT LE GE
+%token ASSIGN SEMI LBRACE RBRACE IF THEN ELSE WHILE
+
+%left SEMI              // precedência mais baixa
+%nonassoc THEN WHILE
+%nonassoc ELSE
+%left PLUS MINUS
+%left TIMES DIV MOD
+
+%union { int intValue; char* strValue; Expr* exprValue;
+         BoolExpr* boolValue; Cmd* cmdValue; }
+%type <strValue> ID
+%type <cmdValue> cmd
+... (extern Cmd* root; no %code requires)
+%%
+program: cmd { root = $1; }
+
+cmd:
+    ID ASSIGN expr                { $$ = ast_assign($1, $3); }
+  | IF bexpr THEN cmd             { $$ = ast_if($2, $4, NULL); }
+  | IF bexpr THEN cmd ELSE cmd    { $$ = ast_if($2, $4, $6); }
+  | WHILE bexpr cmd               { $$ = ast_while($2, $3); }
+  | cmd SEMI cmd                  { $$ = ast_seq($1, $3); }
+  | LBRACE cmd RBRACE             { $$ = $2; }
+  ;
+... (bexpr do Ex. 3; expr do Ex. 2 mais  | ID { $$ = ast_var($1); })
+%%
+Cmd* root = NULL;
+```
+
+As precedências resolvem os três conflitos que a gramática tem:
+
+- **`c1 ; c2 ; c3`**: `%left SEMI` agrupa como `(c1 ; c2) ; c3`.
+- **`if b then x = 1 ; y = 2`**: com a pilha `IF bexpr THEN cmd` e o
+  *lookahead* `;`, a regra (com a precedência de `THEN`) é **maior** do
+  que `SEMI`, por isso reduz-se. Fica `(if b then x = 1) ; y = 2`, como em
+  C. O `while b c1 ; c2` funciona da mesma forma (por isso `WHILE` também
+  leva precedência).
+- **`else` pendente**: com `IF bexpr THEN cmd` e *lookahead* `ELSE`, o
+  `ELSE` é maior do que `THEN`, por isso faz-se *shift*. O `else` fica no
+  `if` mais interior, como em C.
+
+O Bison 3.8 compila esta gramática **sem conflitos**.
+
+**`printAbsTree.c`**:
+
+```c
+static void printCmdAt(Cmd* c, int depth) {
+  indent(depth);
+  switch (c->kind) {
+    case C_ASSIGN:
+      printf("ASSIGN %s\n", c->attr.assign.var);
+      printExprAt(c->attr.assign.expr, depth + 1);
+      break;
+    case C_IF:
+      printf(c->attr.ifCmd.elseCmd ? "IF-ELSE\n" : "IF\n");
+      printBoolAt(c->attr.ifCmd.cond, depth + 1);
+      printCmdAt(c->attr.ifCmd.thenCmd, depth + 1);
+      if (c->attr.ifCmd.elseCmd) printCmdAt(c->attr.ifCmd.elseCmd, depth + 1);
+      break;
+    case C_WHILE:
+      printf("WHILE\n");
+      printBoolAt(c->attr.whileCmd.cond, depth + 1);
+      printCmdAt(c->attr.whileCmd.body, depth + 1);
+      break;
+    case C_SEQ:
+      printf("SEQ\n");
+      printCmdAt(c->attr.seq.fst, depth + 1);
+      printCmdAt(c->attr.seq.snd, depth + 1);
+      break;
+  }
+}
+void printCmd(Cmd* command) { printCmdAt(command, 0); }
+```
+
+O `main` passa a chamar `printCmd(root)`. O `eval` de expressões já não
+chega, porque as variáveis precisam de um ambiente.
+
+**Saída real** para `if 1 then if x < 2 then y = 1 else y = 2`. O `else`
+fica no `if` de dentro:
+
+```
+IF
+  BOOL 1
+  IF-ELSE
+    RELOP <
+      VAR x
+      INT 2
+    ASSIGN y
+      INT 1
+    ASSIGN y
+      INT 2
+```
+
 ### Ex. C --- AST de `x = 1; y = x * (2 + 3); x++` (inventado)
 
 Agrupando à direita: `CompoundStm (x = 1) (CompoundStm (y = ...) (x++))`.
@@ -1193,3 +1571,307 @@ exec env (CompoundStm s1 s2) = exec (exec env s1) s2
 **Resultado: `[("x",2),("y",5)]`**, ou seja $x = 2$, $y = 5$ (corrido
 com `runghc`). O exemplo dos slides (`a = 5+3; b = a-2`) dá
 `[("b",6),("a",8)]`.
+
+## Aula 7 --- Descida recursiva
+
+### Ex. E --- Traçar o analisador Haskell (inventado)
+
+#### (a) `accepted` em `if 1=1 then print 2=3 else begin print 4=4 end`
+
+*Tokens*: `[IF, NUM, EQUAL, NUM, THEN, PRINT, NUM, EQUAL, NUM, ELSE, BEGIN, PRINT, NUM, EQUAL, NUM, END]`.
+
+1. `parseS` vê `IF`: $S\to\texttt{if}\,E\,\texttt{then}\,S\,\texttt{else}\,S$;
+   `toks` = `[NUM, EQUAL, NUM, THEN, PRINT, ...]`.
+2. `toks1 = parseE toks`: consome `NUM`, `EQUAL`, `NUM`; devolve
+   `[THEN, PRINT, NUM, EQUAL, NUM, ELSE, BEGIN, PRINT, NUM, EQUAL, NUM, END]`.
+3. `toks2 = consume THEN toks1` = `[PRINT, NUM, EQUAL, NUM, ELSE, BEGIN, PRINT, NUM, EQUAL, NUM, END]`.
+4. `toks3 = parseS toks2`: vê `PRINT`, $S\to\texttt{print}\,E$;
+   `parseE [NUM, EQUAL, NUM, ELSE, ...]` devolve
+   `[ELSE, BEGIN, PRINT, NUM, EQUAL, NUM, END]`.
+5. `toks4 = consume ELSE toks3` = `[BEGIN, PRINT, NUM, EQUAL, NUM, END]`.
+6. `parseS toks4`: vê `BEGIN`, $S\to\texttt{begin}\,S\,L$;
+   `parseS [PRINT, NUM, EQUAL, NUM, END]` vê `PRINT` e o `parseE`
+   devolve `[END]`.
+7. `parseL [END]`: vê `END`, $L\to\texttt{end}$, devolve `[]`.
+
+O `parseS` inicial devolve `[]`, por isso `accepted` = `null []` = `True`
+(saída real do `runghc`: `True`).
+
+#### (b) Onde falha `begin print 1=1 print 2=2 end`
+
+`parseS` vê `BEGIN` e chama `parseS [PRINT, NUM, EQUAL, NUM, PRINT, ...]`,
+que consome `print 1=1` e devolve `[PRINT, NUM, EQUAL, NUM, END]`. Esta
+lista vai para `parseL`, que só tem casos para `END` ($L\to\texttt{end}$)
+e `SEMI` ($L\to\texttt{;}\,S\,L$): o `PRINT` cai no `_` e dá
+`error "syntax error"`. Falta o `;` entre as duas instruções. Saída real:
+`Desc.hs: syntax error`.
+
+#### (c) `parseS` e `accepted` em `print 1=1 end`
+
+`parseS [PRINT, NUM, EQUAL, NUM, END]` vê `PRINT`, o `parseE` consome
+`NUM EQUAL NUM` e devolve **`[END]`**: o `parseS` não dá erro, porque só
+reconhece um prefixo. `accepted` = `null [END]` = **`False`**: sobra um
+*token*. É para isto que serve o marcador do final.
+
+### Ex. F --- Descida recursiva em C completa (inventado)
+
+#### Resposta
+
+O `getToken` simula o *lexer* lendo de um *array*; `EOF` passa a `EOF_`
+(o `stdio.h` define `EOF` como macro).
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+typedef enum { IF, THEN, ELSE, BEGIN, END, PRINT, SEMI, NUM, EQUAL, EOF_ } Token;
+static const char *nome[] = {"IF","THEN","ELSE","BEGIN","END","PRINT","SEMI","NUM","EQUAL","EOF"};
+
+static Token *input; static int pos;
+Token getToken(void) { return input[pos++]; }   /* simula o lexer */
+
+Token next;
+void advance(void) { next = getToken(); }
+void error(const char *msg) { printf("erro: %s (token %s)\n", msg, nome[next]); exit(1); }
+void consume(Token t) { if (next == t) advance(); else error("token inesperado"); }
+
+void parse_S(void); void parse_L(void); void parse_E(void);
+/* parse_S, parse_E e parse_L exatamente como no resumo */
+
+void accepted(void) { parse_S(); consume(EOF_); printf("aceite\n"); }
+
+int main(int argc, char **argv) {
+  Token p1[] = {BEGIN, PRINT, NUM, EQUAL, NUM, SEMI, PRINT, NUM, EQUAL, NUM, END, EOF_};
+  Token p2[] = {PRINT, NUM, EQUAL, NUM, END, EOF_};
+  input = argc > 1 ? p2 : p1; pos = 0;
+  advance();            /* carrega o primeiro token em next */
+  accepted();
+  return 0;
+}
+```
+
+Saídas reais (`gcc -Wall`, sem avisos):
+
+```
+$ ./desc            # begin print 1=1 ; print 2=3 end
+aceite
+$ ./desc x          # print 1=1 end
+erro: token inesperado (token END)
+```
+
+No segundo, `parse_S` reconhece `print 1=1` sem erro e é o
+`consume(EOF_)` do `accepted` que falha, porque o próximo é `END`.
+
+## Aula 7 --- Gramáticas LL(1)
+
+### Ex. G --- Descida recursiva para as expressões (Exercício dos slides)
+
+#### Resposta
+
+Uma função por não-terminal; em $E'$ e $T'$ o último caso é a produção
+$\varepsilon$, usada com qualquer outro símbolo (como nos slides: "outro
+→ $E'\to\varepsilon$").
+
+```haskell
+data Token = NUM | PLUS | MINUS | TIMES | DIV | LPAREN | RPAREN
+  deriving (Eq, Show)
+
+consume :: Token -> [Token] -> [Token]
+consume tok (first:rest) | tok == first = rest
+consume tok _ = error ("expected " ++ show tok)
+
+parseE, parseE', parseT, parseT', parseF :: [Token] -> [Token]
+parseE toks = parseE' (parseT toks)               -- E  -> T E'
+
+parseE' (PLUS  : toks) = parseE' (parseT toks)    -- E' -> + T E'
+parseE' (MINUS : toks) = parseE' (parseT toks)    -- E' -> - T E'
+parseE' toks           = toks                     -- E' -> eps
+
+parseT toks = parseT' (parseF toks)               -- T  -> F T'
+
+parseT' (TIMES : toks) = parseT' (parseF toks)    -- T' -> * F T'
+parseT' (DIV   : toks) = parseT' (parseF toks)    -- T' -> / F T'
+parseT' toks           = toks                     -- T' -> eps
+
+parseF (NUM    : toks) = toks                     -- F  -> num
+parseF (LPAREN : toks) = consume RPAREN (parseE toks)  -- F -> ( E )
+parseF _               = error "syntax error"
+
+accepted :: [Token] -> Bool
+accepted toks = null (parseE toks)
+```
+
+Saídas reais (`runghc`):
+
+| Entrada | Resultado |
+|:--|:--|
+| `1+2*3` | `True` |
+| `1*(2-3)/4` | `True` |
+| `1+)` | `syntax error` (o `parseF` vê `RPAREN`) |
+| `1+` | `syntax error` (o `parseF` vê a lista vazia) |
+
+Em `1+)`, o `+` leva a $E'\to +\,T\,E'$ e o $T$ precisa de um $F$, que
+não pode começar por `)`.
+
+### Ex. H --- NULLABLE, FIRST, FOLLOW e tabela das expressões transformadas (inventado)
+
+Gramática: $S'\to E\,\$$, $E\to TE'$,
+$E'\to +TE'\mid -TE'\mid\varepsilon$, $T\to FT'$,
+$T'\to *FT'\mid /FT'\mid\varepsilon$, $F\to\texttt{num}\mid(E)$.
+
+#### (a) Equações e cálculo iterativo de NULLABLE, FIRST e FOLLOW
+
+**NULLABLE** ($N$):
+
+- $N(S') = N(E)\wedge N(\$) = N(E)\wedge$ False
+- $N(E) = N(T)\wedge N(E')$
+- $N(E') = (N(+)\wedge\dots)\vee(N(-)\wedge\dots)\vee N(\varepsilon) =$ True
+- $N(T) = N(F)\wedge N(T')$
+- $N(T') =$ True (mesma razão)
+- $N(F) = N(\texttt{num})\vee N((E)) =$ False
+
+Iteração 1 (com a coluna 0, tudo False): $E'$ e $T'$ True, o resto False.
+Iteração 2: $N(E)$ = False $\wedge$ True = False, $N(T)$ = False
+$\wedge$ True = False; nada muda. **Só $E'$ e $T'$ são anuláveis.**
+
+**FIRST** ($T$ e $F$ não anuláveis, por isso só conta o 1.º símbolo):
+
+- FIRST($S'$) = FIRST($E$); FIRST($E$) = FIRST($T$); FIRST($T$) = FIRST($F$)
+- FIRST($E'$) = $\{+\}\cup\{-\}\cup\emptyset$; FIRST($T'$) = $\{*\}\cup\{/\}\cup\emptyset$
+- FIRST($F$) = $\{\texttt{num}, (\}$
+
+| | 0 | 1 | 2 | 3 | 4 | 5 |
+|:--|:-:|:-:|:-:|:-:|:-:|:-:|
+| $S'$ | $\emptyset$ | $\emptyset$ | $\emptyset$ | $\emptyset$ | num ( | num ( |
+| $E$ | $\emptyset$ | $\emptyset$ | $\emptyset$ | num ( | num ( | num ( |
+| $E'$ | $\emptyset$ | + $-$ | + $-$ | + $-$ | + $-$ | + $-$ |
+| $T$ | $\emptyset$ | $\emptyset$ | num ( | num ( | num ( | num ( |
+| $T'$ | $\emptyset$ | $*$ / | $*$ / | $*$ / | $*$ / | $*$ / |
+| $F$ | $\emptyset$ | num ( | num ( | num ( | num ( | num ( |
+
+**FOLLOW**, ocorrência a ocorrência:
+
+- $S'\to\underline{E}\,\$$: FOLLOW($E$) $\supseteq\{\$\}$.
+- $E\to\underline{T}E'$: FOLLOW($T$) $\supseteq$ FIRST($E'$) = $\{+,-\}$;
+  $E'$ anulável: FOLLOW($T$) $\supseteq$ FOLLOW($E$).
+- $E\to T\underline{E'}$: FOLLOW($E'$) $\supseteq$ FOLLOW($E$).
+- $E'\to +\underline{T}E'$ (e $-$): FOLLOW($T$) $\supseteq\{+,-\}$ e
+  $\supseteq$ FOLLOW($E'$).
+- $E'\to +T\underline{E'}$: FOLLOW($E'$) $\supseteq$ FOLLOW($E'$) (nada).
+- $T\to\underline{F}T'$: FOLLOW($F$) $\supseteq\{*,/\}$ e $\supseteq$
+  FOLLOW($T$). $T\to F\underline{T'}$: FOLLOW($T'$) $\supseteq$ FOLLOW($T$).
+- $T'\to *\underline{F}T'$ (e $/$): FOLLOW($F$) $\supseteq\{*,/\}$ e
+  $\supseteq$ FOLLOW($T'$); $T'\to *F\underline{T'}$: nada.
+- $F\to(\underline{E})$: FOLLOW($E$) $\supseteq\{)\}$.
+
+Juntando: FOLLOW($E$) $\supseteq\{\$,)\}$; FOLLOW($E'$) $\supseteq$
+FOLLOW($E$); FOLLOW($T$) $\supseteq\{+,-\}\cup$ FOLLOW($E$) $\cup$
+FOLLOW($E'$); FOLLOW($T'$) $\supseteq$ FOLLOW($T$); FOLLOW($F$)
+$\supseteq\{*,/\}\cup$ FOLLOW($T$) $\cup$ FOLLOW($T'$).
+
+| | 0 | 1 | 2 | 3 | 4 |
+|:--|:-:|:-:|:-:|:-:|:-:|
+| $E$ | $\emptyset$ | \$ ) | \$ ) | \$ ) | \$ ) |
+| $E'$ | $\emptyset$ | $\emptyset$ | \$ ) | \$ ) | \$ ) |
+| $T$ | $\emptyset$ | + $-$ | + $-$ \$ ) | + $-$ \$ ) | + $-$ \$ ) |
+| $T'$ | $\emptyset$ | $\emptyset$ | + $-$ | + $-$ \$ ) | + $-$ \$ ) |
+| $F$ | $\emptyset$ | $*$ / | $*$ / + $-$ | $*$ / + $-$ \$ ) | $*$ / + $-$ \$ ) |
+
+Ex.: na 2, FOLLOW($T$) = $\{+,-\}\cup\{\$,)\}$ (FOLLOW($E$) da coluna 1)
+$\cup\,\emptyset$ (FOLLOW($E'$) da coluna 1). A 4 repete a 3. (Confirmado
+por um programa que aplica as equações.)
+
+#### (b) Tabela de *parsing* preditivo; é LL(1)?
+
+- $S'\to E\,\$$, $E\to TE'$, $T\to FT'$: FIRST = $\{\texttt{num}, (\}$.
+- $E'\to +TE'$ em $+$; $E'\to -TE'$ em $-$; $E'\to\varepsilon$ em
+  FOLLOW($E'$) = $\{\$,)\}$.
+- $T'\to *FT'$ em $*$; $T'\to /FT'$ em $/$; $T'\to\varepsilon$ em
+  FOLLOW($T'$) = $\{+,-,\$,)\}$.
+- $F\to\texttt{num}$ em num; $F\to(E)$ em `(`.
+
+| | num | $+$ | $-$ | $*$ | / | ( | ) | \$ |
+|:--|:--|:--|:--|:--|:--|:--|:--|:--|
+| $S'$ | $E\,\$$ | | | | | $E\,\$$ | | |
+| $E$ | $TE'$ | | | | | $TE'$ | | |
+| $E'$ | | $+TE'$ | $-TE'$ | | | | $\varepsilon$ | $\varepsilon$ |
+| $T$ | $FT'$ | | | | | $FT'$ | | |
+| $T'$ | | $\varepsilon$ | $\varepsilon$ | $*FT'$ | $/FT'$ | | $\varepsilon$ | $\varepsilon$ |
+| $F$ | num | | | | | $(E)$ | | |
+
+(cada entrada é o lado direito da produção da linha). No máximo uma
+produção por entrada: **é LL(1)**.
+
+### Ex. I --- Parsing de num + num * num com a pilha (inventado)
+
+#### Resposta
+
+Tabela do Ex. H(b); pilha com o topo à esquerda.
+
+| Pilha | Entrada | Ação |
+|:--|--:|:--|
+| $S'$ | `num+num*num$` | $S'\to E\,\$$ |
+| $E\,\$$ | `num+num*num$` | $E\to TE'$ |
+| $T\,E'\,\$$ | `num+num*num$` | $T\to FT'$ |
+| $F\,T'\,E'\,\$$ | `num+num*num$` | $F\to\texttt{num}$ |
+| num $T'\,E'\,\$$ | `num+num*num$` | consumir num |
+| $T'\,E'\,\$$ | `+num*num$` | $T'\to\varepsilon$ (coluna $+$) |
+| $E'\,\$$ | `+num*num$` | $E'\to +TE'$ |
+| $+\,T\,E'\,\$$ | `+num*num$` | consumir $+$ |
+| $T\,E'\,\$$ | `num*num$` | $T\to FT'$ |
+| $F\,T'\,E'\,\$$ | `num*num$` | $F\to\texttt{num}$ |
+| num $T'\,E'\,\$$ | `num*num$` | consumir num |
+| $T'\,E'\,\$$ | `*num$` | $T'\to *FT'$ |
+| $*\,F\,T'\,E'\,\$$ | `*num$` | consumir $*$ |
+| $F\,T'\,E'\,\$$ | `num$` | $F\to\texttt{num}$ |
+| num $T'\,E'\,\$$ | `num$` | consumir num |
+| $T'\,E'\,\$$ | `$` | $T'\to\varepsilon$ |
+| $E'\,\$$ | `$` | $E'\to\varepsilon$ |
+| \$ | `$` | consumir \$ |
+| $\varepsilon$ | $\varepsilon$ | aceitação |
+
+As produções usadas formam a árvore da figura de `1 + 2 * 3` no resumo.
+
+### Ex. J --- Fatorização à esquerda de S para aSb ou ab (inventado)
+
+#### (a) Não é LL(1)
+
+Com $S'\to S\,\$$: nada é anulável, FIRST($aSb$) = $\{a\}$ e FIRST($ab$)
+= $\{a\}$. As duas produções de $S$ vão para a entrada (linha $S$, coluna
+$a$): **duas produções na mesma entrada**, logo não é LL(1). Com um só
+símbolo de *look-ahead* não se sabe se o `a` abre um $aSb$ ou um $ab$.
+
+#### (b) Fatorizar, mostrar que é LL(1) e fazer o *parsing* de `aabb`
+
+O prefixo comum é $a$: $S\to aX$, $X\to Sb\mid b$ (mesma linguagem,
+$a^nb^n$ com $n\ge 1$).
+
+- NULLABLE: tudo False (nenhuma produção $\varepsilon$; cada lado direito
+  tem um terminal ou um $S$ não anulável).
+- FIRST($S$) = $\{a\}$; FIRST($X$) = FIRST($Sb$) $\cup$ FIRST($b$) =
+  $\{a\}\cup\{b\}$ = $\{a,b\}$.
+- FOLLOW($S$) $\supseteq\{\$\}$ ($S'\to S\$$) e $\{b\}$ ($X\to Sb$);
+  FOLLOW($X$) $\supseteq$ FOLLOW($S$) ($S\to aX$, $X$ no fim):
+  ambos $\{b,\$\}$. Sem produções anuláveis, não entram na tabela.
+
+| | $a$ | $b$ | \$ |
+|:--|:--|:--|:--|
+| $S'$ | $S'\to S\,\$$ | | |
+| $S$ | $S\to aX$ | | |
+| $X$ | $X\to Sb$ | $X\to b$ | |
+
+FIRST($Sb$) = $\{a\}$ e FIRST($b$) = $\{b\}$ são disjuntos: no máximo
+uma produção por entrada, **é LL(1)**.
+
+| Pilha | Entrada | Ação |
+|:--|--:|:--|
+| $S'$ | `aabb$` | $S'\to S\,\$$ |
+| $S\,\$$ | `aabb$` | $S\to aX$ |
+| $a\,X\,\$$ | `aabb$` | consumir $a$ |
+| $X\,\$$ | `abb$` | $X\to Sb$ (coluna $a$) |
+| $S\,b\,\$$ | `abb$` | $S\to aX$ |
+| $a\,X\,b\,\$$ | `abb$` | consumir $a$ |
+| $X\,b\,\$$ | `bb$` | $X\to b$ (coluna $b$) |
+| $b\,b\,\$$ | `bb$` | consumir $b$ |
+| $b\,\$$ | `b$` | consumir $b$ |
+| \$ | `$` | consumir \$ |
+| $\varepsilon$ | $\varepsilon$ | aceitação |

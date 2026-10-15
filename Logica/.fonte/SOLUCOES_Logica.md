@@ -117,38 +117,19 @@ Não é coincidência: $\neg(p\lor q)$ e $\neg p\land\neg q$ são equivalentes
 
 #### (a) $(p \lor q) \to (p \land q)$
 
-$$\models_v (p\lor q)\to(p\land q) \ \text{ sse }\ \not\models_v p\lor q \ \text{ ou }\ \models_v p\land q$$
-
-- $v(p)=V$, logo $\models_v p$ e $\models_v p\lor q$. A primeira hipótese falha.
-- $v(q)=F$, logo $\not\models_v q$ e $\not\models_v p\land q$. A segunda também falha.
-
-Logo $\not\models_v (p\lor q)\to(p\land q)$: $v$ **não** satisfaz a fórmula.
+De $v(p)=V$ segue $\models_v p$, logo $\models_v p\lor q$. De $v(q)=F$
+segue $\not\models_v q$, logo $\not\models_v p\land q$. Portanto
+$\not\models_v (p\lor q)\to(p\land q)$.
 
 #### (c) $(p \to q) \land (p \to \neg q)$
 
-$$\models_v (p\to q)\land(p\to\neg q) \ \text{ sse }\ \models_v p\to q \ \text{ e }\ \models_v p\to\neg q$$
-
-$\models_v p\to q$ sse $\not\models_v p$ ou $\models_v q$. Como $v(p)=V$ e
-$v(q)=F$, nenhuma das duas vale, logo $\not\models_v p\to q$. A conjunção já
-falha: $\not\models_v (p\to q)\land(p\to\neg q)$, e $v$ **não** satisfaz a
-fórmula.
-
-(Por curiosidade, $\models_v p\to\neg q$, porque $\not\models_v q$ dá
-$\models_v \neg q$. Mas não chega.)
+De $v(p)=V$ e $v(q)=F$ segue $\models_v p$ e $\not\models_v q$, logo
+$\not\models_v p\to q$. Portanto $\not\models_v (p\to q)\land(p\to\neg q)$.
 
 #### (d) $p \to (q \to (p \lor q))$
 
-$$\models_v p\to(q\to(p\lor q)) \ \text{ sse }\ \not\models_v p \ \text{ ou }\ \models_v q\to(p\lor q)$$
-
-- $\models_v q\to(p\lor q)$ sse $\not\models_v q$ ou $\models_v p\lor q$.
-- $v(q)=F$, logo $\not\models_v q$, e portanto $\models_v q\to(p\lor q)$.
-- Então $\models_v p\to(q\to(p\lor q))$: $v$ **satisfaz** a fórmula.
-
-Na verdade, é uma tautologia. Prova por absurdo: se $\not\models_{v'}$ da
-fórmula para alguma $v'$, então $\models_{v'} p$ e
-$\not\models_{v'} q\to(p\lor q)$, isto é, $\models_{v'} q$ e
-$\not\models_{v'} p\lor q$. Mas $\models_{v'} p$ dá $\models_{v'} p\lor q$,
-o que é uma contradição.
+De $v(q)=F$ segue $\not\models_v q$, logo $\models_v q\to(p\lor q)$.
+Portanto $\models_v p\to(q\to(p\lor q))$.
 
 ## Aula 2 --- Consequência e equivalência
 
@@ -156,26 +137,29 @@ o que é uma contradição.
 
 #### (b) $\neg p \to q \;\Leftrightarrow\; \neg q \to p$
 
-Usa $A \to B \Leftrightarrow \neg A \lor B$ nos dois lados:
-
-- esquerda: $\neg p \to q \Leftrightarrow \neg\neg p \lor q
-  \Leftrightarrow p \lor q$ (dupla negação)
-- direita: $\neg q \to p \Leftrightarrow \neg\neg q \lor p
-  \Leftrightarrow q \lor p$
-
-Pela **comutatividade** do $\lor$, $p \lor q \Leftrightarrow q \lor p$. As
-duas fórmulas são equivalentes. $\checkmark$
+$$
+\begin{aligned}
+\neg p \to q
+&\Leftrightarrow \neg\neg p \lor q && \text{(por } \varphi\to\psi \Leftrightarrow \neg\varphi\lor\psi\text{)}\\
+&\Leftrightarrow p \lor q && \text{(dupla negação)}\\
+&\Leftrightarrow q \lor p && \text{(comutatividade)}\\
+&\Leftrightarrow \neg\neg q \lor p && \text{(dupla negação)}\\
+&\Leftrightarrow \neg q \to p && \text{(por } \varphi\to\psi \Leftrightarrow \neg\varphi\lor\psi\text{)}
+\end{aligned}
+$$
 
 #### (c) $p \to (q \to r) \;\Leftrightarrow\; q \to (p \to r)$
 
-- esquerda: $p \to (q \to r) \Leftrightarrow \neg p \lor (\neg q \lor r)$
-- direita: $q \to (p \to r) \Leftrightarrow \neg q \lor (\neg p \lor r)$
-
-Pela **associatividade** e **comutatividade** do $\lor$, as duas ficam
-$\neg p \lor \neg q \lor r$. $\checkmark$
-
-(Intuição: "se $p$, então se $q$ então $r$" é o mesmo que "se $p$ e $q$,
-então $r$", e a ordem de $p$ e $q$ não importa.)
+$$
+\begin{aligned}
+p \to (q \to r)
+&\Leftrightarrow \neg p \lor (\neg q \lor r) && \text{(por } \varphi\to\psi \Leftrightarrow \neg\varphi\lor\psi\text{, 2 vezes)}\\
+&\Leftrightarrow (\neg p \lor \neg q) \lor r && \text{(associatividade)}\\
+&\Leftrightarrow (\neg q \lor \neg p) \lor r && \text{(comutatividade)}\\
+&\Leftrightarrow \neg q \lor (\neg p \lor r) && \text{(associatividade)}\\
+&\Leftrightarrow q \to (p \to r) && \text{(por } \varphi\to\psi \Leftrightarrow \neg\varphi\lor\psi\text{, 2 vezes)}
+\end{aligned}
+$$
 
 #### (d) $(p \to q) \to p \;\Leftrightarrow\; p$
 
@@ -189,26 +173,27 @@ $$
 \end{aligned}
 $$
 
-$\checkmark$ (Este resultado reaparece na Lei de Peirce, exercício 1.18(e).)
 
 ### 1.8 --- Validade
 
 #### (c) $(p \land q) \lor r \;\Leftrightarrow\; (p \lor r) \land (q \lor r)$
 
-**Válida.** É a **distributividade do $\lor$ sobre o $\land$**:
-$$(p \land q) \lor r \Leftrightarrow (p \lor r) \land (q \lor r)$$
+**Válida.** É a lei da distributividade do $\lor$ sobre o $\land$. Uma lei
+básica prova-se com a tabela de verdade dos dois lados:
 
-Confirmação por casos:
+| $p$ | $q$ | $r$ | $p\land q$ | $(p\land q)\lor r$ | $p\lor r$ | $q\lor r$ | $(p\lor r)\land(q\lor r)$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| V | V | V | V | **V** | V | V | **V** |
+| V | V | F | V | **V** | V | V | **V** |
+| V | F | V | F | **V** | V | V | **V** |
+| V | F | F | F | **F** | V | F | **F** |
+| F | V | V | F | **V** | V | V | **V** |
+| F | V | F | F | **F** | F | V | **F** |
+| F | F | V | F | **V** | V | V | **V** |
+| F | F | F | F | **F** | F | F | **F** |
 
-- se $r = V$: os dois lados ficam $V$.
-- se $r = F$: a esquerda fica $p \land q$ e a direita fica
-  $(p \lor F) \land (q \lor F) = p \land q$.
-
-São iguais em todos os casos. $\checkmark$
-
-Ao contrário da 1.8(b), aqui distribuir funciona. A diferença é que a 1.8(b)
-distribuía uma implicação sobre o seu **antecedente**, e isso troca o
-conectivo.
+As duas colunas a negrito coincidem em todas as linhas, logo
+$(p \land q) \lor r \Leftrightarrow (p \lor r) \land (q \lor r)$.
 
 ### 1.9 --- Classificar fórmulas
 
@@ -222,47 +207,19 @@ $$
 &\Leftrightarrow \neg(p \to q) \lor (\neg p \to \neg q) && \text{(implicação, na } \to \text{ exterior)}\\
 &\Leftrightarrow \neg(\neg p \lor q) \lor (\neg\neg p \lor \neg q) && \text{(implicação, nas duas interiores)}\\
 &\Leftrightarrow (\neg\neg p \land \neg q) \lor (\neg\neg p \lor \neg q) && \text{(De Morgan)}\\
-&\Leftrightarrow (p \land \neg q) \lor (p \lor \neg q) && \text{(dupla negação, 2 vezes)}
+&\Leftrightarrow (p \land \neg q) \lor (p \lor \neg q) && \text{(dupla negação, 2 vezes)}\\
+&\Leftrightarrow \big(p \lor (p \lor \neg q)\big) \land \big(\neg q \lor (p \lor \neg q)\big) && \text{(distributividade, } \varphi=p,\ \psi=\neg q,\ \theta=p\lor\neg q\text{)}\\
+&\Leftrightarrow (p \lor \neg q) \land (p \lor \neg q) && \text{(associatividade, comutatividade, idempotência)}\\
+&\Leftrightarrow p \lor \neg q && \text{(idempotência)}
 \end{aligned}
 $$
 
-**O último passo, com calma.** Chegámos a
-$$(p \land \neg q) \lor (p \lor \neg q)$$
-Repara que é da forma $(\varphi \land \psi) \lor \theta$, com
-$\varphi = p$, $\psi = \neg q$ e $\theta = p \lor \neg q$. Aplica-se a
-**distributividade** da tabela, $(\varphi \land \psi) \lor \theta
-\Leftrightarrow (\varphi \lor \theta) \land (\psi \lor \theta)$:
+(Atalho: absorção, $(p \land \neg q) \lor p \Leftrightarrow p$.)
 
-$$
-\begin{aligned}
-(p \land \neg q) \lor (p \lor \neg q)
-&\Leftrightarrow \big(p \lor (p \lor \neg q)\big) \land \big(\neg q \lor (p \lor \neg q)\big) && \text{(distributividade)}\\
-&\Leftrightarrow (p \lor p \lor \neg q) \land (p \lor \neg q \lor \neg q) && \text{(associatividade e comutatividade)}\\
-&\Leftrightarrow (p \lor \neg q) \land (p \lor \neg q) && \text{(idempotência: } p\lor p \Leftrightarrow p\text{, } \neg q \lor \neg q \Leftrightarrow \neg q\text{)}\\
-&\Leftrightarrow p \lor \neg q && \text{(idempotência: } X \land X \Leftrightarrow X\text{)}
-\end{aligned}
-$$
-
-Só usei leis da tabela do enunciado. **Atalho:** o mesmo resultado sai
-num só passo pela **absorção**, $p \lor (p \land \neg q) \Leftrightarrow p$
-(uma das leis extra do resumo, Aula 2). Porque é que vale: se $p = V$, os
-dois lados são $V$; se $p = F$, então $p \land \neg q$ também é $F$ e os
-dois lados são $F$. Ou seja, o termo $p \land \neg q$ "não acrescenta
-nada" a um $\lor$ que já tem $p$ sozinho, e pode ser apagado:
-$(p \land \neg q) \lor p \lor \neg q \Leftrightarrow p \lor \neg q$.
-
-$p \lor \neg q$ não é $V$ nem $F$: **satisfazível, mas não é tautologia
-nem contradição.** As valorações lêem-se da forma simplificada:
-
-- **Verdadeira**: basta $p = V$, por exemplo $p=V, q=V$.
-  Na original: $(V\to V)\to(F\to F) = V \to V = V$ $\checkmark$.
-- **Falsa**: $p\lor\neg q$ só é falsa com $p=F$ e $q=V$.
-  Na original: $(F\to V)\to(V\to F) = V \to F = F$ $\checkmark$.
-
-Moral: de "se $p$ então $q$" **não** se segue "se não $p$ então não $q$".
-É o erro clássico de negar o antecedente. (É a mesma fórmula da 1.18(d),
-resolvida no resumo: a forma simplificada $p\lor\neg q$ é ao mesmo tempo
-FND e FNC.)
+**Satisfazível, mas não tautologia.** Com $v(p)=V$, $v(q)=V$:
+$\models_v p$, logo $\models_v p\lor\neg q$ e $\models_v$ da fórmula. Com
+$v'(p)=F$, $v'(q)=V$: $\not\models_{v'} p$ e $\not\models_{v'} \neg q$,
+logo $\not\models_{v'} p\lor\neg q$ e $\not\models_{v'}$ da fórmula.
 
 #### (h) $(p \to q) \land (\neg r \to (q \lor (\neg p \land r)))$
 
@@ -277,19 +234,10 @@ $$
 \end{aligned}
 $$
 
-(Na absorção, $r \lor (r \land \neg p)$: se $r$ é verdadeiro já basta; se é
-falso, $r\land\neg p$ também é falso. Por isso vale sempre o mesmo que $r$.)
-
-$(\neg p \lor q) \land (q \lor r)$ não é $V$ nem $F$: **satisfazível, mas
-não é tautologia nem contradição.** As valorações lêem-se da forma
-simplificada:
-
-- **Verdadeira**: com $q = V$ os dois parêntesis ficam verdadeiros, seja
-  qual for $p$ e $r$. Por exemplo $p=V,q=V,r=V$. Na original:
-  $(V\to V) \land (F \to \dots) = V \land V = V$ $\checkmark$.
-- **Falsa**: basta o primeiro parêntesis falhar, $\neg p \lor q = F$, ou
-  seja $p=V, q=F$. Por exemplo $p=V,q=F,r=V$. Na original:
-  $p\to q = V \to F = F$, e a conjunção fica logo $F$ $\checkmark$.
+**Satisfazível, mas não tautologia.** Com $v(q)=V$: $\models_v \neg p\lor
+q$ e $\models_v q\lor r$, logo $\models_v$ da fórmula. Com $v'(p)=V$,
+$v'(q)=F$: $\not\models_{v'} \neg p$ e $\not\models_{v'} q$, logo
+$\not\models_{v'} \neg p\lor q$ e $\not\models_{v'}$ da fórmula.
 
 ## Aula 2 --- Propriedades de $\models$
 
@@ -313,60 +261,40 @@ $\models (\theta\lor\varphi)\to(\neg\theta\to\varphi)$. $\blacksquare$
 
 #### (b) $\{\varphi \to \psi,\ \psi \to \varphi\} \models (\varphi \lor \psi) \to (\varphi \land \psi)$
 
-**Verdadeira.** Seja $v$ tal que $\models_v \varphi\to\psi$ e
-$\models_v \psi\to\varphi$. Queremos
-$\models_v (\varphi\lor\psi)\to(\varphi\land\psi)$, isto é,
-$$\not\models_v \varphi\lor\psi \ \text{ ou }\ \models_v \varphi\land\psi$$
+**Verdadeira.** Tabela de verdade, com $\varphi$ e $\psi$ no papel de
+variáveis:
 
-- **Caso 1: $\not\models_v \varphi\lor\psi$.** Já está.
-- **Caso 2: $\models_v \varphi\lor\psi$**, isto é, $\models_v \varphi$ ou
-  $\models_v \psi$.
-  - Se $\models_v \varphi$: de $\models_v \varphi\to\psi$, por *modus
-    ponens*, $\models_v \psi$. Logo $\models_v \varphi\land\psi$.
-  - Se $\models_v \psi$: de $\models_v \psi\to\varphi$, por *modus
-    ponens*, $\models_v \varphi$. Logo $\models_v \varphi\land\psi$.
+| $\varphi$ | $\psi$ | $\varphi\to\psi$ | $\psi\to\varphi$ | $\varphi\lor\psi$ | $\varphi\land\psi$ | $(\varphi\lor\psi)\to(\varphi\land\psi)$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| V | V | **V** | **V** | V | V | **V** |
+| V | F | F | V | V | F | F |
+| F | V | V | F | V | F | F |
+| F | F | **V** | **V** | F | F | **V** |
 
-Em todos os casos $\models_v (\varphi\lor\psi)\to(\varphi\land\psi)$. Como
-$v$ é arbitrária, a consequência vale. $\blacksquare$
+Nas linhas em que $\varphi\to\psi$ e $\psi\to\varphi$ são ambas V (1.ª e
+4.ª), a conclusão também é V. Logo a consequência semântica vale.
 
 #### (c) $\{\psi \to (\neg\varphi \lor \gamma),\ \neg\gamma\} \models \neg\varphi \to \neg\psi$
 
-**Falsa.** Procura-se $v$ que satisfaz as premissas e não a conclusão.
-
-- $\not\models_v \neg\varphi\to\neg\psi$ sse $\models_v \neg\varphi$ e
-  $\not\models_v \neg\psi$, isto é, $\not\models_v \varphi$ e
-  $\models_v \psi$.
-- $\models_v \neg\gamma$ sse $\not\models_v \gamma$.
-- $\models_v \psi\to(\neg\varphi\lor\gamma)$ sse $\not\models_v \psi$ ou
-  $\models_v \neg\varphi\lor\gamma$. Como $\models_v \neg\varphi$, a
-  disjunção é satisfeita e esta premissa vale.
-
-**Contraexemplo:** $\varphi = p$, $\psi = q$, $\gamma = r$, com
-$v(p)=F$, $v(q)=V$, $v(r)=F$.
-
-- $\not\models_v p$, logo $\models_v \neg p$ e $\models_v \neg p\lor r$,
-  logo $\models_v q\to(\neg p\lor r)$.
-- $\not\models_v r$, logo $\models_v \neg r$.
-- $\models_v \neg p$ e $\not\models_v \neg q$ (porque $\models_v q$), logo
-  $\not\models_v \neg p\to\neg q$.
-
-As premissas são satisfeitas e a conclusão não:
-$\{q\to(\neg p\lor r),\ \neg r\} \not\models \neg p\to\neg q$.
+**Falsa.** Seja $v$ tal que $v(\varphi)=F$, $v(\psi)=V$ e $v(\gamma)=F$.
+De $\not\models_v \varphi$ segue $\models_v \neg\varphi$, logo
+$\models_v \neg\varphi\lor\gamma$ e $\models_v \psi\to(\neg\varphi\lor\gamma)$.
+De $\not\models_v \gamma$ segue $\models_v \neg\gamma$. Mas
+$\models_v \neg\varphi$ e $\not\models_v \neg\psi$, logo
+$\not\models_v \neg\varphi\to\neg\psi$. Portanto
+$\{\psi\to(\neg\varphi\lor\gamma),\ \neg\gamma\} \not\models \neg\varphi\to\neg\psi$
+(por exemplo com $\varphi=p$, $\psi=q$, $\gamma=r$).
 
 #### (d) Se $\varphi, \psi \models \theta \to \gamma$ e $\varphi \models \theta$, então $\varphi, \psi \models \gamma$
 
-**Verdadeira.** Seja $v$ tal que $\models_v \varphi$ e $\models_v \psi$.
-
-1. Como $\varphi \models \theta$ e $\models_v \varphi$, tem-se
-   $\models_v \theta$.
-2. Como $\varphi,\psi \models \theta\to\gamma$ e $\models_v \varphi$,
-   $\models_v \psi$, tem-se $\models_v \theta\to\gamma$.
-3. $\models_v \theta\to\gamma$ sse $\not\models_v \theta$ ou
-   $\models_v \gamma$. Por 1, $\not\models_v \theta$ é impossível, logo
-   $\models_v \gamma$.
-
-Como $v$ é arbitrária, $\varphi,\psi \models \gamma$. $\blacksquare$ (É o
-*modus ponens* na versão semântica.)
+**Verdadeira.** Por absurdo: suponha-se $\varphi,\psi \models
+\theta\to\gamma$ e $\varphi \models \theta$, mas $\varphi,\psi
+\not\models \gamma$. Então existe $v$ com $\models_v \varphi$,
+$\models_v \psi$ e $\not\models_v \gamma$. Da primeira hipótese,
+$\models_v \theta\to\gamma$; como $\not\models_v \gamma$, tem-se
+$\not\models_v \theta$. Mas $\models_v \varphi$ e $\varphi \models
+\theta$ dão $\models_v \theta$: contradição. Logo $\varphi,\psi \models
+\gamma$. $\blacksquare$
 
 ## Aula 2 --- Modelação
 
@@ -374,77 +302,42 @@ Como $v$ é arbitrária, $\varphi,\psi \models \gamma$. $\blacksquare$ (É o
 
 #### (g) A diz: "B e C são do mesmo tipo." Pergunta-se a C: "A e B são do mesmo tipo?" O que respondeu C?
 
-**Resposta: C disse "sim".**
+**C respondeu "sim".** Há quatro casos compatíveis com a frase de A:
 
-Variáveis: $A$, $B$, $C$ = "é cavaleiro".
-
-- A frase de A é $B\leftrightarrow C$. A é cavaleiro sse a frase é
-  verdadeira, logo $\models_v A\leftrightarrow(B\leftrightarrow C)$.
-- A pergunta feita a C é $Q = A\leftrightarrow B$. C responde "sim" sse
-  ($C$ cavaleiro e $Q$ verdadeira) ou ($C$ vilão e $Q$ falsa), isto é, sse
-  $\models_v C\leftrightarrow(A\leftrightarrow B)$.
-
-Pela comutatividade e associatividade de $\leftrightarrow$† (não estão
-na tabela de leis, mas confirmam-se com uma tabela de 8 linhas, abaixo):
-$$C\leftrightarrow(A\leftrightarrow B) \;\Leftrightarrow\; (A\leftrightarrow B)\leftrightarrow C \;\Leftrightarrow\; A\leftrightarrow(B\leftrightarrow C)$$
-
-Como $\models_v A\leftrightarrow(B\leftrightarrow C)$, tem-se
-$\models_v C\leftrightarrow(A\leftrightarrow B)$: **C responde "sim"**,
-qualquer que seja o tipo de cada um.
-
-Confirmação, com os quatro casos compatíveis com a frase de A:
-
-| A | B, C | A e B do mesmo tipo? | C é... | C responde |
-|:-:|:-:|:-:|:-:|:-:|
-| cav. | B = C = cav. | sim | cav. (diz a verdade) | **sim** |
-| cav. | B = C = vil. | não | vil. (mente) | **sim** |
-| vil. | B vil., C cav. | sim | cav. | **sim** |
-| vil. | B cav., C vil. | não | vil. | **sim** |
+- A é cavaleiro e B, C são cavaleiros: A e B são do mesmo tipo e C diz a
+  verdade, logo responde "sim".
+- A é cavaleiro e B, C são vilões: A e B não são do mesmo tipo e C mente,
+  logo responde "sim".
+- A é vilão (B e C de tipos diferentes), B vilão e C cavaleiro: A e B são
+  do mesmo tipo e C diz a verdade, logo responde "sim".
+- A é vilão, B cavaleiro e C vilão: A e B não são do mesmo tipo e C
+  mente, logo responde "sim".
 
 #### (j) Que pergunta de "sim/não" fazer para saber qual caminho leva à cidade?
 
-**Pergunta:** *"O caminho da esquerda leva à cidade **se e só se** tu és
-cavaleiro?"*
+**Pergunta:** *"O que responderias se eu te perguntasse: o caminho da
+direita leva à cidade?"*
 
-Seja $K$ = "o habitante é cavaleiro" e $E$ = "a esquerda leva à cidade". A
-pergunta é $Q = K \leftrightarrow E$. O habitante responde "sim" se e só
-se $K \leftrightarrow Q$: um cavaleiro diz "sim" quando $Q$ é verdade, um
-vilão diz "sim" quando $Q$ é falsa. Então:
+- Se a direita leva à cidade: um cavaleiro responderia "sim" à pergunta
+  interior e diz a verdade, logo diz "sim". Um vilão responderia "não" à
+  pergunta interior; como mente sobre o que responderia, diz "sim".
+- Se a direita não leva à cidade: o cavaleiro responderia "não" e diz
+  "não"; o vilão responderia "sim" e, mentindo, diz "não".
 
-$$\text{"sim"} \Leftrightarrow K \leftrightarrow (K \leftrightarrow E) \Leftrightarrow E$$
-
-porque $K \leftrightarrow K$ é sempre verdadeiro. A resposta "sim" quer
-dizer exatamente que a esquerda leva à cidade, seja quem for o habitante.
-
-| $K$ | $E$ | $Q=K\leftrightarrow E$ | responde |
-|:-:|:-:|:-:|:-:|
-| V | V | V | sim |
-| V | F | F | não |
-| F | V | F | mente: **sim** |
-| F | F | V | mente: **não** |
-
-A coluna "responde" é igual à coluna $E$. $\checkmark$
-
-(Uma pergunta equivalente muito usada: "Se eu te perguntasse se a esquerda
-leva à cidade, dirias que sim?")
+Em todos os casos a resposta é "sim" exatamente quando a direita leva à
+cidade. (Pergunta equivalente: "A direita leva à cidade se e só se tu és
+cavaleiro?")
 
 #### (k) *(opcional)* "Algum de vós é cavaleiro?" A resposta chegou para saber a resposta à pergunta. O que são os dois?
 
 **O interrogado é vilão e o outro é cavaleiro.**
 
-Seja X o interrogado e Y o outro. Vê o que cada caso responde:
-
-| X | Y | "algum é cavaleiro?" (verdade) | X responde |
-|:-:|:-:|:-:|:-:|
-| cav. | cav. | sim | sim |
-| cav. | vil. | sim | sim |
-| vil. | cav. | sim | mente: **não** |
-| vil. | vil. | não | mente: **sim** |
-
-Se a resposta fosse "sim", podia ser qualquer uma de três linhas, e o
-narrador **não** ficaria a saber se algum é cavaleiro (em duas das linhas
-sim, na última não). Como ele diz que ficou a saber, a resposta foi "não",
-e isso só acontece na 3.ª linha.
+Se a resposta fosse "sim", o narrador não ficaria a saber nada: podia ser
+um cavaleiro a dizer a verdade ou um vilão a mentir (com os dois vilões).
+Logo a resposta foi "não". Um cavaleiro não pode responder "não" (seria
+mentira, porque ele próprio é cavaleiro), logo o interrogado é vilão. Como
+mente, a resposta verdadeira é "sim": algum é cavaleiro, e só pode ser o
+outro.
 
 ### 1.12 --- Regras de escolha de cadeiras
 
@@ -458,43 +351,40 @@ $A$ = Álgebra.
 
 #### 1. É possível satisfazer as regras?
 
-Verificam-se as 8 valorações. ✗ = regra violada:
-
-| $G$ | $N$ | $A$ | R1 | R2 | R3 | R4 | todas? |
-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-| F | F | F | V | V | ✗ (nenhuma) | ✗ | não |
-| F | F | V | V | ✗ ($A$ sem $G\lor N$) | V | V | não |
-| F | V | F | V | ✗ | V | V | não |
-| F | V | V | V | V | V | V | **sim** |
-| V | F | F | ✗ | ✗ | V | ✗ | não |
-| V | F | V | V | V | V | V | **sim** |
-| V | V | F | V | ✗ | V | V | não |
-| V | V | V | V | V | ✗ (as três) | V | não |
-
-**Sim, é possível.** Há duas escolhas válidas: {Numérica, Álgebra} e
-{Gráfica, Álgebra}.
+**Sim.** Seja $v(G)=V$, $v(N)=F$, $v(A)=V$ (Gráfica e Álgebra).
+$\models_v A$, logo $\models_v N\lor A$ e $\models_v$ R1. $\models_v A$ e
+$\models_v G\lor N$, logo $\models_v$ R2. $\models_v G\lor N\lor A$ e
+$\not\models_v N$, logo $\not\models_v G\land N\land A$ e $\models_v$ R3.
+$\not\models_v \neg A$, logo $\models_v$ R4. (Também serve Numérica e
+Álgebra.)
 
 #### 2. A regra R4 é mesmo necessária? E a R1?
 
-Uma regra é **desnecessária** se, retirando-a, as escolhas válidas
-continuarem as mesmas. Na tabela, isso quer dizer que não há nenhuma linha
-em que **só** essa regra falhe.
+Uma regra pode tirar-se sse é **consequência semântica** das outras: se
+$\Gamma \models \varphi$, então $\Gamma\cup\{\varphi\}$ e $\Gamma$ são
+satisfeitos pelas mesmas valorações.
 
-- **R4:** as linhas onde R4 falha (FFF e VFF) já falham também R3 ou R2.
-  **Não é necessária.**
-- **R1:** a única linha onde R1 falha (VFF) já falha R2. **Também não é
-  necessária.**
+**R1 não é necessária:** $\{R2, R3\} \models R1$. Seja $v$ com
+$\models_v$ R2 e $\models_v$ R3. Se $\not\models_v G$, então
+$\models_v G\to(N\lor A)$. Se $\models_v G$, então $\models_v G\lor N$ e,
+por R2, $\models_v A$; logo $\models_v N\lor A$ e $\models_v$ R1.
 
-R2 e R3 sozinhas já dão as mesmas duas soluções.
+**R4 também não é necessária:** $\{R2, R3\} \models R4$. Seja $v$ com
+$\models_v$ R2 e $\models_v$ R3. Se $\not\models_v \neg A$, então
+$\models_v$ R4. Se $\models_v \neg A$, por R2 $\not\models_v G\lor N$, isto
+é, $\not\models_v G$ e $\not\models_v N$; então $\not\models_v G\lor N\lor
+A$ e $\not\models_v$ R3, o que é impossível. Logo $\models_v$ R4.
+
+(A folha de soluções diz que R4 não é consequência das restantes, mas a
+prova acima, confirmada pelas 8 valorações, mostra que é.)
 
 #### 3. Uma regra simples equivalente às quatro
 
-"**Escolhe Álgebra e exatamente uma das outras duas.**"
-
-$$A \land (G \leftrightarrow \neg N)$$
-
-($G \leftrightarrow \neg N$ é o "ou exclusivo": uma e só uma das duas.) É
-verdadeira exatamente nas linhas FVV e VFV. $\checkmark$
+"**Escolhe Álgebra e uma das outras duas, mas não as três.**"
+$$A \land (G\lor N) \land \neg(G\land N)$$
+Pelas alíneas anteriores as quatro regras equivalem a $\{R2, R3\}$, e
+$\{R2,R3\}$ só é satisfeito por $\{G, A\}$ e $\{N, A\}$, tal como esta
+regra.
 
 ## Aula 3 --- Formas normais
 
@@ -510,31 +400,14 @@ $$\text{FND: } (p\land q\land\neg r) \lor (p\land\neg q\land\neg r) \lor (\neg p
 **negado**): VVV, VFV, FFV, FFF.
 $$\text{FNC: } (\neg p\lor\neg q\lor\neg r) \land (\neg p\lor q\lor\neg r) \land (p\lor q\lor\neg r) \land (p\lor q\lor r)$$
 
-**Simplificação** (opcional, mas mostra o que a tabela "quer dizer"):
-juntando os pares que só diferem numa variável,
-
-- FND: $(p\land q\land\neg r)\lor(p\land\neg q\land\neg r) = p\land\neg r$ e
-  $(\neg p\land q\land r)\lor(\neg p\land q\land\neg r) = \neg p\land q$.
-  Fica $(p \land \neg r) \lor (\neg p \land q)$.
-- FNC: as duas primeiras cláusulas dão $\neg p\lor\neg r$ e as duas
-  últimas dão $p\lor q$. Fica $(\neg p\lor\neg r)\land(p\lor q)$.
-
-Leitura: "se $p$, então o valor é $\neg r$; se não $p$, é $q$".
-
 #### (c) coluna (c): V F V F V F V F
 
-**Olha primeiro para a coluna:** é V exatamente quando $r = V$. A função
-é simplesmente $r$.
+Linhas verdadeiras VVV, VFV, FVV, FFV; falsas VVF, VFF, FVF, FFF.
+$$\text{FND: } (p\land q\land r)\lor(p\land\neg q\land r)\lor(\neg p\land q\land r)\lor(\neg p\land\neg q\land r)$$
+$$\text{FNC: } (\neg p\lor\neg q\lor r)\land(\neg p\lor q\lor r)\land(p\lor\neg q\lor r)\land(p\lor q\lor r)$$
 
-As formas canónicas, se as fizeres pela regra:
-
-- FND (4 linhas verdadeiras):
-  $(p\land q\land r)\lor(p\land\neg q\land r)\lor(\neg p\land q\land r)\lor(\neg p\land\neg q\land r)$
-- FNC (4 linhas falsas):
-  $(\neg p\lor\neg q\lor r)\land(\neg p\lor q\lor r)\land(p\lor\neg q\lor r)\land(p\lor q\lor r)$
-
-As duas simplificam para $r$, e **$r$ sozinho já é FND e FNC ao mesmo
-tempo**: uma conjunção de um literal só, e uma cláusula de um literal só.
+(A coluna é V exatamente quando $r$ é V: as duas simplificam para $r$,
+que já é FND e FNC.)
 
 ### 1.18 --- FND e FNC de uma fórmula
 
@@ -692,35 +565,38 @@ feitas à mão, mas são equivalentes (confirmado com `equivalentes`).
 
 #### (c) 3.ª fórmula: $\neg p \land (\neg p \lor q) \land \neg q$
 
-**Como implicações:**
+Nenhuma variável é um elemento da conjunção (não há factos), por isso
+nada é obrigatório e a fórmula satisfaz-se com todas as variáveis a $F$:
 
-- $\neg p$ fica $p \to \bot$
-- $\neg p \lor q$ fica $p \to q$
-- $\neg q$ fica $q \to \bot$
+| $p$ | $q$ | $\neg p$ | $\neg p \lor q$ | $\neg q$ |
+|:-:|:-:|:-:|:-:|:-:|
+| F | F | V | V | V |
 
-**Não há nenhum facto** (nenhuma cláusula $\top \to x$). O algoritmo
-começa sem nada marcado, e nenhuma cláusula tem o antecedente todo marcado
-($p$ e $q$ não estão marcados). Na primeira volta nada muda e o algoritmo
-para.
-
-**Satisfazível**, com tudo a falso: $p = F$, $q = F$.
-Verificação: $\neg p = V$; $\neg p\lor q = V$; $\neg q = V$ $\checkmark$.
-
-Resposta à pergunta da caixa: sem factos, uma fórmula de Horn é **sempre
-satisfazível**, basta pôr tudo a $F$.
+**Satisfazível** para $v(p)=v(q)=F$. Sem factos, uma fórmula de Horn é
+sempre satisfazível.
 
 #### (c) 4.ª fórmula: $p \land (\neg p \lor q) \land \neg r$
 
-**Como implicações:** $\top \to p$, $p \to q$, $r \to \bot$.
+$p$ é um elemento da conjunção, logo $p = V$ (o literal $\neg p$ fica F):
 
-1. Facto $\top \to p$: marca $p$.
-2. $p \to q$: $p$ está marcado, marca $q$.
-3. $r \to \bot$: $r$ não está marcado, não dispara.
-4. Nova volta: nada muda. Nenhuma cláusula $\to\bot$ disparou.
+| $p$ | $q$ | $r$ | $p$ | $\neg p \lor q$ | $\neg r$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+| V | | | V | F | |
 
-**Satisfazível**, com $p = V$, $q = V$, $r = F$ (as marcadas a V, o resto
-a F).
-Verificação: $p = V$; $\neg p\lor q = F\lor V = V$; $\neg r = V$ $\checkmark$.
+Em $\neg p \lor q$ o único literal negativo já é F, logo $q = V$:
+
+| $p$ | $q$ | $r$ | $p$ | $\neg p \lor q$ | $\neg r$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+| V | V | | V | F V | |
+
+Não há mais propagação e nenhum elemento ficou F; a variável restante fica
+a F:
+
+| $p$ | $q$ | $r$ | $p$ | $\neg p \lor q$ | $\neg r$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+| V | V | F | V | F V | V |
+
+**Satisfazível** para $v(p)=v(q)=V$, $v(r)=F$.
 
 #### (a) Implementação
 
@@ -761,71 +637,37 @@ $\neg q$).
 
 ### 1.22 --- Algoritmo de Davis-Putnam (DLL)
 
-Critério de escolha usado (o mesmo da 1.22(a) no resumo): a variável que
-**ocorre mais vezes**, em caso de empate a primeira por ordem alfabética,
-experimentando primeiro o literal positivo.
-
 #### (c) $\{p \lor \neg q \lor \neg r,\ \neg p \lor q \lor r,\ \neg p \lor q \lor r,\ \neg p \lor q,\ \neg p \lor r\}$
 
-**Conjunto.** $\neg p \lor q \lor r$ aparece duas vezes, mas num conjunto
-conta uma só vez:
+Seja (a cláusula repetida conta uma vez)
 $$S = \{p \lor \neg q \lor \neg r,\ \neg p \lor q \lor r,\ \neg p \lor q,\ \neg p \lor r\}$$
-
-**Propagação:** não há cláusulas unitárias; não faz nada. $S$ não é vazio
-nem contém $F$.
-
-**Escolha:** $p$ ocorre nas 4 cláusulas, $q$ e $r$ em 3. Escolhe-se $p$.
-
-**Ramo $S \cup \{p\}$.** Propagar $p$:
-
-- sai $p \lor \neg q \lor \neg r$ (contém $p$), e a própria $\{p\}$;
-- $\neg p \lor q \lor r$ fica $q \lor r$; $\neg p \lor q$ fica $q$;
-  $\neg p \lor r$ fica $r$.
-
-Obtém-se $\{q \lor r,\ q,\ r\}$. Propagar $q$: saem $q \lor r$ e $q$,
-fica $\{r\}$. Propagar $r$: sai $r$, fica $\{\}$.
-
-**O conjunto ficou vazio: satisfazível.** Não foi preciso o ramo $\neg p$.
-
-**Valoração** (literais supostos e propagados): $p = V$, $q = V$, $r = V$.
-Verificação: $p \lor \neg q \lor \neg r = V$ (por $p$); as outras três
-têm $q$ ou $r$ a $V$. $\checkmark$
+Não há cláusulas unitárias; escolhe-se $p$ e chama-se DLL$(S \cup \{p\})$.
+A propagação unitária de $p$ dá
+$$S_1 = \{q \lor r,\ q,\ r\}$$
+A propagação unitária de $q$ dá $S_2 = \{r\}$, e a de $r$ dá $\{\ \}$.
+Logo $S$ é satisfazível para $v(p)=v(q)=v(r)=V$.
 
 #### (e) $\{p \lor \neg q \lor \neg r,\ \neg p \lor q \lor r,\ \neg p \lor \neg q \lor \neg r,\ \neg p \lor \neg q \lor r,\ \neg p \lor q \lor \neg r,\ p \lor q \lor \neg r\}$
 
-**Propagação:** não há unitárias. **Escolha:** $p$, $q$ e $r$ ocorrem 6
-vezes cada; escolhe-se $p$.
+Seja $S$ este conjunto. Não há cláusulas unitárias; escolhe-se $p$ e
+chama-se DLL$(S \cup \{p\})$. A propagação unitária de $p$ dá
+$$S_1 = \{q \lor r,\ \neg q \lor \neg r,\ \neg q \lor r,\ q \lor \neg r\}$$
+Não há cláusulas unitárias; escolhe-se $q$ e chama-se
+DLL$(S_1 \cup \{q\})$. A propagação de $q$ dá $S_2 = \{\neg r,\ r\}$, e a
+de $\neg r$ dá $\{F\}$.
 
-**Ramo $p$.** Saem as 2 cláusulas com $p$ ($p \lor \neg q \lor \neg r$ e
-$p \lor q \lor \neg r$). Às 4 com $\neg p$ tira-se $\neg p$:
-$$\{q \lor r,\ \neg q \lor \neg r,\ \neg q \lor r,\ q \lor \neg r\}$$
-Não há unitárias; $q$ e $r$ ocorrem 4 vezes. Escolhe-se $q$.
+Volta-se ao último ponto de escolha: DLL$(S_1 \cup \{\neg q\})$. A
+propagação de $\neg q$ dá $S_3 = \{r,\ \neg r\}$, e a de $r$ dá $\{F\}$.
 
-- **Ramo $q$**: saem $q \lor r$ e $q \lor \neg r$; $\neg q \lor \neg r$
-  fica $\neg r$ e $\neg q \lor r$ fica $r$. $\{\neg r, r\}$; propagar
-  $\neg r$ deixa $r$ vazia: $\{F\}$. **Falha.**
-- **Ramo $\neg q$**: saem $\neg q \lor \neg r$ e $\neg q \lor r$; $q \lor
-  r$ fica $r$ e $q \lor \neg r$ fica $\neg r$. $\{r, \neg r\} \Rightarrow
-  \{F\}$. **Falha.**
+Os dois ramos de $q$ falham; volta-se à escolha de $p$:
+DLL$(S \cup \{\neg p\})$. A propagação unitária de $\neg p$ dá
+$$S_4 = \{\neg q \lor \neg r,\ q \lor \neg r\}$$
+Não há cláusulas unitárias; escolhe-se $\neg r$ e chama-se
+DLL$(S_4 \cup \{\neg r\})$. A propagação de $\neg r$ dá $\{\ \}$.
 
-O ramo $p$ falha todo. **Volta-se atrás.**
-
-**Ramo $\neg p$.** Saem as 4 cláusulas com $\neg p$. Às 2 com $p$ tira-se
-$p$: $p \lor \neg q \lor \neg r$ fica $\neg q \lor \neg r$ e $p \lor q
-\lor \neg r$ fica $q \lor \neg r$.
-$$\{\neg q \lor \neg r,\ q \lor \neg r\}$$
-Não há unitárias; $q$ e $r$ ocorrem 2 vezes. Escolhe-se $q$.
-
-- **Ramo $q$**: sai $q \lor \neg r$; $\neg q \lor \neg r$ fica $\neg r$.
-  $\{\neg r\}$; propagar $\neg r$: fica $\{\}$. **Vazio: satisfazível.**
-
-**Valoração**: $p = F$, $q = V$, $r = F$. Verificação: as 4 cláusulas com
-$\neg p$ são $V$; $p \lor \neg q \lor \neg r = F \lor F \lor V = V$;
-$p \lor q \lor \neg r = F \lor V \lor V = V$. $\checkmark$
-
-(Por força bruta, as únicas valorações que satisfazem são $p=F, r=F$ com
-$q$ qualquer: repara que, no último conjunto, $\neg r$ já satisfazia as
-duas cláusulas.)
+Logo $S$ é satisfazível para $v(p)=F$, $v(r)=F$ ($q$ qualquer).
+(Escolhendo logo $\neg p$, como na folha de soluções, chega-se aqui sem
+voltar atrás.)
 
 ### 1.23 --- Implementar o algoritmo DLL
 
@@ -1650,6 +1492,36 @@ psi -> delta          ; &E, 1
 (phi \/ psi) -> delta ; ->I, 4-9
 ```
 
+### A7.9 --- De Morgan deduzido (Aula 7, slide 9)
+
+#### (b) $\neg(\phi\land\psi) \vdash \neg\phi\lor\neg\psi$
+
+Conclusão disjunção: por contradição, supor $\neg(\neg\phi\lor\neg\psi)$.
+Para contradizer a premissa $\neg(\phi\land\psi)$ é preciso
+$\phi\land\psi$, isto é, $\phi$ e $\psi$. Cada um obtém-se por
+contradição: supor $\neg\phi$ dá $\neg\phi\lor\neg\psi$ por $\lor$I,
+contra a hipótese da linha 2 (o mesmo para $\neg\psi$).
+
+```{.fitch seq="~(phi /\ psi) |- ~phi \/ ~psi"}
+~(phi /\ psi)
+---
+|> ~(~phi \/ ~psi)
+||> ~phi
+||  ~phi \/ ~psi     ; vI, 3
+||  F                ; FI, 4, 2
+|  ~~phi             ; ~I, 3-5
+|  phi               ; ~E, 6
+||> ~psi
+||  ~phi \/ ~psi     ; vI, 8
+||  F                ; FI, 9, 2
+|  ~~psi             ; ~I, 8-10
+|  psi               ; ~E, 11
+|  phi /\ psi        ; &I, 7, 12
+|  F                 ; FI, 13, 1
+~~(~phi \/ ~psi)     ; ~I, 2-14
+~phi \/ ~psi         ; ~E, 15
+```
+
 ## Aulas 5--6 --- Propriedades de $\vdash$
 
 ### 2.10 --- Verdadeiro ou falso
@@ -1735,3 +1607,401 @@ isto é, $\models_v \gamma$ para todo o $\gamma\in\Sigma\cup\Gamma$. Como
 $\Sigma \subseteq \Sigma\cup\Gamma$, $\models_v \Sigma$, e $\Sigma$ é
 satisfazível; da mesma forma $\Gamma$ é satisfazível. Isto contradiz (a).
 Logo $\Sigma\cup\Gamma$ não é satisfazível. $\blacksquare$
+
+## Aula 8 --- Axiomas de $\mathcal{H}$ em DN
+
+### A7.9 --- Axiomas de $\mathcal{H}$ são teoremas de DN (Aula 7, slide 9)
+
+#### (c) $\vdash \phi\to(\psi\to\phi)$
+
+Duas implicações encaixadas: supor $\phi$, depois $\psi$, e repetir
+$\phi$ (acessível, da sub-dedução exterior) com R.
+
+```{.fitch seq="|- phi -> (psi -> phi)"}
+|> phi
+||> psi
+||  phi              ; R, 1
+|  psi -> phi        ; ->I, 2-3
+phi -> (psi -> phi)  ; ->I, 1-4
+```
+
+#### (e) $\vdash (\neg\psi\to\neg\phi)\to((\neg\psi\to\phi)\to\psi)$
+
+Supor os dois antecedentes (linhas 1 e 2). Falta $\psi$, uma letra: por
+contradição, supor $\neg\psi$; as duas hipóteses dão então $\phi$ e
+$\neg\phi$, logo $\mathbf{F}$.
+
+```{.fitch seq="|- (~psi -> ~phi) -> ((~psi -> phi) -> psi)"}
+|> ~psi -> ~phi
+||> ~psi -> phi
+|||> ~psi
+|||  phi             ; ->E, 2, 3
+|||  ~phi            ; ->E, 1, 3
+|||  F               ; FI, 4, 5
+||  ~~psi            ; ~I, 3-6
+||  psi              ; ~E, 7
+|  (~psi -> phi) -> psi  ; ->I, 2-8
+(~psi -> ~phi) -> ((~psi -> phi) -> psi)  ; ->I, 1-9
+```
+
+## Aula 8 --- Tableaux
+
+### 2.17 --- Deduções por tableau
+
+Em cada alínea a raiz é $\neg\phi$; os números entre $[\,]$ dizem o nó
+expandido e $\times\,(i,k)$ fecha o ramo com $\psi$ no nó $i$ e $\neg\psi$
+no $k$ (ou vice-versa).
+
+#### (b) $((p\to q)\land(q\to r))\to(p\to r)$
+
+A raiz é $\alpha$ ($\neg(\cdot\to\cdot)$): nós 2 e 3. O nó 3,
+$\neg(p\to r)$, é $\alpha$: $p$, $\neg r$. O nó 2 é $\alpha$: as duas
+implicações. Só restam $\beta$: $p\to q$ abre $\neg p$ (fecha com $p$) e
+$q$; aqui $q\to r$ abre $\neg q$ (fecha com $q$) e $r$ (fecha com
+$\neg r$).
+
+```{.tableau seq="((p -> q) /\\ (q -> r)) -> (p -> r)"}
+~(((p -> q) /\ (q -> r)) -> (p -> r))
+(p -> q) /\ (q -> r) ; 1
+~(p -> r)            ; 1
+p                    ; 3
+~r                   ; 3
+p -> q               ; 2
+q -> r               ; 2
+[
+~p                   ; 6
+x                    ; 4, 8
+|
+q                    ; 6
+[
+~q                   ; 7
+x                    ; 10, 11
+|
+r                    ; 7
+x                    ; 5, 13
+]
+]
+```
+
+Todos os ramos fecham: tableau fechado para $\{\neg\phi\}$, logo $\phi$ tem
+dedução por tableau (é teorema). $\blacksquare$
+
+#### (c) $(\neg p\to q)\to((p\to q)\to q)$
+
+Duas $\alpha$ seguidas (nós 2--5) dão $\neg p\to q$, $p\to q$ e $\neg q$.
+A $\beta$ do nó 2 abre $\neg\neg p$ e $q$ (fecha com $\neg q$); no ramo
+esquerdo, $\neg\neg p$ dá $p$ e a $\beta$ do nó 4 abre $\neg p$ (fecha com
+$p$) e $q$ (fecha com $\neg q$).
+
+```{.tableau seq="(~p -> q) -> ((p -> q) -> q)"}
+~((~p -> q) -> ((p -> q) -> q))
+~p -> q              ; 1
+~((p -> q) -> q)     ; 1
+p -> q               ; 3
+~q                   ; 3
+[
+~~p                  ; 2
+p                    ; 6
+[
+~p                   ; 4
+x                    ; 7, 8
+|
+q                    ; 4
+x                    ; 5, 10
+]
+|
+q                    ; 2
+x                    ; 5, 12
+]
+```
+
+Tableau fechado para $\{\neg\phi\}$: $\phi$ é teorema. $\blacksquare$
+
+#### (d) $((p\to q)\to p)\to p$
+
+A raiz dá $(p\to q)\to p$ e $\neg p$. A $\beta$ do nó 2 abre
+$\neg(p\to q)$, uma $\alpha$ que dá $p$ (fecha com $\neg p$), e $p$ (fecha
+logo com $\neg p$).
+
+```{.tableau seq="((p -> q) -> p) -> p"}
+~(((p -> q) -> p) -> p)
+(p -> q) -> p        ; 1
+~p                   ; 1
+[
+~(p -> q)            ; 2
+p                    ; 4
+~q                   ; 4
+x                    ; 3, 5
+|
+p                    ; 2
+x                    ; 3, 8
+]
+```
+
+Tableau fechado para $\{\neg\phi\}$: $\phi$ é teorema. $\blacksquare$
+
+## Aula 8 --- Resolução
+
+### 2.18 --- Cláusulas e refutação
+
+#### (a) Conjunto de cláusulas
+
+Cada disjunção da FNC é uma cláusula (o conjunto dos seus literais):
+$$\{\{p,\neg q,r\},\ \{\neg p\},\ \{p,q,r\},\ \{p,\neg r\}\}$$
+
+#### (b) Dedução de $\mathbf{F}$ por resolução
+
+Cláusulas 1--4 pela ordem de (a). A cláusula unitária $\{\neg p\}$ (2)
+elimina $p$ das outras três; depois $q$ e $r$:
+
+- 5: $\{\neg q,r\}$ de 1 e 2 (elimina $p$);
+- 6: $\{q,r\}$ de 3 e 2 (elimina $p$);
+- 7: $\{r\}$ de 5 e 6 (elimina $q$; $r\cup r = \{r\}$);
+- 8: $\{\neg r\}$ de 4 e 2 (elimina $p$);
+- 9: $\mathbf{F}$ de 7 e 8 (elimina $r$).
+
+```{.resolucao}
+{p, ~q, r}
+{~p}
+{p, q, r}
+{p, ~r}
+{~q, r}              ; 1, 2
+{q, r}               ; 3, 2
+{r}                  ; 5, 6
+{~r}                 ; 4, 2
+F                    ; 7, 8
+```
+
+Logo o conjunto (e a fórmula) é insatisfazível, pela integridade da
+resolução. $\blacksquare$
+
+### 2.19 --- Refutação
+
+#### Resposta
+
+Cláusulas 1 $\{\neg p,\neg q,r\}$, 2 $\{p,r\}$, 3 $\{q,r\}$, 4 $\{\neg r\}$.
+A unitária $\{\neg r\}$ elimina $r$ das outras:
+
+- 5: $\{\neg p,\neg q\}$ de 1 e 4;
+- 6: $\{p\}$ de 2 e 4;
+- 7: $\{q\}$ de 3 e 4;
+- 8: $\{\neg q\}$ de 5 e 6 (elimina $p$);
+- 9: $\mathbf{F}$ de 7 e 8 (elimina $q$).
+
+```{.resolucao}
+{~p, ~q, r}
+{p, r}
+{q, r}
+{~r}
+{~p, ~q}             ; 1, 4
+{p}                  ; 2, 4
+{q}                  ; 3, 4
+{~q}                 ; 5, 6
+F                    ; 7, 8
+```
+
+### 2.21 --- Tableau e resolução
+
+#### (a) $(p\to q)\to((\neg p\to q)\to q)$
+
+**Tableau.** As $\alpha$ dão $p\to q$, $\neg p\to q$ e $\neg q$. A $\beta$
+do nó 2 abre $\neg p$ e $q$ (fecha com $\neg q$). Sob $\neg p$, a $\beta$
+do nó 4 abre $\neg\neg p$, que fecha logo com $\neg p$ (são $\psi$ e
+$\neg\psi$ com $\psi=\neg p$), e $q$ (fecha com $\neg q$).
+
+```{.tableau seq="(p -> q) -> ((~p -> q) -> q)"}
+~((p -> q) -> ((~p -> q) -> q))
+p -> q               ; 1
+~((~p -> q) -> q)    ; 1
+~p -> q              ; 3
+~q                   ; 3
+[
+~p                   ; 2
+[
+~~p                  ; 4
+x                    ; 6, 7
+|
+q                    ; 4
+x                    ; 5, 9
+]
+|
+q                    ; 2
+x                    ; 5, 11
+]
+```
+
+**Resolução.** FNC de $\neg\phi$:
+$$\begin{aligned}
+\neg\phi &\Leftrightarrow (p\to q)\land\neg((\neg p\to q)\to q)
+  && \neg(\phi'\to\psi')\Leftrightarrow\phi'\land\neg\psi'\\
+&\Leftrightarrow (p\to q)\land(\neg p\to q)\land\neg q
+  && \text{idem, associatividade}\\
+&\Leftrightarrow (\neg p\lor q)\land(\neg\neg p\lor q)\land\neg q
+  && \phi'\to\psi'\Leftrightarrow\neg\phi'\lor\psi'\\
+&\Leftrightarrow (\neg p\lor q)\land(p\lor q)\land\neg q
+  && \text{dupla negação}
+\end{aligned}$$
+Cláusulas 1 $\{\neg p,q\}$, 2 $\{p,q\}$, 3 $\{\neg q\}$. 4: $\{q\}$ de 1 e
+2 (elimina $p$); 5: $\mathbf{F}$ de 4 e 3.
+
+```{.resolucao de="(p -> q) -> ((~p -> q) -> q)"}
+{~p, q}
+{p, q}
+{~q}
+{q}                  ; 1, 2
+F                    ; 4, 3
+```
+
+#### (b) $q\to(p\to(q\land p))$
+
+**Tableau.** Duas $\alpha$ dão $q$, $p$ e $\neg(q\land p)$, uma $\beta$
+que abre $\neg q$ (fecha com $q$) e $\neg p$ (fecha com $p$).
+
+```{.tableau seq="q -> (p -> (q /\\ p))"}
+~(q -> (p -> (q /\ p)))
+q                    ; 1
+~(p -> (q /\ p))     ; 1
+p                    ; 3
+~(q /\ p)            ; 3
+[
+~q                   ; 5
+x                    ; 2, 6
+|
+~p                   ; 5
+x                    ; 4, 8
+]
+```
+
+**Resolução.** FNC de $\neg\phi$:
+$$\begin{aligned}
+\neg\phi &\Leftrightarrow q\land\neg(p\to(q\land p))
+  && \neg(\phi'\to\psi')\Leftrightarrow\phi'\land\neg\psi'\\
+&\Leftrightarrow q\land p\land\neg(q\land p)
+  && \text{idem, associatividade}\\
+&\Leftrightarrow q\land p\land(\neg q\lor\neg p)
+  && \text{De Morgan}
+\end{aligned}$$
+Cláusulas 1 $\{q\}$, 2 $\{p\}$, 3 $\{\neg q,\neg p\}$. 4: $\{\neg p\}$ de 1
+e 3 (elimina $q$); 5: $\mathbf{F}$ de 2 e 4.
+
+```{.resolucao de="q -> (p -> (q /\\ p))"}
+{q}
+{p}
+{~q, ~p}
+{~p}                 ; 1, 3
+F                    ; 2, 4
+```
+
+#### (c) $q\to(\neg p\to\neg(q\to p))$
+
+**Tableau.** As $\alpha$ dão $q$, $\neg p$ e $\neg\neg(q\to p)$, que dá
+$q\to p$. A $\beta$ abre $\neg q$ (fecha com $q$) e $p$ (fecha com
+$\neg p$).
+
+```{.tableau seq="q -> (~p -> ~(q -> p))"}
+~(q -> (~p -> ~(q -> p)))
+q                    ; 1
+~(~p -> ~(q -> p))   ; 1
+~p                   ; 3
+~~(q -> p)           ; 3
+q -> p               ; 5
+[
+~q                   ; 6
+x                    ; 2, 7
+|
+p                    ; 6
+x                    ; 4, 9
+]
+```
+
+**Resolução.** FNC de $\neg\phi$:
+$$\begin{aligned}
+\neg\phi &\Leftrightarrow q\land\neg(\neg p\to\neg(q\to p))
+  && \neg(\phi'\to\psi')\Leftrightarrow\phi'\land\neg\psi'\\
+&\Leftrightarrow q\land\neg p\land\neg\neg(q\to p)
+  && \text{idem, associatividade}\\
+&\Leftrightarrow q\land\neg p\land(q\to p)
+  && \text{dupla negação}\\
+&\Leftrightarrow q\land\neg p\land(\neg q\lor p)
+  && \phi'\to\psi'\Leftrightarrow\neg\phi'\lor\psi'
+\end{aligned}$$
+Cláusulas 1 $\{q\}$, 2 $\{\neg p\}$, 3 $\{\neg q,p\}$. 4: $\{p\}$ de 1 e 3
+(elimina $q$); 5: $\mathbf{F}$ de 2 e 4.
+
+```{.resolucao de="q -> (~p -> ~(q -> p))"}
+{q}
+{~p}
+{~q, p}
+{p}                  ; 1, 3
+F                    ; 2, 4
+```
+
+## Aulas 9--10 --- Integridade
+
+### A9.11 --- Não dedutibilidade (Aulas 9--10, slide 11)
+
+#### Resposta
+
+Seja $v(p)=V$, $v(q)=V$. De $\models_v p$ segue $\models_v q\to p$, logo
+$\models_v \neg p\lor(q\to p)$. De $\models_v p$ segue $\not\models_v \neg p$,
+logo $\not\models_v \neg p\land q$. Portanto
+$\neg p\lor(q\to p) \not\models \neg p\land q$ e, pela integridade de DN,
+$\neg p\lor(q\to p) \nvdash \neg p\land q$.
+
+## Aulas 9--10 --- Completude
+
+### A9.20 --- Os casos do Lema 1 (Aulas 9--10, slides 20--22)
+
+#### (a) $\neg\phi_1\land\neg\phi_2 \vdash \phi_1\to\phi_2$
+
+Supõe-se $\phi_1$; com $\neg\phi_1$ chega-se a $\mathbf{F}$ e daí a
+qualquer fórmula.
+
+```{.fitch seq="~phi1 /\ ~phi2 |- phi1 -> phi2"}
+~phi1 /\ ~phi2
+---
+|> phi1
+|  ~phi1             ; &E, 1
+|  F                 ; FI, 2, 3
+|  phi2              ; FE, 4
+phi1 -> phi2         ; ->I, 2-5
+```
+
+#### (b) $\neg\phi_1\land\phi_2 \vdash \neg(\phi_1\land\phi_2)$
+
+```{.fitch seq="~phi1 /\ phi2 |- ~(phi1 /\ phi2)"}
+~phi1 /\ phi2
+---
+|> phi1 /\ phi2
+|  phi1              ; &E, 2
+|  ~phi1             ; &E, 1
+|  F                 ; FI, 3, 4
+~(phi1 /\ phi2)      ; ~I, 2-5
+```
+
+#### (c) $\neg\phi_1\land\neg\phi_2 \vdash \neg(\phi_1\lor\phi_2)$
+
+Supõe-se a disjunção e cada caso do $\lor$E dá $\mathbf{F}$.
+
+```{.fitch seq="~phi1 /\ ~phi2 |- ~(phi1 \/ phi2)"}
+~phi1 /\ ~phi2
+---
+|> phi1 \/ phi2
+||> phi1
+||  ~phi1            ; &E, 1
+||  F                ; FI, 3, 4
+||> phi2
+||  ~phi2            ; &E, 1
+||  F                ; FI, 6, 7
+|  F                 ; vE, 2, 3-5, 6-8
+~(phi1 \/ phi2)      ; ~I, 2-9
+```
+
+#### (d) $\neg\phi_1\land\phi_2 \vdash \phi_1\lor\phi_2$
+
+```{.fitch seq="~phi1 /\ phi2 |- phi1 \/ phi2"}
+~phi1 /\ phi2
+---
+phi2                 ; &E, 1
+phi1 \/ phi2         ; vI, 2
+```

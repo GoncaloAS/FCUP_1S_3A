@@ -16,9 +16,13 @@ sempre a skill `resumo-semanal` (`.claude/skills/resumo-semanal/SKILL.md`).
   .fonte/RESUMO_<D>.md        fonte do resumo (escondida; nunca apagar)
   .fonte/REVISAO_<D>.md       fonte da folha de revisão (2-3 páginas de receitas)
   .fonte/SOLUCOES_<D>.md      soluções dos "Pratica agora"
+  .fonte/CONTEXTO_<D>.md      convenções e factos desta disciplina (não gera PDF)
+  .fonte/.cache/              texto extraído dos slides (gerado, fora do git)
   RESUMO_<D>.pdf, REVISAO_<D>.pdf
-_shared/template/             build.sh, contexto.sh, extrair.sh, preâmbulos, filtros
+_shared/template/             prep.sh, fechar.sh, contexto.sh, extrair.sh, build.sh, preâmbulos, filtros
 SOLUCOES.html                 site único de soluções, um separador por disciplina (gerado)
+Quizrama/                     quizzes de preparação para testes (redes.html; SO em index.html)
+  tools/<d>-guide/            build.py (guia a partir do RESUMO) e perguntas.py (banco; editar aqui)
 ```
 
 **`.md` escondido**: o Gonçalo não quer ver `.md` ao navegar as pastas.
@@ -39,16 +43,27 @@ fonte fica em `.fonte/`.
 
 ## Poupar tokens
 
-- Nunca ler o RESUMO inteiro nem os slides como imagem por defeito. Usa:
-  - `_shared/template/contexto.sh <D> [termos | --sol]`: estado, índice e
-    greps;
-  - `_shared/template/extrair.sh <pdf>`: texto dos slides e os slides a ver
-    como imagem.
-- Faz edições cirúrgicas (`Edit`), uma disciplina por sessão e sem
-  subagentes.
+- A sessão começa com `_shared/template/prep.sh <D>` (estado, extração dos
+  slides para o cache, sobreposições, convenções) e acaba com
+  `_shared/template/fechar.sh <D>` (build, verificações, soluções).
+- Nunca ler o RESUMO inteiro nem os slides como imagem por defeito; o
+  texto dos slides lê-se uma vez, do cache. Para o resto:
+  `contexto.sh <D> [--mapa termos | termos | --indice | --sol]`.
+- Poucas chamadas (cada uma reenvia o contexto todo): junta numa só
+  resposta as que não dependem umas das outras. Edições cirúrgicas
+  (`Edit`), uma disciplina por sessão e sem subagentes.
 
 ## Auto-melhoria
 
 O feedback do Gonçalo sobre formato, estilo ou profundidade vira uma regra
 curta no `SKILL.md` (ou num `ref/`) e passa a aplicar-se a todas as
-disciplinas.
+disciplinas; se só vale para uma, vai para o `.fonte/CONTEXTO_<D>.md` dela.
+
+## Quizrama (quizzes para testes)
+
+O antigo projeto `~/Personal Projects/quizrama` vive agora em `Quizrama/`
+(o histórico antigo está no GitHub, GoncaloAS/quizrama). Um quiz de uma
+disciplina tem `Quizrama/tools/<d>-guide/`; o `fechar.sh` regenera o guia e
+as perguntas e corre o `npm test`. Perguntas só da matéria do teste, ao estilo
+do teste, com correção de todas as opções, link para a secção da teoria e a
+posição da certa sorteada e equilibrada.

@@ -1,10 +1,10 @@
 ---
 title: "Lógica Computacional --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 3 (Aulas 1--6)"
+date: "Atualizado: Semana 5 (Aulas 1--10)"
 ---
 
-<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf, Teoricas/Aula_04.pdf, Teoricas/Aula_05-06.pdf -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf, Teoricas/Aula_04.pdf, Teoricas/Aula_05-06.pdf, Teoricas/Aula_07.pdf, Teoricas/Aula_08.pdf, Teoricas/Aula_09-10.pdf -->
 
 *O sinal † marca matéria que não está nos slides mas faz falta para as
 práticas.*
@@ -563,24 +563,27 @@ A segunda vale sempre, como em (a). **Contraexemplo:** $v(q)=V$, $v(r)=V$.
 **(c) $\{(p\to q)\lor r,\ ((p\to q)\lor r)\to\neg r,\ (p\to q)\to(q\to r)\} \models \neg q$
 --- VERDADEIRO.**
 
-Seja $v$ tal que $\models_v (p\to q)\lor r$,
-$\models_v ((p\to q)\lor r)\to\neg r$ e $\models_v (p\to q)\to(q\to r)$.
+Com a tabela de verdade (o método da professora quando o enunciado não a
+proíbe), com $A = (p\to q)\lor r$:
 
-1. $\models_v ((p\to q)\lor r)\to\neg r$ sse
-   $\not\models_v (p\to q)\lor r$ ou $\models_v \neg r$. O primeiro é
-   impossível (1.ª premissa), logo $\models_v \neg r$: $\not\models_v r$.
-2. $\models_v (p\to q)\lor r$ sse $\models_v p\to q$ ou $\models_v r$.
-   Por 1, $\models_v p\to q$.
-3. $\models_v (p\to q)\to(q\to r)$ sse $\not\models_v p\to q$ ou
-   $\models_v q\to r$. Por 2, $\models_v q\to r$.
-4. $\models_v q\to r$ sse $\not\models_v q$ ou $\models_v r$. Por 1,
-   $\not\models_v q$, isto é, $\models_v \neg q$.
+| $p$ | $q$ | $r$ | $p\to q$ | $A$ | $\neg r$ | $A\to\neg r$ | $q\to r$ | $(p\to q)\to(q\to r)$ | $\neg q$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| V | V | V | V | V | F | F | V | V | F |
+| V | V | F | V | V | V | V | F | F | F |
+| V | F | V | F | V | F | F | V | V | V |
+| V | F | F | F | F | V | V | V | V | V |
+| F | V | V | V | V | F | F | V | V | F |
+| F | V | F | V | V | V | V | F | F | F |
+| F | F | V | V | V | F | F | V | V | V |
+| F | F | F | V | **V** | V | **V** | V | **V** | **V** |
 
-Como $v$ é arbitrária, o conjunto $\models \neg q$. $\blacksquare$
+Na única linha em que as três premissas são V (a última), $\neg q$ também
+é V. Logo o conjunto $\models \neg q$.
 :::
 
 ::: {.exemplo title="--- Exercício 1.13(d) (lab, proplogic.pdf)"}
 **$\{(p\lor q)\to r\} \models (p\to r)\lor(q\to r)$ --- VERDADEIRO.**
+Sem tabela, pela definição de $\models_v$:
 
 Seja $v$ tal que $\models_v (p\lor q)\to r$. Queremos
 $\models_v (p\to r)\lor(q\to r)$.
@@ -603,17 +606,10 @@ juntar "$v(r)=V$ **e** $v(p)=F$ **e** $v(q)=F$".
 ::: {.exemplo title="--- Exercício 1.14(a) e 1.14(d) (lab, proplogic.pdf) --- sem tabela de verdade"}
 **(a) $\models p \to (((q\to p)\to p) \to r)$ --- FALSO.**
 
-$$\not\models_v p \to (((q\to p)\to p)\to r) \ \text{ sse }\ \models_v p \ \text{ e }\ \not\models_v ((q\to p)\to p)\to r$$
-$$\not\models_v ((q\to p)\to p)\to r \ \text{ sse }\ \models_v (q\to p)\to p \ \text{ e }\ \not\models_v r$$
-Com $\models_v p$, $\models_v (q\to p)\to p$ vale sempre (consequente
-satisfeito). Basta $v(p)=V$ e $v(r)=F$.
-**Contraexemplo:** $v(p)=V$, $v(q)=V$, $v(r)=F$.
-
-- $\models_v p$, logo $\models_v (q\to p)\to p$.
-- $\models_v (q\to p)\to p$ e $\not\models_v r$, logo
-  $\not\models_v ((q\to p)\to p)\to r$.
-- $\models_v p$ e $\not\models_v ((q\to p)\to p)\to r$, logo
-  $\not\models_v p \to (((q\to p)\to p)\to r)$. Não é tautologia.
+Seja $v(p)=V$ e $v(r)=F$. De $\models_v p$ segue
+$\models_v (q\to p)\to p$; com $\not\models_v r$, fica
+$\not\models_v ((q\to p)\to p)\to r$. Como $\models_v p$,
+$\not\models_v p \to (((q\to p)\to p)\to r)$: não é tautologia.
 
 **(d) $\models ((p\land q)\to(s\lor t)) \to ((p\to s)\lor(q\to t))$ ---
 VERDADEIRO.** Por absurdo: suponha-se $v$ com $\not\models_v$ da fórmula.
@@ -633,10 +629,10 @@ $\models ((p\land q)\to(s\lor t)) \to ((p\to s)\lor(q\to t))$. $\blacksquare$
 
 ::: {.pratica title="--- Propriedades de $\models$ (proplogic.pdf)"}
 - **1.15** --- mesma ideia do Exercício 1.16 acima, mas com $\models$ e
-  $\Leftrightarrow$ entre fórmulas genéricas $\varphi,\psi,\theta,\gamma$:
-  se for verdadeiro, prova com a definição de $\models_v$ (método acima);
-  se for falso, instancia com fórmulas concretas ($\varphi=p$, ...) e dá a
-  valoração do contraexemplo, verificada regra a regra.
+  $\Leftrightarrow$ entre fórmulas genéricas $\varphi,\psi,\theta,\gamma$,
+  que se tratam como variáveis: verdadeiro → definição de $\models_v$, por
+  absurdo, equivalências ou tabela sobre $\varphi,\psi$; falso → uma
+  valoração ($v(\varphi)=F$, $v(\psi)=V$, ...) verificada regra a regra.
 :::
 
 ## Quantas proposições podem ser simultaneamente verdadeiras
@@ -720,45 +716,33 @@ completo**.
 ## Aplicação: modelar problemas em lógica proposicional
 
 Nos problemas de cavaleiros (dizem sempre a verdade) e vilões (mentem
-sempre), a chave é a **auto-referência**: se $a$ = "A é cavaleiro" e $S$
-traduz a frase de A, tem de valer $a \leftrightarrow S$.
+sempre), a chave é a **auto-referência**: A é cavaleiro sse o que diz é
+verdade ($a \leftrightarrow S$, com $a$ = "A é cavaleiro" e $S$ a frase).
+A professora resolve-os **por casos, em frases curtas**: cada caso
+impossível viola uma das regras (cavaleiro a mentir ou vilão a dizer a
+verdade). Uma tabela de $a\leftrightarrow S$ dá o mesmo resultado.
 
 ::: {.exemplo title="--- Exercício 1.10(a) (lab, proplogic.pdf) --- cavaleiros e vilões"}
 A diz: "Pelo menos um de nós [A, B] é vilão."
 
-Com $a$, $b$ = "A/B é cavaleiro", $S = \neg a \lor \neg b$ e a condição é
-$a \leftrightarrow (\neg a\lor\neg b)$:
-
-| $a$ | $b$ | $S=\neg a\lor\neg b$ | $a\leftrightarrow S$ |
-|---|---|---|---|
-| V | V | F | F |
-| V | F | V | **V** |
-| F | V | V | F |
-| F | F | V | F |
-
-Só $a=V,b=F$ é consistente. **A é cavaleiro, B é vilão.**
+A não pode ser vilão e dizer isto: a frase seria verdadeira e um vilão
+estaria a dizer a verdade. Logo **A é cavaleiro**, a frase é verdadeira e,
+como A não é vilão, **B é vilão**.
 :::
 
 ::: {.exemplo title="--- Exercício 1.10(e) (lab, proplogic.pdf) --- três pessoas"}
 A diz: "Somos todos vilões." B diz: "Exatamente um de nós é cavaleiro."
 
-Com $a,b,c$ = "A/B/C é cavaleiro": $S_A = \neg a\land\neg b\land\neg c$ e
-$S_B$ = "exatamente um de $a,b,c$ é V". Procuram-se as linhas em que
-$\mathrm{cond}_1 = (a\leftrightarrow S_A)$ e
-$\mathrm{cond}_2 = (b\leftrightarrow S_B)$ são **ambas** $V$:
+A não pode ser cavaleiro e dizer isto (ele próprio seria vilão). Logo
+**A é vilão** e a frase é falsa: B ou C é cavaleiro.
 
-| $a$ | $b$ | $c$ | $S_A$ | cond$_1$ | $S_B$ | cond$_2$ |
-|---|---|---|---|---|---|---|
-| V | V | V | F | F | F | F |
-| V | V | F | F | F | F | F |
-| V | F | V | F | F | F | V |
-| V | F | F | F | F | V | F |
-| F | V | V | F | V | F | F |
-| F | V | F | F | V | **V** | **V** |
-| F | F | V | F | V | F | F |
-| F | F | F | V | F | V | F |
+- B e C não podem ser os dois cavaleiros: a frase de B seria falsa e B
+  um cavaleiro a mentir.
+- B vilão e C cavaleiro também não: haveria exatamente um cavaleiro, a
+  frase de B seria verdadeira e B um vilão a dizer a verdade.
 
-Só $a=F,b=V,c=F$. **A é vilão, B é cavaleiro, C é vilão.**
+Logo **B é cavaleiro e C é vilão** (e a frase de B é verdadeira: só B é
+cavaleiro).
 :::
 
 ::: {.exemplo title="--- Exercício 1.11 (lab, proplogic.pdf) --- suspeitos de um crime"}
@@ -1353,28 +1337,35 @@ Cada volta marca uma variável nova (ou pára): no máximo (nº de variáveis
 :::
 
 ::: {.exemplo title="--- Exercício 1.21(c), 1.ª e 2.ª fórmulas (lab, proplogic.pdf)"}
-**(i) $(\neg p \lor \neg q) \land (\neg q \lor r) \land q$.** Como
-implicações: $(p \land q) \to F$, $q \to r$, $V \to q$.
+Os valores escrevem-se por baixo de cada literal, à medida que se
+propagam.
 
-- Facto $q$ → $q = V$.
-- $q \to r$: $q$ marcado → $r = V$.
-- $(p \land q) \to F$: precisa de $p$ **e** $q$; $p$ não está marcado →
-  não dispara.
-- Nova volta: nada muda; nenhuma cláusula ficou $F$.
+**(i) $(\neg p \lor \neg q) \land (\neg q \lor r) \land q$.** $q$ é um
+elemento da conjunção, logo $q = V$ (os literais $\neg q$ ficam F):
 
-**Satisfazível**, com $q = r = V$ e $p = F$. Verificação:
-$\neg p \lor \neg q = V \lor F = V$; $\neg q \lor r = F \lor V = V$; $q = V$. $\checkmark$
+| $p$ | $q$ | $r$ | $\neg p \lor \neg q$ | $\neg q \lor r$ | $q$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+| | V | | $\cdot$ F | F $\cdot$ | V |
 
-**(ii) $p \land (\neg p \lor q) \land (\neg q \lor p)$.** Como implicações:
-$V \to p$, $p \to q$, $q \to p$.
+Em $\neg q \lor r$ o único negativo é F, logo $r = V$. Não há mais
+propagação, nenhum elemento ficou F, e $p$ fica a F:
 
-- Facto $p$ → $p = V$.
-- $p \to q$: $p$ marcado → $q = V$.
-- $q \to p$: $p$ já estava marcado → nada novo.
-- Nova volta: nada muda; nenhuma cláusula ficou $F$.
+| $p$ | $q$ | $r$ | $\neg p \lor \neg q$ | $\neg q \lor r$ | $q$ |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+| F | V | V | V F | F V | V |
 
-**Satisfazível**, com $p = q = V$. Verificação: $p = V$;
-$\neg p \lor q = F \lor V = V$; $\neg q \lor p = F \lor V = V$. $\checkmark$
+**Satisfazível** para $v(p)=F$, $v(q)=v(r)=V$.
+
+**(ii) $p \land (\neg p \lor q) \land (\neg q \lor p)$.** $p$ é elemento
+da conjunção, logo $p = V$; em $\neg p \lor q$ o negativo fica F, logo
+$q = V$; $\neg q \lor p$ já tem $p = V$. Não há mais propagação e nenhum
+elemento ficou F:
+
+| $p$ | $q$ | $p$ | $\neg p \lor q$ | $\neg q \lor p$ |
+|:-:|:-:|:-:|:-:|:-:|
+| V | V | V | F V | F V |
+
+**Satisfazível** para $v(p)=v(q)=V$.
 :::
 
 ::: {.pratica title="--- Horn (proplogic.pdf)"}
@@ -1553,26 +1544,21 @@ quatro combinações de $p$ e $q$).
 ::: {.exemplo title="--- Exercício 1.22(a) (lab, proplogic.pdf)"}
 $$S = \{p \lor q \lor r,\ \neg p \lor \neg q \lor \neg r,\ p \lor \neg q \lor \neg r,\ p \lor q \lor \neg r,\ \neg p \lor q,\ \neg p \lor r,\ p \lor \neg q \lor r\}$$
 
-Sem unitárias. "Ocorre mais vezes": $p$ está nas 7 cláusulas, $q$ e $r$
-em 6. Escolhe-se **$p$**.
+Não há cláusulas unitárias; escolhe-se $p$ (está nas 7 cláusulas) e
+chama-se DLL$(S \cup \{p\})$. A propagação unitária de $p$ (saem as 4
+cláusulas com $p$; tira-se $\neg p$ das outras 3) dá
+$$S_1 = \{\neg q \lor \neg r,\ q,\ r\}$$
+A propagação de $q$ dá $S_2 = \{\neg r,\ r\}$, e a de $r$ dá $\{F\}$.
 
-**Ramo $p$.** Saem as 4 cláusulas com $p$; nas 3 com $\neg p$ tira-se
-$\neg p$: $\{\neg q \lor \neg r,\ q,\ r\}$. Propagar $q$: $\neg q \lor
-\neg r$ fica $\neg r$, $\{\neg r, r\}$. Propagar $\neg r$: $r$ fica vazia,
-$\{F\}$. **Falha.**
+Volta-se ao último ponto de escolha e chama-se DLL$(S \cup \{\neg p\})$.
+A propagação unitária de $\neg p$ dá
+$$S_3 = \{q \lor r,\ \neg q \lor \neg r,\ q \lor \neg r,\ \neg q \lor r\}$$
+Não há cláusulas unitárias; escolhe-se $q$ e chama-se
+DLL$(S_3 \cup \{q\})$. A propagação de $q$ dá $S_4 = \{\neg r,\ r\}$, e a
+de $r$ dá $\{F\}$. Volta-se atrás: DLL$(S_3 \cup \{\neg q\})$; a
+propagação de $\neg q$ dá $S_5 = \{r,\ \neg r\}$, e a de $r$ dá $\{F\}$.
 
-**Ramo $\neg p$.** Saem as 3 com $\neg p$; nas 4 com $p$ tira-se $p$:
-$\{q \lor r,\ \neg q \lor \neg r,\ q \lor \neg r,\ \neg q \lor r\}$. Sem
-unitárias; $q$ e $r$ ocorrem 4 vezes cada. Escolhe-se **$q$**.
-
-- **Ramo $q$**: saem $q \lor r$ e $q \lor \neg r$; $\neg q \lor \neg r$
-  fica $\neg r$ e $\neg q \lor r$ fica $r$. $\{\neg r, r\} \Rightarrow
-  \{F\}$. **Falha.**
-- **Ramo $\neg q$**: saem $\neg q \lor \neg r$ e $\neg q \lor r$; $q \lor
-  r$ fica $r$ e $q \lor \neg r$ fica $\neg r$. $\{r, \neg r\} \Rightarrow
-  \{F\}$. **Falha.**
-
-Todos os ramos falham: **insatisfazível**.
+Todos os ramos falham: $S$ é **insatisfazível**.
 
 ![](figuras/dll_arvore_1_22a.pdf){width=62%}
 :::
@@ -1593,7 +1579,7 @@ A 1.22(b) e a 1.22(d) são a mesma técnica com outros conjuntos; não é
 preciso fazê-las todas.
 :::
 
-# Aulas 5--6 --- Dedução Natural
+# Aulas 5--7 --- Dedução Natural
 
 Falta a terceira parte de uma lógica, o **sistema de dedução**: regras
 puramente sintáticas para obter fórmulas a partir de outras, sem falar em
@@ -1616,10 +1602,7 @@ $$\begin{aligned}
 \Gamma \vdash \phi \quad &\xrightarrow{\ \text{integridade (\emph{soundness})}\ } \quad \Gamma \models \phi
 \end{aligned}$$
 
-::: {.definicao title="--- Integridade e completude †"}
-(Os slides só desenham as setas; as definições são dos apontamentos de
-Nelma Moreira, 1.5.)
-
+::: {.definicao title="--- Integridade e completude"}
 - Um sistema dedutivo é **íntegro** (*correto*, *sound*) se tudo o que se
   deduz é consequência semântica: se $\Gamma \vdash \phi$ então
   $\Gamma \models \phi$. Em particular, se $\vdash \phi$, $\phi$ é
@@ -1629,7 +1612,7 @@ Nelma Moreira, 1.5.)
   tautologia tem uma dedução sem premissas.
 
 DN é **íntegra e completa** para a lógica proposicional:
-$\Gamma \vdash \phi$ sse $\Gamma \models \phi$.
+$\Gamma \vdash \phi$ sse $\Gamma \models \phi$ (provas nas Aulas 9--10).
 :::
 
 Um sistema de dedução dá um método automático, ou semi-automático, de
@@ -1700,8 +1683,10 @@ fórmulas anteriores por uma regra. Escreve-se $\Sigma \vdash_{\mathcal{D}} \phi
   $\theta_1, \dots, \theta_n \vdash \phi$.
 :::
 
-::: {.definicao title="--- Equivalência dedutiva ($\\dashv\\vdash$) †"}
-(Usada nas 2.11 e 2.12; apontamentos de Nelma Moreira, 1.4.3.11.)
+Um exemplo concreto, o sistema de Hilbert $\mathcal{H}$, está na Aula 8.
+
+::: {.definicao title="--- Equivalência dedutiva ($\\dashv\\vdash$)"}
+(Aula 7; usada nas 2.11 e 2.12.)
 $\phi \dashv\vdash \psi$ se $\phi \vdash \psi$ **e** $\psi \vdash \phi$:
 são **duas deduções**, uma em cada sentido.
 :::
@@ -2268,12 +2253,11 @@ técnicas.
 
 ## Regras derivadas e estratégias
 
-**Regras derivadas**† (apontamentos de Nelma Moreira, 1.4.3.10) são
-atalhos que correspondem a deduções já feitas e se podem "colar" noutra.
-A folha 2 diz "In case you use derived rules, you should prove them
-separately": pode usar-se MT, RA, TE ou $\neg\neg$I, mas escrevendo
-também a dedução de cada uma (as de baixo). As soluções usam só as regras
-base.
+**Regras derivadas** (Aula 7) são atalhos que correspondem a teoremas de
+DN: obtêm-se das regras base e podem "colar-se" noutra dedução. A folha 2
+diz "In case you use derived rules, you should prove them separately":
+pode usar-se MT, RA, TE ou $\neg\neg$I, mas escrevendo também a dedução
+de cada uma (as de baixo). As soluções usam só as regras base.
 
 ::: {.definicao title="--- Regras derivadas e as suas deduções"}
 **Modus tollens** (MT):
@@ -2294,7 +2278,19 @@ $$\dfrac{\phi}{\neg\neg\phi}\,{\scriptstyle\neg\neg\mathrm{I}}
 \qquad\qquad
 \dfrac{\begin{array}{c}[\neg\phi]\\ \vdots\\ \mathbf{F}\end{array}}{\phi}\,{\scriptstyle\mathrm{RA}}$$
 $\neg\neg$I é $\phi \vdash \neg\neg\phi$ (secção da negação). RA abrevia
-"$\neg$I (dá $\neg\neg\phi$) e depois $\neg$E", como no exemplo (d).
+"$\neg$I (dá $\neg\neg\phi$) e depois $\neg$E", como no exemplo (d). Nos
+slides, RA justifica-se assim: uma dedução de $\mathbf{F}$ a partir de
+$\neg\phi$ dá, por $\to$I, $\neg\phi\to\mathbf{F}$; basta então
+$\neg\phi\to\mathbf{F} \vdash \phi$:
+
+```{.fitch seq="~phi -> F |- phi"}
+~phi -> F
+---
+|> ~phi
+|  F                 ; ->E, 1, 2
+~~phi                ; ~I, 2-3
+phi                  ; ~E, 4
+```
 :::
 
 ::: {.definicao title="--- Terceiro excluído (TE): $\\vdash \\phi\\lor\\neg\\phi$"}
@@ -2328,6 +2324,22 @@ phi -> psi
 ||  F                ; FI, 4, 2
 |  ~phi              ; ~I, 3-5
 ~psi -> ~phi         ; ->I, 2-6
+```
+:::
+
+::: {.exemplo title="--- Usar regras derivadas (Aula 7): $\\neg q\\to\\neg p \\vdash p\\to\\neg\\neg q$"}
+Conclusão implicação: supor $p$ e chegar a $\neg\neg q$. O MT aplicado a
+$\neg q\to\neg p$ precisa de $\neg\neg p$ (a negação do consequente
+$\neg p$), que vem de $p$ por $\neg\neg$I. Em exame, MT e $\neg\neg$I
+teriam de vir provados à parte (caixa acima).
+
+```{.fitch seq="~q -> ~p |- p -> ~~q"}
+~q -> ~p
+---
+|> p
+|  ~~p               ; ~~I, 2
+|  ~~q               ; MT, 1, 3
+p -> ~~q             ; ->I, 2-4
 ```
 :::
 
@@ -2389,6 +2401,30 @@ delta1 -> delta2     ; ->I, 2-7
 ```
 :::
 
+::: {.exemplo title="--- Aula 7, slide 9 (a): $\\phi\\to\\psi \\vdash \\neg\\phi\\lor\\psi$"}
+Conclusão disjunção, sem nenhuma premissa disjunção: por contradição
+(estratégia 3), supor $\neg(\neg\phi\lor\psi)$. Para usar a premissa
+($\to$E) falta $\phi$, outra letra: de novo por contradição, supor
+$\neg\phi$, que dá $\neg\phi\lor\psi$ por $\lor$I, contra a hipótese
+(estratégia 5). Com $\phi$ sai $\psi$ e, outra vez, $\neg\phi\lor\psi$.
+
+```{.fitch seq="phi -> psi |- ~phi \/ psi"}
+phi -> psi
+---
+|> ~(~phi \/ psi)
+||> ~phi
+||  ~phi \/ psi      ; vI, 3
+||  F                ; FI, 4, 2
+|  ~~phi             ; ~I, 3-5
+|  phi               ; ~E, 6
+|  psi               ; ->E, 1, 7
+|  ~phi \/ psi       ; vI, 8
+|  F                 ; FI, 9, 2
+~~(~phi \/ psi)      ; ~I, 2-10
+~phi \/ psi          ; ~E, 11
+```
+:::
+
 ::: {.definicao title="--- Formas de raciocínio com nome †"}
 (A 2.1 pede para "identificar a regra de inferência".)
 
@@ -2415,6 +2451,9 @@ $v(\phi)=F$, $v(\psi)=V$) e *negação do antecedente*
 - **2.7** Formaliza as três hipóteses e deduz "choveu". Pista:
   estratégia 3 (supor que não choveu).
 - **2.11 (g)** $(\phi\lor\psi)\to\delta \dashv\vdash (\phi\to\delta)\land(\psi\to\delta)$.
+- **Aula 7, slide 9 (b)** $\neg(\phi\land\psi) \vdash \neg\phi\lor\neg\psi$
+  (De Morgan, deduzido). Pista: como a (a), mas é preciso obter $\phi$
+  **e** $\psi$ para contradizer a premissa.
 
 A 2.12 (sem seta na folha) tem mais equivalências do mesmo tipo (De
 Morgan, distributividade...): só se te sobrar tempo.
@@ -2479,5 +2518,588 @@ As restantes alíneas da 2.10 são a mesma técnica. As 2.13, 2.14 e 2.16
 (sem seta) também.
 :::
 
-Os exercícios 2.17--2.22 da folha (*tableaux* semânticos e resolução)
-ainda não foram dados nas teóricas e ficam fora do resumo por agora.
+
+# Aula 8 --- Outros sistemas dedutivos
+
+DN não tem axiomas e tem regras de introdução e eliminação para cada
+conectivo. Esta aula apresenta três alternativas: um sistema **à Hilbert**
+(só axiomas e *modus ponens*) e dois sistemas **automatizáveis** que
+provam por refutação (*tableaux* e resolução).
+
+## O sistema de Hilbert $\mathcal{H}$
+
+::: {.definicao title="--- Sistema $\\mathcal{H}$"}
+Usa só o conjunto completo de conectivos $\{\neg,\to\}$ (os outros são
+abreviaturas). Tem três **axiomas** e uma **regra**:
+
+- **(A1)** $\phi\to(\psi\to\phi)$
+- **(A2)** $(\phi\to(\psi\to\theta))\to((\phi\to\psi)\to(\phi\to\theta))$
+- **(A3)** $(\neg\psi\to\neg\phi)\to((\neg\psi\to\phi)\to\psi)$
+- ***Modus ponens*** (MP): de $\phi$ e $\phi\to\psi$ infere-se $\psi$.
+
+Os axiomas são **esquemas**†: qualquer fórmula obtida substituindo
+$\phi,\psi,\theta$ por fórmulas é um axioma. Uma dedução em $\mathcal{H}$
+é uma lista numerada em que cada linha é uma premissa, uma instância de
+um axioma (dizendo a substituição) ou resulta de duas linhas anteriores
+por MP ($\Sigma\vdash_{\mathcal{H}}\phi$).
+:::
+
+::: {.definicao title="--- Resultados sobre $\\mathcal{H}$"}
+- **Teorema da dedução:** se $\Sigma\cup\{\psi\}\vdash_{\mathcal{H}}\theta$
+  então $\Sigma\vdash_{\mathcal{H}}\psi\to\theta$. (Em DN isto é a própria
+  regra $\to$I; em $\mathcal{H}$, sem hipóteses temporárias, é um teorema
+  sobre o sistema.)
+- **$\Sigma\vdash_{DN}\phi$ sse $\Sigma\vdash_{\mathcal{H}}\phi$.**
+  ($\Leftarrow$) os três axiomas são teoremas de DN (provados abaixo e na
+  prática) e MP é a regra $\to$E. ($\Rightarrow$) toda a dedução em DN se
+  pode traduzir para $\mathcal{H}$ (não se faz na cadeira).
+- **Corolário:** $\mathcal{H}$ é íntegro e completo, porque DN o é.
+:::
+
+::: {.exemplo title="--- Uma prova em $\\mathcal{H}$: $\\vdash_{\\mathcal{H}} \\phi\\to\\phi$ †"}
+Sem $\to$I, nem uma fórmula tão simples se prova supondo $\phi$: é preciso
+escolher bem as instâncias dos axiomas e encadear MPs.
+
+| | Fórmula | Justificação |
+|:-:|:-----------------------------|:-----------------------|
+| 1 | $\phi\to((\phi\to\phi)\to\phi)$ | A1, $\psi:=\phi\to\phi$ |
+| 2 | $(\phi\to((\phi\to\phi)\to\phi))\to((\phi\to(\phi\to\phi))\to(\phi\to\phi))$ | A2, $\psi:=\phi\to\phi$, $\theta:=\phi$ |
+| 3 | $(\phi\to(\phi\to\phi))\to(\phi\to\phi)$ | MP, 1, 2 |
+| 4 | $\phi\to(\phi\to\phi)$ | A1, $\psi:=\phi$ |
+| 5 | $\phi\to\phi$ | MP, 4, 3 |
+
+Em DN é uma linha: supor $\phi$ e aplicar $\to$I. É por isso que se
+deduz em DN e se usa $\mathcal{H}$ para raciocinar *sobre* o sistema.
+:::
+
+::: {.exemplo title="--- A2 é teorema de DN (Aula 7, slide 9 (d))"}
+Três implicações encaixadas: supor os três antecedentes e chegar a
+$\theta$ com três $\to$E.
+
+```{.fitch seq="|- (phi -> (psi -> theta)) -> ((phi -> psi) -> (phi -> theta))"}
+|> phi -> (psi -> theta)
+||> phi -> psi
+|||> phi
+|||  psi             ; ->E, 2, 3
+|||  psi -> theta    ; ->E, 1, 3
+|||  theta           ; ->E, 5, 4
+||  phi -> theta     ; ->I, 3-6
+|  (phi -> psi) -> (phi -> theta)  ; ->I, 2-7
+(phi -> (psi -> theta)) -> ((phi -> psi) -> (phi -> theta))  ; ->I, 1-8
+```
+:::
+
+::: {.pratica title="--- Axiomas de $\\mathcal{H}$ em DN (Aula 7, slide 9)"}
+- **Aula 7, slide 9 (c)** $\vdash \phi\to(\psi\to\phi)$ (A1). Pista: a
+  regra R.
+- **Aula 7, slide 9 (e)** $\vdash (\neg\psi\to\neg\phi)\to((\neg\psi\to\phi)\to\psi)$
+  (A3). Pista: depois de supor os dois antecedentes, $\psi$ é uma letra:
+  por contradição.
+:::
+
+## *Tableaux* semânticos
+
+Em DN não é fácil ter um algoritmo que decida se $\phi$ é teorema (a não
+ser construir a dedução a partir da tabela de verdade, via completude).
+Os sistemas **automatizáveis** têm a propriedade de que, lendo a dedução
+da conclusão para as premissas, cada fórmula é **subfórmula** (ou
+negação de subfórmula†) de uma fórmula do passo anterior: o espaço de
+procura é finito. O *modus ponens* não tem esta propriedade (de $\psi$
+não se adivinha o $\phi$ de $\phi$ e $\phi\to\psi$). São exemplos o
+**cálculo de sequentes** de Gentzen (variante de DN), os **tableaux**
+(mostram que $\neg\phi$ é contradição) e a **resolução** (também por
+contradição, com $\neg\phi$ em FNC).
+
+::: {.definicao title="--- Notação uniforme de Smullyan"}
+As fórmulas que não são literais dividem-se em **conjuntivas** ($\alpha$,
+verdadeiras sse **ambos** os componentes o são) e **disjuntivas**
+($\beta$, verdadeiras sse **algum** componente o é):
+
+| $\alpha$ | $\alpha_1$ | $\alpha_2$ | | $\beta$ | $\beta_1$ | $\beta_2$ |
+|:-:|:-:|:-:|---|:-:|:-:|:-:|
+| $\phi\land\psi$ | $\phi$ | $\psi$ | | $\neg(\phi\land\psi)$ | $\neg\phi$ | $\neg\psi$ |
+| $\neg(\phi\lor\psi)$ | $\neg\phi$ | $\neg\psi$ | | $\phi\lor\psi$ | $\phi$ | $\psi$ |
+| $\neg(\phi\to\psi)$ | $\phi$ | $\neg\psi$ | | $\phi\to\psi$ | $\neg\phi$ | $\psi$ |
+
+Para toda a valoração $v$: $v(\alpha)=v(\alpha_1)\land v(\alpha_2)$ e
+$v(\beta)=v(\beta_1)\lor v(\beta_2)$. As linhas $\neg$ são De Morgan e
+$\neg(\phi\to\psi)\Leftrightarrow\phi\land\neg\psi$.
+:::
+
+::: {.definicao title="--- Tableau, regras de expansão e ramos fechados"}
+Um **tableau** para $\{\phi_1,\dots,\phi_n\}$ é uma árvore de fórmulas:
+
+1. a árvore de um só ramo $\phi_1,\phi_2,\dots,\phi_n$ é um tableau;
+2. se $T$ é um tableau para o conjunto e $T^\star$ resulta de $T$ por uma
+   regra de expansão, $T^\star$ também é.
+
+**Regras de expansão** de uma fórmula $\psi$ de um ramo $r$ (os nós novos
+acrescentam-se no fim de $r$):
+
+$$\dfrac{\neg\neg\phi}{\phi}\qquad
+\dfrac{\neg\mathbf{F}}{\mathbf{V}}\qquad
+\dfrac{\neg\mathbf{V}}{\mathbf{F}}\qquad
+\dfrac{\alpha}{\begin{array}{c}\alpha_1\\ \alpha_2\end{array}}\qquad
+\dfrac{\beta}{\beta_1 \mid \beta_2}$$
+
+- $\alpha$: **dois nós seguidos** no mesmo ramo ($\alpha_2$ filho de
+  $\alpha_1$): os dois têm de ser verdadeiros.
+- $\beta$: o ramo **divide-se em dois** filhos, $\beta_1$ e $\beta_2$:
+  basta um ser verdadeiro.
+
+Um ramo é **fechado** se contém $\psi$ e $\neg\psi$ para alguma fórmula
+$\psi$ (marca-se $\times$); o tableau é **fechado** se todos os ramos o
+são. Um ramo é **satisfazível** se o conjunto das suas fórmulas o é; o
+tableau é satisfazível se algum ramo o é.
+
+**Dedução por tableau** de $\phi$: um tableau fechado para $\{\neg\phi\}$.
+$\phi$ é **teorema** se tem uma dedução por tableau.
+:::
+
+::: {.definicao title="--- Integridade e completude dos tableaux"}
+- Aplicar uma regra a um tableau satisfazível dá um tableau satisfazível
+  (a valoração que satisfaz um ramo satisfaz $\alpha_1$ e $\alpha_2$, ou
+  um dos $\beta_i$, pelas igualdades de Smullyan).
+- Se há um tableau fechado para $\Gamma$, $\Gamma$ é **insatisfazível**
+  (um ramo fechado nunca é satisfazível; se $\Gamma$ o fosse, algum ramo
+  seria).
+- **Integridade:** se $\phi$ tem dedução por tableau, $\models\phi$
+  ($\{\neg\phi\}$ é insatisfazível).
+- **Completude:** se $\models\phi$, $\phi$ tem dedução por tableau.
+:::
+
+**Como construir†.** Escreve $\neg\phi$ na raiz e expande uma fórmula de
+cada vez, citando o nó expandido (os números à esquerda e entre $[\,]$
+nas figuras). Expande primeiro as $\alpha$ e os $\neg\neg$ (não
+ramificam) e deixa as $\beta$ para o fim. Uma $\beta$ expande-se em
+**todos** os ramos abertos abaixo dela. Fecha um ramo logo que tenha
+$\psi$ e $\neg\psi$, para qualquer $\psi$ (não só letras). Um ramo aberto
+em que já tudo foi expandido dá uma valoração que satisfaz a raiz: se a
+raiz é $\neg\phi$, é um contraexemplo a $\models\phi$.
+
+::: {.exemplo title="--- Tableau para $\\{p\\land(\\neg q\\lor\\neg p)\\}$ (slide 11)"}
+$\alpha$ dá $p$ e $\neg q\lor\neg p$; a $\beta$ divide o ramo. O ramo da
+direita fecha ($p$ no nó 2 e $\neg p$ no 5); o da esquerda fica aberto:
+o tableau **não é fechado**. O ramo aberto $\{p,\neg q\}$ dá $v(p)=V$,
+$v(q)=F$, que satisfaz a fórmula.
+
+```{.tableau .aberto}
+p /\ (~q \/ ~p)
+p                    ; 1
+~q \/ ~p             ; 1
+[
+~q                   ; 3
+|
+~p                   ; 3
+x                    ; 2, 5
+]
+```
+:::
+
+::: {.exemplo title="--- Exercício 2.17(a) / slide 14 (a): $\\neg((p\\lor q)\\land(\\neg p\\land\\neg q))$"}
+Raiz: a negação, $\neg\neg((p\lor q)\land(\neg p\land\neg q))$. O
+$\neg\neg$ (nó 2) e as duas $\alpha$ (nós 3--6) vêm antes da única $\beta$,
+$p\lor q$ (nó 3). Os dois ramos fecham: $\neg p$/$p$ e $\neg q$/$q$.
+
+```{.tableau seq="~((p \\/ q) /\\ (~p /\\ ~q))"}
+~~((p \/ q) /\ (~p /\ ~q))
+(p \/ q) /\ (~p /\ ~q)   ; 1
+p \/ q               ; 2
+~p /\ ~q             ; 2
+~p                   ; 4
+~q                   ; 4
+[
+p                    ; 3
+x                    ; 5, 7
+|
+q                    ; 3
+x                    ; 6, 9
+]
+```
+
+Tableau fechado para $\{\neg\phi\}$, logo $\phi$ é teorema (e tautologia).
+:::
+
+::: {.exemplo title="--- Exercício 2.20 / slide 14 (b), por tableau: $((p\\to q)\\land(q\\to r))\\to\\neg(\\neg r\\land p)$"}
+A raiz $\neg(\dots\to\dots)$ é $\alpha$ (nós 2, 3); $\neg\neg$ e duas
+$\alpha$ dão os literais $\neg r$, $p$ e as implicações $p\to q$,
+$q\to r$ (nós 4--8). Só ficam $\beta$: $p\to q$ (nó 7) divide em
+$\neg p$, que fecha com o nó 6, e $q$; neste, $q\to r$ (nó 8) divide em
+$\neg q$, que fecha com $q$, e $r$, que fecha com $\neg r$.
+
+```{.tableau seq="((p -> q) /\\ (q -> r)) -> ~(~r /\\ p)"}
+~(((p -> q) /\ (q -> r)) -> ~(~r /\ p))
+(p -> q) /\ (q -> r) ; 1
+~~(~r /\ p)          ; 1
+~r /\ p              ; 3
+~r                   ; 4
+p                    ; 4
+p -> q               ; 2
+q -> r               ; 2
+[
+~p                   ; 7
+x                    ; 6, 9
+|
+q                    ; 7
+[
+~q                   ; 8
+x                    ; 11, 12
+|
+r                    ; 8
+x                    ; 5, 14
+]
+]
+```
+:::
+
+::: {.pratica title="--- Tableaux (proplogicproofs.pdf)"}
+- **2.17 (b)** $((p\to q)\land(q\to r))\to(p\to r)$. Pista: igual ao
+  exemplo do 2.20.
+- **2.17 (c)** $(\neg p\to q)\to((p\to q)\to q)$.
+- **2.17 (d)** $((p\to q)\to p)\to p$ (lei de Peirce). Repara que se
+  prova sem $\land$ nem $\lor$.
+
+A 2.22 (tableaux das 2.8 (b)--(e)) é a mesma técnica.
+:::
+
+## Resolução
+
+::: {.definicao title="--- Sistema de resolução"}
+Também é por **refutação**: para deduzir $\phi$, mostra-se que $\neg\phi$
+é contradição. Trabalha com um conjunto $\Sigma$ de **cláusulas**
+(conjuntos de literais, lidos como disjunções); a **cláusula vazia**
+representa-se por $\mathbf{F}$. Não tem axiomas e tem **uma só regra**:
+$$\dfrac{C\cup\{p\} \qquad C'\cup\{\neg p\}}{C\cup C'}$$
+$C\cup C'$ é a **resolvente** das premissas. Uma dedução de $\mathbf{F}$ a
+partir de um conjunto de cláusulas $\mathcal{C}$ é uma **refutação** de
+$\mathcal{C}$. Uma **dedução por resolução** de $\phi$ é uma refutação das
+cláusulas da **FNC de $\neg\phi$**.
+:::
+
+A regra é válida porque, se $v$ satisfaz as duas premissas, ou
+$v(p)=F$ e então algum literal de $C$ é verdadeiro, ou $v(p)=V$ e algum
+de $C'$ o é. Cuidados†:
+
+- resolve-se **um só par** $p$/$\neg p$ de cada vez: de $\{p,q\}$ e
+  $\{\neg p,\neg q\}$ sai $\{q,\neg q\}$ (ou $\{p,\neg p\}$), **nunca**
+  $\mathbf{F}$ (com $v(p)=V$, $v(q)=F$ as duas são verdadeiras);
+- a resolvente é um **conjunto**: literais repetidos contam uma vez
+  ($\{q,r\}$ e $\{\neg q,r\}$ dão $\{r\}$);
+- para ter a FNC de $\neg\phi$, aplica as regras da secção FNC (Aula 3);
+  as linhas $\alpha$ de Smullyan dão logo
+  $\neg(\phi\to\psi)\Leftrightarrow\phi\land\neg\psi$.
+
+É o mesmo formato de entrada do DLL (Aula 4): o DLL procura uma valoração,
+a resolução procura uma refutação.
+
+::: {.definicao title="--- Integridade e completude da resolução"}
+Seja $\mathcal{C}=\{C_1,\dots,C_n\}$ um conjunto não vazio de cláusulas.
+
+- **Integridade:** (i) se $R$ é resolvente de $C_i, C_j\in\mathcal{C}$,
+  então $\mathcal{C}\models R$; (ii) se $\mathcal{C}\vdash_R\mathbf{F}$,
+  $\mathcal{C}$ é insatisfazível.
+- **Completude:** se $\mathcal{C}$ é insatisfazível, então
+  $\mathcal{C}\vdash_R\mathbf{F}$.
+:::
+
+::: {.exemplo title="--- Refutação de um conjunto de cláusulas (slide 16)"}
+$\{\{\neg p\},\{q,r\},\{\neg r,\neg s\},\{p,s\},\{\neg q,\neg s\}\}$
+(cláusulas 1--5). Cada resolvente cita as duas cláusulas e o literal
+eliminado:
+
+- 6: $\{q,\neg s\}$ de 2 e 3 (elimina $r$);
+- 7: $\{s\}$ de 4 e 1 (elimina $p$);
+- 8: $\{\neg s\}$ de 6 e 5 (elimina $q$);
+- 9: $\mathbf{F}$ de 7 e 8 (elimina $s$).
+
+```{.resolucao}
+{~p}
+{q, r}
+{~r, ~s}
+{p, s}
+{~q, ~s}
+{q, ~s}              ; 2, 3
+{s}                  ; 4, 1
+{~s}                 ; 6, 5
+F                    ; 7, 8
+```
+:::
+
+::: {.exemplo title="--- Exercício 2.20 / slide 14 (b), por resolução"}
+$\phi = ((p\to q)\land(q\to r))\to\neg(\neg r\land p)$. **FNC de
+$\neg\phi$:**
+$$\begin{aligned}
+\neg\phi &\Leftrightarrow ((p\to q)\land(q\to r))\land\neg\neg(\neg r\land p)
+  && \neg(\phi'\to\psi')\Leftrightarrow\phi'\land\neg\psi'\\
+&\Leftrightarrow ((p\to q)\land(q\to r))\land(\neg r\land p)
+  && \text{dupla negação}\\
+&\Leftrightarrow (\neg p\lor q)\land(\neg q\lor r)\land\neg r\land p
+  && \phi'\to\psi'\Leftrightarrow\neg\phi'\lor\psi' \text{ (duas vezes), associatividade}
+\end{aligned}$$
+**Cláusulas:** 1 $\{\neg p,q\}$, 2 $\{\neg q,r\}$, 3 $\{\neg r\}$,
+4 $\{p\}$. **Refutação:** 5 $\{q\}$ de 1 e 4; 6 $\{r\}$ de 2 e 5;
+7 $\mathbf{F}$ de 3 e 6.
+
+```{.resolucao de="((p -> q) /\\ (q -> r)) -> ~(~r /\\ p)"}
+{~p, q}
+{~q, r}
+{~r}
+{p}
+{q}                  ; 1, 4
+{r}                  ; 2, 5
+F                    ; 3, 6
+```
+:::
+
+::: {.pratica title="--- Resolução (proplogicproofs.pdf)"}
+- **2.18 (a)** Converte $(p\lor\neg q\lor r)\land\neg p\land(q\lor r\lor p)\land(p\lor\neg r)$
+  num conjunto de cláusulas.
+- **2.18 (b)** Deduz $\mathbf{F}$ desse conjunto só com a regra da
+  resolução.
+- **2.19** Refuta $\{\{\neg p,\neg q,r\},\{p,r\},\{q,r\},\{\neg r\}\}$.
+  Pista: começa pela cláusula unitária.
+- **2.21 (a)** $(p\to q)\to((\neg p\to q)\to q)$, por tableau **e** por
+  resolução (usa também a secção anterior).
+- **2.21 (b)** $q\to(p\to(q\land p))$, pelos dois métodos.
+- **2.21 (c)** $q\to(\neg p\to\neg(q\to p))$, pelos dois métodos.
+
+A 2.22 por resolução é a mesma técnica.
+:::
+
+# Aulas 9--10 --- Integridade, completude e decidibilidade
+
+Estas aulas provam que DN é **íntegra** e **completa** (definições em
+"Semântica versus dedução", Aulas 5--7). Na lógica proposicional as tabelas de verdade já decidem $\models$; um
+sistema dedutivo vale a pena porque:
+
+- uma dedução pode ser mais rápida e ocupar menos espaço do que uma tabela
+  de $2^n$ linhas;
+- uma dedução é um objeto, fácil de manipular e verificar por computador;
+- ilustra a noção de dedução, essencial em lógicas com semântica mais
+  complexa, onde não há tabelas de verdade (como a de primeira ordem).
+
+## Integridade de DN
+
+::: {.definicao title="--- Integridade de DN"}
+Se $\Sigma \vdash \phi$ então $\Sigma \models \phi$. **Corolário:** se
+$\vdash \phi$ então $\models \phi$ (todo o teorema é tautologia).
+:::
+
+**Prova (por absurdo).** Seja $\phi_1, \dots, \phi_n = \phi$ uma dedução.
+Mostra-se que **cada passo** é consequência semântica das premissas e
+hipóteses abertas nesse passo. Suponha-se que não, e seja $p$ o
+**primeiro** passo cuja fórmula não é consequência das premissas
+$\phi_1, \dots, \phi_k$ abertas em $p$. Vê-se, regra a regra, que isso é
+impossível:
+
+- **$\to$E** (de $\phi\to\theta$ e $\phi$ obtém-se $\theta$). As premissas
+  de $\phi\to\theta$ e de $\phi$ estão entre $\phi_1, \dots, \phi_k$ e,
+  como esses passos vêm antes de $p$, ambas são consequência delas. Por
+  hipótese há $v$ com $v(\phi_i) = V$ para todo o $i$ e $v(\theta) = F$;
+  então também $v(\phi) = v(\phi\to\theta) = V$, o que contradiz a tabela
+  da implicação.
+- **$\to$I** (da sub-dedução $[\phi]\dots\theta$ obtém-se
+  $\phi\to\theta$). As premissas de $\theta$ são algumas de
+  $\phi_1, \dots, \phi_k$ e $\phi$, e $\theta$ é consequência delas. Por
+  hipótese há $v$ com $v(\phi_i) = V$ e $v(\phi\to\theta) = F$, logo
+  $v(\phi) = V$ e $v(\theta) = F$: contradiz $\phi_1, \dots, \phi_k,
+  \phi \models \theta$.
+- **$\mathbf{F}$E** (de $\mathbf{F}$ obtém-se $\phi$). As premissas de
+  $\phi$ são as de $\mathbf{F}$, e $\mathbf{F}$ é consequência delas; isso
+  só acontece se $\phi_1, \dots, \phi_k$ forem **insatisfazíveis**. Então
+  $\phi$ é consequência delas (vacuamente: não há $v$ que as satisfaça).
+- As restantes regras† resolvem-se da mesma maneira, com a tabela do
+  conectivo:
+
+| Regra | Porque é que a conclusão é consequência das premissas abertas† |
+|:--|:----------------|
+| $\land$I, $\land$E | $v(\phi\land\psi)=V$ sse $v(\phi)=V$ e $v(\psi)=V$ |
+| $\lor$I | se $v(\phi)=V$, então $v(\phi\lor\psi)=V$ |
+| $\lor$E | uma $v$ que satisfaz $\phi\lor\psi$ satisfaz $\phi$ ou $\psi$, e em cada caso a sub-dedução dá $v(\gamma)=V$ |
+| $\neg$I | se as premissas mais $\phi$ dão $\mathbf{F}$, nenhuma $v$ que as satisfaz satisfaz $\phi$, logo $v(\neg\phi)=V$ |
+| $\neg$E | $v(\neg\neg\phi)=V$ sse $v(\phi)=V$ |
+| $\mathbf{F}$I | nenhuma $v$ satisfaz $\phi$ e $\neg\phi$: as premissas são insatisfazíveis |
+| R | a fórmula repetida já era consequência (e as premissas abertas só crescem) |
+
+Em todos os casos há contradição, logo esse passo $p$ não existe.
+
+**Uso nas práticas (contraposição).** Se $\Sigma \not\models \psi$ então
+$\Sigma \nvdash \psi$. Para mostrar $\phi_1, \dots, \phi_n \nvdash \psi$
+basta uma valoração $v$ com $v(\phi_i) = V$ para todo o $i$ e
+$v(\psi) = F$.
+
+::: {.exemplo title="--- Afirmar o consequente não se deduz"}
+**$p\to q,\ q \nvdash p$.** Seja $v(p)=F$, $v(q)=V$. De $\models_v q$
+segue $\models_v p\to q$ e $\models_v q$, mas $\not\models_v p$. Logo
+$p\to q,\ q \not\models p$ e, pela integridade de DN,
+$p\to q,\ q \nvdash p$.
+:::
+
+::: {.pratica title="--- Integridade (Aulas 9-10, slide 11)"}
+- **Aulas 9--10, slide 11** Mostra que $\neg p \lor (q \to p) \nvdash
+  \neg p \land q$.
+:::
+
+## Completude de DN
+
+Toda a consequência semântica se deduz em DN; em particular, toda a
+tautologia é teorema. Parece mais difícil (quando todas as valorações
+satisfazem $\phi$, tem de haver uma dedução), e a prova constrói-a.
+
+::: {.definicao title="--- A fórmula ψ sob v"}
+Para uma valoração $v$ e uma fórmula $\psi$:
+$$\psi^v = \begin{cases} \psi & \text{se } v(\psi) = V\\ \neg\psi & \text{se } v(\psi) = F\end{cases}$$
+$\psi^v$ é sempre verdadeira em $v$.
+:::
+
+::: {.definicao title="--- Lema 1"}
+Se as variáveis de $\phi$ são $q_1, \dots, q_n$ e $v$ é uma valoração,
+então $q_1^v, \dots, q_n^v \vdash \phi^v$.
+:::
+
+Exemplo: $\phi = p\land q$, $v(p) = V$, $v(q) = F$. Então $p^v = p$,
+$q^v = \neg q$ e $(p\land q)^v = \neg(p\land q)$, e o lema dá
+$p, \neg q \vdash \neg(p\land q)$: uma linha da tabela de verdade
+transforma-se numa dedução.
+
+**Prova do Lema 1**, por indução na estrutura de $\phi$ (número de
+conectivos):
+
+- $\phi = q_1$: $q_1^v \vdash q_1^v$ (R).
+- $\phi = \neg\phi_1$, com $q_1^v, \dots, q_n^v \vdash \phi_1^v$ (hipótese
+  de indução). Se $v(\phi) = V$, então $v(\phi_1) = F$ e
+  $\phi^v = \neg\phi_1 = \phi_1^v$: já está. Se $v(\phi) = F$, então
+  $v(\phi_1) = V$, $\phi_1^v = \phi_1$ e $\phi^v = \neg\neg\phi_1$:
+  acrescenta-se $\neg\neg$I à dedução de $\phi_1$.
+- $\phi = \phi_1 \circ \phi_2$, com $\circ \in \{\land, \lor, \to\}$. Sejam
+  $p_1, \dots, p_l$ e $r_1, \dots, r_k$ as variáveis de $\phi_1$ e
+  $\phi_2$ ($\{q_1, \dots, q_n\}$ é a sua união). De
+  $p_1^v, \dots, p_l^v \vdash \phi_1^v$ e
+  $r_1^v, \dots, r_k^v \vdash \phi_2^v$ obtém-se, por $\land$I,
+  $q_1^v, \dots, q_n^v \vdash \phi_1^v \land \phi_2^v$. Falta, em cada
+  caso de valores, uma dedução $\phi_1^v \land \phi_2^v \vdash \phi^v$:
+
+| $\circ$ | $v(\phi_1)$ | $v(\phi_2)$ | $\phi^v$ | dedução que falta |
+|:-:|:-:|:-:|:-:|:--|
+| $\to$ | V | F | $\neg(\phi_1\to\phi_2)$ | $\phi_1\land\neg\phi_2 \vdash \neg(\phi_1\to\phi_2)$ |
+| $\to$ | F | F | $\phi_1\to\phi_2$ | $\neg\phi_1\land\neg\phi_2 \vdash \phi_1\to\phi_2$ |
+| $\to$ | F | V | $\phi_1\to\phi_2$ | $\neg\phi_1\land\phi_2 \vdash \phi_1\to\phi_2$ |
+| $\to$ | V | V | $\phi_1\to\phi_2$ | $\phi_1\land\phi_2 \vdash \phi_1\to\phi_2$ |
+| $\land$ | V | V | $\phi_1\land\phi_2$ | nenhuma (já é $\phi^v$) |
+| $\land$ | F | V | $\neg(\phi_1\land\phi_2)$ | $\neg\phi_1\land\phi_2 \vdash \neg(\phi_1\land\phi_2)$ |
+| $\land$ | V | F | $\neg(\phi_1\land\phi_2)$ | $\phi_1\land\neg\phi_2 \vdash \neg(\phi_1\land\phi_2)$ |
+| $\land$ | F | F | $\neg(\phi_1\land\phi_2)$ | $\neg\phi_1\land\neg\phi_2 \vdash \neg(\phi_1\land\phi_2)$ |
+| $\lor$ | F | F | $\neg(\phi_1\lor\phi_2)$ | $\neg\phi_1\land\neg\phi_2 \vdash \neg(\phi_1\lor\phi_2)$ |
+| $\lor$ | V | V | $\phi_1\lor\phi_2$ | $\phi_1\land\phi_2 \vdash \phi_1\lor\phi_2$ |
+| $\lor$ | F | V | $\phi_1\lor\phi_2$ | $\neg\phi_1\land\phi_2 \vdash \phi_1\lor\phi_2$ |
+| $\lor$ | V | F | $\phi_1\lor\phi_2$ | $\phi_1\land\neg\phi_2 \vdash \phi_1\lor\phi_2$ |
+
+::: {.exemplo title="--- Um caso do Lema 1 (slide 20)"}
+$\phi_1\land\neg\phi_2 \vdash \neg(\phi_1\to\phi_2)$: supõe-se a
+implicação e chega-se a $\mathbf{F}$.
+
+```{.fitch seq="phi1 /\ ~phi2 |- ~(phi1 -> phi2)"}
+phi1 /\ ~phi2
+---
+|> phi1 -> phi2
+|  phi1              ; &E, 1
+|  phi2              ; ->E, 2, 3
+|  ~phi2             ; &E, 1
+|  F                 ; FI, 4, 5
+~(phi1 -> phi2)      ; ~I, 2-6
+```
+:::
+
+::: {.definicao title="--- Proposição 2: tautologias são teoremas"}
+Se $\models \phi$ então $\vdash \phi$.
+:::
+
+**Prova.** Sejam $p_1, \dots, p_n$ as variáveis de $\phi$. Como $\phi$ é
+tautologia, $v(\phi) = V$ e portanto $\phi^v = \phi$ para **toda** a $v$;
+pelo Lema 1, $p_1^v, \dots, p_n^v \vdash \phi$ para toda a $v$. Em
+particular, para cada escolha de $p_1^v, \dots, p_{n-1}^v$:
+$$p_1^v, \dots, p_{n-1}^v, p_n \vdash \phi \qquad\text{e}\qquad p_1^v, \dots, p_{n-1}^v, \neg p_n \vdash \phi$$
+Juntam-se as duas com TE ($\vdash p_n\lor\neg p_n$) e $\lor$E: a primeira
+dedução é o caso $p_n$, a segunda o caso $\neg p_n$, e fica
+$p_1^v, \dots, p_{n-1}^v \vdash \phi$. Repetindo para
+$p_{n-1}, \dots, p_1$, elimina-se uma variável de cada vez até
+$\vdash \phi$.
+
+![](figuras/completude_eliminacao.pdf){width=62%}
+
+*Com duas variáveis $p, q$: as 4 deduções do Lema 1 juntam-se duas a duas.*
+
+::: {.exemplo title="--- Proposição 2 para p → p"}
+Uma variável, duas valorações. O Lema 1 dá $p \vdash p\to p$ (linhas
+2--5) e $\neg p \vdash p\to p$ (linhas 6--10); TE e $\lor$E juntam-nas:
+
+```{.fitch seq="|- p -> p"}
+p \/ ~p              ; TE
+|> p
+||> p
+||  p                ; R, 2
+|  p -> p            ; ->I, 3-4
+|> ~p
+||> p
+||  F                ; FI, 7, 6
+||  p                ; FE, 8
+|  p -> p            ; ->I, 7-9
+p -> p               ; vE, 1, 2-5, 6-10
+```
+:::
+
+Para passar das tautologias às consequências com premissas:
+
+::: {.definicao title="--- Lema da dedução e Lema 4"}
+- **Lema da dedução:** $\Sigma \cup \{\phi\} \vdash \psi$ sse
+  $\Sigma \vdash \phi\to\psi$. ($\Rightarrow$: supõe-se $\phi$, copia-se a
+  dedução até $\psi$ e aplica-se $\to$I. $\Leftarrow$: com $\phi$ como
+  premissa, à dedução de $\phi\to\psi$ junta-se $\to$E.)
+- **Lema 4:** $\phi_1, \dots, \phi_n \models \psi$ sse
+  $\models \phi_1\to(\phi_2\to(\dots(\phi_n\to\psi)\dots))$. (Uma $v$ só
+  falsifica a implicação encadeada se $v(\phi_i) = V$ para todo o $i$ e
+  $v(\psi) = F$, que é exatamente uma $v$ que contradiz
+  $\phi_1, \dots, \phi_n \models \psi$.)
+:::
+
+::: {.definicao title="--- Proposição 3: completude"}
+Se $\phi_1, \dots, \phi_n \models \psi$ então
+$\phi_1, \dots, \phi_n \vdash \psi$.
+$$\begin{aligned}
+\phi_1, \dots, \phi_n \models \psi
+&\;\xrightarrow{\text{Lema 4}}\; \models \phi_1\to(\dots(\phi_n\to\psi)\dots)\\
+&\;\xrightarrow{\text{Prop. 2}}\; \vdash \phi_1\to(\dots(\phi_n\to\psi)\dots)\\
+&\;\xrightarrow{\text{lema da dedução, } n \text{ vezes}}\; \phi_1, \dots, \phi_n \vdash \psi
+\end{aligned}$$
+O resultado vale também para $\Sigma$ infinito. Com a integridade: para
+qualquer conjunto $\Sigma$, $\Sigma \models \phi$ sse $\Sigma \vdash \phi$.
+:::
+
+::: {.pratica title="--- Completude: os casos do Lema 1 (Aulas 9-10, slides 20-22)"}
+Deduz em DN (só regras base) os outros casos da tabela do Lema 1. Pista:
+para $\to$, supor $\phi_1$; para $\neg(\dots)$, supor o que está negado e
+chegar a $\mathbf{F}$.
+
+- **Aulas 9--10, slides 20--22 (a)** $\neg\phi_1\land\neg\phi_2 \vdash \phi_1\to\phi_2$
+- **Aulas 9--10, slides 20--22 (b)** $\neg\phi_1\land\phi_2 \vdash \neg(\phi_1\land\phi_2)$
+- **Aulas 9--10, slides 20--22 (c)** $\neg\phi_1\land\neg\phi_2 \vdash \neg(\phi_1\lor\phi_2)$
+- **Aulas 9--10, slides 20--22 (d)** $\neg\phi_1\land\phi_2 \vdash \phi_1\lor\phi_2$
+
+Os casos restantes da tabela são a mesma técnica.
+:::
+
+## Decidibilidade da lógica proposicional
+
+::: {.definicao title="--- Decidibilidade"}
+Dados $\Sigma$ (finito†) e $\phi$, é **decidível** se $\Sigma \vdash
+\phi$: há um algoritmo que responde sempre sim ou não.
+:::
+
+Pela integridade e pela completude, decidir $\Sigma \vdash \phi$ é o
+mesmo que decidir $\Sigma \models \phi$. Pelo lema da dedução (e pelo
+Lema 4) pode supor-se $\Sigma = \emptyset$. Basta então construir a tabela
+de verdade de $\phi$, que é finita, e ver se é tautologia.
+
+**Corolários.** É decidível se uma fórmula é **teorema** (= válida). É
+decidível se uma fórmula é **satisfazível**: $\phi$ é satisfazível sse
+$\neg\phi$ não é tautologia.

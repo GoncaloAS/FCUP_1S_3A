@@ -1,0 +1,17 @@
+digraph frigo {
+  rankdir=LR; nodesep=0.25; ranksep=0.45; compound=true;
+  node [shape=box, style="rounded,filled", fillcolor="#e8eef7", color="#1f3864", fontname="Helvetica", fontsize=10, margin="0.1,0.05"];
+  edge [color="#1f3864", arrowsize=0.6, fontname="Helvetica", fontsize=9];
+  subgraph cluster_r { label="Modelo real: uma unidade, dois controlos que interagem"; fontname="Helvetica-Bold"; fontsize=11; color="#b03030";
+    A [label="Controlo A\n(etiqueta FREEZER)"]; U [label="Única unidade\nde frio\n(compressor)"]; V [label="Válvula"];
+    B [label="Controlo B\n(etiqueta FRESH FOOD)"];
+    FZ2 [label="Congelador"]; FR2 [label="Frigorífico"];
+    A -> U [label=" potência"]; U -> V [label=" ar frio"]; B -> V [label=" divisão do ar"];
+    V -> FZ2; V -> FR2;
+  }
+  subgraph cluster_u { label="Modelo do utilizador: duas unidades independentes"; fontname="Helvetica-Bold"; fontsize=11; color="#1f3864";
+    CF [label="Controlo\nFREEZER"]; UF [label="Unidade de\nfrio 1"]; FZ [label="Congelador"];
+    CA [label="Controlo\nFRESH FOOD"]; UA [label="Unidade de\nfrio 2"]; FR [label="Frigorífico"];
+    CF -> UF -> FZ [label=""]; CA -> UA -> FR;
+  }
+}

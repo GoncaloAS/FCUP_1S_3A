@@ -1,12 +1,15 @@
 digraph modelo_conceptual {
-  rankdir=LR;
-  node [shape=box, style="rounded,filled", fillcolor="#e8eef7", color="#1f3864", fontname="Helvetica", fontsize=12, margin="0.3,0.2"];
+  rankdir=LR; nodesep=0.5; ranksep=0.6;
+  node [shape=box, style="rounded,filled", fillcolor="#e8eef7", color="#1f3864", fontname="Helvetica", fontsize=12, margin="0.25,0.15"];
   edge [color="#1f3864", fontname="Helvetica", fontsize=10];
 
+  Desenhador [label="Modelo do desenhador\n(como acha que o produto\nfunciona e deve ser usado)"];
   Sistema [label="Sistema\n(mecanismo real,\nlógica interna)"];
-  Imagem [label="Imagem do sistema\n(o que é mostrado:\necrã, botões, sons...)"];
-  Utilizador [label="Utilizador\n(constrói um modelo\nmental a partir do\nque vê)"];
+  Imagem [label="Imagem do sistema\n(tudo o que o produto mostra:\necrãs, etiquetas, sons,\ncomportamento, manual)"];
+  Utilizador [label="Modelo do utilizador\n(o que conclui ao usá-lo:\nimagem do sistema +\nexperiência passada)"];
 
-  Sistema -> Imagem [label="  modelo conceptual\n  (como é de facto)"];
-  Imagem -> Utilizador [label="  imagem do sistema\n  (o que o utilizador vê)"];
+  Desenhador -> Sistema [label="  constrói"];
+  Sistema -> Imagem [label="  mostra-se\n  através de"];
+  Imagem -> Utilizador [label="  o único\n  canal"];
+  Desenhador -> Utilizador [style=dashed, color="#b03030", fontcolor="#b03030", constraint=false, label="sem canal direto: nunca se encontram"];
 }

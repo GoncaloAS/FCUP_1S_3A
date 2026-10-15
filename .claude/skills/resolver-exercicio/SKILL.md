@@ -97,6 +97,9 @@ encontrá-lo, supõe `⊭ᵥ φ` e vê o que isso força.
   Γ ⊆ Σ, ⊨ᵥ Γ; por hipótese, ⊨ᵥ θ).
 - Falsa: **instancia** com fórmulas concretas (φ = p, ψ = q, …), mostra
   que as hipóteses valem e a conclusão não, com valoração explícita.
+- Quando só há fórmulas genéricas (sem conjuntos), a professora trata
+  φ, ψ, γ como variáveis: tabela de verdade sobre φ, ψ (1.15 b) ou
+  contraexemplo "v(φ)=F, v(ψ)=V, v(γ)=F" direto (1.15 c).
 
 **Equivalências / classificar fórmulas**: cadeia de `⇔`, **uma lei por
 passo**, com o nome da lei e os papéis (φ, ψ, θ) quando não é óbvio. Usa as
@@ -105,7 +108,14 @@ absorção…) só como atalho assinalado. A conclusão diz a classificação co
 a notação: `⊨ φ`, contradição, ou satisfazível com `⊨ᵥ φ` e `⊭ᵥ' φ` para
 duas valorações dadas.
 
-**Modelação (cavaleiros/vilões, suspeitos, regras)**: (1) define as
+**Cavaleiros e vilões (1.10)**: a professora resolve **por casos, em
+frases curtas**, sem fórmulas nem tabela: "A não pode ser vilão e dizer
+isto (estaria a dizer a verdade). Logo A é cavaleiro e a frase é
+verdadeira: B é vilão." Cada caso descartado diz qual das duas regras
+viola (cavaleiro a mentir / vilão a dizer a verdade). Quando há perguntas
+("o que respondeu C?"), percorre os casos possíveis um a um.
+
+**Modelação (suspeitos, regras)**: (1) define as
 variáveis; (2) traduz cada frase para uma fórmula; (3) escreve **a
 condição** como fórmula (cavaleiro: `a ↔ S_A`; "inocente diz a verdade":
 `S_A ↔ ¬g_a`; "todos dizem a verdade": `{S_A, S_B, S_C}`); (4) resolve
@@ -121,6 +131,50 @@ equivalências semânticas como passo. Escrever em blocos ```{.fitch}``` e
 verificar com `python3 _shared/tools/fitch_check.py <ficheiros.md>`.
 Para mostrar **Γ ⊬ φ**: contraexemplo verificado com ⊨ᵥ + integridade
 de DN.
+
+**Tableaux e resolução (Aula 8)**: tableau com raiz ¬φ, cada nó cita o
+nó expandido, × cita o par ψ/¬ψ; resolução = FNC de ¬φ por equivalências
+(uma lei por passo) → cláusulas numeradas → cada resolvente "de i e k",
+um só par complementar de cada vez, até F. Escrever em blocos
+```{.tableau}``` / ```{.resolucao}``` (verificados no build).
+
+### Soluções oficiais da professora (`Praticas/Semana_1/proplogic_resolv.pdf`)
+
+São a referência de forma (2026-10-15). Resumo do que ela faz:
+
+- **Compacto.** Uma ou duas frases por alínea; sem "Passo 1", sem moral,
+  sem intuição, sem parágrafo de verificação. Escreve-se assim.
+- **⊨ᵥ com v dada (1.5)**: de baixo para cima, numa frase: "De v(p)=V
+  segue ⊨ᵥ p, logo ⊨ᵥ p ∨ q. De v(q)=F segue ⊭ᵥ q, logo ⊭ᵥ p ∧ q. Logo
+  ⊭ᵥ (p ∨ q) → (p ∧ q)." Só as subfórmulas que decidem.
+- **Γ ⊨ φ com variáveis (1.13)** e equivalências (1.8): a **tabela de
+  verdade** é o método principal quando o enunciado não a proíbe; fecha com
+  "nas linhas em que as premissas são V, a conclusão também é". A prova
+  por absurdo com ⊨ᵥ é a alternativa.
+- **"Sem tabela" (1.14)**: (i) **por absurdo** (supõe ⊭ᵥ φ, desce pelas
+  regras de ⊭ᵥ até ⊨ᵥ ψ e ⊭ᵥ ψ); (ii) **cadeia de ⇔ até uma FNC** em que
+  cada cláusula tem um par p, ¬p (tautologia); (iii) falso: uma valoração
+  numa frase. Ela acrescenta as leis φ ∨ F ⇔ φ, φ ∧ V ⇔ φ, φ ∨ V ⇔ V,
+  φ ∧ F ⇔ F (elemento neutro/absorvente) para chegar a V.
+- **Leis básicas (1.8 c)**: uma lei da tabela demonstra-se com a tabela de
+  verdade dos dois lados.
+- **Propriedades de ⊨ com conjuntos (1.16)**: verdadeira = prova pelas
+  definições ("seja v que satisfaz Σ…"); falsa = conjuntos concretos
+  ({p, p → q}, ∅…) numa frase.
+- **Regras redundantes (1.12 b)**: uma regra é dispensável sse é
+  **consequência semântica** das outras (se Γ ∪ {φ} ⊨ ψ e Γ ⊨ φ, então
+  Γ ⊨ ψ). Nota: a folha dela diz que R4 não é consequência das outras,
+  mas a força bruta mostra que é (R1, R2, R3 ⊨ R4); escreve-se a resposta
+  certa.
+- **FND/FNC da tabela (1.17)**: só as formas canónicas.
+- **Horn (1.21)**: uma linha de tabela com as variáveis e a fórmula; põe
+  os valores por baixo dos literais à medida que propaga; no fim "as
+  restantes ficam a F".
+- **DLL (1.22)**: "Seja S = {…}. Não há cláusulas unitárias; escolhe-se
+  p e chama-se DLL(S ∪ {p}). A propagação unitária de p dá S₁ = {…}." Cada
+  conjunto intermédio tem nome (S₁, S₂, …); {F} = falha, volta-se ao último
+  ponto de escolha com o complementar; { } = "satisfazível para v(p)=…,
+  v(q)=…" (só as variáveis atribuídas).
 
 ### Exemplo de referência (aprovado pelo Gonçalo, 2026-10-01)
 
@@ -162,3 +216,7 @@ a referência: grava-o aqui, numa secção da disciplina.
   professora prova com `⊨ᵥ`, abre cada fórmula pelas regras da definição e
   separa em casos quando aparece um "ou". O exemplo da 1.13 (d) acima foi
   aprovado como referência.
+- 2026-10-15: o Gonçalo juntou as soluções oficiais da ficha 1 e pediu
+  para resolver como a professora. Regras na secção "Soluções oficiais da
+  professora". Quando aparecerem soluções oficiais de outra ficha ou
+  disciplina, compará-las com as nossas e gravar a forma aqui.

@@ -5,60 +5,52 @@ description: Gera ou estende o resumo teórico cumulativo em PDF de uma discipli
 
 # Resumo semanal por disciplina
 
-A estrutura de pastas está no `CLAUDE.md`. Aqui ficam o fluxo e as regras.
-Os detalhes de consulta ocasional estão em `ref/` e **só se leem quando são
-precisos**:
-
-- `ref/formatacao.md`: caixas, bugs do pandoc, paginação, tabelas, figuras;
-- `ref/build.md`: erros e AVISOs do build, diagnóstico, captura do site;
-- `ref/fontes.md`: `.pptx`, `.cap`, PDFs que não são aulas, código dos
-  slides;
-- `ref/solucoes.md`: formato do `SOLUCOES_*.md`, Fitch, casos especiais.
+A estrutura de pastas está no `CLAUDE.md`. Detalhes em `ref/`, **só quando
+são precisos**: `formatacao.md` (caixas, pandoc, figuras), `build.md`
+(AVISOs), `fontes.md` (livros, enunciados, disciplina nova), `solucoes.md`
+(formato das soluções). O que é de **uma só** disciplina (nomes, numeração,
+notação, ferramentas, projeto) está no `.fonte/CONTEXTO_<D>.md`, que o
+`prep.sh` mostra; regras novas dessas vão para lá.
 
 ## Poupar tokens (obrigatório)
 
-- **Nunca ler o RESUMO inteiro.** Usa o `contexto.sh`, o `grep -n` e o
-  `Read` com `offset`/`limit` só no troço que vais mudar.
-- **Nunca ler os slides como imagem por defeito.** Usa primeiro o
-  `extrair.sh`. Abre com `Read` + `pages` só os slides assinalados cujo
-  diagrama, autómato, árvore ou tabela o texto não captou.
-- **Editar, nunca reescrever.** Usa o `Edit` para inserir ou substituir um
-  troço. Nunca faças `Write` do RESUMO inteiro.
-- **Verificação automática primeiro.** Os AVISOs do `build.sh` e o
-  `contexto.sh --sol` substituem o olhar para o PDF. Abre como imagem 1–2
-  páginas só quando aparece um tipo de caixa, figura ou tabela novo.
-  Capturas do site só quando muda o template.
-- Uma disciplina por sessão e sem subagentes (cada um volta a ler tudo).
+Cada chamada reenvia o contexto inteiro: **poucas chamadas** pesa mais do
+que tudo o resto.
+- Junta numa só resposta as chamadas independentes (ler o cache + `git mv`;
+  `--mapa` + `Read` do troço; escrever RESUMO, SOLUCOES e REVISAO).
+- Slides: só o cache, lido uma vez. Depois de um `git mv`, não voltes a
+  correr o `prep.sh`: o cache com o nome antigo serve.
+- Imagens só quando o texto refere o que não traz (diagrama, árvore,
+  autómato, valores de tabela, captura de código); atividades e perguntas à
+  turma não. Figuras graphviz não se veem: o `fechar.sh` diz a página e
+  avisa se a letra ficar pequena.
+- RESUMO nunca inteiro: `Read` com `offset`/`limit` só do troço a mudar.
+  PDF grande ou suplementar: `grep -n` no cache e ler só esses troços.
+- `Edit` num troço; nunca `Write` do RESUMO. Uma disciplina por sessão, sem
+  subagentes. Os AVISOs substituem olhar para o PDF.
 
 ## Passo a passo
 
-**0. Nomes.**
-- Slides em `Teoricas/Aula_NN.pdf`. Um PDF com outro nome renomeia-se com
-  `git mv` depois de ver a 1.ª página (`extrair.sh <pdf> 1 1`).
-- O número é a **ordem em que as aulas foram dadas**, não o que está escrito
-  no slide (os slides podem saltar números). Mandam o nome que o Gonçalo
-  deu e a sequência já processada. Nunca digas que "falta uma aula" por
-  causa de um salto. Na dúvida, pergunta.
-- Material de prática fica em `Praticas/Semana_N/`.
-- Qualquer `.md` de uma disciplina fica escondido em `.fonte/` (nunca se
-  apaga) e só o PDF fica visível.
-- Casos especiais (`.pptx`, `.cap`, livros): ver `ref/fontes.md`.
+**1. Arrancar:** `bash _shared/template/prep.sh <D>`. Mostra o que é novo
+(ficheiros fora do esquema com a 1.ª linha e o número livre), extrai para o
+cache, o índice (`contexto.sh <D> --indice` dá os `###`), o mapa de
+sobreposições, a numeração das soluções e o `CONTEXTO_<D>`.
 
-**1. Ver o que é novo.** Corre `bash _shared/template/contexto.sh <Disciplina>`.
-- Mostra as aulas por processar, com as páginas, as semanas de prática e o
-  índice do RESUMO (títulos e caixas `pratica`, com o número de linha).
-- Se o RESUMO ainda não existir, cria-o com o esqueleto abaixo.
+Nomes: slides em `Teoricas/Aula_NN.pdf` (`git mv`). O número é a **ordem
+em que as aulas foram dadas**, não o do slide (podem saltar números; nunca
+digas que "falta uma aula"). Mandam o nome que o Gonçalo deu e a sequência
+já processada; na dúvida, pergunta. Prática em `Praticas/Semana_N/`.
+Qualquer `.md` fica em `.fonte/` (nunca se apaga); só o PDF fica visível.
 
-**2. Ler a aula nova.** Corre `bash _shared/template/extrair.sh <pdf>`.
-- Lê o texto de **todos** os slides, sem saltar nenhum.
-- Vê como imagem só os assinalados que precisam (ver "Poupar tokens").
-- Um PDF grande lê-se por partes: `extrair.sh <pdf> 1 30`.
-- Atenção a definições, algoritmos, exemplos do professor e exercícios.
+**2. Ler a aula nova:** o cache `.fonte/.cache/<aula>.txt`, inteiro (por
+partes com `offset` se for grande), **todos** os slides. Atenção a
+definições, algoritmos, exemplos do professor e exercícios.
 
-**3. Encontrar sobreposições.** Faz uma lista dos conceitos-chave da aula e
-corre `contexto.sh <Disciplina> termo1 termo2 ...`, que faz grep no RESUMO,
-nas SOLUCOES e na REVISAO. Um conceito que já existe é aprofundado
-**dentro da secção onde já está** (passo 4). Lê só essas linhas.
+**3. Sobreposições.** Parte do mapa do `prep.sh`. Para os conceitos que
+faltam (em português, se os slides forem noutra língua):
+`contexto.sh <D> --mapa termo1 termo2 ...` (sem acentos nem maiúsculas,
+REVISAO primeiro; `contexto.sh <D> termo` dá as linhas). Um conceito que já
+existe aprofunda-se **dentro da secção onde já está**.
 
 **4. Escrever** no `.fonte/RESUMO_<Disciplina>.md`, em português:
 - **Compacto, sem palha.** Ficam de fora:
@@ -101,8 +93,14 @@ nas SOLUCOES e na REVISAO. Um conceito que já existe é aprofundado
 - Antes de escrever uma caixa, uma tabela ou uma lista de alíneas, revê os
   bugs do pandoc em `ref/formatacao.md`. Os mais comuns:
   - `title="--- X"`, sem espaço depois das aspas;
-  - alíneas em negrito, `**(a)**`;
-  - uma linha em branco antes de uma lista.
+  - nada de `% # & _ $` em `title=`;
+  - alíneas em negrito, `**(a)**`, no início da linha;
+  - uma linha em branco antes de uma lista;
+  - imagens `![](figuras/x.pdf){width=N%}` com a legenda em itálico na
+    linha a seguir.
+
+  O resto de `ref/formatacao.md` só se lê com um AVISO ou um tipo de caixa,
+  tabela ou figura novo.
 
 **5. Prática: caixas `pratica` no fim de CADA tópico, nunca no fim da aula.**
 - Ficam no fim do `##` (ou do `###`) cuja matéria aplicam. Cada exercício
@@ -126,44 +124,33 @@ nas SOLUCOES e na REVISAO. Um conceito que já existe é aprofundado
   justificado por uma lei ou definição que ele conhece (uma de cada vez,
   com os papéis identificados). Uma lei extra só aparece como atalho
   depois da derivação oficial. Segue a skill `resolver-exercicio`.
+- **Soluções oficiais** (ex. `Praticas/Semana_N/*_resolv.pdf`) são a
+  referência de forma e de tamanho: quando aparece uma, compara-a com as
+  nossas, grava a forma na `resolver-exercicio` e reescreve as que
+  divergem.
+- **Testes modelo** (enunciado + resolução) vão para `<D>/Testes/`. Cada
+  pergunta de desenvolvimento entra como exercício na caixa do seu tópico
+  e a escolha múltipla numa caixa no fim. O formato do teste (duração,
+  calculadora, descontos) vai para o `CONTEXTO_<D>` e para a caixa da
+  escolha múltipla, não para a REVISAO (que não passa das 3 páginas).
 - **Soluções**: cada item de cada caixa tem solução em
   `.fonte/SOLUCOES_<Disciplina>.md`, escrita na mesma passagem e
-  verificada. Formato e regras em `ref/solucoes.md`.
+  verificada. Formato e regras em `ref/solucoes.md`; a numeração e um
+  exemplo-modelo estão no `CONTEXTO_<D>`.
 
-**6. Compilar.** Corre `bash _shared/template/build.sh <Disciplina>`.
-- Gera o RESUMO, a REVISAO se existir, e o `SOLUCOES.html`.
-- **Qualquer AVISO é bloqueante**: caixa cortada, sem glifo, fora da
-  margem, markdown por converter, contagem de `pratica` ≠ `##`. Ver
-  `ref/build.md`.
-- Em Lógica, corre antes o `_shared/tools/fitch_check.py` sobre o RESUMO e
-  as SOLUCOES.
-
-**7. Folha de revisão.** Acrescenta as receitas novas ao
+**6. Folha de revisão.** Acrescenta as receitas novas ao
 `.fonte/REVISAO_<Disciplina>.md`, se existir: 2–3 páginas, só receitas,
 regras e tabelas, só `##` (sem `# Aula`).
 
-**8. Fechar.**
-- `contexto.sh <Disciplina> --sol`: cada alínea das caixas tem de ter o seu
-  `####` e o seu id no site. Se faltar alguma, a tarefa não está feita.
-- Atualiza o `<!-- processado: ... -->` e o `date:` do RESUMO, e o `date:`
-  das SOLUCOES se mudou.
-
-## Esqueleto (disciplina nova)
-
-```markdown
----
-title: "<Disciplina> (<código>) --- Resumo Teórico"
-author: "Gonçalo Sousa"
-date: "Atualizado: Semana N"
----
-
-<!-- processado: Teoricas/Aula_01.pdf -->
-
-# Aula 1 --- <título>
-```
-
-Uma disciplina nova entra sozinha no site de soluções quando ganha o seu
-`SOLUCOES_*.md`. Junta-a a `ESTILO_V2` no `build.sh`.
+**7. Fechar:** `bash _shared/template/fechar.sh <D> --aula
+Teoricas/Aula_NN.pdf --data "Semana N (...)"`, uma vez. Atualiza o
+`<!-- processado -->` e o `date:`, corre Fitch/tableaux (Lógica), mede a
+letra das figuras novas, compila tudo (filtrado) e faz o `--sol`.
+- **Qualquer AVISO ou FALTA é bloqueante** (caixa cortada, sem glifo, fora
+  da margem, markdown por converter, letra < 7 pt, `pratica` ≠ `##`, alínea
+  sem `####`; ver `ref/build.md`). Corrige e volta a correr.
+- O `date:` das SOLUCOES muda-se à mão, se mudou. Se mudou uma convenção ou
+  um facto da disciplina, atualiza o `CONTEXTO_<D>.md`.
 
 ## Auto-melhoria
 
@@ -178,6 +165,7 @@ Aplica-se a todas as disciplinas.
 - Depois de um build "com sucesso", o PDF pode estar errado na mesma. Se o
   AVISO automático não cobre o sintoma, acrescenta uma verificação ao
   `build.sh` em vez de passar a inspecionar à mão.
-- Gastar tokens com moderação (2026-10-06): seguir a secção "Poupar
-  tokens". Quando se descobre um passo repetitivo e caro, o sítio dele é
-  um script em `_shared/template/`.
+- Gastar tokens com moderação (2026-10-06, 2026-10-12): seguir a secção
+  "Poupar tokens". Quando se descobre um passo repetitivo e caro, o sítio
+  dele é um script em `_shared/template/` (`prep.sh`, `fechar.sh`), não
+  uma regra para fazer à mão.

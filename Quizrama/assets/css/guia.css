@@ -1,0 +1,73 @@
+/* Guia de matéria (gerado pelo pandoc a partir do resumo). Usa os tokens do quiz. */
+html { scroll-padding-top: 76px; }
+.g-top {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; gap: 18px;
+  padding: 12px 28px; background: var(--sheet); border-bottom: 2px solid var(--ink);
+}
+.g-back {
+  color: var(--ink); font-weight: 700; text-decoration: none;
+  padding: 7px 12px; border: 1px solid var(--rule); border-radius: var(--radius);
+}
+.g-back:hover { border-color: var(--ink); }
+.g-title { font-weight: 700; }
+.g-shell { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 28px; max-width: 1240px; margin: 0 auto; padding: 28px; }
+.g-toc { position: sticky; top: 84px; align-self: start; max-height: calc(100vh - 110px); overflow-y: auto; font-size: .88rem; }
+.g-toc-h { font-weight: 700; margin: 0 0 6px; }
+.g-toc ul { list-style: none; margin: 0; padding-left: 12px; }
+.g-toc > ul { padding-left: 0; }
+.g-toc li { margin: 3px 0; }
+.g-toc a { color: var(--ink-2); text-decoration: none; }
+.g-toc a:hover { color: var(--ink); text-decoration: underline; }
+.g-toc > ul > li > a { color: var(--ink); font-weight: 700; }
+
+.g-sheet {
+  background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 36px 48px 56px; line-height: 1.65; font-size: 1.02rem;
+}
+.g-sheet > * { max-width: 74ch; }
+.g-lead { color: var(--ink-2); font-size: .95rem; border-bottom: 1px dashed var(--rule); padding-bottom: 14px; }
+.g-sheet h1 { font-size: 1.7rem; line-height: 1.2; margin: 2.2em 0 .6em; padding-bottom: .3em; border-bottom: 2px solid var(--ink); }
+.g-sheet h2 { font-size: 1.32rem; margin: 2em 0 .5em; }
+.g-sheet h3 { font-size: 1.1rem; margin: 1.7em 0 .4em; }
+.g-sheet h1:first-of-type { margin-top: 1em; }
+
+/* chegar de uma dica do quiz: o título da secção é sublinhado a marcador */
+.g-sheet :is(h1, h2, h3):target {
+  background: linear-gradient(transparent 50%, var(--marker) 50%) no-repeat 0 0 / 100% 100%;
+  animation: marcar .7s ease-out;
+}
+@media (prefers-color-scheme: dark) { .g-sheet :is(h1, h2, h3):target { background-image: linear-gradient(transparent 55%, color-mix(in srgb, var(--marker) 50%, transparent) 55%); } }
+@keyframes marcar { from { background-size: 0 100%; } to { background-size: 100% 100%; } }
+
+.g-sheet a { color: var(--ink); }
+.g-sheet table { border-collapse: collapse; margin: 1em 0; font-size: .92rem; max-width: 100%; display: block; overflow-x: auto; }
+.g-sheet th, .g-sheet td { border-bottom: 1px solid var(--rule); padding: 6px 10px; text-align: left; vertical-align: top; }
+.g-sheet th { border-bottom: 2px solid var(--ink); }
+.g-sheet pre { background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius); padding: 12px 14px; overflow-x: auto; font-size: .86rem; line-height: 1.45; }
+.g-sheet img { max-width: 100%; height: auto; display: block; margin: 1em auto .3em; background: #fff; border-radius: var(--radius); }
+.g-sheet figure { margin: 1.2em 0; }
+.g-sheet figcaption { font-size: .88rem; color: var(--ink-2); text-align: center; }
+.g-sheet math[display="block"] { margin: .8em 0; overflow-x: auto; overflow-y: hidden; }
+
+/* caixas do resumo */
+.g-sheet .definicao, .g-sheet .exemplo {
+  margin: 1.2em 0; padding: 12px 18px; border-radius: var(--radius);
+}
+.g-sheet .definicao { border: 1px solid var(--rule); border-left: 3px solid var(--ink); }
+.g-sheet .exemplo { background: var(--paper); border: 1px dashed var(--rule); }
+.g-sheet .definicao::before, .g-sheet .exemplo::before {
+  display: block; font-weight: 700; margin-bottom: 4px;
+}
+.g-sheet .definicao::before { content: "Definição"; }
+.g-sheet .definicao[title]::before { content: attr(title); }
+.g-sheet .exemplo::before { content: "Exemplo"; color: var(--ink-2); }
+.g-sheet .exemplo[title]::before { content: "Exemplo: " attr(title); }
+
+@media (max-width: 900px) {
+  .g-shell { grid-template-columns: 1fr; padding: 14px; }
+  .g-toc { position: static; max-height: none; background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius); padding: 12px 14px; }
+  .g-sheet { padding: 22px 18px 40px; }
+  .g-top { padding: 10px 14px; }
+  .g-title { font-size: .9rem; }
+}

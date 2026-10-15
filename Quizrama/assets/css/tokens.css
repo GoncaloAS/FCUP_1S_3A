@@ -1,0 +1,76 @@
+/* Design tokens — "folha de teste quadriculada".
+ * Papel azulado com quadrícula, tinta azul-marinho de esferográfica, correção a caneta
+ * vermelha/verde e marcador amarelo. Modo escuro = ardósia com giz.
+ * Letra: Atkinson Hyperlegible (feita para ler bem); Caveat só para as marcas da correção. */
+
+:root {
+  --paper:   #f2f5fa;   /* fundo da página */
+  --grid:    #dde5f0;   /* linhas da quadrícula */
+  --sheet:   #ffffff;   /* folha do enunciado */
+  --ink:     #1c2a4d;   /* tinta principal */
+  --ink-2:   #56627f;   /* tinta clara: secundário */
+  --rule:    #d3dbe8;   /* contornos */
+  --pen:     #c0392b;   /* caneta vermelha: errado */
+  --ok:      #1e7a4c;   /* caneta verde: certo */
+  --marker:  #ffe45c;   /* marcador: a ligação à teoria */
+  --wash-ok: #e3f3ea;
+  --wash-pen:#fbe7e4;
+  --shadow:  0 1px 0 #d3dbe8, 0 10px 30px -18px rgba(28,42,77,.35);
+  --radius:  6px;
+  --font: "Atkinson Hyperlegible", system-ui, sans-serif;
+  --hand: "Caveat", "Segoe Print", cursive;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* nomes antigos, usados por estilos inline nos ficheiros de perguntas e no JS */
+  --bg: var(--paper); --surface: var(--sheet); --card: var(--sheet);
+  --border: var(--rule); --border2: var(--rule);
+  --text: var(--ink); --muted: var(--ink-2);
+  --accent: var(--ink); --accent2: var(--ink);
+  --good: var(--ok); --bad: var(--pen); --warn: #a8660b;
+  --good-bg: var(--wash-ok); --bad-bg: var(--wash-pen);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper:   #121a2c;
+    --grid:    #1b2541;
+    --sheet:   #17213a;
+    --ink:     #e7ecf6;
+    --ink-2:   #9ba7c3;
+    --rule:    #2b375a;
+    --pen:     #ff7b6b;
+    --ok:      #5fd49d;
+    --marker:  #e9cf4b;
+    --wash-ok: #173a2f;
+    --wash-pen:#3d2026;
+    --shadow:  0 1px 0 #0c1222, 0 14px 30px -20px rgba(0,0,0,.8);
+    --warn: #f0b356;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 16px;
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+code { font-family: var(--mono); font-size: .88em; }
+
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 99px; }

@@ -1,0 +1,22 @@
+digraph cw_quatro {
+  rankdir=LR; nodesep=0.12; ranksep=0.9;
+  node [shape=box, style="rounded,filled", fillcolor="#e8eef7", color="#1f3864", fontname="Helvetica", fontsize=13, margin="0.1,0.03", width=2.3];
+  edge [color="#1f3864", arrowsize=0.7];
+
+  F1 [label="1  Objetivo", fillcolor="#fff2cc"];
+  F2 [label="2  Intenção"];
+  F3 [label="3  Sequência de ações"];
+  F4 [label="4  Execução"];
+  F5 [label="5  Perceção"];
+  F6 [label="6  Interpretação"];
+  F7 [label="7  Avaliação"];
+
+  node [fillcolor="#e2efda", width=3.6];
+  Q1 [label="Q1  Vai tentar o efeito certo?\n(sabe que este passo existe)"];
+  Q2 [label="Q2  Vê que a ação está disponível?\n(visibilidade)"];
+  Q3 [label="Q3  Liga a ação ao efeito?\n(etiquetas e mapeamento)"];
+  Q4 [label="Q4  Vê o progresso depois de agir?\n(feedback)"];
+
+  F1 -> Q1; F2 -> Q1; F3 -> Q2; F3 -> Q3; F4 -> Q3;
+  F5 -> Q4; F6 -> Q4; F7 -> Q4;
+}

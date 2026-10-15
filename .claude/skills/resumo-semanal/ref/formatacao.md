@@ -44,7 +44,6 @@ build dá AVISO ou o PDF sai estranho.
   caracteres. No estilo antigo (IPM), saem em branco: usa ASCII (`e`,
   `em`, `->`). Os glifos `♀ ↗` não existem na Charter: escreve-os por
   extenso. `✓` em texto escreve-se `$\checkmark$`.
-- Lógica: `\not\models` usa o `\nmodels` (⊭) definido no `preamble-v2.tex`.
 - Heredocs com `$` (`$R`, `$57`): usa sempre `<<'EOF'`.
 
 ## Paginação (não texto a meio)
@@ -85,6 +84,10 @@ build dá AVISO ou o PDF sai estranho.
 - Curvas reais (Bézier): `neato -n2` com os pontos de controlo verdadeiros.
 - Uma figura ilegível à escala da página troca-se por uma tabela ou lista,
   se o texto já disser o mesmo.
+- O `fechar.sh` calcula a letra efetiva de cada figura nova (`fontsize` do
+  `.dot` × escala) e dá AVISO abaixo de 7 pt. A causa habitual é uma figura
+  larga demais (rótulos laterais, `nodesep` grande): estreita-a em vez de a
+  ver como imagem.
 - Figuras originais dos slides: `pdfimages -f N -l N -png`. Composições:
   `pdftoppm -r 200` + `sips -c H W --cropOffset Y X` (não há PIL).
 - Para gráficos com matplotlib: instala-o com pip só quando for preciso.

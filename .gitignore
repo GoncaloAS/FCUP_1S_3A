@@ -1,0 +1,9 @@
+# texto extraído dos slides (refaz-se com o extrair.sh)
+**/.fonte/.cache/
+_shared/.venv/
+__pycache__/
+
+# Quizrama (Node)
+Quizrama/node_modules/
+Quizrama/OS_Improved_Study_Guide.docx
+.DS_Store

@@ -85,10 +85,14 @@ $i\xrightarrow{X}j$ → $g\,j$; item completo da produção $k$ → $r\,k$ em
 Uma entrada com duas ações = **conflito** (shift/reduce ou
 reduce/reduce).
 
-**FIRST e FOLLOW.** FIRST($X_1..X_n$) = FIRST($X_1$), mais FIRST($X_2$) se
-$X_1$ anulável, etc. FOLLOW: \$ $\in$ FOLLOW($S$); para cada $X\to\alpha
-A\beta$: FIRST($\beta$) ⊆ FOLLOW($A$); se $\beta$ vazio ou anulável,
-FOLLOW($X$) ⊆ FOLLOW($A$). Repetir até estabilizar.
+**NULLABLE, FIRST e FOLLOW.** N($\varepsilon$) = True, N($a$) = False,
+N($\alpha\beta$) = N($\alpha$) $\wedge$ N($\beta$), N($X$) = $\bigvee$ N($\gamma_i$).
+FIRST($\varepsilon$) = $\emptyset$, FIRST($a$) = $\{a\}$, FIRST($\alpha\beta$) =
+FIRST($\alpha$) $\cup$ (FIRST($\beta$) se N($\alpha$)), FIRST($X$) = $\bigcup$
+FIRST($\gamma_i$). FOLLOW: \$ $\in$ FOLLOW($S$); para cada $Y\to\alpha
+X\beta$: FIRST($\beta$) ⊆ FOLLOW($X$); se N($\beta$) ($\beta$ vazio
+incluído), FOLLOW($Y$) ⊆ FOLLOW($X$). Tudo começa em False/$\emptyset$;
+NULLABLE → FIRST → FOLLOW; repetir até estabilizar.
 
 **SLR(1)**: igual à LR(0), mas o *reduce* de $A\to\gamma\bullet$ só nas
 colunas de FOLLOW($A$).
@@ -136,3 +140,37 @@ desambiguação; as ações semânticas constroem-na logo.
 | Java | classe abstrata + uma subclasse por alternativa | `instanceof` + *cast* (ou *visitor*) |
 
 Preferir a abordagem funcional: o compilador avisa se faltar um caso.
+
+**Receita em C/Flex/Bison** (lab. ASTs): um `struct` com *tag* por
+categoria (`Expr`, `BoolExpr`, `Cmd`); um campo por tipo no `%union` e
+`%type <campo>` por não-terminal; a ação chama o construtor; a raiz vai
+para uma global (`root`), **definida** num `.c`; as funções sobre a AST
+(`eval`, `print...`) são recursivas, com um `switch` na *tag*.
+Identificadores: `yylval.s = strdup(yytext)` **no Flex**. Palavras
+reservadas antes do `ID` (*first match*). `c1 ; c2`, `if` e `else`
+pendente resolvem-se com `%left SEMI` < `%nonassoc THEN WHILE` <
+`%nonassoc ELSE`.
+
+## Análise LL (*top-down*)
+
+**Descida recursiva**: uma função por não-terminal, um caso por produção,
+escolhida pelo próximo *token*; terminal → `consume`, não-terminal →
+chamada. Haskell: `[Token] -> [Token]` devolve o resto; `accepted =
+null . parseS`. C: `next` global, `advance()`, `consume(t)`; no fim
+`consume(EOF)` (ou $S'\to S\,\$$).
+
+**Recursão à esquerda**: $A\to A\alpha\mid\beta$ ⇒ $A\to\beta A'$,
+$A'\to\alpha A'\mid\varepsilon$. Expressões: $E\to TE'$,
+$E'\to +TE'\mid -TE'\mid\varepsilon$, $T\to FT'$,
+$T'\to *FT'\mid /FT'\mid\varepsilon$, $F\to\texttt{num}\mid(E)$.
+**Fatorização**: $A\to\alpha\beta_1\mid\alpha\beta_2$ ⇒ $A\to\alpha A'$,
+$A'\to\beta_1\mid\beta_2$. Recursão à esquerda ⇒ não é LL(1).
+
+**Tabela LL(1)**: $X\to\gamma$ na linha $X$, colunas FIRST($\gamma$); se
+N($\gamma$), também colunas FOLLOW($X$). LL(1) ⇔ no máximo uma produção
+por entrada; vazia = erro.
+
+**Pilha explícita**: começa com $S'$. Topo terminal → tem de ser igual ao
+próximo: consumir e tirar. Topo não-terminal $X$ → produção de
+table[$X$, próximo]: tira $X$, empilha o lado direito (1.º símbolo no
+topo). Pilha e entrada vazias → aceita.

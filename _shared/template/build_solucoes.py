@@ -29,6 +29,7 @@ def fragmento(md: Path, pasta: str, nome: str, cor: int) -> str:
         "pandoc", str(md), "-f", "markdown",
         "--template", str(TEMPLATE / "solucoes-disciplina.html"),
         "--lua-filter", str(TEMPLATE / "fitch.lua"),
+        "--lua-filter", str(TEMPLATE / "tableau.lua"),
         "--lua-filter", str(TEMPLATE / "solucoes.lua"),
         "--lua-filter", str(TEMPLATE / "auto-align.lua"),
         "--math-method=mathml", "--section-divs",

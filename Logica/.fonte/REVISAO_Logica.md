@@ -1,7 +1,7 @@
 ---
 title: "Lógica Computacional --- Folha de revisão"
 author: "Gonçalo Sousa"
-date: "Aulas 1--6. As receitas do resumo, sem exemplos: para rever antes do exame."
+date: "Aulas 1--8. As receitas do resumo, sem exemplos: para rever antes do exame."
 ---
 
 ## Sintaxe e semântica
@@ -57,8 +57,13 @@ $(p\to r)\land(q\to r)\not\Leftrightarrow(p\land q)\to r$.
   ($\models_v\gamma$ para cada $\gamma\in\Gamma$, $\not\models_v\phi$).
 - **Monotonicidade**: $\Gamma\models\theta$ e $\Gamma\subseteq\Sigma$ ⇒
   $\Sigma\models\theta$. Tirar premissas pode estragar.
-- **Cavaleiros/vilões**: $a\leftrightarrow S$ (A cavaleiro sse o que disse é
-  verdade); procurar as linhas onde todas as condições valem.
+- **Cavaleiros/vilões**: por casos, em frases ("A não pode ser vilão e
+  dizer isto, logo..."); cada caso impossível = cavaleiro a mentir ou
+  vilão a dizer a verdade ($a\leftrightarrow S$).
+- **Com $v$ dada**: de baixo para cima ("de $v(p)=V$ segue $\models_v p$,
+  logo $\models_v p\lor q$..."). **Com tabela** (se não for proibida):
+  "nas linhas em que as premissas são V, a conclusão também é".
+- **Regra redundante** sse é consequência semântica das outras.
 
 **Conjuntos completos**: $\{\land,\lor,\neg\}$ (indução em $n$, ou FND).
 $\{\neg,\to\}$: $\phi\land\psi\Leftrightarrow\neg(\phi\to\neg\psi)$,
@@ -95,7 +100,9 @@ Cláusula com $p,\neg p$ sai. $\tilde p=\neg p$, $\widetilde{\neg p}=p$.
 **Propagação unitária** de $l$: saem as cláusulas com $l$; tira-se
 $\tilde l$ das outras. **DLL(S)**: propagar; vazio → satisfazível; tem $F$
 → insatisfazível; escolher $l$ e tentar $S\cup\{l\}$, se falhar
-$S\cup\{\tilde l\}$. Insatisfazível só se os dois ramos falham. Valoração
+$S\cup\{\tilde l\}$. Escrever: "sem unitárias; escolhe-se $p$,
+DLL$(S\cup\{p\})$; a propagação de $p$ dá $S_1=\{\dots\}$".
+Insatisfazível só se os dois ramos falham. Valoração
 = literais supostos + propagados do ramo bom. Escolha: o mais frequente;
 o produto de ocorrências de $l$ e $\tilde l$ máximo; o mais frequente nas
 cláusulas mais curtas.
@@ -136,6 +143,36 @@ supor $\neg(\phi\lor\neg\phi)$); contraposição.
 $\not\models_v\phi$, logo $\Gamma\not\models\phi$, logo (integridade)
 $\Gamma\nvdash\phi$. **DN íntegra e completa**: $\Gamma\vdash\phi$ sse
 $\Gamma\models\phi$. **Lema da dedução**: $\Sigma\cup\{\phi\}\vdash\psi$
-sse $\Sigma\vdash\phi\to\psi$. $\phi\dashv\vdash\psi$ = duas deduções.
+sse $\Sigma\vdash\phi\to\psi$. **Integridade**: 1.º passo "mau" é
+impossível, regra a regra. **Completude**: $\psi^v$ ($\psi$ ou
+$\neg\psi$); Lema 1 $q_1^v,\dots,q_n^v\vdash\phi^v$ (indução); tautologia:
+juntar os $2^n$ casos com TE + $\lor$E, uma variável de cada vez; com
+premissas: Lema 4 ($\models\phi_1\to(\dots\to\psi)$) + lema da dedução.
+**Decidível** ($\vdash$ = $\models$ = tabela finita); $\phi$ satisfazível
+sse $\neg\phi$ não é tautologia. $\phi\dashv\vdash\psi$ = duas deduções.
 **Falácias**: afirmar o consequente, negar o antecedente (contraexemplo
 $v(\phi)=F$, $v(\psi)=V$).
+
+## Hilbert, tableaux e resolução
+
+**$\mathcal{H}$** ($\neg,\to$): A1 $\phi\to(\psi\to\phi)$; A2
+$(\phi\to(\psi\to\theta))\to((\phi\to\psi)\to(\phi\to\theta))$; A3
+$(\neg\psi\to\neg\phi)\to((\neg\psi\to\phi)\to\psi)$; só regra MP. Axiomas
+= esquemas (dizer a substituição). Teorema da dedução;
+$\vdash_{DN}$ = $\vdash_{\mathcal{H}}$, logo íntegro e completo.
+
+**Tableau de $\phi$**: raiz $\neg\phi$. $\alpha$ ($\phi\land\psi$;
+$\neg(\phi\lor\psi)$ → $\neg\phi,\neg\psi$; $\neg(\phi\to\psi)$ →
+$\phi,\neg\psi$): dois nós seguidos. $\beta$ ($\phi\lor\psi$;
+$\neg(\phi\land\psi)$ → $\neg\phi\mid\neg\psi$; $\phi\to\psi$ →
+$\neg\phi\mid\psi$): ramifica, em todos os ramos abertos abaixo.
+$\neg\neg\phi$ → $\phi$. Primeiro $\alpha$/$\neg\neg$, depois $\beta$.
+Ramo fecha ($\times$) com $\psi$ e $\neg\psi$ (qualquer $\psi$). Todos
+fechados → $\phi$ teorema. Ramo aberto esgotado → contraexemplo.
+
+**Resolução de $\phi$**: FNC de $\neg\phi$ ($\neg(\phi\to\psi)\Leftrightarrow
+\phi\land\neg\psi$, De Morgan, $\to$ em $\lor$, distributividade) →
+cláusulas → resolver até $\mathbf{F}$: de $C\cup\{p\}$, $C'\cup\{\neg p\}$
+sai $C\cup C'$. **Um par de cada vez** ($\{p,q\},\{\neg p,\neg q\}$ não
+dão $\mathbf{F}$). Começar pelas unitárias. Numerar e citar "de $i$ e
+$k$".

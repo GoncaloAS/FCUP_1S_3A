@@ -1,7 +1,7 @@
 ---
 title: "Interação Pessoa-Máquina --- Folha de revisão"
 author: "Gonçalo Sousa"
-date: "Aulas 1--4 (Módulos 01--04). As receitas do resumo, sem exemplos: para rever antes do exame."
+date: "Aulas 1--6 (Módulos 01--06). As receitas do resumo, sem exemplos: para rever antes do exame."
 ---
 
 ## Avaliação e projeto
@@ -19,7 +19,7 @@ walkthrough* sobre os esboços.
 
 | Fase | Método | Sobre | Regista-se |
 |:-:|:-------|:------|:--------------|
-| 1 | *Cognitive walkthrough* | esboços | cada passo da missão: 0 / 1 / 2 |
+| 1 | *Cognitive walkthrough* | esboços | por passo: Q1--Q4 sim/não; severidade 0--4 |
 | 2 | Avaliação heurística (Nielsen + próprias) | *wireframes* | severidade e extensão |
 | 3 | Testes de usabilidade | protótipo interativo | sucesso, tempo, erros, *quotes* |
 
@@ -80,6 +80,10 @@ de mercado; objetivos, não tarefas.
 **Três camadas**: funcionalidade (como o sistema é) → **modelo conceptual**
 (como queres que o utilizador o veja) → imagem do sistema (o que o leva a
 formar esse modelo).
+
+**Três modelos, um só canal**: modelo do desenhador → imagem do sistema →
+modelo do utilizador. O desenhador e o utilizador nunca se encontram;
+desenhar o conceito é **desenhar a imagem do sistema**.
 
 **Pipeline (6 passos)**: perceber → criar vários modelos → esboçar
 (depressa) → descrever por texto → avaliar → melhorar o mais promissor, e
@@ -157,3 +161,70 @@ conseguem lembrar e um estado que não se consegue verificar.
 
 **Sinalizador** (*signifier*): um sinal da ação possível. Quando a forma
 contradiz a ação real, nenhuma placa resolve o problema.
+
+## Modelos mentais e cognição
+
+**Modelo mental**: o que a pessoa acha que a coisa faz. Age-se sobre o
+modelo, não sobre a máquina. Serve para **prever** (antes do clique) e para
+**explicar** (depois do clique). É incompleto, instável, pouco exato,
+simplificado, supersticioso, e escreve-se em regras se-então.
+
+**Sete conceitos que o alimentam** (todos são imagem do sistema):
+visibilidade, *affordance*, mapeamento, restrições, transferência,
+associações culturais, *feedback*.
+
+**Sete fases de Norman**: 1 objetivo → execução (2 intenção, 3 sequência,
+4 execução) → mundo → avaliação (5 perceção, 6 interpretação, 7
+avaliação). O *walkthrough* agrupa-as em 4 perguntas. Aplicam-se por
+inteiro no primeiro uso e no inesperado; no uso automático encolhem.
+
+**Golfos**: execução = "como o faço?" (comandos que correspondem às
+intenções); avaliação = "o que aconteceu?" (mostradores que respondem;
+comando e estado em separado; *feedback* < 0,1 s).
+
+**Processamento de informação**: entrada → codificação → comparação →
+seleção → execução → saída. Serve para encontrar estrangulamentos.
+
+**Carga**: cognitiva = perceber, decidir, calcular; atencional = vigiar,
+reparar. Parede com pouca carga atencional (pouco mexe, pouco pisca).
+
+**Fora da cabeça**: distribuída (a sala; onde fica a ordem? a interface
+decide), externa (externalizar memória, descarga computacional,
+anotação e rastreio; a representação muda a tarefa), incorporada (parede
+pública, ecrãs privados).
+
+## *Cognitive walkthrough* (Fase 1)
+
+**O quê**: alguém que não desenhou simula um utilizador de **primeira
+vez**, uma missão, passo a passo, sobre os esboços. Encontra confusão,
+becos, *feedback* em falta, etiquetas erradas, ecrãs em falta. Não
+encontra rapidez nem erros de treinados; só vê as missões escolhidas. 1
+avaliador ≈ 1/3 dos problemas → 2 ou 3 por esboço.
+
+**Quatro perguntas por passo**, sim/não **com a razão no esboço** (sem
+razão apontável = não):
+
+| Q | Pergunta | Fases de Norman |
+|:-:|:-------------------|:--------|
+| 1 | Vai tentar o efeito certo? (sabe que o passo existe) | 1--2 |
+| 2 | Vê que a ação está disponível? | 3 |
+| 3 | Liga a ação ao efeito? (etiquetas, mapeamento) | 3--4 |
+| 4 | Vê progresso depois de agir? | 5--7 |
+
+Versão curta (Spencer): sabe o que fazer? sabe que fez e que progride?
+**Severidade** (Nielsen): 0 nada, 1 cosmético, 2 menor, 3 maior, 4
+bloqueia.
+
+**Falhas-tipo**: comando que parece mostrador (Q2); termo do mecanismo
+onde se espera o da tarefa (Q3); regra só na cabeça das pessoas (Q1);
+valor pedido mostrado como feito (Q4).
+
+**Papéis**: facilitador (diz só o que está no esboço) e registador (tabela,
+todas as falhas), do grupo que desenhou; 2--3 avaliadores do outro;
+cronometrista. **Regras**: não desenhar (post-it), não defender, registar
+tudo, 3 min por passo.
+
+**Fase 1**: preparar persona, 3 missões (rotina, alarme, coordenador),
+sequência correta de 5--10 passos, esboços por ordem, tabela por missão →
+~15 min cada grupo, depois trocam → entregar 3 tabelas + meia página com
+os 3 piores problemas no mesmo dia → mudar antes dos *wireframes* (S7).

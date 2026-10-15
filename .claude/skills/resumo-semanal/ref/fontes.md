@@ -1,38 +1,43 @@
 # Fontes fora do normal (ler só quando aparecem)
 
-- **Aula em `.pptx`**: não há LibreOffice, e não o instales sem perguntar.
-  - Fica como `Aula_NN.pptx`.
-  - Lê-a com `python-pptx` num venv no scratchpad:
-    `python3 -m venv .../venv && .../venv/bin/pip install python-pptx pillow`.
-    O pip do sistema recusa (PEP 668).
-  - Lê o texto **e as notas do orador** de cada slide. Extrai as imagens com
-    `shape.image.blob` e vê só as que importam.
-- **Capturas `.cap`** (Redes):
-  - nome `Teoricas/Aula_NN_captura_<proto>.cap`;
-  - lê-se com `tcpdump -nn -A -r` (não há Wireshark);
-  - os números dos pacotes tiram-se com `tcpdump -# -nn -r` **sem filtro**
-    (com filtro, a numeração não bate com a do Wireshark).
+As regras de **uma só** disciplina (módulos de IPM, `.cap` de Redes,
+ferramentas de Compiladores, Fitch e tableaux de Lógica, site de
+TecnologiasWeb) estão no `.fonte/CONTEXTO_<D>.md` dela, que o `prep.sh`
+mostra. Aqui ficam os casos genéricos.
+
+- **Aula em `.pptx`**: fica como `Aula_NN.pptx`. O `extrair.sh` lê-a
+  sozinho (texto, tabelas e **notas do orador**), com o venv
+  `_shared/.venv`, criado na 1.ª vez com `python-pptx` (o pip do sistema
+  recusa, PEP 668; não há LibreOffice, e não o instales sem perguntar).
+  Imagens: `shape.image.blob` nesse venv; vê só as que importam.
 - **PDF que não é uma aula numerada** (livro, apontamentos de outro
   docente):
   - dá-lhe um nome descritivo dentro de `Teoricas/` e diz ao Gonçalo que
     foi uma decisão tua;
-  - usa-o para preencher lacunas dos slides (com †). A estrutura e a
-    terminologia continuam a ser as das aulas.
+  - usa-o para preencher lacunas dos slides (com †): procura no cache
+    (`grep -n` em `.fonte/.cache/<nome>.txt`) e lê só esses troços. A
+    estrutura e a terminologia continuam a ser as das aulas.
 - **Enunciado de projeto ou ficha prática sem teórica nova**:
   - vai para `Praticas/Semana_N/`;
   - funde-se nas secções que já existem e não cria uma secção nova;
   - fica no `<!-- processado -->` se alterou o resumo;
   - se as datas do enunciado contradizem os slides, vale o enunciado.
-- **Calendário ou sumários numa Google Sheet embutida**: troca `pubhtml`
-  por `pub?output=csv` no mesmo URL.
-- **Código dos slides** (`javac`, `gcc`):
-  - corre-o, porque já apanhou erros reais;
-  - em labs de geradores, usa o Bison do `brew install bison`
-    (`/opt/homebrew/opt/bison/bin`), porque o do macOS é o 2.3;
-  - `happy`/`alex` instalam-se com `cabal install` (ficam em `~/.cabal/bin`);
-  - `happy -i` gera relatórios `.info` com conflitos reais.
-- **Exercícios "corre este comando"** (`dig`, `telnet`): corre-os de
-  verdade e mostra a saída real, com a data. Nunca faças ações com efeitos
-  pelo Gonçalo (no SMTP, só `EHLO`/`QUIT`).
-- **Módulos em vez de aulas** (IPM): o nome segue o número do módulo
-  (`Module 04 · Lecture 3` → `Aula_04.pdf`), para manter Aula N = Módulo N.
+- **Código dos slides**: corre-o sempre, porque já apanhou erros reais (as
+  ferramentas de cada disciplina estão no `CONTEXTO_<D>`).
+- **Exercícios "corre este comando"**: corre-os de verdade e mostra a saída
+  real, com a data. Nunca faças ações com efeitos pelo Gonçalo.
+- **Disciplina nova**: cria `.fonte/RESUMO_<D>.md` com o esqueleto abaixo,
+  junta-a a `ESTILO_V2` no `build.sh` e escreve um `CONTEXTO_<D>.md`. Entra
+  sozinha no site de soluções quando ganha o seu `SOLUCOES_*.md`.
+
+  ```markdown
+  ---
+  title: "<Disciplina> (<código>) --- Resumo Teórico"
+  author: "Gonçalo Sousa"
+  date: "Atualizado: Semana N"
+  ---
+
+  <!-- processado: Teoricas/Aula_01.pdf -->
+
+  # Aula 1 --- <título>
+  ```

@@ -1,11 +1,11 @@
 ---
 title: "Redes de Comunicação --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 3 (Capítulos 1--2 + Ficha 3)"
+date: "Atualizado: Semana 4 (respostas das fichas 2 e 3, teste modelo 1)"
 ---
 
 <!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf -->
-<!-- práticas usadas nas caixas "Pratica agora": Praticas/Semana_1/exercicios_redes.pdf, Praticas/Semana_2/ficha_2.pdf, Praticas/Semana_3/ficha_3_protocolos_aplicacionais.pdf -->
+<!-- práticas usadas nas caixas "Pratica agora": Praticas/Semana_1/exercicios_redes.pdf, Praticas/Semana_2/ficha_2.pdf, Praticas/Semana_3/ficha_3_protocolos_aplicacionais.pdf, Praticas/Semana_4/ficha_4_sockets_smtp.pdf -->
 
 *O sinal † marca matéria que não está nos slides mas faz falta para as
 práticas.*
@@ -385,6 +385,17 @@ leva o fator 4**.
   (store-and-forward de um bloco só), depois em pedaços de 1000 B (o
   *pipelining* do exemplo acima), e por fim com 20 B de cabeçalho por
   pedaço. Distingue MB de Mb.
+- **M1.11** (Teste modelo 1, P. 11) --- T1 → LAN → R1 → WAN → T2,
+  *store-and-forward*, pacotes de 1000 B. LAN: 20 m de fibra
+  ($v = 2\times10^8$ m/s), 10 Mbit/s. WAN: $d_{prop} = 15$ ms,
+  $d_{trans} = 0{,}6$ ms. No teste não há calculadora: faz as contas em
+  potências de 10.
+
+  - **(a)** $d_{trans}$ e $d_{prop}$ na LAN.
+  - **(b)** Tempo de um pacote de T1 a T2 (filas vazias, processamento
+    desprezável).
+  - **(c)** Diagrama temporal do envio de 4 pacotes.
+  - **(d)** Tempo que demoram os 4 pacotes.
 :::
 
 ### Intensidade de tráfego
@@ -835,6 +846,17 @@ demora 10 ms a transmitir. Calcula o tempo até o browser ter tudo, com:
 **(a)** HTTP não persistente, um objeto de cada vez; **(b)** HTTP
 persistente sem *pipelining*; **(c)** HTTP persistente com *pipelining*.
 Usa a fórmula $2\,\text{RTT} + T$ e o raciocínio do exemplo acima.
+
+**M1.12** (Teste modelo 1, P. 12) Ligação de 80 Mbit/s; $d_{prop} =
+30$ ms até ao servidor; a página tem um HTML de 10 kB e 2 imagens de
+200 kB. O browser nunca abre conexões simultâneas para o mesmo servidor.
+Os pedidos HTTP têm tempo de transmissão nulo; ignora o *overhead* das
+camadas de baixo.
+
+- **(a)** Desenha o diagrama de sequência de mensagens (MSC) da obtenção
+  da página com HTTP/1.1 persistente sem *pipelining*.
+- **(b)** A partir do diagrama, calcula o tempo até ter a página e as
+  imagens.
 :::
 
 ### Formato das mensagens HTTP
@@ -1556,6 +1578,11 @@ A Network Utopia quer `networkutopia.com`:
   escrevem `www.ferramentas.pt`. O email do domínio é recebido por
   `mail.ferramentas.pt` (192.0.2.25). Escreve os RRs que ficam no
   **servidor TLD `pt`** e os que ficam no **servidor com autoridade**.
+
+**M1.13** (Teste modelo 1, P. 13) Desenha, num diagrama com quatro
+linhas verticais (cliente, servidor de raiz, servidor TLD, servidor com
+autoridade), as setas das mensagens DNS que resolvem **iterativamente**
+`www.jn.pt`. Diz o que leva cada mensagem.
 :::
 
 ### Ferramentas: `host` e `dig` †
@@ -1917,6 +1944,46 @@ e recebe `FROM SERVER: OLA MUNDO` (testado com `javac`/`java`).
   menos robusto.
 :::
 
+**Conexões persistentes na socket** †. O servidor dos slides lê **uma**
+linha e fecha. Para atender um cliente até ele se ir embora, lê-se em
+ciclo até ao **fim da *stream***: quando o cliente fecha a conexão, o
+`readLine()` devolve **`null`** (em Python, `input()` lança `EOFError`).
+O teclado funciona da mesma forma: o CTRL-D (CTRL-Z no Windows) fecha o
+`System.in`, e o `readLine()` do cliente devolve `null`. Para testar um
+servidor sem escrever o cliente usa-se `nc localhost 6789`, que envia
+cada linha escrita e mostra o que chega.
+
+::: {.exemplo title="Servidor persistente (Ficha 4, Ex. 1a)"}
+No `TCPServer`, o atendimento de um cliente passa a ser um ciclo:
+
+```java
+            String clientSentence;
+            // readLine() devolve null quando o cliente fecha a conexao
+            while ((clientSentence = inFromClient.readLine()) != null)
+                outToClient.writeBytes(clientSentence.toUpperCase() + '\n');
+            connectionSocket.close();
+```
+
+Com `nc localhost 6789`, `abc` dá `ABC` e depois `xyz` dá `XYZ`, sempre
+na mesma conexão. O CTRL-D fecha a conexão: o `readLine()` devolve
+`null`, o ciclo acaba, o servidor fecha a `connectionSocket` e volta ao
+`accept()` (testado).
+:::
+
+::: {.pratica title="Servidor persistente e concorrente (Ficha 4, Ex. 1b--d)"}
+**F4.1**
+
+- **(b)** Muda o `TCPClient` para se ligar ao servidor indicado em
+  `argv[0]` e traduzir linhas até o utilizador fechar a *stream*
+  (CTRL-D). Pista: o mesmo ciclo do exemplo, mas do lado do cliente.
+- **(c)** Com o servidor persistente (iterativo) a correr, abre dois
+  clientes em janelas diferentes e escreve nos dois. O que acontece ao
+  segundo, e porquê? Usa os tipos de servidores e o que faz o `accept()`.
+- **(d)** Torna o servidor concorrente com *threads*, com uma classe
+  `Helper implements Runnable` por conexão (`new Thread(h).start()`), e
+  repete a (c).
+:::
+
 ### Sockets UDP
 
 ::: {.definicao title="Cliente e servidor UDP"}
@@ -2024,15 +2091,72 @@ tem o mesmo problema. **Correção**, nos dois lados:
 (testado: `ab` dá `AB`). O datagrama sabe o seu comprimento; a aplicação
 é que o tem de usar.
 
-::: {.pratica title="Sockets (exercício inventado)"}
-**C2.7**
+### Um cliente SMTP com sockets †
 
-- **(a)** Com o `TCPServer` **iterativo** acima a correr, o cliente A
-  liga-se mas demora 3 segundos a escrever a sua linha. Entretanto, o
-  cliente B liga-se e envia logo a sua. Quando é que o B recebe a
-  resposta, e porquê?
-- **(b)** Transforma o `TCPServer` num servidor **concorrente com
-  *threads***, para que o B seja atendido logo.
+Um cliente de um protocolo de texto (SMTP, HTTP, FTP) é um cliente TCP
+como o de cima: abre uma socket para a porta do servidor (25 no SMTP),
+envia comandos, um por linha, e lê as respostas. No SMTP (RFC 2821) há
+quatro cuidados:
+
+- **As linhas acabam em CR LF** (`"\r\n"`), não só em `'\n'`.
+- **Cada resposta começa por um código de 3 dígitos**, que o cliente
+  verifica antes de continuar. O 1.º dígito diz o tipo:
+  - `2xx` é sucesso (`220` pronto, `250` ok, `221` adeus);
+  - `3xx` pede para continuar (`354` manda a mensagem);
+  - `4xx` é uma falha temporária (tenta mais tarde);
+  - `5xx` é uma falha permanente (ex.: `550` destinatário desconhecido).
+- **Há respostas com várias linhas.** `250-` (hífen depois do código)
+  quer dizer que há mais linhas; a última tem um espaço (`250 `). Quem lê
+  só uma linha deixa as outras na socket e fica desfasado: o que lê a
+  seguir é o resto da resposta anterior.
+- ***Dot-stuffing***: uma linha do corpo que comece por `.` vai com um
+  ponto a mais (`..`), para não se confundir com o fim da mensagem. O
+  servidor tira-o.
+
+::: {.exemplo title="Ler e verificar respostas SMTP"}
+```java
+    // le uma resposta (com uma ou mais linhas) e devolve o codigo
+    static int resposta() throws IOException {
+        String linha;
+        do {
+            linha = inFromServer.readLine();
+            if (linha == null) throw new IOException("o servidor fechou a conexao");
+            System.out.println("S: " + linha);
+        } while (linha.length() > 3 && linha.charAt(3) == '-');  // "250-": ha mais
+        return Integer.parseInt(linha.substring(0, 3));
+    }
+
+    // envia um comando e confirma o codigo da resposta
+    static void comando(String cmd, int esperado) throws IOException {
+        System.out.println("C: " + cmd);
+        outToServer.writeBytes(cmd + "\r\n");
+        int codigo = resposta();
+        if (codigo != esperado) {
+            outToServer.writeBytes("QUIT\r\n");
+            throw new IOException("esperava " + esperado + " e veio " + codigo);
+        }
+    }
+```
+
+Contra o `smtp.fc.up.pt` (testado em 2026-10-12), a primeira
+`resposta()` lê `220 smtp.fc.up.pt ESMTP Postfix`, que tem espaço na
+posição 3, e devolve `220`. Depois, `comando("EHLO portatil", 250)` lê
+`250-smtp.fc.up.pt`, `250-PIPELINING`, ... (hífen, continua) até
+`250 DSN` (espaço, pára) e devolve `250`. Em claro, o servidor anuncia
+`STARTTLS` mas não `AUTH`: sem autenticação só entrega a endereços dos
+domínios dele.
+:::
+
+::: {.pratica title="Cliente SMTP (Ficha 4, Ex. 2)"}
+**F4.2**
+
+- **(a)** Com a `resposta()` e o `comando()` acima, escreve um programa
+  que envie um email com `HELO`, `MAIL FROM`, `RCPT TO`, `DATA` e
+  `QUIT`. O servidor, o remetente e o destinatário vêm da linha de
+  comando e o corpo vem do teclado, até CTRL-D. Que código esperas
+  depois de cada comando, e depois do `.` final?
+- **(b)** Acrescenta os cabeçalhos `From:`, `To:` e `Subject:` e envia um
+  email para ti próprio. Pista: os cabeçalhos não são comandos SMTP.
 :::
 
 ## Resumo comparativo dos protocolos
@@ -2054,3 +2178,46 @@ Para cada protocolo, os slides destacam: **pedido/resposta**; **formato**
 
 (---: não está nos slides; as portas do POP3, IMAP e DNS são 110, 143 e
 53 †.)
+
+::: {.pratica title="Teste modelo 1 --- Parte I, escolha múltipla"}
+Formato do teste: 75 minutos, sem calculadora. Cada resposta errada
+desconta um terço da cotação da pergunta; em branco não desconta. Estas
+dez perguntas usam os dois capítulos. As perguntas 11 a 13 do modelo
+estão nas caixas dos atrasos (M1.11), do HTTP (M1.12) e do DNS (M1.13).
+
+1. Qual destas características se aplica ao HTTP? (a) pedido/resposta
+   baseado em texto; (b) conexões obrigatoriamente cifradas; (c)
+   conexões diferentes para controlo e dados; (d) corre sobre UDP.
+2. Num servidor de *chat*, as mensagens recebidas numa conexão têm de
+   ser reenviadas para outras. O modelo de servidor mais adequado é o
+   (a) concorrente com processos; (b) *multiplex*; (c) iterativo; (d)
+   *pre-forking*.
+3. Na pilha TCP/IP, a camada de rede transmite informação (a) entre
+   máquinas que podem não estar diretamente ligadas; (b) só entre
+   máquinas diretamente ligadas; (c) entre *sockets* em máquinas
+   distintas; (d) entre processos em máquinas distintas.
+4. Para resolver nomes externos, um servidor de nomes local normalmente
+   (a) recebe e faz pedidos iterativos; (b) recebe e faz pedidos
+   recursivos; (c) recebe iterativos e faz recursivos; (d) recebe
+   recursivos e faz iterativos.
+5. Uma aplicação é elástica se (a) a informação que transmite tem
+   dimensão variável; (b) se adapta à capacidade disponível na rede; (c)
+   o número de utilizadores simultâneos pode crescer muito; (d) funciona
+   tanto sobre UDP como sobre TCP.
+6. Um programa em Java tem `Socket s = new Socket("api.example.com", 80);`.
+   O mais provável é ser um (a) servidor UDP; (b) cliente TCP; (c)
+   cliente UDP; (d) servidor TCP.
+7. Com comutação de pacotes e multiplexagem estatística, (a) um único
+   fluxo pode usar toda a capacidade de uma ligação; (b) os fluxos vão em
+   bandas de frequência diferentes; (c) reservam-se recursos para cada
+   fluxo; (d) há um padrão fixo na ordem de transmissão dos fluxos.
+8. Numa aplicação cliente/servidor sobre UDP, o cliente é o que (a) envia
+   a primeira mensagem; (b) está sempre a correr à espera de pedidos; (c)
+   pede o estabelecimento da conexão; (d) nenhuma: o UDP só permite P2P.
+9. O aumento da intensidade de tráfego faz aumentar os atrasos (a) de
+   propagação; (b) de transmissão; (c) em filas de espera; (d) todos.
+10. Como sabe o SMTP onde acaba a mensagem que lhe estão a enviar? (a)
+    uma linha só com um ponto final; (b) cada mensagem vai num pacote
+    separado; (c) fecha-se a conexão TCP; (d) um campo de 32 bits antes
+    da mensagem diz quantos bytes tem.
+:::

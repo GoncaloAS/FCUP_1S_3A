@@ -1,0 +1,13 @@
+digraph completude {
+  rankdir=BT; nodesep=0.3; ranksep=0.45;
+  node [shape=box, style=rounded, fontname="Helvetica", fontsize=13];
+  edge [fontname="Helvetica", fontsize=12];
+  a [label="p, q ⊢ φ"]; b [label="p, ¬q ⊢ φ"];
+  c [label="¬p, q ⊢ φ"]; d [label="¬p, ¬q ⊢ φ"];
+  e [label="p ⊢ φ"]; f [label="¬p ⊢ φ"];
+  g [label="⊢ φ", penwidth=2];
+  a -> e; b -> e [label=" TE q ∨ ¬q, ∨E"];
+  c -> f; d -> f [label=" TE q ∨ ¬q, ∨E"];
+  e -> g; f -> g [label=" TE p ∨ ¬p, ∨E"];
+  {rank=same; a; b; c; d}
+}

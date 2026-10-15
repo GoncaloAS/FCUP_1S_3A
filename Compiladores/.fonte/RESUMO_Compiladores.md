@@ -1,10 +1,10 @@
 ---
 title: "Compiladores (CC3001) --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 3 (Aulas 1--6)"
+date: "Atualizado: Semana 5 (Aulas 1--7)"
 ---
 
-<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf, Teoricas/Aula_04.pdf, Teoricas/Aula_05.pdf, Teoricas/Aula_06.pdf -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf, Teoricas/Aula_04.pdf, Teoricas/Aula_05.pdf, Teoricas/Aula_06.pdf, Praticas/Semana_4/Abstract_Syntax_Trees, Teoricas/Aula_07.pdf -->
 
 *O sinal † marca matéria que não está nos slides mas faz falta para as
 práticas.*
@@ -1218,25 +1218,86 @@ Usando também o **próximo terminal** (*look-ahead*) reconhecem-se muito
 mais. A extensão mais simples é a **SLR(1)** (*Simple LR*), que usa o
 conjunto FOLLOW.
 
-### FIRST e FOLLOW
+### NULLABLE, FIRST e FOLLOW
 
-::: {.definicao title="Anulável, FIRST e FOLLOW †"}
-- **Anulável**: $X \Rightarrow^* \varepsilon$ (ex.: há $X\to\varepsilon$,
-  ou $X \to Y Z$ com $Y$ e $Z$ anuláveis).
-- **FIRST($\alpha$)**: os terminais que podem **começar** uma palavra
-  derivada de $\alpha = X_1\dots X_n$: FIRST($X_1$), mais FIRST($X_2$) se
-  $X_1$ for anulável, e assim por diante. FIRST($t$) = $\{t\}$ para um
-  terminal.
-- **FOLLOW($A$)**: os terminais que podem aparecer **logo a seguir** a
-  $A$. Como $S'\to S\,\$$, o \$ está sempre em FOLLOW($S$).
+Estes três conjuntos servem para a SLR(1) e também para a análise LL(1)
+(Aula 7, de onde vêm as definições e as equações).
 
-**Cálculo de FOLLOW**: começa vazio; para cada ocorrência
-$X \to \alpha\,A\,\beta$ de um não-terminal $A$:
+::: {.definicao title="NULLABLE, FIRST e FOLLOW"}
+Numa gramática $G=(\Sigma,N,S,P)$, com $\gamma$ uma sequência de símbolos:
 
-1. junta FIRST($\beta$) a FOLLOW($A$);
-2. se $\beta$ é vazio ou anulável, junta **FOLLOW($X$)** a FOLLOW($A$).
+- **NULLABLE($X$)** é verdade se $X\Rightarrow^*\varepsilon$ ($X$ é
+  **anulável**).
+- **FIRST($\gamma$)** $=\{x\in\Sigma : \gamma\Rightarrow^* x\beta$ para
+  algum $\beta\}$: os terminais por que podem **começar** as palavras
+  derivadas de $\gamma$.
+- **FOLLOW($X$)** $=\{c\in\Sigma : S\Rightarrow^*\alpha X c\beta$ para
+  alguns $\alpha,\beta\}$: os terminais que podem aparecer **logo a
+  seguir** a $X$ numa derivação a partir de $S$. Com a produção
+  $S'\to S\,\$$, o \$ está sempre em FOLLOW($S$).
+:::
 
-Repete até nenhum conjunto mudar.
+As definições não dizem como calcular; para isso escrevem-se
+**equações** a partir das produções ($a$ terminal, $\alpha,\beta$
+sequências, $X\to\gamma_1\mid\dots\mid\gamma_n$ todas as produções de $X$):
+
+| | NULLABLE | FIRST |
+|:--|:--|:--|
+| $\varepsilon$ | True | $\emptyset$ |
+| $a$ | False | $\{a\}$ |
+| $\alpha\beta$ | NULLABLE($\alpha$) $\wedge$ NULLABLE($\beta$) | FIRST($\alpha$) $\cup$ FIRST($\beta$) se NULLABLE($\alpha$); senão FIRST($\alpha$) |
+| $X$ | NULLABLE($\gamma_1$) $\vee\dots\vee$ NULLABLE($\gamma_n$) | FIRST($\gamma_1$) $\cup\dots\cup$ FIRST($\gamma_n$) |
+
+O FIRST precisa do NULLABLE: FIRST($T*F$) = FIRST($T$) só porque $T$ não
+deriva $\varepsilon$; se derivasse, o $*$ também podia vir à cabeça.
+
+**Equações de FOLLOW**: para cada ocorrência de um não-terminal $X$ num
+lado direito, $Y\to\alpha X\beta$:
+
+1. FOLLOW($X$) $\supseteq$ FIRST($\beta$);
+2. se NULLABLE($\beta$) ($\beta$ vazio incluído), FOLLOW($X$)
+   $\supseteq$ FOLLOW($Y$).
+
+As produções $X\to\varepsilon$ não contribuem (não têm ocorrências).
+
+**Método iterativo (ponto fixo)**: começa com NULLABLE($X$) = False e
+FIRST($X$) = FOLLOW($X$) = $\emptyset$ para todos os não-terminais;
+calcula os lados direitos das equações com os valores atuais; repete até
+nada mudar. Faz-se NULLABLE primeiro, depois FIRST, depois FOLLOW, porque
+cada um usa os anteriores. **Termina sempre**: os conjuntos só crescem e
+são finitos (as equações são monótonas). O resultado é a **menor**
+solução: FIRST($T$) = FIRST($T$) $\cup$ FIRST($F$) também é satisfeita
+por conjuntos maiores.
+
+Nas tabelas dos slides, a iteração $i$ calcula-se **só com a coluna
+$i-1$**. Nos exemplos à mão abaixo usa-se logo cada valor novo na mesma
+passagem: chega ao mesmo resultado em menos passagens (interpretação).
+
+::: {.exemplo title="NULLABLE e FIRST das expressões aritméticas (Aula 7)"}
+$E \to E+T \mid T$, $T\to T*F\mid F$, $F\to\texttt{num}\mid(E)$.
+
+**NULLABLE**: $N(E) = (N(E)\wedge N(+)\wedge N(T))\vee N(T)$,
+$N(T) = (N(T)\wedge N(*)\wedge N(F))\vee N(F)$,
+$N(F) = N(\texttt{num})\vee N((E)) =$ False. Partindo de tudo False, a
+iteração 1 dá tudo False: estabiliza logo. **Nada é anulável.**
+
+**FIRST**: como $E$ e $T$ não são anuláveis,
+FIRST($E+T$) = FIRST($E$) e FIRST($T*F$) = FIRST($T$):
+
+- FIRST($E$) = FIRST($E$) $\cup$ FIRST($T$)
+- FIRST($T$) = FIRST($T$) $\cup$ FIRST($F$)
+- FIRST($F$) = FIRST(num) $\cup$ FIRST($(E)$) = $\{\texttt{num}, (\}$
+
+| | 0 | 1 | 2 | 3 | 4 |
+|:--|:-:|:-:|:-:|:-:|:-:|
+| FIRST($E$) | $\emptyset$ | $\emptyset$ | $\emptyset$ | $\{\texttt{num}, (\}$ | $\{\texttt{num}, (\}$ |
+| FIRST($T$) | $\emptyset$ | $\emptyset$ | $\{\texttt{num}, (\}$ | $\{\texttt{num}, (\}$ | $\{\texttt{num}, (\}$ |
+| FIRST($F$) | $\emptyset$ | $\{\texttt{num}, (\}$ | $\{\texttt{num}, (\}$ | $\{\texttt{num}, (\}$ | $\{\texttt{num}, (\}$ |
+
+Na 1 só muda FIRST($F$), que é constante; na 2, FIRST($T$) recebe o
+FIRST($F$) da coluna 1; na 3, FIRST($E$) recebe o FIRST($T$) da coluna 2;
+a 4 é igual à 3: ponto fixo. **FIRST($E$) = FIRST($T$) = FIRST($F$) =
+$\{\texttt{num}, (\}$.**
 :::
 
 ::: {.exemplo title="FOLLOW da gramática dos parêntesis"}
@@ -1253,8 +1314,7 @@ acaba antes de um `)` ou no fim da entrada.
 
 ::: {.exemplo title="FOLLOW das expressões aritméticas (Aula 4)"}
 $E'\to E\,\$$, $E \to E+T \mid T$, $T\to T*F\mid F$,
-$F\to\texttt{num}\mid(E)$. Nada é anulável, e FIRST($F$) = FIRST($T$) =
-FIRST($E$) = $\{\texttt{num}, (\}$.
+$F\to\texttt{num}\mid(E)$, com NULLABLE e FIRST do exemplo anterior.
 
 - **$E$** em $E'\to\underline{E}\,\$$ (\$), $E\to\underline{E}+T$ ($+$) e
   $F\to(\underline{E})$ (`)`). FOLLOW($E$) = $\{\$, +, )\}$.
@@ -2069,7 +2129,11 @@ Exp mk_op(binop op, Exp e1, Exp e2) {
 
 (E o mesmo para `mk_assign`, `mk_incr`, `mk_compound`.) A cadeia
 clona-se porque, numa ação do Bison, o `txt` vem do `yytext` do Flex,
-que o próximo *token* reescreve †.
+que o próximo *token* reescreve †. Mas a redução pode acontecer **depois**
+de o Flex já ter lido mais *tokens* (o *lookahead*, ou toda a expressão
+em `ID '=' expr`). Nesse momento, o `yytext` guardado já aponta para lixo
+do tipo `"x = 10;"`. Por isso o mais seguro é copiar **logo no Flex**:
+`yylval.str = strdup(yytext);` †.
 
 ```c
 Stm example =
@@ -2113,6 +2177,45 @@ void process(Stm stm) {
   }
 }
 ```
+
+O **lab de ASTs** (`Praticas/Semana_4/Abstract_Syntax_Trees`) usa
+exatamente este esquema. O `Expr` tem a *tag* `kind` (`E_INTEGER` ou
+`E_OPERATION`) e a `union attr` (`value` ou `op`, com o
+`operator` e os ramos `left`/`right`). O Bison guarda a árvore numa
+variável global `root` e o `main` chama `eval(root)`, um `switch` recursivo
+sobre a *tag*. O esqueleto, tal como vem, não liga (`Undefined symbols:
+_root`), porque o `parser.bison` declara `extern Expr* root;` mas nenhum
+ficheiro a define. Basta acrescentar `Expr* root = NULL;` depois do
+segundo `%%` do `parser.bison` †.
+
+::: {.exemplo title="Lab. ASTs: o esqueleto com `4 + 3 + 2 + 1` (example2.txt)"}
+**Flex**: a linha `# A sum of 4 numbers` é comentário (`#.*\n`) e os
+espaços são ignorados. Tokens: `INT(4) PLUS INT(3) PLUS INT(2) PLUS INT(1)`.
+
+**Bison**, com `%left PLUS`:
+
+1. shift `INT(4)` e reduz `expr → INT`: `ast_integer(4)` = nó $a$.
+2. shift `PLUS` e `INT(3)` e reduz `expr → INT`: nó $b$ = `ast_integer(3)`.
+3. Pilha `expr PLUS expr`, lookahead `PLUS`: há conflito *shift/reduce*
+   entre regra e *token* com a mesma precedência, e `%left` manda
+   **reduzir**: `ast_operation(PLUS, a, b)` = nó $c$ ($4+3$).
+4. shift `PLUS` e `INT(2)` e reduz: nó $d$ = `ast_integer(2)`. Lookahead
+   `PLUS` e reduz outra vez: nó $e$ = `ast_operation(PLUS, c, d)`.
+5. shift `PLUS` e `INT(1)` e reduz: nó $f$ = `ast_integer(1)`. Lookahead
+   fim e reduz: nó $g$ = `ast_operation(PLUS, e, f)`.
+6. `program → expr`: `root = g`.
+
+Árvore (associativa à esquerda): `((4 + 3) + 2) + 1`.
+
+**`eval(g)`**: `kind == E_OPERATION`, por isso calcula os dois ramos:
+
+- `eval(e)` é `eval(c) + eval(d)`, com `eval(c)` = `eval(a) + eval(b)`
+  = $4 + 3 = 7$ e `eval(d)` = 2, portanto `eval(e)` = $7 + 2 = 9$;
+- `eval(f)` = 1;
+- `operator == PLUS`, portanto o resultado é $9 + 1 = 10$.
+
+Sai `Result = 10`.
+:::
 
 ### Java e linguagens OO
 
@@ -2181,7 +2284,30 @@ campos com nome e o compilador avisa se faltar um caso; em C é preciso
 disciplina com a `union`; em Java fica uma cadeia de `instanceof` e
 *casts*.
 
-::: {.pratica title="Construir e processar ASTs (exercícios inventados)"}
+::: {.pratica title="Construir e processar ASTs (lab. ASTs e exercícios inventados)"}
+Lab em `Praticas/Semana_4/Abstract_Syntax_Trees` (C, Flex e Bison 3:
+`PATH=/opt/homebrew/opt/bison/bin:$PATH make`). Antes de mais, define o
+`root` em falta (ver acima).
+
+**Lab. ASTs, Ex. 2** Acrescenta `-`, `*`, `/` e `%` (*tokens* no Flex,
+`%left` em dois níveis, regras de `expr`, casos no `eval`). Escreve
+`printExpr(Expr*)` num `printAbsTree.c` novo e chama-a no `main`. O
+`example3.txt` tem de dar 999. Depois experimenta `4-1` sem espaços.
+O erro vem da regra `\-?[0-9]+` (*longest match*, Aula 3).
+
+**Lab. ASTs, Ex. 3** Expressões booleanas: um inteiro (0/1) ou
+`expr <relop> expr`, com `==`, `!=`, `<`, `>`, `<=` e `>=`. Define o tipo
+`BoolExpr` e os seus construtores, os *tokens* e as regras, e
+`printBool(BoolExpr*)`. Atenção ao Flex: o `<=` tem de ganhar ao `<`.
+
+**Lab. ASTs, Ex. 4** Comandos: atribuição, `if-then`, `if-then-else`,
+`while`, sequência `c1 ; c2` e blocos `{ }`. Define o tipo `Cmd`, os
+construtores e as regras (a raiz passa a ser um comando), e
+`printCmd(Cmd*)`. Pistas: a atribuição precisa de **variáveis** nas
+expressões, que o enunciado não pede (o `ID` e o `E_VAR` †). Copia o
+`yytext` no Flex. O `else` pendente e o `;` resolvem-se com
+precedências, como em "Conflitos, associatividade e precedência".
+
 **Ex. C** Escreve a AST do programa `x = 1; y = x * (2 + 3); x++`,
 agrupando as instruções à direita (`x = 1; (y = ...; x++)`):
 
@@ -2195,4 +2321,391 @@ programas sequenciais: `exec :: Env -> Stm -> Env`, com
 encaixe de padrões, como no `process` acima, e uma função auxiliar
 `evalExp :: Env -> Exp -> Int`. Testa com o programa do Ex. C: no fim
 deve dar `x = 2` e `y = 5`.
+:::
+
+# Aula 7 --- Análise sintática *top-down* (LL)
+
+A análise ***top-down*** constrói a árvore a partir da **raiz** (o
+símbolo inicial) até às folhas; a LR (Aula 5) faz o contrário. Há duas
+formas: a **descida recursiva** e o ***parsing* preditivo** com uma
+tabela e uma pilha.
+
+## Descida recursiva
+
+::: {.definicao title="Parsing por descida recursiva"}
+O analisador escreve-se diretamente numa linguagem de programação:
+
+- cada **não-terminal** é uma **função**;
+- cada **produção** é uma **cláusula** dessa função (uma produção
+  recursiva dá uma função recursiva);
+- os terminais consomem-se da esquerda para a direita, e a **produção
+  escolhe-se pelo próximo terminal** (o *look-ahead*).
+
+Dentro de uma cláusula, os símbolos do lado direito tratam-se por ordem:
+um terminal **consome-se** (tem de ser o próximo, senão é erro), um
+não-terminal **chama** a sua função.
+:::
+
+O exemplo dos slides reconhece "programas" como este:
+
+```
+begin
+  if 1=1 then begin print 0=11 ; print 123=4 end
+  else print 11=42
+end
+```
+
+$$S\to\texttt{if}\ E\ \texttt{then}\ S\ \texttt{else}\ S \mid
+\texttt{begin}\ S\ L \mid \texttt{print}\ E \qquad
+L\to\texttt{end}\mid\texttt{;}\ S\ L \qquad
+E\to\texttt{num} = \texttt{num}$$
+
+Cada produção de $S$ começa por um terminal diferente (`if`, `begin`,
+`print`), e o mesmo para $L$ (`end`, `;`): o próximo *token* decide
+sempre a produção. Quando isto falha, reescreve-se a gramática (secção
+seguinte).
+
+### Em Haskell
+
+Cada `parseX :: [Token] -> [Token]` recebe a lista de *tokens* e devolve
+os que **não consumiu** (ou aborta com `error`). Por agora só se
+**reconhece** a frase; construir a árvore fica para mais tarde. O
+`deriving (Eq, Show)` † é o que permite o `==` e o `show` do `consume`.
+
+```haskell
+data Token = IF | THEN | ELSE | BEGIN | END | PRINT | SEMI | NUM | EQUAL
+  deriving (Eq, Show)
+
+consume :: Token -> [Token] -> [Token]       -- consome um token ou aborta
+consume tok (first:rest) | tok == first = rest
+consume tok _ = error ("expected " ++ show tok)
+
+parseS, parseL, parseE :: [Token] -> [Token]
+parseS (first:toks) = case first of
+  IF    -> let toks1 = parseE toks           -- S -> if E then S else S
+               toks2 = consume THEN toks1
+               toks3 = parseS toks2
+               toks4 = consume ELSE toks3
+           in parseS toks4
+  BEGIN -> let toks1 = parseS toks           -- S -> begin S L
+           in parseL toks1
+  PRINT -> parseE toks                       -- S -> print E
+  _     -> error "syntax error"
+
+parseL (first:toks) = case first of
+  END  -> toks                               -- L -> end
+  SEMI -> let toks1 = parseS toks            -- L -> ; S L
+          in parseL toks1
+  _    -> error "syntax error"
+
+parseE toks = let toks1 = consume NUM toks   -- E -> num = num
+                  toks2 = consume EQUAL toks1
+              in consume NUM toks2
+```
+
+Cada alternativa do `case` é uma produção, e a lista que sai de uma
+função entra na seguinte (`toks1`, `toks2`, ...). O primeiro terminal de
+cada produção já foi visto pelo `case`, por isso não se volta a consumir.
+
+**Marcador do final.** Um programa correto não pode deixar *tokens* a
+mais: o analisador também tem de detetar o fim da entrada. Em Haskell
+basta ver se sobra a lista vazia:
+
+```haskell
+accepted :: [Token] -> Bool
+accepted toks = null (parseS toks)
+```
+
+Sem isto, `print 1=1 end` passava (o `parseS` devolve `[END]`). A
+alternativa é um *token* especial \$ (fim do ficheiro) e uma produção
+$S'\to S\,\$$, com $S'$ como novo símbolo inicial.
+
+::: {.exemplo title="Traçar accepted em begin print 1=1 ; print 2=3 end"}
+*Tokens*: `[BEGIN, PRINT, NUM, EQUAL, NUM, SEMI, PRINT, NUM, EQUAL, NUM, END]`.
+
+1. `parseS` vê `BEGIN`: produção $S\to\texttt{begin}\,S\,L$. Chama
+   `parseS` com o resto, `[PRINT, NUM, EQUAL, NUM, SEMI, PRINT, NUM, EQUAL, NUM, END]`.
+2. Esse `parseS` vê `PRINT`: $S\to\texttt{print}\,E$, chama `parseE`
+   com `[NUM, EQUAL, NUM, SEMI, ...]`.
+3. `parseE`: `consume NUM` deixa `[EQUAL, NUM, SEMI, ...]`; `consume EQUAL`
+   deixa `[NUM, SEMI, ...]`; `consume NUM` deixa
+   `[SEMI, PRINT, NUM, EQUAL, NUM, END]`. É o `toks1` do passo 1.
+4. `parseL [SEMI, PRINT, NUM, EQUAL, NUM, END]` vê `SEMI`:
+   $L\to\texttt{;}\,S\,L$, chama `parseS [PRINT, NUM, EQUAL, NUM, END]`.
+5. Vê `PRINT`: `parseE [NUM, EQUAL, NUM, END]` consome os três e devolve
+   `[END]`.
+6. `parseL [END]` vê `END`: $L\to\texttt{end}$, devolve `[]`.
+7. Todas as chamadas devolvem `[]`, e `accepted` dá `null [] = True`.
+
+A pilha de chamadas (`parseS` → `parseS` → `parseE`, depois `parseL` →
+`parseS`/`parseL`) segue a árvore sintática da raiz para as folhas.
+:::
+
+### Em C
+
+Também é fácil em C. A diferença é que as funções **consomem os *tokens*
+da entrada-padrão** (`Token getToken(void)`, o *lexer*) em vez de
+transformarem listas. O *token* de *look-ahead* fica numa variável
+global:
+
+```c
+Token next;                                  // próximo token (global)
+void advance(void) { next = getToken(); }    // avançar um token
+void consume(Token t) {                      // consumir um token específico †
+  if (next == t) advance(); else error("syntax error");
+}
+
+void parse_S(void) {
+  switch (next) {
+  case IF:    advance(); parse_E(); consume(THEN); parse_S();
+              consume(ELSE); parse_S(); break;
+  case BEGIN: advance(); parse_S(); parse_L(); break;
+  case PRINT: advance(); parse_E(); break;
+  default:    error("syntax error");
+  }
+}
+void parse_E(void) { consume(NUM); consume(EQUAL); consume(NUM); }
+void parse_L(void) {
+  switch (next) {
+  case END:  advance(); break;
+  case SEMI: advance(); parse_S(); parse_L(); break;
+  default:   error("syntax error");
+  }
+}
+void accepted(void) { parse_S(); consume(EOF); }   // marcador do final
+```
+
+Antes da primeira chamada faz-se um `advance()` † para carregar o
+primeiro *token* em `next`.
+
+::: {.pratica title="Descida recursiva (exercícios inventados)"}
+**Ex. E** Com o analisador Haskell acima:
+
+- **(a)** traça `accepted` em
+  `if 1=1 then print 2=3 else begin print 4=4 end`, mostrando a lista que
+  cada chamada recebe e devolve;
+- **(b)** diz onde e porquê falha `begin print 1=1 print 2=2 end`;
+- **(c)** diz o que dá `parseS` e `accepted` em `print 1=1 end`.
+
+**Ex. F** Completa a versão em C num programa que corre: um `getToken`
+que lê de um *array* de *tokens* terminado em `EOF`, o `error` e o
+`main`. Testa com `begin print 1=1 ; print 2=3 end` e com
+`print 1=1 end`. Pista: no `enum`, `EOF` já é uma macro do `stdio.h`;
+dá-lhe outro nome.
+:::
+
+## Gramáticas preditivas e LL(1)
+
+A descida recursiva obriga a escolher a produção só pelo próximo
+terminal; se a gramática não o permite, é preciso reescrevê-la. A
+gramática das expressões (Aula 4)
+
+$$E\to E+T\mid E-T\mid T \qquad T\to T*F\mid T/F\mid F \qquad
+F\to\texttt{num}\mid(E)$$
+
+tem dois problemas:
+
+- as três produções de $E$ (e as de $T$) começam todas por `num` ou `(`:
+  o próximo símbolo não diz qual usar;
+- a **recursão à esquerda** entra em ciclo: `parseE` chamaria logo
+  `parseE`, sem consumir nada.
+
+### Eliminar recursão à esquerda
+
+$E\to E+T\mid T$ produz somas de termos, $E\Rightarrow^* T+T+\dots+T$. A
+mesma linguagem obtém-se com um símbolo auxiliar $E'$:
+
+$$E\to T\,E' \qquad E'\to +\,T\,E' \qquad E'\to\varepsilon$$
+
+Agora a recursão é **à direita**, e $E'$ decide pelo próximo símbolo:
+com `+` usa $E'\to +\,T\,E'$; com outro qualquer, $E'\to\varepsilon$.
+
+::: {.definicao title="Eliminar recursão à esquerda (regra geral †)"}
+$A\to A\alpha_1\mid\dots\mid A\alpha_m\mid\beta_1\mid\dots\mid\beta_n$
+(nenhum $\beta_i$ começa por $A$) passa a
+
+$$A\to\beta_1A'\mid\dots\mid\beta_nA' \qquad
+A'\to\alpha_1A'\mid\dots\mid\alpha_mA'\mid\varepsilon$$
+
+Primeiro um $\beta$, depois zero ou mais $\alpha$, como antes.
+:::
+
+Aplicada às expressões:
+
+$$\begin{aligned}
+E &\to T\,E' & T &\to F\,T' & F &\to\texttt{num}\\
+E' &\to +\,T\,E' \mid -\,T\,E' \mid \varepsilon \quad &
+T' &\to *\,F\,T' \mid /\,F\,T' \mid \varepsilon \quad & F &\to (E)
+\end{aligned}$$
+
+![](figuras/arvore_ll_1mais2vezes3.pdf){height=4.6cm}
+
+*Árvore de `1 + 2 * 3` na gramática transformada.*
+
+A precedência mantém-se (o `*` fica mais fundo, dentro do $T$ do `2`),
+mas a árvore deixa de mostrar a associatividade à esquerda: em `1 - 2 - 3`
+os $E'$ encadeiam-se para a direita. Ao construir a AST, o valor já
+acumulado à esquerda passa-se para dentro de $E'$ para recuperar
+$(1-2)-3$ (†).
+
+**Fatorização à esquerda †.** Duas produções com o mesmo prefixo,
+$A\to\alpha\beta_1\mid\alpha\beta_2$, também impedem a escolha. Adia-se a
+decisão até depois do prefixo: $A\to\alpha A'$, $A'\to\beta_1\mid\beta_2$.
+
+### A classe LL(1)
+
+::: {.definicao title="Gramática LL(1)"}
+**LL(1)** = *Left-to-right parse, Leftmost derivation, 1-symbol
+look-ahead*. São exatamente as gramáticas que se analisam por descida
+recursiva. Com NULLABLE, FIRST e FOLLOW (definidos na Aula 5, secção
+"NULLABLE, FIRST e FOLLOW"):
+
+- com o próximo terminal $x$ pode usar-se $X\to\gamma$ se
+  $x\in$ FIRST($\gamma$);
+- se $\gamma$ é anulável, também se $x\in$ FOLLOW($X$) (o $X$ desaparece
+  e o $x$ é o que vem a seguir);
+- para escolher entre $X\to\gamma$ e $X\to\gamma'$ só pelo próximo
+  símbolo, os conjuntos têm de ser **disjuntos**, ex.
+  FIRST($\gamma$) $\cap$ FIRST($\gamma'$) $=\emptyset$.
+:::
+
+A gramática original das expressões **não é LL(1)**: FIRST($E+T$) =
+FIRST($T$) = $\{\texttt{num}, (\}$ (exemplo da Aula 5). Em geral, uma
+gramática com recursão à esquerda nunca é LL(1) †: FIRST($A\alpha$)
+contém FIRST($\beta$). A transformada é LL(1) (Ex. H).
+
+::: {.exemplo title="NULLABLE, FIRST e FOLLOW de S para AB (exercício dos slides)"}
+$S'\to S\,\$$, $S\to AB$, $A\to aAb\mid\varepsilon$,
+$B\to bB\mid\varepsilon$ (cada iteração usa a coluna anterior).
+
+**NULLABLE**: $N(S)=N(A)\wedge N(B)$; $N(A) = (N(a)\wedge N(A)\wedge
+N(b))\vee N(\varepsilon) =$ True; $N(B) = (N(b)\wedge N(B))\vee$ True $=$
+True; $N(S') = N(S)\wedge N(\$) =$ False.
+Iteração 1: $A$ e $B$ True, $S$ ainda False ($A,B$ eram False na 0).
+Iteração 2: $S$ = True $\wedge$ True = True. Iteração 3: igual.
+**NULLABLE($S$) = NULLABLE($A$) = NULLABLE($B$) = True.**
+
+**FIRST**: FIRST($S$) = FIRST($A$) $\cup$ FIRST($B$) ($A$ anulável);
+FIRST($A$) = $\{a\}\cup\emptyset$; FIRST($B$) = $\{b\}\cup\emptyset$.
+Iteração 1: FIRST($A$) = $\{a\}$, FIRST($B$) = $\{b\}$; iteração 2:
+FIRST($S$) = $\{a,b\}$; iteração 3: igual. **FIRST($S$) = $\{a,b\}$,
+FIRST($A$) = $\{a\}$, FIRST($B$) = $\{b\}$.**
+
+**FOLLOW**, ocorrência a ocorrência:
+
+| Produção | Ocorrência | Contribuição |
+|:--|:--|:--|
+| $S'\to S\,\$$ | $S$, $\beta=\$$ | FOLLOW($S$) $\supseteq$ FIRST(\$) = $\{\$\}$ |
+| $S\to AB$ | $A$, $\beta=B$ | FOLLOW($A$) $\supseteq$ FIRST($B$) = $\{b\}$; $B$ anulável: FOLLOW($A$) $\supseteq$ FOLLOW($S$) |
+| $S\to AB$ | $B$, $\beta=\varepsilon$ | FOLLOW($B$) $\supseteq$ FOLLOW($S$) |
+| $A\to aAb$ | $A$, $\beta=b$ | FOLLOW($A$) $\supseteq\{b\}$ |
+| $B\to bB$ | $B$, $\beta=\varepsilon$ | FOLLOW($B$) $\supseteq$ FOLLOW($B$) (nada) |
+
+| | 0 | 1 | 2 | 3 |
+|:--|:-:|:-:|:-:|:-:|
+| FOLLOW($S$) | $\emptyset$ | $\{\$\}$ | $\{\$\}$ | $\{\$\}$ |
+| FOLLOW($A$) | $\emptyset$ | $\{b\}$ | $\{b,\$\}$ | $\{b,\$\}$ |
+| FOLLOW($B$) | $\emptyset$ | $\emptyset$ | $\{\$\}$ | $\{\$\}$ |
+
+Na 1, FOLLOW($A$) e FOLLOW($B$) recebem o FOLLOW($S$) da coluna 0
+($\emptyset$); só na 2 recebem o \$.
+:::
+
+### Tabela de *parsing* preditivo
+
+::: {.definicao title="Tabela de parsing preditivo (LL(1))"}
+Linhas = não-terminais; colunas = terminais (com o \$). Cada produção
+$X\to\gamma$ vai para:
+
+- a linha $X$, nas colunas $t\in$ FIRST($\gamma$);
+- se NULLABLE($\gamma$), também nas colunas $t\in$ FOLLOW($X$).
+
+A gramática é **LL(1) se e só se cada entrada tiver no máximo uma
+produção**. Uma entrada vazia é erro sintático.
+:::
+
+::: {.exemplo title="Tabela de S para AB"}
+- $S'\to S\,\$$: $S$ anulável, FIRST($S\,\$$) = $\{a,b\}\cup\{\$\}$:
+  colunas $a$, $b$, \$.
+- $S\to AB$: FIRST($AB$) = $\{a\}\cup\{b\}$ ($A$ anulável) e $AB$ é
+  anulável, por isso também FOLLOW($S$) = $\{\$\}$: colunas $a$, $b$, \$.
+- $A\to aAb$: coluna $a$. $A\to\varepsilon$: FIRST vazio, anulável:
+  colunas de FOLLOW($A$) = $\{b,\$\}$.
+- $B\to bB$: coluna $b$. $B\to\varepsilon$: FOLLOW($B$) = $\{\$\}$.
+
+| | $a$ | $b$ | \$ |
+|:--|:--|:--|:--|
+| $S'$ | $S'\to S\,\$$ | $S'\to S\,\$$ | $S'\to S\,\$$ |
+| $S$ | $S\to AB$ | $S\to AB$ | $S\to AB$ |
+| $A$ | $A\to aAb$ | $A\to\varepsilon$ | $A\to\varepsilon$ |
+| $B$ | | $B\to bB$ | $B\to\varepsilon$ |
+
+No máximo uma produção por entrada: **a gramática é LL(1)**.
+:::
+
+### *Parsing* preditivo com pilha explícita
+
+A descida recursiva usa a pilha de execução da linguagem. Com a tabela,
+faz-se o mesmo **sem recursão**, com uma pilha explícita de símbolos que
+ainda faltam reconhecer:
+
+```
+stack := empty; push(S', stack);
+while (stack not empty) do
+  if top(stack) is a terminal then          /* consumir input */
+    consume(top(stack)); pop(stack);
+  else if table[top(stack), next] is empty then
+    report_error();
+  else                                       /* usar uma produção */
+    symbols := right_hand_side(table[top(stack), next]);
+    pop(stack);
+    pushList(symbols, stack);                /* 1.º símbolo fica no topo */
+```
+
+Um terminal no topo tem de ser igual ao próximo da entrada (o `consume`
+dá erro se não for). As produções usadas, por ordem, formam a
+**derivação mais à esquerda** da entrada: é o segundo L de LL (†).
+
+::: {.exemplo title="Parsing de aabbb com a tabela de S para AB"}
+Pilha com o topo à esquerda.
+
+| Pilha | Entrada | Ação |
+|:--|--:|:--|
+| $S'$ | `aabbb$` | $S'\to S\,\$$ |
+| $S\,\$$ | `aabbb$` | $S\to AB$ |
+| $A\,B\,\$$ | `aabbb$` | $A\to aAb$ (linha $A$, coluna $a$) |
+| $a\,A\,b\,B\,\$$ | `aabbb$` | consumir $a$ |
+| $A\,b\,B\,\$$ | `abbb$` | $A\to aAb$ |
+| $a\,A\,b\,b\,B\,\$$ | `abbb$` | consumir $a$ |
+| $A\,b\,b\,B\,\$$ | `bbb$` | $A\to\varepsilon$ (coluna $b$) |
+| $b\,b\,B\,\$$ | `bbb$` | consumir $b$ |
+| $b\,B\,\$$ | `bb$` | consumir $b$ |
+| $B\,\$$ | `b$` | $B\to bB$ |
+| $b\,B\,\$$ | `b$` | consumir $b$ |
+| $B\,\$$ | `$` | $B\to\varepsilon$ (coluna \$) |
+| \$ | `$` | consumir \$ |
+| $\varepsilon$ | $\varepsilon$ | aceitação |
+:::
+
+::: {.pratica title="Gramáticas LL(1) (exercício dos slides e inventados)"}
+**Ex. G** (Exercício dos slides) Implementa em Haskell o analisador por
+descida recursiva da gramática das expressões **transformada** (uma
+função por não-terminal, `accepted` no fim). Testa com `1+2*3`,
+`1*(2-3)/4`, `1+)` e `1+`. Pista: em $E'$ e $T'$, o caso
+"outro símbolo" é a produção $\varepsilon$ (devolve a lista intacta).
+
+**Ex. H** Para a gramática transformada, com $S'\to E\,\$$:
+
+- **(a)** escreve as equações e calcula NULLABLE, FIRST e FOLLOW pelo
+  método iterativo;
+- **(b)** constrói a tabela de *parsing* preditivo e diz se é LL(1).
+
+**Ex. I** Com a tabela do Ex. H, faz o *parsing* de
+`num + num * num` com a pilha explícita.
+
+**Ex. J** $S\to aSb\mid ab$:
+
+- **(a)** mostra que não é LL(1);
+- **(b)** fatoriza-a à esquerda, mostra que o resultado é LL(1) e faz
+  o *parsing* de `aabb` com a tabela.
 :::

@@ -1,10 +1,10 @@
 ---
 title: "Interação Pessoa-Máquina (IPM) --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 3 (Aulas 1--4, Módulos 01--04, enunciado do projeto COL)"
+date: "Atualizado: Semana 6 (Aulas 1--6, Módulos 01--06, enunciado do projeto COL)"
 ---
 
-<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pptx, Teoricas/Aula_04.pdf (tópico Esboçar fundido na Aula 2), Praticas/Semana_2/Enunciado_Projeto_COL.pdf (projeto, fundido na Aula 1) -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pptx, Teoricas/Aula_04.pdf (tópico Esboçar fundido na Aula 2), Teoricas/Aula_05.pdf (três modelos fundidos na Aula 2, T3), Praticas/Semana_2/Enunciado_Projeto_COL.pdf (projeto, fundido na Aula 1), Praticas/Semana_4/IPM_2627_Handout_04.pdf (S4, tabela semanal da Aula 1), Teoricas/Aula_06.pdf -->
 
 # Aula 1 --- Enquadramento da disciplina e do projeto
 
@@ -459,7 +459,7 @@ protótipo, o PR2 (13 dez) e a apresentação (15 dez).
 | 22 set | S1 | Aquecimento: exercícios curtos sobre interfaces e sobre como observar quem as usa | Grupos formados |
 | 29 set | S2 | Leitura guiada do enunciado; discussão do problema e de quem é o operador; perguntas | Todos percebem o problema e o sistema |
 | 6 out | S3 | Cada membro escolhe **um assunto** do sistema e faz **esboços** de como o mostraria e controlaria num ecrã | Um painel por membro, em esboço; **muitas alternativas, nenhuma escolhida** |
-| 13 out | S4 | Com post-its, listar tudo o que o operador tem de fazer e escrever as **missões**; priorizar funcionalidades com **MoSCoW** | Lista de missões; lista de funcionalidades com prioridade |
+| 13 out | S4 | (Handout 04) Três esboços novos por membro a partir das 3 ideias da S3; pontuá-los com as heurísticas do grupo (ninguém pontua os seus) e ficar com as 3 melhores; cada membro **refina** uma (etiquetas, unidades, valores de exemplo, estados de cada comando); post-its por elemento, agrupados por função, dão os **primeiros painéis** | Esboços refinados; painéis, cada um com **zona de informação** (o que se lê) e **zona de ação** (o que se opera) |
 | 20 out | S5 | Consolidação: escolher, **com critérios escritos**, entre as alternativas de cada painel e ligar os painéis num todo; **storyboards** de duas missões | Conjunto coerente de esboços + 2 storyboards |
 | 3 nov | S6 | **Fase 1:** cada grupo percorre uma missão, passo a passo, nos esboços de outro grupo e regista onde um operador novo se enganaria | Grelha do walkthrough (evidência); lista de correções |
 | 10 nov | S7 | Básico de **Figma**; início dos **wireframes** (os esboços corrigidos passam a ecrãs desenhados com precisão, nos 2 monitores e na parede) | Primeiros wireframes no Figma |
@@ -505,7 +505,10 @@ explicados em detalhe mais tarde):
 
 - **Cognitive walkthrough** (Fase 1): não precisa de utilizadores reais nem
   de protótipo funcional, só do esboço e do percurso mental do avaliador;
-  cada passo da missão é pontuado (0 / 1 / 2).
+  nos slides da Aula 1 cada passo da missão é pontuado (0 / 1 / 2). A
+  Aula 6 dá a grelha completa: sim/não a cada uma de quatro perguntas por
+  passo e uma severidade de 0 a 4 por problema (interpretação: o 0/1/2 é
+  um resumo do passo; para a Fase 1 vale a grelha da Aula 6).
 - **Avaliação heurística** (Fase 2): normalmente as **heurísticas de
   Nielsen**, mais heurísticas próprias do grupo; para cada problema
   regista-se a **severidade** e a **extensão** (quantas partes do sistema
@@ -1166,10 +1169,28 @@ três construções distintas:
    conceptual pretendido.
 :::
 
-![O utilizador nunca vê o sistema real: só vê a imagem do sistema, construída para levar a um determinado modelo mental](figuras/modelo_conceptual_imagem_sistema.pdf){width=90%}
+![](figuras/modelo_conceptual_imagem_sistema.pdf){width=100%}
 
-*O utilizador só vê a imagem do sistema. Esboços e protótipos são a forma
-mais barata de testar se essa imagem produz o modelo conceptual certo.*
+*Três modelos e um só canal (Módulo 05). O desenhador espera que o
+utilizador construa o mesmo modelo que ele, mas a única mensagem que lhe
+envia é o próprio produto. Esboços e protótipos são a forma mais barata de
+testar se essa imagem produz o modelo certo.*
+
+- **Modelo do desenhador:** como o desenhador pensa que o produto funciona
+  e deve ser usado.
+- **Imagem do sistema:** tudo o que o produto mostra: ecrãs, etiquetas,
+  sons, comportamento, e o manual que ninguém lê.
+- **Modelo do utilizador:** o que o utilizador conclui ao usá-lo, a partir
+  da imagem do sistema e da experiência passada.
+
+Quando a imagem do sistema esconde ou contradiz o mecanismo, o modelo do
+utilizador sai errado, e o desenhador chama-lhe "erro do utilizador" (os
+tratores da Aula 4). Por isso, **o desenho conceptual é o desenho da
+imagem do sistema**: o objetivo é que o modelo do utilizador fique perto
+o suficiente do real para **prever o que o sistema vai fazer**. No COL,
+ninguém vai estar ao lado do operador às 3 da manhã numa noite de cheia:
+só os dois ecrãs e a parede se vão poder explicar sozinhos. (O que
+alimenta o modelo do utilizador e como ele falha: Aula 5.)
 
 ::: exemplo
 **Ligação ao exemplo da máquina de café (Aula 1):** o **sistema real** da
@@ -2532,3 +2553,706 @@ conteúdo foi fundido lá:
 | Esboço vs. protótipo; propriedades; do desenho inicial ao final | Aula 2, "Um esboço não é um protótipo" |
 | Esboço vs. maqueta gerada por IA; regra da disciplina | Aula 2, "Um esboço vs. uma maqueta gerada por IA" (e Aula 1, regras de IA) |
 | O caderno de esboços: para quê, instrumentos, boas práticas, exemplos | Aula 2, "O caderno de esboços" |
+
+# Aula 5 --- Modelos mentais e cognição
+
+O Módulo 05 (7 out 2026) explica **como as pessoas descobrem como as
+coisas funcionam, e porque se enganam**. Tem quatro tópicos: porquê estudar
+a cognição; modelos mentais; as sete fases de ação de Norman e os dois
+golfos; e a cognição fora da cabeça.
+
+## Porquê estudar a cognição
+
+**Agimos sobre um modelo de como a coisa funciona, não sobre a coisa.** A
+pergunta de abertura (está frio, pões o termóstato a 30 °C para aquecer
+mais depressa; aquece?) e mais duas situações mostram-no:
+
+| O que fazes | O que acreditas (o teu modelo) | O que acontece de facto |
+|:---------------|:----------------------|:-----------------------------|
+| Pões o termóstato a 30 °C | "Quanto mais alto, mais força faz a aquecer." | A maioria dos termóstatos é um interruptor: a caldeira trabalha no máximo até ao valor pedido e depois para. 30 °C só faz com que pare **mais tarde**. |
+| Carregas três vezes no botão da passadeira | "Cada toque é um pedido; mais toques, verde mais cedo." | Ciclos fixos; muitos botões nem estão ligados (em 2004, cerca de 2500 dos 3250 de Nova Iorque não faziam nada). |
+| Reinicias o portátil lento | "Reiniciar limpa o que quer que esteja mal." | Muitas vezes resulta, mas por outra razão. Os sucessos reforçam um modelo que também leva as pessoas a reiniciar o projetor. |
+
+**Porquê um quadro teórico da cognição:** os modelos teóricos têm **poder
+preditivo e explicativo** (dizem o que o utilizador vai tentar e porque
+falhou), e podem-se **aproveitar teorias** da psicologia e da ergonomia em
+vez de adivinhar. O módulo usa dois grupos de quadros:
+
+- **Internos (dentro da cabeça):** os **modelos mentais** (a ideia que o
+  utilizador tem de como a coisa funciona); os **golfos da execução e da
+  avaliação** (Norman); o **processamento de informação** (o humano como
+  um processador com etapas).
+- **Externos (fora da cabeça):** a **cognição distribuída** (entre
+  pessoas, artefactos e tempo); a **cognição externa** (usar o mundo para
+  pensar: notas, mapas, post-its); a **interação incorporada** (o corpo e
+  o contexto social dão significado).
+
+No COL, o operador **já tem um modelo do rio**. Os painéis ou encaixam
+nele ou têm de o corrigir de forma visível; ignorá-lo não é opção.
+
+## Modelos mentais
+
+::: {.definicao title="--- Modelo mental"}
+*"Ao interagir com o ambiente, com os outros e com os artefactos da
+tecnologia, as pessoas formam modelos mentais internos de si próprias e
+das coisas com que interagem"* (Norman, 1983).
+
+As pessoas usam o modelo mental para:
+
+- **raciocinar** sobre um sistema: como funciona e como interagir com
+  ele;
+- **reagir** a uma situação: descobrir o que fazer quando algo corre mal.
+:::
+
+**O mesmo sintoma, dois modelos, duas ações.** O Wi-Fi está lento.
+Modelo A: "o *router* cansa-se" → reinicia o *router*. Modelo B: "os
+vizinhos estão no mesmo canal" → muda de canal. **O modelo nunca se vê; só
+se veem as ações que ele produz.** A interface é o único sítio onde se pode
+corrigir.
+
+De onde vem o modelo do utilizador (o **modelo do desenhador**, a
+**imagem do sistema** e o **modelo do utilizador**, ligados por um só
+canal) está na Aula 2, T3. Aqui fica o que alimenta esse canal.
+
+### Os sete conceitos que informam o modelo mental
+
+::: {.definicao title="--- Sete conceitos de desenho"}
+| Conceito | Pergunta que responde | Exemplo |
+|:------------|:-----------------|:-------------------------------------|
+| **Visibilidade** | Consigo ver o estado e os comandos? | O nível de combustível vê-se; a bateria de um rato sem fios não, até acabar. |
+| **Affordance** | O que é que o objeto "oferece" para se fazer com ele? | Uma pega convida a puxar, uma placa lisa a empurrar (as portas de Norman, Aula 4). |
+| **Mapeamento** (*mapping*) | Que relação há entre os comandos e os efeitos? | Quatro bicos num quadrado, quatro botões em linha: qual é qual? |
+| **Restrições** (*constraints*) | O que é que **não** se pode fazer? | A USB-C entra dos dois lados; a USB-A precisava de três tentativas. Uma comporta não abre mais de 100 %. |
+| **Efeitos de transferência** | O que traz o uso de objetos parecidos? | Todos os telemóveis põem o "voltar" no mesmo lado; muda-se e o utilizador desliza para o vazio. |
+| **Associações culturais** | O que já significa isto nesta cultura? | Vermelho = parar ou perigo; nas bolsas chinesas, vermelho = o preço subiu. |
+| **Feedback** | O que me diz o que acabou de acontecer? | O clique da tecla, o apito do multibanco, o ícone a rodar. Feedback atrasado = segundo toque. |
+:::
+
+Os sete informam o modelo mental, mas **nenhum é o mecanismo**: todos são
+**imagem do sistema**. (O *sinalizador*† da Aula 4 é a parte visível de
+uma *affordance*: diz onde e como agir.) A transferência pode ser
+**positiva** (o que se sabe de objetos parecidos ajuda) ou **negativa**†
+(atrapalha, como as alavancas trocadas dos carros japoneses).
+
+::: {.exemplo title="--- Formar um modelo só de olhar: a tesoura"}
+- **Affordance:** serve para cortar... e pode magoar, se não for usada
+  com cuidado.
+- **Mapeamento:** os buracos sugerem onde vão os dedos.
+- **Restrições:** a forma dos buracos limita os dedos: o buraco grande é
+  para vários dedos, o pequeno para o polegar.
+- **Transferência positiva e idioma cultural:** usa-se desde a infância e
+  o mecanismo nunca mudou.
+- **Modelo mental:** o objeto físico mostra como funcionam as partes que
+  se mexem.
+
+O modelo não é perfeito: pode um canhoto usá-la? (É o exercício P.6(b).)
+:::
+
+**Objetos que mentem** (atividade, 2 min, com o *Catálogo de objetos
+introuváveis* de Jacques Carelman, 1969): cada objeto promete alguma coisa;
+diz o que promete e onde a promessa falha. É o mesmo exercício que a
+tesoura, ao contrário: a imagem do sistema contradiz o mecanismo.
+
+### Os modelos são executáveis e imperfeitos
+
+**Desenhar uma bicicleta** (atividade): quatro voluntários (dois que não
+andam de bicicleta há cinco anos, dois que andam muitas vezes) desenham de
+memória, em três minutos, uma bicicleta que funcione (quadro, pedais,
+corrente, rodas, direção), e a turma julga: andaria? viraria? Cerca de
+**40 %** dos adultos faz um erro básico: a corrente na roda da frente
+(então não podia virar) ou um tubo do quadro a unir as duas rodas. Quem
+anda de bicicleta faz só um pouco melhor (Lawson, 2006). Antes de desenhar,
+todos estavam confiantes: é a **ilusão de profundidade explicativa**
+(Rozenblit e Keil, 2002). **Os modelos mentais são incompletos, e só o
+descobrimos quando os pomos a correr.**
+
+**"Quem vai ser derrubado?"** (atividade, 1 min): um desenho com cinco
+bonecos (A a E) numa pista com uma bola, uma rampa, uma balança e um
+gancho; vota-se quem cai. Ao responder, **correu-se um modelo de física
+na cabeça e previu-se um resultado sem tocar em nada**. É o que os
+utilizadores fazem com cada interface, antes de cada clique.
+
+::: {.definicao title="--- Modelos executáveis e características dos modelos mentais"}
+**Executável** (*runnable*): o utilizador mexe no sistema para perceber
+como funciona e constrói uma noção de causalidade, "fazer isto dá aquilo".
+Depois o modelo corre em dois sentidos:
+
+- **Previsão:** o que acontece se eu fizer isto? Que ação escolho? (O lado
+  da **intenção**, ou execução, das sete fases.)
+- **Explicação:** porque é que o sistema respondeu assim? (O lado da
+  **avaliação** das sete fases.)
+
+Cada clique é **precedido de uma previsão** e **seguido de uma
+explicação**.
+
+**Características** (Norman, 1983). Os modelos mentais são:
+
+1. **incompletos** (a corrente na roda da frente);
+2. **instáveis** (esquecem-se detalhes; o modelo evolui com o uso);
+3. **pouco exatos** (o frigorífico, abaixo);
+4. **simplificados** (um fenómeno complexo reduzido ao que cabe numa
+   cabeça);
+5. **supersticiosos** (o termóstato a 30 °C, o botão da passadeira);
+6. **expressáveis em regras se-então** ("se eu carregar aqui, então aquilo
+   acende").
+:::
+
+::: {.pratica title="--- Modelos mentais"}
+**Exercício P.6** (perguntas dos slides do Módulo 05 e inventadas a partir
+deles). Técnica: os sete conceitos e as características dos modelos
+mentais.
+
+**(a)** Para o termóstato a 30 °C, o botão da passadeira e o portátil
+reiniciado: que característica do modelo mental mostra cada um? Para o
+termóstato e para a passadeira, que conceito de desenho, aplicado à imagem
+do sistema, corrigia o modelo? (Pista: o que é que o utilizador não vê?)
+
+**(b)** A pergunta do slide: um canhoto pode usar a tesoura? Diz que
+partes do modelo "de olhar" continuam certas e qual falha, e porquê.
+
+**(c)** No COL, uma comporta de Touvedo leva três minutos a chegar à
+abertura pedida. Se o painel só mostrar o valor pedido, que modelo
+constrói o operador e que característica dos modelos mentais aparece? Que
+conceito de desenho evita um segundo comando?
+
+**(d)** O Wi-Fi lento: escreve a regra se-então de cada modelo (A e B) e
+diz o que a aplicação do *router* teria de mostrar para corrigir o
+modelo A.
+:::
+
+## As sete fases de ação de Norman e os dois golfos
+
+### As sete fases
+
+As sete fases descrevem **uma ação humana orientada a um objetivo**
+(Norman, *The Design of Everyday Things*, 1988 e 2013). Pelo lado
+esquerdo **faz-se** (execução: a descer, fases 2--4, atravessa-se o golfo
+da execução); pelo lado direito **verifica-se** (avaliação: a subir, fases
+5--7, o golfo da avaliação).
+
+::: center
+![](figuras/sete_fases_norman.pdf){width=60%}
+:::
+
+::: {.definicao title="--- As sete fases e as perguntas do utilizador"}
+| Fase | Lado | Pergunta que o utilizador faz |
+|:-----------------------------|:----------|:--------------------------|
+| 1 Objetivo (estabelecer o objetivo) | --- | O que quero fazer? |
+| 2 Intenção de agir | execução | Acho que se pode fazer. Como? |
+| 3 Sequência de ações | execução | Para isso, faço isto, depois isto... |
+| 4 Execução da sequência | execução | (a mão mexe-se) |
+| 5 Perceção do estado do mundo | avaliação | O que estou a ver agora? |
+| 6 Interpretação da perceção | avaliação | O que é que o sistema acabou de fazer? |
+| 7 Avaliação da interpretação | avaliação | Era isto que eu queria? (verifico o modelo mental) |
+
+O ***cognitive walkthrough*** (Aula 6) agrupa estas fases em quatro
+perguntas, feitas no papel aos esboços de outro grupo (Fase 1).
+:::
+
+::: {.exemplo title="--- As sete fases no COL: uma missão (slide 19)"}
+Missão: **subir a descarga de Touvedo de 80 para 120 m³/s** (o total fica
+abaixo de 300 m³/s, por isso o operador decide sozinho).
+
+| Fase | O que o operador faz | O que o painel tem de oferecer |
+|:---------|:--------------------|:----------------------------------|
+| 1 Objetivo | Subir Touvedo de 80 para 120 m³/s | A missão visível na parede, com o valor atual ao lado |
+| 2 Intenção | "Uso os comandos das comportas de Touvedo" | **Visibilidade:** os comandos existem e vê-se onde estão |
+| 3 Sequência | Escolher Touvedo, escolher a comporta, pôr 120, confirmar | Cada passo visível. **Restrições:** não há maneira de escrever 1200 |
+| 4 Execução | Arrastar o cursor, ou escrever, ou rodar um botão | **Affordance:** o comando parece o que faz |
+| 5 Perceção | Algo muda no ecrã | **Feedback** em menos de uma décima de segundo (Módulo 09), mesmo que a comporta leve minutos |
+| 6 Interpretação | "A comporta está a abrir, o caudal vai subir" | Mostrar **comando e estado em separado**: pedido 120, atual 92 |
+| 7 Avaliação | "Cheguei a 120? O nível a jusante está a subir como esperado?" | O gráfico, com a linha do alvo, e o tempo previsto até lá chegar |
+
+A terceira coluna é a **primeira lista de verificação** dos painéis. É
+também assim que o *walkthrough* da Fase 1 vai ler os esboços.
+:::
+
+### Os dois golfos
+
+::: {.definicao title="--- Golfo da execução e golfo da avaliação"}
+- **Golfo da execução** ("como é que o faço?"): a distância entre o que
+  quero e as ações que o sistema oferece. Ex.: o comando do projetor com
+  dois botões (Aula 4); um comando de comporta enterrado num submenu.
+- **Golfo da avaliação** ("o que aconteceu?"): o esforço de perceber o
+  estado do sistema a partir do que ele mostra. Ex.: o botão da passadeira
+  sem luz; "A guardar..." sem progresso; uma comporta que leva três
+  minutos e não mostra nada.
+
+O desenho atravessa os dois golfos com **comandos que correspondem às
+intenções** e **mostradores que respondem às perguntas** (Norman, em *User
+Centered System Design*, 1986).
+:::
+
+O golfo da execução cobre as fases 2--4; o da avaliação, as fases 5--7.
+Os sete conceitos encaixam aqui: visibilidade, *affordance*, mapeamento,
+restrições e transferência estreitam sobretudo o golfo da execução;
+*feedback* e visibilidade do estado estreitam o da avaliação†.
+
+### Quando se aplicam as sete fases
+
+- **Servem melhor para a aprendizagem exploratória:** primeiro uso, ou uma
+  situação nova. O utilizador não tem expectativas fortes, por isso cada
+  fase é consciente e pode falhar (o primeiro dia no COL, a primeira
+  cheia).
+- **Servem menos para comportamento automático:** tarefas muito
+  aprendidas, semiautomáticas. O utilizador já espera o que vai acontecer
+  e as fases encolhem em ciclos minúsculos e rápidos (conduzir para o
+  trabalho; uma terça-feira normal no COL).
+- ...**a não ser que aconteça algo inesperado**: então as sete fases voltam
+  por inteiro (o aviso de pouco combustível na autoestrada, o primeiro
+  alarme de uma noite de cheia). O mesmo ecrã tem de servir os dois dias
+  (a "variabilidade" da Aula 4).
+
+**Consequência para o método:** o *cognitive walkthrough* (Aula 6)
+avalia o **primeiro uso**, fase a fase; os **testes de usabilidade**
+(Módulo 11) olham para o uso repetido e para o tempo.
+
+::: {.exemplo title="--- O frigorífico (Norman)"}
+O painel tem dois controlos, um com a etiqueta **FREEZER** (congelador) e
+outro **FRESH FOOD** (frigorífico), uma tabela de combinações e uma
+instrução: acertar os dois e esperar 24 horas para estabilizar. Pergunta:
+o congelador está demasiado quente e o frigorífico está bem. O que se
+muda?
+
+![](figuras/frigorifico_modelos.pdf){width=92%}
+
+**O modelo do utilizador:** duas unidades independentes, cada controlo com
+a sua unidade de frio. Resposta "óbvia": rodar só o controlo FREEZER.
+
+**O modelo real:** há **uma só unidade de frio**. O controlo A (etiqueta
+FREEZER) regula o compressor, isto é, a quantidade de frio total; o
+controlo B (etiqueta FRESH FOOD) regula uma válvula que **divide** o ar
+frio entre os dois compartimentos. Mudar qualquer um muda **os dois**
+compartimentos, e **nada no painel o diz**.
+
+**Os dois golfos de uma vez.** Execução: que botão, e quanto? Avaliação:
+só se sabe daqui a 24 horas. **Não é erro do utilizador: o desenhador
+escondeu o mecanismo.**
+:::
+
+::: {.pratica title="--- As sete fases e os dois golfos"}
+**Exercício P.7** (inventado a partir do Módulo 05 e do enunciado do COL).
+Técnica: as sete fases, os dois golfos e os sete conceitos.
+
+**(a)** Faz a tabela das sete fases (fase, o que o operador faz, o que o
+painel tem de oferecer) para a missão "**abrir a descarga de fundo de
+Touvedo**", com o total largado a ficar abaixo de 300 m³/s. Usa os
+estados obrigatórios da descarga de fundo (Aula 1).
+
+**(b)** Diz se cada caso é sobretudo um problema do golfo da execução ou
+do da avaliação, e o que o atravessa: **(1)** o comando Leitz (um botão,
+toque longo recua); **(2)** o `*72` do telefone de escritório (ver se o
+reencaminhamento ficou ligado); **(3)** "A guardar..." sem progresso;
+**(4)** quatro bicos num quadrado e quatro botões em linha.
+
+**(c)** O frigorífico: com o modelo real, o que se muda para arrefecer o
+congelador sem estragar o frigorífico? Propõe um redesenho do painel que
+estreite os dois golfos.
+
+**(d)** Porque é que o *walkthrough* avalia o primeiro uso? Dá um
+elemento de um painel do COL que sirva ao mesmo tempo uma terça-feira
+normal e a primeira noite de cheia.
+:::
+
+## Processamento de informação e carga
+
+### O processamento de informação
+
+O terceiro quadro interno vê o **humano como um processador de
+informação**:
+
+![](figuras/processamento_informacao.pdf){width=100%}
+
+- Há **etapas ordenadas**, cada uma com entrada e saída.
+- Dentro de cada etapa, há processos (comparar, emparelhar) que **atuam
+  sobre representações mentais**.
+- **Serve para fazer previsões e encontrar estrangulamentos**: como se
+  verifica que foi feito? Qual é a capacidade?
+
+Leva ao **Model Human Processor**: perceção, cognição e ação motora como
+**três processadores**, cada um com memórias e tempos de ciclo (os números
+ficam para o Módulo 09). (A pergunta "a computação é mudança de estado; a
+cognição será uma série de mudanças de estado?" é, segundo o slide, para o
+café e não para o exame.)
+
+### Carga cognitiva e carga atencional
+
+::: {.definicao title="--- Carga, carga cognitiva e carga atencional"}
+- **Carga:** a quantidade de recursos mentais que é precisa para
+  processar informação.
+- **Carga cognitiva:** quanto "poder cerebral" uma tarefa gasta: perceber,
+  decidir, calcular. Ex.: um slide denso; uma decisão de descarga numa
+  noite de cheia.
+- **Carga atencional:** quanta atenção uma tarefa gasta: vigiar, reparar,
+  manter-se nela. Ex.: duas horas de aula; doze ecrãs numa parede o dia
+  todo.
+:::
+
+A pergunta do slide (o que custa mais, seguir duas horas de aula ou
+perceber um slide denso?) não tem resposta única porque **não são o mesmo
+tipo de custo**: as duas horas gastam sobretudo atenção; o slide gasta
+sobretudo cognição.
+
+**Regra de desenho:** manter **baixa a carga atencional da parede** (poucas
+coisas mexem, poucas piscam), para que a capacidade cognitiva do operador
+esteja intacta quando chegar a decisão. O Módulo 09 põe números nas duas.
+
+::: {.pratica title="--- Processamento de informação e carga"}
+**Exercício P.8** (inventado a partir do Módulo 05). Técnica: as etapas do
+processamento de informação e os dois tipos de carga.
+
+**(a)** Diz se cada tarefa pesa sobretudo na carga cognitiva ou na
+atencional: **(1)** vigiar a parede de 12 ecrãs durante um turno de 8
+horas sem incidentes; **(2)** decidir quanto largar em Touvedo com o nível
+a subir em dois troços; **(3)** encontrar um alarme novo entre vários
+indicadores a piscar; **(4)** ler uma tabela com 30 valores de sensores
+para escolher o troço mais crítico.
+
+**(b)** Percorre as seis etapas do processamento de informação para "o
+operador vê um alarme novo na parede e reconhece-o". Em que etapa está o
+estrangulamento mais provável às 3 da manhã, e que decisão de desenho o
+alivia?
+:::
+
+## Cognição fora da cabeça
+
+### Três quadros externos
+
+::: {.definicao title="--- Cognição distribuída, externa e incorporada"}
+| Quadro | O que diz | Exemplo |
+|:------------|:-------------------------|:-------------------------|
+| **Cognição distribuída** | A cognição acontece entre pessoas, artefactos e tempo. A unidade é a tripulação, a sala de controlo, a equipa, não uma cabeça. | O *cockpit*: a altitude vive na chamada de rádio, no mostrador, nas mãos do piloto e no olhar do comandante. |
+| **Cognição externa** | Usar representações externas (livros, mapas, diagramas, listas, post-its) para trabalhar com as internas. | Uma lista de compras; um quadro branco; a multiplicação longa que não se consegue fazer de cabeça. |
+| **Interação incorporada** (*embodied*) | O significado forma-se pela interação física e social com o mundo. | Apontar para a parede para que todos vejam o que tu vês; parar num dado momento para pensar e para que os outros te vejam. |
+:::
+
+### Cognição distribuída: como um *cockpit* se lembra
+
+Hutchins (*How a cockpit remembers its speeds*, 1995) descreve a
+**propagação de estados representacionais**: a mesma informação ("subir
+para a altitude X") passa por vários meios.
+
+| Passo | O que acontece | Meio |
+|:-:|:--------------------------------------------|:------------------|
+| 1 | O controlo aéreo autoriza a subida para uma altitude maior | verbal |
+| 2 | O piloto muda o indicador de altitude | mental e físico |
+| 3 | O comandante observa o piloto | visual |
+| 4 | O comandante sobe para a nova altitude | mental e físico |
+
+A cognição distribuída estuda:
+
+- como as pessoas **trabalham juntas** para resolver um problema e como o
+  conhecimento é **partilhado e acedido**;
+- o comportamento **verbal e não verbal**: o que não se diz fica implícito
+  em olhares e gestos;
+- os **mecanismos de coordenação**: regras, procedimentos, listas de
+  verificação.
+
+No COL: **onde fica guardada a última ordem de descarga?** Na cabeça do
+operador, no ecrã, no registo, na chamada para Touvedo? **É a interface
+que decide.**
+
+### Cognição externa: três mecanismos
+
+::: {.definicao title="--- Os três mecanismos da cognição externa"}
+1. **Externalizar para reduzir a carga de memória:** diários, calendários,
+   listas de tarefas, alarmes. Lembram *que* é preciso fazer algo, *o quê*
+   e *quando*.
+2. **Descarga computacional** (*computational offloading*): uma ferramenta
+   mais uma representação faz parte da conta por nós.
+3. **Anotação e rastreio cognitivo:** anotar é riscar itens, sublinhar,
+   circundar; rastrear é mudar itens de ordem ou de monte, como uma parede
+   de post-its.
+:::
+
+**Experimenta (30 s):** $3 \times 2$ de cabeça; $234 \times 456$ de
+cabeça; $234 \times 456$ em papel; com calculadora; e
+$\text{CCXXXIV} \times \text{CDLVI}$ em papel. É **o mesmo problema** com
+**quatro dificuldades diferentes**: **a representação muda a tarefa**.
+
+**O projeto vive de representações externas:** os post-its de três cores
+da S4 (expandir e depois contrair), os *storyboards* da S5 e o caderno de
+esboços o semestre todo. Não são papelada: é onde o grupo pensa, onde está
+a sua memória, e o que o *walkthrough* da Fase 1 vai ler. Um grupo cujas
+ideias só estão nas cabeças não tem um modelo partilhado. **A parede é o
+modelo.**
+
+### Interação incorporada
+
+**Perceber a interação como envolvimento prático num ambiente social e
+físico** (Dourish, *Where the Action Is*, 2001). Nasceu de observar como
+as pessoas fazem as coisas em situações reais, não no laboratório.
+
+- **A qualidade emocional das interações:** um aparelho que parece hostil
+  usa-se menos e pior (o relógio de ginásio da Aula 4).
+- **Ações públicas em espaços partilhados:** quando o operador se levanta
+  e aponta para a parede, a sala toda percebe que se passa alguma coisa.
+- **O corpo faz a mediação da interação:** um grande botão vermelho e uma
+  opção de menu fazem a mesma coisa, mas **não são a mesma ação** (o
+  Kinect, Aula 4).
+
+No COL, **a parede é pública e os dois ecrãs são privados**. Decide o que
+vai para cada lado: o que é que a sala inteira tem de ver de uma vez, e o
+que é só assunto de um operador?
+
+::: {.pratica title="--- Cognição fora da cabeça"}
+**Exercício P.9** (inventado a partir do Módulo 05 e do enunciado do COL).
+Técnica: os três quadros externos.
+
+**(a)** À maneira do *cockpit*, escreve a propagação de estados
+representacionais de uma descarga em Touvedo que **precisa de
+autorização** (vai passar de 280 para 420 m³/s): passos, o que acontece e
+o meio. No fim, diz onde fica guardada a ordem.
+
+**(b)** Faz $234 \times 456$ em papel, mostrando as parcelas. Explica, com
+a descarga computacional, porque é que $\text{CCXXXIV} \times
+\text{CDLVI}$ é muito mais difícil, se o problema é o mesmo.
+
+**(c)** Para cada elemento, diz se vai para a parede (pública) ou para os
+ecrãs (privados) e porquê: **(1)** o estado de alerta dos troços do rio;
+**(2)** o rascunho de um aviso público ainda por enviar; **(3)** uma
+manobra à espera de autorização; **(4)** o formulário para enviar uma
+equipa.
+:::
+
+## Onde ficou cada parte do Módulo 05
+
+| Conteúdo do Módulo 05 | Onde está neste resumo |
+|------------------------------------|----------------------------------------|
+| Três modelos (desenhador, imagem do sistema, utilizador) e um só canal | Aula 2, T3, "Desenho conceptual" |
+| Tudo o resto | Esta aula |
+
+
+# Aula 6 --- O *cognitive walkthrough*
+
+## Porquê avaliar um esboço
+
+Cada fase do projeto avalia um artefacto mais acabado, e **corrigir um
+problema fica mais caro de fase para fase**:
+
+| Fase | Método | Sessão | Corrigir um problema custa |
+|:-:|:------------------|:-----------|:------------------|
+| 1 | *Cognitive walkthrough* sobre os **esboços** | S6 (esta aula) | redesenhar: minutos |
+| 2 | Avaliação heurística sobre os ***wireframes*** | S8 (Módulo 10) | uma hora no Figma |
+| 3 | Testes de usabilidade sobre o **protótipo** | S9, com 5 pessoas de fora (Módulo 11) | um dia |
+
+Os **métodos de inspeção** (um avaliador examina a interface, sem
+utilizadores reais) encontram **30 a 90 %** dos problemas que os testes
+com utilizadores encontram. Um avaliador sozinho encontra cerca de **um
+terço**, por isso a Fase 1 usa **dois ou três avaliadores por esboço**.
+Não há laboratório nem recrutamento: custa horas, não uma semana.
+
+## O que é o *cognitive walkthrough*
+
+::: {.definicao title="--- Cognitive walkthrough"}
+Um avaliador **que não desenhou a interface** simula um **utilizador de
+primeira vez** a fazer **uma tarefa**, **um passo de cada vez**, sobre o
+esboço, e pergunta em cada passo: **este utilizador saberia o que fazer?**
+E **perceberia o que aconteceu?**
+
+| Quem o faz | O que encontra | O que não encontra |
+|:----------------------|:----------------------|:----------------------|
+| Pessoas **com distância** do desenho (outro grupo, um colega, um analista de fora). Quanto mais distância, mais veem: não sabem o que o desenhador "queria dizer". Não é preciso serem peritos; 2 ou 3 por esboço | Confusão, becos sem saída, *feedback* em falta, etiquetas erradas, **passos que ninguém desenhou** (escrever a sequência correta de ações expõe ecrãs que faltam). Encontra-os passo a passo, não por impressão geral | **Rapidez** e os **erros de quem já está treinado** (precisam de utilizadores reais, Módulo 11). Só vê **as tarefas escolhidas**: escolhem-se as três missões que importam. Cada avaliador encontra parte dos problemas, com alguns **falsos alarmes** |
+:::
+
+**Porquê o primeiro uso.** Na Aula 5, as sete fases de Norman só são
+**todas conscientes** na fase exploratória (primeiro uso, situação
+inesperada); no uso automático encolhem. O *walkthrough* avalia
+exatamente essa fase, por isso pode pôr uma pergunta a cada fase. A
+primeira semana de um operador no COL, com uma interface nova, é o caso
+típico.
+
+## As quatro perguntas
+
+Em cada passo da sequência correta, o avaliador responde **sim ou não** a
+quatro perguntas (Wharton, Rieman, Lewis e Polson), **sempre com a
+razão**:
+
+![](figuras/cw_quatro_perguntas.pdf){width=72%}
+
+*Cada pergunta verifica um grupo de fases de Norman; a fase 3 entra em Q2
+(ver a ação) e em Q3 (percebê-la).*
+
+| | Pergunta | Fases | Falha típica (slides) |
+|:-:|:----------------|:------------|:----------------------------|
+| **Q1** | O utilizador vai tentar atingir o **efeito certo**? | 1--2, objetivo e intenção | Botão START que não faz nada sem carregar no travão: ninguém sabe que esse passo existe, ninguém o tenta |
+| **Q2** | Vai **reparar que a ação certa está disponível**? | 3, sequência (visibilidade) | "Rejeitar tudo" escondido atrás de "Gerir preferências" num aviso de *cookies*: a ação existe e ninguém a vê |
+| **Q3** | Vai **associar a ação certa ao efeito** que quer? | 3--4, etiquetas e mapeamento | Quatro bicos de fogão e quatro botões em linha: qual aquece qual? |
+| **Q4** | Depois de a fazer, **vê que está a progredir**? | 5--7, *feedback* e avaliação | O botão do elevador que não acende: toda a gente carrega três vezes |
+
+**Versão curta (Spencer)**, para quando falta tempo, com duas perguntas:
+"o utilizador vai saber o que fazer neste passo?" (Q1--Q3) e "se fizer a
+coisa certa, vai saber que a fez e que está a progredir?" (Q4).
+
+**Um "sim" também precisa de razão:** o que, no esboço, faz o utilizador
+acertar? "Ele saberia" não é evidência. **Se não consegues apontar para
+nada no esboço, a resposta é não.**
+
+::: {.definicao title="--- Escala de severidade (Nielsen)"}
+Cada "não" é um problema, com uma severidade (a mesma escala volta na
+Fase 2):
+
+| 0 | 1 | 2 | 3 | 4 |
+|:-:|:-:|:-:|:-:|:-:|
+| não é problema de usabilidade | cosmético | menor | **maior**: importante corrigir | **catástrofe**: bloqueia a tarefa |
+:::
+
+**O resultado é uma tabela**, uma linha por passo: o passo, Q1 a Q4
+(sim/não), a razão de cada "não" e a severidade.
+
+## Exemplo do módulo: o Tiago em Touvedo
+
+::: {.exemplo title="--- O caso: persona, missão, sequência correta e esboço"}
+**Persona:** Tiago, operador do COL, **primeira semana** na interface nova.
+Treinado no sistema antigo: conhece o rio e as comportas, não estes
+ecrãs.
+
+**Missão** (a da Aula 5): subir a descarga de Touvedo de **80 para 120
+m³/s** (fica abaixo de 300 m³/s, decide sozinho).
+
+**Sequência correta**, escrita pelo grupo que desenhou: **1** selecionar
+Touvedo no mapa do rio; **2** encontrar os comandos das comportas no
+painel; **3** escrever 120 no campo do caudal; **4** verificar Ponte da
+Barca antes de confirmar; **5** confirmar a ordem.
+
+![](figuras/cw_esboco_touvedo.pdf){width=85%}
+
+*Esboço hipotético do painel de comportas (monitor 1 de 2). "Setpoint
+(%)" é a abertura da comporta, em percentagem; os valores parecem todos
+iguais, só de leitura.*
+:::
+
+::: {.exemplo title="--- O walkthrough, passos 1 a 3"}
+| Passo | Q | Resp. | Razão (o que está no esboço) |
+|:-------------|:-:|:-:|:------------------------------------------|
+| **1** Selecionar Touvedo | Q1 | sim | A missão diz Touvedo, e o Tiago sabe que a descarga se muda lá |
+| | Q2 | sim | O mapa é a primeira coisa no ecrã e Touvedo está nele |
+| | Q3 | sim | Uma barragem num mapa: tocar-lhe abre a barragem. O sistema antigo era igual |
+| | Q4 | sim | Touvedo fica realçado e o cabeçalho diz "Barragem de Touvedo" |
+| **2** Encontrar os comandos | Q1 | sim | Sabe que a descarga se muda nas comportas |
+| | Q2 | **não** | Os *setpoints* são números simples, no mesmo estilo dos valores só de leitura à volta. Nada mostra que se podem editar |
+| | Q3 | sim | Quando toca num, a etiqueta "Setpoint" diz o que é |
+| | Q4 | sim | Aparece um cursor e o número pode ser mudado |
+| **3** Escrever 120 | Q1 | sim | Quer 120 m³/s e procura onde o escrever |
+| | Q2 | sim | Há um só campo editável no painel |
+| | Q3 | **não** | O campo diz "Setpoint (%)": abertura em percentagem. O Tiago quer m³/s e não sabe a curva abertura → caudal |
+| | Q4 | sim | O valor escrito aparece no campo (mas ver o passo 5) |
+
+- **Passo 1:** nenhum problema. O mapa, o realce e o cabeçalho são a razão
+  do sucesso.
+- **Passo 2 (Q2), severidade 3, maior:** **um comando que parece um
+  mostrador**. O Tiago lê o painel e não vê nada em que possa agir.
+- **Passo 3 (Q3), severidade 4, bloqueia:** **um termo do mecanismo onde ele
+  espera um termo da tarefa.** Pode escrever 120 %, que abre a comporta
+  toda, ou desistir.
+:::
+
+::: {.exemplo title="--- O walkthrough, passos 4 e 5, e a tabela final"}
+| Passo | Q | Resp. | Razão (o que está no esboço) |
+|:-------------|:-:|:-:|:------------------------------------------|
+| **4** Verificar Ponte da Barca | Q1 | **não** | Nada no painel diz para verificar a jusante antes de confirmar. No sistema antigo, era um colega que telefonava para Ponte da Barca |
+| | Q2 | sim | O painel das estações está no ecrã, por baixo das comportas |
+| | Q3 | sim | Ponte da Barca é a primeira estação da lista |
+| | Q4 | sim | O painel mostra o nível e o caudal |
+| **5** Confirmar | Q1 | sim | Sabe que uma ordem tem de ser confirmada |
+| | Q2 | sim | *Apply* é o único botão do painel |
+| | Q3 | sim | "*Apply*" (aplicar) é o que ele quer fazer |
+| | Q4 | **não** | O ecrã mostra 120 logo, como se estivesse feito. A comporta demora cerca de 3 minutos a mexer-se. Não há "pedido 120, atual 92" |
+
+- **Passo 4 (Q1), severidade 3:** a regra "verificar a jusante antes de
+  subir a descarga" **vive na cabeça das pessoas, não no ecrã**. O Tiago
+  nunca chega a formar o objetivo.
+- **Passo 5 (Q4), severidade 3:** não distingue uma **ordem aceite** de uma
+  **ordem executada** e pode carregar outra vez em *Apply*.
+
+**Tabela final** (a que se entrega):
+
+| Passo | Q1 | Q2 | Q3 | Q4 | Problema | Sev. |
+|:--|:-:|:-:|:-:|:-:|:-------------------------|:-:|
+| 1 Selecionar Touvedo | sim | sim | sim | sim | --- | --- |
+| 2 Encontrar os comandos | sim | não | sim | sim | Comando que parece mostrador | 3 |
+| 3 Escrever 120 | sim | sim | não | sim | % onde se esperava m³/s | 4 |
+| 4 Verificar Ponte da Barca | não | sim | sim | sim | Regra só na cabeça das pessoas | 3 |
+| 5 Confirmar | sim | sim | sim | não | Valor mostrado como se já estivesse feito | 3 |
+
+Cinco passos, quatro problemas, **um por pergunta**.
+:::
+
+::: {.pratica title="--- Fazer um walkthrough"}
+**Exercício P.10** (atividade do Módulo 06 e exemplos inventados).
+Técnica: as quatro perguntas, passo a passo, com a razão e a severidade.
+
+**(a)** Máquina do Andante (ecrãs simplificados). Persona: visitante no
+primeiro dia no Porto. Tarefa: comprar um bilhete para **uma viagem** de
+Trindade a Campanhã. Ecrãs: **1** Idioma (PT, EN, ES, FR); **2** "O que
+quer?" (Comprar um cartão novo / Carregar o meu cartão); **3** "Escolha o
+seu título" (Z2, Z3, ..., Z8, Andante 24); **4** "Quantas viagens?" (1 a
+10); **5** Pagar (Moedas / Cartão), depois "Retire o seu cartão". Faz a
+tabela. Que ecrã falha primeiro, em que pergunta e porquê?
+
+**(b)** Diz que pergunta falha (Q1--Q4) e porquê: **(1)** um micro-ondas
+que não apita nem muda nada no visor quando se carrega em "Iniciar";
+**(2)** uma app de comboios em que o lugar só se escolhe **depois** de
+pagar, num ecrã a que só se chega por "Os meus bilhetes", sem nada que o
+diga; **(3)** um termóstato em que o modo férias só existe dentro de
+"Definições → Avançadas"; **(4)** no COL, um botão com a etiqueta "DF+"
+para abrir a descarga de fundo.
+
+**(c)** Para cada um dos quatro problemas do esboço do Tiago, propõe uma
+mudança no esboço e diz que resposta passa a "sim".
+:::
+
+## O procedimento: papéis e regras
+
+| Papel | Quem | O que faz |
+|:----------|:----------|:------------------------------------|
+| **Facilitador** | grupo que desenhou | Mostra o esboço de cada passo e diz o que está nele. **Mais nada** |
+| **Avaliadores** (2 ou 3) | outro grupo | Põem-se no lugar da persona e respondem às quatro perguntas **em voz alta, com a razão** |
+| **Registador** | grupo que desenhou | Escreve a tabela, uma linha por passo, **todas** as falhas |
+| **Cronometrista** (opcional) | --- | Máximo de 3 minutos por passo, depois passa-se ao seguinte |
+
+**Regras de Spencer:**
+
+1. **Não se desenha durante o *walkthrough*.** A ideia vai para um post-it
+   e discute-se no fim.
+2. **Não se defende o desenho.** O facilitador diz o que está no esboço e
+   nada mais.
+3. **Regista-se todas as falhas**, mesmo as que os desenhadores acham
+   óbvias.
+4. **Três minutos por passo.** Se a discussão se alonga, escreve-se como
+   problema e segue-se.
+
+Sem estas regras, o *walkthrough* transforma-se numa reunião de desenho e
+deixa de avaliar.
+
+## A Fase 1 do projeto
+
+| Antes (o grupo que desenhou prepara) | Durante (S6, novembro) | Depois (o que se entrega) |
+|:----------------------|:----------------------|:----------------------|
+| A **persona**: quem é o operador e o que já sabe | O grupo A percorre os esboços do grupo B durante cerca de **15 minutos**, depois trocam | As **três tabelas** preenchidas e **meia página com os três piores problemas**, dadas ao grupo que desenhou **no mesmo dia** |
+| **Três missões** do enunciado: uma de **rotina**, uma de **alarme**, uma com o **coordenador** | Facilitador e registador do grupo que desenhou; 2 ou 3 avaliadores do outro | O grupo que desenhou decide o que muda antes dos *wireframes* da S7 |
+| A **sequência correta** de cada missão, **5 a 10 passos**, escrita (é aqui que aparecem os ecrãs em falta) | As quatro perguntas em todos os passos; 3 minutos por passo; regras de Spencer | Guardam-se as duas coisas: as tabelas que escreveram para o outro grupo e a lista do que mudaram nos vossos esboços (evidência do R1, item 7) |
+| Os esboços de **todos** os ecrãs, pela ordem da sequência, e **uma tabela em branco por missão** | Ideias em post-its, discutidas só no fim | |
+
+**Ligação à Fase 2.** A avaliação heurística (Módulo 10) olha para os
+mesmos ecrãs com outra pergunta: o *walkthrough* pergunta "esta persona
+conseguiria passar?", a heurística pergunta "este ecrã viola uma regra
+conhecida?". As duas juntas formam o ***heuristic walkthrough*** (Sears).
+
+::: {.pratica title="--- Preparar e conduzir a Fase 1"}
+**Exercício P.11** (inventado; usa também as quatro perguntas e os papéis).
+Técnica: escrever a sequência correta e percorrê-la.
+
+**(a)** Missão com o coordenador: subir a descarga de Touvedo de **280
+para 420 m³/s**. Escreve a sequência correta de ações no esboço do Tiago
+(ver os estados de uma manobra, Aula 1) e faz o *walkthrough* dos passos
+que o esboço não cobre. Que ecrã falta?
+
+**(b)** A meio da sessão, um desenhador diz: "é óbvio que o *setpoint* é a
+abertura; isso explica-se na formação". Que regras quebra, e o que fazem
+o facilitador e o registador?
+
+**(c)** Se um avaliador encontra cerca de um terço dos problemas,
+quantos encontram três avaliadores? Supõe† que cada um encontra cada
+problema com probabilidade 1/3, independentemente dos outros.
+:::

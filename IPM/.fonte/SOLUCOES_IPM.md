@@ -517,3 +517,364 @@ funciona.
 
 (Nota adicional, do livro de Norman: a forma da pega é um **sinalizador**;
 o redesenho consiste em pôr o sinalizador certo em cada lado da porta.)
+
+## Aula 5 --- Modelos mentais
+
+### P.6 --- Modelos mentais
+
+Ferramentas: os **sete conceitos** (visibilidade, *affordance*,
+mapeamento, restrições, transferência, associações culturais, *feedback*)
+e as **seis características** dos modelos mentais (incompletos, instáveis,
+pouco exatos, simplificados, supersticiosos, regras se-então). As
+propostas de desenho são **respostas-modelo**.
+
+#### (a) Termóstato, passadeira e portátil: característica e correção
+
+| Situação | Característica | Porquê |
+|:----------|:--------------|:----------------------------------|
+| Termóstato a 30 °C | **Supersticioso** (e pouco exato) | Acredita-se num efeito ("aquece com mais força") que o mecanismo não tem: o termóstato é um interruptor. |
+| Botão da passadeira | **Supersticioso** | Repete-se um ritual (três toques) que não muda nada, porque o ciclo é fixo ou o botão nem está ligado. |
+| Reiniciar o portátil | **Simplificado** e **regra se-então** ("se está lento, então reinicio") | Um fenómeno complexo (memória cheia, processos presos) fica reduzido a uma regra. Como muitas vezes resulta, a regra fica reforçada e é aplicada onde não serve (o projetor). |
+
+**Correções pela imagem do sistema:**
+
+- **Termóstato:** falta **visibilidade do estado** e **feedback**. O
+  mostrador deve dizer "a aquecer --- temperatura atual 17 °C, chega a
+  21 °C em cerca de 40 min", e esse tempo **não muda** quando se pede
+  30 °C. O utilizador vê que pedir mais não acelera nada, só muda o ponto
+  em que para.
+- **Passadeira:** falta **feedback**. Ao primeiro toque acende-se uma luz
+  "pedido registado", que fica acesa até ao verde, e há uma contagem
+  decrescente. Os toques seguintes não mudam nada visível, por isso a
+  superstição perde a razão de ser. (Se o botão não está ligado, a
+  imagem do sistema honesta é **não ter botão**: um botão que não faz nada
+  é uma mentira.)
+
+#### (b) A tesoura nas mãos de um canhoto
+
+Resposta-modelo (o slide faz a pergunta mas não dá a resposta).
+
+**O que continua certo:** a *affordance* (serve para cortar, pode magoar),
+o mapeamento e as restrições dos buracos (buraco grande para os dedos,
+pequeno para o polegar) funcionam em qualquer mão. Um canhoto **consegue**
+pegar-lhe e abri-la e fechá-la.
+
+**O que falha:** o modelo "de olhar" não mostra **qual lâmina fica por
+cima**. Numa tesoura para destros, a lâmina de cima está do lado direito.
+Na mão direita, o aperto natural (polegar a empurrar, dedos a puxar)
+**encosta as lâminas** uma à outra e é isso que corta. Na mão esquerda, o
+mesmo aperto **afasta-as**: o papel dobra-se entre as lâminas em vez de
+ser cortado, e a lâmina de cima **tapa a linha** por onde se quer cortar.
+
+**Porquê:** o modelo formado só de olhar é **incompleto**. A parte do
+mecanismo que decide se corta bem (o lado das lâminas) não está na imagem
+do sistema, e só se descobre ao "correr" o modelo, isto é, ao cortar.
+
+#### (c) A comporta que leva três minutos
+
+**O modelo que o operador constrói:** se o painel só mostra "120", o
+operador conclui que **já está** a 120. Quando o nível a jusante não
+responde, ou o caudal medido mostra 92, a explicação mais à mão é "o
+comando não foi aceite" ou "a comporta encravou". O modelo é
+**incompleto** (não inclui o tempo que a comporta leva a mexer-se) e
+**pouco exato**. A regra se-então que daí sai, "se não mudou, carrego
+outra vez", é a do segundo toque.
+
+**O que evita o segundo comando:** o **feedback** e a **visibilidade do
+estado**, com comando e estado em separado:
+
+- feedback imediato (menos de 0,1 s) de que o pedido foi aceite;
+- "pedido 120 --- atual 92 --- a abrir", com a barra a avançar e o tempo
+  previsto até chegar;
+- uma **restrição**: enquanto a manobra está "em curso", um novo comando
+  sobre a mesma comporta mostra que **substitui** o anterior, em vez de
+  se somar a ele em silêncio.
+
+#### (d) O Wi-Fi: regras se-então e o que a aplicação deve mostrar
+
+- **Modelo A:** "**se** o Wi-Fi está lento, **então** reinicio o
+  *router* (porque se cansa), e fica rápido."
+- **Modelo B:** "**se** o Wi-Fi está lento, **então** mudo de canal
+  (porque os vizinhos estão no mesmo), e fica rápido."
+
+**Para corrigir o modelo A**, a aplicação tem de tornar visível o que o
+modelo B usa:
+
+- o **canal** em uso e **quantas redes vizinhas** estão nesse canal, ou
+  um nível de interferência;
+- depois de um reinício, **se o canal mudou** (interpretação: muitos
+  *routers* escolhem o canal ao arrancar, e isso explicaria porque é que
+  reiniciar "às vezes resulta", pela razão errada);
+- um botão "mudar para um canal livre", que dá ao utilizador a ação do
+  modelo certo.
+
+## Aula 5 --- As sete fases e os dois golfos
+
+### P.7 --- As sete fases e os dois golfos
+
+Ferramentas: as **sete fases**, os **dois golfos** e os **sete
+conceitos**. As propostas de desenho são **respostas-modelo**.
+
+#### (a) As sete fases para "abrir a descarga de fundo de Touvedo"
+
+Dados usados: a descarga de fundo de Touvedo larga **50 m³/s** e tem os
+estados **fechada, a abrir, aberta, avariada**; o operador abre-a sozinho;
+a manobra passa por pedida → em curso → concluída. Supõe-se um total
+atual de 200 m³/s, que passa para 250 (abaixo de 300).
+
+| Fase | O que o operador faz | O que o painel tem de oferecer |
+|:---------|:---------------------|:---------------------------------|
+| 1 Objetivo | Largar mais 50 m³/s em Touvedo abrindo a descarga de fundo | O estado atual visível sem menus: descarga "fechada", total largado 200 m³/s |
+| 2 Intenção | "Uso o comando da descarga de fundo de Touvedo" | **Visibilidade** e **mapeamento**: o comando está no painel de Touvedo, desenhado na base da barragem, separado das comportas e do grupo |
+| 3 Sequência | Escolher Touvedo, escolher a descarga de fundo, "abrir", confirmar | Cada passo visível. **Restrições:** "abrir" fica desativado se o estado for "avariada", e a confirmação mostra o efeito: "total passa de 200 para 250 m³/s --- não precisa de autorização" |
+| 4 Execução | Carregar em "abrir" e confirmar | **Affordance:** um botão que parece um botão, difícil de acionar por engano (regra 3 da sala) |
+| 5 Perceção | O estado muda no ecrã | **Feedback** imediato: "a abrir" aparece em menos de 0,1 s |
+| 6 Interpretação | "A válvula está a abrir, o caudal vai subir 50" | Comando e estado em separado: pedido "aberta", atual "a abrir", caudal da descarga de 0 a subir para 50 |
+| 7 Avaliação | "Está aberta? O total chegou a 250? O rio a jusante responde?" | Estado "aberta", gráfico do total largado com a linha do alvo (250) e o nível a jusante; manobra "concluída" no registo |
+
+#### (b) Execução ou avaliação?
+
+| Caso | Golfo principal | O que o atravessa |
+|:--------------|:-----------|:--------------------------------------|
+| **(1)** Comando Leitz | **Execução** ("como recuo?"): a função não se vê e o toque longo é um código | Dois botões com setas (mapeamento e visibilidade): um para avançar, outro para recuar |
+| **(2)** `*72` do telefone | **Avaliação** ("ficou reencaminhado?"): nenhum estado mostra o reencaminhamento | Uma luz ou um texto permanente "reencaminhado para 2345" (visibilidade do estado). (Lembrar o código é o golfo da execução.) |
+| **(3)** "A guardar..." sem progresso | **Avaliação** ("está a andar ou parou?") | Barra de progresso ou tempo restante e, no fim, "guardado às 14:02" (feedback) |
+| **(4)** Quatro bicos, quatro botões em linha | **Execução** ("qual é o botão deste bico?") | Mapeamento: botões dispostos no mesmo quadrado que os bicos, ou um pequeno desenho junto a cada botão |
+
+#### (c) O frigorífico: o que mudar e como redesenhar
+
+**O que mudar, com o modelo real.** O controlo A (FREEZER) dá o **frio
+total**; o controlo B (FRESH FOOD) **divide** esse frio entre os dois
+compartimentos.
+
+- Só B, para mandar mais ar frio para o congelador: o congelador arrefece,
+  mas o frigorífico, que estava bem, recebe menos frio e **aquece**.
+- Só A, para mais frio total: o congelador arrefece, mas o frigorífico
+  **também arrefece**, e fica frio demais.
+- Por isso mudam-se **os dois**: B um pouco para o lado do congelador e A
+  um pouco para cima, de forma que o frigorífico recebe mais ou menos o
+  mesmo frio de antes e o extra vai para o congelador. Depois **espera-se
+  24 horas** e corrige-se, porque não há outra forma de avaliar.
+
+**Redesenho (resposta-modelo):**
+
+- **Golfo da execução:** em vez de dois botões com o nome de
+  compartimentos, o utilizador escolhe **a temperatura de cada
+  compartimento em °C**, e um controlador calcula o compressor e a
+  válvula. A alternativa mais barata é dar aos botões o nome do que fazem
+  ("frio total" e "divisão congelador ↔ frigorífico"), para a imagem do
+  sistema mostrar o mecanismo.
+- **Golfo da avaliação:** um mostrador com a **temperatura atual de cada
+  compartimento**, o alvo e uma seta de tendência ("a descer"), em vez de
+  24 horas de espera às cegas.
+
+#### (d) Porque o *walkthrough* avalia o primeiro uso, e um elemento para os dois dias
+
+**Porque o primeiro uso:** na aprendizagem exploratória o utilizador não
+tem expectativas fortes, por isso **cada uma das sete fases é consciente e
+pode falhar**. As sete perguntas do *walkthrough* encontram exatamente
+esses pontos. No uso repetido as fases encolhem em ciclos rápidos e os
+problemas aparecem como tempo perdido e pequenos erros, que se medem em
+testes de usabilidade (Módulo 11).
+
+**Um elemento para os dois dias (resposta-modelo):** o **estado de cada
+troço do rio na parede**, sempre no mesmo sítio, com cor **e** palavra
+(normal, vigilância, alerta amarelo, laranja, vermelho, emergência).
+
+- **Terça-feira normal:** tudo "normal", nada se mexe nem pisca; lê-se
+  num relance, com carga atencional baixa.
+- **Primeira noite de cheia:** o mesmo troço muda de cor, mostra a
+  tendência do nível e a próxima ação. O operador encontra-o **onde
+  sempre o viu** (transferência do uso diário), por isso não precisa de
+  procurar nada no momento em que as sete fases voltam todas.
+
+## Aula 5 --- Processamento de informação e carga
+
+### P.8 --- Processamento de informação e carga
+
+#### (a) Carga cognitiva ou atencional?
+
+| Tarefa | Carga | Porquê |
+|:----------------|:-----------|:-----------------------------------|
+| **(1)** Vigiar a parede 8 h sem incidentes | **Atencional** | Não há nada para decidir; o custo é manter a atenção e reparar a tempo. |
+| **(2)** Decidir quanto largar em Touvedo | **Cognitiva** | Juntar dois troços, prever o efeito da descarga, decidir. |
+| **(3)** Encontrar um alarme novo entre indicadores a piscar | **Atencional** | O custo é reparar no que é novo entre várias coisas que competem pela atenção. |
+| **(4)** Ler 30 valores e escolher o troço mais crítico | **Cognitiva** | Comparar valores e decidir. (Há atenção também, mas o custo principal é comparar.) |
+
+#### (b) As seis etapas para "ver um alarme novo e reconhecê-lo"
+
+| Etapa | O que acontece |
+|:-------------|:------------------------------------------------|
+| Entrada | Luz e cor do alarme num dos 12 ecrãs da parede (e um som, se houver) |
+| Codificação | Juntar a cor, o ícone e o texto num só significado: "alarme novo no troço X" |
+| Comparação mental | Procurar na memória o que significa: que nível é? já vi este alarme hoje? |
+| Seleção da resposta | Decidir que o vai reconhecer (e depois tratar) |
+| Execução da resposta | Levar o rato ou a mão ao comando "reconhecer" no ecrã privado |
+| Saída | O clique ou a tecla |
+
+**Estrangulamento mais provável às 3 da manhã:** a **entrada e a
+codificação**, ou seja, reparar no alarme. Com cansaço e seis horas de
+turno, a atenção está baixa, e um alarme novo perde-se se houver outras
+coisas a mexer ou a piscar na parede.
+
+**Decisão de desenho que o alivia (resposta-modelo):** só os alarmes
+**novos** se mexem ou piscam (os reconhecidos ficam parados), o vermelho
+fica reservado para o perigo, há um som curto para cada alarme novo, e o
+texto diz o troço e o nível por extenso, para a comparação mental não
+depender de decorar códigos. Na execução, um atalho de uma tecla para
+"reconhecer o alarme mais recente".
+
+## Aula 5 --- Cognição fora da cabeça
+
+### P.9 --- Cognição fora da cabeça
+
+#### (a) Propagação de uma descarga de 280 para 420 m³/s
+
+A regra do enunciado: descargas acima de 300 m³/s precisam do coordenador,
+e a autorização é **pedida e recebida na interface**. A manobra passa por
+pedida → à espera de autorização → autorizada → em curso → concluída.
+
+| Passo | O que acontece | Meio |
+|:-:|:--------------------------------------------|:------------------|
+| 1 | O operador decide que Touvedo tem de largar 420 m³/s | mental |
+| 2 | O operador cria a manobra; a confirmação mostra "280 → 420 m³/s, precisa de autorização"; estado "à espera de autorização" | físico (teclado/rato) e visual |
+| 3 | O coordenador, fora da sala, recebe o pedido na interface e lê o efeito | visual e mental |
+| 4 | O coordenador autoriza; estado "autorizada" | físico |
+| 5 | O operador vê a autorização e executa; estado "em curso" | visual, mental e físico |
+| 6 | O sistema move as comportas; o ecrã mostra "pedido 420, atual 350", até "concluída" | visual |
+| 7 | A manobra fica no registo e na passagem de turno | escrito |
+
+**Onde fica guardada a ordem:** no **registo da manobra na interface**
+(o que se pediu, quem autorizou, quando, e o estado atual) e na
+**passagem de turno**. Não fica só na cabeça do operador nem numa chamada
+telefónica. É a interface que garante que o operador do turno seguinte
+sabe a mesma coisa.
+
+#### (b) 234 × 456 em papel e a numeração romana
+
+**Em papel**, uma parcela por algarismo de 456:
+
+$$234 \times 6 = 1404, \qquad 234 \times 50 = 11\,700, \qquad 234 \times 400 = 93\,600$$
+
+$$1404 + 11\,700 + 93\,600 = 106\,704$$
+
+**Porque é que CCXXXIV × CDLVI é muito mais difícil:** o papel e a
+**notação posicional** fazem parte da conta. Cada algarismo vale pela
+**posição** (unidades, dezenas, centenas), por isso a multiplicação parte-se
+em produtos de um algarismo (tabuada) e em somas alinhadas por colunas, e
+as parcelas ficam escritas em vez de ficarem na memória. A numeração romana
+não tem posições nem zero: CCXXXIV é uma soma de símbolos
+(C + C + X + X + X + IV). Não há um algoritmo "algarismo a algarismo", e o
+caminho prático é converter para decimal, que é uma tarefa nova.
+**O problema é o mesmo; a representação muda a tarefa.**
+
+#### (c) Parede ou ecrãs?
+
+| Elemento | Onde | Porquê |
+|:----------------|:--------------|:-------------------------------------|
+| **(1)** Estado de alerta dos troços | **Parede** | É a situação partilhada: a sala toda tem de a perceber num relance (regra 4) |
+| **(2)** Rascunho de um aviso público | **Ecrã privado** | É trabalho de um operador. Na parede podia ser lido como já emitido |
+| **(3)** Manobra à espera de autorização | **Ecrã privado**, com um **indicador na parede** | Os detalhes são do operador que a pediu, mas a sala deve saber que há uma manobra pendente que vai mudar o rio |
+| **(4)** Formulário para enviar uma equipa | **Ecrã privado** | Preencher é assunto de um operador. Quando a equipa fica "a caminho", o estado dela pode aparecer no mapa da parede |
+
+## Aula 6 --- Fazer um walkthrough
+
+### P.10 --- Fazer um walkthrough
+
+#### (a) A máquina do Andante
+
+Sequência correta: **1** escolher EN; **2** "Comprar um cartão novo" (o
+visitante não tem cartão); **3** **Z2**† (Trindade e Campanhã estão na
+mesma zona, e o título mínimo do Andante é o Z2); **4** "1"; **5** pagar e
+retirar o cartão.
+
+| Ecrã | Q1 | Q2 | Q3 | Q4 | Razão de cada "não" (e dos "sim" que contam) |
+|:-:|:-:|:-:|:-:|:-:|:--------------------------------------------|
+| 1 Idioma | sim | sim | sim | sim | O ecrã só pede isto; "EN" diz o que faz; o ecrã seguinte aparece em inglês |
+| 2 O que quer? | sim | sim | **não** | sim | Ele quer **um bilhete**; as opções falam de **cartão**. Nada diz que, no Andante, o bilhete é um cartão. Acerta por eliminação ("carregar o meu cartão" não serve). **Sev. 2** |
+| 3 Título | sim | sim | **não** | sim | "Título" e "Z2 ... Z8" são termos do tarifário. Nada liga "Trindade → Campanhã" a uma zona: não há mapa nem campo de destino. Pode escolher uma zona a mais (paga mais), a menos (viaja com um título inválido) ou desistir. **Sev. 4** |
+| 4 Viagens | sim | sim | sim | sim | Quer uma viagem; o botão "1" diz isso; passa ao pagamento |
+| 5 Pagar | sim | sim | sim | **não** | "Retire o seu cartão": é o bilhete ou o cartão do banco? Quem não ligou bilhete a cartão no ecrã 2 não sabe se acabou. **Sev. 2** |
+
+**Que ecrã falha primeiro:** numa leitura estrita, o **ecrã 2, Q3**
+(menor). A falha que importa é o **ecrã 3, Q3, severidade 4**: a zona é
+um termo do mecanismo onde o visitante tem um termo da tarefa (o
+destino), a mesma falha do "Setpoint (%)" do Tiago.
+
+O Q4 do ecrã 3 também se pode marcar "não": a máquina avança, mas nada
+confirma que Z2 serve para Campanhã. Avaliadores diferentes marcam coisas
+diferentes no mesmo esboço; é por isso que a Fase 1 usa dois ou três.
+
+#### (b) Que pergunta falha
+
+| Caso | Falha | Porquê |
+|:--|:-:|:----------------------------------------------|
+| **(1)** Micro-ondas mudo | **Q4** | A ação foi feita e nada mostra progresso: a pessoa carrega outra vez ou abre a porta (o botão do elevador) |
+| **(2)** Lugar escolhido depois de pagar | **Q1** | O utilizador não sabe que esse passo existe, por isso nunca o tenta (o START que precisa do travão) |
+| **(3)** Modo férias em "Definições → Avançadas" | **Q2** | A ação existe, mas não está à vista (o "Rejeitar tudo" escondido) |
+| **(4)** Botão "DF+" | **Q3** | O botão vê-se, mas a etiqueta é uma abreviatura do mecanismo: um operador novo não a liga a "abrir a descarga de fundo". Corrige-se com "Abrir descarga de fundo" |
+
+#### (c) Corrigir o esboço do Tiago
+
+| Problema | Mudança no esboço | Passa a "sim" |
+|:--------------|:------------------------------------|:-:|
+| Passo 2: comando que parece mostrador | Os valores editáveis em **caixas com contorno e fundo branco** (setas ou lápis), com outro aspeto dos valores só de leitura | Q2 |
+| Passo 3: % onde se espera m³/s | O campo passa a **"Caudal pedido (m³/s)"**; o sistema calcula a abertura e mostra-a ao lado, só de leitura | Q3 |
+| Passo 4: regra só na cabeça | Ao escrever o caudal, o painel mostra **Ponte da Barca ao lado** (nível, caudal, previsão com o valor novo), e a confirmação repete-o | Q1 |
+| Passo 5: valor mostrado como feito | **"Pedido 120 / atual 92 m³/s"**, estado "em curso", tempo previsto (~3 min); *Apply* desativado até concluir | Q4 |
+
+## Aula 6 --- Preparar e conduzir a Fase 1
+
+### P.11 --- Preparar e conduzir a Fase 1
+
+#### (a) A descarga de 280 para 420 m³/s
+
+Acima de 300 m³/s é preciso o coordenador, e a manobra passa por pedida →
+à espera de autorização → autorizada → em curso → concluída. Sequência
+correta:
+
+1. Selecionar Touvedo no mapa.
+2. Encontrar os comandos das comportas.
+3. Escrever 420 m³/s no campo do caudal.
+4. Verificar Ponte da Barca.
+5. **Pedir a manobra ao coordenador** (estado "à espera de autorização").
+6. **Ver a autorização chegar** (estado "autorizada").
+7. **Executar** (estado "em curso").
+8. Acompanhar até "concluída".
+
+Os passos 1 a 4 têm os mesmos problemas da aula. Passos que o esboço não
+cobre:
+
+| Passo | Q1 | Q2 | Q3 | Q4 | Razão |
+|:-:|:-:|:-:|:-:|:-:|:----------------------------------------|
+| 5 Pedir | **não** | **não** | **não** | **não** | Nada diz que 420 precisa do coordenador; não há botão para pedir; o único botão, *Apply*, sugere executar já; nada mostra o estado do pedido. **Sev. 4** (bloqueia, ou executa sem autorização) |
+| 6 Ver a autorização | sim | **não** | --- | **não** | Ele sabe que tem de esperar, mas não há sítio onde a autorização apareça. **Sev. 4** |
+| 7 Executar | sim | **não** | **não** | **não** | Sem estado "autorizada", não há ação distinta de "executar"; *Apply* outra vez é ambíguo. **Sev. 3** |
+| 8 Acompanhar | sim | sim | sim | **não** | O mesmo problema do passo 5 da aula: não há "pedido / atual". **Sev. 3** |
+
+**O ecrã que falta:** o das **manobras**, com o pedido ao coordenador e
+o estado de cada manobra (pedida, à espera de autorização, autorizada, em
+curso, concluída, cancelada). Foi **escrever a sequência correta** que o
+revelou, antes de qualquer pergunta.
+
+#### (b) "Isso explica-se na formação"
+
+Quebra a regra **2 (não se defende o desenho)** e tenta apagar uma falha
+(regra **3**). O **facilitador** lembra a regra e volta a dizer só o que
+está no esboço. O **registador** escreve a falha na mesma: passo 3, Q3,
+severidade 4. A persona está na primeira semana. Se o passo precisa de
+formação para se acertar, o esboço não o explica, e a resposta é "não".
+
+#### (c) Quantos problemas encontram três avaliadores
+
+Um avaliador **falha** um problema com probabilidade $1 - \tfrac13 =
+\tfrac23$. Com independência, os três falham-no com probabilidade
+
+$$\left(\tfrac23\right)^3 = \tfrac{8}{27} \approx 0{,}30,$$
+
+por isso **pelo menos um encontra-o** com probabilidade
+$1 - \tfrac{8}{27} = \tfrac{19}{27} \approx 70\,\%$. Com dois:
+$1 - \left(\tfrac23\right)^2 = \tfrac59 \approx 56\,\%$. Passa-se de
+cerca de 33 % para 56--70 %. Na prática fica abaixo disto, porque os
+avaliadores tendem a encontrar os mesmos problemas fáceis (não são
+independentes), e há falsos alarmes para filtrar.

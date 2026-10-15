@@ -1,0 +1,13 @@
+digraph esboco {
+  node [shape=plaintext, fontname="Helvetica", fontsize=13];
+  E [label=<
+<TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5" COLOR="#1f3864">
+  <TR><TD COLSPAN="3" BGCOLOR="#e8eef7" ALIGN="LEFT"><B>COL · Barragem de Touvedo</B>          Monitor 1 de 2 · 23:02</TD></TR>
+  <TR>
+    <TD ROWSPAN="2" VALIGN="TOP" ALIGN="LEFT"><B>Mapa do rio</B><BR ALIGN="LEFT"/>A. Lindoso<BR ALIGN="LEFT"/><B>[Touvedo]</B><BR ALIGN="LEFT"/>P. Barca<BR ALIGN="LEFT"/>P. Lima<BR ALIGN="LEFT"/>Viana<BR ALIGN="LEFT"/></TD>
+    <TD VALIGN="TOP" ALIGN="LEFT"><B>Comportas de Touvedo</B><BR ALIGN="LEFT"/>Comporta 1   Setpoint (%)   32<BR ALIGN="LEFT"/>Comporta 2   Setpoint (%)   32<BR ALIGN="LEFT"/>Descarga de fundo   fechada<BR ALIGN="LEFT"/>Grupos   G1 lig.   G2 lig.<BR ALIGN="LEFT"/>Albufeira   48,2 m<BR ALIGN="LEFT"/>Caudal largado agora   80 m³/s<BR ALIGN="LEFT"/>[ Apply ]<BR ALIGN="LEFT"/></TD>
+    <TD ROWSPAN="2" VALIGN="TOP" ALIGN="LEFT"><B>Alarmes</B><BR ALIGN="LEFT"/>nenhum ativo<BR ALIGN="LEFT"/></TD>
+  </TR>
+  <TR><TD VALIGN="TOP" ALIGN="LEFT"><B>Estações a jusante</B><BR ALIGN="LEFT"/>Ponte da Barca   nível 2,1 m   caudal 95 m³/s<BR ALIGN="LEFT"/>Ponte de Lima   nível 1,6 m   caudal 110 m³/s<BR ALIGN="LEFT"/>Viana   maré 2,8 m   a subir<BR ALIGN="LEFT"/></TD></TR>
+</TABLE>>];
+}

@@ -28,12 +28,11 @@ Ler quando se escrevem soluções novas.
 - As soluções são totalmente explícitas e **verificadas antes de as
   escrever**: contas em Python, equivalências por força bruta, código
   compilado e corrido contra os testes do lab.
-- Lógica (Fitch):
-  - escreve-se em blocos ```` ```{.fitch} ```` (`|` por nível, `|>` abre
-    hipótese, `---` fecha premissas, `; &E, 2` é a justificação);
-  - corre `python3 _shared/tools/fitch_check.py` sobre o RESUMO e as
-    SOLUCOES antes de compilar. Nenhuma dedução pode falhar;
-  - `.nocheck` só para deduções erradas de propósito.
+- Lógica (Fitch, tableaux): ver o `CONTEXTO_Logica.md`. O `fechar.sh`
+  verifica todas as deduções; nenhuma pode falhar.
+- **Soluções de labs de código**: mostra só o código que cada alínea
+  acrescenta ou muda (não os ficheiros inteiros) e **uma** saída real de
+  exemplo por alínea. Mais saídas, só se mostrarem um caso diferente.
 - Exercícios abertos (IPM, desenho) levam uma **resposta-modelo**, dita
   como tal.
 - Entregáveis avaliados do grupo (personas, missões): as regras de IA da

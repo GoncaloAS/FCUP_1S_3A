@@ -43,12 +43,16 @@ TMP="$(mktemp -d)"
 trap '[ -n "${KEEP_TMP:-}" ] && echo "TMP=$TMP" || rm -rf "$TMP"' EXIT
 TEX="$TMP/RESUMO_${SUBJECT}.tex"
 
+# figuras dos blocos {.tableau}/{.resolucao}, regeneradas a cada build
+rm -rf "$SUBJECT_DIR/figuras/auto"
+
 pandoc "$MD" \
   -f markdown-implicit_figures \
   -s \
   -H "$PREAMBLE" \
   ${TOC_ARGS[@]+"${TOC_ARGS[@]}"} \
   --lua-filter "$ROOT/_shared/template/fitch.lua" \
+  --lua-filter "$ROOT/_shared/template/tableau.lua" \
   --lua-filter "$FILTER" \
   --lua-filter "$ROOT/_shared/template/auto-align.lua" \
   -V lang=pt-PT \
@@ -93,18 +97,31 @@ awk '/Overfull \\hbox \(/{ match($0, /\(([0-9.]+)pt/); v=substr($0, RSTART+1, RL
 check_markup "$PDF" resumo
 echo "Gerado: $PDF"
 
+# Página de cada figura nova (FIG_PAGES="a.pdf b.pdf", passado pelo fechar.sh).
+# Compila uma cópia do .tex com um \write por figura, sem tocar no PDF gerado.
+if [ -n "${FIG_PAGES:-}" ]; then
+  FT="$TMP/figs"; mkdir -p "$FT"; SEDS=()
+  for fig in $FIG_PAGES; do
+    SEDS+=(-e "s|(\\\\includegraphics(\[[^]]*\])?\{figuras/${fig}\})|\1\\\\write16{FIGURA ${fig} PAG \\\\thepage}|g")
+  done
+  sed -E "${SEDS[@]}" "$TEX" > "$FT/figs.tex"
+  tectonic -Z search-path="$SUBJECT_DIR" --keep-logs --outdir "$FT" "$FT/figs.tex" > /dev/null 2>&1 || true
+  grep -ho "FIGURA [^ ]* PAG [0-9]*" "$FT/figs.log" 2>/dev/null | sort -u | sed 's/^FIGURA \(.*\) PAG \(.*\)/FIGURA: \1 na página \2/' || true
+fi
+
 # Outros documentos (opcional): .fonte/REVISAO_<Disciplina>.md (folha de
 # revisão para o exame) e qualquer outro .fonte/*.md que não seja o RESUMO
-# nem as SOLUCOES (calendário, enunciado do trabalho...) -> <nome>.pdf ao lado.
+# nem as SOLUCOES nem o CONTEXTO (calendário, enunciado do trabalho...) -> <nome>.pdf ao lado.
 # Mesmo estilo, sem índice, sem página nova por secção.
 for DOC_MD in "$SUBJECT_DIR"/.fonte/*.md; do
   DOC="$(basename "$DOC_MD" .md)"
-  case "$DOC" in RESUMO_*|SOLUCOES_*) continue ;; esac
+  case "$DOC" in RESUMO_*|SOLUCOES_*|CONTEXTO_*) continue ;; esac
   DOC_TEX="$TMP/$DOC.tex"
   pandoc "$DOC_MD" \
     -f markdown-implicit_figures -s \
     -H "$PREAMBLE" \
     --lua-filter "$ROOT/_shared/template/fitch.lua" \
+  --lua-filter "$ROOT/_shared/template/tableau.lua" \
     --lua-filter "$FILTER" \
     --lua-filter "$ROOT/_shared/template/auto-align.lua" \
     -V lang=pt-PT \

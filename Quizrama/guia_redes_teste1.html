@@ -1,0 +1,2627 @@
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Redes de Comunicação — matéria do 1.º teste</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/guia.css">
+</head>
+<body>
+<header class="g-top">
+  <a class="g-back" href="redes.html">↩ Voltar ao quiz</a>
+  <span class="g-title">Redes de Comunicação — matéria do 1.º
+teste</span>
+</header>
+<div class="g-shell">
+<nav class="g-toc" aria-label="Índice">
+<p class="g-toc-h">Índice</p>
+<ul>
+<li><a href="#aula-1-introdução-às-redes-de-comunicação"
+id="toc-aula-1-introdução-às-redes-de-comunicação">Aula 1 — Introdução
+às redes de comunicação</a>
+<ul>
+<li><a href="#o-que-é-a-internet" id="toc-o-que-é-a-internet">O que é a
+Internet</a></li>
+<li><a href="#extremidade-da-rede-edge"
+id="toc-extremidade-da-rede-edge">Extremidade da rede (edge)</a></li>
+<li><a href="#núcleo-da-rede-core" id="toc-núcleo-da-rede-core">Núcleo
+da rede (core)</a>
+<ul>
+<li><a href="#estrutura-da-internet-hierarquia-de-isps"
+id="toc-estrutura-da-internet-hierarquia-de-isps">Estrutura da Internet:
+hierarquia de ISPs</a></li>
+</ul></li>
+<li><a href="#atrasos-perdas-e-throughput"
+id="toc-atrasos-perdas-e-throughput">Atrasos, perdas e
+<em>throughput</em></a>
+<ul>
+<li><a href="#as-quatro-fontes-de-atraso"
+id="toc-as-quatro-fontes-de-atraso">As quatro fontes de atraso</a></li>
+<li><a href="#vários-pacotes-e-ligações-em-série"
+id="toc-vários-pacotes-e-ligações-em-série">Vários pacotes e ligações em
+série</a></li>
+<li><a href="#intensidade-de-tráfego"
+id="toc-intensidade-de-tráfego">Intensidade de tráfego</a></li>
+<li><a href="#atrasos-reais-traceroute"
+id="toc-atrasos-reais-traceroute">Atrasos reais: traceroute</a></li>
+<li><a href="#perdas-de-pacotes" id="toc-perdas-de-pacotes">Perdas de
+pacotes</a></li>
+<li><a href="#débito-throughput" id="toc-débito-throughput">Débito
+(throughput)</a></li>
+</ul></li>
+<li><a href="#camadas-protocolares-e-modelos-de-serviço"
+id="toc-camadas-protocolares-e-modelos-de-serviço">Camadas protocolares
+e modelos de serviço</a>
+<ul>
+<li><a href="#encapsulamento"
+id="toc-encapsulamento">Encapsulamento</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#aula-2-camada-de-aplicação"
+id="toc-aula-2-camada-de-aplicação">Aula 2 — Camada de aplicação</a>
+<ul>
+<li><a href="#princípios-das-aplicações-em-rede"
+id="toc-princípios-das-aplicações-em-rede">Princípios das aplicações em
+rede</a>
+<ul>
+<li><a href="#arquiteturas-das-aplicações"
+id="toc-arquiteturas-das-aplicações">Arquiteturas das
+aplicações</a></li>
+<li><a href="#processos-endereçamento-e-sockets"
+id="toc-processos-endereçamento-e-sockets">Processos, endereçamento e
+sockets</a></li>
+<li><a href="#que-serviço-de-transporte-precisa-uma-aplicação"
+id="toc-que-serviço-de-transporte-precisa-uma-aplicação">Que serviço de
+transporte precisa uma aplicação</a></li>
+<li><a href="#serviços-de-transporte-da-internet-tcp-e-udp"
+id="toc-serviços-de-transporte-da-internet-tcp-e-udp">Serviços de
+transporte da Internet: TCP e UDP</a></li>
+</ul></li>
+<li><a href="#web-e-http" id="toc-web-e-http">Web e HTTP</a>
+<ul>
+<li><a href="#conexões-não-persistentes-e-persistentes"
+id="toc-conexões-não-persistentes-e-persistentes">Conexões não
+persistentes e persistentes</a></li>
+<li><a href="#formato-das-mensagens-http"
+id="toc-formato-das-mensagens-http">Formato das mensagens HTTP</a></li>
+<li><a href="#uma-sessão-http-real" id="toc-uma-sessão-http-real">Uma
+sessão HTTP real</a></li>
+<li><a href="#http2-e-http3" id="toc-http2-e-http3">HTTP/2 e
+HTTP/3</a></li>
+<li><a href="#web-caches-servidores-proxy"
+id="toc-web-caches-servidores-proxy">Web caches (servidores
+<em>proxy</em>)</a></li>
+</ul></li>
+<li><a href="#ftp" id="toc-ftp">FTP</a></li>
+<li><a href="#correio-eletrónico" id="toc-correio-eletrónico">Correio
+eletrónico</a></li>
+<li><a href="#dns" id="toc-dns">DNS</a>
+<ul>
+<li><a href="#hierarquia-de-servidores"
+id="toc-hierarquia-de-servidores">Hierarquia de servidores</a></li>
+<li><a href="#registos-e-mensagens-dns"
+id="toc-registos-e-mensagens-dns">Registos e mensagens DNS</a></li>
+<li><a href="#ferramentas-host-e-dig"
+id="toc-ferramentas-host-e-dig">Ferramentas: <code>host</code> e
+<code>dig</code> †</a></li>
+</ul></li>
+<li><a href="#aplicações-p2p" id="toc-aplicações-p2p">Aplicações P2P</a>
+<ul>
+<li><a href="#tempo-de-distribuição-cliente-servidor-vs.-p2p"
+id="toc-tempo-de-distribuição-cliente-servidor-vs.-p2p">Tempo de
+distribuição: cliente-servidor vs. P2P</a></li>
+<li><a href="#bittorrent" id="toc-bittorrent">BitTorrent</a></li>
+</ul></li>
+<li><a href="#programação-com-sockets"
+id="toc-programação-com-sockets">Programação com sockets</a>
+<ul>
+<li><a href="#sockets-tcp" id="toc-sockets-tcp">Sockets TCP</a></li>
+<li><a href="#sockets-udp" id="toc-sockets-udp">Sockets UDP</a></li>
+<li><a href="#um-cliente-smtp-com-sockets"
+id="toc-um-cliente-smtp-com-sockets">Um cliente SMTP com sockets
+†</a></li>
+</ul></li>
+<li><a href="#resumo-comparativo-dos-protocolos"
+id="toc-resumo-comparativo-dos-protocolos">Resumo comparativo dos
+protocolos</a></li>
+</ul></li>
+</ul>
+</nav>
+<main class="g-sheet">
+<p class="g-lead">Gerado a partir do resumo de Redes (Capítulos 1 e 2). As dicas do quiz trazem-te diretamente à secção onde está a teoria de cada pergunta.</p>
+<p><em>O sinal † marca matéria que não está nos slides mas faz falta
+para as práticas. Os exercícios estão no resumo em PDF e no site de
+soluções.</em></p>
+<h1 id="aula-1-introdução-às-redes-de-comunicação">Aula 1 — Introdução
+às redes de comunicação</h1>
+<h2 id="o-que-é-a-internet">O que é a Internet</h2>
+<p><strong>Visão estrutural.</strong> A Internet é composta por:</p>
+<ul>
+<li><strong>terminais</strong> (<em>hosts</em>, <em>end systems</em>):
+PCs, servidores, telemóveis e, cada vez mais, objetos (IoT). Todos
+correm <strong>aplicações em rede</strong>;</li>
+<li><strong>ligações</strong> (<em>links</em>): fibra, cobre, rádio,
+satélite. Cada uma tem uma <strong>taxa de transmissão</strong>
+(capacidade, ou “largura de banda”), em bits por segundo;</li>
+<li><strong><em>routers</em></strong>: reenviam pacotes, encaminhando-os
+para o destino.</li>
+</ul>
+<div class="definicao" title="Internet">
+<p>Uma <strong>“rede de redes”</strong>: redes independentes
+interligadas, organizadas de forma vagamente hierárquica. Distingue-se a
+<strong>Internet pública</strong> das <strong>intranets
+privadas</strong>, que usam a mesma tecnologia mas não estão acessíveis
+(ou só de forma restrita) a partir da Internet pública.</p>
+<p>A comunicação é regida por <strong>protocolos</strong> (TCP e IP para
+o envio e receção de pacotes, HTTP para a Web, Ethernet numa rede
+local), definidos em <strong>RFC</strong> (<em>Request for
+Comments</em>) pelo <strong>IETF</strong> (<em>Internet Engineering Task
+Force</em>).</p>
+</div>
+<p><strong>Visão de serviços.</strong> Para as aplicações distribuídas
+(Web, email, VoIP, jogos, partilha de ficheiros), a Internet é uma
+<strong>infraestrutura de comunicação</strong> com dois serviços:
+<strong>entrega fiável</strong> extremo-a-extremo (TCP) e
+<strong>entrega não fiável</strong>, de “melhor esforço” (<em>best
+effort</em>, UDP). Estão desenvolvidos na Aula 2.</p>
+<div class="definicao" title="Protocolo">
+<p>Um <strong>protocolo</strong> define o <strong>formato</strong> das
+mensagens trocadas, a <strong>ordem</strong> de envio e receção entre as
+entidades, e as <strong>ações</strong> a efetuar na transmissão, na
+receção ou noutro evento (ex.: um temporizador que expira).</p>
+</div>
+<div class="exemplo">
+<p><strong>Protocolo humano e protocolo de rede.</strong> A diz “Olá”, B
+responde “Olá”, e só depois A pergunta “Tens horas?” e B responde “São
+2:00”. Um browser faz o mesmo: (1) envia um <strong>pedido de ligação
+TCP</strong>; (2) o servidor responde com a <strong>resposta de ligação
+TCP</strong>; (3) só então o cliente envia
+<code>GET http://www.exemplo.com/pagina.html</code>; (4) o servidor
+envia o ficheiro. Tal como entre pessoas, a <strong>ordem</strong>
+importa (o <code>GET</code> só depois da ligação) e o
+<strong>formato</strong> também (o servidor só percebe um
+<code>GET</code> com a sintaxe certa).</p>
+</div>
+<h2 id="extremidade-da-rede-edge">Extremidade da rede (edge)</h2>
+<p>Os terminais correm as aplicações e ficam na periferia da rede. Os
+dois modelos de aplicação (cliente/servidor e <em>peer-to-peer</em>) e
+os dois serviços de transporte (TCP e UDP) estão na Aula 2.</p>
+<p>A <strong>rede de acesso</strong> liga um terminal ao primeiro
+<em>router</em> (o <em>edge router</em>). O que interessa nela é a
+<strong>capacidade</strong> (partilhada ou dedicada) e a
+<strong>latência</strong>.</p>
+<div class="definicao" title="Redes de acesso residenciais">
+<p><strong>Cabo (HFC, <em>hybrid fiber/coaxial</em>):</strong> a
+infraestrutura de TV por cabo transporta também dados, com
+<strong>multiplexagem em frequência</strong> (FDM): canais de TV, de
+subida e de descida em bandas diferentes do mesmo cabo. É
+<strong>assimétrico</strong> (até ~30 Mbps a descer, ~2 Mbps a subir) e
+o cabo é <strong>partilhado</strong> pelas casas do mesmo segmento: o
+débito de cada casa depende de quantos vizinhos o usam ao mesmo
+tempo.</p>
+<p><strong>Fibra até casa (FTTH):</strong> ligação ótica da central até
+casa, com um <em>splitter</em> ótico passivo que divide uma fibra por
+várias casas (<strong>PON</strong>) ou com eletrónica ativa por casa
+(<strong>AON</strong>). Muito mais capacidade e alcance do que o cabo;
+integra telefone e TV. Na PON cada casa tem fibra dedicada até ao
+<em>splitter</em> e a partilha é mais a montante e controlada, por isso
+os vizinhos pesam menos do que no cabo †.</p>
+</div>
+<div class="definicao" title="Redes de acesso empresariais e sem fios">
+<p><strong>LAN Ethernet:</strong> os terminais ligam-se a um
+<strong>switch Ethernet</strong> (nas Ethernet antigas partilhavam um
+cabo), a 10 Mbps, 100 Mbps, 1 Gbps ou 10 Gbps.</p>
+<p><strong>Sem fios:</strong> os terminais ligam-se ao <em>router</em>
+através de um <strong>ponto de acesso</strong> partilhado. LAN sem fios
+(WiFi, 802.11b/g/n/ac/ax/be): de 11 Mbps (802.11b) a 46 Gbps (802.11be).
+WAN sem fios (operadoras): até ~300 Mbps em 4G (LTE Avançado), até 20
+Gbps em 5G.</p>
+</div>
+<div class="definicao" title="Meio físico">
+<p>Um bit propaga-se entre emissor e recetor por uma <strong>ligação
+física</strong>:</p>
+<ul>
+<li><strong>meio guiado</strong> (o sinal segue um meio sólido): par de
+cobre entrançado (Cat.5/5e/6/6a, de 100 Mbps a 10 Gbps de Ethernet),
+cabo coaxial, fibra ótica;</li>
+<li><strong>meio não guiado</strong> (ondas de rádio): micro-ondas
+terrestres (até 620 Mbps), WiFi (até 46 Gbps), redes móveis (até 20 Gbps
+em 5G) e satélite. Os satélites de baixa altitude (ex.: Starlink) têm
+~25 ms de latência, contra ~270 ms dos geossíncronos, mas menos
+capacidade por satélite (até ~220 Mbps).</li>
+</ul>
+<p>O sinal vai em <strong>banda-base</strong> (um só canal ocupa todo o
+meio, sem modulação, como na Ethernet original em coaxial) ou
+<strong>modulado</strong> (o sinal modula uma portadora em frequência,
+amplitude ou fase, o que permite vários canais no mesmo meio, como no
+HFC).</p>
+</div>
+<h2 id="núcleo-da-rede-core">Núcleo da rede (core)</h2>
+<p>O <strong>núcleo</strong> é a malha de <em>routers</em> que liga as
+redes de acesso. A questão é como se transferem os dados através dele:
+por <strong>comutação de circuitos</strong> ou por <strong>comutação de
+pacotes</strong>.</p>
+<div class="definicao" title="Comutação de circuitos">
+<p>Como na rede telefónica: os recursos do percurso (capacidade das
+ligações e dos nós) são <strong>reservados extremo-a-extremo
+antes</strong> da comunicação (estabelecimento da “chamada”). Ficam
+<strong>dedicados</strong>, mesmo sem nada para transmitir
+(desperdício), e em troca o <strong>desempenho é garantido</strong> (não
+há congestionamento no circuito).</p>
+<p>Os recursos dividem-se em parcelas por
+<strong>multiplexagem</strong>:</p>
+<ul>
+<li><strong>FDM</strong> (<em>Frequency Division Multiplexing</em>): uma
+banda de frequência por utilizador, durante toda a chamada;</li>
+<li><strong>TDM</strong> (<em>Time Division Multiplexing</em>): o tempo
+divide-se em ciclos e os ciclos em <em>slots</em>; cada utilizador usa
+sempre o mesmo <em>slot</em> de cada ciclo.</li>
+</ul>
+</div>
+<div class="exemplo">
+<p><strong>Tempo de transferência num circuito.</strong> Ficheiro de 640
+000 bits de A para B; ligações de 2,048 Mbps com TDM de 32
+<em>slots</em>; 500 ms para estabelecer o circuito.</p>
+<p><strong>1. Capacidade do circuito</strong> (1 <em>slot</em> em 32):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true"><mfrac><mrow><mn>2</mn><mo>,</mo><mn>048</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Mb/s</mtext></mrow></mrow><mn>32</mn></mfrac></mstyle><mo>=</mo><mn>64</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> kb/s</mtext></mrow></mrow><annotation encoding="application/x-tex">\dfrac{2{,}048\text{ Mb/s}}{32} = 64\text{ kb/s}</annotation></semantics></math>.</p>
+<p><strong>2. Transmissão:</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true"><mfrac><mrow><mn>640</mn><mspace width="0.167em"></mspace><mn>000</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> bits</mtext></mrow></mrow><mrow><mn>64</mn><mspace width="0.167em"></mspace><mn>000</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> bits/s</mtext></mrow></mrow></mfrac></mstyle><mo>=</mo><mn>10</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> s</mtext></mrow></mrow><annotation encoding="application/x-tex">\dfrac{640\,000\text{ bits}}{64\,000\text{ bits/s}} = 10\text{ s}</annotation></semantics></math>.</p>
+<p><strong>3. Somar o estabelecimento</strong>, que acontece antes, em
+sequência:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> s</mtext></mrow><mo>+</mo><mn>500</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> ms</mtext></mrow><mo>=</mo><mrow><mn mathvariant="bold">𝟏𝟎</mn><mo mathvariant="bold">,</mo><mn mathvariant="bold">𝟓</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">10\text{ s} + 500\text{ ms} = \mathbf{10{,}5\text{ s}}</annotation></semantics></math>
+(sem contar o atraso de propagação, que se vê mais à frente).</p>
+</div>
+<div class="definicao" title="Comutação de pacotes">
+<p>O fluxo de dados divide-se em <strong>pacotes</strong> (dados +
+cabeçalho de controlo):</p>
+<ul>
+<li><strong>sem reserva de recursos</strong>: os pacotes de todos os
+utilizadores partilham a rede à medida das necessidades
+(<strong>multiplexagem estatística</strong>: ao contrário do TDM, não há
+<em>slot</em> fixo; a capacidade vai para quem tem dados nesse
+instante);</li>
+<li>cada pacote é transmitido à <strong>capacidade total</strong> da
+ligação;</li>
+<li>há <strong>contenda</strong>: se a procura exceder a capacidade num
+instante, os pacotes esperam em <strong>fila</strong> e há
+<strong>congestionamento</strong>.</li>
+</ul>
+</div>
+<div class="definicao" title="Store-and-forward">
+<p>Os pacotes viajam <strong>salto a salto</strong>. Cada
+<em>router</em> tem de <strong>receber o pacote completo</strong> antes
+de o reenviar, o que dá, em cada salto, um <strong>atraso de
+transmissão</strong> de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">L/R</annotation></semantics></math>
+(pacote de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>
+bits, ligação de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>
+bits/s).</p>
+<p>Cada pacote é encaminhado de forma <strong>independente</strong>:
+pacotes com o mesmo destino podem seguir rotas diferentes, chegar fora
+de ordem, perder-se ou corromper-se. Cabe às extremidades detetar e
+corrigir isso (é o que faz o TCP).</p>
+</div>
+<div class="exemplo">
+<p><strong>Store-and-forward em vários saltos.</strong> Pacote de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">L = 10</annotation></semantics></math>
+Mbits, dois <em>routers</em> intermédios (3 ligações), todas com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">R = 2</annotation></semantics></math>
+Mb/s, sem propagação.</p>
+<p><strong>1. Por salto:</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>/</mi><mi>R</mi><mo>=</mo><mn>10</mn><mspace width="0.167em"></mspace><mn>000</mn><mspace width="0.167em"></mspace><mn>000</mn><mi>/</mi><mn>2</mn><mspace width="0.167em"></mspace><mn>000</mn><mspace width="0.167em"></mspace><mn>000</mn><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">L/R = 10\,000\,000 / 2\,000\,000 = 5</annotation></semantics></math>
+s.</p>
+<p><strong>2. Os atrasos somam-se:</strong> o 1.º <em>router</em> só
+começa a reenviar quando recebeu o pacote todo (aos 5 s); demora mais 5
+s na 2.ª ligação; só então o 2.º <em>router</em> começa, mais 5 s. Os
+três intervalos são consecutivos.</p>
+<p><strong>3. Total:</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mi>L</mi><mi>/</mi><mi>R</mi><mo>=</mo><mn>3</mn><mo>×</mo><mn>5</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> s</mtext></mrow><mo>=</mo><mrow><mn mathvariant="bold">𝟏𝟓</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">3 \times L/R = 3 \times 5\text{ s} = \mathbf{15\text{ s}}</annotation></semantics></math>.
+Em geral, para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+saltos,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>⋅</mo><mi>L</mi><mi>/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">N \cdot L/R</annotation></semantics></math>
+(mais a propagação de cada ligação, se não for nula).</p>
+</div>
+<p><strong>Pacotes vs. circuitos.</strong> A comutação de pacotes deixa
+<strong>mais utilizadores</strong> partilhar a rede, porque não reserva
+recursos que ficam parados quando um utilizador está inativo.</p>
+<div class="exemplo">
+<p><strong>Ligação de 1 Mb/s</strong>; cada utilizador transmite a 100
+kb/s quando ativo e está ativo 10% do tempo.</p>
+<p><strong>Circuitos:</strong> cada um precisa de 100 kb/s reservados
+sempre:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1000</mn><mi>/</mi><mn>100</mn><mo>=</mo><mn mathvariant="bold">𝟏𝟎</mn></mrow><annotation encoding="application/x-tex">1000/100 = \mathbf{10}</annotation></semantics></math>
+utilizadores, nem mais um.</p>
+<p><strong>Pacotes:</strong> podem entrar muito mais, desde que seja
+improvável haver mais de 10 ativos ao mesmo tempo. Com
+<strong>35</strong> utilizadores, essa probabilidade é ≈
+<strong>0,0004</strong>: a rede serve 35 com a capacidade que em
+circuitos só servia 10.</p>
+<p><strong>De onde vem o 0,0004</strong> †. Cada utilizador está ativo
+com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">p = 0{,}1</annotation></semantics></math>,
+independentemente dos outros, por isso o número de ativos é binomial,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>∼</mo><mtext mathvariant="normal">Bin</mtext><mo stretchy="false" form="prefix">(</mo><mn>35</mn><mo>;</mo><mspace width="0.222em"></mspace><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">X \sim \text{Bin}(35;\ 0{,}1)</annotation></semantics></math>:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>&gt;</mo><mn>10</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>1</mn><mo>−</mo><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><mn>10</mn></munderover><mrow><mo stretchy="true" form="prefix">(</mo><mfrac linethickness="0"><mn>35</mn><mi>k</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><msup><mi>p</mi><mi>k</mi></msup><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mn>35</mn><mo>−</mo><mi>k</mi></mrow></msup></mrow><annotation encoding="application/x-tex">P(X &gt; 10) = 1 - \sum_{k=0}^{10} \binom{35}{k}\, p^k (1-p)^{35-k}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mfrac linethickness="0"><mn>35</mn><mi>k</mi></mfrac><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\binom{35}{k}</annotation></semantics></math>
+conta as formas de escolher os
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+ativos,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>p</mi><mi>k</mi></msup><annotation encoding="application/x-tex">p^k</annotation></semantics></math>
+é a probabilidade de estarem ativos e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>p</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mn>35</mn><mo>−</mo><mi>k</mi></mrow></msup></mrow><annotation encoding="application/x-tex">(1-p)^{35-k}</annotation></semantics></math>
+a de os outros estarem inativos. A soma de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">k=0</annotation></semantics></math>
+a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>10</mn><annotation encoding="application/x-tex">10</annotation></semantics></math>
+é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>≤</mo><mn>10</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(X\le 10)</annotation></semantics></math>;
+o complementar dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>&gt;</mo><mn>10</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(X&gt;10)</annotation></semantics></math>.
+Calcula-se com calculadora ou Excel.</p>
+</div>
+<p>A comutação de pacotes é ótima para tráfego em
+<strong>rajadas</strong> (<em>bursty</em>, como a Web): partilha
+recursos e dispensa o estabelecimento da chamada. Mas tem
+<strong>congestionamento</strong> (atrasos e perdas quando a procura
+excede a capacidade), e por isso precisa de <strong>protocolos</strong>
+para a fiabilidade e o controlo de congestionamento (TCP). Dar-lhe um
+desempenho tão previsível como o de um circuito (para áudio e vídeo) é,
+em geral, um problema em aberto.</p>
+<h3 id="estrutura-da-internet-hierarquia-de-isps">Estrutura da Internet:
+hierarquia de ISPs</h3>
+<p>A Internet é uma rede de redes de ISPs (<em>Internet Service
+Providers</em>), aproximadamente hierárquica:</p>
+<ul>
+<li><strong>Tier-1:</strong> cobertura internacional, ligados “todos com
+todos” por ligações de <strong><em>peering</em></strong>: trocam tráfego
+sem pagar, porque ambos ganham;</li>
+<li><strong>Tier-2:</strong> nacionais ou regionais;
+<strong>clientes</strong> de um ou mais Tier-1 (pagam-lhes a
+conectividade ao resto da Internet); alguns fazem <em>peering</em> entre
+si;</li>
+<li><strong>Tier-3 e locais:</strong> as redes de acesso, clientes dos
+níveis acima.</li>
+</ul>
+<p><img src="assets/guia-redes/hierarquia_isp.svg" /></p>
+<p>Um pacote de A para B sai do ISP local de A, sobe ao Tier-2 de A,
+passa por um ou mais Tier-1 (se A e B não partilharem o Tier-2), desce
+ao Tier-2 de B e chega ao ISP local de B. A relação
+<strong>cliente</strong> é assimétrica (o de baixo paga ao de cima); o
+<strong><em>peering</em></strong> é simétrico e sem pagamento, e evita
+subir ao Tier-1. Por isso dois utilizadores fisicamente próximos, em
+ISPs sem <em>peering</em> direto, podem ter um caminho muito longo
+†.</p>
+<h2 id="atrasos-perdas-e-throughput">Atrasos, perdas e
+<em>throughput</em></h2>
+<p>Os pacotes esperam em <strong>filas</strong> nos <em>routers</em>
+quando a taxa de chegada a uma ligação de saída excede, momentaneamente,
+a sua capacidade. Se a fila estiver cheia quando chega um pacote, ele é
+<strong>descartado</strong> (perda).</p>
+<h3 id="as-quatro-fontes-de-atraso">As quatro fontes de atraso</h3>
+<div class="definicao" title="As quatro componentes do atraso">
+<p>Entre dois nós consecutivos:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>n</mi><mo>,</mo><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>c</mi></mrow></msub><mo>+</mo><msub><mi>d</mi><mrow><mi>f</mi><mi>i</mi><mi>l</mi><mi>a</mi></mrow></msub><mo>+</mo><msub><mi>d</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi></mrow></msub><mo>+</mo><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi></mrow></msub></mrow><annotation encoding="application/x-tex">d_{n,n+1} = d_{proc} + d_{fila} + d_{trans} + d_{prop}</annotation></semantics></math></p>
+<ol type="1">
+<li><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>c</mi></mrow></msub><annotation encoding="application/x-tex">d_{proc}</annotation></semantics></math>
+— processamento:</strong> verificar erros no cabeçalho e escolher a
+ligação de saída. Microssegundos ou menos.</li>
+<li><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mrow><mi>f</mi><mi>i</mi><mi>l</mi><mi>a</mi></mrow></msub><annotation encoding="application/x-tex">d_{fila}</annotation></semantics></math>
+— fila de espera:</strong> a soma dos tempos de transmissão dos pacotes
+que estão à frente. Depende do congestionamento nesse instante (de quase
+zero a muito alto).</li>
+<li><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi></mrow></msub><annotation encoding="application/x-tex">d_{trans}</annotation></semantics></math>
+— transmissão:</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">L/R</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>
+bits do pacote,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>
+bits/s da ligação): o tempo de pôr todos os bits na ligação. Pesa nas
+ligações lentas.</li>
+<li><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">d_{prop}</annotation></semantics></math>
+— propagação:</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>/</mi><mi>v</mi></mrow><annotation encoding="application/x-tex">l/v</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>l</mi><annotation encoding="application/x-tex">l</annotation></semantics></math>
+comprimento do meio,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>v</mi><annotation encoding="application/x-tex">v</annotation></semantics></math>
+velocidade de propagação,
+~<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><msup><mn>10</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">2\times10^8</annotation></semantics></math>
+m/s, 2/3 da luz). De microssegundos a centenas de ms (satélite
+geossíncrono).</li>
+</ol>
+</div>
+<p><strong>Transmissão ≠ propagação</strong> †.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi></mrow></msub><mo>=</mo><mi>L</mi><mi>/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">d_{trans} = L/R</annotation></semantics></math>
+é o tempo que o <strong>emissor</strong> demora a empurrar o pacote para
+a ligação: depende do tamanho e da capacidade, <strong>não</strong> da
+distância (o tempo de um camião a entrar todo na autoestrada).
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi></mrow></msub><mo>=</mo><mi>l</mi><mi>/</mi><mi>v</mi></mrow><annotation encoding="application/x-tex">d_{prop} = l/v</annotation></semantics></math>
+é o tempo que o <strong>sinal</strong> demora a percorrer a ligação:
+depende só da distância e do meio, <strong>não</strong> do pacote nem da
+capacidade (o camião, já na autoestrada, a chegar à saída). Um pacote
+grande numa ligação lenta é dominado pela transmissão; um satélite
+geossíncrono (~270 ms) é dominado pela propagação.</p>
+<h3 id="vários-pacotes-e-ligações-em-série">Vários pacotes e ligações em
+série</h3>
+<p>Com várias ligações de capacidades diferentes e vários pacotes
+seguidos, tudo depende de <strong>qual ligação é o
+estrangulamento</strong> (a mais lenta, <em>bottleneck link</em>).</p>
+<div class="exemplo">
+<p><strong>Configuração.</strong> T1 envia 4 pacotes de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">L = 1000</annotation></semantics></math>
+bits a T2, por um <em>router</em> R1: ligação LAN (T1–R1) e depois WAN
+(R1–T2), ambas com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>=</mo><mn>2</mn><mo>×</mo><msup><mn>10</mn><mn>8</mn></msup></mrow><annotation encoding="application/x-tex">v = 2\times10^8</annotation></semantics></math>
+m/s. Queremos o instante em que o <strong>4.º</strong> pacote chega
+completo a T2, com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>c</mi></mrow></msub><mo>=</mo><msub><mi>d</mi><mrow><mi>f</mi><mi>i</mi><mi>l</mi><mi>a</mi></mrow></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">d_{proc} = d_{fila} = 0</annotation></semantics></math>:</p>
+<ul>
+<li>se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mrow><mi>L</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>&lt;</mo><msub><mi>R</mi><mrow><mi>W</mi><mi>A</mi><mi>N</mi></mrow></msub></mrow><annotation encoding="application/x-tex">R_{LAN} &lt; R_{WAN}</annotation></semantics></math>
+(LAN é o estrangulamento):
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>t</mi><mi>o</mi><mi>t</mi><mi>a</mi><mi>l</mi></mrow></msub><mo>=</mo><mn>4</mn><mspace width="0.167em"></mspace><msub><mi>d</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi><mo>,</mo><mi>L</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>+</mo><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi><mo>,</mo><mi>L</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>+</mo><msub><mi>d</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi><mo>,</mo><mi>W</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>+</mo><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi><mo>,</mo><mi>W</mi><mi>A</mi><mi>N</mi></mrow></msub></mrow><annotation encoding="application/x-tex">d_{total} = 4\, d_{trans,LAN} + d_{prop,LAN} + d_{trans,WAN} + d_{prop,WAN}</annotation></semantics></math></li>
+<li>se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mrow><mi>L</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>&gt;</mo><msub><mi>R</mi><mrow><mi>W</mi><mi>A</mi><mi>N</mi></mrow></msub></mrow><annotation encoding="application/x-tex">R_{LAN} &gt; R_{WAN}</annotation></semantics></math>
+(WAN é o estrangulamento):
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>t</mi><mi>o</mi><mi>t</mi><mi>a</mi><mi>l</mi></mrow></msub><mo>=</mo><msub><mi>d</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi><mo>,</mo><mi>L</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>+</mo><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi><mo>,</mo><mi>L</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>+</mo><mn>4</mn><mspace width="0.167em"></mspace><msub><mi>d</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi><mo>,</mo><mi>W</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>+</mo><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi><mo>,</mo><mi>W</mi><mi>A</mi><mi>N</mi></mrow></msub></mrow><annotation encoding="application/x-tex">d_{total} = d_{trans,LAN} + d_{prop,LAN} + 4\, d_{trans,WAN} + d_{prop,WAN}</annotation></semantics></math></li>
+</ul>
+<p><strong>O fator 4 vai sempre para a ligação mais lenta:</strong> nela
+os pacotes só podem ser transmitidos um a seguir ao outro, e o último só
+começa depois de os 3 anteriores saírem. Na ligação rápida não há
+acumulação: conta só um
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi></mrow></msub><annotation encoding="application/x-tex">d_{trans}</annotation></semantics></math>.</p>
+</div>
+<div class="exemplo">
+<p><strong>WAN como estrangulamento, com números.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mrow><mi>L</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">R_{LAN} = 10</annotation></semantics></math>
+Mbps,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mrow><mi>W</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">R_{WAN} = 1</annotation></semantics></math>
+Mbps,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>l</mi><mrow><mi>L</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">l_{LAN} = 1</annotation></semantics></math>
+km,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>l</mi><mrow><mi>W</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>=</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">l_{WAN} = 1000</annotation></semantics></math>
+km,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">L = 1000</annotation></semantics></math>
+bits.
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi><mo>,</mo><mi>L</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>=</mo><mstyle displaystyle="false"><mfrac><mn>1000</mn><msup><mn>10</mn><mn>7</mn></msup></mfrac></mstyle><mo>=</mo><mn>0</mn><mo>,</mo><mn>1</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> ms</mtext></mrow><mspace width="2.0em"></mspace><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi><mo>,</mo><mi>L</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>=</mo><mstyle displaystyle="false"><mfrac><mn>1000</mn><mrow><mn>2</mn><mo>×</mo><msup><mn>10</mn><mn>8</mn></msup></mrow></mfrac></mstyle><mo>=</mo><mn>0</mn><mo>,</mo><mn>005</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> ms</mtext></mrow></mrow><annotation encoding="application/x-tex">d_{trans,LAN} = \tfrac{1000}{10^7} = 0{,}1\text{ ms} \qquad d_{prop,LAN} = \tfrac{1000}{2\times10^8} = 0{,}005\text{ ms}</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi><mo>,</mo><mi>W</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>=</mo><mstyle displaystyle="false"><mfrac><mn>1000</mn><msup><mn>10</mn><mn>6</mn></msup></mfrac></mstyle><mo>=</mo><mn>1</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> ms</mtext></mrow><mspace width="2.0em"></mspace><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi><mo>,</mo><mi>W</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>=</mo><mstyle displaystyle="false"><mfrac><msup><mn>10</mn><mn>6</mn></msup><mrow><mn>2</mn><mo>×</mo><msup><mn>10</mn><mn>8</mn></msup></mrow></mfrac></mstyle><mo>=</mo><mn>5</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> ms</mtext></mrow></mrow><annotation encoding="application/x-tex">d_{trans,WAN} = \tfrac{1000}{10^6} = 1\text{ ms} \qquad d_{prop,WAN} = \tfrac{10^6}{2\times10^8} = 5\text{ ms}</annotation></semantics></math></p>
+<p>Para cada pacote
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>:
+<strong>fim LAN</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mi>k</mi><mo>×</mo><mn>0</mn><mo>,</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">= k \times 0{,}1</annotation></semantics></math>;
+<strong>chega a R1</strong> = fim LAN
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mspace width="0.222em"></mspace><mn>0</mn><mo>,</mo><mn>005</mn></mrow><annotation encoding="application/x-tex">+\ 0{,}005</annotation></semantics></math>;
+<strong>início WAN</strong> = o <strong>máximo</strong> entre “chegou a
+R1” e “fim WAN do pacote anterior” (se a WAN está ocupada, espera na
+fila de R1); <strong>fim WAN</strong> = início
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mspace width="0.222em"></mspace><mn>1</mn></mrow><annotation encoding="application/x-tex">+\ 1</annotation></semantics></math>;
+<strong>chega a T2</strong> = fim WAN
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mspace width="0.222em"></mspace><mn>5</mn></mrow><annotation encoding="application/x-tex">+\ 5</annotation></semantics></math>.
+O início WAN do pacote 2 é máx(0,205; 1,105) = 1,105; o do 3 é
+máx(0,305; 2,105) = 2,105; o do 4 é máx(0,405; 3,105) = 3,105. Em
+ms:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Pacote</th>
+<th style="text-align: center;">Fim LAN</th>
+<th style="text-align: center;">Chega a R1</th>
+<th style="text-align: center;">Início WAN</th>
+<th style="text-align: center;">Fim WAN</th>
+<th style="text-align: center;">Chega a T2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0,1</td>
+<td style="text-align: center;">0,105</td>
+<td style="text-align: center;">0,105</td>
+<td style="text-align: center;">1,105</td>
+<td style="text-align: center;"><strong>6,105</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0,2</td>
+<td style="text-align: center;">0,205</td>
+<td style="text-align: center;">1,105</td>
+<td style="text-align: center;">2,105</td>
+<td style="text-align: center;"><strong>7,105</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">0,3</td>
+<td style="text-align: center;">0,305</td>
+<td style="text-align: center;">2,105</td>
+<td style="text-align: center;">3,105</td>
+<td style="text-align: center;"><strong>8,105</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">0,4</td>
+<td style="text-align: center;">0,405</td>
+<td style="text-align: center;">3,105</td>
+<td style="text-align: center;">4,105</td>
+<td style="text-align: center;"><strong>9,105</strong></td>
+</tr>
+</tbody>
+</table>
+<p>A partir do pacote 2, o início WAN já não é a chegada a R1: forma-se
+fila em R1, por causa do estrangulamento. Pela fórmula:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>1</mn><mo>+</mo><mn>0</mn><mo>,</mo><mn>005</mn><mo>+</mo><mn>4</mn><mo>×</mo><mn>1</mn><mo>+</mo><mn>5</mn><mo>=</mo><mrow><mn mathvariant="bold">𝟗</mn><mo mathvariant="bold">,</mo><mn mathvariant="bold">𝟏𝟎𝟓</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐦𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">0{,}1 + 0{,}005 + 4\times1 + 5 = \mathbf{9{,}105\text{ ms}}</annotation></semantics></math>,
+igual à última linha.</p>
+</div>
+<div class="exemplo">
+<p><strong>LAN como estrangulamento</strong> (capacidades trocadas:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mrow><mi>L</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">R_{LAN} = 1</annotation></semantics></math>
+Mbps,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mrow><mi>W</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">R_{WAN} = 10</annotation></semantics></math>
+Mbps). Agora
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi><mo>,</mo><mi>L</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">d_{trans,LAN} = 1</annotation></semantics></math>
+ms,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi><mo>,</mo><mi>L</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>=</mo><mn>0</mn><mo>,</mo><mn>005</mn></mrow><annotation encoding="application/x-tex">d_{prop,LAN} =
+0{,}005</annotation></semantics></math> ms,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi><mo>,</mo><mi>W</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>=</mo><mn>0</mn><mo>,</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">d_{trans,WAN} = 0{,}1</annotation></semantics></math>
+ms,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi><mo>,</mo><mi>W</mi><mi>A</mi><mi>N</mi></mrow></msub><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">d_{prop,WAN} = 5</annotation></semantics></math>
+ms. É a LAN que acumula os pacotes; a WAN escoa-os à chegada:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>t</mi><mi>o</mi><mi>t</mi><mi>a</mi><mi>l</mi></mrow></msub><mo>=</mo><mn>4</mn><mo>×</mo><mn>1</mn><mo>+</mo><mn>0</mn><mo>,</mo><mn>005</mn><mo>+</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>+</mo><mn>5</mn><mo>=</mo><mrow><mn mathvariant="bold">𝟗</mn><mo mathvariant="bold">,</mo><mn mathvariant="bold">𝟏𝟎𝟓</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐦𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">d_{total} = 4\times1 + 0{,}005 + 0{,}1 + 5 = \mathbf{9{,}105\text{ ms}}</annotation></semantics></math>
+O valor igual é coincidência destes números; o que conta é <strong>que
+ligação leva o fator 4</strong>.</p>
+</div>
+<h3 id="intensidade-de-tráfego">Intensidade de tráfego</h3>
+<div class="definicao">
+<p>Com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>
+a capacidade (b/s),
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>
+o tamanho médio dos pacotes (bits) e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>
+a taxa média de chegada (chegadas independentes), a <strong>intensidade
+de tráfego</strong> (tráfego oferecido) é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>a</mi><mi>/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">La/R</annotation></semantics></math>,
+a fração da capacidade pedida em média:</p>
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>a</mi><mi>/</mi><mi>R</mi><mo>≈</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">La/R \approx 0</annotation></semantics></math>:
+fila quase sempre vazia, espera mínima;</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>a</mi><mi>/</mi><mi>R</mi><mo>→</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">La/R \to 1</annotation></semantics></math>:
+a espera média <strong>cresce de forma explosiva</strong> (não linear):
+uma ligação a 95% tem muito mais atraso do que a 80%;</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>a</mi><mi>/</mi><mi>R</mi><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">La/R &gt; 1</annotation></semantics></math>:
+chega mais trabalho do que a ligação escoa; a espera média tende para
+<strong>infinito</strong> (com fila finita, há perdas).</li>
+</ul>
+</div>
+<h3 id="atrasos-reais-traceroute">Atrasos reais: traceroute</h3>
+<p>O <strong><code>traceroute</code></strong> mede o atraso da origem
+até cada <em>router</em> do percurso: para cada <em>router</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+envia 3 pacotes que chegam até ele; o <em>router</em> responde à origem,
+que mede o tempo de ida e volta (3 medições por salto).</p>
+<div class="exemplo">
+<p><strong>Ler um <code>traceroute</code></strong> (o dos slides, do
+DCC/FCUP para <code>www.cmu.edu</code>). Cada linha tem o número do
+salto, as 3 medições (ms) e o nome/IP do <em>router</em>.</p>
+<ul>
+<li>Os primeiros saltos (universidade, rede académica portuguesa e
+europeia) ficam em 1–6 ms: são próximos.</li>
+<li>Do salto 10 para o 11 o atraso salta de ~32 para ~102 ms: é a
+<strong>ligação trans-oceânica</strong> (fibra submarina Europa–EUA).
+Sobe a <strong>propagação</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>/</mi><mi>v</mi></mrow><annotation encoding="application/x-tex">l/v</annotation></semantics></math>),
+não o processamento nem a fila.</li>
+<li><code>*  *  *  Request timed out</code>: nenhum dos 3 pacotes teve
+resposta (o <em>router</em> não responde a estes pedidos, ou houve
+perdas). Não quer dizer que a rede esteja cortada: os saltos seguintes
+continuam a responder.</li>
+</ul>
+</div>
+<h3 id="perdas-de-pacotes">Perdas de pacotes</h3>
+<p>A fila de um <em>router</em> tem <strong>capacidade finita</strong>:
+um pacote que a encontra cheia é <strong>descartado</strong>. Um pacote
+perdido pode ser retransmitido pelo nó anterior (se a ligação o
+garantir), pelo terminal de origem (o TCP) ou não ser retransmitido de
+todo (tráfego UDP como vídeo em tempo real, em que chegar tarde não
+serve).</p>
+<h3 id="débito-throughput">Débito (throughput)</h3>
+<div class="definicao" title="Débito (throughput)">
+<p>O <strong>débito</strong> é a taxa a que os bits chegam efetivamente
+do emissor ao recetor: <strong>instantâneo</strong> (num instante) ou
+<strong>médio</strong> (num período). Como num tubo com troços de
+larguras diferentes, o débito é limitado pela <strong>ligação de
+estrangulamento</strong> (<em>bottleneck link</em>), a mais lenta do
+percurso, seja ela o acesso do servidor
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>R</mi><mi>s</mi></msub><annotation encoding="application/x-tex">R_s</annotation></semantics></math>),
+o do cliente
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>R</mi><mi>c</mi></msub><annotation encoding="application/x-tex">R_c</annotation></semantics></math>)
+ou uma ligação no meio.</p>
+</div>
+<div class="exemplo">
+<p><strong>10 conexões a partilhar um <em>backbone</em>.</strong> Cada
+conexão liga um servidor com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>s</mi></msub><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">R_s = 2</annotation></semantics></math>
+Mbps a um cliente com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>c</mi></msub><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">R_c = 2</annotation></semantics></math>
+Mbps; as 10 partilham, de forma justa, um <em>backbone</em> de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">R = 10</annotation></semantics></math>
+Mbps. Por conexão:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">min</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><msub><mi>R</mi><mi>c</mi></msub><mo>,</mo><mspace width="0.222em"></mspace><msub><mi>R</mi><mi>s</mi></msub><mo>,</mo><mspace width="0.222em"></mspace><mi>R</mi><mi>/</mi><mn>10</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mi mathvariant="normal">min</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>2</mn><mo>,</mo><mspace width="0.222em"></mspace><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mrow><mn mathvariant="bold">𝟏</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐌𝐛𝐩𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">\min(R_c,\ R_s,\ R/10) = \min(2,\ 2,\ 1) = \mathbf{1\text{ Mbps}}</annotation></semantics></math>
+O estrangulamento é o <em>backbone</em> partilhado, não os acessos.</p>
+</div>
+<p><strong>Produto largura de banda-atraso</strong> †:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>⋅</mo><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi></mrow></msub></mrow><annotation encoding="application/x-tex">R \cdot d_{prop}</annotation></semantics></math>,
+o número máximo de bits “em trânsito” na ligação, ou seja, os bits que o
+emissor já pôs na ligação quando o primeiro chega ao recetor. Ex.:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>=</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">R = 100</annotation></semantics></math>
+Mbps em ~3000 km de fibra,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>3</mn><mo>×</mo><msup><mn>10</mn><mn>6</mn></msup><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo>×</mo><msup><mn>10</mn><mn>8</mn></msup><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0</mn><mo>,</mo><mn>015</mn></mrow><annotation encoding="application/x-tex">d_{prop} = 3\times10^6 / (2\times10^8) = 0{,}015</annotation></semantics></math>
+s:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>⋅</mo><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>100</mn><mo>×</mo><msup><mn>10</mn><mn>6</mn></msup><mo>×</mo><mn>0</mn><mo>,</mo><mn>015</mn><mo>=</mo><mn>1</mn><mo>,</mo><mn>5</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Mbit</mtext></mrow></mrow><annotation encoding="application/x-tex">R\cdot d_{prop} = 100\times10^6 \times 0{,}015 = 1{,}5\text{ Mbit}</annotation></semantics></math>
+Mais tarde dimensiona a janela do TCP (quanto enviar sem esperar
+confirmações para “encher o tubo”).</p>
+<h2 id="camadas-protocolares-e-modelos-de-serviço">Camadas protocolares
+e modelos de serviço</h2>
+<p>Uma rede tem muitas peças (terminais, <em>routers</em>, ligações,
+aplicações, protocolos, hardware, software). Para tornar isso tratável,
+organiza-se em <strong>camadas</strong>: cada camada usa só o serviço da
+camada de baixo.</p>
+<div class="exemplo">
+<p><strong>Analogia da roupa:</strong> fibras → fabrico das peças →
+<em>design</em>, <em>branding</em> e controlo de qualidade → venda a
+retalho → cliente. A loja não precisa de saber como se produzem as
+fibras, só que a fábrica lhe entrega as peças.</p>
+</div>
+<p>As camadas dão um <strong>modelo de referência</strong> para discutir
+o sistema (todos sabem o que é “a camada de transporte”) e
+<strong>modularidade</strong>: mudar a <strong>implementação</strong> de
+uma camada não afeta o resto, desde que o <strong>serviço</strong> que
+presta se mantenha.</p>
+<div class="definicao" title="As 5 camadas da pilha da Internet">
+<p>De cima para baixo:</p>
+<ol type="1">
+<li><strong>Aplicação:</strong> as aplicações em rede (FTP, SMTP,
+HTTP).</li>
+<li><strong>Transporte:</strong> dados entre <strong>processos</strong>
+(TCP, UDP).</li>
+<li><strong>Rede:</strong> encaminhamento dos
+<strong>datagramas</strong> da origem ao destino (IP e protocolos de
+encaminhamento).</li>
+<li><strong>Ligação de dados:</strong> dados entre elementos
+<strong>vizinhos</strong> (terminal e <em>switch</em>, dois
+<em>routers</em>): Ethernet, WiFi, PPP.</li>
+<li><strong>Física:</strong> os sinais no meio que representam os
+bits.</li>
+</ol>
+</div>
+<p>O <strong>modelo ISO/OSI</strong> tem <strong>7 camadas</strong>: as
+mesmas 5 e mais duas entre a aplicação e o transporte. A
+<strong>apresentação</strong> deixa as aplicações interpretar os dados
+(compressão, cifragem, representação de números e texto); a
+<strong>sessão</strong> trata de autenticação, sincronização,
+<em>checkpointing</em> e recuperação. <strong>A pilha da Internet não
+tem estas duas camadas:</strong> se uma aplicação precisar desses
+serviços (ex.: cifrar, como o HTTPS), implementa-os <strong>dentro da
+camada de aplicação</strong>. Por isso a aplicação da Internet não
+corresponde um-para-um à do OSI.</p>
+<h3 id="encapsulamento">Encapsulamento</h3>
+<p>Ao descer a pilha na origem, cada camada junta o seu
+<strong>cabeçalho</strong> aos dados da camada de cima
+(<strong>encapsulamento</strong>); no destino, cada camada tira o seu
+antes de entregar à de cima.</p>
+<p><img src="assets/guia-redes/encapsulamento.svg" /></p>
+<div class="exemplo">
+<p><strong>Uma mensagem pela rede.</strong> A aplicação entrega a
+<strong>mensagem</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>
+ao transporte, que junta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>t</mi></msub><annotation encoding="application/x-tex">C_t</annotation></semantics></math>
+(ex.: as portas TCP) e forma o <strong>segmento</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mi>t</mi></msub><mi>M</mi></mrow><annotation encoding="application/x-tex">C_t M</annotation></semantics></math>.
+A rede junta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>n</mi></msub><annotation encoding="application/x-tex">C_n</annotation></semantics></math>
+(os IPs de origem e destino): <strong>datagrama</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mi>n</mi></msub><msub><mi>C</mi><mi>t</mi></msub><mi>M</mi></mrow><annotation encoding="application/x-tex">C_n C_t M</annotation></semantics></math>.
+A ligação junta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>l</mi></msub><annotation encoding="application/x-tex">C_l</annotation></semantics></math>
+(os endereços MAC): <strong>trama</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mi>l</mi></msub><msub><mi>C</mi><mi>n</mi></msub><msub><mi>C</mi><mi>t</mi></msub><mi>M</mi></mrow><annotation encoding="application/x-tex">C_l C_n C_t M</annotation></semantics></math>,
+enviada pela camada física.</p>
+<p>Cada dispositivo só abre os cabeçalhos da sua camada. Um
+<strong>switch</strong> (ligação de dados) só lê
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>l</mi></msub><annotation encoding="application/x-tex">C_l</annotation></semantics></math>
+para escolher a porta física; nunca vê o IP. Um <strong>router</strong>
+(rede) tira
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>l</mi></msub><annotation encoding="application/x-tex">C_l</annotation></semantics></math>,
+lê <strong>só
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>n</mi></msub><annotation encoding="application/x-tex">C_n</annotation></semantics></math></strong>
+(o IP de destino; não olha para o cabeçalho de transporte
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>t</mi></msub><annotation encoding="application/x-tex">C_t</annotation></semantics></math>),
+escolhe a ligação de saída e <strong>volta a encapsular</strong> numa
+trama nova, com o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>C</mi><mi>l</mi></msub><annotation encoding="application/x-tex">C_l</annotation></semantics></math>
+da ligação seguinte. Por isso os MAC mudam a cada salto e os IP se
+mantêm do início ao fim. No destino, os cabeçalhos saem um a um (ligação
+→ rede → transporte) até restar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>.</p>
+</div>
+<h1 id="aula-2-camada-de-aplicação">Aula 2 — Camada de aplicação</h1>
+<h2 id="princípios-das-aplicações-em-rede">Princípios das aplicações em
+rede</h2>
+<p>Aplicações em rede: e-mail, Web, mensagens instantâneas, terminal
+remoto, P2P, jogos, <em>streaming</em>, VoIP, videoconferência,
+computação <em>grid</em>, redes sociais. Criar uma é escrever programas
+que <strong>correm nos terminais</strong> e comunicam pela rede. Os
+<em>routers</em> não correm aplicações (só implementam a rede e as
+camadas abaixo), por isso uma aplicação nova <strong>desenvolve-se e
+divulga-se depressa</strong>: não é preciso mudar o núcleo da rede.</p>
+<h3 id="arquiteturas-das-aplicações">Arquiteturas das aplicações</h3>
+<p>Há três: <strong>cliente-servidor</strong>,
+<strong><em>peer-to-peer</em> (P2P)</strong> e
+<strong>híbridas</strong>.</p>
+<div class="definicao" title="Cliente-servidor">
+<p><strong>Servidor:</strong> <strong>sempre ligado</strong>, com
+<strong>IP fixo</strong>; para escalar replica-se em vários servidores,
+o que tem <strong>custo</strong>.</p>
+<p><strong>Cliente:</strong> comunica com o servidor; <strong>pode não
+estar sempre ligado</strong> e ter <strong>IP dinâmico</strong>;
+<strong>não comunica diretamente com outros clientes</strong>. Ex.:
+browser e servidor Web; cliente e servidor de email.</p>
+</div>
+<div class="definicao" title="P2P pura">
+<ul>
+<li><strong>Não há servidores dedicados</strong>: os terminais comunicam
+<strong>diretamente</strong>, cada um ora cliente, ora servidor.</li>
+<li>Os pares <strong>podem não estar sempre ligados</strong> e
+<strong>mudar de IP</strong>.</li>
+<li><strong>Muito escalável</strong>: cada par novo traz
+<strong>procura</strong> mas também <strong>oferta</strong> (serve
+ficheiros aos outros).</li>
+<li><strong>Difícil de gerir</strong>, porque os pares são
+intermitentes.</li>
+</ul>
+</div>
+<div class="definicao" title="Híbridas">
+<ul>
+<li><strong>BitTorrent</strong>: um <strong>servidor central
+(<em>tracker</em>)</strong> diz que pares têm o ficheiro; os pedaços
+trocam-se <strong>diretamente entre pares</strong>.</li>
+<li><strong>Mensagens instantâneas</strong>: as mensagens vão
+<strong>diretamente</strong> entre utilizadores, mas há um
+<strong>serviço central</strong> de presença e localização (cada
+utilizador regista lá o seu IP e consulta o dos contactos).</li>
+</ul>
+</div>
+<h3 id="processos-endereçamento-e-sockets">Processos, endereçamento e
+sockets</h3>
+<div class="definicao" title="Processos cliente e servidor">
+<p>Um <strong>processo</strong> é um programa a correr. Na
+<strong>mesma</strong> máquina, os processos comunicam por IPC do
+sistema operativo; em máquinas <strong>diferentes</strong>,
+<strong>trocando mensagens</strong> pela rede. O
+<strong>cliente</strong> é o processo que <strong>inicia</strong> a
+comunicação; o <strong>servidor</strong> é o que <strong>espera</strong>
+ser contactado. No P2P cada processo é os dois.</p>
+</div>
+<div class="definicao" title="Endereçamento de processos">
+<p>O <strong>IP</strong> (32 bits) identifica a máquina, mas não chega,
+porque nela correm muitos processos. O identificador é o par
+<strong>(endereço IP, porta)</strong>. Ex.: servidor <strong>HTTP:
+80</strong>; <strong>email: 25</strong>. Um pedido HTTP a
+<code>www.dcc.fc.up.pt</code> vai para 193.136.39.12, porta 80.</p>
+</div>
+<div class="definicao" title="Socket">
+<p>A <strong>socket</strong> é a “porta” entre o processo e o protocolo
+de transporte. Escrever nela é pedir ao sistema operativo que envie a
+mensagem; o processo <strong>assume que há uma infraestrutura de
+transporte</strong> que a leva até à socket do recetor.
+<strong>Acima</strong> da socket manda o <strong>programador</strong>;
+<strong>abaixo</strong> (TCP/UDP, <em>buffers</em>, variáveis) manda o
+<strong>sistema operativo</strong>. A API deixa <strong>escolher o
+protocolo de transporte</strong> e <strong>ajustar alguns
+parâmetros</strong>.</p>
+</div>
+<div class="definicao" title="Protocolo de aplicação">
+<p>Define os <strong>tipos de mensagens</strong> (pedido, resposta), a
+<strong>sintaxe</strong> (que campos e como se separam), a
+<strong>semântica</strong> (o que significa cada campo) e as
+<strong>regras</strong> de quando e como os processos reagem. Os
+<strong>protocolos de domínio público</strong> estão em
+<strong>RFCs</strong> e permitem <strong>interoperação</strong> (HTTP,
+SMTP); os <strong>proprietários</strong> só estão acessíveis a quem o
+detentor quiser (ex.: Zoom).</p>
+</div>
+<h3 id="que-serviço-de-transporte-precisa-uma-aplicação">Que serviço de
+transporte precisa uma aplicação</h3>
+<p>As aplicações diferem em <strong>perdas</strong> (umas toleram, como
+o áudio; outras exigem 100% de fiabilidade, como a transferência de
+ficheiros), <strong>latência</strong> (VoIP e jogos precisam de atraso
+baixo), <strong>débito</strong> (a multimédia precisa de um mínimo; as
+<strong>elásticas</strong> usam o que houver) e
+<strong>segurança</strong> (integridade, privacidade, autenticação).</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 16%" />
+<col style="width: 34%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Aplicação</th>
+<th style="text-align: left;">Perdas</th>
+<th style="text-align: left;">Débito</th>
+<th style="text-align: left;">Sensível aos atrasos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">transferência de ficheiros</td>
+<td style="text-align: left;">não tolera</td>
+<td style="text-align: left;">elástica</td>
+<td style="text-align: left;">não</td>
+</tr>
+<tr>
+<td style="text-align: left;">e-mail</td>
+<td style="text-align: left;">não tolera</td>
+<td style="text-align: left;">elástica</td>
+<td style="text-align: left;">não</td>
+</tr>
+<tr>
+<td style="text-align: left;">web</td>
+<td style="text-align: left;">não tolera</td>
+<td style="text-align: left;">elástica</td>
+<td style="text-align: left;">não</td>
+</tr>
+<tr>
+<td style="text-align: left;">áudio/vídeo em tempo real</td>
+<td style="text-align: left;">tolera</td>
+<td style="text-align: left;">áudio 5 kbps–1 Mbps; vídeo 10 kbps–5
+Mbps</td>
+<td style="text-align: left;">sim, centenas de ms</td>
+</tr>
+<tr>
+<td style="text-align: left;">áudio/vídeo armazenado</td>
+<td style="text-align: left;">tolera</td>
+<td style="text-align: left;">idem</td>
+<td style="text-align: left;">sim, alguns segundos</td>
+</tr>
+<tr>
+<td style="text-align: left;">jogos interativos</td>
+<td style="text-align: left;">tolera</td>
+<td style="text-align: left;">desde alguns kbps</td>
+<td style="text-align: left;">sim, centenas de ms</td>
+</tr>
+<tr>
+<td style="text-align: left;">mensagens instantâneas</td>
+<td style="text-align: left;">não tolera</td>
+<td style="text-align: left;">elástica</td>
+<td style="text-align: left;">parcialmente</td>
+</tr>
+</tbody>
+</table>
+<h3 id="serviços-de-transporte-da-internet-tcp-e-udp">Serviços de
+transporte da Internet: TCP e UDP</h3>
+<div class="definicao"
+title="TCP (Transmission Control Protocol, RFC 793)">
+<ul>
+<li><strong>Orientado a conexões</strong>: exige <strong>estabelecimento
+prévio</strong> da conexão (<em>handshaking</em>, que cria estado nos
+dois lados).</li>
+<li><strong>Fiável</strong>: nada se perde (as perdas são
+retransmitidas) e os dados chegam <strong>por ordem</strong>, como um
+<strong>fluxo de bytes</strong> (<em>byte-stream</em>).</li>
+<li><strong>Controlo de fluxo</strong>: não envia mais depressa do que o
+recetor processa.</li>
+<li><strong>Controlo de congestionamento</strong>: <strong>reduz o
+débito</strong> quando a rede está sobrecarregada.</li>
+<li><strong>Não tem</strong>: <strong>delineação de mensagens</strong>
+(a aplicação tem de saber onde acaba cada uma), <strong>garantias de
+atraso máximo</strong> nem de <strong>débito mínimo</strong>.</li>
+</ul>
+</div>
+<div class="definicao" title="UDP (User Datagram Protocol, RFC 768)">
+<ul>
+<li><strong>Não fiável</strong>: os dados podem perder-se e não são
+retransmitidos.</li>
+<li><strong>Delineação de mensagens</strong>: <strong>um datagrama é uma
+mensagem</strong>.</li>
+<li><strong>Não tem</strong>: conexão, fiabilidade, controlo de fluxo
+nem de congestionamento, garantias de atraso ou débito.</li>
+</ul>
+</div>
+<p>Nem todas as aplicações precisam das garantias do TCP, que custam
+<strong>atraso</strong> (<em>handshake</em>, retransmissões, controlo de
+fluxo e de congestionamento). Numa chamada de voz, esperar 200 ms por
+uma retransmissão é pior do que perder o pacote, e por isso usa-se UDP
+†. <strong>Nenhum</strong> dos dois garante atraso ou débito.</p>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 51%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Aplicação</th>
+<th style="text-align: left;">Protocolo de aplicação</th>
+<th style="text-align: left;">Transporte</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">e-mail</td>
+<td style="text-align: left;">SMTP [RFC 2821]</td>
+<td style="text-align: left;">TCP</td>
+</tr>
+<tr>
+<td style="text-align: left;">terminal remoto</td>
+<td style="text-align: left;">Telnet [RFC 854]</td>
+<td style="text-align: left;">TCP</td>
+</tr>
+<tr>
+<td style="text-align: left;">web</td>
+<td style="text-align: left;">HTTP [RFC 2616]</td>
+<td style="text-align: left;">TCP</td>
+</tr>
+<tr>
+<td style="text-align: left;">transferência de ficheiros</td>
+<td style="text-align: left;">FTP [RFC 959]</td>
+<td style="text-align: left;">TCP</td>
+</tr>
+<tr>
+<td style="text-align: left;"><em>streaming</em> multimédia</td>
+<td style="text-align: left;">HTTP (ex.: YouTube), RTP [RFC 1889]</td>
+<td style="text-align: left;">TCP ou UDP</td>
+</tr>
+<tr>
+<td style="text-align: left;">voz sobre IP</td>
+<td style="text-align: left;">SIP, RTP, proprietários (ex.: Zoom)</td>
+<td style="text-align: left;">tipicamente UDP</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Segurança: TLS.</strong> O TCP e o UDP <strong>não
+cifram</strong>: as <em>passwords</em> em texto claro
+(<em>cleartext</em>) ficam <strong>visíveis</strong> a quem capturar os
+pacotes (vê-se na captura FTP, mais à frente). O
+<strong>SSL/TLS</strong> junta <strong>cifragem</strong>,
+<strong>integridade</strong> e <strong>autenticação das
+extremidades</strong> (com <strong>certificados</strong>). Funciona
+<strong>na camada de aplicação</strong>: é uma biblioteca que a
+aplicação usa sobre o TCP, com uma API de sockets própria. <strong>O SSL
+está obsoleto, substituído pelo TLS.</strong></p>
+<h2 id="web-e-http">Web e HTTP</h2>
+<p>Uma <strong>página web</strong> é um <strong>ficheiro-base
+HTML</strong> que referencia <strong>objetos</strong> (HTML, imagens
+JPEG, sons, vídeos…). Cada objeto tem um <strong>URL</strong>:</p>
+<pre><code>http://www.dcc.fc.up.pt/~rprior/photo.jpg
+------ ---------------- -----------------
+protocolo   servidor         caminho</code></pre>
+<div class="definicao" title="HTTP (HyperText Transfer Protocol)">
+<p>O protocolo da Web, <strong>cliente/servidor</strong>: o
+<strong>cliente</strong> (browser) pede, recebe e mostra os objetos; o
+<strong>servidor</strong> (ex.: Apache) envia-os. Versões: HTTP/1.0 (RFC
+1945), HTTP/1.1 (RFC 2068), HTTP/2 (RFC 9113), HTTP/3 (RFC 9114).</p>
+<p><strong>Usa TCP</strong>: o cliente abre uma conexão para a
+<strong>porta 80</strong>, o servidor aceita, trocam mensagens HTTP, a
+conexão fecha.</p>
+<p><strong>É <em>stateless</em></strong>: o servidor <strong>não guarda
+nada</strong> sobre pedidos anteriores. É uma vantagem: um protocolo com
+estado precisa de memória para ele e, se um dos lados for abaixo, as
+duas visões do estado ficam <strong>inconsistentes</strong> e têm de ser
+ressincronizadas.</p>
+</div>
+<h3 id="conexões-não-persistentes-e-persistentes">Conexões não
+persistentes e persistentes</h3>
+<div class="definicao" title="Persistência das conexões">
+<ul>
+<li><strong>Não persistente</strong> (HTTP/1.0): <strong>um
+objeto</strong> por conexão TCP.</li>
+<li><strong>Persistente</strong> (normal no HTTP/1.1): <strong>vários
+objetos na mesma conexão</strong>. Por isso cada mensagem tem de dizer
+onde acaba (<code>Content-Length</code>, abaixo).</li>
+</ul>
+<p><strong>Quem decide</strong> †: no <strong>HTTP/1.0</strong> o
+servidor <strong>fecha</strong> depois da resposta, a não ser que o
+cliente peça <code>Connection: keep-alive</code> e o servidor aceite. No
+<strong>HTTP/1.1</strong> a conexão fica <strong>aberta</strong> por
+omissão (até um <em>timeout</em>), e quem quiser fechar envia
+<code>Connection: close</code> (o servidor responde e fecha).</p>
+</div>
+<div class="exemplo"
+title="HTTP não persistente, passo a passo (slides)">
+<p>O utilizador escreve
+<code>www.dcc.fc.up.pt/~rprior/homepage/index.html</code> (texto e 10
+imagens JPEG).</p>
+<ol type="1">
+<li><strong>(1a)</strong> O cliente abre uma conexão TCP para a porta 80
+de <code>www.dcc.fc.up.pt</code>. <strong>(1b)</strong> O servidor, à
+escuta na porta 80, aceita e avisa o cliente.</li>
+<li>Pela socket, o cliente envia uma <strong>mensagem de pedido</strong>
+com o URL do objeto.</li>
+<li>O servidor recebe o pedido, gera a <strong>mensagem de
+resposta</strong> com o objeto e envia-a pela sua socket.</li>
+<li>O servidor <strong>fecha a conexão TCP</strong>.</li>
+<li>O cliente recebe o HTML, mostra-o e encontra as 10 referências.</li>
+<li>Os passos 1–5 <strong>repetem-se para cada imagem</strong>.</li>
+</ol>
+</div>
+<div class="definicao" title="RTT e tempo de resposta">
+<p><strong>RTT</strong> (<em>round-trip time</em>): ida e volta de um
+<strong>pequeno pacote</strong> entre cliente e servidor. Um objeto em
+HTTP não persistente custa <strong>1 RTT</strong> para abrir a conexão
+TCP, <strong>1 RTT</strong> para o pedido e os primeiros bytes da
+resposta, e o <strong>tempo de transmissão</strong> do ficheiro:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">total</mtext><mo>=</mo><mn>2</mn><mspace width="0.167em"></mspace><mtext mathvariant="normal">RTT</mtext><mo>+</mo><mtext mathvariant="normal">tempo de transmissão</mtext></mrow><annotation encoding="application/x-tex">\text{total} = 2\,\text{RTT} + \text{tempo de transmissão}</annotation></semantics></math></p>
+</div>
+<p>O HTTP não persistente custa <strong>2 RTT por objeto</strong> e uma
+conexão TCP (com o seu <em>overhead</em> no sistema operativo) por
+objeto. Os browsers compensam com <strong>várias conexões TCP em
+paralelo</strong>.</p>
+<div class="definicao" title="HTTP persistente, com e sem pipelining">
+<p>O servidor deixa a conexão <strong>aberta</strong> e os pedidos
+seguintes usam-na.</p>
+<ul>
+<li><strong>Sem <em>pipelining</em></strong>: um pedido novo só depois
+da resposta anterior: <strong>1 RTT por objeto</strong>
+referenciado.</li>
+<li><strong>Com <em>pipelining</em></strong> (o padrão do HTTP/1.1):
+cada pedido sai <strong>logo que se encontra a referência</strong>:
+<strong>1 RTT para todos</strong> os objetos referenciados.</li>
+</ul>
+</div>
+<div class="exemplo"
+title="Quantos RTTs para uma página com 10 imagens? †">
+<p>1 HTML + 10 imagens, ignorando o tempo de transmissão:</p>
+<ul>
+<li><strong>Não persistente, em série</strong>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mo>×</mo><mn>2</mn><mo>=</mo><mrow><mn mathvariant="bold">𝟐𝟐</mn><mspace width="0.222em"></mspace><mi mathvariant="bold-italic">𝑹</mi><mi mathvariant="bold-italic">𝑻</mi><mi mathvariant="bold-italic">𝑻</mi></mrow></mrow><annotation encoding="application/x-tex">11 \times 2 = \mathbf{22\ RTT}</annotation></semantics></math>.</li>
+<li><strong>Persistente sem <em>pipelining</em></strong>: 2 RTT até ao
+HTML (conexão + pedido), depois 1 RTT por imagem:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>+</mo><mn>10</mn><mo>=</mo><mrow><mn mathvariant="bold">𝟏𝟐</mn><mspace width="0.222em"></mspace><mi mathvariant="bold-italic">𝑹</mi><mi mathvariant="bold-italic">𝑻</mi><mi mathvariant="bold-italic">𝑻</mi></mrow></mrow><annotation encoding="application/x-tex">2 + 10 = \mathbf{12\ RTT}</annotation></semantics></math>.</li>
+<li><strong>Persistente com <em>pipelining</em></strong>: 2 RTT até ao
+HTML, e os 10 pedidos seguem juntos, com as respostas ao fim de mais 1
+RTT:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>+</mo><mn>1</mn><mo>=</mo><mrow><mn mathvariant="bold">𝟑</mn><mspace width="0.222em"></mspace><mi mathvariant="bold-italic">𝑹</mi><mi mathvariant="bold-italic">𝑻</mi><mi mathvariant="bold-italic">𝑻</mi></mrow></mrow><annotation encoding="application/x-tex">2 + 1 = \mathbf{3\ RTT}</annotation></semantics></math>.</li>
+</ul>
+<p>Com tempo de transmissão
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>
+por objeto soma-se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11</mn><mi>T</mi></mrow><annotation encoding="application/x-tex">11T</annotation></semantics></math>
+nos três casos (os objetos passam todos pela mesma ligação). A figura
+mostra 1 HTML + 2 imagens (6, 4 e 3 RTT):</p>
+<p><img src="assets/guia-redes/http_persistencia.svg" /></p>
+</div>
+<h3 id="formato-das-mensagens-http">Formato das mensagens HTTP</h3>
+<p>Há mensagens de <strong>pedido</strong> e de
+<strong>resposta</strong>, ambas em <strong>ASCII</strong>.</p>
+<div class="definicao" title="Pedido HTTP">
+<pre><code>GET /~rprior/index.html HTTP/1.1      &lt;- linha de pedido
+Host: www.dcc.fc.up.pt                &lt;- linhas de cabeçalho
+User-agent: Mozilla/4.0
+Accept: text/html, */*;q=0.9
+Accept-language: pt
+                                      &lt;- linha vazia: fim da mensagem</code></pre>
+<p><strong>Linha de pedido</strong> (<code>método URL versão</code> + CR
+LF); <strong>cabeçalhos</strong> (<code>nome: valor</code> + CR LF, um
+por linha); <strong>linha vazia</strong> (CR LF extra, fim dos
+cabeçalhos); <strong>corpo</strong> opcional (ex.: no
+<code>POST</code>). No <strong>HTTP/1.1 o <code>Host:</code> é
+obrigatório</strong> (o mesmo IP serve vários sites); sem ele vem
+<code>400 Bad Request</code>. No 1.0 é opcional †.</p>
+</div>
+<div class="definicao" title="Métodos HTTP">
+<p><strong>HTTP/1.0:</strong> <strong>GET</strong> (pede um recurso),
+<strong>POST</strong> (envia dados para processar, no corpo),
+<strong>HEAD</strong> (pede <strong>só os cabeçalhos</strong> da
+resposta). <strong>HTTP/1.1</strong> junta <strong>PUT</strong>
+(<em>upload</em> de um ficheiro para o URL) e <strong>DELETE</strong>
+(apaga o ficheiro do URL).</p>
+</div>
+<div class="definicao" title="Resposta HTTP">
+<pre><code>HTTP/1.1 200 OK                          &lt;- linha de estado
+Date: Thu, 06 Aug 1998 12:00:15 GMT      &lt;- cabeçalhos
+Server: Apache/1.3.0 (Unix)
+Last-Modified: Mon, 22 Jun 1998 ...
+Content-Length: 6821                     &lt;- para saber onde acaba a mensagem
+Content-Type: text/html
+                                         &lt;- linha vazia
+dados dados dados ...                    &lt;- o objeto (ex.: o ficheiro HTML)</code></pre>
+<p>A <strong>linha de estado</strong> tem o código e a descrição:
+<strong>200 OK</strong> (o objeto vem a seguir); <strong>301 Moved
+Permanently</strong> (novo URL no <code>Location:</code>); <strong>400
+Bad Request</strong>; <strong>404 Not Found</strong>; <strong>505 HTTP
+Version Not Supported</strong>.</p>
+<p><strong><code>Content-Length</code></strong>: numa conexão
+persistente as respostas seguem umas atrás das outras e o TCP
+<strong>não delimita mensagens</strong>. O cliente lê os cabeçalhos até
+à linha vazia e depois exatamente <code>Content-Length</code> bytes (ou
+usa <code>Transfer-Encoding: chunked</code> †): aí começa a resposta
+seguinte.</p>
+</div>
+<h3 id="uma-sessão-http-real">Uma sessão HTTP real</h3>
+<p>Os slides sugerem experimentar o HTTP <strong>à mão</strong> com
+<code>telnet</code> (ligar à porta 80 e escrever o pedido) ou ver o que
+o browser envia com o <strong>Wireshark</strong>. A captura do professor
+está em <code>Teoricas/Aula_03_captura_http.cap</code>.</p>
+<p><strong>O <code>telnet</code> como cliente TCP genérico</strong> †. O
+<code>telnet</code> é o cliente do protocolo <strong>TELNET</strong>
+(RFC 854, porta 23) de <strong>terminal remoto</strong>: abre uma linha
+de comandos numa máquina remota
+(<code>telnet &lt;máquina&gt; [porta]</code>). Está
+<strong>obsoleto</strong> para isso porque envia tudo,
+<em>passwords</em> incluídas, <strong>em texto claro</strong>; usa-se o
+<strong>SSH</strong>, que cifra. Por dentro, abre uma <strong>conexão
+TCP</strong> (uma socket cliente, como o <code>TCPClient</code> mais à
+frente) e fica num ciclo: o que se escreve é <strong>enviado pela
+socket</strong> (com CR LF no fim da linha) e o que chega é
+<strong>mostrado no ecrã</strong>. Na porta 23 negoceia também opções do
+terminal (comandos que começam pelo byte 255, <code>IAC</code>); nas
+outras é só um “tubo” de texto. Como HTTP, SMTP, FTP e POP3 são
+protocolos <strong>de texto</strong> sobre TCP, com ele “fazemos de
+browser”: escrevemos os pedidos e vemos as respostas em bruto. No macOS:
+<code>brew install telnet</code>, ou <code>nc</code>
+(<code>nc -c neverssl.com 80</code> envia CR LF no fim de cada linha).
+Com <strong>TLS</strong> usa-se <code>gnutls-cli</code> ou
+<code>openssl s_client</code> (ver “Correio eletrónico”).</p>
+<div class="exemplo" title="Primeiro pedido e resposta da captura">
+<p>O Firefox (192.168.50.41) liga-se à porta 80 de
+<code>www.dcc.fc.up.pt</code> (10.0.0.251) e envia:</p>
+<pre><code>GET /~rprior/ HTTP/1.1
+Host: www.dcc.fc.up.pt
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:32.0) ... Firefox/32.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive</code></pre>
+<p>Cabeçalhos da resposta (o HTML vem a seguir):</p>
+<pre><code>HTTP/1.1 200 OK
+Date: Mon, 13 Oct 2014 17:32:24 GMT
+Server: Apache/2.2.14 (Mandriva Linux/PREFORK-1.4mdv2010.0)
+Last-Modified: Mon, 17 Sep 2012 19:11:08 GMT
+Content-Length: 2144
+Keep-Alive: timeout=5, max=100
+Connection: Keep-Alive
+Content-Type: text/html</code></pre>
+<ul>
+<li><code>Host:</code> diz que site se pede (o servidor pode ter
+vários).</li>
+<li><code>Connection: keep-alive</code>: o browser pede uma
+<strong>conexão persistente</strong>, e o servidor aceita
+(<code>Connection: Keep-Alive</code>).</li>
+<li><code>Keep-Alive: timeout=5, max=100</code> †: o servidor fecha ao
+fim de 5 s sem pedidos, ou depois de mais 100 pedidos.</li>
+<li><code>Content-Length: 2144</code>: o HTML tem 2144 bytes; é assim
+que o browser sabe onde acaba.</li>
+</ul>
+</div>
+<p><strong>Conexões TCP no Wireshark</strong> †. Basta isto, antes de
+dar o TCP (Cap. 3):</p>
+<ul>
+<li>cada conexão é identificada pelo <strong>par de portas</strong> (a
+do cliente muda de conexão para conexão; a do servidor é 80, 21,
+25…);</li>
+<li><strong>abre</strong> com um <strong>SYN</strong> do cliente (o
+servidor responde SYN-ACK) e <strong>fecha</strong> com um
+<strong>FIN</strong> de cada lado. O filtro
+<code>tcp.flags.syn==1 &amp;&amp; tcp.flags.ack==0</code> mostra só as
+aberturas;</li>
+<li><em>Statistics
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+Conversations
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+TCP</em> lista as conexões, com início e duração; <em>Follow
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+TCP Stream</em> (botão direito num pacote) mostra o diálogo de
+texto;</li>
+<li>duas conexões são <strong>simultâneas</strong> se o SYN de uma chega
+antes do FIN da outra; uma conexão é <strong>persistente</strong> se
+leva <strong>mais do que um pedido</strong> antes do FIN.</li>
+</ul>
+<h3 id="http2-e-http3">HTTP/2 e HTTP/3</h3>
+<div class="definicao" title="Limitações do HTTP/1.1: bloqueio HOL">
+<p>Mesmo persistente e com <em>pipelining</em>, o HTTP/1.1 entrega os
+objetos <strong>pela ordem dos pedidos</strong>: um objeto
+<strong>grande</strong> atrasa os que vêm depois (<strong>bloqueio
+<em>head-of-line</em>, HOL</strong>), e a <strong>recuperação de
+perdas</strong> do TCP atrasa <strong>todos</strong>. Ex.: pede-se O1
+(grande) e depois O2, O3, O4 (pequenos); estes <strong>esperam</strong>
+que O1 acabe.</p>
+</div>
+<div class="definicao" title="HTTP/2">
+<p>Mantém os <strong>métodos, códigos e semântica</strong> do HTTP/1.1,
+mas:</p>
+<ul>
+<li>usa <strong>codificação binária</strong> e <strong>multiplexa os
+objetos</strong>: cada objeto divide-se em <strong>tramas</strong>, e as
+tramas dos vários objetos vão <strong>intercaladas</strong>. O2, O3 e O4
+chegam sem esperar por O1: <strong>acaba o bloqueio HOL</strong>;</li>
+<li>permite <strong>priorizar objetos</strong> (ex.: as imagens visíveis
+antes das de baixo);</li>
+<li>tem <strong><em>server push</em></strong>: o servidor envia objetos
+<strong>não pedidos</strong> (ex.: o CSS, que vai ser pedido de
+certeza).</li>
+</ul>
+</div>
+<div class="definicao" title="HTTP/3 e QUIC">
+<p>Problemas que o HTTP/2 mantém: com <strong>uma só conexão
+TCP</strong>, uma perda <strong>atrasa todos os objetos</strong> (o TCP
+entrega por ordem), o que leva a usar conexões paralelas e dificulta o
+controlo de congestionamento; e a <strong>segurança custa um RTT a
+mais</strong> (<em>handshake</em> TCP e depois o do TLS).</p>
+<p>O <strong>HTTP/3</strong> usa o <strong>QUIC</strong> (<em>Quick UDP
+Internet Connections</em>): <strong>implementado na camada de aplicação,
+sobre UDP</strong>, com recuperação de erros e controlo de
+congestionamento <strong>próprios</strong>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;">HTTP/2 sobre TCP</th>
+<th style="text-align: left;">HTTP/3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Aplicação</td>
+<td style="text-align: left;">HTTP/2 + TLS</td>
+<td style="text-align: left;">HTTP/2 (simplificado) + QUIC</td>
+</tr>
+<tr>
+<td style="text-align: left;">Transporte</td>
+<td style="text-align: left;">TCP</td>
+<td style="text-align: left;">UDP</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rede</td>
+<td style="text-align: left;">IP</td>
+<td style="text-align: left;">IP</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Conexão</strong>: TCP+TLS são <strong>2 <em>handshakes</em>
+em sequência</strong> (TCP para a fiabilidade e o congestionamento, TLS
+para autenticação e cifragem); o QUIC faz <strong>1 para
+tudo</strong>.</li>
+<li><strong>0-RTT</strong>: no fim da primeira conexão o servidor envia
+um <strong><em>ticket</em> de sessão TLS</strong>, que o cliente guarda.
+Na conexão seguinte, com ele, o cliente <strong>envia dados logo no
+primeiro pacote</strong>.</li>
+</ul>
+</div>
+<h3 id="web-caches-servidores-proxy">Web caches (servidores
+<em>proxy</em>)</h3>
+<div class="definicao" title="Web cache (proxy)">
+<p>Objetivo: <strong>responder sem ir ao servidor original</strong>. O
+browser é configurado para enviar <strong>todos</strong> os pedidos ao
+<em>proxy</em>; se o objeto está em <em>cache</em>, o <em>proxy</em>
+devolve-o; senão, pede-o ao servidor original, devolve-o e
+<strong>guarda uma cópia</strong>.</p>
+<p>O <em>proxy</em> é <strong>cliente e servidor</strong> (servidor do
+browser, cliente do servidor original). É instalado por uma organização
+(universidade, empresa, ISP), que o pode usar para <strong>registar ou
+filtrar</strong> pedidos. O browser também tem <em>cache</em>.</p>
+</div>
+<p><strong>Porquê:</strong> menos <strong>tempo de resposta</strong>,
+menos <strong>tráfego</strong> no acesso da organização à Internet e,
+com muitas <em>caches</em>, até servidores fracos aguentam, porque os
+<strong>acessos repetidos</strong> são servidos pelas
+<em>caches</em>.</p>
+<h2 id="ftp">FTP</h2>
+<div class="definicao" title="FTP (File Transfer Protocol, RFC 959)">
+<p>Transfere ficheiros <strong>de/para</strong> uma máquina remota,
+cliente/servidor: o <strong>cliente</strong> desencadeia a transferência
+(em qualquer sentido); o <strong>servidor</strong> é a máquina remota,
+na <strong>porta 21</strong>.</p>
+<ul>
+<li>O cliente liga-se à <strong>porta 21</strong> (TCP): é a
+<strong>conexão de controlo</strong>, onde se <strong>autentica</strong>
+e <strong>navega</strong> no sistema de ficheiros com comandos.</li>
+<li>Ao receber um comando de <strong>transferência</strong>, o servidor
+<strong>abre outra conexão TCP</strong>, a partir da <strong>porta
+20</strong>: a <strong>conexão de dados</strong>, fechada no fim do
+ficheiro. Cada ficheiro usa uma conexão de dados nova.</li>
+</ul>
+<p>O controlo é <strong><em>out of band</em></strong> (conexão separada
+dos dados), e o servidor <strong>mantém estado</strong> (diretório
+corrente, autenticação), ao contrário do HTTP.</p>
+</div>
+<div class="definicao" title="Comandos e respostas FTP">
+<p>Texto ASCII na conexão de controlo, como no HTTP.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Comando</th>
+<th style="text-align: left;">Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>USER username</code></td>
+<td style="text-align: left;">indica o utilizador</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>PASS password</code></td>
+<td style="text-align: left;">indica a <em>password</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>PORT</code></td>
+<td style="text-align: left;">indica o IP e a porta do cliente para a
+conexão de dados</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>LIST</code></td>
+<td style="text-align: left;">lista os ficheiros do diretório
+corrente</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>RETR filename</code></td>
+<td style="text-align: left;">recebe um ficheiro do servidor</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>STOR filename</code></td>
+<td style="text-align: left;">envia um ficheiro para o servidor</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>SYST</code> †</td>
+<td style="text-align: left;">pergunta o tipo de sistema do
+servidor</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>CWD dir</code> †</td>
+<td style="text-align: left;">muda o diretório corrente</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>TYPE I</code> †</td>
+<td style="text-align: left;">modo binário (<em>image</em>), byte a
+byte; <code>TYPE A</code> é texto</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>QUIT</code> †</td>
+<td style="text-align: left;">termina a sessão</td>
+</tr>
+</tbody>
+</table>
+<p>As respostas têm <strong>código e descrição</strong>, como no HTTP:
+<code>331 Username OK, password required</code>;
+<code>125 data connection already open; transfer starting</code>;
+<code>425 Can't open data connection</code>;
+<code>452 Error writing file</code>.</p>
+<p><strong>Ler o <code>PORT</code></strong> †: 6 números; os 4 primeiros
+são o IP do cliente e os 2 últimos a porta,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mn>1</mn></msub><mo>×</mo><mn>256</mn><mo>+</mo><msub><mi>p</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">p_1 \times 256 + p_2</annotation></semantics></math>.
+<code>PORT 10,0,0,5,4,1</code> é IP 10.0.0.5, porta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>256</mn><mo>+</mo><mn>1</mn><mo>=</mo><mn>1025</mn></mrow><annotation encoding="application/x-tex">4\times256+1 = 1025</annotation></semantics></math>:
+é aí que o servidor liga a conexão de dados. No modo
+<strong>passivo</strong> (<code>PASV</code>) é o
+<strong>cliente</strong> que abre a conexão de dados, o que funciona
+melhor atrás de uma <em>firewall</em> ou NAT.</p>
+</div>
+<h2 id="correio-eletrónico">Correio eletrónico</h2>
+<div class="definicao" title="Componentes do e-mail">
+<ul>
+<li><strong>Agentes de utilizador</strong> (AU): o cliente de email
+(Thunderbird, Outlook…) para escrever e ler. As mensagens enviadas e
+recebidas ficam no servidor.</li>
+<li><strong>Servidores de email</strong>: uma <strong>caixa de
+correio</strong> por utilizador e uma <strong>fila de mensagens de
+saída</strong>.</li>
+<li><strong>SMTP</strong> (<em>Simple Mail Transfer Protocol</em>),
+<strong>entre servidores</strong>: o “cliente” é o servidor que
+<strong>envia</strong>, o “servidor” o que <strong>recebe</strong>.</li>
+</ul>
+</div>
+<div class="definicao" title="SMTP (RFC 2821)">
+<ul>
+<li><strong>TCP</strong>, para a <strong>porta 25</strong> do servidor;
+transferência <strong>direta</strong> do servidor do remetente para o do
+destinatário.</li>
+<li>Três fases: <strong><em>handshaking</em></strong>,
+<strong>transferência</strong>, <strong>fecho</strong>.</li>
+<li><strong>Comando/resposta</strong>: comandos em texto ASCII,
+respostas com código e descrição.</li>
+<li><strong>Conexões persistentes</strong> (várias mensagens por
+conexão).</li>
+<li>Mensagens em <strong>ASCII de 7 bits</strong> (cabeçalho e corpo):
+acentos e anexos binários <strong>têm de ser codificados</strong> (MIME,
+abaixo).</li>
+<li><code>CRLF.CRLF</code> (uma linha só com <code>.</code>) marca o
+<strong>fim da mensagem</strong>.</li>
+</ul>
+</div>
+<div class="exemplo" title="A Alice envia uma mensagem ao Bob (slides)">
+<ol type="1">
+<li>No seu AU, a Alice escreve a mensagem para
+<code>bob@someschool.edu</code>.</li>
+<li>O AU envia-a ao <strong>servidor da Alice</strong>, que a põe na
+<strong>fila de saída</strong>.</li>
+<li>O lado cliente do SMTP no servidor da Alice <strong>abre uma conexão
+TCP</strong> para o <strong>servidor do Bob</strong>.</li>
+<li>A mensagem segue por essa conexão.</li>
+<li>O servidor do Bob põe-na na <strong>caixa de correio</strong> do
+Bob.</li>
+<li>O Bob lê-a no seu AU.</li>
+</ol>
+</div>
+<div class="exemplo" title="Diálogo SMTP dos slides">
+<p><code>S:</code> é o servidor (<code>hamburger.edu</code>),
+<code>C:</code> o cliente (<code>crepes.fr</code>):</p>
+<pre><code>S: 220 hamburger.edu
+C: HELO crepes.fr
+S: 250 Hello crepes.fr, pleased to meet you
+C: MAIL FROM: &lt;alice@crepes.fr&gt;
+S: 250 alice@crepes.fr... Sender ok
+C: RCPT TO: &lt;bob@hamburger.edu&gt;
+S: 250 bob@hamburger.edu ... Recipient ok
+C: DATA
+S: 354 Enter mail, end with &quot;.&quot; on a line by itself
+C: Do you like ketchup?
+C: How about pickles?
+C: .
+S: 250 Message accepted for delivery
+C: QUIT
+S: 221 hamburger.edu closing connection</code></pre>
+<p><code>220</code>: o servidor apresenta-se. <code>HELO</code>: o
+cliente identifica-se. <code>MAIL FROM</code> / <code>RCPT TO</code>:
+remetente e destinatário (um <code>RCPT TO</code> por destinatário).
+<code>DATA</code>: segue-se a mensagem, até à linha com <code>.</code>.
+<code>QUIT</code>: fecha. Os slides propõem fazê-lo à mão com
+<code>telnet smtp.fc.up.pt 25</code>.</p>
+</div>
+<div class="definicao"
+title="SMTP vs. HTTP; formato das mensagens e MIME">
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 36%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;">HTTP</th>
+<th style="text-align: left;">SMTP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">sentido</td>
+<td style="text-align: left;"><strong><em>pull</em></strong>: o cliente
+vai buscar</td>
+<td style="text-align: left;"><strong><em>push</em></strong>: o cliente
+empurra</td>
+</tr>
+<tr>
+<td style="text-align: left;">comandos e respostas</td>
+<td style="text-align: left;">ASCII</td>
+<td style="text-align: left;">ASCII</td>
+</tr>
+<tr>
+<td style="text-align: left;">códigos de resposta</td>
+<td style="text-align: left;">sim, com descrição</td>
+<td style="text-align: left;">sim, com descrição</td>
+</tr>
+<tr>
+<td style="text-align: left;">objetos</td>
+<td style="text-align: left;">um por resposta</td>
+<td style="text-align: left;">vários numa mensagem
+<em>multiparte</em></td>
+</tr>
+</tbody>
+</table>
+<p>O SMTP é o protocolo de <strong>troca</strong>; o formato da
+<strong>mensagem</strong> é o RFC 2822: <strong>cabeçalhos</strong>
+(<code>To:</code>, <code>From:</code>, <code>Subject:</code>, que
+<strong>não são</strong> os comandos <code>MAIL FROM</code> e
+<code>RCPT TO</code>), uma <strong>linha vazia</strong> e o
+<strong>corpo</strong> (ASCII).</p>
+<p><strong>MIME</strong> (RFC 2045, 2056) junta cabeçalhos que declaram
+o conteúdo:</p>
+<pre><code>From: alice@crepes.fr
+To: bob@hamburger.edu
+Subject: Picture of yummy crepe.
+MIME-Version: 1.0                    &lt;- versão do MIME
+Content-Transfer-Encoding: base64    &lt;- método de codificação
+Content-Type: image/jpeg             &lt;- tipo/subtipo (e parâmetros)
+
+base64 encoded data .....            &lt;- dados codificados em ASCII</code></pre>
+</div>
+<div class="exemplo"
+title="Uma sessão SMTP real (captura do professor, 1/2)">
+<p>O Thunderbird (10.0.0.92) envia uma mensagem pelo servidor
+<code>smtp.dcc.fc.up.pt</code> (10.0.0.10, porta 25); captura em
+<code>Teoricas/Aula_03_captura_smtp.cap</code>. Depois do
+<em>handshake</em> TCP:</p>
+<pre><code>S: 220 smtp.dcc.fc.up.pt ESMTP Postfix (2.1.4) (Mandrake Linux)
+C: EHLO [10.0.0.92]
+S: 250-smtp.dcc.fc.up.pt
+S: 250-PIPELINING
+S: 250-SIZE 10240000
+S: 250-VRFY
+S: 250-ETRN
+S: 250-STARTTLS
+S: 250 8BITMIME
+C: MAIL FROM:&lt;rprior@dcc.fc.up.pt&gt; SIZE=639
+S: 250 Ok
+C: RCPT TO:&lt;rcprior@fc.up.pt&gt;
+S: 250 Ok
+C: DATA
+S: 354 End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;</code></pre>
+<ul>
+<li><code>EHLO</code> em vez de <code>HELO</code>: SMTP estendido (ESMTP
+†). O servidor responde com as <strong>extensões</strong> que suporta
+(<code>250-</code>: há mais linhas; <code>250</code> com espaço: a
+última).</li>
+<li><code>STARTTLS</code>: o servidor aceita passar a conversa a
+TLS.</li>
+<li><code>SIZE=639</code>: o cliente avisa o tamanho da mensagem.</li>
+</ul>
+</div>
+<div class="exemplo"
+title="Uma sessão SMTP real (captura do professor, 2/2)">
+<p>Depois do <code>354</code>, a mensagem (cabeçalhos RFC 2822, linha
+vazia, corpo), a linha com <code>.</code>, e o fecho (alguns cabeçalhos
+omitidos):</p>
+<pre><code>Message-ID: &lt;48E66E0E.50205@dcc.fc.up.pt&gt;
+Date: Fri, 03 Oct 2008 20:10:06 +0100
+From: Rui Prior &lt;rprior@dcc.fc.up.pt&gt;
+User-Agent: Thunderbird 2.0.0.17 (Windows/20080914)
+MIME-Version: 1.0
+To: rcprior@fc.up.pt
+Subject: Mensagem de teste
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+
+Olá!
+Isto é apenas uma curta mensagem de teste ...
+.
+S: 250 Ok: queued as 588D7E837A
+C: QUIT
+S: 221 Bye</code></pre>
+<p>O destinatário aparece <strong>duas vezes</strong>: no
+<strong>comando</strong> <code>RCPT TO</code> (o “envelope”, que o
+servidor usa para entregar) e no <strong>cabeçalho</strong>
+<code>To:</code> (que o leitor mostra). O corpo tem acentos com
+<code>8bit</code>, o que só é permitido porque o servidor anunciou
+<code>8BITMIME</code>; sem ela, a regra dos 7 bits obrigava a codificar
+o texto.</p>
+</div>
+<p><strong>SMTP à mão com TLS (STARTTLS)</strong> †. Hoje quase nenhum
+servidor aceita SMTP em claro. Com <strong>STARTTLS</strong> a conexão
+começa normal na porta 25 (<code>220</code>, <code>EHLO</code>), o
+cliente envia <code>STARTTLS</code> e daí em diante <strong>tudo vai
+cifrado</strong>, na mesma conexão TCP. Depois o cliente tem de enviar
+<strong>outra vez <code>EHLO</code></strong> (a lista de extensões muda;
+na FCUP aparece <code>AUTH LOGIN PLAIN</code>). O <code>telnet</code> já
+não serve; o <code>gnutls-cli</code> faz de <code>telnet</code> com
+TLS:</p>
+<pre><code>gnutls-cli smtp.fc.up.pt -p 25 --starttls-proto=smtp --crlf</code></pre>
+<p><code>--starttls-proto=smtp</code> faz o <code>EHLO</code>, o
+<code>STARTTLS</code> e o <em>handshake</em> TLS; quando devolve o
+controlo já estás no TLS e começas por <code>EHLO</code>.
+<code>--crlf</code> faz o Enter enviar CR LF. Alternativa:
+<code>openssl s_client -starttls smtp -crlf -connect smtp.fc.up.pt:25</code>,
+mas aí uma linha começada por <code>R</code> maiúsculo renegoceia o TLS
+e uma por <code>Q</code> fecha: escreve <code>rcpt to:</code> e
+<code>quit</code> em minúsculas.</p>
+<p><strong>O SMTP não verifica o remetente</strong> †:
+<code>MAIL FROM</code> e <code>From:</code> são texto escrito pelo
+cliente (é o que o Ex. 3 da Ficha 3 explora). O TLS cifra, mas não prova
+quem envia. O servidor que recebe pode verificar <strong>SPF</strong>
+(registo DNS com os servidores autorizados do domínio),
+<strong>DKIM</strong> (assinatura do servidor de origem) e
+<strong>DMARC</strong> (o que fazer se falharem); uma mensagem forjada
+costuma ir para o <em>spam</em>.</p>
+<div class="definicao" title="Protocolos de acesso ao email">
+<p>O SMTP <strong>entrega e armazena</strong> no servidor do
+destinatário. Para <strong>ir buscar</strong> o correio usa-se um
+<strong>protocolo de acesso</strong>:</p>
+<ul>
+<li><strong>POP</strong> (<em>Post Office Protocol</em>, RFC 1939):
+autorização e <em>download</em>.</li>
+<li><strong>IMAP</strong> (<em>Internet Mail Access Protocol</em>, RFC
+1730): mais funções (e mais complexo); manipula as mensagens
+<strong>guardadas no servidor</strong>.</li>
+<li><strong>HTTP</strong>: o <em>webmail</em> (Gmail, Proton
+Mail…).</li>
+</ul>
+</div>
+<div class="exemplo" title="Sessão POP3 (slides)">
+<p><strong>Autorização</strong>: <code>user</code> e <code>pass</code>,
+com respostas <code>+OK</code> ou <code>-ERR</code>.
+<strong>Transações</strong>: <code>list</code> (número e tamanho, em
+bytes, de cada mensagem), <code>retr</code> (transfere uma),
+<code>dele</code> (apaga-a), <code>quit</code>. Um <code>.</code>
+sozinho fecha uma lista ou uma mensagem.</p>
+<pre><code>S: +OK POP3 server ready
+C: user bob
+S: +OK
+C: pass hungry
+S: +OK user successfully logged on
+C: list
+S: 1 498
+S: 2 912
+S: .
+C: retr 1
+S: &lt;message 1 contents&gt;
+S: .
+C: dele 1
+C: retr 2
+S: &lt;message 2 contents&gt;
+S: .
+C: dele 2
+C: quit
+S: +OK POP3 server signing off</code></pre>
+</div>
+<div class="definicao" title="POP3 vs. IMAP">
+<p><strong>POP3:</strong> o exemplo usa <strong>“transfere e
+apaga”</strong>: noutro cliente, o Bob <strong>não pode reler</strong> a
+mensagem. O modo <strong>“transfere e deixa ficar”</strong> serve vários
+clientes. <strong>Não mantém estado entre sessões.</strong></p>
+<p><strong>IMAP:</strong> as mensagens <strong>ficam no
+servidor</strong>, organizadas em <strong>pastas</strong>;
+<strong>mantém estado entre sessões</strong> (as pastas e o que está em
+cada uma). É mais complexo.</p>
+</div>
+<h2 id="dns">DNS</h2>
+<div class="definicao" title="DNS (Domain Name System)">
+<p>As máquinas têm um <strong>endereço IP</strong> (32 bits, usado no
+encaminhamento) e um <strong>nome</strong> (para humanos, ex.:
+<code>www.dcc.fc.up.pt</code>). O DNS faz o <strong>mapeamento entre
+nomes e IPs</strong>. É uma <strong>base de dados distribuída</strong>,
+numa <strong>hierarquia de servidores de nomes</strong>, e um
+<strong>protocolo de aplicação</strong>: as aplicações
+<strong>resolvem</strong> os nomes (nome
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+IP). É um serviço fundamental implementado nas
+<strong>extremidades</strong> da rede.</p>
+</div>
+<p><strong>Serviços:</strong> tradução <strong>nome → IP</strong>;
+<strong>vários nomes</strong> para a mesma máquina (<em>aliasing</em>:
+um <strong>nome canónico</strong> e <strong>pseudónimos</strong>); os
+<strong>servidores de email</strong> de um domínio; <strong>distribuição
+de carga</strong>: vários IPs para um nome, em servidores replicados. O
+servidor devolve a lista toda mas <strong>muda a ordem</strong> de
+resposta para resposta (<em>round robin</em>); como os clientes usam o
+primeiro, vão para réplicas diferentes †.</p>
+<p><strong>Porque não um servidor central?</strong> Seria um
+<strong>ponto único de falha</strong>, com um <strong>volume de
+tráfego</strong> enorme, <strong>longe</strong> da maioria dos clientes
+e de <strong>manutenção</strong> complexa: não
+<strong>escalaria</strong>.</p>
+<h3 id="hierarquia-de-servidores">Hierarquia de servidores</h3>
+<div class="definicao" title="Servidores de raiz, TLD e com autoridade">
+<ul>
+<li><strong>Raiz</strong>: contactados por um servidor local que não
+sabe resolver um nome; indicam os servidores do <strong>domínio de
+topo</strong> (<code>com</code>, <code>pt</code>). Há
+<strong>13</strong> (letras a a m), espalhados e muito replicados; para
+usar o DNS é preciso conhecer o IP de pelo menos um. O servidor local
+conhece-os pelas <strong><em>root hints</em></strong> †, um ficheiro
+instalado com ele (<code>named.root</code>, da IANA/InterNIC,
+<code>https://www.internic.net/domain/named.root</code>); ao arrancar
+pergunta a um deles os <strong>NS</strong> de <code>.</code> e fica com
+a lista <strong>atual</strong> (basta um IP do ficheiro ainda estar
+certo).</li>
+<li><strong>Domínio de topo (TLD)</strong>: <code>com</code>,
+<code>org</code>, <code>net</code>, <code>edu</code>… e os de país
+(<code>pt</code>, <code>uk</code>, <code>fr</code>). A Network Solutions
+mantém os de <code>com</code>; a DNS.PT os de <code>pt</code>.</li>
+<li><strong>Com autoridade</strong>: os servidores <strong>de uma
+organização</strong>, com autoridade sobre os seus nomes (web, email).
+Mantidos por ela ou por um ISP.</li>
+</ul>
+<p>Para o IP de <code>www.amazon.com</code>: a <strong>raiz</strong>
+indica os servidores de <code>com</code>; um de
+<strong><code>com</code></strong> indica os de <code>amazon.com</code>;
+um de <strong><code>amazon.com</code></strong> dá o IP.</p>
+</div>
+<div class="definicao"
+title="Resolução iterativa e recursiva; servidor local">
+<ul>
+<li><strong>Iterativa</strong>: o servidor <strong>devolve uma
+referência</strong> (“pergunta ao servidor X”); quem pergunta faz as
+perguntas todas.</li>
+<li><strong>Recursiva</strong>: o servidor devolve <strong>sempre a
+resposta final</strong> (ou um erro), e fica com o <strong>ónus da
+resolução</strong>. Ao longo da hierarquia <strong>não se usa</strong>:
+sobrecarregaria os servidores, sobretudo os de raiz.</li>
+</ul>
+<p>O <strong>servidor de nomes local</strong> <strong>não pertence à
+hierarquia</strong>. Cada organização (ISP, empresa, universidade) tem
+um ou mais. As máquinas enviam-lhe os pedidos e ele faz de
+<em>proxy</em>: aceita <strong>pedidos recursivos</strong> das máquinas
+locais (normalmente só delas), <strong>itera</strong> pela hierarquia,
+devolve a resposta e faz <strong><em>caching</em></strong>.</p>
+</div>
+<div class="exemplo"
+title="O caso normal: khedo.dcc.fc.up.pt quer o IP de www.mit.edu">
+<p><img src="assets/guia-redes/dns_resolucao.svg" /></p>
+<ol type="1">
+<li><code>khedo</code> faz um pedido <strong>recursivo</strong> ao
+servidor local <code>dns.dcc.fc.up.pt</code>.</li>
+<li>O servidor local pergunta a um servidor de
+<strong>raiz</strong>…</li>
+<li>…que responde com os servidores do TLD <code>edu</code>.</li>
+<li>O servidor local pergunta ao servidor <strong>TLD</strong>
+<code>edu</code>…</li>
+<li>…que responde com o servidor com autoridade de <code>mit.edu</code>,
+<code>ns.mit.edu</code>.</li>
+<li>O servidor local pergunta a <code>ns.mit.edu</code>…</li>
+<li>…que responde com o <strong>IP de
+<code>www.mit.edu</code></strong>.</li>
+<li>O servidor local devolve o IP a <code>khedo</code> (e guarda-o em
+<em>cache</em>).</li>
+</ol>
+<p>O pedido 1 é <strong>recursivo</strong>; os 2, 4 e 6 são
+<strong>iterativos</strong>. São 8 mensagens com a <em>cache</em>
+vazia.</p>
+</div>
+<div class="definicao" title="Caches e atualização de registos">
+<ul>
+<li>Um servidor que aprende uma resolução <strong>guarda-a em
+<em>cache</em></strong>, até expirar o <strong>TTL</strong> do
+registo.</li>
+<li>O TTL é escolhido pelo <strong>administrador do domínio</strong>, e
+o servidor com autoridade devolve-o sempre igual (ex.: 300 s). Um
+servidor local que responde <strong>da <em>cache</em></strong> devolve o
+<strong>tempo que falta</strong>: o TTL <strong>desce</strong> de
+pergunta para pergunta e, ao chegar a 0, a entrada sai e a pergunta
+seguinte volta ao servidor com autoridade (o TTL “recomeça”) †.</li>
+<li>Os TLD estão <strong>quase sempre em <em>cache</em></strong> nos
+servidores locais, por isso <strong>a raiz raramente é
+contactada</strong>.</li>
+<li>Os registos são atualizados pelo <strong>administrador</strong>; há
+<strong>atualização dinâmica</strong> (RFC 2136).</li>
+</ul>
+</div>
+<h3 id="registos-e-mensagens-dns">Registos e mensagens DNS</h3>
+<div class="definicao" title="Registos de recurso (RR)">
+<p>Formato <strong>(nome, tipo, valor, ttl)</strong>; nome e valor
+dependem do tipo:</p>
+<table>
+<colgroup>
+<col style="width: 9%" />
+<col style="width: 29%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">Tipo</th>
+<th style="text-align: left;">nome</th>
+<th style="text-align: left;">valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>A</strong></td>
+<td style="text-align: left;">nome da máquina</td>
+<td style="text-align: left;">endereço IP</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>NS</strong></td>
+<td style="text-align: left;">domínio (ex.: <code>foo.com</code>)</td>
+<td style="text-align: left;">nome de um servidor com autoridade sobre
+esse domínio</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>CNAME</strong></td>
+<td style="text-align: left;">um pseudónimo</td>
+<td style="text-align: left;">o nome canónico (o nome real)</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>MX</strong></td>
+<td style="text-align: left;">domínio</td>
+<td style="text-align: left;">nome do servidor de email desse
+domínio</td>
+</tr>
+</tbody>
+</table>
+<p>Ex. de CNAME: <code>www.up.pt</code> é, na realidade,
+<code>www.up.pt.cdn.cloudflare.net</code>.</p>
+</div>
+<div class="definicao" title="Mensagens DNS">
+<p><strong>Pergunta</strong> e <strong>resposta</strong> têm o
+<strong>mesmo formato</strong>, são <strong>binárias</strong> e vão
+<strong>sobre UDP</strong>.</p>
+<ul>
+<li><strong>Cabeçalho (12 bytes)</strong>:
+<strong><em>identification</em></strong> (16 bits que <strong>associam a
+resposta à pergunta</strong>, já que o UDP não tem conexões);
+<strong><em>flags</em></strong> (pergunta ou resposta, recursão
+desejada, recursão disponível, resposta com autoridade); quatro
+<strong>contadores</strong> (perguntas, RRs de resposta, de autoridade e
+adicionais).</li>
+<li><strong>questions</strong>: nome e tipo perguntados.</li>
+<li><strong>answers</strong>: os RRs da resposta.</li>
+<li><strong>authority</strong>: os NS dos servidores com
+autoridade.</li>
+<li><strong>additional</strong>: informação útil (ex.: os A desses
+servidores).</li>
+</ul>
+</div>
+<div class="exemplo" title="Ler uma resposta DNS com o dig (slides)">
+<pre><code>$ dig mit.edu
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 28372
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 3, ADDITIONAL: 3
+;; QUESTION SECTION:
+;mit.edu.                 IN   A
+;; ANSWER SECTION:
+mit.edu.          60      IN   A    18.7.22.69
+;; AUTHORITY SECTION:
+mit.edu.          11809   IN   NS   STRAWB.mit.edu.
+mit.edu.          11809   IN   NS   BITSY.mit.edu.
+mit.edu.          11809   IN   NS   W20NS.mit.edu.
+;; ADDITIONAL SECTION:
+BITSY.mit.edu.    363     IN   A    18.72.0.3
+W20NS.mit.edu.    3667    IN   A    18.70.0.160
+STRAWB.mit.edu.   3667    IN   A    18.71.0.151</code></pre>
+<ul>
+<li><code>id: 28372</code> é o <em>identification</em>;
+<code>flags: qr rd ra</code>: é uma <strong>resposta</strong>
+(<em>qr</em>), a <strong>recursão foi pedida</strong> (<em>rd</em>) e
+<strong>está disponível</strong> (<em>ra</em>).</li>
+<li>1 pergunta, 1 resposta, 3 de autoridade, 3 adicionais: os 4
+contadores.</li>
+<li>Cada linha é um RR: nome, <strong>ttl</strong> (s), classe
+<code>IN</code> (Internet), tipo, valor. A resposta é um
+<strong>A</strong>: <code>mit.edu</code> é 18.7.22.69, válido 60 s em
+<em>cache</em>.</li>
+<li>Em autoridade vêm os <strong>NS</strong> de <code>mit.edu</code>; em
+adicional, os <strong>A</strong> desses servidores, para não ser preciso
+perguntar outra vez.</li>
+</ul>
+</div>
+<div class="exemplo" title="Inserir registos no DNS (slides)">
+<p>A Network Utopia quer <code>networkutopia.com</code>:</p>
+<ol type="1">
+<li>Regista o nome num <strong>agente de registo</strong> (<em>DNS
+registrar</em>, ex.: Network Solutions), com os nomes e IPs dos seus
+servidores com autoridade.</li>
+<li>O agente insere <strong>dois RRs no servidor TLD</strong>
+<code>com</code>:
+<code>(networkutopia.com, dns1.networkutopia.com, NS)</code> e
+<code>(dns1.networkutopia.com, 212.212.212.1, A)</code>.</li>
+<li>No seu <strong>servidor com autoridade</strong>, a empresa cria os
+registos do domínio: um <strong>A</strong> para
+<code>www.networkutopia.com</code>, um <strong>MX</strong> para
+<code>networkutopia.com</code>, etc.</li>
+</ol>
+</div>
+<h3 id="ferramentas-host-e-dig">Ferramentas: <code>host</code> e
+<code>dig</code> †</h3>
+<div class="definicao" title="host e dig">
+<p>Os dois enviam perguntas DNS. O <code>host</code> dá uma resposta
+curta; o <code>dig</code> mostra a <strong>mensagem inteira</strong>
+(cabeçalho, <em>flags</em>, as quatro secções), como no exemplo do
+<code>mit.edu</code>.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Comando</th>
+<th style="text-align: left;">O que faz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>host nome</code></td>
+<td style="text-align: left;">IP (e pseudónimos, servidores de email) do
+nome</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>host -t mx dominio</code></td>
+<td style="text-align: left;">só os registos de um tipo (aqui MX)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>dig nome</code></td>
+<td style="text-align: left;">pergunta registos A ao servidor local</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>dig nome TIPO</code></td>
+<td style="text-align: left;">outro tipo: <code>MX</code>,
+<code>NS</code>, <code>CNAME</code>, <code>AAAA</code>…</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>dig @servidor nome</code></td>
+<td style="text-align: left;">pergunta a <strong>outro servidor</strong>
+(nome ou IP)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>dig +short nome</code></td>
+<td style="text-align: left;">só os valores, sem o resto da
+mensagem</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>dig +noall +answer nome</code></td>
+<td style="text-align: left;">só a secção de resposta</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>dig +norecurse ...</code></td>
+<td style="text-align: left;">pedido <strong>iterativo</strong>: desliga
+a <em>flag</em> <code>rd</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>dig +trace nome</code></td>
+<td style="text-align: left;">faz a resolução iterativa desde a raiz,
+sozinho</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>dig +qr nome</code></td>
+<td style="text-align: left;">mostra também a <strong>pergunta</strong>
+enviada</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><em>Flags</em>: <code>qr</code> (resposta), <code>rd</code>
+(recursão pedida), <code>ra</code> (recursão disponível),
+<code>aa</code> (<em>authoritative answer</em>: vem de um servidor
+<strong>com autoridade</strong>, não de uma <em>cache</em>).</li>
+<li><code>AAAA</code> é o endereço <strong>IPv6</strong> (o
+<code>A</code> é IPv4).</li>
+<li>Um <strong>MX</strong> tem um <strong>número de preferência</strong>
+antes do nome (<code>fc.up.pt. MX 10 mx01.up.pt.</code>): primeiro o
+mais baixo; com números iguais, reparte-se a carga.</li>
+<li><code>;; SERVER:</code>, no fim, diz que servidor respondeu.</li>
+</ul>
+</div>
+<div class="exemplo"
+title="Resolução iterativa à mão (Ficha 3, Ex. 4c), 1/2">
+<p>Resolver <code>www.dcc.fc.up.pt</code> a partir da raiz
+<code>a.root-servers.net</code> (198.41.0.4), sem o servidor local. Com
+<code>+norecurse</code> cada servidor responde <strong>só com o que
+sabe</strong>. Saídas reais (out. 2026), cortadas.</p>
+<p><strong>Passo 1 — raiz.</strong>
+<code>dig @198.41.0.4 www.dcc.fc.up.pt +norecurse</code></p>
+<pre><code>;; flags: qr; QUERY: 1, ANSWER: 0, AUTHORITY: 9, ADDITIONAL: 19
+;; AUTHORITY SECTION:
+pt.        172800  IN  NS  a.dns.pt.
+pt.        172800  IN  NS  c.dns.pt.      (... mais 7 NS de pt.)
+;; ADDITIONAL SECTION:
+a.dns.pt.  172800  IN  A   185.39.208.1   (... os IPs dos outros)</code></pre>
+<p><code>ANSWER: 0</code>: a raiz <strong>não sabe</strong> o IP e dá
+uma <strong>referência</strong>: os NS do TLD <code>pt</code>
+(autoridade) e os seus IPs (adicional). Não há <code>aa</code>.
+Escolhemos <code>a.dns.pt</code> = 185.39.208.1.</p>
+<p><strong>Passo 2 — TLD <code>pt</code>.</strong>
+<code>dig @185.39.208.1 www.dcc.fc.up.pt +norecurse</code></p>
+<pre><code>;; flags: qr; QUERY: 1, ANSWER: 0, AUTHORITY: 5, ADDITIONAL: 11
+;; AUTHORITY SECTION:
+up.pt.     7200    IN  NS  ns1.up.pt.     (... ns2, ns3, ns4, ns02.fccn.pt)
+;; ADDITIONAL SECTION:
+ns1.up.pt. 7200    IN  A   193.137.55.30  (... os IPs dos outros)</code></pre>
+<p>Outra referência: o servidor de <code>pt</code> sabe quem tem
+autoridade sobre <strong><code>up.pt</code></strong>. Não há passo
+“<code>fc.up.pt</code>”, porque a U.Porto não delegou esse subdomínio
+noutros servidores.</p>
+</div>
+<div class="exemplo"
+title="Resolução iterativa à mão (Ficha 3, Ex. 4c), 2/2">
+<p><strong>Passo 3 — servidor da U.Porto.</strong>
+<code>dig @193.137.55.30 www.dcc.fc.up.pt +norecurse</code></p>
+<pre><code>;; flags: qr aa; QUERY: 1, ANSWER: 2, AUTHORITY: 5, ADDITIONAL: 1
+;; ANSWER SECTION:
+www.dcc.fc.up.pt.   300   IN  CNAME  echo.dcc.fc.up.pt.
+echo.dcc.fc.up.pt.  600   IN  A      193.136.39.92
+;; AUTHORITY SECTION:
+dcc.fc.up.pt.     86400   IN  NS     ns1.up.pt.   (... e os outros 4)</code></pre>
+<p>Há <strong>resposta</strong> e a <em>flag</em>
+<strong><code>aa</code></strong>: este servidor tem autoridade sobre
+<code>dcc.fc.up.pt</code>. Dois registos: o <strong>CNAME</strong> diz
+que <code>www.dcc.fc.up.pt</code> é um <strong>pseudónimo</strong> de
+<code>echo.dcc.fc.up.pt</code>; o <strong>A</strong> dá o IP deste,
+<strong>193.136.39.92</strong>. Como o servidor também tem autoridade
+sobre o nome canónico, mandou logo o A.</p>
+<p><strong>Resumo:</strong> 3 perguntas iterativas (raiz
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+<code>pt</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+<code>up.pt</code>), duas com referências e a última com a resposta: o
+que o servidor local faz por nós num pedido recursivo. Os TTL
+acompanham: 172 800 s (2 dias) para os NS de <code>pt</code>, que quase
+não mudam; 300 s para o <code>www</code>.</p>
+</div>
+<h2 id="aplicações-p2p">Aplicações P2P</h2>
+<h3 id="tempo-de-distribuição-cliente-servidor-vs.-p2p">Tempo de
+distribuição: cliente-servidor vs. P2P</h3>
+<p>Quanto tempo demora a distribuir <strong>um ficheiro de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>
+bits</strong> de um servidor para
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math></strong>
+computadores?
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>u</mi><mi>s</mi></msub><annotation encoding="application/x-tex">u_s</annotation></semantics></math>
+é o <em>upload</em> do servidor,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>u</mi><mi>i</mi></msub><annotation encoding="application/x-tex">u_i</annotation></semantics></math>
+o <em>upload</em> do par
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mi>i</mi></msub><annotation encoding="application/x-tex">d_i</annotation></semantics></math>
+o seu <em>download</em>. Supõe-se o <strong>núcleo da rede com
+capacidade abundante</strong>: só os acessos limitam.</p>
+<div class="definicao" title="Cliente-servidor">
+<ul>
+<li>O servidor envia
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+cópias</strong>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>F</mi></mrow><annotation encoding="application/x-tex">NF</annotation></semantics></math>
+bits a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>u</mi><mi>s</mi></msub><annotation encoding="application/x-tex">u_s</annotation></semantics></math>:
+<strong>pelo menos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>F</mi><mi>/</mi><msub><mi>u</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">NF/u_s</annotation></semantics></math></strong>.</li>
+<li>O cliente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+demora <strong>pelo menos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>/</mi><msub><mi>d</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">F/d_i</annotation></semantics></math></strong>;
+o pior é o de menor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mi>i</mi></msub><annotation encoding="application/x-tex">d_i</annotation></semantics></math>.</li>
+</ul>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>C</mi><mi>S</mi></mrow></msub><mo>=</mo><mrow><mi mathvariant="normal">max</mi><mo>&#8289;</mo></mrow><mrow><mo stretchy="true" form="prefix">{</mo><mfrac><mrow><mi>N</mi><mi>F</mi></mrow><msub><mi>u</mi><mi>s</mi></msub></mfrac><mo>,</mo><mspace width="0.222em"></mspace><mfrac><mi>F</mi><mrow><munder><mi mathvariant="normal">min</mi><mi>i</mi></munder><msub><mi>d</mi><mi>i</mi></msub></mrow></mfrac><mo stretchy="true" form="postfix">}</mo></mrow></mrow><annotation encoding="application/x-tex">d_{CS} = \max\left\{ \frac{NF}{u_s},\ \frac{F}{\min_i d_i} \right\}</annotation></semantics></math></p>
+<p>Para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+grande domina o primeiro termo, que <strong>cresce linearmente com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math></strong>.</p>
+</div>
+<div class="definicao" title="P2P">
+<ul>
+<li>O servidor envia <strong>pelo menos uma cópia</strong>:
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>/</mi><msub><mi>u</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">F/u_s</annotation></semantics></math></strong>.</li>
+<li>O cliente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+demora pelo menos
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>/</mi><msub><mi>d</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">F/d_i</annotation></semantics></math></strong>.</li>
+<li>Têm de ser recebidos
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>F</mi></mrow><annotation encoding="application/x-tex">NF</annotation></semantics></math>
+bits</strong> no total, e a maior taxa de envio agregada é a do servidor
+<strong>mais a de todos os pares</strong>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mi>s</mi></msub><mo>+</mo><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></msubsup><msub><mi>u</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">u_s + \sum_{i=1}^{N} u_i</annotation></semantics></math>.</li>
+</ul>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>P</mi><mn>2</mn><mi>P</mi></mrow></msub><mo>=</mo><mrow><mi mathvariant="normal">max</mi><mo>&#8289;</mo></mrow><mrow><mo stretchy="true" form="prefix">{</mo><mfrac><mi>F</mi><msub><mi>u</mi><mi>s</mi></msub></mfrac><mo>,</mo><mspace width="0.222em"></mspace><mfrac><mi>F</mi><mrow><munder><mi mathvariant="normal">min</mi><mi>i</mi></munder><msub><mi>d</mi><mi>i</mi></msub></mrow></mfrac><mo>,</mo><mspace width="0.222em"></mspace><mfrac><mrow><mi>N</mi><mi>F</mi></mrow><mrow><msub><mi>u</mi><mi>s</mi></msub><mo>+</mo><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><msub><mi>u</mi><mi>i</mi></msub></mrow></mfrac><mo stretchy="true" form="postfix">}</mo></mrow></mrow><annotation encoding="application/x-tex">d_{P2P} = \max\left\{ \frac{F}{u_s},\ \frac{F}{\min_i d_i},\ \frac{NF}{u_s + \sum_{i=1}^{N} u_i} \right\}</annotation></semantics></math></p>
+<p>No último termo <strong>numerador e denominador crescem com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math></strong>:
+cada par novo pede
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>F</mi><annotation encoding="application/x-tex">F</annotation></semantics></math>
+bits mas traz mais
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>u</mi><mi>i</mi></msub><annotation encoding="application/x-tex">u_i</annotation></semantics></math>.</p>
+</div>
+<div class="exemplo" title="O gráfico dos slides, com as contas †">
+<p>Valores do livro: todos os pares com <em>upload</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>/</mi><mi>u</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">F/u = 1</annotation></semantics></math>
+unidade de tempo;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mi>s</mi></msub><mo>=</mo><mn>10</mn><mi>u</mi></mrow><annotation encoding="application/x-tex">u_s = 10u</annotation></semantics></math>;
+<em>download</em> rápido
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi mathvariant="normal">min</mi></msub><mo>≥</mo><msub><mi>u</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">d_{\min} \geq u_s</annotation></semantics></math>,
+por isso
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>/</mi><msub><mi>d</mi><mi mathvariant="normal">min</mi></msub><mo>≤</mo><mi>F</mi><mi>/</mi><msub><mi>u</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">F/d_{\min} \leq F/u_s</annotation></semantics></math>
+nunca é o máximo).</p>
+<ul>
+<li><strong>Cliente-servidor</strong>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>F</mi><mi>/</mi><msub><mi>u</mi><mi>s</mi></msub><mo>=</mo><mi>N</mi><mo>⋅</mo><mfrac><mi>F</mi><mrow><mn>10</mn><mi>u</mi></mrow></mfrac><mo>=</mo><mfrac><mi>N</mi><mn>10</mn></mfrac></mrow><annotation encoding="application/x-tex">NF/u_s = N \cdot \frac{F}{10u} = \frac{N}{10}</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">N = 10</annotation></semantics></math>
+dá 1;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>30</mn></mrow><annotation encoding="application/x-tex">N = 30</annotation></semantics></math>
+dá 3. Uma reta.</li>
+<li><strong>P2P</strong>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi>N</mi><mi>F</mi></mrow><mrow><msub><mi>u</mi><mi>s</mi></msub><mo>+</mo><mi>N</mi><mi>u</mi></mrow></mfrac><mo>=</mo><mfrac><mi>N</mi><mrow><mn>10</mn><mo>+</mo><mi>N</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{NF}{u_s + Nu} = \frac{N}{10 + N}</annotation></semantics></math>
+(dividindo por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>
+e usando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>/</mi><mi>u</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">F/u = 1</annotation></semantics></math>),
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>/</mi><msub><mi>u</mi><mi>s</mi></msub><mo>=</mo><mn>0</mn><mo>,</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">F/u_s = 0{,}1</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">N = 10</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">max</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>;</mo><mspace width="0.222em"></mspace><mn>10</mn><mi>/</mi><mn>20</mn><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mn>0</mn><mo>,</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">\max\{0{,}1;\ 10/20\} = 0{,}5</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>30</mn></mrow><annotation encoding="application/x-tex">N = 30</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">max</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">{</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo>;</mo><mspace width="0.222em"></mspace><mn>30</mn><mi>/</mi><mn>40</mn><mo stretchy="false" form="postfix">}</mo><mo>=</mo><mn>0</mn><mo>,</mo><mn>75</mn></mrow><annotation encoding="application/x-tex">\max\{0{,}1;\ 30/40\} =
+0{,}75</annotation></semantics></math>. Nunca passa de 1
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>10</mn><mo>+</mo><mi>N</mi><mo stretchy="false" form="postfix">)</mo><mo>&lt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">N/(10+N) &lt; 1</annotation></semantics></math>).</li>
+</ul>
+<p><img src="assets/guia-redes/p2p_vs_cs.svg" /></p>
+</div>
+<h3 id="bittorrent">BitTorrent</h3>
+<div class="definicao" title="BitTorrent">
+<p>Os ficheiros dividem-se em <strong>pedaços</strong> (<em>chunks</em>,
+normalmente 256 kB). O <strong><em>tracker</em></strong> sabe que pares
+participam; o <strong><em>torrent</em></strong> é o grupo de pares que
+trocam pedaços de um ficheiro.</p>
+<p>Um par que <strong>entra</strong>: ainda não tem pedaços; regista-se
+no <em>tracker</em>, recebe a lista de pares e liga-se a um subconjunto
+(os <strong>vizinhos</strong>); <strong>enquanto faz <em>download</em>,
+faz <em>upload</em></strong> dos pedaços que já tem; os parceiros vão
+mudando (<strong>rotatividade</strong>); com o ficheiro completo, pode
+<strong>sair</strong> (egoísta) ou <strong>ficar</strong> a enviar
+(altruísta).</p>
+<p><strong>Obtenção: <em>rarest first</em>.</strong> Periodicamente,
+cada par pergunta aos vizinhos que pedaços têm e pede os que lhe faltam,
+<strong>começando pelos mais raros</strong> (espalham-se depressa e não
+desaparecem se o único par que os tem sair).</p>
+<p><strong>Envio: <em>tit-for-tat</em>.</strong> Um par envia aos
+<strong>quatro vizinhos que mais lhe enviam</strong> (o “top 4”),
+reavaliados <strong>a cada 10 s</strong>; <strong>de 30 em 30 s</strong>
+escolhe <strong>outro par ao acaso</strong> e envia-lhe também, e esse
+par pode entrar no top 4 (assim se descobrem parceiros melhores e os
+pares novos, sem nada para dar, conseguem começar). <strong>Quem envia
+mais, recebe mais.</strong></p>
+</div>
+<h2 id="programação-com-sockets">Programação com sockets</h2>
+<div class="definicao" title="API de sockets">
+<p>Uma <strong>socket</strong> é uma interface <strong>local</strong>,
+<strong>criada pela aplicação</strong> e <strong>controlada pelo sistema
+operativo</strong>, por onde um processo envia e recebe mensagens. As
+sockets são <strong>criadas, usadas e libertadas
+explicitamente</strong>, no paradigma <strong>cliente/servidor</strong>,
+com dois serviços: <strong>datagramas não fiáveis</strong> (UDP) e
+<strong>sequência (<em>stream</em>) fiável de bytes</strong> (TCP).</p>
+</div>
+<h3 id="sockets-tcp">Sockets TCP</h3>
+<div class="definicao" title="Cliente e servidor TCP">
+<p>O TCP dá à aplicação uma <strong>transferência fiável e ordenada de
+bytes</strong>.</p>
+<ul>
+<li><strong>O servidor tem de estar à espera</strong>: a correr,
+<strong>à escuta numa socket TCP</strong> (a <em>welcome
+socket</em>).</li>
+<li><strong>O cliente contacta-o</strong>: cria uma socket TCP com o
+<strong>IP e a porta</strong> do servidor; ao criá-la,
+<strong>estabelece a conexão TCP</strong>.</li>
+<li><strong>Ao ser contactado, o servidor cria uma socket nova</strong>
+(a <em>connection socket</em>) para <strong>esse</strong> cliente. Assim
+fala com <strong>vários clientes ao mesmo tempo</strong>, distinguidos
+pelo IP e porta de origem.</li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Servidor (em <code>hostid</code>)</th>
+<th style="text-align: left;">Cliente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">cria a socket de receção na porta
+<code>x</code>: <code>welcomeSocket = ServerSocket()</code></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">espera por um pedido:
+<code>connectionSocket = welcomeSocket.accept()</code></td>
+<td style="text-align: left;">cria a socket e liga a
+<code>hostid</code>, porta <code>x</code>:
+<code>clientSocket = Socket()</code> (estabelece-se a conexão TCP)</td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">envia o pedido pela
+<code>clientSocket</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">lê o pedido da
+<code>connectionSocket</code></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">escreve a resposta na
+<code>connectionSocket</code></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">lê a resposta da
+<code>clientSocket</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">fecha a <code>connectionSocket</code></td>
+<td style="text-align: left;">fecha a <code>clientSocket</code></td>
+</tr>
+</tbody>
+</table>
+<p>Uma <strong><em>stream</em></strong> é uma sequência de caracteres
+que entra (do teclado ou de uma socket) ou sai (para o ecrã ou uma
+socket) de um processo.</p>
+</div>
+<p><strong>Aplicação de exemplo:</strong> (1) o cliente lê uma linha do
+teclado (<code>inFromUser</code>) e envia-a pela socket
+(<code>outToServer</code>); (2) o servidor lê-a; (3) converte-a para
+<strong>maiúsculas</strong> e devolve-a; (4) o cliente lê a resposta
+(<code>inFromServer</code>) e imprime-a. Cada mensagem é <strong>uma
+linha</strong>, terminada por <strong>mudança de linha</strong>: é a
+aplicação que delimita as mensagens, porque o TCP não o faz.</p>
+<p><strong>Cliente TCP em Java (slides)</strong>, preparação: as três
+<em>streams</em> e a conexão.</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">io</span><span class="op">.*;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">net</span><span class="op">.*;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TCPClient <span class="op">{</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span> argv<span class="op">[])</span> <span class="kw">throws</span> <span class="bu">Exception</span> <span class="op">{</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> sentence<span class="op">;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> modifiedSentence<span class="op">;</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">// stream de entrada: o teclado</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">BufferedReader</span> inFromUser <span class="op">=</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="bu">BufferedReader</span><span class="op">(</span><span class="kw">new</span> <span class="bu">InputStreamReader</span><span class="op">(</span><span class="bu">System</span><span class="op">.</span><span class="fu">in</span><span class="op">));</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>        <span class="co">// cria a socket e liga ao servidor (com DNS lookup implicito)</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Socket</span> clientSocket <span class="op">=</span> <span class="kw">new</span> <span class="bu">Socket</span><span class="op">(</span><span class="st">&quot;hostname&quot;</span><span class="op">,</span> <span class="dv">6789</span><span class="op">);</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">// stream de saida associada a socket</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">DataOutputStream</span> outToServer <span class="op">=</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="bu">DataOutputStream</span><span class="op">(</span>clientSocket<span class="op">.</span><span class="fu">getOutputStream</span><span class="op">());</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>        <span class="co">// stream de entrada associada a socket</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        <span class="bu">BufferedReader</span> inFromServer <span class="op">=</span> <span class="kw">new</span> <span class="bu">BufferedReader</span><span class="op">(</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="bu">InputStreamReader</span><span class="op">(</span>clientSocket<span class="op">.</span><span class="fu">getInputStream</span><span class="op">()));</span></span></code></pre></div>
+<p>O pedido e a resposta:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>        sentence <span class="op">=</span> inFromUser<span class="op">.</span><span class="fu">readLine</span><span class="op">();</span>            <span class="co">// bloqueia ate ler uma linha</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>        outToServer<span class="op">.</span><span class="fu">writeBytes</span><span class="op">(</span>sentence <span class="op">+</span> <span class="ch">&#39;\n&#39;</span><span class="op">);</span>     <span class="co">// envia; &#39;\n&#39; termina a mensagem</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        modifiedSentence <span class="op">=</span> inFromServer<span class="op">.</span><span class="fu">readLine</span><span class="op">();</span>  <span class="co">// le a resposta</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;FROM SERVER: &quot;</span> <span class="op">+</span> modifiedSentence<span class="op">);</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        clientSocket<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Servidor TCP em Java (slides).</strong> A <em>welcome
+socket</em> e o ciclo que aceita cada cliente:</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">io</span><span class="op">.*;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">net</span><span class="op">.*;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TCPServer <span class="op">{</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span> argv<span class="op">[])</span> <span class="kw">throws</span> <span class="bu">Exception</span> <span class="op">{</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> clientSentence<span class="op">;</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> capitalizedSentence<span class="op">;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">// socket de rececao, a escuta na porta 6789</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">ServerSocket</span> welcomeSocket <span class="op">=</span> <span class="kw">new</span> <span class="bu">ServerSocket</span><span class="op">(</span><span class="dv">6789</span><span class="op">);</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span>  <span class="co">// ciclo infinito: espera um cliente, atende-o, repete</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>            <span class="co">// espera que um cliente se ligue; cria uma socket nova para ele</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>            <span class="bu">Socket</span> connectionSocket <span class="op">=</span> welcomeSocket<span class="op">.</span><span class="fu">accept</span><span class="op">();</span></span></code></pre></div>
+<p>O atendimento de um cliente:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>            <span class="bu">BufferedReader</span> inFromClient <span class="op">=</span> <span class="kw">new</span> <span class="bu">BufferedReader</span><span class="op">(</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                <span class="kw">new</span> <span class="bu">InputStreamReader</span><span class="op">(</span>connectionSocket<span class="op">.</span><span class="fu">getInputStream</span><span class="op">()));</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>            <span class="bu">DataOutputStream</span> outToClient <span class="op">=</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                <span class="kw">new</span> <span class="bu">DataOutputStream</span><span class="op">(</span>connectionSocket<span class="op">.</span><span class="fu">getOutputStream</span><span class="op">());</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>            clientSentence <span class="op">=</span> inFromClient<span class="op">.</span><span class="fu">readLine</span><span class="op">();</span>          <span class="co">// le o pedido</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>            capitalizedSentence <span class="op">=</span> clientSentence<span class="op">.</span><span class="fu">toUpperCase</span><span class="op">()</span> <span class="op">+</span> <span class="ch">&#39;\n&#39;</span><span class="op">;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>            outToClient<span class="op">.</span><span class="fu">writeBytes</span><span class="op">(</span>capitalizedSentence<span class="op">);</span>       <span class="co">// escreve a resposta</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>            connectionSocket<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>   <span class="co">// volta ao inicio do ciclo para esperar uma nova conexao</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Com <code>"localhost"</code> no lugar de <code>"hostname"</code>, o
+cliente escreve <code>ola mundo</code> e recebe
+<code>FROM SERVER: OLA MUNDO</code> (testado com
+<code>javac</code>/<code>java</code>).</p>
+<div class="definicao" title="Tipos de servidores TCP">
+<ul>
+<li><strong>Iterativo</strong> (o de cima): um pedido de cada vez, em
+<strong>sequência</strong>. Só para pedidos <strong>esporádicos e de
+resposta imediata</strong> (ex.: <em>daytime</em>).</li>
+<li><strong>Concorrente com processos</strong>: cada conexão é atendida
+por um <strong>processo novo</strong> (<code>fork()</code>), e o pai
+continua à escuta. Bom para pedidos demorados mas não muito frequentes
+(o <code>fork()</code> custa).</li>
+<li><strong>Concorrente com <em>threads</em></strong>: igual, com uma
+<strong><em>thread</em></strong> por conexão. <strong>Mais
+leve</strong>, mas <strong>menos robusto</strong> (um erro numa
+<em>thread</em> pode deitar abaixo o servidor todo).</li>
+<li><strong>Multiplex</strong>: <strong>um só</strong>
+processo/<em>thread</em> atende <strong>várias sockets</strong> com
+<code>select()</code>. Relaciona clientes (ex.: <em>chat</em>), escuta
+várias portas e usa menos memória, mas é <strong>mais complexo</strong>
+e <strong>não aproveita vários <em>cores</em></strong>.</li>
+<li><strong><em>Pre-forking</em></strong>: arranca logo com vários
+processos que atendem em paralelo (com ou sem coordenador). Bom com
+<strong>carga alta</strong> de pedidos curtos (ex.: HTTP).</li>
+<li><strong><em>Pre-threaded</em></strong>: o mesmo com
+<em>threads</em>: um pouco mais eficiente, menos robusto.</li>
+</ul>
+</div>
+<p><strong>Conexões persistentes na socket</strong> †. O servidor dos
+slides lê <strong>uma</strong> linha e fecha. Para atender um cliente
+até ele se ir embora, lê-se em ciclo até ao <strong>fim da
+<em>stream</em></strong>: quando o cliente fecha a conexão, o
+<code>readLine()</code> devolve <strong><code>null</code></strong> (em
+Python, <code>input()</code> lança <code>EOFError</code>). O teclado
+funciona da mesma forma: o CTRL-D (CTRL-Z no Windows) fecha o
+<code>System.in</code>, e o <code>readLine()</code> do cliente devolve
+<code>null</code>. Para testar um servidor sem escrever o cliente usa-se
+<code>nc localhost 6789</code>, que envia cada linha escrita e mostra o
+que chega.</p>
+<div class="exemplo" title="Servidor persistente (Ficha 4, Ex. 1a)">
+<p>No <code>TCPServer</code>, o atendimento de um cliente passa a ser um
+ciclo:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>            <span class="bu">String</span> clientSentence<span class="op">;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>            <span class="co">// readLine() devolve null quando o cliente fecha a conexao</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> <span class="op">((</span>clientSentence <span class="op">=</span> inFromClient<span class="op">.</span><span class="fu">readLine</span><span class="op">())</span> <span class="op">!=</span> <span class="kw">null</span><span class="op">)</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                outToClient<span class="op">.</span><span class="fu">writeBytes</span><span class="op">(</span>clientSentence<span class="op">.</span><span class="fu">toUpperCase</span><span class="op">()</span> <span class="op">+</span> <span class="ch">&#39;\n&#39;</span><span class="op">);</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>            connectionSocket<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span></code></pre></div>
+<p>Com <code>nc localhost 6789</code>, <code>abc</code> dá
+<code>ABC</code> e depois <code>xyz</code> dá <code>XYZ</code>, sempre
+na mesma conexão. O CTRL-D fecha a conexão: o <code>readLine()</code>
+devolve <code>null</code>, o ciclo acaba, o servidor fecha a
+<code>connectionSocket</code> e volta ao <code>accept()</code>
+(testado).</p>
+</div>
+<h3 id="sockets-udp">Sockets UDP</h3>
+<div class="definicao" title="Cliente e servidor UDP">
+<p><strong>Não há conexão</strong> (nem <em>handshaking</em>): o emissor
+indica <strong>o IP e a porta de destino em cada pacote</strong>, e o
+servidor <strong>tira o IP e a porta de origem</strong> do pedido para
+saber para onde responder. Os <strong>datagramas</strong> podem
+perder-se, chegar fora de ordem ou <strong>duplicados</strong>. A
+entrada e a saída são <strong>pacotes</strong>
+(<code>DatagramPacket</code>), não bytes.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Servidor (em <code>hostid</code>)</th>
+<th style="text-align: left;">Cliente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">cria a socket na porta <code>x</code>:
+<code>serverSocket = DatagramSocket()</code></td>
+<td style="text-align: left;">cria a socket:
+<code>clientSocket = DatagramSocket()</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">cria o endereço (<code>hostid</code>,
+porta <code>x</code>) e envia o datagrama do pedido pela
+<code>clientSocket</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">lê o pedido da
+<code>serverSocket</code></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">escreve a resposta na
+<code>serverSocket</code>, <strong>indicando o IP e a porta do
+cliente</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">lê a resposta da <code>clientSocket</code>
+e fecha-a</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Cliente UDP em Java (slides)</strong>, preparação:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">io</span><span class="op">.*;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">net</span><span class="op">.*;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> UDPClient <span class="op">{</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span> args<span class="op">[])</span> <span class="kw">throws</span> <span class="bu">Exception</span> <span class="op">{</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">BufferedReader</span> inFromUser <span class="op">=</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="bu">BufferedReader</span><span class="op">(</span><span class="kw">new</span> <span class="bu">InputStreamReader</span><span class="op">(</span><span class="bu">System</span><span class="op">.</span><span class="fu">in</span><span class="op">));</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">DatagramSocket</span> clientSocket <span class="op">=</span> <span class="kw">new</span> <span class="bu">DatagramSocket</span><span class="op">();</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">InetAddress</span> IPAddress <span class="op">=</span> <span class="bu">InetAddress</span><span class="op">.</span><span class="fu">getByName</span><span class="op">(</span><span class="st">&quot;hostname&quot;</span><span class="op">);</span> <span class="co">// DNS</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">byte</span><span class="op">[]</span> sendData<span class="op">;</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">byte</span><span class="op">[]</span> receiveData <span class="op">=</span> <span class="kw">new</span> <span class="dt">byte</span><span class="op">[</span><span class="dv">1024</span><span class="op">];</span></span></code></pre></div>
+<p>O envio do datagrama e a resposta:</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> sentence <span class="op">=</span> inFromUser<span class="op">.</span><span class="fu">readLine</span><span class="op">();</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>        sendData <span class="op">=</span> sentence<span class="op">.</span><span class="fu">getBytes</span><span class="op">();</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>        <span class="co">// datagrama com os dados, o comprimento, o IP e a porta de destino</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">DatagramPacket</span> sendPacket <span class="op">=</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="bu">DatagramPacket</span><span class="op">(</span>sendData<span class="op">,</span> sendData<span class="op">.</span><span class="fu">length</span><span class="op">,</span> IPAddress<span class="op">,</span> <span class="dv">9876</span><span class="op">);</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        clientSocket<span class="op">.</span><span class="fu">send</span><span class="op">(</span>sendPacket<span class="op">);</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">DatagramPacket</span> receivePacket <span class="op">=</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>            <span class="kw">new</span> <span class="bu">DatagramPacket</span><span class="op">(</span>receiveData<span class="op">,</span> receiveData<span class="op">.</span><span class="fu">length</span><span class="op">);</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>        clientSocket<span class="op">.</span><span class="fu">receive</span><span class="op">(</span>receivePacket<span class="op">);</span>   <span class="co">// bloqueia ate chegar a resposta</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> modifiedSentence <span class="op">=</span> <span class="kw">new</span> <span class="bu">String</span><span class="op">(</span>receivePacket<span class="op">.</span><span class="fu">getData</span><span class="op">());</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;FROM SERVER:&quot;</span> <span class="op">+</span> modifiedSentence<span class="op">);</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>        clientSocket<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Servidor UDP em Java (slides).</strong></p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">io</span><span class="op">.*;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="im">java</span><span class="op">.</span><span class="im">net</span><span class="op">.*;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> UDPServer <span class="op">{</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span> args<span class="op">[])</span> <span class="kw">throws</span> <span class="bu">Exception</span> <span class="op">{</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">DatagramSocket</span> serverSocket <span class="op">=</span> <span class="kw">new</span> <span class="bu">DatagramSocket</span><span class="op">(</span><span class="dv">9876</span><span class="op">);</span> <span class="co">// porta 9876</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">byte</span><span class="op">[]</span> receiveData <span class="op">=</span> <span class="kw">new</span> <span class="dt">byte</span><span class="op">[</span><span class="dv">1024</span><span class="op">];</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">byte</span><span class="op">[]</span> sendData<span class="op">;</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>            <span class="bu">DatagramPacket</span> receivePacket <span class="op">=</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>                <span class="kw">new</span> <span class="bu">DatagramPacket</span><span class="op">(</span>receiveData<span class="op">,</span> receiveData<span class="op">.</span><span class="fu">length</span><span class="op">);</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>            serverSocket<span class="op">.</span><span class="fu">receive</span><span class="op">(</span>receivePacket<span class="op">);</span>         <span class="co">// recebe o datagrama</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>            <span class="bu">String</span> sentence <span class="op">=</span> <span class="kw">new</span> <span class="bu">String</span><span class="op">(</span>receivePacket<span class="op">.</span><span class="fu">getData</span><span class="op">());</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>            <span class="bu">InetAddress</span> IPAddress <span class="op">=</span> receivePacket<span class="op">.</span><span class="fu">getAddress</span><span class="op">();</span> <span class="co">// IP do cliente</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> port <span class="op">=</span> receivePacket<span class="op">.</span><span class="fu">getPort</span><span class="op">();</span>                 <span class="co">// porta do cliente</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>            <span class="bu">String</span> capitalizedSentence <span class="op">=</span> sentence<span class="op">.</span><span class="fu">toUpperCase</span><span class="op">();</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>            sendData <span class="op">=</span> capitalizedSentence<span class="op">.</span><span class="fu">getBytes</span><span class="op">();</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>            <span class="bu">DatagramPacket</span> sendPacket <span class="op">=</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>                <span class="kw">new</span> <span class="bu">DatagramPacket</span><span class="op">(</span>sendData<span class="op">,</span> sendData<span class="op">.</span><span class="fu">length</span><span class="op">,</span> IPAddress<span class="op">,</span> port<span class="op">);</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>            serverSocket<span class="op">.</span><span class="fu">send</span><span class="op">(</span>sendPacket<span class="op">);</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span>   <span class="co">// volta ao inicio para esperar um novo datagrama</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Um erro no código UDP dos slides</strong> † (apanhado a
+correr o código). O servidor reaproveita o <em>buffer</em>
+<code>receiveData</code>, e
+<code>new String(receivePacket.getData())</code> converte os 1024 bytes,
+não só os que chegaram. Enviando
+<code>segunda mensagem mais longa</code> e depois <code>ab</code>, a
+segunda resposta é
+<strong><code>ABGUNDA MENSAGEM MAIS LONGA</code></strong> seguida de
+bytes nulos: o <code>ab</code> escreveu por cima das duas primeiras
+posições. O cliente tem o mesmo problema. <strong>Correção</strong>, nos
+dois lados:
+<code>new String(receivePacket.getData(), 0, receivePacket.getLength())</code>
+(testado: <code>ab</code> dá <code>AB</code>). O datagrama sabe o seu
+comprimento; a aplicação é que o tem de usar.</p>
+<h3 id="um-cliente-smtp-com-sockets">Um cliente SMTP com sockets †</h3>
+<p>Um cliente de um protocolo de texto (SMTP, HTTP, FTP) é um cliente
+TCP como o de cima: abre uma socket para a porta do servidor (25 no
+SMTP), envia comandos, um por linha, e lê as respostas. No SMTP (RFC
+2821) há quatro cuidados:</p>
+<ul>
+<li><strong>As linhas acabam em CR LF</strong> (<code>"\r\n"</code>),
+não só em <code>'\n'</code>.</li>
+<li><strong>Cada resposta começa por um código de 3 dígitos</strong>,
+que o cliente verifica antes de continuar. O 1.º dígito diz o tipo:
+<ul>
+<li><code>2xx</code> é sucesso (<code>220</code> pronto,
+<code>250</code> ok, <code>221</code> adeus);</li>
+<li><code>3xx</code> pede para continuar (<code>354</code> manda a
+mensagem);</li>
+<li><code>4xx</code> é uma falha temporária (tenta mais tarde);</li>
+<li><code>5xx</code> é uma falha permanente (ex.: <code>550</code>
+destinatário desconhecido).</li>
+</ul></li>
+<li><strong>Há respostas com várias linhas.</strong> <code>250-</code>
+(hífen depois do código) quer dizer que há mais linhas; a última tem um
+espaço (<code>250</code>). Quem lê só uma linha deixa as outras na
+socket e fica desfasado: o que lê a seguir é o resto da resposta
+anterior.</li>
+<li><strong><em>Dot-stuffing</em></strong>: uma linha do corpo que
+comece por <code>.</code> vai com um ponto a mais (<code>..</code>),
+para não se confundir com o fim da mensagem. O servidor tira-o.</li>
+</ul>
+<div class="exemplo" title="Ler e verificar respostas SMTP">
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode java"><code class="sourceCode java"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>    <span class="co">// le uma resposta (com uma ou mais linhas) e devolve o codigo</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">static</span> <span class="dt">int</span> <span class="fu">resposta</span><span class="op">()</span> <span class="kw">throws</span> <span class="bu">IOException</span> <span class="op">{</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> linha<span class="op">;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">do</span> <span class="op">{</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>            linha <span class="op">=</span> inFromServer<span class="op">.</span><span class="fu">readLine</span><span class="op">();</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="op">(</span>linha <span class="op">==</span> <span class="kw">null</span><span class="op">)</span> <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">IOException</span><span class="op">(</span><span class="st">&quot;o servidor fechou a conexao&quot;</span><span class="op">);</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>            <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;S: &quot;</span> <span class="op">+</span> linha<span class="op">);</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">while</span> <span class="op">(</span>linha<span class="op">.</span><span class="fu">length</span><span class="op">()</span> <span class="op">&gt;</span> <span class="dv">3</span> <span class="op">&amp;&amp;</span> linha<span class="op">.</span><span class="fu">charAt</span><span class="op">(</span><span class="dv">3</span><span class="op">)</span> <span class="op">==</span> <span class="ch">&#39;-&#39;</span><span class="op">);</span>  <span class="co">// &quot;250-&quot;: ha mais</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">Integer</span><span class="op">.</span><span class="fu">parseInt</span><span class="op">(</span>linha<span class="op">.</span><span class="fu">substring</span><span class="op">(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">3</span><span class="op">));</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// envia um comando e confirma o codigo da resposta</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">static</span> <span class="dt">void</span> <span class="fu">comando</span><span class="op">(</span><span class="bu">String</span> cmd<span class="op">,</span> <span class="dt">int</span> esperado<span class="op">)</span> <span class="kw">throws</span> <span class="bu">IOException</span> <span class="op">{</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span><span class="st">&quot;C: &quot;</span> <span class="op">+</span> cmd<span class="op">);</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>        outToServer<span class="op">.</span><span class="fu">writeBytes</span><span class="op">(</span>cmd <span class="op">+</span> <span class="st">&quot;</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>        <span class="dt">int</span> codigo <span class="op">=</span> <span class="fu">resposta</span><span class="op">();</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="op">(</span>codigo <span class="op">!=</span> esperado<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>            outToServer<span class="op">.</span><span class="fu">writeBytes</span><span class="op">(</span><span class="st">&quot;QUIT</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">IOException</span><span class="op">(</span><span class="st">&quot;esperava &quot;</span> <span class="op">+</span> esperado <span class="op">+</span> <span class="st">&quot; e veio &quot;</span> <span class="op">+</span> codigo<span class="op">);</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span></code></pre></div>
+<p>Contra o <code>smtp.fc.up.pt</code> (testado em 2026-10-12), a
+primeira <code>resposta()</code> lê
+<code>220 smtp.fc.up.pt ESMTP Postfix</code>, que tem espaço na posição
+3, e devolve <code>220</code>. Depois,
+<code>comando("EHLO portatil", 250)</code> lê
+<code>250-smtp.fc.up.pt</code>, <code>250-PIPELINING</code>, … (hífen,
+continua) até <code>250 DSN</code> (espaço, pára) e devolve
+<code>250</code>. Em claro, o servidor anuncia <code>STARTTLS</code> mas
+não <code>AUTH</code>: sem autenticação só entrega a endereços dos
+domínios dele.</p>
+</div>
+<h2 id="resumo-comparativo-dos-protocolos">Resumo comparativo dos
+protocolos</h2>
+<p>Para cada protocolo, os slides destacam:
+<strong>pedido/resposta</strong>; <strong>formato</strong> (cabeçalhos +
+dados); controlo e dados <strong>in-band</strong> ou
+<strong>out-of-band</strong>; <strong>centralizado ou
+distribuído</strong>; <strong>com ou sem estado</strong>; <strong>fiável
+ou não</strong>; <strong>complexidade nas extremidades</strong>.</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;">HTTP</th>
+<th style="text-align: left;">FTP</th>
+<th style="text-align: left;">SMTP</th>
+<th style="text-align: left;">POP3 / IMAP</th>
+<th style="text-align: left;">DNS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">transporte</td>
+<td style="text-align: left;">TCP</td>
+<td style="text-align: left;">TCP</td>
+<td style="text-align: left;">TCP</td>
+<td style="text-align: left;">TCP</td>
+<td style="text-align: left;">UDP</td>
+</tr>
+<tr>
+<td style="text-align: left;">porta do servidor</td>
+<td style="text-align: left;">80</td>
+<td style="text-align: left;">21 (dados: 20)</td>
+<td style="text-align: left;">25</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">estado no servidor</td>
+<td style="text-align: left;">não (<em>stateless</em>)</td>
+<td style="text-align: left;">sim</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">POP3: não entre sessões; IMAP: sim</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">controlo</td>
+<td style="text-align: left;"><em>in-band</em></td>
+<td style="text-align: left;"><em>out-of-band</em></td>
+<td style="text-align: left;"><em>in-band</em></td>
+<td style="text-align: left;"><em>in-band</em></td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr>
+<td style="text-align: left;">sentido</td>
+<td style="text-align: left;"><em>pull</em></td>
+<td style="text-align: left;">ambos</td>
+<td style="text-align: left;"><em>push</em></td>
+<td style="text-align: left;"><em>pull</em></td>
+<td style="text-align: left;">pergunta e resposta</td>
+</tr>
+<tr>
+<td style="text-align: left;">formato</td>
+<td style="text-align: left;">ASCII (HTTP/2: binário)</td>
+<td style="text-align: left;">ASCII</td>
+<td style="text-align: left;">ASCII 7 bits</td>
+<td style="text-align: left;">ASCII</td>
+<td style="text-align: left;">binário</td>
+</tr>
+<tr>
+<td style="text-align: left;">arquitetura</td>
+<td style="text-align: left;">cliente-servidor</td>
+<td style="text-align: left;">cliente-servidor</td>
+<td style="text-align: left;">entre servidores</td>
+<td style="text-align: left;">cliente-servidor</td>
+<td style="text-align: left;">distribuída, hierárquica</td>
+</tr>
+</tbody>
+</table>
+<p>(—: não está nos slides; as portas do POP3, IMAP e DNS são 110, 143 e
+53 †.)</p>
+</main>
+</div>
+</body>
+</html>

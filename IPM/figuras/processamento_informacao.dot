@@ -1,0 +1,12 @@
+digraph proc {
+  rankdir=LR; nodesep=0.2; ranksep=0.25;
+  node [shape=box, style="rounded,filled", fillcolor="#e8eef7", color="#1f3864", fontname="Helvetica", fontsize=10, margin="0.08,0.05"];
+  edge [color="#1f3864", arrowsize=0.6];
+  I [label="Entrada\n(luz, som,\ntoque)", fillcolor="#e2efda"];
+  C [label="Codificação\n(juntar estímulos,\ntorná-los inteligíveis)"];
+  M [label="Comparação\nmental\n(procurar algo\nparecido na memória)"];
+  S [label="Seleção da\nresposta\n(escolher uma reação\ndo que se sabe)"];
+  E [label="Execução da\nresposta\n(fazê-la)"];
+  O [label="Saída\n(voz,\nmovimento)", fillcolor="#e2efda"];
+  I -> C -> M -> S -> E -> O;
+}

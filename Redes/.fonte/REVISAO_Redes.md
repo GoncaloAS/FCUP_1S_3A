@@ -32,7 +32,8 @@ desprezável.
 **$n$ pacotes por ligações em série**: o último chega em $n\cdot
 d_{trans}$ **da ligação mais lenta** + um $d_{trans}$ de cada outra + todas
 as $d_{prop}$. Traçar à mão: início na ligação seguinte = máx(chegada ao
-*router*, fim do pacote anterior nessa ligação).
+*router*, fim do pacote anterior nessa ligação). No teste (sem
+calculadora) desenha-se: faixas de largura $d_{trans}$, inclinação $d_{prop}$.
 
 **Intensidade de tráfego** $La/R$: $\approx 0$ fila vazia; $\to 1$ atraso
 explode (não linear); $> 1$ atraso → ∞ (perdas).
@@ -139,7 +140,8 @@ pedida), `ra` (disponível), `aa` (com autoridade), 4 contadores. Secções:
 
 **Hierarquia**: raiz (13, *root hints*) → TLD → com autoridade. Servidor
 local: recebe pedidos **recursivos**, faz pedidos **iterativos**, guarda em
-*cache*. Caso normal com *cache* vazia: 8 mensagens. **TTL**: fixo no
+*cache*. Caso normal com *cache* vazia: 8 mensagens; só a parte
+iterativa: 6 setas, todas de e para o cliente. **TTL**: fixo no
 servidor com autoridade; desce quando vem da *cache*. Registar um domínio:
 NS + A do servidor de nomes no TLD; A, MX, CNAME... no servidor com
 autoridade.
@@ -164,6 +166,16 @@ por cliente; cliente `Socket(host, porta)` liga logo. Mensagem = linha
 (`\n`). **UDP**: `DatagramSocket`; cada `DatagramPacket` leva IP e porta;
 o servidor responde para `getAddress()`/`getPort()`; usar `getLength()`
 ao converter os dados.
+
+**Persistente**: `while ((l = in.readLine()) != null)`; `null` = o outro
+lado fechou (CTRL-D no teclado). Iterativo + persistente: o 2.º cliente
+liga-se (fica na fila do `accept()`) mas só é lido quando o 1.º fecha.
+*Threads*: `new Thread(new Helper(sock)).start()` e voltar ao `accept()`.
+
+**Cliente SMTP**: linhas com `\r\n`; ler a resposta até uma linha sem
+`-` na posição 3 e verificar o código (2xx ok, 3xx continua, 4xx
+temporário, 5xx definitivo); `From:`/`To:`/`Subject:` vão dentro do
+`DATA`; corpo com `.` inicial → `..`.
 
 **Servidores**: iterativo (um de cada vez); concorrente com processos
 (`fork()`) ou *threads* (leve, menos robusto); multiplex (`select()`, um

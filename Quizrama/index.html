@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>OS Quiz — Questions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<div class="roverlay" id="roverlay">
+  <div class="rcard">
+    <div class="rscore" id="rscore">0%</div>
+    <div style="color:var(--muted);font-size:.9rem">Final Score</div>
+    <div class="rgrade" id="rgrade">—</div>
+    <div class="rsub" id="rsub"></div>
+    <button class="btn primary" onclick="restartQuiz()" style="margin:0 auto;display:flex">🔄 Restart Quiz</button>
+  </div>
+</div>
+
+<div class="shell">
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <button class="hamburger" id="hamburgerBtn" onclick="toggleSidebar()" aria-label="Open menu">☰</button>
+  <div class="topbar-title">OS QUIZ · TESTE 1</div>
+  <a class="guide-btn" href="sistemas_operacoes_estudo__2_.html" target="_blank" title="Abrir o guia de estudo">
+    <span class="gicon">📖</span>
+    <span class="gtext-full">Ver Matéria</span>
+    <span class="gtext-short">Matéria</span>
+  </a>
+  <a class="guide-btn" href="teste2.html" title="Ir para o quiz do Teste 2">
+    <span class="gicon">🆕</span>
+    <span class="gtext-full">Teste 2</span>
+    <span class="gtext-short">T2</span>
+  </a>
+  <a class="guide-btn" href="redes.html" title="Ir para o quiz de Redes (Teste 1)">
+    <span class="gicon">🌐</span>
+    <span class="gtext-full">Redes</span>
+    <span class="gtext-short">RC</span>
+  </a>
+  <div class="topbar-progress">
+    <div class="pbar"><div class="pfill" id="pfill" style="width:0%"></div></div>
+    <div class="plabels">
+      <span>Q <span id="tIdx">1</span> / <span id="tTot">0</span></span>
+      <span id="tFilter" style="color:var(--accent)"></span>
+    </div>
+  </div>
+  <div class="topbar-meta">
+    <div class="score-ring-wrap">
+      <svg class="score-ring" viewBox="0 0 40 40">
+        <defs>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#5b8af0"/>
+            <stop offset="100%" stop-color="#a78bfa"/>
+          </linearGradient>
+        </defs>
+        <circle class="ring-bg" cx="20" cy="20" r="16"/>
+        <circle class="ring-fill" id="ringFill" cx="20" cy="20" r="16" stroke-dasharray="0 101"/>
+      </svg>
+      <div class="stat-chip">
+        <div class="val" id="tScore">0%</div>
+        <div class="lbl">Score</div>
+      </div>
+    </div>
+    <div class="stat-chip good"><div class="val" id="tCorrect">0</div><div class="lbl">Correct</div></div>
+    <div class="stat-chip bad"><div class="val" id="tWrong">0</div><div class="lbl">Wrong</div></div>
+    <div class="streak-badge" id="streakBadge" style="opacity:.4">🔥 <span id="streakNum">0</span></div>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+
+  <div class="sidebar-close">
+    <span class="sidebar-close-title">📚 OS QUIZ — MENU</span>
+    <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Close menu">✕</button>
+  </div>
+
+  <div class="s-section s-topic-section">
+    <div class="s-header open" onclick="toggleSection(this)">
+      <span>📚 Filter Topic</span><span>▾</span>
+    </div>
+    <div class="s-body">
+      <div class="topic-list" id="topicList"></div>
+    </div>
+  </div>
+
+  <div class="s-section">
+    <div class="s-header" onclick="toggleSection(this)">
+      <span>⚠️ Weak Topics</span><span>▸</span>
+    </div>
+    <div class="s-body hidden" id="weakTopics">
+      <span style="color:var(--muted);font-size:.75rem">None yet 🎉</span>
+    </div>
+  </div>
+
+  <div class="s-section">
+    <div class="s-header" onclick="toggleSection(this)">
+      <span>❌ Wrong Questions</span><span>▸</span>
+    </div>
+    <div class="s-body hidden" id="wrongList">
+      <span style="color:var(--muted);font-size:.75rem">None yet 🎉</span>
+    </div>
+  </div>
+
+  <div class="s-section">
+    <div class="s-header open" onclick="toggleSection(this)">
+      <span>🗺️ Progress Map</span><span>▾</span>
+    </div>
+    <div class="s-body">
+      <div style="color:var(--muted);font-size:.65rem;margin-bottom:5px">Click a cell to jump to that question</div>
+      <div class="heatmap" id="heatmap"></div>
+    </div>
+  </div>
+
+</aside>
+
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+<!-- MAIN -->
+<main class="main">
+
+  <div class="qcard">
+    <div class="qcard-meta">
+      <div class="cat-badge" id="catBadge">—</div>
+      <div class="qnum-badge" id="qnumBadge">#0</div>
+    </div>
+    <div class="qtext" id="qtext">Loading…</div>
+    <div class="options" id="options"></div>
+  </div>
+
+  <div class="explainer" id="explainer">
+    <div class="exp-row">
+      <div class="exp-icon">💡</div>
+      <div>
+        <div class="exp-text" id="expText"></div>
+        <div class="exp-note" id="expNote"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="btn" onclick="prev()">← Prev <span class="kbd">←</span></button>
+    <button class="btn primary" onclick="next()">Next → <span class="kbd">→</span></button>
+    <button class="btn" onclick="skip()">Skip <span class="kbd">S</span></button>
+    <button class="btn" onclick="retryCurrent()">↺ Refazer pergunta <span class="kbd">T</span></button>
+    <button class="btn warn" onclick="retryWrong()">↻ Refazer secção <span class="kbd">R</span></button>
+    <div class="nav-spacer"></div>
+    <button class="btn danger" onclick="confirmReset()">Reset All</button>
+  </div>
+
+  <div class="kbdhints">
+    <span><span class="kbd">1</span><span class="kbd">2</span><span class="kbd">3</span><span class="kbd">4</span> Answer</span>
+    <span><span class="kbd">←</span><span class="kbd">→</span> Navigate</span>
+    <span><span class="kbd">S</span> Skip</span>
+    <span><span class="kbd">T</span> Retry question</span>
+    <span><span class="kbd">R</span> Retry section</span>
+  </div>
+
+</main>
+</div>
+
+<!-- Banco de perguntas — um ficheiro por tópico, depois orquestrador (define o global ALL) -->
+<script src="assets/js/data/questions/linguagem-c.js"></script>
+<script src="assets/js/data/questions/conceitos-basicos.js"></script>
+<script src="assets/js/data/questions/i-o-e-interrupcoes.js"></script>
+<script src="assets/js/data/questions/system-calls.js"></script>
+<script src="assets/js/data/questions/processos.js"></script>
+<script src="assets/js/data/questions/ipc.js"></script>
+<script src="assets/js/data/questions/escalonamento.js"></script>
+<script src="assets/js/data/questions/sincronizacao.js"></script>
+<script src="assets/js/data/questions/deadlocks.js"></script>
+<script src="assets/js/data/questions/exame-parte-i.js"></script>
+<script src="assets/js/data/questions/exame-parte-ii.js"></script>
+<script src="assets/js/data/questions/exame-parte-iii.js"></script>
+<script src="assets/js/data/questions/exame-parte-iv.js"></script>
+<script src="assets/js/data/questions/exame-parte-v.js"></script>
+<script src="assets/js/data/questions/exame-parte-vi.js"></script>
+<script src="assets/js/data/questions/treino-fork.js"></script>
+<script src="assets/js/data/questions/treino-pipes.js"></script>
+<script src="assets/js/data/questions/treino-scheduling.js"></script>
+<script src="assets/js/data/questions/treino-sinais.js"></script>
+<script src="output.js"></script>
+
+<!-- Dados / mapas estáticos -->
+<script src="assets/js/data/topic-colors.js"></script>
+
+<!-- Core: estado da sessão e persistência (sem DOM) -->
+<script src="assets/js/core/state.js"></script>
+<script src="assets/js/core/storage.js"></script>
+
+<!-- UI: lê state, escreve no DOM -->
+<script src="assets/js/ui/toast.js"></script>
+<script src="assets/js/ui/sidebar.js"></script>
+<script src="assets/js/ui/topic-filter.js"></script>
+<script src="assets/js/ui/stats.js"></script>
+<script src="assets/js/ui/render.js"></script>
+<script src="assets/js/ui/result.js"></script>
+
+<!-- Casos de uso e plataforma -->
+<script src="assets/js/quiz.js"></script>
+<script src="assets/js/keyboard.js"></script>
+
+<!-- Boot — TEM de ser o último -->
+<script src="assets/js/boot.js"></script>
+</body>
+</html>
