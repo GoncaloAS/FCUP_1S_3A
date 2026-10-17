@@ -5,6 +5,7 @@
  *  S       — skip (igual a →)
  *  T       — retry — limpa só a pergunta actual
  *  R       — retry — limpa respostas do filtro actual e baralha
+ *  V       — pergunta aberta: ver a resolução
  *
  * Ignora eventos enquanto o utilizador está num INPUT/TEXTAREA.
  */
@@ -20,4 +21,5 @@ document.addEventListener("keydown",e=>{
   if(e.key==="s"||e.key==="S") skip();
   if(e.key==="t"||e.key==="T") retryCurrent();
   if(e.key==="r"||e.key==="R") retryWrong();
+  if(e.key==="v"||e.key==="V") revelar();
 });

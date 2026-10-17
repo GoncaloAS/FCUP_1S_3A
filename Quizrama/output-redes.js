@@ -24,5 +24,10 @@ const ALL = [].concat(
   Q_R_TREINO_ATRASOS,   // Parte II · Atrasos
   Q_R_TREINO_HTTP,      // Parte II · HTTP
   Q_R_TREINO_DIAGRAMAS, // Parte II · Diagramas
-  Q_R_MODELO1,          // Teste · Modelo 1
+  Q_R_ABERTAS_ATRASOS,  // Parte II · Atrasos (resposta aberta, das fichas)
+  Q_R_ABERTAS_HTTP,     // Parte II · HTTP (resposta aberta)
+  Q_R_ABERTAS_DIAGRAMAS,// Parte II · Diagramas (resposta aberta)
+  Q_R_ABERTAS_OUTROS,   // Parte II · DNS, email e P2P (resposta aberta)
+  Q_R_MODELO1,          // Teste · Modelo 1 (escolha múltipla)
+  Q_R_MODELO1_DEV,      // Teste · Modelo 1 (desenvolvimento, resposta aberta)
 );

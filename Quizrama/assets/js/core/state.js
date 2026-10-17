@@ -17,6 +17,7 @@ let state = {
   questionOrder:[],optionOrder:[],results:[],
   index:0,topicErrors:{},streak:0,
   filter:null,filteredOrder:[],
+  revealed:{},drafts:{},   // perguntas abertas: resolução já vista, rascunho escrito
 };
 
 /** Fisher–Yates shuffle, devolve cópia baralhada do array. */

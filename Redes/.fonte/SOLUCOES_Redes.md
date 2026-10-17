@@ -754,6 +754,46 @@ Resumo: 540 $\to$ 340 $\to$ 180 ms. Em RTTs: 12, 7 e 3 RTT, mais $6T$ =
 60 ms de transmissão nos três casos (confirma: $12 \times 40 + 60 = 540$;
 $7 \times 40 + 60 = 340$; $3 \times 40 + 60 = 180$).
 
+### C2.7 --- MSC de HTTP não persistente (exercício inventado)
+
+$d_{prop} = 20$ ms, logo $\text{RTT} = 2\,d_{prop} = 40$ ms;
+$R = 10$ Mb/s $= 10^7$ b/s.
+
+- $L_{HTML} = 25$ kB $= 2\times10^5$ b, logo $d_{trans,HTML} = \dfrac{2\times10^5}{10^7} = 20$ ms.
+- $L_{img} = 50$ kB $= 4\times10^5$ b, logo $d_{trans,img} = \dfrac{4\times10^5}{10^7} = 40$ ms.
+
+#### (a) MSC
+
+![HTTP não persistente: cada objeto abre a sua conexão TCP (SYN, SYN-ACK) e o pedido vai com o último ACK](figuras/sol_c27_http_msc.svg){width=70%}
+
+Para **cada** objeto, um a seguir ao outro:
+
+1. SYN e SYN-ACK: 1 RTT para abrir a conexão;
+2. o GET vai com o último ACK do *handshake*; o primeiro bit da
+   resposta chega ao cliente 1 RTT depois de o GET sair;
+3. a resposta demora $d_{trans}$ a passar toda (a faixa larga);
+4. o servidor fecha a conexão e o browser abre outra para o objeto
+   seguinte. As imagens só se pedem depois de o HTML chegar (é ao lê-lo
+   que o browser as descobre).
+
+#### (b) Tempo até ter tudo
+
+Cada objeto custa $2\,\text{RTT} + d_{trans}$:
+
+- HTML: $2 \times 40 + 20 = 100$ ms;
+- cada imagem: $2 \times 40 + 40 = 120$ ms.
+
+$$d_{total} = 100 + 120 + 120 = \mathbf{340\text{ ms}} = 6\,\text{RTT} + 100\text{ ms}$$
+
+#### (c) Ganho com persistente sem *pipelining*
+
+Abre-se a conexão **uma só vez** (1 RTT) e cada objeto custa
+$\text{RTT} + d_{trans}$:
+$$d_{pers} = \text{RTT} + 3\,\text{RTT} + (20 + 40 + 40) = 160 + 100 = 260\text{ ms}$$
+Ganho: $340 - 260 = \mathbf{80\text{ ms}} = 2\,\text{RTT}$, as duas
+conexões que deixam de se abrir (uma por imagem). É o MSC da P. 12 do
+teste modelo.
+
 ### M1.12 --- A página com duas imagens (Teste modelo 1, P. 12)
 
 #### (a) MSC com HTTP/1.1 persistente sem *pipelining*
@@ -1388,6 +1428,43 @@ hierarquia saiba a quem perguntar:
 
 Resolver `www.ferramentas.pt` dá o CNAME `servidor1.ferramentas.pt`, e
 depois o registo A dá 192.0.2.10.
+
+### C2.8 --- Setas DNS de www.publico.pt (exercício inventado)
+
+#### (a) Caso habitual
+
+![(a) o local é recursivo para o cliente e iterativo para fora; (b) se tudo fosse recursivo, cada servidor perguntava ao seguinte](figuras/sol_c28_dns.svg){width=100%}
+
+São **8 mensagens**:
+
+1. cliente → local: "A de `www.publico.pt`?" (pedido **recursivo**: quer
+   a resposta final);
+2. local → raiz: a mesma pergunta (**iterativo**);
+3. raiz → local: não sabe, mas manda os **NS do TLD `pt`** (com os IPs);
+4. local → TLD `pt`: a mesma pergunta;
+5. TLD → local: os **NS de `publico.pt`**;
+6. local → servidor com autoridade de `publico.pt`: a mesma pergunta;
+7. autoridade → local: o **registo A** de `www.publico.pt`;
+8. local → cliente: o registo A (e o local guarda tudo em *cache*).
+
+#### (b) Tudo recursivo
+
+Também **8 mensagens**, mas em cadeia: cada servidor pergunta ao
+seguinte e espera pela resposta, e as respostas voltam pelo mesmo
+caminho:
+
+cliente → local (1), local → raiz (2), raiz → TLD `pt` (3), TLD →
+autoridade (4); depois o registo A volta: autoridade → TLD (5), TLD →
+raiz (6), raiz → local (7), local → cliente (8).
+
+#### (c) Porque é que (b) não se usa
+
+Em (b), a **raiz** e os **TLD** teriam de fazer o trabalho todo de cada
+pergunta do mundo: guardar o estado de cada pedido pendente até a
+resposta voltar. Recebem um volume enorme de pedidos, por isso só
+respondem com **referências** (iterativo), que é rápido e não guarda
+estado. Quem faz o trabalho é o servidor local, que serve poucos
+clientes e aproveita a *cache*.
 
 ### M1.13 --- Resolução iterativa de www.jn.pt (Teste modelo 1, P. 13)
 

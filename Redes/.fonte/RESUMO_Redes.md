@@ -940,6 +940,15 @@ demora 10 ms a transmitir. Calcula o tempo até o browser ter tudo, com:
 persistente sem *pipelining*; **(c)** HTTP persistente com *pipelining*.
 Usa a fórmula $2\,\text{RTT} + T$ e o raciocínio do exemplo acima.
 
+**C2.7** (treino para o MSC do teste) Ligação de 10 Mbit/s; $d_{prop} =
+20$ ms até ao servidor; a página tem um HTML de 25 kB e 2 imagens de
+50 kB. HTTP/1.0 **não persistente**, sem conexões em paralelo; os
+pedidos e os segmentos de controlo do TCP têm transmissão nula.
+
+- **(a)** Desenha o MSC da obtenção da página (HTML + imagens).
+- **(b)** Calcula o tempo até o browser ter tudo.
+- **(c)** Quanto se ganharia com HTTP/1.1 persistente sem *pipelining*?
+
 **M1.12** (Teste modelo 1, P. 12) Ligação de 80 Mbit/s; $d_{prop} =
 30$ ms até ao servidor; a página tem um HTML de 10 kB e 2 imagens de
 200 kB. O browser nunca abre conexões simultâneas para o mesmo servidor.
@@ -1713,6 +1722,17 @@ A Network Utopia quer `networkutopia.com`:
   escrevem `www.ferramentas.pt`. O email do domínio é recebido por
   `mail.ferramentas.pt` (192.0.2.25). Escreve os RRs que ficam no
   **servidor TLD `pt`** e os que ficam no **servidor com autoridade**.
+
+**C2.8** (treino para as setas do teste) O portátil do Rui quer o IP de
+`www.publico.pt`, com todas as *caches* vazias. Desenha as setas
+numeradas das mensagens DNS entre o cliente, o servidor local, a raiz, o
+TLD `pt` e o servidor com autoridade de `publico.pt`, e diz o que leva
+cada uma:
+
+- **(a)** no caso habitual (pedido recursivo ao local; o local resolve
+  com pedidos iterativos);
+- **(b)** se todos os servidores fizessem resolução recursiva;
+- **(c)** porque é que o caso (b) não se usa na prática?
 
 **M1.13** (Teste modelo 1, P. 13) Desenha, num diagrama com quatro
 linhas verticais (cliente, servidor de raiz, servidor TLD, servidor com

@@ -42,10 +42,23 @@ function render(){
   // question
   document.getElementById("qtext").innerHTML=q[2];
 
+  // pergunta de resposta aberta (desenvolvimento): sem opções
+  const aberta=!Array.isArray(opts);
+  const visto=aberta&&(res||state.revealed[qIdx]);
+  if(aberta){
+    const rasc=(state.drafts[qIdx]||"").replace(/&/g,"&amp;").replace(/</g,"&lt;");
+    let a=`<textarea class="rascunho" id="rascunho" rows="5" placeholder="Resolve aqui ou no papel (fica só neste browser)…" oninput="state.drafts[${qIdx}]=this.value">${rasc}</textarea>`;
+    if(!visto) a+=`<div class="aberta-acoes"><button class="btn primary" onclick="revelar()">Ver resolução <span class="kbd">V</span></button></div>`;
+    else if(!res) a+=`<div class="aberta-acoes"><span class="aberta-q">Compara com a resolução. Acertaste?</span>
+      <button class="btn ok" onclick="autoavaliar(true)">Acertei</button><button class="btn mal" onclick="autoavaliar(false)">Errei</button></div>`;
+    else a+=`<div class="aberta-acoes"><span class="aberta-marca ${res.correct?"ok":"mal"}">${res.correct?"Marcaste como certa":"Marcaste como errada"}</span></div>`;
+    document.getElementById("options").innerHTML=a;
+  }
+
   // options
   const letters=["A","B","C","D"];
   let html="";
-  order.forEach((optIdx,i)=>{
+  if(!aberta) order.forEach((optIdx,i)=>{
     let cls="",dim="";
     if(res){
       if(i===newCorrect) cls="correct";
@@ -57,11 +70,11 @@ function render(){
       <div class="otext">${opts[optIdx]}</div>
     </div>`;
   });
-  document.getElementById("options").innerHTML=html;
+  if(!aberta) document.getElementById("options").innerHTML=html;
 
   // explainer
   const exp=document.getElementById("explainer");
-  if(res){
+  if(res||visto){
     exp.style.display="block";
     document.getElementById("expText").innerHTML=q[5]||"The highlighted answer is correct.";
     document.getElementById("expNote").innerHTML=q[6]?`📌 ${q[6]}`:"";

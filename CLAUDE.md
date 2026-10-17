@@ -82,3 +82,8 @@ disciplina tem `Quizrama/tools/<d>-guide/`; o `fechar.sh` regenera o guia e
 as perguntas e corre o `npm test`. Perguntas só da matéria do teste, ao estilo
 do teste, com correção de todas as opções, link para a secção da teoria e a
 posição da certa sorteada e equilibrada.
+Objetivo: quem faz o treino chega ao teste modelo e consegue fazer tudo, incluindo
+as perguntas de desenvolvimento. Por isso o treino inclui perguntas de resposta aberta
+com os exercícios das fichas que usam as mesmas técnicas, e o teste modelo tem as de
+desenvolvimento. Enunciado da ficha/teste; resolução tirada do `SOLUCOES_<D>.md`
+(a mesma do site); lista em `ABERTAS` no `perguntas.py`.

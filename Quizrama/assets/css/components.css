@@ -212,3 +212,21 @@ a.teoria:hover { background: var(--marker); }
 @media (prefers-color-scheme: dark) {
   .cat-badge, .tdot, .terr-bar, .wtag { filter: brightness(1.7) saturate(.9); }
 }
+
+/* perguntas de resposta aberta (desenvolvimento do teste modelo) */
+.rascunho { width: 100%; min-height: 110px; resize: vertical; padding: 10px 12px; border: 1px solid var(--rule);
+  border-radius: var(--radius); background: var(--paper); color: var(--ink); font: 400 .95rem/1.5 var(--font); }
+.rascunho:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
+.aberta-acoes { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.aberta-q { font-weight: 700; margin-right: 6px; }
+.btn.ok { color: var(--ok); border-color: var(--ok); }
+.btn.mal { color: var(--pen); border-color: var(--pen); }
+.aberta-marca { font: 700 1.3rem/1 var(--hand); }
+.aberta-marca.ok { color: var(--ok); } .aberta-marca.mal { color: var(--pen); }
+.exp-text .sol-aberta { white-space: normal; }
+.exp-text .sol-aberta p { margin: 0 0 10px; }
+.exp-text .sol-aberta math[display="block"] { margin: 6px 0; overflow-x: auto; overflow-y: hidden; }
+.exp-text .sol-aberta table { border-collapse: collapse; margin: 8px 0; font-variant-numeric: tabular-nums; }
+.exp-text .sol-aberta th, .exp-text .sol-aberta td { padding: 4px 10px; border-bottom: 1px solid var(--rule); text-align: center; }
+.exp-text .sol-aberta img { max-width: 100%; height: auto; display: block; margin: 10px auto; background: #fff; border-radius: var(--radius); padding: 8px; }
+.exp-text .sol-aberta code { font-family: var(--mono); font-size: .88em; }

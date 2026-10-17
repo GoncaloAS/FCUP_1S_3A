@@ -17,6 +17,8 @@ function saveState(){
       index:state.index,
       topicErrors:state.topicErrors,
       streak:state.streak,
+      revealed:state.revealed,
+      drafts:state.drafts,
     }));
   }catch(e){}
 }
@@ -27,7 +29,7 @@ function loadState(){
     if(!raw) return false;
     const s=JSON.parse(raw);
     if(s.questionOrder.length!==ALL.length) return false;
-    Object.assign(state,s,{filter:null,filteredOrder:[...Array(ALL.length).keys()]});
+    Object.assign(state,{revealed:{},drafts:{}},s,{filter:null,filteredOrder:[...Array(ALL.length).keys()]});
     // Force unshuffled option order — explanations reference (A)/(B)/(C)/(D) by source order
     state.optionOrder = ALL.map(()=>[0,1,2,3]);
     return true;

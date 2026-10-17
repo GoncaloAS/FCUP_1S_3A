@@ -1317,3 +1317,157 @@ for slug, var, name, qs in TOPICOS:
     total += n
     print(f"{name:28s} {n:3d}  A-D: {[pos.count(i) for i in range(4)]}")
 print(f"total {total}; posições da certa A-D no total: {glob}")
+
+# ═════════════════════════ Teste · Modelo 1: perguntas de desenvolvimento (resposta aberta) ═════════════════════════
+# Enunciado oficial; a resolução sai do SOLUCOES_Redes.md (### M1.N, uma alínea por ####), a mesma do site
+# de soluções. Esquema: [topic, id, enunciado, null, -1, resoluçãoHtml, nota]: sem opções, a pessoa
+# resolve, vê a resolução e marca se acertou.
+import shutil, subprocess
+REDES = ROOT.parent / "Redes"
+SOL = (REDES / ".fonte" / "SOLUCOES_Redes.md").read_text()
+FIG = ROOT / "assets" / "guia-redes"
+
+P11 = ("<b>P. 11 (4,5 valores)</b> Rede com comutação de pacotes <i>store-and-forward</i>: "
+       "<b>T1 —LAN— R1 —WAN— T2</b>. Pacotes de 1000 Bytes (com cabeçalhos) de T1 para T2. Ambas as ligações em fibra "
+       "(propagação a 2×10<sup>8</sup> m/s). A LAN tem 20 m e 10 Mbit/s. Na WAN, o atraso de propagação é 15 ms e o de "
+       "transmissão é 0,6 ms.<br><br>")
+P12 = ("<b>P. 12 (3,5 valores)</b> Um computador está ligado à Internet a 80 Mbit/s. A página está num servidor com atraso "
+       "de propagação de 30 ms e tem um HTML de 10 kByte e 2 imagens de 200 kByte cada. O browser nunca abre conexões "
+       "simultâneas para o mesmo servidor. Transmissão nula para as mensagens HTTP sem ficheiros; ignora o overhead das "
+       "camadas abaixo da aplicação.<br><br>")
+# treino (fichas e exercícios das práticas, enunciado das fichas): as mesmas técnicas da Parte II do teste
+EX3 = ("<b>Ficha 1, Ex. 3 — Em pedaços.</b> A Alice envia ao Bob um vídeo de 700 MB. Entre os dois há 2 routers e todas as "
+       "ligações têm 100 Mbps (<i>store-and-forward</i>: cada nó recebe o bloco todo antes de o reenviar).<br><br>")
+EX4 = ("<b>Ficha 1, Ex. 4 — Store and forward.</b> <b>T1 —LAN— R —WAN— T2</b>, em fibra (2×10<sup>8</sup> m/s). LAN: 4 km, "
+       "10 Mb/s. WAN: 80 km, 1 Gb/s. Pacotes de 1250 Bytes de T1 para T2; filas vazias e sem outros fluxos.<br><br>")
+EX5 = ("<b>Ficha 1, Ex. 5 — Atrasos & companhia.</b> A e B estão a 10 000 km, com uma ligação direta de R = 1 Mbps e "
+       "propagação a 2,5×10<sup>8</sup> m/s. Envia-se um ficheiro de 400 000 bits como um pacote único.<br><br>")
+F25 = ("<b>Ficha 2, Ex. 5 — Estimada capacidade.</b> Para estimar a capacidade de uma ligação, enviam-se dois datagramas "
+       "grandes e iguais, um atrás do outro, e mede-se o tempo entre a chegada do primeiro e a do segundo.<br><br>")
+F23 = ("<b>Ficha 2, Ex. 3 — Espere, mas não desespere.</b> Uma máquina de café demora 15 s a tirar um café.<br><br>")
+F22 = ("<b>Ficha 2, Ex. 2 — Multiplexagem estatística.</b> Ligação de 1 Mbps; cada utilizador transmite a 100 kbps, mas só "
+       "10% do tempo. Com comutação de pacotes, há 35 utilizadores.<br><br>")
+C21 = ("<b>Treino — tempo de resposta do HTTP.</b> Uma página tem um HTML e 5 objetos referenciados. RTT = 40 ms e cada "
+       "objeto (incluindo o HTML) demora 10 ms a transmitir. Quanto tempo até o browser ter tudo, com ")
+F32 = ("<b>Ficha 3, Ex. 2 — O proxy do Paulo.</b> O browser do Paulo só suporta HTTP 1.0 (ligação a 10 Mbps). Ele instala "
+       "um proxy HTTP 1.1 (sem cache nem compressão). Tanto o browser como o proxy só fazem uma sessão HTTP de cada vez e "
+       "só há um servidor. São <i>n</i> objetos de tamanho <i>m</i>.<br><br>")
+C26 = ("<b>Treino — P2P.</b> Um ficheiro de F = 1 Gbit vai ser distribuído a N pares. Servidor: u<sub>s</sub> = 100 Mbps "
+       "de upload; cada par: u = 5 Mbps de upload e d = 50 Mbps de download. Calcula d<sub>CS</sub> e d<sub>P2P</sub> e diz "
+       "que termo manda, para ")
+C27 = ("<b>Treino — MSC do HTTP.</b> Ligação de 10 Mbit/s; d<sub>prop</sub> = 20 ms até ao servidor; a página tem um "
+       "HTML de 25 kB e 2 imagens de 50 kB. HTTP/1.0 <b>não persistente</b>, sem conexões em paralelo; os pedidos e os "
+       "segmentos de controlo do TCP têm transmissão nula.<br><br>")
+C28 = ("<b>Treino — setas do DNS.</b> O portátil do Rui quer o IP de <code>www.publico.pt</code>, com as caches vazias. "
+       "Desenha as setas numeradas das mensagens DNS entre o cliente, o servidor local, a raiz, o TLD <code>pt</code> e o "
+       "servidor com autoridade de <code>publico.pt</code>, e diz o que leva cada uma.<br><br>")
+AT, HT, DG, OU, TM = "Parte II · Atrasos", "Parte II · HTTP", "Parte II · Diagramas", "Parte II · DNS, email e P2P", "Teste · Modelo 1"
+ABERTAS = [  # (tópico, id, número no SOLUCOES, alínea, enunciado, secção do guia, para lembrar)
+ # ── atrasos: a P. 11 por partes ──
+ (AT, "A-E5a", "Ex. 5", "(a)", EX5 + "(a) Calcula o atraso de transmissão d<sub>trans</sub>.", "atrasos", "d<sub>trans</sub> = L/R."),
+ (AT, "A-E5b", "Ex. 5", "(b)", EX5 + "(b) Calcula o atraso de propagação d<sub>prop</sub>.", "atrasos", "d<sub>prop</sub> = d/v."),
+ (AT, "A-E5c", "Ex. 5", "(c)", EX5 + "(c) Calcula o produto largura de banda–atraso R·d<sub>prop</sub>.", "debito", "R·d<sub>prop</sub> = bits que cabem no cabo."),
+ (AT, "A-E5d", "Ex. 5", "(d)", EX5 + "(d) Qual é o número máximo de bits na ligação num dado instante?", "debito", "o mínimo entre L e R·d<sub>prop</sub>."),
+ (AT, "A-E5e", "Ex. 5", "(e)", EX5 + "(e) Qual é o comprimento, em metros, de um bit na ligação?", "debito", "comprimento de um bit = v/R."),
+ (AT, "A-E5g", "Ex. 5", "(g)", EX5 + "(g) Dá uma interpretação física do produto largura de banda–atraso.", "debito", "o cabo como um tubo cheio de bits."),
+ (AT, "A-E4a", "Ex. 4", "(a)", EX4 + "(a) Calcula os atrasos de transmissão e de propagação em cada ligação.", "atrasos", "L/R e d/v, em cada ligação."),
+ (AT, "A-E4b", "Ex. 4", "(b)", EX4 + "(b) Quanto tempo demora um pacote de T1 a T2 (desde que T1 começa a transmitir até T2 acabar de receber)?", "atrasos", "um pacote: soma trans + prop de cada ligação."),
+ (AT, "A-E4c", "Ex. 4", "(c)", EX4 + "(c) Quanto tempo demoram <b>10 pacotes</b> de T1 a T2? Começa por esquematizar num diagrama temporal.", "serie", "a ligação mais lenta dita o ritmo."),
+ (AT, "A-E4d", "Ex. 4", "(d)", EX4 + "(d) Repete a alínea anterior com LAN de 1 Gb/s e WAN de 10 Mb/s.", "serie", "agora a lenta é a WAN: forma-se fila no router."),
+ (AT, "A-E3a", "Ex. 3", "(a)", EX3 + "(a) Quanto tempo demora, desde que a Alice começa a enviar o ficheiro inteiro até o Bob o acabar de receber?", "serie", "ficheiro inteiro: cada ligação espera pela anterior."),
+ (AT, "A-E3b", "Ex. 3", "(b)", EX3 + "(b) Quanto se poupa enviando o ficheiro em pedaços de 1000 Bytes, um atrás do outro?", "serie", "pedaços: as ligações trabalham em paralelo (pipelining)."),
+ (AT, "A-E3c", "Ex. 3", "(c)", EX3 + "(c) Cada pedaço leva um \"envelope\" de 20 Bytes. Volta a calcular os tempos.", "serie", "o cabeçalho também se transmite."),
+ (AT, "A-F23a", "F2.3", "(a)", F23 + "(a) Se a máquina estiver livre e chegarem 10 pessoas ao mesmo tempo, quanto esperam em média até à sua vez? E no mínimo? E no máximo?", "intensidade", "o n-ésimo espera (n−1)·L/R."),
+ (AT, "A-F23c", "F2.3", "(c)", F23 + "(c) Com chegadas independentes, em média uma a cada 15 s, a espera média cresce sem limite. Porquê?", "intensidade", "La/R → 1: sem folga, a fila explode."),
+ (AT, "A-F22c", "F2.2", "(c)", F22 + "(c) Qual é a probabilidade de exatamente k estarem a transmitir em simultâneo? Calcula para k = 3.", "core", "binomial: C(n,k)·p<sup>k</sup>·(1−p)<sup>n−k</sup>."),
+ # ── HTTP: a P. 12 por partes ──
+ (HT, "H-C21a", "C2.1", "(a)", C21 + "<b>(a)</b> HTTP não persistente, um objeto de cada vez?", "persist", "não persistente: 2 RTT + T por objeto."),
+ (HT, "H-C21b", "C2.1", "(b)", C21 + "<b>(b)</b> HTTP persistente sem pipelining?", "persist", "persistente sem pipelining: 2 RTT + n RTT + Σ T."),
+ (HT, "H-C21c", "C2.1", "(c)", C21 + "<b>(c)</b> HTTP persistente com pipelining?", "persist", "com pipelining: os pedidos seguem todos de uma vez."),
+ (HT, "H-F32a", "F3.2", "(a)", F32 + "(a) Quantifica o ganho no tempo total para os <i>n</i> objetos depois de instalar o proxy (sem atrasos de processamento no proxy nem no servidor).", "persist", "o ganho está nas conexões que deixam de se abrir."),
+ (HT, "H-F32b", "F3.2", "(b)", F32 + "(b) Faria diferença se o proxy estivesse noutro computador, com um RTT browser–proxy grande?", "persist", "o browser continua a abrir uma conexão por objeto até ao proxy."),
+ (HT, "H-F32c", "F3.2", "(c)", F32 + "(c) Qual seria o ganho se o próprio browser suportasse HTTP 1.1, com o proxy no computador do Paulo?", "persist", "persistente de ponta a ponta."),
+ # ── diagramas: as figuras das P. 11–13 ──
+ (DG, "D-F25a", "F2.5", "(a)", F25 + "(a) Esquematiza num diagrama temporal a geração, transmissão e receção dos dois pacotes. Faz no papel e compara.", "debito", "o espaçamento criado na ligação lenta mantém-se."),
+ (DG, "D-F25b", "F2.5", "(b)", F25 + "(b) Deriva a fórmula que dá a capacidade a partir do tempo medido.", "debito", "C = L/Δt."),
+ (DG, "D-C27a", "C2.7", "(a)", C27 + "(a) Desenha o MSC da obtenção da página (HTML + imagens). Faz no papel e compara.", "persist", "não persistente: SYN, SYN-ACK, ACK+GET, resposta, para cada objeto."),
+ (DG, "D-C27b", "C2.7", "(b)", C27 + "(b) Calcula o tempo até o browser ter tudo.", "persist", "não persistente: 2 RTT + T por objeto."),
+ (DG, "D-C27c", "C2.7", "(c)", C27 + "(c) Quanto se ganharia com HTTP/1.1 persistente sem pipelining?", "persist", "poupa-se 1 RTT por conexão que deixa de se abrir."),
+ (DG, "D-C28a", "C2.8", "(a)", C28 + "(a) No caso habitual: pedido recursivo ao local, que resolve com pedidos iterativos. Faz no papel e compara.", "hier", "local: recebe recursivo, faz iterativos."),
+ (DG, "D-C28b", "C2.8", "(b)", C28 + "(b) Se todos os servidores fizessem resolução recursiva. Faz no papel e compara.", "hier", "recursivo: cada servidor pergunta ao seguinte; as respostas voltam pelo mesmo caminho."),
+ (DG, "D-C28c", "C2.8", "(c)", C28 + "(c) Porque é que o caso recursivo não se usa na prática?", "hier", "a raiz e os TLD não podem guardar estado de cada pedido."),
+ # ── DNS, email e P2P ──
+ (OU, "O-C25a", "C2.5", "(a)", "<b>Treino — DNS.</b> A máquina <code>khedo</code> quer o IP de <code>www.mit.edu</code>: pede ao servidor local (recursivo), que resolve com pedidos iterativos à raiz, ao TLD <code>edu</code> e ao servidor com autoridade. Quantas mensagens DNS são trocadas se: (i) as caches estão vazias; (ii) o servidor local já tem em cache o servidor TLD de <code>edu</code>; (iii) o servidor local já tem em cache o IP de <code>www.mit.edu</code>?", "hier", "conta pares pedido/resposta, nível a nível."),
+ (OU, "O-C25b", "C2.5", "(b)", "<b>Treino — registos DNS.</b> A Ferramentas Lda registou <code>ferramentas.pt</code>. O servidor com autoridade é <code>dns1.ferramentas.pt</code> (192.0.2.53). O site está em <code>servidor1.ferramentas.pt</code> (192.0.2.10), mas as pessoas escrevem <code>www.ferramentas.pt</code>. O email é recebido por <code>mail.ferramentas.pt</code> (192.0.2.25). Escreve os RRs que ficam no servidor TLD <code>pt</code> e os que ficam no servidor com autoridade.", "rr", "TLD: NS + A do servidor com autoridade; este: A, CNAME, MX."),
+ (OU, "O-F34h", "F3.4", "(h)", "<b>Ficha 3, Ex. 4 (h).</b> Nas mensagens DNS há um campo <b>id</b>. Para que serve, e porque é necessário no DNS?", "rr", "UDP sem conexão: o id emparelha a resposta com o pedido."),
+ (OU, "O-C24", "C2.4", None, "<b>Treino — email.</b> O Bob lê o email no portátil e no telemóvel. Com POP3 no modo \"transfere e apaga\", o que vê no telemóvel depois de o portátil ir buscar o correio? Que protocolo resolve isto, e porquê?", "email", "POP3 tira do servidor; IMAP deixa lá e guarda estado."),
+ (OU, "O-C26a", "C2.6", "(a)", C26 + "<b>(a)</b> N = 10.", "p2p", "d<sub>CS</sub> = max(NF/u<sub>s</sub>, F/d<sub>min</sub>)."),
+ (OU, "O-C26b", "C2.6", "(b)", C26 + "<b>(b)</b> N = 100.", "p2p", "no P2P, cada par novo também faz upload."),
+ (OU, "O-C26c", "C2.6", "(c)", C26 + "<b>(c)</b> N = 1000.", "p2p", "d<sub>P2P</sub> deixa de crescer: tende para F/u."),
+ # ── o teste modelo: desenvolvimento ──
+ (TM, "M1.11a", "M1.11", "(a)", P11 + "(a) Calcula os atrasos de transmissão e de propagação na LAN.", "atrasos",
+  "d<sub>trans</sub> = L/R; d<sub>prop</sub> = d/v."),
+ (TM, "M1.11b", "M1.11", "(b)", P11 + "(b) Quanto demora a enviar <b>um</b> pacote de T1 para T2 (processamento desprezável, filas vazias)?", "atrasos",
+  "um pacote: soma trans + prop de cada ligação."),
+ (TM, "M1.11c", "M1.11", "(c)", P11 + "(c) Desenha o diagrama temporal (T1, R1, T2 com o tempo a descer) do envio de <b>4 pacotes</b>, nas condições da alínea anterior. Faz no papel e compara.", "serie",
+  "a ligação mais lenta dita o ritmo; vê se há fila no router."),
+ (TM, "M1.11d", "M1.11", "(d)", P11 + "(d) Quanto demora a enviar esses <b>4 pacotes</b> de T1 para T2?", "serie",
+  "N pacotes: N × trans da ligação mais lenta + o resto do caminho de um pacote."),
+ (TM, "M1.12a", "M1.12", "(a)", P12 + "(a) Desenha o MSC (diagrama de sequência de mensagens) da obtenção da página (HTML + imagens) com HTTP 1.1 <b>persistente sem pipelining</b>. Faz no papel e compara.", "persist",
+  "1 RTT para abrir a conexão; depois 1 RTT + transmissão por objeto, um de cada vez."),
+ (TM, "M1.12b", "M1.12", "(b)", P12 + "(b) Com base no MSC, calcula quanto tempo demora a obter a página com as imagens.", "persist",
+  "persistente sem pipelining: 2 RTT + n RTT + Σ transmissões."),
+ (TM, "M1.13", "M1.13", None, "<b>P. 13 (2 valores)</b> Desenha as setas das mensagens DNS para resolver <b>iterativamente</b> o nome <code>www.jn.pt</code>, entre o cliente, o servidor de raiz, o servidor de topo (TLD) e o servidor com autoridade. Faz no papel e compara.", "hier",
+  "iterativo: o cliente pergunta a cada nível; nenhuma seta entre servidores."),
+]
+FICHEIRO_ABERTAS = {AT: ("treino-atrasos-abertas", "Q_R_ABERTAS_ATRASOS"), HT: ("treino-http-abertas", "Q_R_ABERTAS_HTTP"),
+                    DG: ("treino-diagramas-abertas", "Q_R_ABERTAS_DIAGRAMAS"), OU: ("treino-dns-email-p2p-abertas", "Q_R_ABERTAS_OUTROS"),
+                    TM: ("exame-modelo-1-desenvolvimento", "Q_R_MODELO1_DEV")}
+
+def bloco_sol(num):
+    m = re.search(rf"^### {re.escape(num)} ---.*?\n(.*?)(?=^### |^## |\Z)", SOL, re.S | re.M)
+    assert m, f"{num} não está no SOLUCOES_Redes.md"
+    return m.group(1)
+
+def alinea_md(num, alinea):
+    corpo = bloco_sol(num)
+    partes = re.split(r"^#### ", corpo, flags=re.M)
+    dados = partes[0].strip()
+    for p in partes[1:]:
+        titulo, _, texto = p.partition("\n")
+        if alinea is None or titulo.startswith(alinea):
+            # os dados comuns do exercício (valores, conversões) entram se forem curtos; saídas longas de
+            # comandos (ex. F3.4, o dig de todas as alíneas) ficam de fora
+            curtos = dados and alinea and len(dados) < 700 and "```" not in dados and "Saídas reais" not in dados
+            return ((dados + "\n\n") if curtos else "") + texto.strip()
+    raise AssertionError(f"{num} {alinea}: alínea não encontrada")
+
+def md_html(md):
+    def fig(m):
+        origem = REDES / "figuras" / m.group(1)
+        shutil.copy(origem, FIG / m.group(1))
+        return f"assets/guia-redes/{m.group(1)}"
+    md = re.sub(r"figuras/([\w-]+\.svg)", fig, md)
+    md = re.sub(r"\{width=\d+%\}", "", md)
+    r = subprocess.run(["pandoc", "-f", "markdown-implicit_figures", "-t", "html5", "--mathml", "--wrap=none"],
+                       input=md, capture_output=True, text=True, check=True)
+    return r.stdout
+
+from collections import defaultdict as _dd
+abertas = _dd(list)
+for topico, qid, num, alinea, texto, sec, lembrar in ABERTAS:
+    assert qid not in ids, qid; ids.add(qid)
+    exp = f'<div class="sol-title">Resolução</div><div class="sol-aberta">{md_html(alinea_md(num, alinea))}</div>'
+    nota = (f"<b>Para lembrar:</b> {lembrar}<br>"
+            f'Se a resolução não chegou, lê a teoria: <a class="teoria" href="{GUIA}#{S[sec]}" target="_blank">'
+            f'📖 {TITULO[S[sec]]}</a>')
+    abertas[topico].append([topico, qid, texto, None, -1, exp, nota])
+for topico, qs in abertas.items():
+    slug, var = FICHEIRO_ABERTAS[topico]
+    body = ",\n".join("  " + json.dumps(e, ensure_ascii=False) for e in qs)
+    (OUT / f"{slug}.js").write_text(
+        f"/**\n * Banco de perguntas — {topico}, resposta aberta (Redes de Comunicação, Teste 1). {len(qs)} perguntas.\n"
+        f" * GERADO por tools/redes-guide/perguntas.py — edita lá, não aqui.\n"
+        f" * Esquema (resposta aberta): [topic, id, enunciadoHtml, null, -1, resoluçãoHtml, notaHtml]\n */\n"
+        f"/* eslint-disable */\nconst {var} = [\n{body},\n];\n")
+    print(f"{topico + ' (abertas)':28s} {len(qs):3d}")

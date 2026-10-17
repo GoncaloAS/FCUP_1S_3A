@@ -5,7 +5,7 @@
  * "🎯 Treino" e "📝 Exames" são inseridos antes da primeira ocorrência
  * de cada grupo.
  */
-const TOPIC_ORDER=['Linguagem C','Conceitos Básicos','I/O e Interrupções','System Calls','Processos','IPC','Escalonamento','Sincronização','Deadlocks','Threads','Sistema de Ficheiros','Dispositivos de Armazenamento','Gestão de Memória','Memória Virtual','Treino · fork()','Treino · Pipes','Treino · Scheduling','Treino · Sinais','Exame · Parte I','Exame · Parte II','Exame · Parte III','Exame · Parte IV','Exame · Parte V','Exame · Parte VI','Internet e Comutação','Atrasos e Débito','Camadas Protocolares','Princípios das Aplicações','HTTP','FTP e Email','DNS','P2P','Sockets','Parte II · Atrasos','Parte II · HTTP','Parte II · Diagramas','Teste · Modelo 1'];
+const TOPIC_ORDER=['Linguagem C','Conceitos Básicos','I/O e Interrupções','System Calls','Processos','IPC','Escalonamento','Sincronização','Deadlocks','Threads','Sistema de Ficheiros','Dispositivos de Armazenamento','Gestão de Memória','Memória Virtual','Treino · fork()','Treino · Pipes','Treino · Scheduling','Treino · Sinais','Exame · Parte I','Exame · Parte II','Exame · Parte III','Exame · Parte IV','Exame · Parte V','Exame · Parte VI','Internet e Comutação','Atrasos e Débito','Camadas Protocolares','Princípios das Aplicações','HTTP','FTP e Email','DNS','P2P','Sockets','Parte II · Atrasos','Parte II · HTTP','Parte II · Diagramas','Parte II · DNS, email e P2P','Teste · Modelo 1'];
 
 function buildTopicFilter(){
   const topics={};

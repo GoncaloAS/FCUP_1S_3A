@@ -7,6 +7,7 @@ function init(){
   state.questionOrder = shuffle([...Array(ALL.length).keys()]);
   state.optionOrder   = ALL.map(()=>[0,1,2,3]); // not shuffled — explanations reference (A)/(B)/(C)/(D) by original order
   state.results       = Array(ALL.length).fill(null);
+  state.revealed={}; state.drafts={};
   state.index=0; state.topicErrors={}; state.streak=0;
   state.filter=null;
   state.filteredOrder = [...Array(ALL.length).keys()];
@@ -18,6 +19,7 @@ function select(i){
   const qIdx=state.questionOrder[state.index];
   if(state.results[qIdx]) return;
   const q=ALL[qIdx];
+  if(!Array.isArray(q[3])) return; // resposta aberta: usa revelar()/autoavaliar()
   const order=state.optionOrder[qIdx];
   const correct=parseInt(q[4]);
   const newCorrect=order.indexOf(correct);
@@ -31,6 +33,29 @@ function select(i){
   } else {
     state.streak=0;
     const t=q[0]||"Other";
+    state.topicErrors[t]=(state.topicErrors[t]||0)+1;
+  }
+  render();
+  if(state.results.every(r=>r!==null)) setTimeout(showResult,700);
+}
+
+/** Pergunta aberta: mostra a resolução. */
+function revelar(){
+  const qIdx=state.questionOrder[state.index];
+  if(Array.isArray(ALL[qIdx][3])) return;
+  state.revealed[qIdx]=true;
+  render();
+}
+
+/** Pergunta aberta: depois de ver a resolução, a pessoa diz se acertou (conta para a nota, sem desconto). */
+function autoavaliar(ok){
+  const qIdx=state.questionOrder[state.index];
+  if(state.results[qIdx]||Array.isArray(ALL[qIdx][3])) return;
+  state.results[qIdx]={selected:-1,correct:ok,aberta:true};
+  if(ok) state.streak++;
+  else {
+    state.streak=0;
+    const t=ALL[qIdx][0]||"Other";
     state.topicErrors[t]=(state.topicErrors[t]||0)+1;
   }
   render();
@@ -70,7 +95,7 @@ function retryWrong(){
   const label=state.filter||"All Topics";
   if(!confirm(`Limpar e baralhar todas as respostas de "${label}" (${state.filteredOrder.length} perguntas)?`)) return;
   // Null out results within the filter
-  state.filteredOrder.forEach(pos=>{state.results[state.questionOrder[pos]]=null;});
+  state.filteredOrder.forEach(pos=>{const q=state.questionOrder[pos];state.results[q]=null;delete state.revealed[q];});
   // Reshuffle the question slots inside the current filter
   reshuffleFiltered();
   // Recompute topicErrors from scratch (since some may now be null)
@@ -101,6 +126,7 @@ function retryCurrent(){
     }
   }
   state.results[qIdx]=null;
+  delete state.revealed[qIdx];
   state.streak=0;
   saveState();
   render();

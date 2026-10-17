@@ -7,12 +7,13 @@ function updateStats(){
   const answered=state.results.filter(r=>r).length;
   const correct=state.results.filter(r=>r?.correct).length;
   const wrong=answered-correct;
+  const wrongMC=state.results.filter(r=>r&&!r.correct&&!r.aberta).length; // abertas não descontam
   const pct=answered?Math.round((correct/answered)*100):0;
 
   // Com window.QUIZ_PENALTY (ex.: 1/3), mostra a nota /20 como num teste com desconto por errada.
   const pen=(typeof window!=="undefined"&&window.QUIZ_PENALTY)||0;
   document.getElementById("tScore").textContent=pen
-    ?(answered?(Math.max(0,correct-wrong*pen)/answered*20).toFixed(1).replace(".",","):"–")
+    ?(answered?(Math.max(0,correct-wrongMC*pen)/answered*20).toFixed(1).replace(".",","):"–")
     :pct+"%";
   document.getElementById("tCorrect").textContent=correct;
   document.getElementById("tWrong").textContent=wrong;

@@ -51,6 +51,7 @@ const TOPIC_COLORS = {
   "Parte II · Atrasos":            {color:"#c0392b",bg:"transparent"},
   "Parte II · Diagramas":        {color:"#c0392b",bg:"transparent"},
   "Parte II · HTTP":               {color:"#c0392b",bg:"transparent"},
+  "Parte II · DNS, email e P2P":   {color:"#c0392b",bg:"transparent"},
   "Teste · Modelo 1":              {color:"#8a6d00",bg:"transparent"},
 };
 const tc = t => (TOPIC_COLORS[t]||TOPIC_COLORS["General OS"]).color;
