@@ -29,14 +29,9 @@ Uma **lógica** tem três partes:
    outras. Quer-se **correto** (*sound*: tudo o que se deduz é verdadeiro)
    e, se possível, **completo** (tudo o que é verdadeiro se deduz).
 
-O curso trata a **lógica clássica** (proposicional e de primeira ordem),
-em que cada proposição é verdadeira ou falsa, e só uma das duas
-(*terceiro excluído*). Há outras: de ordem superior, sub-estruturais
-(ex.: a intuicionista, onde $\neg\neg A \not\Leftrightarrow A$) e modais
-(a verdade depende de um "mundo", ex.: do tempo). A lógica aparece na
-informática em circuitos digitais, inteligência artificial, autómatos,
-complexidade, programação lógica (Prolog), sistemas de tipos, verificação
-formal, *SAT/SMT solvers* e assistentes de prova (Coq, Isabelle, Agda).
+O curso trata a **lógica clássica** (proposicional e de primeira ordem):
+cada proposição é verdadeira ou falsa, e só uma das duas. Há outras
+(intuicionista, modais...), que não entram.
 
 ## Proposições
 
@@ -1379,19 +1374,14 @@ elemento ficou F:
 
 ## O problema SAT
 
-Decidir se uma fórmula é satisfazível é um problema central na
-informática, porque muitos problemas se escrevem como uma fórmula e "há
-solução?" passa a ser "a fórmula é satisfazível?": otimização
-(planeamento, horários), combinatória (coloração de grafos) e teorias da
-lógica de primeira ordem (programação linear, aritmética real, *bits*,
-apontadores: os ***SMT solvers***).
-
-Fora da FND e de classes fáceis como Horn, **no pior caso** não se conhece
-algoritmo que não seja **exponencial** (**SAT é NP-completo**). Mas há
-algoritmos muito melhores do que a tabela inteira: em vez de gerar
-valorações completas e testar cada uma, **constrói-se uma valoração
-parcial**. Fica simples com fórmulas em **FNC**, escritas como conjuntos
-de **cláusulas**.
+**SAT** é o problema de decidir se uma fórmula é satisfazível. Muitos
+problemas (horários, coloração de grafos, verificação) escrevem-se como
+uma fórmula, e "há solução?" passa a "é satisfazível?". **SAT é
+NP-completo**: fora de classes fáceis (FND, Horn) não se conhece
+algoritmo melhor do que exponencial no pior caso. Mas, em vez de testar
+valorações completas uma a uma, pode **construir-se uma valoração
+parcial**, e isso fica simples com a fórmula em **FNC**, escrita como
+conjunto de **cláusulas**.
 
 ## Cláusulas
 
@@ -1581,163 +1571,19 @@ preciso fazê-las todas.
 
 # Aulas 5--7 --- Dedução Natural
 
-Falta a terceira parte de uma lógica, o **sistema de dedução**: regras
-puramente sintáticas para obter fórmulas a partir de outras, sem falar em
-valorações. O sistema é a **dedução natural (DN)**, na **notação de
-Fitch**, pedida em todos os exercícios da folha 2 ("All deductions must
-use the DN natural deduction system and the Fitch notation given in
-class").
+Até aqui, para saber se $\Gamma \models \phi$, percorriam-se valorações. A
+**dedução natural (DN)** chega lá de outra maneira: escreve-se uma
+**prova**, linha a linha, e cada linha só pode lá estar se uma **regra** a
+autorizar. Não se fala de V e F, só da **forma** das fórmulas (é um método
+**sintático**). Se existe uma dedução de $\phi$ a partir das premissas
+$\Gamma$, escreve-se $\Gamma \vdash \phi$ ("$\phi$ deduz-se de $\Gamma$");
+sem premissas escreve-se $\vdash \phi$ e diz-se que $\phi$ é um
+**teorema**. Todos os exercícios da folha 2 pedem DN na **notação de
+Fitch**.
 
-## Semântica versus dedução
+## Como funciona uma dedução
 
-| | Semântica | Dedução |
-|---|---|---|
-| Notação | $\Gamma \models \phi$ | $\Gamma \vdash \phi$ |
-| Lê-se | $\phi$ é consequência semântica de $\Gamma$ | $\phi$ deduz-se de $\Gamma$ |
-| Significa | toda a valoração que satisfaz $\Gamma$ satisfaz $\phi$ | existe uma dedução (sequência de passos, cada um dado por uma regra) de $\phi$ a partir de $\Gamma$ |
-| Natureza | fala de valores de verdade | só manipula símbolos (**sintática**) |
-
-$$\begin{aligned}
-\Gamma \models \phi \quad &\xrightarrow{\ \text{completude}\ } \quad \Gamma \vdash \phi\\
-\Gamma \vdash \phi \quad &\xrightarrow{\ \text{integridade (\emph{soundness})}\ } \quad \Gamma \models \phi
-\end{aligned}$$
-
-::: {.definicao title="--- Integridade e completude"}
-- Um sistema dedutivo é **íntegro** (*correto*, *sound*) se tudo o que se
-  deduz é consequência semântica: se $\Gamma \vdash \phi$ então
-  $\Gamma \models \phi$. Em particular, se $\vdash \phi$, $\phi$ é
-  tautologia.
-- É **completo** se tudo o que é consequência semântica se deduz: se
-  $\Gamma \models \phi$ então $\Gamma \vdash \phi$. Em particular, toda a
-  tautologia tem uma dedução sem premissas.
-
-DN é **íntegra e completa** para a lógica proposicional:
-$\Gamma \vdash \phi$ sse $\Gamma \models \phi$ (provas nas Aulas 9--10).
-:::
-
-Um sistema de dedução dá um método automático, ou semi-automático, de
-mostrar que uma fórmula é válida ou consequência de outras sem percorrer
-as valorações (que na lógica de primeira ordem deixam de ser finitas):
-cada passo verifica-se só pela forma das fórmulas.
-
-**Como se mostra $\Gamma \nvdash \phi$.** Não basta não encontrar uma
-dedução. Pela **integridade**, se existisse ter-se-ia
-$\Gamma \models \phi$; basta por isso um **contraexemplo**, uma valoração
-$v$ com $\models_v \gamma$ para todo o $\gamma \in \Gamma$ e
-$\not\models_v \phi$ (verificada com as regras de $\models_v$). Então
-$\Gamma \not\models \phi$ e, pela integridade de DN, $\Gamma \nvdash \phi$.
-É assim que se respondem as alíneas "não é válida" das 2.4, 2.9 e 2.10.
-
-## Raciocínios válidos e contraexemplos
-
-Um **raciocínio** é uma sequência de afirmações em que uma, a
-**conclusão**, deve ser consequência das outras, as **premissas**:
-
-| | |
-|:-:|:--------------------------------------------|
-| 1 | Se o Paulo adormecer e alguém o acordar, ele pragueja |
-| 2 | O Paulo adormeceu |
-| 3 | Ele não disse palavrões |
-| 4 | **Logo:** ninguém o acordou |
-
-Só interessa a estrutura lógica. Com $p$ = "o Paulo adormece", $q$ =
-"alguém o acorda" e $r$ = "ele pragueja":
-$$(p\land q)\to r,\ \ p,\ \ \neg r \quad\text{logo}\quad \neg q.$$
-
-::: definicao
-- O raciocínio é **válido** se a conclusão é **consequência lógica** das
-  premissas: verdadeira sempre que as premissas o são (aqui,
-  $\{(p\land q)\to r,\ p,\ \neg r\} \models \neg q$).
-- Um raciocínio válido com premissas **de facto** verdadeiras é
-  **sólido** (*sound*; não confundir com um sistema dedutivo *sound*,
-  isto é, íntegro).
-- Para mostrar que **não** é válido: um **contraexemplo**, uma situação
-  com as premissas verdadeiras e a conclusão falsa.
-- Para mostrar que **é**: uma **sucessão de passos**, cada um
-  consequência dos anteriores e das premissas. Formalizar isto dá os
-  **sistemas de dedução**.
-:::
-
-Outro raciocínio válido: "Se chumbas, tens de repetir. Se não estudas,
-chumbas. Não estás a repetir. Logo: estudas, ou chumbas, ou as duas." Com
-$r$ = "chumbas", $t$ = "repetes" e $e$ = "estudas":
-$$r\to t,\ \ \neg e\to r,\ \ \neg t \quad\text{logo}\quad e\lor r\lor(e\land r).$$
-A dedução fica como exercício na secção da implicação.
-
-## Sistemas dedutivos axiomáticos
-
-::: {.definicao title="--- Sistema dedutivo axiomático $\\mathcal{D}$ e dedução"}
-Um sistema dedutivo $\mathcal{D}$ (à Hilbert) tem **axiomas** (fórmulas de
-base que traduzem as propriedades dos conectivos) e **regras de
-inferência** (maneiras de obter fórmulas a partir de outras).
-
-Uma **dedução** de $\phi_n$ em $\mathcal{D}$ a partir de $\Sigma$ é uma
-sucessão **finita** $\phi_1, \dots, \phi_n$ em que cada $\phi_i$
-pertence a $\Sigma$ (premissa), **ou** é um axioma, **ou** resulta de
-fórmulas anteriores por uma regra. Escreve-se $\Sigma \vdash_{\mathcal{D}} \phi_n$.
-
-- Se $\Sigma = \emptyset$, $\phi_n$ é um **teorema** ($\vdash_{\mathcal{D}} \phi_n$)
-  e a dedução é uma **prova** de $\phi_n$.
-- Com $\Sigma = \{\theta_1, \dots, \theta_n\}$ finito, escreve-se
-  $\theta_1, \dots, \theta_n \vdash_{\mathcal{D}} \phi$, ou só
-  $\theta_1, \dots, \theta_n \vdash \phi$.
-:::
-
-Um exemplo concreto, o sistema de Hilbert $\mathcal{H}$, está na Aula 8.
-
-::: {.definicao title="--- Equivalência dedutiva ($\\dashv\\vdash$)"}
-(Aula 7; usada nas 2.11 e 2.12.)
-$\phi \dashv\vdash \psi$ se $\phi \vdash \psi$ **e** $\psi \vdash \phi$:
-são **duas deduções**, uma em cada sentido.
-:::
-
-## Dedução natural (DN) e a notação de Fitch
-
-As regras de DN imitam o raciocínio de uma prova matemática. Em relação a
-um sistema à Hilbert, DN **não tem axiomas**, só regras, e permite
-**introduzir hipóteses a meio** ("suponhamos que..."), que têm de ser
-**descartadas** antes do fim. Para cada conectivo ($\land$, $\lor$,
-$\neg$, $\mathbf{F}$, $\to$) há regras de **introdução** (como se chega a
-uma fórmula com esse conectivo) e de **eliminação** (o que se tira dela).
-
-::: {.exemplo title="--- A ideia, num exemplo informal"}
-Porque é que $(p \lor (q\land r)) \to ((p\lor q)\land(p\lor r))$ é
-tautologia?
-
-- **Supõe-se** o antecedente, $p\lor(q\land r)$. É uma disjunção, por
-  isso há **dois casos**:
-    - **caso $p$**: então $p\lor q$ e $p\lor r$, logo $(p\lor q)\land(p\lor r)$;
-    - **caso $q\land r$**: então $q$ e $r$; daí $p\lor q$ e $p\lor r$,
-      logo $(p\lor q)\land(p\lor r)$.
-- Nos dois casos chega-se ao consequente; como **supondo** o antecedente
-  se obteve o consequente, conclui-se a implicação.
-
-Cada "então" é uma regra de DN; a prova formal está na secção da
-implicação.
-:::
-
-**Representação das regras.** "De $\phi_1 \dots \phi_k$ infere-se $\phi$"
-desenha-se como uma fração, $\dfrac{\phi_1 \quad \cdots \quad \phi_k}{\phi}$,
-e uma dedução como uma **árvore** (folhas = premissas, raiz =
-conclusão). Ex.: $p\land q,\ r \vdash q\land r$:
-$$\dfrac{\dfrac{p\land q}{q}\,{\scriptstyle\land\mathrm{E}_2} \qquad r}{q\land r}\,{\scriptstyle\land\mathrm{I}}$$
-As árvores crescem depressa; por isso usa-se a **notação de Fitch**,
-linear:
-
-::: {.definicao title="--- Notação de Fitch"}
-- Cada passo numa linha **numerada**, com a **justificação** à direita:
-  a regra e os **números das linhas** usadas (ex.: "$\land$E, 1";
-  "$\land$I, 3, 2").
-- As **premissas** vêm primeiro, sem justificação, com um **traço
-  horizontal** por baixo da última.
-- A **barra vertical** marca o alcance das hipóteses. Uma
-  **sub-dedução** abre uma barra mais à direita, com a hipótese
-  sublinhada no topo; quando acaba, a barra fecha.
-- Uma regra que usa uma sub-dedução inteira cita o intervalo de linhas
-  (ex.: "$\lor$E, 1, 2--3, 4--5").
-:::
-
-O exemplo da árvore, em Fitch:
+### A notação de Fitch
 
 ```{.fitch seq="p /\ q, r |- q /\ r"}
 p /\ q
@@ -1747,8 +1593,131 @@ q               ; &E, 1
 q /\ r          ; &I, 3, 2
 ```
 
-A tabela com todas as regras de DN está na última página da folha 2
-(`Praticas/Semana_3/proplogicproofs.pdf`).
+- Cada linha tem um número e, à direita, a **justificação**: o nome da
+  regra e os números das linhas que ela usa. "$\land$E, 1" lê-se "tirei
+  $q$ da conjunção da linha 1"; "$\land$I, 3, 2" lê-se "juntei a linha 3
+  e a linha 2 num $\land$".
+- As **premissas** vêm no topo, sem justificação, com um traço por baixo.
+- A última linha, fora de todas as caixas, é a **conclusão**.
+
+::: {.definicao title="--- O que pode ser uma linha"}
+Cada linha é **uma** de três coisas:
+
+1. uma **premissa** (acima do traço);
+2. uma **hipótese**, um "imagina que $\phi$": abre uma **caixa**, uma
+   barra vertical mais à direita com $\phi$ sublinhada no topo;
+3. o resultado de uma **regra** aplicada a linhas **acima** que ainda se
+   podem citar. Repetir uma linha também é uma regra (R).
+
+Não há mais nada. Em particular, **não se usam equivalências** (De
+Morgan, etc.) como passo: para usar uma, deduz-se.
+:::
+
+### Caixas: o que se pode citar
+
+Uma caixa (**sub-dedução**) é um raciocínio por hipótese: "imagina que
+$\phi$; então...". Lá dentro pode usar-se a hipótese e tudo o que está
+acima e ainda aberto. Quando a caixa **fecha**, nada do que estava lá
+dentro pode voltar a ser usado, porque só valia no caso imaginado.
+
+Uma caixa fechada só se aproveita **inteira**, citada como intervalo
+($i$--$j$), por uma das três regras que fecham caixas: $\to$I ("imaginei
+$\phi$ e cheguei a $\psi$, logo $\phi\to\psi$"), $\neg$I ("imaginei $\phi$
+e cheguei a um absurdo, logo $\neg\phi$") e $\lor$E (os dois casos de uma
+disjunção).
+
+::: {.definicao title="--- Que linhas pode a linha $k$ citar"}
+Da linha $k$ olha-se para cima: pode citar-se uma linha da **mesma barra**
+de $k$ ou de uma barra **à esquerda** dela. Nunca uma linha de dentro de
+uma caixa **já fechada**. (Formalmente: $a < k$ e todas as barras abertas
+na linha $a$ continuam abertas na linha $k$.)
+:::
+
+```{.fitch .nocheck}
+p
+---
+|> q
+|  p /\ q            ; &I, 1, 2
+p /\ q               ; R, 3
+```
+
+A linha 3 pode citar a 1, que está numa barra à esquerda ainda aberta. A
+linha 4 **está errada**: cita a linha 3, de uma caixa já fechada (o $q$
+era só imaginado).
+
+### As regras todas
+
+Para cada conectivo há uma regra de **introdução** (I: como se chega a
+uma fórmula com esse conectivo) e uma de **eliminação** (E: o que se tira
+dela). Nos slides cada regra é uma fração, com o que é preciso em cima e o
+que se obtém em baixo; $[\phi]$ sobre $\vdots$ é uma caixa com a hipótese
+$\phi$. A folha 2 traz a mesma tabela na última página.
+
+| Regra | Precisa de (linhas que se podem citar) | Escreve-se | Justificação |
+|:--|:----------------------|:-----------|:--------|
+| R | $\phi$ | $\phi$ | R, $a$ |
+| $\land$I | $\phi$ e $\psi$ | $\phi\land\psi$ | $\land$I, $a$, $b$ |
+| $\land$E | $\phi\land\psi$ | $\phi$ (ou $\psi$) | $\land$E, $a$ |
+| $\lor$I | $\phi$ | $\phi\lor\psi$ ou $\psi\lor\phi$ ($\psi$ qualquer) | $\lor$I, $a$ |
+| $\lor$E | $\phi\lor\psi$, caixa $[\phi]\dots\gamma$, caixa $[\psi]\dots\gamma$ | $\gamma$ | $\lor$E, $a$, $i$--$j$, $k$--$l$ |
+| $\to$I | caixa $[\phi]\dots\psi$ | $\phi\to\psi$ | $\to$I, $i$--$j$ |
+| $\to$E | $\phi$ e $\phi\to\psi$ | $\psi$ | $\to$E, $a$, $b$ |
+| $\neg$I | caixa $[\phi]\dots\mathbf{F}$ | $\neg\phi$ | $\neg$I, $i$--$j$ |
+| $\neg$E | $\neg\neg\phi$ | $\phi$ | $\neg$E, $a$ |
+| $\mathbf{F}$I | $\phi$ e $\neg\phi$ | $\mathbf{F}$ | $\mathbf{F}$I, $a$, $b$ |
+| $\mathbf{F}$E | $\mathbf{F}$ | qualquer fórmula | $\mathbf{F}$E, $a$ |
+
+As secções seguintes explicam-nas uma a uma, com um exemplo e o erro
+típico de cada.
+
+### Verificar uma dedução
+
+::: {.definicao title="--- Receita: verificar uma dedução dada (2.4)"}
+Para cada linha, de cima para baixo:
+
+1. É premissa ou hipótese (topo de uma caixa)? Então está certa.
+2. Senão, procura a regra. Pistas:
+    - a linha tem um conectivo que não vinha de cima: uma **introdução**
+      ($\land$I, $\lor$I) ou $\mathbf{F}$I;
+    - a linha é um pedaço de uma fórmula de cima: uma **eliminação**
+      ($\land$E, $\to$E, $\neg$E);
+    - a linha vem logo a seguir a uma caixa fechar: $\to$I, $\neg$I ou
+      $\lor$E;
+    - a linha é igual a uma de cima: R.
+3. Confirma na tabela que as linhas usadas têm **exatamente** a forma que
+   a regra pede e que **se podem citar** (não estão em caixas fechadas).
+4. Se nenhuma regra serve, o passo está **errado**. Para saber se há uma
+   dedução correta com as mesmas premissas e conclusão: se houver um
+   contraexemplo (subsecção seguinte), não há; senão, escreve-se a
+   dedução certa.
+:::
+
+O exemplo resolvido é o 2.4(b), na secção da disjunção.
+
+### Quando não há dedução: integridade e completude
+
+::: {.definicao title="--- Integridade e completude"}
+- DN é **íntegra** (*sound*): o que se deduz é consequência semântica. Se
+  $\Gamma \vdash \phi$ então $\Gamma \models \phi$. Em particular, todo o
+  teorema é tautologia.
+- DN é **completa**: o que é consequência semântica deduz-se. Se
+  $\Gamma \models \phi$ então $\Gamma \vdash \phi$.
+
+Logo $\Gamma \vdash \phi$ sse $\Gamma \models \phi$ (provas nas Aulas
+9--10). A semântica fala de valores de verdade; a dedução só manipula
+símbolos, e por isso funciona mesmo quando as valorações deixam de ser
+finitas (lógica de primeira ordem).
+:::
+
+**Como se mostra $\Gamma \nvdash \phi$.** Não basta não encontrar uma
+dedução. Dá-se um **contraexemplo**: uma valoração $v$ com
+$\models_v \gamma$ para todo o $\gamma \in \Gamma$ e $\not\models_v \phi$,
+verificada com as regras de $\models_v$. Então $\Gamma \not\models \phi$ e,
+pela integridade, $\Gamma \nvdash \phi$ (se houvesse dedução, ter-se-ia
+$\Gamma \models \phi$). Ex.: $p \nvdash p\land q$, porque com $v(p)=V$,
+$v(q)=F$ se tem $\models_v p$ e $\not\models_v q$, logo
+$\not\models_v p\land q$. É assim que se respondem as alíneas "não é
+válida" das 2.4, 2.9 e 2.10.
 
 ## Regras da conjunção
 
@@ -1759,13 +1728,17 @@ $$\dfrac{\phi \qquad \psi}{\phi\land\psi}\,{\scriptstyle\land\mathrm{I}}
 \qquad
 \dfrac{\phi\land\psi}{\psi}\,{\scriptstyle\land\mathrm{E}_2}$$
 
-- **$\land$I**: se já se deduziu $\phi$ **e** $\psi$ (em linhas
-  anteriores, por qualquer ordem), deduz-se $\phi\land\psi$.
-- **$\land$E**: de $\phi\land\psi$ deduz-se $\phi$, e também $\psi$ (em
-  Fitch as duas chamam-se "$\land$E").
+- **$\land$I**: com $\phi$ **e** $\psi$ em linhas anteriores (por
+  qualquer ordem), escreve-se $\phi\land\psi$.
+- **$\land$E**: de $\phi\land\psi$ tira-se $\phi$, ou $\psi$ (em Fitch as
+  duas chamam-se "$\land$E").
 :::
 
-::: {.exemplo title="--- $(p\land q)\land r \vdash r\land q$"}
+**Erro típico:** aplicar $\land$E a uma linha que não é uma conjunção. De
+$(p\land q)\to r$ não se tira $p$: o conectivo principal é $\to$, e o
+$\land$ está só lá dentro.
+
+::: {.exemplo title="--- $(p\\land q)\\land r \\vdash r\\land q$"}
 Desmonta-se a premissa com $\land$E e monta-se o resultado com $\land$I:
 
 ```{.fitch seq="(p /\ q) /\ r |- r /\ q"}
@@ -1783,7 +1756,8 @@ direito.
 
 ::: {.pratica title="--- Conjunção (proplogicproofs.pdf)"}
 - **2.11 (c)** $(\psi\land\phi)\land\delta \dashv\vdash \psi\land(\phi\land\delta)$.
-  São duas deduções (uma em cada sentido), só com $\land$E e $\land$I.
+  São duas deduções (uma em cada sentido; ver $\dashv\vdash$ na secção das
+  estratégias), só com $\land$E e $\land$I.
 :::
 
 ## Regras da disjunção
@@ -1795,42 +1769,29 @@ $$\dfrac{\phi}{\phi\lor\psi}\,{\scriptstyle\lor\mathrm{I}_1}
 \qquad\qquad
 \dfrac{\phi\lor\psi \qquad \begin{array}{c}[\phi]\\ \vdots\\ \gamma\end{array} \qquad \begin{array}{c}[\psi]\\ \vdots\\ \gamma\end{array}}{\gamma}\,{\scriptstyle\lor\mathrm{E}}$$
 
-- **$\lor$I**: de $\phi$ deduz-se **qualquer** disjunção com $\phi$ de um
-  dos lados ($\phi\lor\psi$ ou $\psi\lor\phi$).
-- **$\lor$E** (**por casos**): se já se deduziu $\phi\lor\psi$, **supondo**
-  $\phi$ se deduz $\gamma$ (numa sub-dedução) e **supondo** $\psi$ se
-  deduz $\gamma$ (noutra), então deduz-se $\gamma$. $[\phi]$ marca o
-  início de uma sub-dedução com a hipótese $\phi$, que só vale lá dentro.
-
-Em Fitch, $\lor$E cita a linha da disjunção e os dois intervalos; as duas
-sub-deduções têm de acabar **na mesma fórmula** $\gamma$.
+- **$\lor$I**: de $\phi$ escreve-se **qualquer** disjunção com $\phi$ de
+  um dos lados ($\phi\lor\psi$ ou $\psi\lor\phi$). Se $\phi$ é verdade,
+  "$\phi$ ou o que for" também é.
+- **$\lor$E** (**por casos**): de $\phi\lor\psi$ não se sabe qual dos dois
+  vale, por isso experimentam-se os dois. Numa caixa imagina-se $\phi$ e
+  chega-se a $\gamma$; noutra imagina-se $\psi$ e chega-se **ao mesmo**
+  $\gamma$. Então $\gamma$ vale de certeza, fora das caixas. Cita-se a
+  disjunção e os dois intervalos.
+- **R** (repetição): pode sempre copiar-se uma linha que se possa citar.
+  Faz falta quando, num caso, a hipótese já é $\gamma$: a caixa tem de
+  terminar em $\gamma$ com um passo seu.
 :::
 
-::: {.exemplo title="--- $(p\land q)\lor(q\land r) \vdash q$"}
-A premissa é uma disjunção: dois casos, e em cada um tira-se $q$ com
-$\land$E.
+**Erros típicos:**
 
-```{.fitch seq="(p /\ q) \/ (q /\ r) |- q"}
-(p /\ q) \/ (q /\ r)
----
-|> p /\ q
-|  q                 ; &E, 2
-|> q /\ r
-|  q                 ; &E, 4
-q                    ; vE, 1, 2-3, 4-5
-```
+- tirar $\phi$ de $\phi\lor\psi$ (isso não é regra nenhuma; só $\lor$E, por
+  casos);
+- fechar um $\lor$E com casos que acabam em fórmulas **diferentes**;
+- usar fora das caixas uma linha que só foi deduzida dentro de um caso.
 
-Linhas 2--3: caso $p\land q$; linhas 4--5: caso $q\land r$. Como as duas
-acabam em $q$, $\lor$E dá $q$ na linha 6, **fora** das sub-deduções.
-:::
+::: {.exemplo title="--- $(p\\land q)\\lor q \\vdash q$"}
+Dois casos, e os dois têm de acabar em $q$.
 
-### Repetição
-
-Pode sempre **repetir-se** uma fórmula já obtida e acessível: regra **R**,
-$\dfrac{\phi}{\phi}\,{\scriptstyle\mathrm{R}}$. Faz falta quando um caso
-de $\lor$E já é a conclusão:
-
-::: {.exemplo title="--- $(p\land q)\lor q \vdash q$"}
 ```{.fitch seq="(p /\ q) \/ q |- q"}
 (p /\ q) \/ q
 ---
@@ -1841,48 +1802,12 @@ de $\lor$E já é a conclusão:
 q                    ; vE, 1, 2-3, 4-5
 ```
 
-No segundo caso a hipótese já é $q$, mas a sub-dedução tem de terminar em
-$q$ com um passo seu: a linha 5 repete a 4.
+Linhas 2--3: caso $p\land q$, de onde se tira $q$. Linhas 4--5: caso $q$;
+a hipótese já é $q$, e a linha 5 repete-a para a caixa acabar em $q$. Os
+dois casos acabam em $q$, por isso $\lor$E dá $q$ na linha 6.
 :::
 
-### Alcance das sub-deduções
-
-::: {.definicao title="--- Alcance das hipóteses"}
-Uma sub-dedução começa com **hipóteses novas**, e tudo o que se deduz lá
-dentro **depende delas**. Quando acaba, as hipóteses deixam de estar
-assumidas: **nem elas nem nada do que se deduziu lá dentro pode ser usado
-depois**.
-
-Em Fitch, a linha $k$ pode citar a linha $a$ só se $a < k$ **e** todas
-as barras abertas na linha $a$ ainda estão abertas na linha $k$. Uma
-sub-dedução inteira ($i$--$j$) só pode ser citada depois do seu fim, ao
-nível da barra imediatamente à esquerda.
-:::
-
-::: {.exemplo title="--- Uma dedução ERRADA"}
-```{.fitch .nocheck}
-(p /\ q) \/ (q /\ r)
----
-|> p /\ q
-|  p                 ; &E, 2
-|  q                 ; &E, 2
-|> q /\ r
-|  q                 ; &E, 5
-q                    ; vE, 1, 2-4, 5-6
-q /\ p               ; &I, 7, 3
-```
-
-O passo 8 está **errado**: usa a linha 3 ($p$), de uma sub-dedução (2--4)
-**já terminada**. Esse $p$ só valia no caso $p\land q$.
-
-Nem há correção possível: $q\land p$ não é consequência semântica da
-premissa (contraexemplo $v(p)=F$, $v(q)=V$, $v(r)=V$:
-$\models_v q\land r$, logo $\models_v (p\land q)\lor(q\land r)$, mas
-$\not\models_v p$, logo $\not\models_v q\land p$). Pela integridade, não
-existe dedução.
-:::
-
-::: {.exemplo title="--- $p\land(q\lor r) \vdash (p\land q)\lor(p\land r)$"}
+::: {.exemplo title="--- $p\\land(q\\lor r) \\vdash (p\\land q)\\lor(p\\land r)$"}
 Tiram-se $p$ e $q\lor r$ da premissa; a disjunção pede $\lor$E com
 $\gamma = (p\land q)\lor(p\land r)$.
 
@@ -1900,11 +1825,12 @@ q \/ r               ; &E, 1
 (p /\ q) \/ (p /\ r) ; vE, 3, 4-6, 7-9
 ```
 
-A linha 5 usa a linha 2 ($p$): é permitido, porque a barra principal
-continua aberta dentro das sub-deduções. O proibido é o contrário.
+A linha 5 usa a linha 2 ($p$), que está na barra principal, à esquerda e
+ainda aberta. O contrário (usar cá fora o $q$ da linha 4) é que é
+proibido.
 :::
 
-::: {.exemplo title="--- Exercício 2.4(b) (lab, proplogicproofs.pdf) --- encontrar o passo errado"}
+::: {.exemplo title="--- Exercício 2.4(b) (lab, proplogicproofs.pdf) --- verificar com a receita"}
 Dedução dada (sem justificações):
 
 ```{.fitch .nocheck}
@@ -1918,12 +1844,19 @@ Dedução dada (sem justificações):
 p /\ r
 ```
 
-Justificações: 1 premissa; 2 hipótese; 3 $\land$E, 2; 4 $\lor$I, 3;
-5 hipótese; 6 $\lor$I, 5. Tudo certo até aqui.
+Linha a linha:
 
-**O passo 7 está errado.** As duas sub-deduções terminam em $p\lor r$,
-por isso $\lor$E só dá $p\lor r$. E nenhuma outra regra dá $p\land r$:
-$p$ (linha 3) e $r$ (linha 5) estão em sub-deduções fechadas.
+- **1**: premissa.
+- **2**: hipótese (abre a caixa 2--4).
+- **3**: $p$ é um pedaço de $p\land q$ (linha 2, mesma caixa): $\land$E, 2.
+- **4**: $p\lor r$ tem um $\lor$ novo, a partir de $p$ (linha 3):
+  $\lor$I, 3. A caixa fecha.
+- **5**: hipótese (abre a caixa 5--6).
+- **6**: $p\lor r$ a partir de $r$ (linha 5): $\lor$I, 5. A caixa fecha.
+- **7**: $p\land r$ vem depois de duas caixas, mas $\lor$E dava o $\gamma$
+  em que **as duas** acabam, $p\lor r$, e não $p\land r$. $\land$I
+  precisava de $p$ e de $r$ citáveis, mas a linha 3 e a linha 5 estão em
+  caixas fechadas. **O passo 7 está errado.**
 
 **Há dedução correta de $p\land r$?** Não. Contraexemplo: $v(p)=F$,
 $v(q)=F$, $v(r)=V$. Então $\models_v r$, logo
@@ -1931,7 +1864,7 @@ $\models_v (p\land q)\lor r$; e $\not\models_v p$, logo
 $\not\models_v p\land r$. Assim $(p\land q)\lor r \not\models p\land r$ e,
 pela integridade, $(p\land q)\lor r \nvdash p\land r$.
 
-Corrigindo o passo 7, a dedução mostra $p\lor r$:
+Corrigindo o passo 7, a dedução prova $p\lor r$:
 
 ```{.fitch seq="(p /\ q) \/ r |- p \/ r"}
 (p /\ q) \/ r
@@ -1947,8 +1880,8 @@ p \/ r               ; vE, 1, 2-4, 5-6
 
 ::: {.pratica title="--- Disjunção (proplogicproofs.pdf)"}
 - **2.4 (a)** A dedução de $p\land q$ a partir de $p\lor q$ é válida? Se
-  não, qual o passo errado e existe uma dedução correta? Mesma técnica do
-  exemplo 2.4(b) acima.
+  não, qual o passo errado e existe uma dedução correta? Mesma receita do
+  exemplo 2.4(b).
 - **2.11 (h)** $(\delta\lor\phi)\land(\delta\lor\psi) \dashv\vdash
   \delta\lor(\phi\land\psi)$. Pista: no sentido $\vdash$ há um $\lor$E
   **dentro** de outro $\lor$E (no caso $\phi$, abre-se $\delta\lor\psi$).
@@ -1956,45 +1889,45 @@ p \/ r               ; vE, 1, 2-4, 5-6
 
 ## Regras da negação e do absurdo ($\mathbf{F}$)
 
-$\mathbf{F}$ representa uma **contradição** (ex.: $\phi\land\neg\phi$).
+$\mathbf{F}$ é o **absurdo**, uma contradição (como $\phi\land\neg\phi$).
 Semanticamente† é a fórmula sempre falsa ($\not\models_v \mathbf{F}$ para
 toda a $v$), a mesma da cláusula vazia do DLL: $\Sigma \models \mathbf{F}$
 quer dizer que $\Sigma$ é insatisfazível.
 
-::: {.definicao title="--- Regras de $\\neg$"}
-$$\dfrac{\neg\neg\phi}{\phi}\,{\scriptstyle\neg\mathrm{E}}
+::: {.definicao title="--- Regras de $\\neg$ e de $\\mathbf{F}$"}
+$$\dfrac{\begin{array}{c}[\phi]\\ \vdots\\ \mathbf{F}\end{array}}{\neg\phi}\,{\scriptstyle\neg\mathrm{I}}
+\qquad
+\dfrac{\neg\neg\phi}{\phi}\,{\scriptstyle\neg\mathrm{E}}
 \qquad\qquad
-\dfrac{\begin{array}{c}[\phi]\\ \vdots\\ \mathbf{F}\end{array}}{\neg\phi}\,{\scriptstyle\neg\mathrm{I}}$$
-
-- **$\neg$E** (eliminação da dupla negação): de $\neg\neg\phi$ deduz-se
-  $\phi$.
-- **$\neg$I** (**por contradição**): se, **supondo** $\phi$, se deduz
-  $\mathbf{F}$, deduz-se $\neg\phi$ fora da sub-dedução. Cita-se o
-  intervalo: "$\neg$I, $i$--$j$".
-:::
-
-::: {.definicao title="--- Regras de $\\mathbf{F}$"}
-Se $\mathbf{F}$ não for abreviatura de $\phi\land\neg\phi$, precisa de
-regras próprias:
-$$\dfrac{\phi \qquad \neg\phi}{\mathbf{F}}\,{\scriptstyle\mathbf{F}\mathrm{I}}
-\qquad\qquad
+\dfrac{\phi \qquad \neg\phi}{\mathbf{F}}\,{\scriptstyle\mathbf{F}\mathrm{I}}
+\qquad
 \dfrac{\mathbf{F}}{\phi}\,{\scriptstyle\mathbf{F}\mathrm{E}}$$
 
-- **$\mathbf{F}$I**: de $\phi$ **e** $\neg\phi$ tem-se $\mathbf{F}$ (cita
-  as duas linhas, por qualquer ordem).
-- **$\mathbf{F}$E**: de $\mathbf{F}$ deduz-se **qualquer** fórmula.
+- **$\neg$I** (**por contradição**): se imaginar $\phi$ leva ao absurdo,
+  $\phi$ não pode ser verdade. Caixa com hipótese $\phi$ que acaba em
+  $\mathbf{F}$; fora dela, $\neg\phi$. Cita-se o intervalo.
+- **$\neg$E**: de $\neg\neg\phi$ tira-se $\phi$ (dupla negação).
+- **$\mathbf{F}$I**: de $\phi$ **e** $\neg\phi$ tem-se $\mathbf{F}$ (cita as
+  duas linhas, por qualquer ordem).
+- **$\mathbf{F}$E**: de $\mathbf{F}$ tira-se **qualquer** fórmula. Serve
+  para fechar um caso impossível de um $\lor$E.
 
 $\Sigma$ é **inconsistente** se $\Sigma \vdash \mathbf{F}$.
 :::
 
-É o $\neg$E que torna esta lógica **clássica**† (a intuicionista não
-aceita $\neg\neg\phi \vdash \phi$). Por isso, "chegar a $\phi$ por
-contradição" em DN são **dois** passos: supor $\neg\phi$, chegar a
-$\mathbf{F}$, concluir $\neg\neg\phi$ por $\neg$I e depois $\phi$ por
-$\neg$E (ex.: (d) abaixo).
+**Erros típicos:**
+
+- $\neg$E tira **duas** negações de uma vez; de $\neg\phi$ sozinho não se
+  tira nada;
+- $\mathbf{F}$I precisa de uma fórmula **e da sua negação exata**: $p$ e
+  $\neg(p\lor q)$ não dão $\mathbf{F}$, primeiro tem de se obter $p\lor q$
+  (por $\lor$I);
+- "chegar a $\phi$ por contradição" são **dois** passos: imaginar
+  $\neg\phi$, chegar a $\mathbf{F}$, concluir $\neg\neg\phi$ por $\neg$I e
+  depois $\phi$ por $\neg$E (exemplo (d) abaixo).
 
 ::: {.exemplo title="--- $\\phi \\vdash \\neg\\neg\\phi$"}
-Quer-se uma negação, $\neg(\neg\phi)$: supõe-se $\neg\phi$ e procura-se
+Quer-se uma negação, $\neg(\neg\phi)$: imagina-se $\neg\phi$ e procura-se
 $\mathbf{F}$.
 
 ```{.fitch seq="phi |- ~~phi"}
@@ -2008,8 +1941,8 @@ phi
 
 ::: {.exemplo title="--- Duas negações: (b) e (c)"}
 **(b) $\neg p\lor\neg q \vdash \neg(p\land q)$.** O objetivo é uma
-negação: supõe-se $p\land q$ e procura-se $\mathbf{F}$, usando a premissa
-com $\lor$E e $\gamma = \mathbf{F}$.
+negação: imagina-se $p\land q$ e procura-se $\mathbf{F}$, usando a
+premissa com $\lor$E e $\gamma = \mathbf{F}$.
 
 ```{.fitch seq="~p \/ ~q |- ~(p /\ q)"}
 ~p \/ ~q
@@ -2025,8 +1958,9 @@ com $\lor$E e $\gamma = \mathbf{F}$.
 ~(p /\ q)            ; ~I, 2-9
 ```
 
-**(c) $\vdash \neg(p\land\neg p)$** (sem premissas). Supõe-se
-$p\land\neg p$, que se contradiz a si própria.
+**(c) $\vdash \neg(p\land\neg p)$** (sem premissas, por isso a dedução
+começa logo com uma caixa). Imagina-se $p\land\neg p$, que se contradiz a
+si própria.
 
 ```{.fitch seq="|- ~(p /\ ~p)"}
 |> p /\ ~p
@@ -2039,7 +1973,7 @@ $p\land\neg p$, que se contradiz a si própria.
 
 ::: {.exemplo title="--- (d) $\\neg(\\neg p\\lor q) \\vdash p$"}
 $p$ não é negação nem tem conectivo para introduzir: **por contradição**.
-Supõe-se $\neg p$; daí sai $\neg p\lor q$, o contrário da premissa.
+Imagina-se $\neg p$; daí sai $\neg p\lor q$, o contrário da premissa.
 
 ```{.fitch seq="~(~p \/ q) |- p"}
 ~(~p \/ q)
@@ -2054,26 +1988,42 @@ p                    ; ~E, 5
 
 ::: {.pratica title="--- Negação e F (proplogicproofs.pdf)"}
 - **2.4 (c)** A dedução de $q$ a partir de $\neg(p\lor\neg q)$ é válida?
-  Se sim, indica a regra de cada passo.
+  Se sim, indica a regra de cada passo (receita da primeira secção).
 - **2.9 (a)** $\neg\delta,\ \delta\lor\phi \vdash \phi$ é válida? Pista:
   $\lor$E; no caso $\delta$ há uma contradição, e de $\mathbf{F}$ tira-se
   o que se quiser.
 - **2.9 (d)** $\delta\lor\psi,\ \neg\psi\lor\phi \vdash \delta\lor\phi$ é
   válida? Pista: dois $\lor$E, um dentro do outro.
 - **2.11 (d)** $\neg(\neg\delta_1\land\neg\delta_2) \dashv\vdash
-  \delta_1\lor\delta_2$. O sentido $\vdash$ é por contradição (supor
+  \delta_1\lor\delta_2$. O sentido $\vdash$ é por contradição (imaginar
   $\neg(\delta_1\lor\delta_2)$), como no exemplo (d).
 :::
 
 ## Regras da implicação
 
-::: {.definicao title="--- Eliminação de $\\to$ (\\emph{modus ponens})"}
-$$\dfrac{\phi \qquad \phi\to\psi}{\psi}\,{\scriptstyle\to\mathrm{E}}$$
-De $\phi$ e $\phi\to\psi$ deduz-se $\psi$ (*modus ponens*). Citam-se as
-duas linhas.
+::: {.definicao title="--- Introdução e eliminação de $\\to$"}
+$$\dfrac{\begin{array}{c}[\phi]\\ \vdots\\ \psi\end{array}}{\phi\to\psi}\,{\scriptstyle\to\mathrm{I}}
+\qquad\qquad
+\dfrac{\phi \qquad \phi\to\psi}{\psi}\,{\scriptstyle\to\mathrm{E}}$$
+
+- **$\to$I** (regra da dedução): para provar "se $\phi$ então $\psi$",
+  imagina-se $\phi$ numa caixa e chega-se a $\psi$; fecha-se a caixa e
+  escreve-se $\phi\to\psi$ (hipótese $\to$ última linha da caixa). Cita-se
+  o intervalo.
+- **$\to$E** (*modus ponens*): com $\phi$ e $\phi\to\psi$, escreve-se
+  $\psi$. Citam-se as duas linhas.
 :::
 
-::: {.exemplo title="--- $p\\to(q\\to r),\\ p\\to q,\\ p \\vdash r$"}
+**Erros típicos:**
+
+- usar $\to$E sem ter o antecedente: de $\phi\to\psi$ e $\psi$ **não** se
+  tira $\phi$ (é a falácia da afirmação do consequente);
+- em $\to$I, escrever a implicação ainda dentro da caixa, ou com outra
+  fórmula que não a última linha da caixa.
+
+::: {.exemplo title="--- $\\to$E e $\\to$I: dois exemplos"}
+$p\to(q\to r),\ p\to q,\ p \vdash r$ (só $\to$E):
+
 ```{.fitch seq="p -> (q -> r), p -> q, p |- r"}
 p -> (q -> r)
 p -> q
@@ -2083,16 +2033,10 @@ q -> r               ; ->E, 1, 3
 q                    ; ->E, 2, 3
 r                    ; ->E, 4, 5
 ```
-:::
 
-::: {.definicao title="--- Introdução de $\\to$ (regra da dedução)"}
-$$\dfrac{\begin{array}{c}[\phi]\\ \vdots\\ \psi\end{array}}{\phi\to\psi}\,{\scriptstyle\to\mathrm{I}}$$
-Para deduzir $\phi\to\psi$: **supõe-se** $\phi$ (sub-dedução) e deduz-se
-$\psi$; fecha-se a sub-dedução e conclui-se $\phi\to\psi$. Cita-se o
-intervalo: "$\to$I, $i$--$j$".
-:::
+$(p\lor q)\to r \vdash p\to r$: a conclusão é uma implicação, por isso
+imagina-se $p$ e procura-se $r$.
 
-::: {.exemplo title="--- $(p\\lor q)\\to r \\vdash p\\to r$"}
 ```{.fitch seq="(p \/ q) -> r |- p -> r"}
 (p \/ q) -> r
 ---
@@ -2106,11 +2050,24 @@ p -> r               ; ->I, 2-4
 ### Deduções sem premissas
 
 Com $\to$I, uma dedução com premissas converte-se numa **sem premissas**:
-supõe-se a premissa numa sub-dedução e no fim aplica-se $\to$I. Em Fitch,
-uma dedução sem premissas começa logo com uma sub-dedução.
+imagina-se a premissa numa caixa e no fim aplica-se $\to$I. Em Fitch, uma
+dedução sem premissas começa logo com uma caixa.
 
-::: {.exemplo title="--- $\\vdash \\phi\\to\\neg\\neg\\phi$"}
-É $\phi\vdash\neg\neg\phi$ "embrulhada" numa sub-dedução:
+::: {.definicao title="--- Lema da dedução †"}
+(Apontamentos de Nelma Moreira, Lema 1.4.)
+$$\Sigma \cup \{\phi\} \vdash \psi \quad\text{sse}\quad \Sigma \vdash \phi\to\psi.$$
+
+- ($\Rightarrow$) Imagina-se $\phi$ numa caixa, repetem-se lá dentro os
+  passos da dedução de $\psi$ e aplica-se $\to$I.
+- ($\Leftarrow$) Acrescenta-se $\phi$ às premissas e aplica-se $\to$E.
+
+Logo $\phi_1, \dots, \phi_n \vdash \psi$ sse
+$\vdash \phi_1 \to (\phi_2 \to \cdots (\phi_n \to \psi))$.
+:::
+
+::: {.exemplo title="--- $\\vdash \\phi\\to\\neg\\neg\\phi$ e uma distributividade"}
+$\vdash \phi\to\neg\neg\phi$ é $\phi\vdash\neg\neg\phi$ "embrulhada" numa
+caixa:
 
 ```{.fitch seq="|- phi -> ~~phi"}
 |> phi
@@ -2119,23 +2076,9 @@ uma dedução sem premissas começa logo com uma sub-dedução.
 |  ~~phi             ; ~I, 2-3
 phi -> ~~phi         ; ->I, 1-4
 ```
-:::
 
-::: {.definicao title="--- Lema da dedução †"}
-(Apontamentos de Nelma Moreira, Lema 1.4.)
-$$\Sigma \cup \{\phi\} \vdash \psi \quad\text{sse}\quad \Sigma \vdash \phi\to\psi.$$
-
-- ($\Rightarrow$) Supõe-se $\phi$ numa sub-dedução, repetem-se lá dentro
-  os passos da dedução de $\psi$ e aplica-se $\to$I.
-- ($\Leftarrow$) Acrescenta-se $\phi$ às premissas e aplica-se $\to$E.
-
-Logo $\phi_1, \dots, \phi_n \vdash \psi$ sse
-$\vdash \phi_1 \to (\phi_2 \to \cdots (\phi_n \to \psi))$.
-:::
-
-::: {.exemplo title="--- A tautologia do exemplo informal, agora formal"}
 $\vdash (p\lor(q\land r))\to((p\lor q)\land(p\lor r))$: $\to$I por fora,
-$\lor$E por dentro e, em cada caso, $\lor$I + $\land$I.
+$\lor$E por dentro e, em cada caso, $\lor$I e $\land$I.
 
 ```{.fitch seq="|- (p \/ (q /\ r)) -> ((p \/ q) /\ (p \/ r))"}
 |> p \/ (q /\ r)
@@ -2154,26 +2097,9 @@ $\lor$E por dentro e, em cada caso, $\lor$I + $\land$I.
 ```
 :::
 
-::: {.exemplo title="--- O raciocínio do Paulo, deduzido"}
-$(p\land q)\to r,\ p,\ \neg r \vdash \neg q$. Objetivo negação: supõe-se
-$q$; com $p$ monta-se $p\land q$, que dá $r$, contra $\neg r$.
-
-```{.fitch seq="(p /\ q) -> r, p, ~r |- ~q"}
-(p /\ q) -> r
-p
-~r
----
-|> q
-|  p /\ q            ; &I, 2, 4
-|  r                 ; ->E, 1, 5
-|  F                 ; FI, 6, 3
-~q                   ; ~I, 4-7
-```
-:::
-
 ::: {.exemplo title="--- Exercício 2.5(a) (lab, proplogicproofs.pdf)"}
-$(p\land q)\to r,\ p \vdash q\to r$. A conclusão é uma implicação: supor
-$q$, chegar a $r$, $\to$I.
+$(p\land q)\to r,\ p \vdash q\to r$. A conclusão é uma implicação:
+imaginar $q$, chegar a $r$, $\to$I.
 
 ```{.fitch seq="(p /\ q) -> r, p |- q -> r"}
 (p /\ q) -> r
@@ -2224,9 +2150,11 @@ p                    ; vE, 1, 5-6, 7-15
 - **2.5 (e)** $p\to(q\lor r),\ q\to s,\ r\to t \vdash p\to(s\lor t)$.
   Pista: $\to$I por fora, $\lor$E por dentro.
 - **2.5 (g)** $(t\to(r\lor p))\to((\neg r\lor k)\land\neg k) \vdash \neg r$.
-  Pista: supor $r$; para usar a premissa precisas de $t\to(r\lor p)$, que
-  se obtém com $\to$I.
-- **Slide 9** Deduz o raciocínio "estudar ou chumbar":
+  Pista: imaginar $r$; para usar a premissa precisas de $t\to(r\lor p)$,
+  que se obtém com $\to$I.
+- **Slide 9** "Se chumbas, repetes. Se não estudas, chumbas. Não estás a
+  repetir. Logo estudas, ou chumbas, ou as duas": com $r$ = chumbas, $t$ =
+  repetes, $e$ = estudas, deduz
   $r\to t,\ \neg e\to r,\ \neg t \vdash e\lor r\lor(e\land r)$.
 
 As alíneas (c) e (f) da 2.5 são a mesma técnica; não precisas de as
@@ -2251,16 +2179,107 @@ Ficam de fora a 2.6 (a), (c) e a 2.8 (b), (d), (f): são as mesmas
 técnicas.
 :::
 
-## Regras derivadas e estratégias
+## Construir uma dedução: estratégias, regras derivadas e raciocínios
 
-**Regras derivadas** (Aula 7) são atalhos que correspondem a teoremas de
-DN: obtêm-se das regras base e podem "colar-se" noutra dedução. A folha 2
-diz "In case you use derived rules, you should prove them separately":
-pode usar-se MT, RA, TE ou $\neg\neg$I, mas escrevendo também a dedução
-de cada uma (as de baixo). As soluções usam só as regras base.
+### Estratégias
+
+Uma dedução constrói-se **de trás para a frente**: escreve-se a conclusão
+em baixo e pergunta-se "que regra a dá, e o que me falta para a usar?".
+Cada resposta é um objetivo mais pequeno.
+
+::: {.definicao title="--- Estratégias (folha 2, página 1)"}
+Olha para o que falta deduzir e para as premissas e hipóteses:
+
+1. Falta uma **implicação** $\psi\to\theta$: imagina $\psi$, deduz
+   $\theta$, aplica $\to$I.
+2. Falta uma **negação** $\neg\psi$: imagina $\psi$, deduz $\mathbf{F}$,
+   aplica $\neg$I.
+3. **Por contradição**, quando nada mais serve (falta uma letra ou uma
+   disjunção sem disjunção nas premissas): imagina $\neg\phi$, deduz
+   $\mathbf{F}$, aplica $\neg$I e depois $\neg$E.
+4. Tens uma **disjunção** $\phi\lor\psi$ e queres $\gamma$: imagina $\phi$
+   e deduz $\gamma$, imagina $\psi$ e deduz $\gamma$, aplica $\lor$E.
+5. Queres $\mathbf{F}$ e tens $\neg\phi$: deduz $\phi$ e aplica
+   $\mathbf{F}$I.
+6. Tens $\phi\to\theta$ e queres $\theta$: deduz $\phi$ e aplica $\to$E.
+:::
+
+::: {.definicao title="--- Equivalência dedutiva ($\\dashv\\vdash$)"}
+(Aula 7; usada nas 2.11 e 2.12.) $\phi \dashv\vdash \psi$ se
+$\phi \vdash \psi$ **e** $\psi \vdash \phi$: são **duas deduções**, uma em
+cada sentido.
+:::
+
+::: {.exemplo title="--- Exercício 2.11(e) (lab, proplogicproofs.pdf)"}
+$\delta_1\to\delta_2 \dashv\vdash \neg(\delta_1\land\neg\delta_2)$: duas
+deduções.
+
+**($\vdash$)** Falta uma negação (estratégia 2): imaginar
+$\delta_1\land\neg\delta_2$, chegar a $\mathbf{F}$.
+
+```{.fitch seq="delta1 -> delta2 |- ~(delta1 /\ ~delta2)"}
+delta1 -> delta2
+---
+|> delta1 /\ ~delta2
+|  delta1            ; &E, 2
+|  ~delta2           ; &E, 2
+|  delta2            ; ->E, 1, 3
+|  F                 ; FI, 5, 4
+~(delta1 /\ ~delta2) ; ~I, 2-6
+```
+
+**($\dashv$)** Falta uma implicação (estratégia 1): imaginar $\delta_1$ e
+chegar a $\delta_2$. $\delta_2$ é uma letra: por contradição (estratégia
+3), imaginar $\neg\delta_2$; com $\delta_1$ monta-se
+$\delta_1\land\neg\delta_2$, contra a premissa (estratégia 5).
+
+```{.fitch seq="~(delta1 /\ ~delta2) |- delta1 -> delta2"}
+~(delta1 /\ ~delta2)
+---
+|> delta1
+||> ~delta2
+||  delta1 /\ ~delta2  ; &I, 2, 3
+||  F                ; FI, 4, 1
+|  ~~delta2          ; ~I, 3-5
+|  delta2            ; ~E, 6
+delta1 -> delta2     ; ->I, 2-7
+```
+:::
+
+::: {.exemplo title="--- Aula 7, slide 9 (a): $\\phi\\to\\psi \\vdash \\neg\\phi\\lor\\psi$"}
+Falta uma disjunção e não há disjunção nas premissas: por contradição
+(estratégia 3), imaginar $\neg(\neg\phi\lor\psi)$. Para usar a premissa
+($\to$E) falta $\phi$, outra letra: de novo por contradição, imaginar
+$\neg\phi$, que dá $\neg\phi\lor\psi$ por $\lor$I, contra a hipótese
+(estratégia 5). Com $\phi$ sai $\psi$ e, outra vez, $\neg\phi\lor\psi$.
+
+```{.fitch seq="phi -> psi |- ~phi \/ psi"}
+phi -> psi
+---
+|> ~(~phi \/ psi)
+||> ~phi
+||  ~phi \/ psi      ; vI, 3
+||  F                ; FI, 4, 2
+|  ~~phi             ; ~I, 3-5
+|  phi               ; ~E, 6
+|  psi               ; ->E, 1, 7
+|  ~phi \/ psi       ; vI, 8
+|  F                 ; FI, 9, 2
+~~(~phi \/ psi)      ; ~I, 2-10
+~phi \/ psi          ; ~E, 11
+```
+:::
+
+### Regras derivadas
+
+**Regras derivadas** (Aula 7) são atalhos: cada uma resume uma dedução
+feita só com as regras base. A folha 2 diz "In case you use derived rules,
+you should prove them separately": pode usar-se MT, RA, TE ou $\neg\neg$I,
+mas escrevendo também a dedução de cada uma (as de baixo). As soluções
+usam só as regras base.
 
 ::: {.definicao title="--- Regras derivadas e as suas deduções"}
-**Modus tollens** (MT):
+**Modus tollens** (MT): de $\phi\to\psi$ e $\neg\psi$ tira-se $\neg\phi$.
 $$\dfrac{\phi\to\psi \qquad \neg\psi}{\neg\phi}\,{\scriptstyle\mathrm{MT}}$$
 
 ```{.fitch seq="phi -> psi, ~psi |- ~phi"}
@@ -2294,7 +2313,7 @@ phi                  ; ~E, 4
 :::
 
 ::: {.definicao title="--- Terceiro excluído (TE): $\\vdash \\phi\\lor\\neg\\phi$"}
-Supõe-se $\neg(\phi\lor\neg\phi)$ e chega-se a $\mathbf{F}$: $\phi$ é
+Imagina-se $\neg(\phi\lor\neg\phi)$ e chega-se a $\mathbf{F}$: $\phi$ é
 impossível (daria $\phi\lor\neg\phi$), logo $\neg\phi$; mas $\neg\phi$
 também dá $\phi\lor\neg\phi$.
 
@@ -2328,8 +2347,8 @@ phi -> psi
 :::
 
 ::: {.exemplo title="--- Usar regras derivadas (Aula 7): $\\neg q\\to\\neg p \\vdash p\\to\\neg\\neg q$"}
-Conclusão implicação: supor $p$ e chegar a $\neg\neg q$. O MT aplicado a
-$\neg q\to\neg p$ precisa de $\neg\neg p$ (a negação do consequente
+Falta uma implicação: imaginar $p$ e chegar a $\neg\neg q$. O MT aplicado
+a $\neg q\to\neg p$ precisa de $\neg\neg p$ (a negação do consequente
 $\neg p$), que vem de $p$ por $\neg\neg$I. Em exame, MT e $\neg\neg$I
 teriam de vir provados à parte (caixa acima).
 
@@ -2343,85 +2362,40 @@ p -> ~~q             ; ->I, 2-4
 ```
 :::
 
-::: {.definicao title="--- Estratégias para encontrar uma dedução (folha 2, página 1)"}
-Olha para a **conclusão** que falta e para as **premissas/hipóteses**:
+### Raciocínios em português (2.1--2.3, 2.7)
 
-1. Conclusão **implicação** $\psi\to\theta$: supõe $\psi$, deduz $\theta$,
-   aplica $\to$I.
-2. Conclusão **negação** $\neg\psi$: supõe $\psi$, deduz $\mathbf{F}$,
-   aplica $\neg$I.
-3. **Por contradição** (quando nada mais serve, ex.: conclusão é uma
-   letra ou uma disjunção): supõe $\neg\phi$ e deduz $\mathbf{F}$ (depois
-   $\neg$I e $\neg$E). Com uma negação $\neg\psi$ nas premissas, tenta
-   deduzir $\psi$ para ter $\mathbf{F}$.
-4. Premissa **disjunção** $\phi\lor\psi$ e queres $\gamma$: supõe $\phi$ e
-   deduz $\gamma$, supõe $\psi$ e deduz $\gamma$, aplica $\lor$E.
-5. Hipótese $\neg\phi$ e queres $\mathbf{F}$: obtém $\phi$ e aplica
-   $\mathbf{F}$I.
-6. Tens $\phi\to\theta$: deduz $\phi$ e aplica $\to$E para ter $\theta$.
+Um **raciocínio** é uma lista de **premissas** e uma **conclusão**. Para o
+analisar, dá-se uma letra a cada frase simples e traduz-se; só interessa
+a estrutura.
 
-**Cada passo** é uma premissa, uma hipótese ou uma regra (ou repetição)
-aplicada a fórmulas acessíveis. **Não se usam equivalências semânticas**
-(De Morgan, etc.) como passos: deduzem-se (é o que pedem as 2.11 e 2.12).
+::: definicao
+- **Válido**: a conclusão é consequência das premissas (verdadeira sempre
+  que elas o são). Mostra-se com uma dedução.
+- **Não válido**: mostra-se com um **contraexemplo**, uma valoração com as
+  premissas verdadeiras e a conclusão falsa.
+- Um raciocínio válido com premissas **de facto** verdadeiras diz-se
+  **sólido**.
 :::
 
-::: {.exemplo title="--- Exercício 2.11(e) (lab, proplogicproofs.pdf)"}
-$\delta_1\to\delta_2 \dashv\vdash \neg(\delta_1\land\neg\delta_2)$: duas
-deduções.
+::: {.exemplo title="--- O raciocínio do Paulo (Aula 5)"}
+"Se o Paulo adormecer e alguém o acordar, ele pragueja. O Paulo
+adormeceu. Ele não praguejou. Logo, ninguém o acordou." Com $p$ = "o
+Paulo adormece", $q$ = "alguém o acorda" e $r$ = "ele pragueja":
+$(p\land q)\to r,\ p,\ \neg r \vdash \neg q$.
 
-**($\vdash$)** Conclusão negação (estratégia 2): supor
-$\delta_1\land\neg\delta_2$, chegar a $\mathbf{F}$.
+Falta uma negação: imagina-se $q$; com $p$ monta-se $p\land q$, que dá
+$r$, contra $\neg r$.
 
-```{.fitch seq="delta1 -> delta2 |- ~(delta1 /\ ~delta2)"}
-delta1 -> delta2
+```{.fitch seq="(p /\ q) -> r, p, ~r |- ~q"}
+(p /\ q) -> r
+p
+~r
 ---
-|> delta1 /\ ~delta2
-|  delta1            ; &E, 2
-|  ~delta2           ; &E, 2
-|  delta2            ; ->E, 1, 3
-|  F                 ; FI, 5, 4
-~(delta1 /\ ~delta2) ; ~I, 2-6
-```
-
-**($\dashv$)** Conclusão implicação (estratégia 1): supor $\delta_1$,
-chegar a $\delta_2$, uma letra: por contradição (estratégia 3), supor
-$\neg\delta_2$; com $\delta_1$ monta-se $\delta_1\land\neg\delta_2$,
-contra a premissa (estratégia 5).
-
-```{.fitch seq="~(delta1 /\ ~delta2) |- delta1 -> delta2"}
-~(delta1 /\ ~delta2)
----
-|> delta1
-||> ~delta2
-||  delta1 /\ ~delta2  ; &I, 2, 3
-||  F                ; FI, 4, 1
-|  ~~delta2          ; ~I, 3-5
-|  delta2            ; ~E, 6
-delta1 -> delta2     ; ->I, 2-7
-```
-:::
-
-::: {.exemplo title="--- Aula 7, slide 9 (a): $\\phi\\to\\psi \\vdash \\neg\\phi\\lor\\psi$"}
-Conclusão disjunção, sem nenhuma premissa disjunção: por contradição
-(estratégia 3), supor $\neg(\neg\phi\lor\psi)$. Para usar a premissa
-($\to$E) falta $\phi$, outra letra: de novo por contradição, supor
-$\neg\phi$, que dá $\neg\phi\lor\psi$ por $\lor$I, contra a hipótese
-(estratégia 5). Com $\phi$ sai $\psi$ e, outra vez, $\neg\phi\lor\psi$.
-
-```{.fitch seq="phi -> psi |- ~phi \/ psi"}
-phi -> psi
----
-|> ~(~phi \/ psi)
-||> ~phi
-||  ~phi \/ psi      ; vI, 3
-||  F                ; FI, 4, 2
-|  ~~phi             ; ~I, 3-5
-|  phi               ; ~E, 6
-|  psi               ; ->E, 1, 7
-|  ~phi \/ psi       ; vI, 8
-|  F                 ; FI, 9, 2
-~~(~phi \/ psi)      ; ~I, 2-10
-~phi \/ psi          ; ~E, 11
+|> q
+|  p /\ q            ; &I, 2, 4
+|  r                 ; ->E, 1, 5
+|  F                 ; FI, 6, 3
+~q                   ; ~I, 4-7
 ```
 :::
 
@@ -2449,7 +2423,7 @@ $v(\phi)=F$, $v(\psi)=V$) e *negação do antecedente*
 - **2.2** Completa cada argumento com uma conclusão que o torne válido.
 - **2.3** Associa cada tautologia (1)--(6) a um dos argumentos (a)--(f).
 - **2.7** Formaliza as três hipóteses e deduz "choveu". Pista:
-  estratégia 3 (supor que não choveu).
+  estratégia 3 (imaginar que não choveu).
 - **2.11 (g)** $(\phi\lor\psi)\to\delta \dashv\vdash (\phi\to\delta)\land(\psi\to\delta)$.
 - **Aula 7, slide 9 (b)** $\neg(\phi\land\psi) \vdash \neg\phi\lor\neg\psi$
   (De Morgan, deduzido). Pista: como a (a), mas é preciso obter $\phi$
@@ -2599,42 +2573,49 @@ $\theta$ com três $\to$E.
 
 ## *Tableaux* semânticos
 
-Em DN não é fácil ter um algoritmo que decida se $\phi$ é teorema (a não
-ser construir a dedução a partir da tabela de verdade, via completude).
-Os sistemas **automatizáveis** têm a propriedade de que, lendo a dedução
-da conclusão para as premissas, cada fórmula é **subfórmula** (ou
-negação de subfórmula†) de uma fórmula do passo anterior: o espaço de
-procura é finito. O *modus ponens* não tem esta propriedade (de $\psi$
-não se adivinha o $\phi$ de $\phi$ e $\phi\to\psi$). São exemplos o
-**cálculo de sequentes** de Gentzen (variante de DN), os **tableaux**
-(mostram que $\neg\phi$ é contradição) e a **resolução** (também por
-contradição, com $\neg\phi$ em FNC).
+**Para que serve.** Para mostrar que $\phi$ é tautologia (logo teorema)
+sem inventar uma dedução. Supõe-se que $\phi$ é **falsa** (escreve-se
+$\neg\phi$) e procura-se uma valoração que o permita, desmontando as
+fórmulas em pedaços cada vez mais simples. Cada ramo da árvore é uma
+tentativa. Se **todos** os ramos chegam a uma contradição ($\psi$ e
+$\neg\psi$ no mesmo ramo), nenhuma valoração torna $\phi$ falsa e $\phi$ é
+tautologia. Se sobrar um ramo aberto, ele dá o contraexemplo.
 
-::: {.definicao title="--- Notação uniforme de Smullyan"}
-As fórmulas que não são literais dividem-se em **conjuntivas** ($\alpha$,
-verdadeiras sse **ambos** os componentes o são) e **disjuntivas**
-($\beta$, verdadeiras sse **algum** componente o é):
+É um sistema **automatizável**: cada fórmula nova é subfórmula (ou
+negação de subfórmula†) de uma de cima, por isso a procura é finita. Em
+DN, o $\to$E não tem esta propriedade (de $\psi$ não se adivinha o $\phi$
+de $\phi$ e $\phi\to\psi$). A resolução (secção seguinte) e o cálculo de
+sequentes de Gentzen também são automatizáveis.
 
+::: {.definicao title="--- Receita: dedução por tableau de φ"}
+1. **Raiz:** $\neg\phi$ (nó 1).
+2. Escolhe uma fórmula ainda por expandir num ramo aberto e expande-a com
+   a tabela abaixo, citando o nó expandido (os números à esquerda e entre
+   $[\,]$ nas figuras). Primeiro as $\alpha$ e os $\neg\neg$, que não
+   ramificam; as $\beta$ no fim.
+3. Uma $\beta$ expande-se em **todos** os ramos abertos abaixo dela.
+4. Um ramo com $\psi$ e $\neg\psi$, para qualquer $\psi$ (não só letras),
+   **fecha**: marca-se $\times$ e citam-se os dois nós.
+5. Todos os ramos fechados: o tableau é **fechado** e $\phi$ é teorema. Um
+   ramo aberto com tudo expandido: as suas letras dão uma valoração que
+   satisfaz $\neg\phi$, isto é, um contraexemplo a $\models\phi$.
+:::
+
+### Como se expande cada fórmula (notação de Smullyan)
+
+As fórmulas que não são literais dividem-se em dois tipos:
+
+- **$\alpha$** ("e"): verdadeira sse **os dois** componentes o são. Os
+  dois entram **seguidos no mesmo ramo**.
+- **$\beta$** ("ou"): verdadeira sse **algum** componente o é. O ramo
+  **divide-se em dois**, um para cada componente.
+
+::: {.definicao title="--- Tabela α/β e regras de expansão"}
 | $\alpha$ | $\alpha_1$ | $\alpha_2$ | | $\beta$ | $\beta_1$ | $\beta_2$ |
 |:-:|:-:|:-:|---|:-:|:-:|:-:|
 | $\phi\land\psi$ | $\phi$ | $\psi$ | | $\neg(\phi\land\psi)$ | $\neg\phi$ | $\neg\psi$ |
 | $\neg(\phi\lor\psi)$ | $\neg\phi$ | $\neg\psi$ | | $\phi\lor\psi$ | $\phi$ | $\psi$ |
 | $\neg(\phi\to\psi)$ | $\phi$ | $\neg\psi$ | | $\phi\to\psi$ | $\neg\phi$ | $\psi$ |
-
-Para toda a valoração $v$: $v(\alpha)=v(\alpha_1)\land v(\alpha_2)$ e
-$v(\beta)=v(\beta_1)\lor v(\beta_2)$. As linhas $\neg$ são De Morgan e
-$\neg(\phi\to\psi)\Leftrightarrow\phi\land\neg\psi$.
-:::
-
-::: {.definicao title="--- Tableau, regras de expansão e ramos fechados"}
-Um **tableau** para $\{\phi_1,\dots,\phi_n\}$ é uma árvore de fórmulas:
-
-1. a árvore de um só ramo $\phi_1,\phi_2,\dots,\phi_n$ é um tableau;
-2. se $T$ é um tableau para o conjunto e $T^\star$ resulta de $T$ por uma
-   regra de expansão, $T^\star$ também é.
-
-**Regras de expansão** de uma fórmula $\psi$ de um ramo $r$ (os nós novos
-acrescentam-se no fim de $r$):
 
 $$\dfrac{\neg\neg\phi}{\phi}\qquad
 \dfrac{\neg\mathbf{F}}{\mathbf{V}}\qquad
@@ -2642,40 +2623,30 @@ $$\dfrac{\neg\neg\phi}{\phi}\qquad
 \dfrac{\alpha}{\begin{array}{c}\alpha_1\\ \alpha_2\end{array}}\qquad
 \dfrac{\beta}{\beta_1 \mid \beta_2}$$
 
-- $\alpha$: **dois nós seguidos** no mesmo ramo ($\alpha_2$ filho de
-  $\alpha_1$): os dois têm de ser verdadeiros.
-- $\beta$: o ramo **divide-se em dois** filhos, $\beta_1$ e $\beta_2$:
-  basta um ser verdadeiro.
-
-Um ramo é **fechado** se contém $\psi$ e $\neg\psi$ para alguma fórmula
-$\psi$ (marca-se $\times$); o tableau é **fechado** se todos os ramos o
-são. Um ramo é **satisfazível** se o conjunto das suas fórmulas o é; o
-tableau é satisfazível se algum ramo o é.
-
-**Dedução por tableau** de $\phi$: um tableau fechado para $\{\neg\phi\}$.
-$\phi$ é **teorema** se tem uma dedução por tableau.
+Para toda a valoração $v$: $v(\alpha)=v(\alpha_1)\land v(\alpha_2)$ e
+$v(\beta)=v(\beta_1)\lor v(\beta_2)$. As linhas com $\neg$ são De Morgan e
+$\neg(\phi\to\psi)\Leftrightarrow\phi\land\neg\psi$.
 :::
 
-::: {.definicao title="--- Integridade e completude dos tableaux"}
-- Aplicar uma regra a um tableau satisfazível dá um tableau satisfazível
-  (a valoração que satisfaz um ramo satisfaz $\alpha_1$ e $\alpha_2$, ou
-  um dos $\beta_i$, pelas igualdades de Smullyan).
-- Se há um tableau fechado para $\Gamma$, $\Gamma$ é **insatisfazível**
-  (um ramo fechado nunca é satisfazível; se $\Gamma$ o fosse, algum ramo
-  seria).
-- **Integridade:** se $\phi$ tem dedução por tableau, $\models\phi$
-  ($\{\neg\phi\}$ é insatisfazível).
+**Erros típicos:** tratar $\neg(\phi\to\psi)$ como $\beta$ (é $\alpha$:
+$\phi$ e $\neg\psi$); expandir $\phi\to\psi$ em $\phi \mid \psi$ (é
+$\neg\phi \mid \psi$); expandir uma $\beta$ só num dos ramos abaixo dela.
+
+::: {.definicao title="--- Definições formais e integridade"}
+Um **tableau** para $\{\phi_1,\dots,\phi_n\}$ é a árvore de um só ramo
+$\phi_1,\dots,\phi_n$, ou o que resulta de um tableau por uma regra de
+expansão (os nós novos acrescentam-se no fim do ramo). Um ramo é
+**satisfazível** se o conjunto das suas fórmulas o é; o tableau é
+satisfazível se algum ramo o é. Uma **dedução por tableau** de $\phi$ é um
+tableau fechado para $\{\neg\phi\}$.
+
+- Expandir um tableau satisfazível dá um tableau satisfazível (pelas
+  igualdades de Smullyan).
+- Se há um tableau fechado para $\Gamma$, $\Gamma$ é **insatisfazível** (um
+  ramo fechado nunca é satisfazível).
+- **Integridade:** se $\phi$ tem dedução por tableau, $\models\phi$.
 - **Completude:** se $\models\phi$, $\phi$ tem dedução por tableau.
 :::
-
-**Como construir†.** Escreve $\neg\phi$ na raiz e expande uma fórmula de
-cada vez, citando o nó expandido (os números à esquerda e entre $[\,]$
-nas figuras). Expande primeiro as $\alpha$ e os $\neg\neg$ (não
-ramificam) e deixa as $\beta$ para o fim. Uma $\beta$ expande-se em
-**todos** os ramos abertos abaixo dela. Fecha um ramo logo que tenha
-$\psi$ e $\neg\psi$, para qualquer $\psi$ (não só letras). Um ramo aberto
-em que já tudo foi expandido dá uma valoração que satisfaz a raiz: se a
-raiz é $\neg\phi$, é um contraexemplo a $\models\phi$.
 
 ::: {.exemplo title="--- Tableau para $\\{p\\land(\\neg q\\lor\\neg p)\\}$ (slide 11)"}
 $\alpha$ dá $p$ e $\neg q\lor\neg p$; a $\beta$ divide o ramo. O ramo da
@@ -2764,6 +2735,23 @@ A 2.22 (tableaux das 2.8 (b)--(e)) é a mesma técnica.
 
 ## Resolução
 
+**Para que serve.** O mesmo que o tableau, provar $\models\phi$ por
+refutação (mostrando que $\neg\phi$ é insatisfazível), mas com **uma só
+regra** e no formato de cláusulas do DLL (Aula 4). O DLL procura uma
+valoração; a resolução procura uma refutação.
+
+::: {.definicao title="--- Receita: dedução por resolução de φ"}
+1. Calcula a **FNC de $\neg\phi$** com as equivalências da Aula 3, uma
+   lei por passo.
+2. Cada conjunção da FNC é uma **cláusula** (o conjunto dos seus
+   literais). Numera-as.
+3. Escolhe duas cláusulas em que uma tem $p$ e a outra $\neg p$; junta os
+   restantes literais das duas: é a **resolvente**. Numera-a e cita as
+   duas cláusulas.
+4. Repete até obteres a cláusula vazia $\mathbf{F}$. Então $\neg\phi$ é
+   insatisfazível e $\phi$ é teorema.
+:::
+
 ::: {.definicao title="--- Sistema de resolução"}
 Também é por **refutação**: para deduzir $\phi$, mostra-se que $\neg\phi$
 é contradição. Trabalha com um conjunto $\Sigma$ de **cláusulas**
@@ -2778,7 +2766,9 @@ cláusulas da **FNC de $\neg\phi$**.
 
 A regra é válida porque, se $v$ satisfaz as duas premissas, ou
 $v(p)=F$ e então algum literal de $C$ é verdadeiro, ou $v(p)=V$ e algum
-de $C'$ o é. Cuidados†:
+de $C'$ o é.
+
+**Erros típicos†:**
 
 - resolve-se **um só par** $p$/$\neg p$ de cada vez: de $\{p,q\}$ e
   $\{\neg p,\neg q\}$ sai $\{q,\neg q\}$ (ou $\{p,\neg p\}$), **nunca**
@@ -2788,9 +2778,6 @@ de $C'$ o é. Cuidados†:
 - para ter a FNC de $\neg\phi$, aplica as regras da secção FNC (Aula 3);
   as linhas $\alpha$ de Smullyan dão logo
   $\neg(\phi\to\psi)\Leftrightarrow\phi\land\neg\psi$.
-
-É o mesmo formato de entrada do DLL (Aula 4): o DLL procura uma valoração,
-a resolução procura uma refutação.
 
 ::: {.definicao title="--- Integridade e completude da resolução"}
 Seja $\mathcal{C}=\{C_1,\dots,C_n\}$ um conjunto não vazio de cláusulas.
@@ -2868,15 +2855,13 @@ A 2.22 por resolução é a mesma técnica.
 
 # Aulas 9--10 --- Integridade, completude e decidibilidade
 
-Estas aulas provam que DN é **íntegra** e **completa** (definições em
-"Semântica versus dedução", Aulas 5--7). Na lógica proposicional as tabelas de verdade já decidem $\models$; um
-sistema dedutivo vale a pena porque:
-
-- uma dedução pode ser mais rápida e ocupar menos espaço do que uma tabela
-  de $2^n$ linhas;
-- uma dedução é um objeto, fácil de manipular e verificar por computador;
-- ilustra a noção de dedução, essencial em lógicas com semântica mais
-  complexa, onde não há tabelas de verdade (como a de primeira ordem).
+Estas aulas provam que $\Gamma\vdash\phi$ sse $\Gamma\models\phi$
+(definições em "Quando não há dedução", Aulas 5--7). Nas práticas usa-se
+sobretudo a **integridade**, para mostrar que algo **não** se deduz. As
+provas em si raramente saem como exercício; o que se pede são casos
+pequenos (deduções do Lema 1). Mesmo havendo tabelas de verdade, as
+deduções valem a pena: podem ser mais curtas do que $2^n$ linhas, um
+computador verifica-as e são o único método na lógica de primeira ordem.
 
 ## Integridade de DN
 
@@ -2923,10 +2908,9 @@ impossível:
 
 Em todos os casos há contradição, logo esse passo $p$ não existe.
 
-**Uso nas práticas (contraposição).** Se $\Sigma \not\models \psi$ então
-$\Sigma \nvdash \psi$. Para mostrar $\phi_1, \dots, \phi_n \nvdash \psi$
-basta uma valoração $v$ com $v(\phi_i) = V$ para todo o $i$ e
-$v(\psi) = F$.
+**Uso nas práticas.** Pela contraposição, se $\Sigma \not\models \psi$
+então $\Sigma \nvdash \psi$: basta um contraexemplo (receita em "Quando
+não há dedução", Aulas 5--7).
 
 ::: {.exemplo title="--- Afirmar o consequente não se deduz"}
 **$p\to q,\ q \nvdash p$.** Seja $v(p)=F$, $v(q)=V$. De $\models_v q$

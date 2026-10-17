@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amostra do site</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="site.css">
+<style>
+  /* só na amostra: separa as duas páginas */
+  .corte { margin: var(--e-7) 0; border: 0; border-top: 1px dashed var(--suave); }
+  .corte + .nota { font: 500 var(--t-0)/1 var(--mono); color: var(--suave); margin: calc(-1 * var(--e-6)) 0 var(--e-5); }
+</style>
+</head>
+<body>
+
+<!-- =================== PÁGINA 1: INÍCIO =================== -->
+<div class="pagina">
+  <header class="topo">
+    <a class="marca" href="#">FCUP · 3.º ano</a>
+    <nav>
+      <a href="#" aria-current="page">Disciplinas</a>
+      <a href="#">Soluções</a>
+      <a href="#">Quizrama</a>
+    </nav>
+  </header>
+
+  <section class="capa">
+    <p class="sobre">Licenciatura em Ciência de Computadores · 1.º semestre 2026/27</p>
+    <h1>Resumos, fichas e quizzes <em>num só sítio.</em></h1>
+    <p class="lead">Um resumo cumulativo por disciplina, atualizado todas as semanas com as teóricas novas, as fichas das práticas com soluções resolvidas alínea a alínea, e quizzes para os testes.</p>
+  </section>
+
+  <h2 class="rotulo">Disciplinas</h2>
+  <ol class="indice">
+    <li data-cor="0"><a class="entrada" href="#d">
+      <span class="n">01</span>
+      <div><h2>Compiladores <small>CC3001</small></h2></div>
+      <div class="meta mono"><span>Semana 5</span><span>7 aulas</span><span>4 semanas de práticas</span></div>
+    </a></li>
+    <li data-cor="1"><a class="entrada" href="#d">
+      <span class="n">02</span>
+      <div><h2>Interação Pessoa-Máquina <small>IPM</small></h2></div>
+      <div class="meta mono"><span>Semana 6</span><span>6 aulas</span><span>projeto COL</span></div>
+    </a></li>
+    <li data-cor="2"><a class="entrada" href="#d">
+      <span class="n">03</span>
+      <div><h2>Lógica Computacional</h2></div>
+      <div class="meta mono"><span>Semana 5</span><span>10 aulas</span><span>3 fichas</span></div>
+    </a></li>
+    <li data-cor="3"><a class="entrada" href="#d">
+      <span class="n">04</span>
+      <div><h2>Redes de Comunicação</h2></div>
+      <div class="meta mono"><span>Semana 4</span><span>3 aulas</span><span>4 fichas</span><span>quiz do 1.º teste</span></div>
+    </a></li>
+    <li data-cor="4"><a class="entrada" href="#d">
+      <span class="n">05</span>
+      <div><h2>Tecnologias Web</h2></div>
+      <div class="meta mono"><span>6 out.</span><span>calendário</span><span>enunciado do trabalho</span></div>
+    </a></li>
+  </ol>
+
+  <section class="faixa">
+    <div>
+      <h2>Quizrama</h2>
+      <p>Perguntas ao estilo do teste, com a correção de cada opção e ligação para a secção da teoria.</p>
+      <a class="etiqueta principal" href="#">Redes · 1.º teste <span class="mono">157 perguntas</span></a>
+    </div>
+    <div>
+      <h2 class="rotulo" style="margin-top:0">Esta semana</h2>
+      <ul class="novidades">
+        <li><span class="quando">16 out.</span><a href="#"><b>Redes</b> · resumo: camada de aplicação</a></li>
+        <li><span class="quando">16 out.</span><a href="#"><b>Lógica</b> · aulas 9–10, dedução natural</a></li>
+        <li><span class="quando">15 out.</span><a href="#"><b>Quizrama</b> · Redes, 1.º teste</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="rodape">Feito a partir dos slides das teóricas. Os slides e enunciados são dos docentes de cada disciplina.</footer>
+</div>
+
+<hr class="corte"><p class="nota pagina">↓ página de uma disciplina</p>
+
+<!-- =================== PÁGINA 2: DISCIPLINA =================== -->
+<div class="pagina" data-cor="3" id="d">
+  <header class="topo">
+    <a class="marca" href="#">FCUP · 3.º ano</a>
+    <nav>
+      <a href="#" aria-current="page">Disciplinas</a>
+      <a href="#">Soluções</a>
+      <a href="#">Quizrama</a>
+    </nav>
+  </header>
+
+  <section class="cabecalho">
+    <p class="migalhas"><a href="#">Disciplinas</a> / 04</p>
+    <h1>Redes de Comunicação</h1>
+    <p class="meta mono">Atualizado: Semana 4 · 3 aulas teóricas · 4 fichas</p>
+  </section>
+
+  <nav class="seccoes">
+    <a href="#resumo" aria-current="true">Resumo</a>
+    <a href="#teoricas">Teóricas</a>
+    <a href="#praticas">Práticas</a>
+    <a href="#">Soluções</a>
+    <a href="#">Quiz</a>
+    <a href="#testes">Testes</a>
+  </nav>
+
+  <section class="seccao" id="resumo">
+    <h2>Resumo <span class="mono">cumulativo</span></h2>
+    <div class="documento">
+      <div>
+        <h3>Resumo teórico</h3>
+        <p>Toda a matéria das teóricas, com diagramas e exercícios “Pratica agora”.</p>
+      </div>
+      <div class="acoes">
+        <a class="etiqueta principal" href="#">Abrir <span class="mono">PDF · 2,1 MB</span></a>
+      </div>
+    </div>
+    <div class="documento" style="margin-top: var(--e-3)">
+      <div>
+        <h3>Folha de revisão</h3>
+        <p>2–3 páginas de receitas para levar para o teste.</p>
+      </div>
+      <div class="acoes">
+        <a class="etiqueta" href="#">Abrir <span class="mono">PDF · 180 kB</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccao" id="teoricas">
+    <h2>Teóricas <span class="mono">3 aulas</span></h2>
+    <ul class="lista">
+      <li><a href="#"><span class="num">01</span><span class="titulo">Apresentação</span><span class="tipo">PDF · 1,2 MB</span></a></li>
+      <li><a href="#"><span class="num">02</span><span class="titulo">Introdução</span><span class="tipo">PDF · 4,8 MB</span></a></li>
+      <li><a href="#"><span class="num">03</span><span class="titulo">Camada de aplicação</span><span class="tipo">PDF · 3,3 MB</span></a></li>
+      <li><a href="#"><span class="num">03</span><span class="titulo">Captura HTTP</span><span class="tipo">CAP · 12 kB</span></a></li>
+    </ul>
+  </section>
+
+  <section class="seccao" id="praticas">
+    <h2>Práticas <span class="mono">4 semanas</span></h2>
+    <div class="semana">
+      <h3>Semana 4</h3>
+      <ul class="lista">
+        <li><a href="#"><span class="num">F4</span><span class="titulo">Ficha 4 — sockets e SMTP</span><span class="tipo">PDF</span></a></li>
+      </ul>
+    </div>
+    <div class="semana">
+      <h3>Semana 3</h3>
+      <ul class="lista">
+        <li><a href="#"><span class="num">F3</span><span class="titulo">Ficha 3 — protocolos aplicacionais</span><span class="tipo">PDF</span></a></li>
+        <li><a href="#"><span class="num">R3</span><span class="titulo">Respostas</span><span class="tipo">PDF</span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="seccao" id="testes">
+    <h2>Testes</h2>
+    <ul class="lista">
+      <li><a href="#"><span class="num">M1</span><span class="titulo">Teste modelo 1</span><span class="tipo">PDF</span></a></li>
+      <li><a href="#"><span class="num">M1</span><span class="titulo">Teste modelo 1 — resolução</span><span class="tipo">PDF</span></a></li>
+    </ul>
+  </section>
+
+  <footer class="rodape">Os slides e enunciados são dos docentes de Redes de Comunicação.</footer>
+</div>
+
+</body>
+</html>

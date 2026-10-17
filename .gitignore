@@ -7,3 +7,6 @@ __pycache__/
 Quizrama/node_modules/
 Quizrama/OS_Improved_Study_Guide.docx
 .DS_Store
+
+# site gerado (publicado pelo GitHub Actions)
+_site/

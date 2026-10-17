@@ -23,7 +23,22 @@ _shared/template/             prep.sh, fechar.sh, contexto.sh, extrair.sh, build
 SOLUCOES.html                 site único de soluções, um separador por disciplina (gerado)
 Quizrama/                     quizzes de preparação para testes (redes.html; SO em index.html)
   tools/<d>-guide/            build.py (guia a partir do RESUMO) e perguntas.py (banco; editar aqui)
+_shared/site/                 site para os colegas: build_site.py, design/ (tokens.css = design system), titulos.json
+_site/                        site gerado (fora do git; o GitHub Actions publica-o no Pages a cada push)
 ```
+
+## Site
+
+Um site estático junta tudo para quem não usa o terminal: disciplinas →
+resumo/revisão em HTML, slides e fichas num visualizador dentro do site,
+soluções, quiz. Só modo escuro, design editorial (Charter/Avenir/Menlo, uma
+cor por disciplina, sem gradientes nem sombras). Nada sai do site: o
+resumo e a revisão aparecem em HTML (pandoc, os mesmos filtros do PDF) e em
+PDF, e todos os PDFs abrem no `ver.html`. O site gera-se sozinho no GitHub
+Actions a cada push; a skill `resumo-semanal` não lhe toca (só PDFs), e
+afiná-lo é com a skill `site`, só quando o Gonçalo pedir. Ver localmente:
+`_shared/template/site.sh`. O que se publica
+está em `PUBLICAR`/`EXCLUIR` no `build_site.py` (nunca o CV/página pessoal).
 
 **`.md` escondido**: o Gonçalo não quer ver `.md` ao navegar as pastas.
 Qualquer documento de uma disciplina gera um PDF com o mesmo pipeline e a

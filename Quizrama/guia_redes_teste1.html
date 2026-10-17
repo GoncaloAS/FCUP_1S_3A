@@ -138,6 +138,9 @@ soluções.</em></p>
 <h1 id="aula-1-introdução-às-redes-de-comunicação">Aula 1 — Introdução
 às redes de comunicação</h1>
 <h2 id="o-que-é-a-internet">O que é a Internet</h2>
+<p><strong>Para que serve.</strong> O vocabulário de base (terminal,
+ligação, <em>router</em>, protocolo) que todos os tópicos seguintes
+usam.</p>
 <p><strong>Visão estrutural.</strong> A Internet é composta por:</p>
 <ul>
 <li><strong>terminais</strong> (<em>hosts</em>, <em>end systems</em>):
@@ -166,7 +169,7 @@ Force</em>).</p>
 <strong>infraestrutura de comunicação</strong> com dois serviços:
 <strong>entrega fiável</strong> extremo-a-extremo (TCP) e
 <strong>entrega não fiável</strong>, de “melhor esforço” (<em>best
-effort</em>, UDP). Estão desenvolvidos na Aula 2.</p>
+effort</em>, UDP).</p>
 <div class="definicao" title="Protocolo">
 <p>Um <strong>protocolo</strong> define o <strong>formato</strong> das
 mensagens trocadas, a <strong>ordem</strong> de envio e receção entre as
@@ -186,64 +189,113 @@ importa (o <code>GET</code> só depois da ligação) e o
 <code>GET</code> com a sintaxe certa).</p>
 </div>
 <h2 id="extremidade-da-rede-edge">Extremidade da rede (edge)</h2>
-<p>Os terminais correm as aplicações e ficam na periferia da rede. Os
-dois modelos de aplicação (cliente/servidor e <em>peer-to-peer</em>) e
-os dois serviços de transporte (TCP e UDP) estão na Aula 2.</p>
+<p><strong>Para que serve.</strong> Saber como um terminal chega à rede
+e o que limita o seu débito antes de chegar ao núcleo.</p>
 <p>A <strong>rede de acesso</strong> liga um terminal ao primeiro
-<em>router</em> (o <em>edge router</em>). O que interessa nela é a
-<strong>capacidade</strong> (partilhada ou dedicada) e a
+<em>router</em> (o <em>edge router</em>). De cada tecnologia interessa a
+<strong>capacidade</strong>, se é <strong>partilhada</strong> (o débito
+de cada utilizador depende de quantos a usam ao mesmo tempo) e a
 <strong>latência</strong>.</p>
-<div class="definicao" title="Redes de acesso residenciais">
-<p><strong>Cabo (HFC, <em>hybrid fiber/coaxial</em>):</strong> a
-infraestrutura de TV por cabo transporta também dados, com
-<strong>multiplexagem em frequência</strong> (FDM): canais de TV, de
-subida e de descida em bandas diferentes do mesmo cabo. É
-<strong>assimétrico</strong> (até ~30 Mbps a descer, ~2 Mbps a subir) e
-o cabo é <strong>partilhado</strong> pelas casas do mesmo segmento: o
-débito de cada casa depende de quantos vizinhos o usam ao mesmo
-tempo.</p>
-<p><strong>Fibra até casa (FTTH):</strong> ligação ótica da central até
-casa, com um <em>splitter</em> ótico passivo que divide uma fibra por
-várias casas (<strong>PON</strong>) ou com eletrónica ativa por casa
-(<strong>AON</strong>). Muito mais capacidade e alcance do que o cabo;
-integra telefone e TV. Na PON cada casa tem fibra dedicada até ao
-<em>splitter</em> e a partilha é mais a montante e controlada, por isso
-os vizinhos pesam menos do que no cabo †.</p>
-</div>
-<div class="definicao" title="Redes de acesso empresariais e sem fios">
-<p><strong>LAN Ethernet:</strong> os terminais ligam-se a um
-<strong>switch Ethernet</strong> (nas Ethernet antigas partilhavam um
-cabo), a 10 Mbps, 100 Mbps, 1 Gbps ou 10 Gbps.</p>
-<p><strong>Sem fios:</strong> os terminais ligam-se ao <em>router</em>
-através de um <strong>ponto de acesso</strong> partilhado. LAN sem fios
-(WiFi, 802.11b/g/n/ac/ax/be): de 11 Mbps (802.11b) a 46 Gbps (802.11be).
-WAN sem fios (operadoras): até ~300 Mbps em 4G (LTE Avançado), até 20
-Gbps em 5G.</p>
-</div>
-<div class="definicao" title="Meio físico">
-<p>Um bit propaga-se entre emissor e recetor por uma <strong>ligação
-física</strong>:</p>
-<ul>
-<li><strong>meio guiado</strong> (o sinal segue um meio sólido): par de
-cobre entrançado (Cat.5/5e/6/6a, de 100 Mbps a 10 Gbps de Ethernet),
-cabo coaxial, fibra ótica;</li>
-<li><strong>meio não guiado</strong> (ondas de rádio): micro-ondas
-terrestres (até 620 Mbps), WiFi (até 46 Gbps), redes móveis (até 20 Gbps
-em 5G) e satélite. Os satélites de baixa altitude (ex.: Starlink) têm
-~25 ms de latência, contra ~270 ms dos geossíncronos, mas menos
-capacidade por satélite (até ~220 Mbps).</li>
-</ul>
-<p>O sinal vai em <strong>banda-base</strong> (um só canal ocupa todo o
-meio, sem modulação, como na Ethernet original em coaxial) ou
-<strong>modulado</strong> (o sinal modula uma portadora em frequência,
-amplitude ou fase, o que permite vários canais no mesmo meio, como no
-HFC).</p>
-</div>
+<table>
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 41%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Acesso</th>
+<th style="text-align: left;">Como funciona</th>
+<th style="text-align: left;">Capacidade</th>
+<th style="text-align: left;">Partilhado?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Cabo (HFC, <em>hybrid
+fiber/coaxial</em>)</td>
+<td style="text-align: left;">a rede de TV por cabo; TV, subida e
+descida em bandas diferentes do mesmo cabo (<strong>FDM</strong>)</td>
+<td style="text-align: left;">assimétrico: ~30 Mbps a descer, ~2 Mbps a
+subir</td>
+<td style="text-align: left;">sim, pelas casas do mesmo segmento</td>
+</tr>
+<tr>
+<td style="text-align: left;">Fibra até casa (FTTH)</td>
+<td style="text-align: left;"><strong>PON</strong>: um <em>splitter</em>
+ótico passivo divide uma fibra por várias casas; <strong>AON</strong>:
+eletrónica ativa por casa</td>
+<td style="text-align: left;">muito maior do que o cabo; integra
+telefone e TV</td>
+<td style="text-align: left;">fibra dedicada até ao <em>splitter</em>,
+partilha a montante e controlada †</td>
+</tr>
+<tr>
+<td style="text-align: left;">LAN Ethernet</td>
+<td style="text-align: left;">terminais ligados a um
+<strong>switch</strong> (nas antigas, a um cabo partilhado)</td>
+<td style="text-align: left;">10 Mbps a 10 Gbps</td>
+<td style="text-align: left;">não (cada um tem a sua porta)</td>
+</tr>
+<tr>
+<td style="text-align: left;">WiFi (802.11)</td>
+<td style="text-align: left;">terminais ligados a um <strong>ponto de
+acesso</strong></td>
+<td style="text-align: left;">11 Mbps (802.11b) a 46 Gbps
+(802.11be)</td>
+<td style="text-align: left;">sim, o ponto de acesso</td>
+</tr>
+<tr>
+<td style="text-align: left;">Rede móvel (WAN sem fios)</td>
+<td style="text-align: left;">antenas da operadora</td>
+<td style="text-align: left;">~300 Mbps (4G), até 20 Gbps (5G)</td>
+<td style="text-align: left;">sim</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Meio físico.</strong> O bit propaga-se por um meio
+<strong>guiado</strong> (par de cobre entrançado Cat.5 a 6a, de 100 Mbps
+a 10 Gbps; cabo coaxial; fibra ótica) ou <strong>não guiado</strong>
+(rádio: micro-ondas terrestres até 620 Mbps, WiFi, redes móveis,
+satélite). Os satélites de <strong>baixa altitude</strong> (Starlink)
+têm ~25 ms de latência contra ~270 ms dos
+<strong>geossíncronos</strong>, porque estão muito mais perto (é atraso
+de propagação), mas menos capacidade por satélite (~220 Mbps). O sinal
+vai em <strong>banda-base</strong> (um só canal ocupa o meio, sem
+modulação, como na Ethernet original) ou <strong>modulado</strong> numa
+portadora (em frequência, amplitude ou fase), o que deixa pôr vários
+canais no mesmo meio (como no HFC).</p>
+<p><strong>Erro típico:</strong> tomar a capacidade de um acesso
+partilhado (cabo, WiFi) como o débito de cada utilizador. Divide-se por
+quem está ativo.</p>
 <h2 id="núcleo-da-rede-core">Núcleo da rede (core)</h2>
-<p>O <strong>núcleo</strong> é a malha de <em>routers</em> que liga as
-redes de acesso. A questão é como se transferem os dados através dele:
-por <strong>comutação de circuitos</strong> ou por <strong>comutação de
-pacotes</strong>.</p>
+<p><strong>Para que serve.</strong> O <strong>núcleo</strong> é a malha
+de <em>routers</em> que liga as redes de acesso. Aqui vê-se como os
+dados o atravessam, por <strong>comutação de circuitos</strong> ou por
+<strong>comutação de pacotes</strong>, e calcula-se quanto demora uma
+transferência e quantos utilizadores cabem numa ligação.</p>
+<div class="definicao" title="--- Receita: exercícios de comutação">
+<ol type="1">
+<li><strong>Circuitos ou pacotes?</strong></li>
+<li><strong>Circuitos:</strong> qual é a fatia de cada utilizador
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>
+a dividir pelo número de <em>slots</em> ou de bandas)? Tempo =
+estabelecimento +
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>/</mi><mtext mathvariant="normal">fatia</mtext></mrow><annotation encoding="application/x-tex">F/\text{fatia}</annotation></semantics></math>.</li>
+<li><strong>Pacotes:</strong> quantas ligações há
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+= <em>routers</em> intermédios + 1)? Um pacote demora
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>⋅</mo><mi>L</mi><mi>/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">N \cdot L/R</annotation></semantics></math>,
+mais a propagação de cada ligação.</li>
+<li><strong>Quantos utilizadores?</strong> Circuitos:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mi>/</mi><mi>r</mi></mrow><annotation encoding="application/x-tex">R/r</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
+= taxa de cada um quando ativo). Pacotes: o número de ativos é binomial,
+e a probabilidade de haver mais ativos do que cabem tem de ser
+desprezável.</li>
+</ol>
+</div>
 <div class="definicao" title="Comutação de circuitos">
 <p>Como na rede telefónica: os recursos do percurso (capacidade das
 ligações e dos nós) são <strong>reservados extremo-a-extremo
@@ -274,6 +326,9 @@ sequência:
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> s</mtext></mrow><mo>+</mo><mn>500</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> ms</mtext></mrow><mo>=</mo><mrow><mn mathvariant="bold">𝟏𝟎</mn><mo mathvariant="bold">,</mo><mn mathvariant="bold">𝟓</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="bold"> 𝐬</mtext></mrow></mrow></mrow><annotation encoding="application/x-tex">10\text{ s} + 500\text{ ms} = \mathbf{10{,}5\text{ s}}</annotation></semantics></math>
 (sem contar o atraso de propagação, que se vê mais à frente).</p>
 </div>
+<p><strong>Erro típico:</strong> usar a capacidade da ligação inteira
+(2,048 Mb/s) em vez da do <em>slot</em>, ou esquecer o tempo de
+estabelecimento.</p>
 <div class="definicao" title="Comutação de pacotes">
 <p>O fluxo de dados divide-se em <strong>pacotes</strong> (dados +
 cabeçalho de controlo):</p>
@@ -327,6 +382,10 @@ saltos,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>⋅</mo><mi>L</mi><mi>/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">N \cdot L/R</annotation></semantics></math>
 (mais a propagação de cada ligação, se não for nula).</p>
 </div>
+<p><strong>Erro típico:</strong> contar os <em>routers</em> em vez das
+ligações. Dois <em>routers</em> intermédios são <strong>três</strong>
+ligações, logo três
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">L/R</annotation></semantics></math>.</p>
 <p><strong>Pacotes vs. circuitos.</strong> A comutação de pacotes deixa
 <strong>mais utilizadores</strong> partilhar a rede, porque não reserva
 recursos que ficam parados quando um utilizador está inativo.</p>
@@ -399,6 +458,41 @@ ISPs sem <em>peering</em> direto, podem ter um caminho muito longo
 †.</p>
 <h2 id="atrasos-perdas-e-throughput">Atrasos, perdas e
 <em>throughput</em></h2>
+<p><strong>Para que serve.</strong> Calcular quanto tempo um pacote (ou
+vários) demora de uma ponta à outra, e perceber de onde vêm as perdas. É
+a conta que mais aparece nos exercícios.</p>
+<div class="definicao" title="--- Receita: tempo de ponta a ponta">
+<ol type="1">
+<li><strong>Unidades:</strong> tudo em bits e segundos. Bytes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>×</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">\times 8</annotation></semantics></math>
+(1 MB = 8 Mb); k =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mn>3</mn></msup><annotation encoding="application/x-tex">10^3</annotation></semantics></math>,
+M =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mn>6</mn></msup><annotation encoding="application/x-tex">10^6</annotation></semantics></math>,
+G =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mn>9</mn></msup><annotation encoding="application/x-tex">10^9</annotation></semantics></math>;
+1 ms =
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mn>10</mn><mrow><mi>−</mi><mn>3</mn></mrow></msup><annotation encoding="application/x-tex">10^{-3}</annotation></semantics></math>
+s.</li>
+<li><strong>Por ligação:</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi></mrow></msub><mo>=</mo><mi>L</mi><mi>/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">d_{trans} = L/R</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi></mrow></msub><mo>=</mo><mi>l</mi><mi>/</mi><mi>v</mi></mrow><annotation encoding="application/x-tex">d_{prop} = l/v</annotation></semantics></math>.</li>
+<li><strong>Um pacote:</strong> soma
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi></mrow></msub><mo>+</mo><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi></mrow></msub></mrow><annotation encoding="application/x-tex">d_{trans} + d_{prop}</annotation></semantics></math>
+de <strong>todas</strong> as ligações (cada <em>router</em> espera pelo
+pacote inteiro antes de o reenviar).</li>
+<li><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+pacotes seguidos:</strong> soma ainda
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><msub><mi>d</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi></mrow></msub></mrow><annotation encoding="application/x-tex">(n-1)\,d_{trans}</annotation></semantics></math>
+<strong>da ligação mais lenta</strong> (o estrangulamento), onde os
+pacotes fazem fila.</li>
+<li><strong>Na dúvida, uma tabela ou um diagrama temporal:</strong> um
+pacote começa numa ligação no <strong>máximo</strong> entre “chegou ao
+<em>router</em>” e “o pacote anterior acabou de sair nessa
+ligação”.</li>
+</ol>
+</div>
 <p>Os pacotes esperam em <strong>filas</strong> nos <em>routers</em>
 quando a taxa de chegada a uma ligação de saída excede, momentaneamente,
 a sua capacidade. Se a fila estiver cheia quando chega um pacote, ele é
@@ -446,6 +540,13 @@ depende só da distância e do meio, <strong>não</strong> do pacote nem da
 capacidade (o camião, já na autoestrada, a chegar à saída). Um pacote
 grande numa ligação lenta é dominado pela transmissão; um satélite
 geossíncrono (~270 ms) é dominado pela propagação.</p>
+<p><strong>Erro típico:</strong> achar que uma ligação mais rápida
+(maior
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>)
+encurta a propagação. Só encurta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi></mrow></msub><annotation encoding="application/x-tex">d_{trans}</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">d_{prop}</annotation></semantics></math>
+só depende da distância.</p>
 <h3 id="vários-pacotes-e-ligações-em-série">Vários pacotes e ligações em
 série</h3>
 <p>Com várias ligações de capacidades diferentes e vários pacotes
@@ -597,12 +698,36 @@ chega mais trabalho do que a ligação escoa; a espera média tende para
 <strong>infinito</strong> (com fila finita, há perdas).</li>
 </ul>
 </div>
+<p>Ex.:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">R = 1</annotation></semantics></math>
+Mbps, pacotes de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><mn>1000</mn></mrow><annotation encoding="application/x-tex">L = 1000</annotation></semantics></math>
+bits e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mn>900</mn></mrow><annotation encoding="application/x-tex">a = 900</annotation></semantics></math>
+pacotes/s dão
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>a</mi><mi>/</mi><mi>R</mi><mo>=</mo><msup><mn>10</mn><mn>6</mn></msup><mo>⋅</mo><mn>0</mn><mo>,</mo><mn>9</mn><mi>/</mi><msup><mn>10</mn><mn>6</mn></msup><mo>=</mo><mn>0</mn><mo>,</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">La/R = 10^6 \cdot 0{,}9 / 10^6 = 0{,}9</annotation></semantics></math>:
+perto de 1, filas longas. A intensidade só mexe no
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mrow><mi>f</mi><mi>i</mi><mi>l</mi><mi>a</mi></mrow></msub><annotation encoding="application/x-tex">d_{fila}</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mrow><mi>t</mi><mi>r</mi><mi>a</mi><mi>n</mi><mi>s</mi></mrow></msub><annotation encoding="application/x-tex">d_{trans}</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi></mrow></msub><annotation encoding="application/x-tex">d_{prop}</annotation></semantics></math>
+não dependem do tráfego. <strong>Erro típico:</strong> pensar que o
+atraso cresce na proporção da intensidade. Passar de 80% para 95%
+multiplica a espera várias vezes.</p>
 <h3 id="atrasos-reais-traceroute">Atrasos reais: traceroute</h3>
 <p>O <strong><code>traceroute</code></strong> mede o atraso da origem
 até cada <em>router</em> do percurso: para cada <em>router</em>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
 envia 3 pacotes que chegam até ele; o <em>router</em> responde à origem,
 que mede o tempo de ida e volta (3 medições por salto).</p>
+<p><strong>Como obriga o <em>router</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+a responder</strong> †: cada datagrama IP leva um contador, o
+<strong>TTL</strong> (<em>time to live</em>), que cada <em>router</em>
+decrementa; o <em>router</em> que o põe a 0 descarta o datagrama e envia
+à origem uma mensagem de erro (ICMP), com o seu endereço. O
+<code>ping</code> usa outra mensagem ICMP, o <em>echo request</em>, a
+que o destino responde com um <em>echo reply</em>.</p>
 <div class="exemplo">
 <p><strong>Ler um <code>traceroute</code></strong> (o dos slides, do
 DCC/FCUP para <code>www.cmu.edu</code>). Cada linha tem o número do
@@ -629,6 +754,13 @@ garantir), pelo terminal de origem (o TCP) ou não ser retransmitido de
 todo (tráfego UDP como vídeo em tempo real, em que chegar tarde não
 serve).</p>
 <h3 id="débito-throughput">Débito (throughput)</h3>
+<p><strong>Como calcular:</strong> o débito de ponta a ponta é o
+<strong>mínimo</strong> das capacidades do percurso, contando uma
+ligação partilhada de forma justa por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+fluxos como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mi>/</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">R/n</annotation></semantics></math>.
+<strong>Erro típico:</strong> somar as capacidades ou fazer a média.</p>
 <div class="definicao" title="Débito (throughput)">
 <p>O <strong>débito</strong> é a taxa a que os bits chegam efetivamente
 do emissor ao recetor: <strong>instantâneo</strong> (num instante) ou
@@ -666,16 +798,13 @@ Mais tarde dimensiona a janela do TCP (quanto enviar sem esperar
 confirmações para “encher o tubo”).</p>
 <h2 id="camadas-protocolares-e-modelos-de-serviço">Camadas protocolares
 e modelos de serviço</h2>
+<p><strong>Para que serve.</strong> Saber em que camada atua cada
+protocolo e cada dispositivo, e o que cada um consegue ler de um
+pacote.</p>
 <p>Uma rede tem muitas peças (terminais, <em>routers</em>, ligações,
 aplicações, protocolos, hardware, software). Para tornar isso tratável,
 organiza-se em <strong>camadas</strong>: cada camada usa só o serviço da
 camada de baixo.</p>
-<div class="exemplo">
-<p><strong>Analogia da roupa:</strong> fibras → fabrico das peças →
-<em>design</em>, <em>branding</em> e controlo de qualidade → venda a
-retalho → cliente. A loja não precisa de saber como se produzem as
-fibras, só que a fábrica lhe entrega as peças.</p>
-</div>
 <p>As camadas dão um <strong>modelo de referência</strong> para discutir
 o sistema (todos sabem o que é “a camada de transporte”) e
 <strong>modularidade</strong>: mudar a <strong>implementação</strong> de
@@ -698,6 +827,37 @@ encaminhamento).</li>
 bits.</li>
 </ol>
 </div>
+<p><strong>Que camadas implementa cada dispositivo</strong> (a figura do
+encapsulamento, abaixo):</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Dispositivo</th>
+<th style="text-align: left;">Camadas</th>
+<th style="text-align: left;">Que cabeçalhos lê</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">terminal</td>
+<td style="text-align: left;">as 5</td>
+<td style="text-align: left;">todos</td>
+</tr>
+<tr>
+<td style="text-align: left;"><em>router</em></td>
+<td style="text-align: left;">física, ligação, rede</td>
+<td style="text-align: left;">ligação e rede</td>
+</tr>
+<tr>
+<td style="text-align: left;"><em>switch</em></td>
+<td style="text-align: left;">física, ligação</td>
+<td style="text-align: left;">só o de ligação</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Erro típico:</strong> dizer que um <em>router</em> “vê” a
+porta TCP. A porta está no cabeçalho de transporte, acima das camadas
+que o <em>router</em> implementa.</p>
 <p>O <strong>modelo ISO/OSI</strong> tem <strong>7 camadas</strong>: as
 mesmas 5 e mais duas entre a aplicação e o transporte. A
 <strong>apresentação</strong> deixa as aplicações interpretar os dados
@@ -752,6 +912,9 @@ mantêm do início ao fim. No destino, os cabeçalhos saem um a um (ligação
 <h1 id="aula-2-camada-de-aplicação">Aula 2 — Camada de aplicação</h1>
 <h2 id="princípios-das-aplicações-em-rede">Princípios das aplicações em
 rede</h2>
+<p><strong>Para que serve.</strong> O que todos os protocolos de
+aplicação (HTTP, SMTP, DNS…) têm em comum: quem fala com quem, como se
+endereça um processo e que serviço de transporte escolher.</p>
 <p>Aplicações em rede: e-mail, Web, mensagens instantâneas, terminal
 remoto, P2P, jogos, <em>streaming</em>, VoIP, videoconferência,
 computação <em>grid</em>, redes sociais. Criar uma é escrever programas
@@ -904,6 +1067,16 @@ Mbps</td>
 </tr>
 </tbody>
 </table>
+<div class="definicao" title="--- Receita: TCP ou UDP">
+<ol type="1">
+<li>A aplicação <strong>não pode perder dados</strong> (ficheiros,
+email, web)? TCP.</li>
+<li>Tolera perdas e é <strong>sensível ao atraso</strong> (voz, vídeo em
+tempo real, jogos)? UDP: uma retransmissão chegaria tarde demais.</li>
+<li>É uma <strong>pergunta e resposta curtas</strong> (o DNS)? UDP, para
+não pagar o <em>handshake</em>.</li>
+</ol>
+</div>
 <h3 id="serviços-de-transporte-da-internet-tcp-e-udp">Serviços de
 transporte da Internet: TCP e UDP</h3>
 <div class="definicao"
@@ -996,6 +1169,9 @@ extremidades</strong> (com <strong>certificados</strong>). Funciona
 aplicação usa sobre o TCP, com uma API de sockets própria. <strong>O SSL
 está obsoleto, substituído pelo TLS.</strong></p>
 <h2 id="web-e-http">Web e HTTP</h2>
+<p><strong>Para que serve.</strong> Perceber como o browser vai buscar
+uma página, escrever e ler mensagens HTTP à mão, e calcular quanto tempo
+a página demora a chegar.</p>
 <p>Uma <strong>página web</strong> é um <strong>ficheiro-base
 HTML</strong> que referencia <strong>objetos</strong> (HTML, imagens
 JPEG, sons, vídeos…). Cada objeto tem um <strong>URL</strong>:</p>
@@ -1063,6 +1239,30 @@ resposta, e o <strong>tempo de transmissão</strong> do ficheiro:
 conexão TCP (com o seu <em>overhead</em> no sistema operativo) por
 objeto. Os browsers compensam com <strong>várias conexões TCP em
 paralelo</strong>.</p>
+<div class="definicao" title="--- Receita: tempo de uma página web">
+<ol type="1">
+<li><strong>Conta os objetos:</strong> o HTML e os
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+que ele referencia.</li>
+<li><strong>Vê o modo:</strong> não persistente, persistente sem
+<em>pipelining</em> ou persistente com <em>pipelining</em>; e se há
+conexões em paralelo.</li>
+<li><strong>Conta os RTT:</strong> abrir uma conexão TCP custa 1 RTT;
+cada pedido custa 1 RTT, mas os pedidos enviados juntos
+(<em>pipelining</em>) custam 1 RTT para todos.</li>
+<li><strong>Soma a transmissão de cada objeto</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>
+=
+tamanho<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">/R</annotation></semantics></math>),
+uma vez por objeto.</li>
+<li><strong>Se pedirem o MSC:</strong> uma linha vertical para o cliente
+e outra para o servidor; cada RTT é uma seta para lá e outra para cá, e
+a transmissão é a “espessura” da seta da resposta.</li>
+</ol>
+</div>
+<p><strong>Erro típico:</strong> esquecer o RTT de abrir a conexão (no
+não persistente, paga-se em <strong>cada</strong> objeto), ou somar a
+transmissão uma só vez quando há vários objetos.</p>
 <div class="definicao" title="HTTP persistente, com e sem pipelining">
 <p>O servidor deixa a conexão <strong>aberta</strong> e os pedidos
 seguintes usam-na.</p>
@@ -1096,6 +1296,33 @@ por objeto soma-se
 nos três casos (os objetos passam todos pela mesma ligação). A figura
 mostra 1 HTML + 2 imagens (6, 4 e 3 RTT):</p>
 <p><img src="assets/guia-redes/http_persistencia.svg" /></p>
+</div>
+<div class="exemplo" title="Com números (1 HTML e 2 imagens)">
+<p>RTT = 20 ms e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>
+= 5 ms por objeto (as 3 situações da figura).</p>
+<ul>
+<li><strong>Não persistente:</strong> cada objeto custa
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mspace width="0.167em"></mspace><mtext mathvariant="normal">RTT</mtext><mo>+</mo><mi>T</mi><mo>=</mo><mn>40</mn><mo>+</mo><mn>5</mn><mo>=</mo><mn>45</mn></mrow><annotation encoding="application/x-tex">2\,\text{RTT} + T = 40 + 5 =
+45</annotation></semantics></math> ms; em série,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>45</mn><mo>=</mo><mn mathvariant="bold">𝟏𝟑𝟓</mn></mrow><annotation encoding="application/x-tex">3 \times 45 = \mathbf{135}</annotation></semantics></math>
+<strong>ms</strong> (= 6 RTT +
+3<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>).</li>
+<li><strong>Persistente sem <em>pipelining</em>:</strong> o HTML acaba
+aos 45 ms; cada imagem custa mais
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">RTT</mtext><mo>+</mo><mi>T</mi><mo>=</mo><mn>25</mn></mrow><annotation encoding="application/x-tex">\text{RTT} + T = 25</annotation></semantics></math>
+ms:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>45</mn><mo>+</mo><mn>25</mn><mo>+</mo><mn>25</mn><mo>=</mo><mn mathvariant="bold">𝟗𝟓</mn></mrow><annotation encoding="application/x-tex">45 + 25 + 25 = \mathbf{95}</annotation></semantics></math>
+<strong>ms</strong> (= 4 RTT +
+3<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>).</li>
+<li><strong>Persistente com <em>pipelining</em>:</strong> o HTML acaba
+aos 45 ms e os dois pedidos saem juntos. A 1.ª imagem acaba aos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>45</mn><mo>+</mo><mn>20</mn><mo>+</mo><mn>5</mn><mo>=</mo><mn>70</mn></mrow><annotation encoding="application/x-tex">45 + 20 + 5 = 70</annotation></semantics></math>
+ms e a 2.ª é transmitida logo a seguir, aos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>70</mn><mo>+</mo><mn>5</mn><mo>=</mo><mn mathvariant="bold">𝟕𝟓</mn></mrow><annotation encoding="application/x-tex">70 + 5 = \mathbf{75}</annotation></semantics></math>
+<strong>ms</strong> (= 3 RTT +
+3<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>).</li>
+</ul>
 </div>
 <h3 id="formato-das-mensagens-http">Formato das mensagens HTTP</h3>
 <p>Há mensagens de <strong>pedido</strong> e de
@@ -1144,30 +1371,30 @@ persistente as respostas seguem umas atrás das outras e o TCP
 usa <code>Transfer-Encoding: chunked</code> †): aí começa a resposta
 seguinte.</p>
 </div>
+<p><strong>Erro típico</strong> (ao escrever pedidos à mão): esquecer a
+linha vazia no fim (o servidor fica à espera de mais cabeçalhos) ou, em
+HTTP/1.1, o <code>Host:</code>.</p>
 <h3 id="uma-sessão-http-real">Uma sessão HTTP real</h3>
 <p>Os slides sugerem experimentar o HTTP <strong>à mão</strong> com
 <code>telnet</code> (ligar à porta 80 e escrever o pedido) ou ver o que
 o browser envia com o <strong>Wireshark</strong>. A captura do professor
 está em <code>Teoricas/Aula_03_captura_http.cap</code>.</p>
-<p><strong>O <code>telnet</code> como cliente TCP genérico</strong> †. O
-<code>telnet</code> é o cliente do protocolo <strong>TELNET</strong>
-(RFC 854, porta 23) de <strong>terminal remoto</strong>: abre uma linha
-de comandos numa máquina remota
-(<code>telnet &lt;máquina&gt; [porta]</code>). Está
-<strong>obsoleto</strong> para isso porque envia tudo,
-<em>passwords</em> incluídas, <strong>em texto claro</strong>; usa-se o
-<strong>SSH</strong>, que cifra. Por dentro, abre uma <strong>conexão
-TCP</strong> (uma socket cliente, como o <code>TCPClient</code> mais à
-frente) e fica num ciclo: o que se escreve é <strong>enviado pela
-socket</strong> (com CR LF no fim da linha) e o que chega é
-<strong>mostrado no ecrã</strong>. Na porta 23 negoceia também opções do
-terminal (comandos que começam pelo byte 255, <code>IAC</code>); nas
-outras é só um “tubo” de texto. Como HTTP, SMTP, FTP e POP3 são
-protocolos <strong>de texto</strong> sobre TCP, com ele “fazemos de
-browser”: escrevemos os pedidos e vemos as respostas em bruto. No macOS:
-<code>brew install telnet</code>, ou <code>nc</code>
-(<code>nc -c neverssl.com 80</code> envia CR LF no fim de cada linha).
-Com <strong>TLS</strong> usa-se <code>gnutls-cli</code> ou
+<p><strong>O <code>telnet</code> como cliente TCP genérico</strong> †.
+<code>telnet &lt;máquina&gt; [porta]</code> é o cliente do protocolo
+<strong>TELNET</strong> (RFC 854, porta 23) de <strong>terminal
+remoto</strong>, hoje <strong>obsoleto</strong> para isso porque envia
+tudo, <em>passwords</em> incluídas, <strong>em texto claro</strong>
+(usa-se o <strong>SSH</strong>, que cifra). Por dentro abre uma
+<strong>conexão TCP</strong> (uma socket cliente, como o
+<code>TCPClient</code> mais à frente) e fica num ciclo: o que se escreve
+é <strong>enviado pela socket</strong> (com CR LF no fim da linha) e o
+que chega é <strong>mostrado no ecrã</strong>. Fora da porta 23 é só um
+“tubo” de texto. Como HTTP, SMTP, FTP e POP3 são protocolos <strong>de
+texto</strong> sobre TCP, serve para “fazer de browser”: escrevemos os
+pedidos e vemos as respostas em bruto. No macOS:
+<code>brew install telnet</code>, ou <code>nc -c neverssl.com 80</code>
+(o <code>-c</code> envia CR LF no fim de cada linha). Com
+<strong>TLS</strong> usa-se <code>gnutls-cli</code> ou
 <code>openssl s_client</code> (ver “Correio eletrónico”).</p>
 <div class="exemplo" title="Primeiro pedido e resposta da captura">
 <p>O Firefox (192.168.50.41) liga-se à porta 80 de
@@ -1314,6 +1541,9 @@ com muitas <em>caches</em>, até servidores fracos aguentam, porque os
 <strong>acessos repetidos</strong> são servidos pelas
 <em>caches</em>.</p>
 <h2 id="ftp">FTP</h2>
+<p><strong>Para que serve.</strong> Transferir ficheiros entre o cliente
+e uma máquina remota; nos exercícios, ler uma sessão FTP numa
+captura.</p>
 <div class="definicao" title="FTP (File Transfer Protocol, RFC 959)">
 <p>Transfere ficheiros <strong>de/para</strong> uma máquina remota,
 cliente/servidor: o <strong>cliente</strong> desencadeia a transferência
@@ -1403,7 +1633,29 @@ são o IP do cliente e os 2 últimos a porta,
 <strong>cliente</strong> que abre a conexão de dados, o que funciona
 melhor atrás de uma <em>firewall</em> ou NAT.</p>
 </div>
+<p><strong>Erro típico:</strong> achar que os ficheiros passam pela
+conexão de controlo. Cada ficheiro vai numa <strong>conexão de dados
+nova</strong>; a de controlo só leva comandos e respostas.</p>
 <h2 id="correio-eletrónico">Correio eletrónico</h2>
+<p><strong>Para que serve.</strong> Saber que protocolo atua em cada
+troço do caminho de um email, e conseguir falar SMTP à mão.</p>
+<div class="definicao" title="--- Receita: o caminho de uma mensagem">
+<ol type="1">
+<li>AU do remetente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+servidor do remetente: <strong>SMTP</strong> (o AU empurra).</li>
+<li>Servidor do remetente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+servidor do destinatário: <strong>SMTP</strong>, porta 25 (a mensagem
+espera na fila de saída até passar).</li>
+<li>Servidor do destinatário
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+AU do destinatário: <strong>POP3, IMAP ou HTTP</strong> (o AU vai
+buscar).</li>
+</ol>
+</div>
+<p><strong>Erro típico:</strong> dizer que o destinatário lê o correio
+por SMTP. O SMTP só empurra, até à caixa de correio.</p>
 <div class="definicao" title="Componentes do e-mail">
 <ul>
 <li><strong>Agentes de utilizador</strong> (AU): o cliente de email
@@ -1670,6 +1922,29 @@ servidor</strong>, organizadas em <strong>pastas</strong>;
 cada uma). É mais complexo.</p>
 </div>
 <h2 id="dns">DNS</h2>
+<p><strong>Para que serve.</strong> Traduzir nomes em IPs. Nos
+exercícios: seguir uma resolução mensagem a mensagem, contar mensagens,
+ler a saída do <code>dig</code> e escrever os registos de um
+domínio.</p>
+<div class="definicao" title="--- Receita: seguir uma resolução">
+<ol type="1">
+<li>A máquina faz um pedido <strong>recursivo</strong> ao servidor
+<strong>local</strong>.</li>
+<li>O local procura o nome na <em>cache</em>. Se o tem (TTL por
+expirar), responde logo.</li>
+<li>Senão, pergunta <strong>iterativamente</strong>, a começar pelo
+servidor mais baixo que tem em <em>cache</em> (raiz, depois TLD, depois
+com autoridade). Cada um devolve uma <strong>referência</strong> (os NS
+seguintes e os seus IP), até o servidor com autoridade dar a
+<strong>resposta</strong> (<em>flag</em> <code>aa</code>).</li>
+<li>O local devolve o IP à máquina e guarda tudo em <em>cache</em>.</li>
+<li><strong>Contar mensagens:</strong> 2 (pergunta e resposta) por
+servidor contactado.</li>
+</ol>
+</div>
+<p><strong>Erro típico:</strong> achar que a raiz ou o TLD sabem o IP
+final (só dão referências), ou que a resolução é recursiva ao longo da
+hierarquia.</p>
 <div class="definicao" title="DNS (Domain Name System)">
 <p>As máquinas têm um <strong>endereço IP</strong> (32 bits, usado no
 encaminhamento) e um <strong>nome</strong> (para humanos, ex.:
@@ -2028,6 +2303,20 @@ acompanham: 172 800 s (2 dias) para os NS de <code>pt</code>, que quase
 não mudam; 300 s para o <code>www</code>.</p>
 </div>
 <h2 id="aplicações-p2p">Aplicações P2P</h2>
+<p><strong>Para que serve.</strong> Comparar quanto tempo demora
+distribuir um ficheiro a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+pares a partir de um só servidor e em P2P, e perceber porque é que o P2P
+escala.</p>
+<p><strong>Como calcular:</strong> passa tudo a bits e bits/s; calcula
+<strong>cada</strong> termo do máximo (abaixo); o maior é o tempo, e diz
+o que está a limitar (o servidor, o <em>download</em> mais lento ou o
+<em>upload</em> total). <strong>Erro típico:</strong> esquecer o termo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mi>/</mi><msub><mrow><mi mathvariant="normal">min</mi><mo>&#8289;</mo></mrow><mi>i</mi></msub><msub><mi>d</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">F/\min_i d_i</annotation></semantics></math>,
+ou no P2P dividir só por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∑</mo><msub><mi>u</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\sum u_i</annotation></semantics></math>
+e esquecer o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>u</mi><mi>s</mi></msub><annotation encoding="application/x-tex">u_s</annotation></semantics></math>.</p>
 <h3 id="tempo-de-distribuição-cliente-servidor-vs.-p2p">Tempo de
 distribuição: cliente-servidor vs. P2P</h3>
 <p>Quanto tempo demora a distribuir <strong>um ficheiro de
@@ -2150,6 +2439,32 @@ pares novos, sem nada para dar, conseguem começar). <strong>Quem envia
 mais, recebe mais.</strong></p>
 </div>
 <h2 id="programação-com-sockets">Programação com sockets</h2>
+<p><strong>Para que serve.</strong> Escrever clientes e servidores que
+comunicam pela rede (Ficha 4), com sockets TCP ou UDP.</p>
+<div class="definicao" title="--- Receita: um programa com sockets">
+<ol type="1">
+<li><strong>TCP ou UDP?</strong> Conexão e fluxo fiável de bytes, ou
+datagramas soltos.</li>
+<li><strong>Servidor:</strong> cria a socket na porta combinada. TCP:
+cada <code>accept()</code> devolve uma socket nova para um cliente. UDP:
+cada <code>receive()</code> devolve um datagrama e o IP e a porta de
+quem o enviou.</li>
+<li><strong>Cliente:</strong> TCP:
+<code>new Socket(máquina, porta)</code> estabelece logo a conexão. UDP:
+cada <code>DatagramPacket</code> leva o IP e a porta de destino.</li>
+<li><strong>Combina onde acaba cada mensagem:</strong> no TCP, por
+exemplo uma por linha (<code>'\n'</code>, ou <code>"\r\n"</code> nos
+protocolos da Internet); no UDP, um datagrama.</li>
+<li><strong>Conexão persistente:</strong> lê em ciclo até
+<code>readLine()</code> devolver <code>null</code> (o outro lado
+fechou); no fim, fecha a socket.</li>
+</ol>
+</div>
+<p><strong>Erros típicos:</strong> esquecer o <code>'\n'</code> (o
+<code>readLine()</code> do outro lado fica à espera para sempre); ler só
+uma linha de uma resposta com várias; no UDP, converter o
+<em>buffer</em> inteiro em vez dos <code>getLength()</code> bytes
+recebidos.</p>
 <div class="definicao" title="API de sockets">
 <p>Uma <strong>socket</strong> é uma interface <strong>local</strong>,
 <strong>criada pela aplicação</strong> e <strong>controlada pelo sistema

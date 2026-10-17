@@ -151,6 +151,9 @@ letra das figuras novas, compila tudo (filtrado) e faz o `--sol`.
   sem `####`; ver `ref/build.md`). Corrige e volta a correr.
 - O `date:` das SOLUCOES muda-se à mão, se mudou. Se mudou uma convenção ou
   um facto da disciplina, atualiza o `CONTEXTO_<D>.md`.
+- **Site: não lhe mexas.** Esta skill só faz os PDFs. O site gera-se sozinho
+  no GitHub a cada push (HTML e PDF); afiná-lo é com a skill `site`, só
+  quando o Gonçalo a pedir.
 
 ## Auto-melhoria
 
@@ -169,3 +172,11 @@ Aplica-se a todas as disciplinas.
   "Poupar tokens". Quando se descobre um passo repetitivo e caro, o sítio
   dele é um script em `_shared/template/` (`prep.sh`, `fechar.sh`), não
   uma regra para fazer à mão.
+- Matéria nova escreve-se para quem nunca a viu (2026-10-16, Dedução
+  Natural de Lógica: "super confuso", "demasiada coisa que é lixo").
+  Ordem: (1) para que serve, numa frase; (2) o procedimento para
+  verificar/fazer, como lista de perguntas; (3) cada regra com um exemplo
+  mínimo e o erro típico; (4) um exemplo resolvido com o procedimento.
+  Corta-se o que não serve para resolver exercícios (curiosidades,
+  exemplos repetidos, notações que o exame não usa); matéria dos slides
+  que não entra nos exercícios fica, numa linha, no sítio onde se usa.

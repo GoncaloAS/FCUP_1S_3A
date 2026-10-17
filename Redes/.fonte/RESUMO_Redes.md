@@ -1,7 +1,7 @@
 ---
 title: "Redes de Comunicação --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 4 (respostas das fichas 2 e 3, teste modelo 1)"
+date: "Atualizado: Semana 4 (reescrito: para que serve, receita e erro típico em cada tópico)"
 ---
 
 <!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf -->
@@ -13,6 +13,9 @@ práticas.*
 # Aula 1 --- Introdução às redes de comunicação
 
 ## O que é a Internet
+
+**Para que serve.** O vocabulário de base (terminal, ligação, *router*,
+protocolo) que todos os tópicos seguintes usam.
 
 **Visão estrutural.** A Internet é composta por:
 
@@ -39,7 +42,6 @@ Task Force*).
 jogos, partilha de ficheiros), a Internet é uma **infraestrutura de
 comunicação** com dois serviços: **entrega fiável** extremo-a-extremo
 (TCP) e **entrega não fiável**, de "melhor esforço" (*best effort*, UDP).
-Estão desenvolvidos na Aula 2.
 
 ::: {.definicao title="Protocolo"}
 Um **protocolo** define o **formato** das mensagens trocadas, a **ordem**
@@ -61,64 +63,54 @@ certa).
 
 ## Extremidade da rede (edge)
 
-Os terminais correm as aplicações e ficam na periferia da rede. Os dois
-modelos de aplicação (cliente/servidor e *peer-to-peer*) e os dois
-serviços de transporte (TCP e UDP) estão na Aula 2.
+**Para que serve.** Saber como um terminal chega à rede e o que limita o
+seu débito antes de chegar ao núcleo.
 
 A **rede de acesso** liga um terminal ao primeiro *router* (o *edge
-router*). O que interessa nela é a **capacidade** (partilhada ou dedicada)
-e a **latência**.
+router*). De cada tecnologia interessa a **capacidade**, se é
+**partilhada** (o débito de cada utilizador depende de quantos a usam ao
+mesmo tempo) e a **latência**.
 
-::: {.definicao title="Redes de acesso residenciais"}
-**Cabo (HFC, *hybrid fiber/coaxial*):** a infraestrutura de TV por cabo
-transporta também dados, com **multiplexagem em frequência** (FDM): canais
-de TV, de subida e de descida em bandas diferentes do mesmo cabo. É
-**assimétrico** (até ~30 Mbps a descer, ~2 Mbps a subir) e o cabo é
-**partilhado** pelas casas do mesmo segmento: o débito de cada casa
-depende de quantos vizinhos o usam ao mesmo tempo.
+| Acesso | Como funciona | Capacidade | Partilhado? |
+|:------|:-------------------------|:--------------|:--------------|
+| Cabo (HFC, *hybrid fiber/coaxial*) | a rede de TV por cabo; TV, subida e descida em bandas diferentes do mesmo cabo (**FDM**) | assimétrico: ~30 Mbps a descer, ~2 Mbps a subir | sim, pelas casas do mesmo segmento |
+| Fibra até casa (FTTH) | **PON**: um *splitter* ótico passivo divide uma fibra por várias casas; **AON**: eletrónica ativa por casa | muito maior do que o cabo; integra telefone e TV | fibra dedicada até ao *splitter*, partilha a montante e controlada † |
+| LAN Ethernet | terminais ligados a um **switch** (nas antigas, a um cabo partilhado) | 10 Mbps a 10 Gbps | não (cada um tem a sua porta) |
+| WiFi (802.11) | terminais ligados a um **ponto de acesso** | 11 Mbps (802.11b) a 46 Gbps (802.11be) | sim, o ponto de acesso |
+| Rede móvel (WAN sem fios) | antenas da operadora | ~300 Mbps (4G), até 20 Gbps (5G) | sim |
 
-**Fibra até casa (FTTH):** ligação ótica da central até casa, com um
-*splitter* ótico passivo que divide uma fibra por várias casas (**PON**)
-ou com eletrónica ativa por casa (**AON**). Muito mais capacidade e
-alcance do que o cabo; integra telefone e TV. Na PON cada casa tem fibra
-dedicada até ao *splitter* e a partilha é mais a montante e controlada,
-por isso os vizinhos pesam menos do que no cabo †.
-:::
+**Meio físico.** O bit propaga-se por um meio **guiado** (par de cobre
+entrançado Cat.5 a 6a, de 100 Mbps a 10 Gbps; cabo coaxial; fibra ótica)
+ou **não guiado** (rádio: micro-ondas terrestres até 620 Mbps, WiFi,
+redes móveis, satélite). Os satélites de **baixa altitude** (Starlink) têm
+~25 ms de latência contra ~270 ms dos **geossíncronos**, porque estão
+muito mais perto (é atraso de propagação), mas menos capacidade por
+satélite (~220 Mbps). O sinal vai em **banda-base** (um só canal ocupa o
+meio, sem modulação, como na Ethernet original) ou **modulado** numa
+portadora (em frequência, amplitude ou fase), o que deixa pôr vários
+canais no mesmo meio (como no HFC).
 
-::: {.definicao title="Redes de acesso empresariais e sem fios"}
-**LAN Ethernet:** os terminais ligam-se a um **switch Ethernet** (nas
-Ethernet antigas partilhavam um cabo), a 10 Mbps, 100 Mbps, 1 Gbps ou
-10 Gbps.
-
-**Sem fios:** os terminais ligam-se ao *router* através de um **ponto de
-acesso** partilhado. LAN sem fios (WiFi, 802.11b/g/n/ac/ax/be): de 11 Mbps
-(802.11b) a 46 Gbps (802.11be). WAN sem fios (operadoras): até ~300 Mbps
-em 4G (LTE Avançado), até 20 Gbps em 5G.
-:::
-
-::: {.definicao title="Meio físico"}
-Um bit propaga-se entre emissor e recetor por uma **ligação física**:
-
-- **meio guiado** (o sinal segue um meio sólido): par de cobre entrançado
-  (Cat.5/5e/6/6a, de 100 Mbps a 10 Gbps de Ethernet), cabo coaxial, fibra
-  ótica;
-- **meio não guiado** (ondas de rádio): micro-ondas terrestres (até
-  620 Mbps), WiFi (até 46 Gbps), redes móveis (até 20 Gbps em 5G) e
-  satélite. Os satélites de baixa altitude (ex.: Starlink) têm ~25 ms de
-  latência, contra ~270 ms dos geossíncronos, mas menos capacidade por
-  satélite (até ~220 Mbps).
-
-O sinal vai em **banda-base** (um só canal ocupa todo o meio, sem
-modulação, como na Ethernet original em coaxial) ou **modulado** (o sinal
-modula uma portadora em frequência, amplitude ou fase, o que permite
-vários canais no mesmo meio, como no HFC).
-:::
+**Erro típico:** tomar a capacidade de um acesso partilhado (cabo, WiFi)
+como o débito de cada utilizador. Divide-se por quem está ativo.
 
 ## Núcleo da rede (core)
 
-O **núcleo** é a malha de *routers* que liga as redes de acesso. A questão
-é como se transferem os dados através dele: por **comutação de
-circuitos** ou por **comutação de pacotes**.
+**Para que serve.** O **núcleo** é a malha de *routers* que liga as redes
+de acesso. Aqui vê-se como os dados o atravessam, por **comutação de
+circuitos** ou por **comutação de pacotes**, e calcula-se quanto demora
+uma transferência e quantos utilizadores cabem numa ligação.
+
+::: {.definicao title="--- Receita: exercícios de comutação"}
+1. **Circuitos ou pacotes?**
+2. **Circuitos:** qual é a fatia de cada utilizador ($R$ a dividir pelo
+   número de *slots* ou de bandas)? Tempo = estabelecimento +
+   $F/\text{fatia}$.
+3. **Pacotes:** quantas ligações há ($N$ = *routers* intermédios + 1)?
+   Um pacote demora $N \cdot L/R$, mais a propagação de cada ligação.
+4. **Quantos utilizadores?** Circuitos: $R/r$ ($r$ = taxa de cada um
+   quando ativo). Pacotes: o número de ativos é binomial, e a
+   probabilidade de haver mais ativos do que cabem tem de ser desprezável.
+:::
 
 ::: {.definicao title="Comutação de circuitos"}
 Como na rede telefónica: os recursos do percurso (capacidade das ligações
@@ -150,6 +142,9 @@ $\dfrac{2{,}048\text{ Mb/s}}{32} = 64\text{ kb/s}$.
 $10\text{ s} + 500\text{ ms} = \mathbf{10{,}5\text{ s}}$ (sem contar o
 atraso de propagação, que se vê mais à frente).
 :::
+
+**Erro típico:** usar a capacidade da ligação inteira (2,048 Mb/s) em vez
+da do *slot*, ou esquecer o tempo de estabelecimento.
 
 ::: {.definicao title="Comutação de pacotes"}
 O fluxo de dados divide-se em **pacotes** (dados + cabeçalho de controlo):
@@ -190,6 +185,9 @@ o 2.º *router* começa, mais 5 s. Os três intervalos são consecutivos.
 Em geral, para $N$ saltos, $N \cdot L/R$ (mais a propagação de cada
 ligação, se não for nula).
 :::
+
+**Erro típico:** contar os *routers* em vez das ligações. Dois *routers*
+intermédios são **três** ligações, logo três $L/R$.
 
 **Pacotes vs. circuitos.** A comutação de pacotes deixa **mais
 utilizadores** partilhar a rede, porque não reserva recursos que ficam
@@ -270,6 +268,23 @@ em ISPs sem *peering* direto, podem ter um caminho muito longo †.
 
 ## Atrasos, perdas e *throughput*
 
+**Para que serve.** Calcular quanto tempo um pacote (ou vários) demora de
+uma ponta à outra, e perceber de onde vêm as perdas. É a conta que mais
+aparece nos exercícios.
+
+::: {.definicao title="--- Receita: tempo de ponta a ponta"}
+1. **Unidades:** tudo em bits e segundos. Bytes $\times 8$ (1 MB = 8 Mb);
+   k = $10^3$, M = $10^6$, G = $10^9$; 1 ms = $10^{-3}$ s.
+2. **Por ligação:** $d_{trans} = L/R$ e $d_{prop} = l/v$.
+3. **Um pacote:** soma $d_{trans} + d_{prop}$ de **todas** as ligações
+   (cada *router* espera pelo pacote inteiro antes de o reenviar).
+4. **$n$ pacotes seguidos:** soma ainda $(n-1)\,d_{trans}$ **da ligação
+   mais lenta** (o estrangulamento), onde os pacotes fazem fila.
+5. **Na dúvida, uma tabela ou um diagrama temporal:** um pacote começa
+   numa ligação no **máximo** entre "chegou ao *router*" e "o pacote
+   anterior acabou de sair nessa ligação".
+:::
+
 Os pacotes esperam em **filas** nos *routers* quando a taxa de chegada a
 uma ligação de saída excede, momentaneamente, a sua capacidade. Se a fila
 estiver cheia quando chega um pacote, ele é **descartado** (perda).
@@ -305,6 +320,9 @@ percorrer a ligação: depende só da distância e do meio, **não** do pacote
 nem da capacidade (o camião, já na autoestrada, a chegar à saída). Um
 pacote grande numa ligação lenta é dominado pela transmissão; um satélite
 geossíncrono (~270 ms) é dominado pela propagação.
+
+**Erro típico:** achar que uma ligação mais rápida (maior $R$) encurta a
+propagação. Só encurta $d_{trans}$; $d_{prop}$ só depende da distância.
 
 ::: {.pratica title="As quatro fontes de atraso (Ex. 6 e 7)"}
 - **Ex. 6** --- na demonstração interativa, encontra valores em que o
@@ -413,6 +431,12 @@ média:
   tende para **infinito** (com fila finita, há perdas).
 :::
 
+Ex.: $R = 1$ Mbps, pacotes de $L = 1000$ bits e $a = 900$ pacotes/s dão
+$La/R = 10^6 \cdot 0{,}9 / 10^6 = 0{,}9$: perto de 1, filas longas. A
+intensidade só mexe no $d_{fila}$; $d_{trans}$ e $d_{prop}$ não dependem
+do tráfego. **Erro típico:** pensar que o atraso cresce na proporção da
+intensidade. Passar de 80% para 95% multiplica a espera várias vezes.
+
 ::: {.pratica title="Filas de espera (Ficha 2, Ex. 3)"}
 **F2.3** A máquina de café demora 15 s a tirar um café.
 
@@ -430,6 +454,12 @@ média:
 O **`traceroute`** mede o atraso da origem até cada *router* do percurso:
 para cada *router* $i$ envia 3 pacotes que chegam até ele; o *router*
 responde à origem, que mede o tempo de ida e volta (3 medições por salto).
+
+**Como obriga o *router* $i$ a responder** †: cada datagrama IP leva um
+contador, o **TTL** (*time to live*), que cada *router* decrementa; o
+*router* que o põe a 0 descarta o datagrama e envia à origem uma mensagem
+de erro (ICMP), com o seu endereço. O `ping` usa outra mensagem ICMP, o
+*echo request*, a que o destino responde com um *echo reply*.
 
 ::: exemplo
 **Ler um `traceroute`** (o dos slides, do DCC/FCUP para `www.cmu.edu`).
@@ -483,6 +513,11 @@ transmissão fixa, chegadas com distribuição exponencial):
 
 ### Débito (throughput)
 
+**Como calcular:** o débito de ponta a ponta é o **mínimo** das
+capacidades do percurso, contando uma ligação partilhada de forma justa
+por $n$ fluxos como $R/n$. **Erro típico:** somar as capacidades ou fazer
+a média.
+
 ::: {.definicao title="Débito (throughput)"}
 O **débito** é a taxa a que os bits chegam efetivamente do emissor ao
 recetor: **instantâneo** (num instante) ou **médio** (num período). Como
@@ -531,15 +566,12 @@ resposta.
 
 ## Camadas protocolares e modelos de serviço
 
+**Para que serve.** Saber em que camada atua cada protocolo e cada
+dispositivo, e o que cada um consegue ler de um pacote.
+
 Uma rede tem muitas peças (terminais, *routers*, ligações, aplicações,
 protocolos, hardware, software). Para tornar isso tratável, organiza-se
 em **camadas**: cada camada usa só o serviço da camada de baixo.
-
-::: exemplo
-**Analogia da roupa:** fibras → fabrico das peças → *design*, *branding*
-e controlo de qualidade → venda a retalho → cliente. A loja não precisa de
-saber como se produzem as fibras, só que a fábrica lhe entrega as peças.
-:::
 
 As camadas dão um **modelo de referência** para discutir o sistema
 (todos sabem o que é "a camada de transporte") e **modularidade**: mudar
@@ -557,6 +589,19 @@ De cima para baixo:
    *switch*, dois *routers*): Ethernet, WiFi, PPP.
 5. **Física:** os sinais no meio que representam os bits.
 :::
+
+
+**Que camadas implementa cada dispositivo** (a figura do encapsulamento,
+abaixo):
+
+| Dispositivo | Camadas | Que cabeçalhos lê |
+|:--|:--|:--|
+| terminal | as 5 | todos |
+| *router* | física, ligação, rede | ligação e rede |
+| *switch* | física, ligação | só o de ligação |
+
+**Erro típico:** dizer que um *router* "vê" a porta TCP. A porta está no
+cabeçalho de transporte, acima das camadas que o *router* implementa.
 
 O **modelo ISO/OSI** tem **7 camadas**: as mesmas 5 e mais duas entre a
 aplicação e o transporte. A **apresentação** deixa as aplicações
@@ -605,6 +650,10 @@ rede**, como pode agradar à Teresa? Que problemas pode ter essa solução?
 # Aula 2 --- Camada de aplicação
 
 ## Princípios das aplicações em rede
+
+**Para que serve.** O que todos os protocolos de aplicação (HTTP, SMTP,
+DNS...) têm em comum: quem fala com quem, como se endereça um processo e
+que serviço de transporte escolher.
 
 Aplicações em rede: e-mail, Web, mensagens instantâneas, terminal remoto,
 P2P, jogos, *streaming*, VoIP, videoconferência, computação *grid*, redes
@@ -697,6 +746,14 @@ multimédia precisa de um mínimo; as **elásticas** usam o que houver) e
 | jogos interativos | tolera | desde alguns kbps | sim, centenas de ms |
 | mensagens instantâneas | não tolera | elástica | parcialmente |
 
+::: {.definicao title="--- Receita: TCP ou UDP"}
+1. A aplicação **não pode perder dados** (ficheiros, email, web)? TCP.
+2. Tolera perdas e é **sensível ao atraso** (voz, vídeo em tempo real,
+   jogos)? UDP: uma retransmissão chegaria tarde demais.
+3. É uma **pergunta e resposta curtas** (o DNS)? UDP, para não pagar o
+   *handshake*.
+:::
+
 ### Serviços de transporte da Internet: TCP e UDP
 
 ::: {.definicao title="TCP (Transmission Control Protocol, RFC 793)"}
@@ -744,6 +801,10 @@ sobre o TCP, com uma API de sockets própria. **O SSL está obsoleto,
 substituído pelo TLS.**
 
 ## Web e HTTP
+
+**Para que serve.** Perceber como o browser vai buscar uma página,
+escrever e ler mensagens HTTP à mão, e calcular quanto tempo a página
+demora a chegar.
 
 Uma **página web** é um **ficheiro-base HTML** que referencia **objetos**
 (HTML, imagens JPEG, sons, vídeos...). Cada objeto tem um **URL**:
@@ -812,6 +873,24 @@ O HTTP não persistente custa **2 RTT por objeto** e uma conexão TCP (com
 o seu *overhead* no sistema operativo) por objeto. Os browsers compensam
 com **várias conexões TCP em paralelo**.
 
+::: {.definicao title="--- Receita: tempo de uma página web"}
+1. **Conta os objetos:** o HTML e os $n$ que ele referencia.
+2. **Vê o modo:** não persistente, persistente sem *pipelining* ou
+   persistente com *pipelining*; e se há conexões em paralelo.
+3. **Conta os RTT:** abrir uma conexão TCP custa 1 RTT; cada pedido custa
+   1 RTT, mas os pedidos enviados juntos (*pipelining*) custam 1 RTT para
+   todos.
+4. **Soma a transmissão de cada objeto** ($T$ = tamanho$/R$), uma vez por
+   objeto.
+5. **Se pedirem o MSC:** uma linha vertical para o cliente e outra para o
+   servidor; cada RTT é uma seta para lá e outra para cá, e a transmissão
+   é a "espessura" da seta da resposta.
+:::
+
+**Erro típico:** esquecer o RTT de abrir a conexão (no não persistente,
+paga-se em **cada** objeto), ou somar a transmissão uma só vez quando há
+vários objetos.
+
 ::: {.definicao title="HTTP persistente, com e sem pipelining"}
 O servidor deixa a conexão **aberta** e os pedidos seguintes usam-na.
 
@@ -837,6 +916,20 @@ objetos passam todos pela mesma ligação). A figura mostra 1 HTML + 2
 imagens (6, 4 e 3 RTT):
 
 ![](figuras/http_persistencia.pdf){width=100%}
+:::
+
+::: {.exemplo title="Com números (1 HTML e 2 imagens)"}
+RTT = 20 ms e $T$ = 5 ms por objeto (as 3 situações da figura).
+
+- **Não persistente:** cada objeto custa $2\,\text{RTT} + T = 40 + 5 =
+  45$ ms; em série, $3 \times 45 = \mathbf{135}$ **ms** (= 6 RTT + 3$T$).
+- **Persistente sem *pipelining*:** o HTML acaba aos 45 ms; cada imagem
+  custa mais $\text{RTT} + T = 25$ ms: $45 + 25 + 25 = \mathbf{95}$
+  **ms** (= 4 RTT + 3$T$).
+- **Persistente com *pipelining*:** o HTML acaba aos 45 ms e os dois
+  pedidos saem juntos. A 1.ª imagem acaba aos $45 + 20 + 5 = 70$ ms e a
+  2.ª é transmitida logo a seguir, aos $70 + 5 = \mathbf{75}$ **ms** (= 3
+  RTT + 3$T$).
 :::
 
 ::: {.pratica title="Tempo de resposta do HTTP (exercício inventado)"}
@@ -909,6 +1002,10 @@ cabeçalhos até à linha vazia e depois exatamente `Content-Length` bytes
 (ou usa `Transfer-Encoding: chunked` †): aí começa a resposta seguinte.
 :::
 
+**Erro típico** (ao escrever pedidos à mão): esquecer a linha vazia no
+fim (o servidor fica à espera de mais cabeçalhos) ou, em HTTP/1.1, o
+`Host:`.
+
 ### Uma sessão HTTP real
 
 Os slides sugerem experimentar o HTTP **à mão** com `telnet` (ligar à
@@ -916,19 +1013,17 @@ porta 80 e escrever o pedido) ou ver o que o browser envia com o
 **Wireshark**. A captura do professor está em
 `Teoricas/Aula_03_captura_http.cap`.
 
-**O `telnet` como cliente TCP genérico** †. O `telnet` é o cliente do
-protocolo **TELNET** (RFC 854, porta 23) de **terminal remoto**: abre uma
-linha de comandos numa máquina remota (`telnet <máquina> [porta]`). Está
-**obsoleto** para isso porque envia tudo, *passwords* incluídas, **em
-texto claro**; usa-se o **SSH**, que cifra. Por dentro, abre uma
-**conexão TCP** (uma socket cliente, como o `TCPClient` mais à frente) e
-fica num ciclo: o que se escreve é **enviado pela socket** (com CR LF no
-fim da linha) e o que chega é **mostrado no ecrã**. Na porta 23 negoceia
-também opções do terminal (comandos que começam pelo byte 255, `IAC`);
-nas outras é só um "tubo" de texto. Como HTTP, SMTP, FTP e POP3 são
-protocolos **de texto** sobre TCP, com ele "fazemos de browser": escrevemos
-os pedidos e vemos as respostas em bruto. No macOS: `brew install telnet`,
-ou `nc` (`nc -c neverssl.com 80` envia CR LF no fim de cada linha). Com
+**O `telnet` como cliente TCP genérico** †. `telnet <máquina> [porta]` é
+o cliente do protocolo **TELNET** (RFC 854, porta 23) de **terminal
+remoto**, hoje **obsoleto** para isso porque envia tudo, *passwords*
+incluídas, **em texto claro** (usa-se o **SSH**, que cifra). Por dentro
+abre uma **conexão TCP** (uma socket cliente, como o `TCPClient` mais à
+frente) e fica num ciclo: o que se escreve é **enviado pela socket** (com
+CR LF no fim da linha) e o que chega é **mostrado no ecrã**. Fora da porta
+23 é só um "tubo" de texto. Como HTTP, SMTP, FTP e POP3 são protocolos
+**de texto** sobre TCP, serve para "fazer de browser": escrevemos os
+pedidos e vemos as respostas em bruto. No macOS: `brew install telnet`, ou
+`nc -c neverssl.com 80` (o `-c` envia CR LF no fim de cada linha). Com
 **TLS** usa-se `gnutls-cli` ou `openssl s_client` (ver "Correio
 eletrónico").
 
@@ -1102,6 +1197,9 @@ objeto de cada vez?
 
 ## FTP
 
+**Para que serve.** Transferir ficheiros entre o cliente e uma máquina
+remota; nos exercícios, ler uma sessão FTP numa captura.
+
 ::: {.definicao title="FTP (File Transfer Protocol, RFC 959)"}
 Transfere ficheiros **de/para** uma máquina remota, cliente/servidor: o
 **cliente** desencadeia a transferência (em qualquer sentido); o
@@ -1146,6 +1244,10 @@ de dados. No modo **passivo** (`PASV`) é o **cliente** que abre a conexão
 de dados, o que funciona melhor atrás de uma *firewall* ou NAT.
 :::
 
+**Erro típico:** achar que os ficheiros passam pela conexão de controlo.
+Cada ficheiro vai numa **conexão de dados nova**; a de controlo só leva
+comandos e respostas.
+
 ::: {.pratica title="Captura FTP (Ficha 3, Ex. 7b)"}
 **F3.7(b)** Abre `Teoricas/Aula_03_captura_ftp.cap` (a `Cap2-ftp.cap` do
 Moodle) no Wireshark (filtro `ftp || ftp-data`).
@@ -1165,6 +1267,20 @@ dados)?
 :::
 
 ## Correio eletrónico
+
+**Para que serve.** Saber que protocolo atua em cada troço do caminho de
+um email, e conseguir falar SMTP à mão.
+
+::: {.definicao title="--- Receita: o caminho de uma mensagem"}
+1. AU do remetente $\to$ servidor do remetente: **SMTP** (o AU empurra).
+2. Servidor do remetente $\to$ servidor do destinatário: **SMTP**, porta
+   25 (a mensagem espera na fila de saída até passar).
+3. Servidor do destinatário $\to$ AU do destinatário: **POP3, IMAP ou
+   HTTP** (o AU vai buscar).
+:::
+
+**Erro típico:** dizer que o destinatário lê o correio por SMTP. O SMTP
+só empurra, até à caixa de correio.
 
 ::: {.definicao title="Componentes do e-mail"}
 - **Agentes de utilizador** (AU): o cliente de email (Thunderbird,
@@ -1403,6 +1519,25 @@ portátil ir buscar o correio? Que protocolo resolve isto, e porquê?
 :::
 
 ## DNS
+
+**Para que serve.** Traduzir nomes em IPs. Nos exercícios: seguir uma
+resolução mensagem a mensagem, contar mensagens, ler a saída do `dig` e
+escrever os registos de um domínio.
+
+::: {.definicao title="--- Receita: seguir uma resolução"}
+1. A máquina faz um pedido **recursivo** ao servidor **local**.
+2. O local procura o nome na *cache*. Se o tem (TTL por expirar),
+   responde logo.
+3. Senão, pergunta **iterativamente**, a começar pelo servidor mais baixo
+   que tem em *cache* (raiz, depois TLD, depois com autoridade). Cada um
+   devolve uma **referência** (os NS seguintes e os seus IP), até o
+   servidor com autoridade dar a **resposta** (*flag* `aa`).
+4. O local devolve o IP à máquina e guarda tudo em *cache*.
+5. **Contar mensagens:** 2 (pergunta e resposta) por servidor contactado.
+:::
+
+**Erro típico:** achar que a raiz ou o TLD sabem o IP final (só dão
+referências), ou que a resolução é recursiva ao longo da hierarquia.
 
 ::: {.definicao title="DNS (Domain Name System)"}
 As máquinas têm um **endereço IP** (32 bits, usado no encaminhamento) e
@@ -1711,6 +1846,16 @@ raiz.
 
 ## Aplicações P2P
 
+**Para que serve.** Comparar quanto tempo demora distribuir um ficheiro a
+$N$ pares a partir de um só servidor e em P2P, e perceber porque é que o
+P2P escala.
+
+**Como calcular:** passa tudo a bits e bits/s; calcula **cada** termo do
+máximo (abaixo); o maior é o tempo, e diz o que está a limitar (o
+servidor, o *download* mais lento ou o *upload* total). **Erro típico:**
+esquecer o termo $F/\min_i d_i$, ou no P2P dividir só por $\sum u_i$ e
+esquecer o $u_s$.
+
 ### Tempo de distribuição: cliente-servidor vs. P2P
 
 Quanto tempo demora a distribuir **um ficheiro de $F$ bits** de um
@@ -1791,6 +1936,27 @@ para dar, conseguem começar). **Quem envia mais, recebe mais.**
 :::
 
 ## Programação com sockets
+
+**Para que serve.** Escrever clientes e servidores que comunicam pela
+rede (Ficha 4), com sockets TCP ou UDP.
+
+::: {.definicao title="--- Receita: um programa com sockets"}
+1. **TCP ou UDP?** Conexão e fluxo fiável de bytes, ou datagramas soltos.
+2. **Servidor:** cria a socket na porta combinada. TCP: cada `accept()`
+   devolve uma socket nova para um cliente. UDP: cada `receive()` devolve
+   um datagrama e o IP e a porta de quem o enviou.
+3. **Cliente:** TCP: `new Socket(máquina, porta)` estabelece logo a
+   conexão. UDP: cada `DatagramPacket` leva o IP e a porta de destino.
+4. **Combina onde acaba cada mensagem:** no TCP, por exemplo uma por
+   linha (`'\n'`, ou `"\r\n"` nos protocolos da Internet); no UDP, um
+   datagrama.
+5. **Conexão persistente:** lê em ciclo até `readLine()` devolver `null`
+   (o outro lado fechou); no fim, fecha a socket.
+:::
+
+**Erros típicos:** esquecer o `'\n'` (o `readLine()` do outro lado fica à
+espera para sempre); ler só uma linha de uma resposta com várias; no UDP,
+converter o *buffer* inteiro em vez dos `getLength()` bytes recebidos.
 
 ::: {.definicao title="API de sockets"}
 Uma **socket** é uma interface **local**, **criada pela aplicação** e

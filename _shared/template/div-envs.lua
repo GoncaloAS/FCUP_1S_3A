@@ -23,7 +23,8 @@ local function ler_solucoes(caminho, prefixo)
       atual = {}; table.insert(gs, atual)
     elseif h3 then
       ex_txt = (h3:match("^(.-)%s+%-%-%-") or h3:match("^(.-)%s+—") or h3)
-      ex_num = ex_txt:gsub("%s+", "")
+      -- o pandoc (smart) faz "--" em "–" no solucoes.lua; aqui lê-se o texto cru
+      ex_num = ex_txt:gsub("%-%-%-", "—"):gsub("%-%-", "–"):gsub("%s+", "")
       n = 0
     elseif h4 and atual then
       n = n + 1
@@ -55,7 +56,7 @@ end
 -- completo "Aula 7 --- Título". Disciplinas sem aulas numeradas (Tecnologias
 -- Web, resumida a partir do site) usam "# Tema 3 --- Título" da mesma forma.
 local function Header(el)
-  if not v2 or el.level ~= 1 then return nil end
+  if not v2 or el.level ~= 1 or not FORMAT:match("latex") then return nil end
   local txt = pandoc.utils.stringify(el)
   -- "Aulas 5--6": um só PDF com duas aulas (Lógica); o número fica "5–6"
   local rotulo, n = txt:match("^(%a+)%s+(%d+[^%s]*)%s*—")
@@ -117,6 +118,23 @@ local function Div(el)
           pandoc.Link(pandoc.Code(rotulo), solucoes)})
       }))
     end
+  end
+  -- HTML (site): a caixa fica um <div class="caixa definicao"> com o rótulo
+  -- e o título por cima; o CSS do site desenha-a.
+  if FORMAT:match("html") then
+    local rotulos = { definicao = "Definição", exemplo = "Exemplo", pratica = "Pratica agora" }
+    local rotulo = rotulos[class]
+    if rotulo then
+      local cab = { pandoc.Span(rotulo, { class = "rotulo" }) }
+      if title and title ~= "" then
+        table.insert(cab, pandoc.Space())
+        table.insert(cab, pandoc.Span(pandoc.utils.blocks_to_inlines(pandoc.read(title, "markdown").blocks), { class = "titulo" }))
+      end
+      table.insert(el.content, 1, pandoc.Div({ pandoc.Plain(cab) }, { class = "cab" }))
+      el.classes:insert(1, "caixa")
+      el.attributes["title"] = nil
+    end
+    return el
   end
   table.insert(el.content, 1, pandoc.RawBlock("latex", startEnv))
   table.insert(el.content, pandoc.RawBlock("latex", endEnv))
@@ -214,6 +232,7 @@ local function Pandoc(doc)
         " secções ## no SOLUCOES: as ligações das soluções ficam desalinhadas.\n")
     end
   end
+  if not FORMAT:match("latex") then return nil end
   local out = {}
   for i, el in ipairs(doc.blocks) do
     if el.t == "Header" and el.level >= 2 then

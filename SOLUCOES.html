@@ -23,9 +23,9 @@
   --texto: Charter, "Bitstream Charter", "Iowan Old Style", Georgia, serif;
   --ui: "Avenir Next", Avenir, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: Menlo, ui-monospace, SFMono-Regular, Consolas, monospace;
-  color-scheme: light;
+  color-scheme: dark;
 }
-@media (prefers-color-scheme: dark) {
+@media all { /* só modo escuro (como o site) */
   :root:not([data-theme="light"]) {
     --mesa: #101318; --folha: #171b22; --papel2: #1e232c; --tinta: #e4e7ec;
     --suave: #9aa2b0; --linha: #2c333f; --codigo: #1e232c;
@@ -189,7 +189,7 @@ img { max-width: 100%; height: auto; display: block; margin: 12px auto; }
 .arvore { overflow-x: auto; margin: 12px 0; text-align: center; }
 .arvore svg { max-width: 100%; height: auto; }
 .arvore svg > g > polygon:first-of-type { fill: transparent; }
-@media (prefers-color-scheme: dark) {
+@media all { /* só modo escuro (como o site) */
   :root:not([data-theme="light"]) .disciplina img, :root:not([data-theme="light"]) .disciplina .arvore svg { filter: invert(0.9) hue-rotate(180deg); }
 }
 blockquote { margin: 14px 0; padding: 4px 16px; border-left: 2px solid var(--linha); color: var(--suave); }

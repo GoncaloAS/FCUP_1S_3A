@@ -1,0 +1,14 @@
+digraph dfa {
+  rankdir=LR;
+  node [shape=circle, fontname="Helvetica", fontsize=11, width=0.55, fixedsize=true];
+  edge [fontname="Helvetica", fontsize=11];
+  start [shape=point];
+  S3 [shape=doublecircle];
+  S02 [label=<S<sub>02</sub>>];
+  start -> S02;
+  S02 -> S02 [label="b"];
+  S02 -> S1 [label="a"];
+  S1 -> S1 [label="a"];
+  S1 -> S02 [label="b"];
+  S1 -> S3 [label="c"];
+}
