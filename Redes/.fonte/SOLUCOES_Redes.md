@@ -7,31 +7,43 @@ subtitle: "Ficha 1 (Praticas/Semana_1/exercicios_redes.pdf), Ficha 2 (Praticas/S
 
 ### F2.2 --- Multiplexagem estatística (Ficha 2)
 
-Ligação de 1 Mbps; cada utilizador transmite a 100 kbps durante 10% do
-tempo. Com 35 utilizadores, $X$ = número dos que transmitem ao mesmo
-tempo segue $X \sim \text{Bin}(35;\ 0{,}1)$.
+**Significado de todas as variáveis e conceitos:**
+* **$R$ (capacidade total / largura de banda da ligação)**: $1\text{ Mbps} = 1000\text{ kbps} = 10^6\text{ bit/s}$.
+* **$r$ (taxa de transmissão de cada utilizador quando ativo)**: $100\text{ kbps} = 10^5\text{ bit/s}$.
+* **$p$ (probabilidade de um utilizador estar ativo a transmitir)**: $10\% = 0{,}1$.
+* **$1 - p$ (probabilidade de um utilizador estar inativo / silencioso)**: $90\% = 0{,}9$.
+* **$N$ (número total de utilizadores a partilhar a ligação)**: $35$ utilizadores.
+* **$X$ (variável aleatória)**: número de utilizadores a transmitir em simultâneo num dado instante. Como os utilizadores agem de forma independente, $X$ segue uma distribuição binomial: $X \sim \text{Bin}(N = 35;\ p = 0{,}1)$.
+* **Comutação de Circuitos vs Comutação de Pacotes com Multiplexagem Estatística:**
+  * Na comutação de circuitos (TDM/FDM com reserva estrita de largura de banda), a ligação só suportaria $R / r = 1000\text{ kbps} / 100\text{ kbps} = 10$ utilizadores garantidos em simultâneo.
+  * Na comutação de pacotes com **multiplexagem estatística**, podemos aceitar 35 utilizadores porque os utilizadores não transmitem em contínuo e raramente estão mais de 10 ativos ao mesmo tempo.
 
 #### (c) Probabilidade de exatamente $k$ a transmitir; valor para $k = 3$
 
-Cada utilizador transmite com probabilidade $p = 0{,}1$, independentemente
-dos outros:
-$$P(X = k) = \binom{35}{k}\, 0{,}1^{k}\, 0{,}9^{35-k}$$
+**Fórmula da Distribuição Binomial:**
+$$P(X = k) = \binom{N}{k}\, p^k\, (1-p)^{N-k} = \binom{35}{k}\, 0{,}1^k\, 0{,}9^{35-k}$$
 
-- $\binom{35}{k}$: de quantas maneiras se escolhem **quais** $k$ dos 35
-  estão a transmitir;
-- $0{,}1^k$: esses $k$ estão todos a transmitir;
-- $0{,}9^{35-k}$: os outros $35-k$ estão todos calados.
+**O que significa cada termo da fórmula:**
+1. **$\binom{35}{k} = \frac{35!}{k!(35-k)!}$ (combinações de 35 a $k$)**: é o número de maneiras distintas de escolher **quais** $k$ utilizadores (de entre os 35 utilizadores possíveis) estão ativos a transmitir em simultâneo.
+2. **$0{,}1^k$**: probabilidade de esses $k$ utilizadores específicos estarem **todos ativos** ao mesmo tempo ($0{,}1$ multiplicado $k$ vezes).
+3. **$0{,}9^{35-k}$**: probabilidade dos restantes $(35 - k)$ utilizadores estarem **todos inativos/silenciosos** ($0{,}9$ multiplicado $35-k$ vezes).
 
-Para $k = 3$:
+**Cálculo passo a passo para $k = 3$ utilizadores:**
 
-- $\binom{35}{3} = \dfrac{35 \times 34 \times 33}{3 \times 2 \times 1} = 6545$;
-- $0{,}1^3 = 0{,}001$;
-- $0{,}9^{32} \approx 0{,}03434$.
+1. **Número de combinações:**
+$$\binom{35}{3} = \frac{35 \times 34 \times 33}{3 \times 2 \times 1} = \frac{39\,270}{6} = 6545$$
 
-$$P(X = 3) = 6545 \times 0{,}001 \times 0{,}03434 \approx \mathbf{0{,}225}$$
+2. **Probabilidade dos 3 estarem ativos:**
+$$0{,}1^3 = 0{,}1 \times 0{,}1 \times 0{,}1 = 0{,}001$$
 
-(É o valor mais provável: em média estão $35 \times 0{,}1 = 3{,}5$ a
-transmitir.)
+3. **Probabilidade dos restantes 32 estarem inativos:**
+$$0{,}9^{35 - 3} = 0{,}9^{32} \approx 0{,}0343368$$
+
+4. **Multiplicação das três parcelas:**
+$$P(X = 3) = 6545 \times 0{,}001 \times 0{,}0343368 \approx \mathbf{0{,}2247} \approx \mathbf{22{,}5\%}$$
+
+**Interpretação:**
+Existe cerca de $22{,}5\%$ de probabilidade de exatamente 3 utilizadores estarem a transmitir em simultâneo. Este é o valor mais provável de todos, porque o número médio esperado de utilizadores ativos é $E[X] = N \times p = 35 \times 0{,}1 = 3{,}5$ utilizadores.
 
 #### (d) $P(X \geq 11)$ com `BINOM.DIST()`
 
@@ -145,9 +157,13 @@ transmissão é desprezável, porque o débito é alto.
 
 ### Ex. 3 --- O vídeo da Alice, em pedaços
 
-$L = 700$ MB $= 5{,}6 \times 10^9$ bits; 2 routers, portanto **3
-ligações**, todas a $R = 100$ Mbps. Ignoram-se propagação,
-processamento e filas, porque o enunciado não os dá.
+**Significado de todas as variáveis e conceitos:**
+* **$L$ (tamanho do vídeo)**: $700\text{ MB} = 700 \times 10^6\text{ Bytes}$. Em bits: $700 \times 10^6 \times 8 = 5{,}6 \times 10^9\text{ bits}$ *(1 Byte = 8 bits)*.
+* **$R$ (capacidade / taxa de transmissão de cada ligação)**: $100\text{ Mbps} = 100 \times 10^6\text{ bit/s} = 10^8\text{ bit/s}$.
+* **Topologia**: Alice $\to$ Router 1 $\to$ Router 2 $\to$ Bob (2 routers intermédios $\implies$ **3 ligações físicas em série**, $h = 3$ saltos).
+* **$d_{trans}$ (atraso de transmissão)**: tempo que um transmissor demora a injetar todos os bits de um bloco/pacote no cabo: $d_{trans} = \text{bits} / R$.
+* **Princípio de *Store-and-Forward* (armazenar e reenviar)**: cada router tem de receber o bloco/pacote por completo antes de poder começar a retransmiti-lo para a ligação seguinte.
+* **Princípio de *Pipelining* (segmentação)**: ao dividir o ficheiro em milhares de pacotes pequenos, as 3 ligações trabalham em paralelo, reduzindo drasticamente o tempo total.
 
 #### (a) Ficheiro inteiro, *store-and-forward*
 
@@ -178,31 +194,44 @@ cada.
 
 #### (c) Com um "envelope" de 20 bytes por pedaço
 
-**Sem pedaços (a):** só há um envelope, e o bloco fica com
-$5{,}6\times10^9 + 160$ bits:
-$$3 \times \frac{5{,}6\times10^9 + 160}{10^8} \approx \mathbf{168{,}000005\text{ s}}$$
-Na prática não muda nada.
+**1. Sem divisão em pedaços (ficheiro inteiro com 1 envelope de 20 Bytes):**
+* O ficheiro fica com $5{,}6 \times 10^9\text{ bits} + (20 \times 8\text{ bits}) = 5{,}6 \times 10^9 + 160\text{ bits}$.
+* Tempo de transmissão numa ligação de 100 Mbps:
+$$d_{trans} = \frac{5{,}6 \times 10^9 + 160}{10^8} \approx 56\text{ s}$$
+* Com 3 ligações em série sem *pipelining* (cada nó recebe tudo antes de reenviar):
+$$T_{total,inteiro} = 3 \times 56\text{ s} \approx \mathbf{168\text{ s}}$$
+*(O envelope único de 20 Bytes é completamente desprezável face aos 700 MB).*
 
-**Com pedaços (b):** cada pedaço passa a ter $1020$ bytes $= 8160$ bits,
-e demora $81{,}6\ \mu s$ a transmitir:
-$$T = 700\,002 \times 81{,}6\ \mu s \approx \mathbf{57{,}12\text{ s}}$$
+**2. Com divisão em pedaços de 1000 Bytes de dados + 20 Bytes de envelope:**
+* **Número de pedaços ($N$)**:
+$$N = \frac{700 \times 10^6\text{ Bytes}}{1000\text{ Bytes/pedaço}} = 700\,000\text{ pedaços}$$
+* **Tamanho total de cada pedaço com envelope ($L_{pacote}$)**:
+$$L_{pacote} = 1000 + 20 = 1020\text{ Bytes} = 1020 \times 8 = 8160\text{ bits}$$
+* **Atraso de transmissão de 1 pedaço ($d_{trans,pacote}$)**:
+$$d_{trans,pacote} = \frac{8160\text{ bits}}{10^8\text{ bit/s}} = 8{,}16 \times 10^{-5}\text{ s} = 81{,}6\ \mu\text{s}$$
+* **Tempo total com *pipelining* ao longo de 3 ligações ($T_{total,pedaços}$)**:
+  * A Alice injeta os $N = 700\,000$ pedaços na 1.ª ligação consecutivamente: o último pedaço acaba de sair da Alice no instante $N \times d_{trans,pacote}$.
+  * Esse último pedaço ainda tem de ser retransmitido pelo Router 1 (2.ª ligação) e pelo Router 2 (3.ª ligação), demorando mais 2 transmissões ($2 \times d_{trans,pacote}$).
+  * Fórmula de *pipelining*:
+$$T = (N + 3 - 1) \times d_{trans,pacote} = 700\,002 \times 81{,}6\ \mu\text{s} = 700\,002 \times 81{,}6 \times 10^{-6}\text{ s} \approx \mathbf{57{,}12\text{ s}}$$
 
-**Poupança:** $168 - 57{,}12 \approx \mathbf{110{,}9\text{ s}}$.
-
-**Comparação com as soluções oficiais** (`solucoes_ficha_1.pdf`): a
-resposta oficial da 3(c) é "aprox. 1,12 s". É o **tempo a mais** que os
-envelopes custam face à alínea (b): $57{,}12 - 56{,}00 = 1{,}12$ s. É o
-mesmo resultado visto de outra forma.
-
-Os envelopes custam cerca de 2% a mais ($20/1000$), mas o *pipelining*
-continua a compensar de longe. Se os pedaços fossem **muito** pequenos
-(por exemplo, 20 bytes de dados para 20 de envelope), o custo dos
-cabeçalhos passava a dominar. Há um tamanho de pedaço ótimo.
+**Comparação e Poupança:**
+* **Poupança brutal com segmentação**: $168\text{ s} - 57{,}12\text{ s} \approx \mathbf{110{,}9\text{ s}}$ (a transferência fica quase 3 vezes mais rápida graças ao trabalho em paralelo das ligações!).
+* **Custo do cabeçalho / envelope (soluções oficiais `solucoes_ficha_1.pdf`)**:
+  * Sem envelope (alínea b), demorava $56{,}00\text{ s}$.
+  * Com o envelope de 20 Bytes por pacote (alínea c), demora $57{,}12\text{ s}$.
+  * O acréscimo de tempo devido aos envelopes é de $57{,}12 - 56{,}00 = \mathbf{1{,}12\text{ s}}$ (exatamente a resposta do gabarito oficial).
+  * Conclusão: o overhead do cabeçalho custa apenas cerca de 2% ($20 / 1000$), compensando largamente o ganho do *pipelining*.
 
 ### Ex. 4 --- *Store and forward* LAN + WAN
 
-$L = 1250$ bytes $= 10\,000$ bits; $v = 2\times10^8$ m/s.
-LAN: 4 km, 10 Mb/s. WAN: 80 km, 1 Gb/s. T1 → LAN → R → WAN → T2.
+**Significado de todas as variáveis e conceitos:**
+* **$L$ (tamanho do pacote)**: $1250\text{ Bytes} = 1250 \times 8\text{ bits} = 10\,000\text{ bits} = 10^4\text{ bits}$.
+* **$v$ (velocidade de propagação da luz na fibra)**: $2 \times 10^8\text{ m/s}$.
+* **Topologia**: T1 $\to$ LAN (comprimento $d_{LAN}$, débito $R_{LAN}$) $\to$ Router R $\to$ WAN (comprimento $d_{WAN}$, débito $R_{WAN}$) $\to$ T2.
+* **$d_{trans} = L / R$ (atraso de transmissão)**: tempo gasto pela placa de rede a injetar todos os bits do pacote no cabo.
+* **$d_{prop} = d / v$ (atraso de propagação)**: tempo gasto pelo sinal de luz a viajar fisicamente pela fibra da origem ao destino.
+* **Princípio de *Store-and-Forward***: o router R tem de receber o pacote por completo antes de começar a transmiti-lo para a WAN.
 
 #### (a) Atrasos de transmissão e de propagação
 
@@ -238,72 +267,111 @@ $$10 \times 1\text{ ms} + 20 + 10 + 400\ \mu s = \mathbf{10{,}43\text{ ms}}$$
 
 #### (d) Repetir com LAN = 1 Gb/s e WAN = 10 Mb/s
 
-Agora $d_{trans}$ na LAN é **10 µs** e na WAN é **1 ms**. As propagações
-não mudam: 20 µs e 400 µs.
+Invertendo as taxas de transmissão, a LAN passa a ser ultra-rápida e a WAN lenta:
+* **LAN ($R_{LAN} = 1\text{ Gbps} = 10^9\text{ b/s}$, $d_{LAN} = 4\text{ km} = 4000\text{ m}$)**:
+  * $d_{trans,LAN} = \frac{10^4\text{ bits}}{10^9\text{ b/s}} = 10^{-5}\text{ s} = \mathbf{10\ \mu\text{s}}$
+  * $d_{prop,LAN} = \frac{4000\text{ m}}{2\times 10^8\text{ m/s}} = 2 \times 10^{-5}\text{ s} = \mathbf{20\ \mu\text{s}}$
+* **WAN ($R_{WAN} = 10\text{ Mbps} = 10^7\text{ b/s}$, $d_{WAN} = 80\text{ km} = 80\,000\text{ m}$)**:
+  * $d_{trans,WAN} = \frac{10^4\text{ bits}}{10^7\text{ b/s}} = 10^{-3}\text{ s} = \mathbf{1\text{ ms}} = 1000\ \mu\text{s}$
+  * $d_{prop,WAN} = \frac{80\,000\text{ m}}{2\times 10^8\text{ m/s}} = 4 \times 10^{-4}\text{ s} = \mathbf{400\ \mu\text{s}} = 0{,}4\text{ ms}$
 
-- **1 pacote:** $10 + 20 + 1000 + 400\ \mu s = 1{,}43$ ms (igual).
-- **10 pacotes:** os pacotes chegam a R de 10 em 10 µs (o primeiro aos
-  30 µs), mas a WAN só consegue despachar um por milissegundo. **Forma-se
-  fila em R.**
+**Cálculo para 1 pacote de T1 a T2:**
+Soma-se a transmissão e propagação nas duas ligações:
+$$T_1 = d_{trans,LAN} + d_{prop,LAN} + d_{trans,WAN} + d_{prop,WAN}$$
+$$= 10\ \mu\text{s} + 20\ \mu\text{s} + 1000\ \mu\text{s} + 400\ \mu\text{s} = 1430\ \mu\text{s} = \mathbf{1{,}43\text{ ms}}$$
 
-| pacote | chega a R | começa a sair de R | acaba de sair | chega a T2 |
-|:-:|:-:|:-:|:-:|:-:|
-| 1 | 30 | 30 | 1030 | 1430 |
-| 2 | 40 | 1030 (esperou) | 2030 | 2430 |
+**Cálculo para 10 pacotes de T1 a T2 (Atenção à Fila no Router!):**
+* **Porque se forma fila no router R?**
+  * A LAN despacha pacotes para R a cada $10\ \mu\text{s}$ (o 1.º chega aos $30\ \mu\text{s}$, o 2.º aos $40\ \mu\text{s}$, ..., o 10.º aos $120\ \mu\text{s}$).
+  * Contudo, a WAN (o **gargalo**) demora $1000\ \mu\text{s}$ ($1\text{ ms}$) a transmitir cada pacote!
+  * Quando os pacotes 2 a 10 chegam ao router, a WAN ainda está ocupadíssima com o pacote 1. Por isso, os pacotes **acumulam-se obrigatoriamente na fila de espera (*buffer*) do router**!
+* **Cronologia dos 10 pacotes (em microssegundos $\mu\text{s}$):**
+
+| Pacote | Chega a R | Começa a sair de R para a WAN | Acaba de sair de R | Acaba de chegar a T2 |
+|:---:|:---:|:---:|:---:|:---:|
+| 1 | $10 + 20 = 30$ | 30 (WAN livre) | $30 + 1000 = 1030$ | $1030 + 400 = 1430$ |
+| 2 | $20 + 20 = 40$ | 1030 (esperou na fila!) | $1030 + 1000 = 2030$ | $2030 + 400 = 2430$ |
+| 3 | $30 + 20 = 50$ | 2030 (esperou na fila!) | $2030 + 1000 = 3030$ | $3030 + 400 = 3430$ |
 | ... | ... | ... | ... | ... |
-| 10 | 120 | 9030 | 10 030 | **10 430** |
+| 10 | $100 + 20 = 120$ | 9030 (esperou na fila!) | $9030 + 1000 = \mathbf{10\,030}$ | $10\,030 + 400 = \mathbf{10\,430}$ |
 
-$$30\ \mu s + 10 \times 1\text{ ms} + 400\ \mu s = \mathbf{10{,}43\text{ ms}}$$
+* **Fórmula direta do tempo total:**
+  * O tempo total é determinado pela ligação mais lenta (a WAN), que transmite os 10 pacotes consecutivamente ($10 \times d_{trans,WAN}$), somado ao tempo que o 1.º pacote demorou a chegar a R e à propagação final até T2:
+  $$T_{total} = (d_{trans,LAN} + d_{prop,LAN}) + 10 \times d_{trans,WAN} + d_{prop,WAN}$$
+  $$= (10\ \mu\text{s} + 20\ \mu\text{s}) + (10 \times 1000\ \mu\text{s}) + 400\ \mu\text{s} = 30 + 10\,000 + 400 = \mathbf{10\,430\ \mu\text{s}} = \mathbf{10{,}43\text{ ms}}$$
 
-O tempo total é **o mesmo** da (c). O que manda é a ligação mais lenta,
-esteja à entrada ou à saída, e ela tem de transmitir os 10 pacotes. O que
-muda é **onde** os pacotes esperam: na (c) esperam em T1, antes de
-entrar na LAN; na (d) acumulam-se na **fila do router**. Se a fila de R
-fosse pequena, na (d) podia haver **perdas**.
+**Conclusão física essencial:**
+O tempo total ($10{,}43\text{ ms}$) é igual ao da alínea (c), porque a ligação mais lenta (10 Mbps) tem sempre de transmitir os 10 pacotes. A diferença vital é **onde os pacotes esperam**:
+* Na alínea (c), esperam em T1 antes de entrar na rede.
+* Na alínea (d), entram depressa na rede e acumulam-se no **buffer do router**. Se a fila for pequena, pode ocorrer **perda de pacotes** por descarte!
 
 ### M1.11 --- *Store-and-forward* LAN + WAN (Teste modelo 1, P. 11)
 
-$L = 1000$ B $= 8000$ b $= 8\times10^3$ b; $R_{LAN} = 10$ Mb/s $=
-10^7$ b/s; $l_{LAN} = 20$ m; $v = 2\times10^8$ m/s. Na WAN são dados
-$d_{trans,WAN} = 0{,}6$ ms $= 6\times10^{-4}$ s e $d_{prop,WAN} = 15$ ms
-$= 1{,}5\times10^{-2}$ s.
+**Significado de todas as variáveis e abreviações do problema:**
+* **$L$ (*Length* = tamanho do pacote)**: $1000\text{ Bytes} = 1000 \times 8\text{ bits} = 8000\text{ bits} = 8\times 10^3\text{ b}$. *(Atenção: 1 Byte tem 8 bits; as contas de transmissão usam sempre bits, nunca Bytes!).*
+* **$R_{LAN}$ (*Rate* = taxa de transmissão / capacidade da ligação LAN)**: $10\text{ Mbit/s} = 10 \times 10^6\text{ bit/s} = 10^7\text{ b/s}$.
+* **$l_{LAN}$ (*length* = comprimento físico do cabo da LAN)**: $20\text{ metros}$.
+* **$v$ (*velocity* = velocidade de propagação da luz no meio físico)**: $2\times 10^8\text{ m/s}$ *(valor típico da velocidade da luz dentro do núcleo de fibra ótica)*.
+* **$d_{trans}$ (*transmission delay* = atraso de transmissão)**: tempo que a placa de rede demora a "injetar" (empurrar) todos os bits do pacote para o cabo. Fórmula: $d_{trans} = L / R$. *(Depende do tamanho do pacote $L$ e da taxa $R$; não depende da distância!).*
+* **$d_{prop}$ (*propagation delay* = atraso de propagação)**: tempo que o sinal eletromagnético demora a percorrer fisicamente o cabo da origem ao destino à velocidade da luz. Fórmula: $d_{prop} = \text{distância} / v$. *(Depende da distância e do meio; não depende do tamanho do pacote!).*
+* **Dados da ligação WAN (já calculados e fornecidos no enunciado):**
+  * $d_{trans,WAN} = 0{,}6\text{ ms} = 6\times 10^{-4}\text{ s}$ *(atraso de transmissão na WAN)*.
+  * $d_{prop,WAN} = 15\text{ ms} = 1{,}5\times 10^{-2}\text{ s}$ *(atraso de propagação na WAN)*.
 
 #### (a) Atrasos de transmissão e de propagação na LAN
 
-$$d_{trans,LAN} = \frac{L}{R_{LAN}} = \frac{8\times10^3}{10^7} = \mathbf{8\times10^{-4}\text{ s}} = 0{,}8\text{ ms}$$
-$$d_{prop,LAN} = \frac{l_{LAN}}{v} = \frac{20}{2\times10^8} = \mathbf{10^{-7}\text{ s}} = 0{,}1\ \mu s$$
+1. **Atraso de transmissão na LAN ($d_{trans,LAN}$)** — tempo para injetar os 8000 bits no cabo da LAN a 10 Mbps:
+$$d_{trans,LAN} = \frac{L\text{ (tamanho do pacote em bits)}}{R_{LAN}\text{ (capacidade em bit/s)}} = \frac{8\times10^3\text{ b}}{10^7\text{ b/s}} = \mathbf{8\times10^{-4}\text{ s}} = \mathbf{0{,}8\text{ ms}}$$
+
+2. **Atraso de propagação na LAN ($d_{prop,LAN}$)** — tempo para a luz percorrer os 20 metros de cabo:
+$$d_{prop,LAN} = \frac{l_{LAN}\text{ (distância em metros)}}{v\text{ (velocidade da luz em m/s)}} = \frac{20\text{ m}}{2\times10^8\text{ m/s}} = \mathbf{10^{-7}\text{ s}} = \mathbf{0{,}1\ \mu s}\text{ (microssegundos)}$$
 
 #### (b) Um pacote de T1 a T2
 
-Com *store-and-forward*, R1 só começa a transmitir depois de receber o
-pacote todo. Sem filas nem processamento, somam-se as quatro parcelas:
+**Princípio de *Store-and-forward* (armazenar e reenviar):** o router R1 só começa a transmitir o pacote para a WAN **depois de o ter recebido por completo** da LAN (o último bit do pacote tem de estar guardado na memória do router).
+
+Como não há filas de espera nem atrasos de processamento nodais, o percurso de um único pacote soma as 4 parcelas cronológicas:
+1. $d_{trans,LAN}$: T1 injeta todos os bits na LAN ($0{,}8\text{ ms}$).
+2. $d_{prop,LAN}$: os bits viajam fisicamente pela fibra da LAN até chegarem a R1 ($0{,}0001\text{ ms}$).
+3. $d_{trans,WAN}$: R1 injeta todos os bits na WAN ($0{,}6\text{ ms}$).
+4. $d_{prop,WAN}$: os bits viajam fisicamente pela fibra da WAN até chegarem a T2 ($15\text{ ms}$).
+
 $$d_{total,1} = d_{trans,LAN} + d_{prop,LAN} + d_{trans,WAN} + d_{prop,WAN}$$
-$$= 8\times10^{-4} + 10^{-7} + 6\times10^{-4} + 1{,}5\times10^{-2} = \mathbf{1{,}64001\times10^{-2}\text{ s}} \approx 16{,}4\text{ ms}$$
+$$= 0{,}8\text{ ms} + 0{,}0001\text{ ms} + 0{,}6\text{ ms} + 15\text{ ms} = \mathbf{16{,}4001\text{ ms}} \approx 16{,}4\text{ ms}$$
 
 #### (c) Diagrama temporal de 4 pacotes
 
 ![4 pacotes de T1 a T2: a LAN (0,8 ms por pacote) é a ligação mais lenta, por isso nunca há fila em R1](figuras/sol_m1_store_forward.svg){width=100%}
 
-Na LAN os pacotes saem colados, um a cada 0,8 ms, e a propagação
-(0,1 µs) quase não se vê: as faixas ficam horizontais. Em R1 a WAN
-despacha cada pacote em 0,6 ms, **antes** de chegar o seguinte (0,8 ms
-depois): não há fila. Na WAN as faixas descem 15 ms (propagação).
-Instantes em ms em que cada pacote acaba de chegar:
+**Como ler e construir o diagrama temporal:**
+* O eixo vertical representa o **tempo a avançar para baixo**.
+* A largura de cada faixa representa o atraso de transmissão $d_{trans}$ (tempo gasto a emitir o pacote).
+* A inclinação de cada faixa representa o atraso de propagação $d_{prop}$ (tempo de viagem no cabo).
+  * Na LAN, a propagação é minúscula ($0{,}1\ \mu\text{s} = 0{,}0001\text{ ms}$), pelo que as faixas parecem quase horizontais.
+  * Na WAN, a propagação é grande ($15\text{ ms}$), pelo que as faixas descem bastante.
+* **Porque não há fila no router R1?** A LAN despacha 1 pacote a cada $0{,}8\text{ ms}$, mas a WAN despacha cada pacote em apenas $0{,}6\text{ ms}$. Quando o pacote seguinte chega da LAN ao router, a WAN já acabou de enviar o anterior há $0{,}2\text{ ms}$ e está livre à espera!
 
-| pacote | sai de T1 | chega a R1 | sai de R1 | chega a T2 |
+Instantes em milissegundos (ms) em que cada pacote acaba de ser processado em cada ponto:
+
+| pacote | acaba de sair de T1 | acaba de chegar a R1 | acaba de sair de R1 | acaba de chegar a T2 |
 |:-:|:-:|:-:|:-:|:-:|
-| 1 | 0,8 | 0,8001 | 1,4001 | 16,4001 |
-| 2 | 1,6 | 1,6001 | 2,2001 | 17,2001 |
-| 3 | 2,4 | 2,4001 | 3,0001 | 18,0001 |
-| 4 | 3,2 | 3,2001 | 3,8001 | **18,8001** |
+| 1 | 0,8 | 0,8001 | 0,8001 + 0,6 = 1,4001 | 1,4001 + 15 = 16,4001 |
+| 2 | 1,6 | 1,6001 | 1,6001 + 0,6 = 2,2001 | 2,2001 + 15 = 17,2001 |
+| 3 | 2,4 | 2,4001 | 2,4001 + 0,6 = 3,0001 | 3,0001 + 15 = 18,0001 |
+| 4 | 3,2 | 3,2001 | 3,2001 + 0,6 = 3,8001 | 3,8001 + 15 = **18,8001** |
 
 #### (d) Tempo dos 4 pacotes
 
-A ligação mais lenta (a LAN) transmite os 4 pacotes seguidos; o último
-precisa depois das mesmas parcelas que o pacote sozinho, menos a
-transmissão na LAN, que já está contada:
-$$d_{total,4} = 4\,d_{trans,LAN} + d_{prop,LAN} + d_{trans,WAN} + d_{prop,WAN}$$
-$$= 3{,}2\times10^{-3} + 10^{-7} + 6\times10^{-4} + 1{,}5\times10^{-2} = \mathbf{1{,}88001\times10^{-2}\text{ s}} \approx 18{,}8\text{ ms}$$
+**Conceito de *Pipelining* (cadeia de transmissão):**
+Não precisamos de calcular tudo do zero para cada pacote. O ritmo de toda a rede é ditado pela **ligação mais lenta (gargalo = LAN)**.
+* A LAN transmite os 4 pacotes colados, um a seguir ao outro, demorando $4 \times d_{trans,LAN} = 4 \times 0{,}8\text{ ms} = 3{,}2\text{ ms}$.
+* O 4.º pacote (o último) sai de T1 ao instante $3{,}2\text{ ms}$. A partir daí, basta cronometrar o resto do percurso deste último pacote até chegar ao destino T2 (exatamente como se estivesse sozinho):
+  * Propagação na LAN: $d_{prop,LAN} = 0{,}0001\text{ ms}$.
+  * Transmissão na WAN: $d_{trans,WAN} = 0{,}6\text{ ms}$.
+  * Propagação na WAN: $d_{prop,WAN} = 15\text{ ms}$.
+
+$$d_{total,4} = 4 \times d_{trans,LAN} + d_{prop,LAN} + d_{trans,WAN} + d_{prop,WAN}$$
+$$= 3{,}2\text{ ms} + 0{,}0001\text{ ms} + 0{,}6\text{ ms} + 15\text{ ms} = \mathbf{18{,}8001\text{ ms}} \approx 18{,}8\text{ ms}$$
 
 É a resolução oficial (`Testes/Teste_Modelo_1_resolucao.pdf`), com os
 mesmos valores. O oficial desenha o diagrama à mão e não faz a tabela: no
@@ -313,22 +381,39 @@ teste basta o desenho, com os quatro atrasos assinalados.
 
 ### F2.3 --- Espere, mas não desespere (Ficha 2)
 
-A máquina demora 15 s por café.
+**Analogia de Redes e Significado das Variáveis:**
+* **Máquina de café $\iff$ Interface de rede / Router**: representa o transmissor que processa e transmite os dados com taxa de transmissão $R$.
+* **Tirar um café $\iff$ Atraso de transmissão ($d_{trans}$)**: tempo que a ligação demora a injetar um pacote no cabo, $d_{trans} = L / R = 15\text{ s}$ ($L$ = tamanho do pacote em bits, $R$ = capacidade em bit/s).
+* **Fila de pessoas $\iff$ Fila de espera de pacotes (*Queueing Delay* $d_{fila}$)**: tempo que um pacote aguarda na memória (*buffer*) do router até chegar a sua vez de ser transmitido.
+* **Chegada simultânea de 10 pessoas $\iff$ Rajada de pacotes (*Burst Arrival*)**: $N = 10$ pacotes que chegam no mesmo instante a um buffer inicialmente vazio.
 
 #### (a) 10 pessoas chegam ao mesmo tempo: espera média, mínima e máxima
 
-A 1.ª pessoa é servida logo; a 2.ª espera que a 1.ª acabe (15 s); a
-3.ª espera 30 s; ...; a 10.ª espera $9 \times 15 = 135$ s. As esperas
-são $0, 15, 30, \dots, 135$ s.
+**1. Tempos de espera em fila individuais:**
+Como o buffer obedece a uma política FIFO (*First-In, First-Out* / primeiro a chegar, primeiro a ser servido):
+* O 1.º pacote encontra a linha desocupada e é servido imediatamente: espera $d_{fila}(1) = \mathbf{0\text{ s}}$.
+* O 2.º pacote espera que o 1.º termine: espera $d_{fila}(2) = 15\text{ s}$.
+* O 3.º pacote espera que os 2 anteriores terminem: espera $d_{fila}(3) = 2 \times 15 = 30\text{ s}$.
+* Genericamente, o $n$-ésimo pacote (onde $n \in \{1, 2, \dots, N\}$) aguarda por $(n - 1)$ transmissões anteriores:
+$$d_{fila}(n) = (n - 1) \times d_{trans} = (n - 1) \times \frac{L}{R} = (n - 1) \times 15\text{ s}$$
 
-$$\text{média} = \frac{15 \times (0+1+\dots+9)}{10} = \frac{15 \times 45}{10} = \mathbf{67{,}5\text{ s}}$$
+Para o 10.º pacote ($n = 10$):
+$$d_{fila}(10) = (10 - 1) \times 15 = 9 \times 15 = \mathbf{135\text{ s}}$$
 
-**Mínimo: 0 s** (a primeira). **Máximo: 135 s** (a última).
+* **Tempo de espera mínimo em fila:** $\mathbf{0\text{ s}}$ (a 1.ª pessoa/pacote).
+* **Tempo de espera máximo em fila:** $\mathbf{135\text{ s}}$ (a 10.ª pessoa/pacote).
 
-(Se se contar até ter o café na mão, soma-se 15 s a cada uma: média
-82,5 s, mínimo 15 s, máximo 150 s.) É exatamente o atraso de fila de uma
-rajada de pacotes que chega a uma ligação vazia: o $n$-ésimo espera
-$(n-1)\,L/R$.
+**2. Tempo médio de espera em fila ($\bar{d}_{fila}$):**
+Fórmula analítica da média para uma rajada de $N$ pacotes:
+$$\bar{d}_{fila} = \frac{1}{N} \sum_{n=1}^{N} d_{fila}(n) = \frac{1}{N} \sum_{n=1}^{N} (n - 1) \times d_{trans} = \frac{d_{trans}}{N} \times [0 + 1 + 2 + \dots + (N - 1)]$$
+
+Usando a soma da progressão aritmética $\sum_{i=0}^{N-1} i = \frac{(N-1)N}{2}$:
+$$\bar{d}_{fila} = \frac{d_{trans}}{N} \times \frac{(N-1)N}{2} = \frac{N - 1}{2} \times d_{trans} = \frac{N - 1}{2} \times \frac{L}{R}$$
+
+Substituindo $N = 10$ e $d_{trans} = 15\text{ s}$:
+$$\bar{d}_{fila} = \frac{10 - 1}{2} \times 15\text{ s} = \frac{9}{2} \times 15 = 4{,}5 \times 15 = \mathbf{67{,}5\text{ s}}$$
+
+*(Nota: se a pergunta se referir ao tempo total no sistema até ter o café pronto na mão, soma-se o tempo de transmissão de si próprio, $15\text{ s}$: tempo total mínimo = $15\text{ s}$, máximo = $150\text{ s}$, e média = $67{,}5 + 15 = 82{,}5\text{ s}$. Contudo, o atraso estrito de fila é $0$, $135$ e $67{,}5\text{ s}$).*
 
 #### (b) Há algum tempo médio entre chegadas que garanta que ninguém espera?
 
@@ -618,22 +703,35 @@ e 10 000 km, o tubo leva 40 Mbit, cerca de 5 MB.
 
 ### F2.5 --- Estimada capacidade: o par de pacotes (Ficha 2)
 
-Dois pacotes do mesmo tamanho $L$, enviados um logo a seguir ao outro. O
-caminho tem uma ligação mais lenta, de capacidade $C$ (o
-estrangulamento).
+**Técnica do Par de Pacotes (*Packet-Pair Dispersion*) e Significado das Variáveis:**
+* **Conceito**: Técnica usada para medir a capacidade da ligação mais estreita (o **gargalo / *bottleneck***) de um caminho na rede sem precisar de privilégios de administração nos routers intermédios.
+* **$L$ (tamanho de cada pacote em bits)**: enviam-se dois pacotes idênticos (P1 e P2), de tamanho $L$ bits, colados um ao outro (*back-to-back*).
+* **$R_{emissor}$ (taxa de envio do emissor)**: ligação de envio rápida ($R_{emissor} > C$).
+* **$C$ (capacidade da ligação mais lenta / estrangulamento)**: largura de banda da ligação mais lenta do percurso em bit/s.
+* **$\Delta t$ (dispersão temporal / desfasamento)**: intervalo de tempo entre o instante em que o 1.º pacote acaba de chegar e o instante em que o 2.º pacote acaba de chegar ao destino.
 
 #### (a) Diagrama temporal
 
 ![Par de pacotes: o espaçamento criado na ligação lenta mantém-se até ao recetor](figuras/sol_par_pacotes.svg){width=100%}
 
-- O emissor transmite P1 e P2 seguidos, cada um em $L/R_1$ (ligação
-  rápida).
-- No *router*, a ligação de saída é a lenta: P1 demora $L/C$ a ser
-  transmitido, e P2, que chegou entretanto, **espera na fila** que P1
-  acabe. P2 só acaba de sair $L/C$ depois de P1.
-- No recetor, os dois chegam separados por $\Delta = L/C$. A máquina de
-  destino responde a cada um (respostas pequenas), e as respostas voltam
-  ao emissor **com o mesmo espaçamento**.
+**Como o diagrama funciona e explicação passo a passo:**
+1. **No Emissor (ligação rápida $R_1$):**
+   * O emissor transmite o pacote 1 (P1) e o pacote 2 (P2) colados um ao outro.
+   * O tempo de transmissão de cada um é curto: $d_{trans,1} = L / R_1$.
+2. **No Router de entrada da ligação de estrangulamento ($C$):**
+   * O router recebe P1 e começa imediatamente a transmiti-lo na ligação lenta de capacidade $C$. A transmissão de P1 demora $L / C$ segundos.
+   * Como a ligação $R_1$ era muito mais rápida do que $C$, o pacote P2 chega ao router logo a seguir, enquanto o router ainda está a transmitir P1.
+   * Por isso, **P2 é forçado a esperar na fila do router** até P1 acabar de ser transmitido por completo.
+   * Assim que P1 acaba de sair, o router começa imediatamente a transmitir P2. Portanto, o fim de P2 sai do router exatamente $L / C$ segundos depois do fim de P1.
+3. **Nas ligações seguintes e no Recetor:**
+   * Mesmo que as ligações seguintes até ao destino sejam ultra-rápidas, elas não conseguem aproximar os pacotes: cada pacote viaja à mesma velocidade e sofre as mesmas propagações.
+   * Logo, os dois pacotes chegam ao recetor com a **mesma separação temporal**: $\Delta t = \frac{L}{C}$.
+4. **Estimativa da capacidade da ligação ($C$):**
+   * Conhecendo o tamanho dos pacotes enviados ($L$ bits) e medindo no recetor (ou nos ACKs de volta) a diferença de tempo $\Delta t$ entre o fim do 1.º e o fim do 2.º pacote, deduz-se imediatamente a capacidade da ligação mais lenta:
+$$\Delta t = \frac{L}{C} \iff \mathbf{C = \frac{L}{\Delta t}}$$
+
+*Exemplo prático:* se enviarmos pacotes de $L = 1500\text{ Bytes} = 12\,000\text{ bits}$ e o espaçamento medido à chegada for $\Delta t = 1{,}2\text{ ms} = 1{,}2 \times 10^{-3}\text{ s}$, a capacidade estimada do gargalo é:
+$$C = \frac{12\,000\text{ bits}}{1{,}2 \times 10^{-3}\text{ s}} = 10^7\text{ bit/s} = \mathbf{10\text{ Mbit/s}}$$
 
 #### (b) Fórmula da capacidade
 
@@ -721,8 +819,11 @@ chamado DSCP.)
 
 ### C2.1 --- Tempo de resposta do HTTP (exercício inventado)
 
-1 HTML + 5 objetos = **6 objetos**; RTT = 40 ms; $T = 10$ ms de
-transmissão por objeto.
+**Significado de todas as variáveis e conceitos:**
+* **$RTT$ (*Round Trip Time* = Tempo de Ida e Volta)**: $40\text{ ms}$. É o tempo que um pequeno pacote de controlo demora a viajar do cliente até ao servidor e o pacote de resposta/confirmação a regressar ao cliente ($RTT \approx 2 \times d_{prop}$).
+* **$T$ (atraso de transmissão de cada objeto)**: $10\text{ ms}$. Tempo gasto pelo servidor a injetar todos os bits de um ficheiro/imagem na ligação ($T = L / R$).
+* **Ficheiros a descarregar**: 1 ficheiro base de texto HTML + 5 objetos embutidos (imagens/gráficos) = **6 objetos no total**.
+* **Estabelecimento de conexão TCP (*3-Way Handshake*)**: antes de enviar qualquer pedido HTTP, o cliente tem de abrir uma ligação de transporte TCP (SYN $\to$ SYN-ACK $\to$ ACK), o que consome exatamente **$1\text{ RTT}$**.
 
 #### (a) HTTP não persistente, um objeto de cada vez
 
@@ -742,17 +843,37 @@ $$40 + 6 \times 50 = 40 + 300 = \mathbf{340\text{ ms}}$$
 
 #### (c) HTTP persistente com *pipelining*
 
-- Conexão: 40 ms. HTML: 1 RTT + $T$ = 50 ms. Aos 90 ms o browser tem o
-  HTML e conhece os 5 objetos.
-- Envia **os 5 pedidos de uma vez**. A primeira resposta começa a chegar
-  1 RTT depois, e as 5 respostas vêm seguidas, cada uma a demorar $T$:
-  $40 + 5 \times 10 = 90$ ms.
+**Como funciona o HTTP Persistente com *Pipelining*:**
+Com uma única conexão TCP aberta, o browser descarrega primeiro o HTML. Assim que o processa e identifica todos os 5 objetos referenciados, **envia os 5 pedidos HTTP GET de uma assentada (em rajada / *pipeline*)**, sem esperar pela resposta de nenhum! O servidor processa-os e envia as 5 respostas consecutivamente, uma a seguir à outra.
 
-$$90 + 90 = \mathbf{180\text{ ms}}$$
+**Cronologia detalhada:**
+1. **Abertura da conexão TCP:**
+   * O cliente envia o segmento TCP SYN e recebe TCP SYN-ACK: demora **$1\text{ RTT} = 40\text{ ms}$**.
+2. **Obtenção do ficheiro base HTML:**
+   * O cliente envia o pedido `GET index.html` (que segue acoplado ao ACK final do handshake TCP) e o servidor devolve o ficheiro HTML: demora **$1\text{ RTT} + T_{HTML} = 40\text{ ms} + 10\text{ ms} = 50\text{ ms}$**.
+   * Ao instante $t = 40 + 50 = 90\text{ ms}$, o browser tem o ficheiro HTML completo. O analisador (*parser*) lê o HTML e descobre a referência para as 5 imagens.
+3. **Obtenção dos 5 objetos com *pipelining*:**
+   * O browser envia imediatamente os 5 pedidos `GET` seguidos no mesmo instante ($t = 90\text{ ms}$).
+   * O primeiro bit da primeira resposta chega após **$1\text{ RTT} = 40\text{ ms}$** de propagação de ida e volta.
+   * O servidor transmite as 5 respostas de seguida sem pausas: $5 \times T = 5 \times 10\text{ ms} = 50\text{ ms}$.
+   * Tempo gasto nesta fase: $1\text{ RTT} + 5 \times T = 40\text{ ms} + 50\text{ ms} = 90\text{ ms}$.
 
-Resumo: 540 $\to$ 340 $\to$ 180 ms. Em RTTs: 12, 7 e 3 RTT, mais $6T$ =
-60 ms de transmissão nos três casos (confirma: $12 \times 40 + 60 = 540$;
-$7 \times 40 + 60 = 340$; $3 \times 40 + 60 = 180$).
+**Tempo Total:**
+$$T_{total,pipelining} = 90\text{ ms (TCP + HTML)} + 90\text{ ms (5 objetos)} = \mathbf{180\text{ ms}}$$
+
+**Comparação exaustiva dos 3 modos HTTP:**
+
+| Modo HTTP | Conexões TCP | RTTs gastos | Transmissão ($6 \times T$) | Tempo Total |
+|:---|:---:|:---:|:---:|:---:|
+| **Não persistente** (1 conexão por objeto) | 6 conexões | $6 \times (1\text{ TCP} + 1\text{ GET}) = 12\text{ RTT} = 480\text{ ms}$ | $60\text{ ms}$ | **540 ms** |
+| **Persistente sem *pipelining*** | 1 conexão | $1\text{ TCP} + 6\text{ GETs individuais} = 7\text{ RTT} = 280\text{ ms}$ | $60\text{ ms}$ | **340 ms** *(ou 290 ms se fossem 4 objetos)* |
+| **Persistente com *pipelining*** | 1 conexão | $1\text{ TCP} + 1\text{ HTML} + 1\text{ rajada} = 3\text{ RTT} = 120\text{ ms}$ | $60\text{ ms}$ | **180 ms** |
+
+*Verificação algébrica:*
+* Não persistente: $12 \times 40\text{ ms} + 6 \times 10\text{ ms} = 480 + 60 = 540\text{ ms}$.
+* Sem pipelining: $7 \times 40\text{ ms} + 6 \times 10\text{ ms} = 280 + 60 = 340\text{ ms}$.
+* Com pipelining: $3 \times 40\text{ ms} + 6 \times 10\text{ ms} = 120 + 60 = 180\text{ ms}$.
+O pipelining é 3 vezes mais rápido que o não persistente e quase 2 vezes mais rápido que o persistente sem pipelining!
 
 ### C2.7 --- MSC de HTTP não persistente (exercício inventado)
 
@@ -796,33 +917,56 @@ teste modelo.
 
 ### M1.12 --- A página com duas imagens (Teste modelo 1, P. 12)
 
+**Significado de todas as variáveis e abreviações:**
+* **$d_{prop}$ (*propagation delay* = atraso de propagação só de ida)**: $30\text{ ms} = 3\times 10^{-2}\text{ s}$ *(tempo que um sinal elétrico/luz demora a ir do cliente ao servidor)*.
+* **$\text{RTT}$ (*Round-Trip Time* = tempo de ida e volta)**: tempo que um pacote pequeno demora a ir até ao servidor e a confirmação a voltar. Como a ida demora $d_{prop}$ e a volta demora $d_{prop}$, temos:
+  $$\text{RTT} = 2 \times d_{prop} = 2 \times 30\text{ ms} = 60\text{ ms} = 6\times 10^{-2}\text{ s}$$
+* **$R$ (*Rate* = taxa de transmissão / capacidade da ligação do utilizador)**: $80\text{ Mbit/s} = 80 \times 10^6\text{ bit/s} = 8\times 10^7\text{ b/s}$.
+* **$L_{HTML}$ (*Length* = tamanho do ficheiro HTML base)**: $10\text{ kByte} = 10 \times 8 \times 10^3\text{ bits} = 8\times 10^4\text{ bits}$ *(1 Byte = 8 bits)*.
+* **$d_{trans,HTML}$ (*atraso de transmissão do HTML*)**: tempo que a ligação demora a escoar os bits do HTML:
+  $$d_{trans,HTML} = \frac{L_{HTML}}{R} = \frac{8\times 10^4\text{ b}}{8\times 10^7\text{ b/s}} = 10^{-3}\text{ s} = \mathbf{1\text{ ms}}$$
+* **$L_{img}$ (*Length* = tamanho de cada uma das 2 imagens)**: $200\text{ kByte} = 200 \times 8 \times 10^3\text{ bits} = 1{,}6\times 10^6\text{ bits}$.
+* **$d_{trans,img}$ (*atraso de transmissão de cada imagem*)**:
+  $$d_{trans,img} = \frac{L_{img}}{R} = \frac{1{,}6\times 10^6\text{ b}}{8\times 10^7\text{ b/s}} = 2\times 10^{-2}\text{ s} = \mathbf{20\text{ ms}}$$
+* **HTTP/1.1 persistente sem *pipelining***:
+  * *Persistente*: abre a conexão TCP apenas **uma vez** para todos os objetos (não precisa de abrir e fechar novas conexões para cada imagem).
+  * *Sem pipelining*: o browser só envia o pedido do objeto seguinte **depois de ter recebido completamente** a resposta do objeto anterior (nunca há dois pedidos em voo ao mesmo tempo).
+
 #### (a) MSC com HTTP/1.1 persistente sem *pipelining*
 
 ![Uma conexão TCP para tudo; cada pedido só sai quando a resposta anterior acabou de chegar](figuras/sol_m1_http_msc.svg){width=70%}
 
-- 1 RTT para abrir a conexão TCP (o pedido do HTML vai com o último
-  ACK);
-- GET do HTML; a resposta chega 1 RTT depois e demora $d_{trans,HTML}$;
-- só então o GET da imagem 1 (sem *pipelining*, nunca há dois pedidos
-  pendentes); idem para a imagem 2.
-
-As faixas largas são o tempo de transmissão dos ficheiros (no desenho,
-não estão à escala).
+**Construção passo a passo do MSC (Message Sequence Chart):**
+1. **Abertura da conexão TCP (Handshake):**
+   * O cliente envia `SYN` para o servidor (demora $\frac{1}{2}\text{ RTT} = d_{prop}$).
+   * O servidor responde com `SYN-ACK` (demora $\frac{1}{2}\text{ RTT} = d_{prop}$).
+   * Total do handshake: **1 RTT**.
+2. **Pedido e resposta do HTML:**
+   * O cliente envia o `ACK` final do handshake juntamente com o pedido `GET /index.html`.
+   * O servidor recebe o pedido e devolve a resposta com o ficheiro HTML (demora 1 RTT de ida e volta, mais o tempo de transmissão física do ficheiro: $d_{trans,HTML} = 1\text{ ms}$).
+3. **Descoberta das imagens:**
+   * O browser lê o ficheiro HTML que acabou de chegar e descobre que a página referencia duas imagens (`img1.jpg` e `img2.jpg`).
+4. **Obtenção da Imagem 1:**
+   * Envia `GET /img1.jpg`. A resposta chega 1 RTT depois e demora $d_{trans,img} = 20\text{ ms}$ a passar pelo cabo.
+5. **Obtenção da Imagem 2 (sem pipelining):**
+   * Só quando a Imagem 1 acabou de ser recebida na totalidade é que o browser envia `GET /img2.jpg`. Demora outro 1 RTT de ida e volta mais $d_{trans,img} = 20\text{ ms}$ de transmissão.
 
 #### (b) Tempo até ter a página e as imagens
 
-- $d_{prop} = 30$ ms $= 3\times10^{-2}$ s, logo $\text{RTT} = 2\,d_{prop} = 6\times10^{-2}$ s.
-- $R = 80$ Mb/s $= 8\times10^7$ b/s.
-- $L_{HTML} = 10$ kB $= 8\times10^4$ b, logo $d_{trans,HTML} = \dfrac{8\times10^4}{8\times10^7} = 10^{-3}$ s.
-- $L_{img} = 200$ kB $= 1{,}6\times10^6$ b, logo $d_{trans,img} = \dfrac{1{,}6\times10^6}{8\times10^7} = 2\times10^{-2}$ s.
+Pelo diagrama temporal, o tempo total é a soma de todos os RTTs gastos e das transmissões dos ficheiros:
+* **1 RTT** para abrir a conexão TCP;
+* **1 RTT** para pedir e receber o início do HTML;
+* **1 RTT** para pedir e receber a Imagem 1;
+* **1 RTT** para pedir e receber a Imagem 2;
+* Mais os tempos de transmissão dos dados úteis ($d_{trans,HTML}$ e $2 \times d_{trans,img}$).
 
-Pelo diagrama: 1 RTT de conexão + 3 pedidos de 1 RTT cada + as três
-transmissões:
 $$d_{total} = 4\,\text{RTT} + d_{trans,HTML} + 2\,d_{trans,img}$$
-$$= 24\times10^{-2} + 10^{-3} + 4\times10^{-2} = \mathbf{2{,}81\times10^{-1}\text{ s}} = 281\text{ ms}$$
+$$d_{total} = 4 \times (60\text{ ms}) + 1\text{ ms} + 2 \times (20\text{ ms}) = 240\text{ ms} + 1\text{ ms} + 40\text{ ms} = \mathbf{281\text{ ms}}$$
 
-Igual à resolução oficial. É a fórmula da folha de revisão com $n = 2$:
-$2\,\text{RTT} + 2\,\text{RTT} + \sum T$.
+*(Em notação científica das potências de 10: $24\times 10^{-2}\text{ s} + 10^{-3}\text{ s} + 4\times 10^{-2}\text{ s} = 2{,}81\times 10^{-1}\text{ s} = 281\text{ ms}$).*
+
+Fórmula geral da folha de revisão com $n=2$ imagens em HTTP persistente sem pipelining:
+$$d_{total} = 2\,\text{RTT}\text{ (conexão + HTML)} + n\,\text{RTT}\text{ (uma por cada imagem)} + \sum d_{trans}$$
 
 ## Aula 2 --- HTTP à mão
 
@@ -1372,62 +1516,78 @@ linhas" (o último é `250 ` com espaço).
 
 #### Resposta
 
-Quando o **portátil** vai buscar o correio, transfere as mensagens e
-**apaga-as do servidor**. Quando o **telemóvel** se liga depois, **já não
-estão lá**: vê só as mensagens que chegaram entretanto. O correio fica
-"partido" entre os dois aparelhos.
+**1. O que acontece com o POP3 no modo "transfere e apaga" (*download-and-delete*):**
+* Quando o utilizador abre o correio no **portátil**, o cliente POP3 transfere todas as mensagens novas para o disco local do portátil e envia o comando `DELE` ao servidor para **apagar essas mensagens da caixa de correio central**.
+* Quando o utilizador liga o **telemóvel** mais tarde, a caixa de correio no servidor já está vazia: o telemóvel **não vê nenhuma dessas mensagens**, vendo apenas os emails que tenham chegado entretanto.
+* O correio fica irremediavelmente fragmentado: mensagens descarregadas no portátil ficam presas no portátil; mensagens descarregadas no telemóvel ficam presas no telemóvel.
+* *Nota adicional sobre o modo alternativo do POP3:* Mesmo configurando o POP3 em modo "transfere e mantém" (*download-and-keep*), o POP3 é um protocolo **sem estado (*stateless*) entre sessões**. Isto significa que:
+  * Não sincroniza pastas remotas (não cria pastas "Trabalho", "Pessoal" no servidor).
+  * Não sincroniza o estado das mensagens (se leres ou arquivares um email no portátil, ele continua a aparecer como novo/não lido no telemóvel).
 
-Resolve-se com **IMAP**: as mensagens **ficam no servidor**, e todos os
-aparelhos veem as mesmas. Além disso o IMAP **guarda estado entre
-sessões** (pastas, que mensagem está em que pasta), por isso organizar
-o correio num aparelho aparece igual no outro. (O POP3 no modo "transfere
-e deixa ficar" evita perder as mensagens, mas não guarda estado entre
-sessões: pastas e organização não passam de um aparelho para o outro.)
+**2. Qual o protocolo que resolve o problema, e porquê?**
+* O protocolo que resolve este problema é o **IMAP (*Internet Message Access Protocol*)**.
+* **Porquê o IMAP?**
+  1. **Armazenamento centralizado no servidor:** todas as mensagens residem permanentemente no servidor de correio. Os dispositivos (portátil, telemóvel, tablet, Webmail) atuam apenas como interfaces de visualização remota em tempo real. Ambos os aparelhos veem exatamente a mesma caixa de correio completa.
+  2. **Protocolo com estado (*stateful*):** o IMAP sincroniza o estado de cada mensagem entre múltiplos dispositivos:
+     * Sinalizadores de mensagens (*flags* de *lida/não lida*, *respondida*, *com estrela/sinalizada*) são mantidos no servidor e refletem-se instantaneamente em todos os aparelhos.
+     * Gestão de pastas remotas: criar, renomear ou mover emails entre pastas (ex.: Caixa de Entrada $\to$ Arquivo) mantém a mesma organização exata em todos os aparelhos.
 
 ## Aula 2 --- DNS: resolução e registos
 
 ### C2.5 --- DNS (exercício inventado)
 
+**Conceitos e Funcionamento da Hierarquia DNS:**
+* **Consulta Recursiva**: o cliente (`khedo`) passa todo o trabalho de resolução para o Servidor DNS Local e aguarda que este lhe devolva a resposta final (o endereço IP).
+* **Consulta Iterativa**: o Servidor DNS Local pergunta a cada nível da hierarquia por sua conta. Se o servidor contactado não souber a resposta final, devolve uma referência apontando para o servidor do nível seguinte.
+* **Os 4 níveis em jogo**: Cliente $\leftrightarrow$ Servidor DNS Local $\leftrightarrow$ Servidor Raiz (Root) $\leftrightarrow$ Servidor de Topo (TLD `.edu`) $\leftrightarrow$ Servidor com Autoridade (`mit.edu`).
+
 #### (a) Quantas mensagens DNS em cada caso?
 
-Numeração do caso normal: 1 e 8 entre `khedo` e o servidor local; 2--3
-com a raiz; 4--5 com o TLD `edu`; 6--7 com `ns.mit.edu`.
+**Detalhamento de todas as 8 mensagens no caso normal (caches vazias):**
+1. `khedo` $\to$ Servidor DNS Local: pedido recursivo ("Qual o IP de `www.mit.edu`?")
+2. Servidor DNS Local $\to$ Servidor Raiz: pedido iterativo ("Qual o IP de `www.mit.edu`?")
+3. Servidor Raiz $\to$ Servidor DNS Local: resposta de referência com os registos NS do TLD `edu` (e os seus respetivos IPs)
+4. Servidor DNS Local $\to$ Servidor TLD `edu`: pedido iterativo ("Qual o IP de `www.mit.edu`?")
+5. Servidor TLD `edu` $\to$ Servidor DNS Local: resposta de referência com os registos NS do servidor com autoridade de `mit.edu`
+6. Servidor DNS Local $\to$ Servidor com Autoridade de `mit.edu`: pedido iterativo ("Qual o IP de `www.mit.edu`?")
+7. Servidor com Autoridade de `mit.edu` $\to$ Servidor DNS Local: resposta final contendo o registo A com o endereço IP de `www.mit.edu`
+8. Servidor DNS Local $\to$ `khedo`: resposta final entregando o IP ao cliente
 
-- **(i) *Caches* vazias**: todas, **8 mensagens**.
-- **(ii) O servidor local já conhece o TLD `edu`**: não precisa de
-  perguntar à raiz (sem 2 e 3). Ficam 1, 4, 5, 6, 7, 8: **6 mensagens**.
-  É o caso mais comum, porque os TLD estão quase sempre em *cache* (por
-  isso a raiz raramente é contactada).
-- **(iii) O servidor local já tem o IP de `www.mit.edu`**: responde logo
-  da *cache*. Só 1 e 8: **2 mensagens**.
-
-Em todos os casos, a pergunta de `khedo` é **recursiva** (quer a resposta
-final) e as do servidor local são **iterativas**.
+**Contagem de mensagens para cada uma das 3 situações do enunciado:**
+* **(i) Caches vazias:**
+  Ocorrem todas as mensagens numeradas de 1 a 8:
+  $$4\text{ pares de (pedido + resposta)} = \mathbf{8\text{ mensagens}}$$
+* **(ii) O servidor local já conhece em cache o servidor TLD `edu`:**
+  O servidor local não precisa de contactar a Raiz (poupam-se as mensagens 2 e 3). São trocadas as mensagens 1, 4, 5, 6, 7 e 8:
+  $$8 - 2 = \mathbf{6\text{ mensagens}}$$
+  *(Este é o caso mais frequente na navegação do dia a dia, pois os servidores TLD ficam em cache durante dias, aliviando quase todo o tráfego nos servidores de raiz).*
+* **(iii) O servidor local já tem o IP de `www.mit.edu` em cache:**
+  O servidor local responde imediatamente da sua memória cache sem enviar nenhuma mensagem para a Internet. Trocam-se apenas as mensagens 1 e 8:
+  $$1\text{ par (pedido local + resposta)} = \mathbf{2\text{ mensagens}}$$
 
 #### (b) Registos de `ferramentas.pt`
 
-Formato (nome, valor, tipo); o ttl fica à escolha do administrador.
+**Significado dos 4 tipos principais de Registos de Recurso (RR):**
+O formato padrão de um RR é `(Nome, Valor, Tipo)`:
+* **Tipo A (*Address*)**: mapeia um nome canónico de máquina para o seu endereço IPv4.
+* **Tipo NS (*Name Server*)**: especifica o nome do servidor de nomes responsável/com autoridade por um domínio.
+* **Tipo CNAME (*Canonical Name*)**: cria um pseudónimo (*alias*) que aponta para o nome canónico verdadeiro da máquina.
+* **Tipo MX (*Mail Exchange*)**: especifica o servidor de correio eletrónico que recebe os emails enviados para o domínio.
 
-**No servidor TLD `pt`** (inseridos pelo agente de registo), para que a
-hierarquia saiba a quem perguntar:
+**1. Registos configurados no Servidor TLD `pt`:**
+*(Inseridos pela entidade gestora do `.pt` no ato do registo, para que a hierarquia mundial saiba a quem encaminhar perguntas sobre o domínio `ferramentas.pt`):*
+* `(ferramentas.pt, dns1.ferramentas.pt, NS)`: indica qual é o servidor de nomes com autoridade para `ferramentas.pt`.
+* `(dns1.ferramentas.pt, 192.0.2.53, A)`: registo de "cola" (*glue record*) fornecendo o IP do próprio servidor de nomes. *(Sem este registo A, quem recebesse o registo NS não saberia a que IP enviar as perguntas para contactar o `dns1`!).*
 
-- `(ferramentas.pt, dns1.ferramentas.pt, NS)`: o servidor com autoridade
-  do domínio;
-- `(dns1.ferramentas.pt, 192.0.2.53, A)`: o IP desse servidor (sem ele,
-  saber o nome do servidor não chegava para lá chegar).
+**2. Registos configurados no Servidor com Autoridade `dns1.ferramentas.pt`:**
+*(A base de dados oficial mantida pelo administrador da Ferramentas Lda):*
+* `(servidor1.ferramentas.pt, 192.0.2.10, A)`: endereço IP da máquina física onde reside o site web.
+* `(www.ferramentas.pt, servidor1.ferramentas.pt, CNAME)`: cria o pseudónimo `www.ferramentas.pt` apontando para o nome canónico `servidor1.ferramentas.pt`.
+* `(ferramentas.pt, mail.ferramentas.pt, MX)`: define que o correio para `@ferramentas.pt` deve ser entregue a `mail.ferramentas.pt`.
+* `(mail.ferramentas.pt, 192.0.2.25, A)`: endereço IP do servidor de correio.
+* *(Normalmente também inclui os registos NS e A do próprio servidor `dns1`, para consistência interna).*
 
-**No servidor com autoridade `dns1.ferramentas.pt`:**
-
-- `(servidor1.ferramentas.pt, 192.0.2.10, A)`: a máquina do site;
-- `(www.ferramentas.pt, servidor1.ferramentas.pt, CNAME)`: `www` é um
-  **pseudónimo**, e o nome canónico é `servidor1`;
-- `(ferramentas.pt, mail.ferramentas.pt, MX)`: o servidor de email do
-  **domínio** (é para aqui que vai o correio para `...@ferramentas.pt`);
-- `(mail.ferramentas.pt, 192.0.2.25, A)`: o IP do servidor de email;
-- normalmente também os registos NS e A do próprio `dns1`, como no TLD.
-
-Resolver `www.ferramentas.pt` dá o CNAME `servidor1.ferramentas.pt`, e
-depois o registo A dá 192.0.2.10.
+*Como funciona a resolução prática:* Quando um browser pede o IP de `www.ferramentas.pt`, o servidor com autoridade consulta o registo CNAME, descobre que o nome canónico é `servidor1.ferramentas.pt`, consulta o registo A de `servidor1` e devolve o IP final `192.0.2.10`.
 
 ### C2.8 --- Setas DNS de www.publico.pt (exercício inventado)
 
@@ -1468,26 +1628,31 @@ clientes e aproveita a *cache*.
 
 ### M1.13 --- Resolução iterativa de www.jn.pt (Teste modelo 1, P. 13)
 
+**Conceitos e termos de DNS que precisas de saber para este exercício:**
+* **Resolução Iterativa**: o cliente pergunta a um nível da hierarquia; o servidor contactado responde *"eu não sei o IP final, mas contacta este outro servidor mais abaixo"* (devolve uma referência / delegação). O cliente é quem faz as perguntas todas, uma a uma. **Nenhuma seta liga dois servidores entre si.**
+* **Hierarquia dos servidores contactados:**
+  1. **Servidor de Raiz (*Root*)**: conhece os servidores dos TLDs (`.pt`, `.com`).
+  2. **Servidor TLD (*Top-Level Domain*, `.pt`)**: conhece os servidores autoritários de cada domínio em Portugal (`jn.pt`, `up.pt`).
+  3. **Servidor com Autoridade (*Authoritative Server*, `jn.pt`)**: guarda a base de dados oficial com os IPs do Jornal de Notícias.
+* **Tipos de registos referidos:**
+  * **Registo NS (*Name Server*)**: indica o nome do servidor de nomes com autoridade para um domínio.
+  * **Registo A (*Address*)**: indica o endereço IPv4 definitivo da máquina pedida.
+  * **Flag `aa` (*Authoritative Answer*)**: indica que a resposta vem do servidor oficial dono do domínio e não de uma cópia em cache.
+
 #### Resposta
 
 ![Resolução iterativa: o cliente pergunta a cada nível e cada um devolve só a referência para o seguinte](figuras/sol_m1_dns_iterativo.svg){width=100%}
 
-São **6 mensagens**, sempre entre o cliente e um servidor de cada vez:
+São **6 mensagens** (3 pares de pedido/resposta), sempre entre o cliente (na prática, o servidor de nomes local) e um servidor de cada vez:
 
-1. cliente → raiz: "A de `www.jn.pt`?";
-2. raiz → cliente: não sabe, mas manda os **NS do TLD `pt`** (e os seus
-   IPs, na secção adicional);
-3. cliente → TLD `pt`: a mesma pergunta;
-4. TLD → cliente: os **NS de `jn.pt`**;
-5. cliente → servidor com autoridade de `jn.pt`: a mesma pergunta;
-6. servidor com autoridade → cliente: o **registo A** de `www.jn.pt`
-   (com a *flag* `aa`).
+1. **Mensagem 1 (Cliente $\to$ Servidor de Raiz):** "Qual é o registo A (endereço IP) de `www.jn.pt`?"
+2. **Mensagem 2 (Servidor de Raiz $\to$ Cliente):** Não tem o IP, mas devolve os **registos NS do TLD `pt`** (e os respetivos IPs na secção adicional, para o cliente saber como contactar o TLD).
+3. **Mensagem 3 (Cliente $\to$ Servidor TLD `pt`):** "Qual é o registo A de `www.jn.pt`?"
+4. **Mensagem 4 (Servidor TLD `pt` $\to$ Cliente):** Não tem o IP da máquina, mas devolve os **registos NS do domínio `jn.pt`** (o servidor com autoridade).
+5. **Mensagem 5 (Cliente $\to$ Servidor com Autoridade de `jn.pt`):** "Qual é o registo A de `www.jn.pt`?"
+6. **Mensagem 6 (Servidor com Autoridade $\to$ Cliente):** Resposta conclusiva: devolve o **registo A com o IP final** de `www.jn.pt` (com a flag `aa = 1`).
 
-Em **iterativo**, nenhuma seta liga dois servidores entre si: é a
-diferença para o recursivo, em que a raiz perguntaria ao TLD, e assim
-por diante. O "cliente" é, na prática, o servidor de nomes local. A
-resolução oficial tem as mesmas 6 setas, sem legendas; no teste convém
-escrever o que leva cada uma.
+*(No teste: desenha as 6 setas tal como na figura e escreve junto de cada uma o que leva — por exemplo: "1: GET A www.jn.pt", "2: NS pt", "3: GET A www.jn.pt", "4: NS jn.pt", "5: GET A www.jn.pt", "6: A IP-final").*
 
 ## Aula 2 --- DNS: host e dig
 
@@ -1775,37 +1940,69 @@ servidor local (sem `aa`, TTL a descer).
 
 ### C2.6 --- Tempo de distribuição (exercício inventado)
 
-$F = 1$ Gbit $= 10^9$ bits; $u_s = 100$ Mbps $= 10^8$ b/s; $u = 5$ Mbps
-$= 5\times10^6$ b/s; $d = 50$ Mbps $= 5\times10^7$ b/s.
+**Significado de todas as variáveis e fórmulas:**
+* **$F$ (tamanho do ficheiro a distribuir)**: $1\text{ Gbit} = 10^9\text{ bits}$.
+* **$u_s$ (taxa de *upload* do servidor)**: $100\text{ Mbps} = 10^8\text{ bit/s} = 100 \times 10^6\text{ b/s}$.
+* **$u$ (taxa de *upload* de cada par/cliente)**: $5\text{ Mbps} = 5 \times 10^6\text{ bit/s}$.
+* **$d$ (taxa de *download* de cada par/cliente)**: $50\text{ Mbps} = 50 \times 10^6\text{ bit/s} = 5 \times 10^7\text{ bit/s} = d_{\min}$.
+* **$N$**: número total de clientes / pares receptores.
 
-Termos que não dependem de $N$:
+**Fórmulas fundamentais:**
+1. **Modelo Cliente-Servidor ($d_{CS}$)**:
+$$d_{CS} = \max\left\{ \frac{N \times F}{u_s},\ \frac{F}{d_{\min}} \right\}$$
+* O servidor tem de enviar sozinho $N$ cópias completas do ficheiro: demora $\frac{NF}{u_s}$.
+* Nenhum cliente pode receber o ficheiro mais rápido do que a sua taxa de download: $\frac{F}{d_{\min}}$.
 
-- $F/u_s = 10^9 / 10^8 = 10$ s;
-- $F/d_{\min} = 10^9 / (5\times10^7) = 20$ s.
+2. **Modelo Peer-to-Peer ($d_{P2P}$)**:
+$$d_{P2P} = \max\left\{ \frac{F}{u_s},\ \frac{F}{d_{\min}},\ \frac{N \times F}{u_s + N \times u} \right\}$$
+* O servidor só precisa de enviar para a rede pelo menos uma cópia de cada bloco do ficheiro: $\frac{F}{u_s}$.
+* Nenhum cliente pode descarregar mais rápido do que o seu download: $\frac{F}{d_{\min}}$.
+* O volume total de dados recebido por todos os clientes é $N \times F$. A taxa total combinada de upload da rede é o upload do servidor mais o upload de todos os $N$ pares ($u_s + N \times u$): demora $\frac{NF}{u_s + N u}$.
 
-Termos que dependem de $N$:
-
-- cliente-servidor: $NF/u_s = N \times 10$ s;
-- P2P: $\dfrac{NF}{u_s + Nu} = \dfrac{N \times 10^9}{10^8 + N \times 5\times10^6}$.
+**Termos constantes (independentes de $N$):**
+* $\frac{F}{u_s} = \frac{10^9\text{ b}}{10^8\text{ b/s}} = 10\text{ s}$
+* $\frac{F}{d_{\min}} = \frac{10^9\text{ b}}{5 \times 10^7\text{ b/s}} = 20\text{ s}$
 
 #### (a) $N = 10$
 
-- $d_{CS} = \max\{10 \times 10,\ 20\} = \max\{100,\ 20\} = \mathbf{100\text{ s}}$:
-  manda o *upload* do servidor.
-- P2P: $\dfrac{10 \times 10^9}{10^8 + 5\times10^7} = \dfrac{10^{10}}{1{,}5\times10^8} \approx 66{,}7$ s.
-  $d_{P2P} = \max\{10,\ 20,\ 66{,}7\} = \mathbf{66{,}7\text{ s}}$: manda o
-  *upload* agregado.
+- $d_{CS} = \max\left\{ \frac{10 \times 10^9}{10^8},\ 20 \right\} = \max\{100,\ 20\} = \mathbf{100\text{ s}}$ *(manda o upload do servidor).*
+- P2P: upload agregado $= 10^8 + 10 \times (5 \times 10^6) = 1{,}5 \times 10^8\text{ b/s}$.
+  $\frac{10 \times 10^9}{1{,}5 \times 10^8} \approx 66{,}7\text{ s}$.
+  $d_{P2P} = \max\{10,\ 20,\ 66{,}7\} = \mathbf{66{,}7\text{ s}}$ *(manda o upload agregado).*
 
 #### (b) $N = 100$
 
-- $d_{CS} = \max\{1000,\ 20\} = \mathbf{1000\text{ s}}$ (servidor).
-- P2P: $\dfrac{10^{11}}{10^8 + 5\times10^8} = \dfrac{10^{11}}{6\times10^8} \approx 166{,}7$ s.
-  $d_{P2P} = \mathbf{166{,}7\text{ s}}$ (*upload* agregado).
+**1. No modelo Cliente-Servidor ($d_{CS}$):**
+* Termo do servidor:
+$$\frac{N \times F}{u_s} = \frac{100 \times 10^9\text{ bits}}{10^8\text{ bit/s}} = \frac{10^{11}}{10^8} = 1000\text{ s}$$
+* Termo do cliente:
+$$\frac{F}{d_{\min}} = \frac{10^9\text{ bits}}{5 \times 10^7\text{ bit/s}} = 20\text{ s}$$
+* Resultado final:
+$$d_{CS} = \max(1000\text{ s},\ 20\text{ s}) = \mathbf{1000\text{ s}}\text{ (16 minutos e 40 segundos)}$$
+*(O termo que manda é o **upload do servidor**, que fica sobrecarregado).*
+
+**2. No modelo Peer-to-Peer ($d_{P2P}$):**
+* Upload do servidor: $\frac{F}{u_s} = 10\text{ s}$.
+* Download do cliente mais lento: $\frac{F}{d_{\min}} = 20\text{ s}$.
+* Capacidade agregada de upload de toda a rede:
+$$u_{total} = u_s + N \times u = 100\text{ Mbps} + 100 \times 5\text{ Mbps} = 100 + 500 = 600\text{ Mbps} = 6 \times 10^8\text{ bit/s}$$
+* Tempo de escoamento agregado:
+$$\frac{N \times F}{u_s + N \times u} = \frac{100 \times 10^9\text{ bits}}{6 \times 10^8\text{ bit/s}} = \frac{1000}{6} \approx \mathbf{166{,}7\text{ s}}$$
+* Resultado final:
+$$d_{P2P} = \max(10\text{ s},\ 20\text{ s},\ 166{,}7\text{ s}) = \mathbf{166{,}7\text{ s}}\text{ (2 minutos e 47 segundos)}$$
+*(O termo que manda é o **upload agregado da rede**).*
+
+**Por que razão o P2P é muito mais rápido e escalável à medida que $N$ cresce?**
+* Para $N = 100$, o P2P é **6 vezes mais rápido** que o Cliente-Servidor (166,7 s vs 1000 s).
+* No modelo Cliente-Servidor, cada novo cliente representa apenas mais um encargo para o servidor central: o tempo cresce **linearmente** em função de $N$ ($\frac{NF}{u_s}$).
+* No modelo P2P, **cada novo cliente é também um distribuidor**: ao entrar na rede, cada par traz consigo a sua própria taxa de upload ($u = 5\text{ Mbps}$) e partilha os pedaços que já descarregou com os vizinhos!
+* Quando $N$ é muito grande ($N \to \infty$), a capacidade agregada tende para o limite:
+$$\lim_{N \to \infty} \frac{N \times F}{u_s + N \times u} = \frac{F}{u} = \frac{10^9\text{ bits}}{5 \times 10^6\text{ bit/s}} = \mathbf{200\text{ s}}$$
+Isto significa que, mesmo com 100 000 utilizadores, o P2P nunca demorará mais de 200 segundos (~3,3 minutos), ao passo que o servidor clássico levaria semanas!
 
 #### (c) $N = 1000$
 
-- $d_{CS} = \max\{10\,000,\ 20\} = \mathbf{10\,000\text{ s}}$ (quase 3 horas;
-  servidor).
+- $d_{CS} = \max\{10\,000,\ 20\} = \mathbf{10\,000\text{ s}}$ (quase 3 horas; servidor).
 - P2P: $\dfrac{10^{12}}{10^8 + 5\times10^9} = \dfrac{10^{12}}{5{,}1\times10^9} \approx 196{,}1$ s.
   $d_{P2P} = \mathbf{196{,}1\text{ s}}$ (*upload* agregado).
 

@@ -84,6 +84,12 @@ function render(){
 
   updateStats();
   updateHeatmap();
+  const btnOrd=document.getElementById("btnOrderToggle");
+  if(btnOrd){
+    const isSeq=state.questionOrder.every((v,i)=>v===i);
+    btnOrd.innerHTML=isSeq?"🔀 Baralhar":"📚 Por ordem";
+    btnOrd.title=isSeq?"Carrega para baralhar aleatoriamente as perguntas":"Carrega para ordenar pela sequência da matéria";
+  }
   document.getElementById("streakBadge").style.opacity=state.streak>0?"1":".4";
   document.getElementById("streakNum").textContent=state.streak;
   saveState();

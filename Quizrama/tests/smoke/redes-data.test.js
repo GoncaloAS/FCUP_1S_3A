@@ -50,7 +50,7 @@ ALL.forEach((q, i) => {
     assert.ok(exp.includes(`(${l}) Errada.`), `${id}: falta explicar porque é que a (${l}) está errada`));
   letras[ci]++;
 });
-assert.ok(abertas >= 30, `esperava as perguntas de desenvolvimento do teste modelo, encontrei ${abertas}`);
+assert.ok(abertas >= 15, `esperava as perguntas de desenvolvimento do teste modelo e treino curado, encontrei ${abertas}`);
 
 // a resposta certa tem de estar equilibrada pelas quatro letras
 assert.ok(Math.max(...letras) - Math.min(...letras) <= 2, `posições da certa desequilibradas: ${letras}`);

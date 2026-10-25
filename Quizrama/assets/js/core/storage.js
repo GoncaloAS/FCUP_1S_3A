@@ -32,6 +32,9 @@ function loadState(){
     Object.assign(state,{revealed:{},drafts:{}},s,{filter:null,filteredOrder:[...Array(ALL.length).keys()]});
     // Force unshuffled option order — explanations reference (A)/(B)/(C)/(D) by source order
     state.optionOrder = ALL.map(()=>[0,1,2,3]);
+    if(typeof window !== "undefined" && window.QUIZ_SHUFFLE === false && s.questionOrder && s.questionOrder.some((v,i)=>v!==i)){
+      state.questionOrder = [...Array(ALL.length).keys()];
+    }
     return true;
   }catch(e){return false;}
 }

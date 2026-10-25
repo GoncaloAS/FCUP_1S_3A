@@ -4,7 +4,8 @@
  */
 
 function init(){
-  state.questionOrder = shuffle([...Array(ALL.length).keys()]);
+  const shouldShuffle = typeof window !== "undefined" && window.QUIZ_SHUFFLE !== undefined ? window.QUIZ_SHUFFLE : true;
+  state.questionOrder = shouldShuffle ? shuffle([...Array(ALL.length).keys()]) : [...Array(ALL.length).keys()];
   state.optionOrder   = ALL.map(()=>[0,1,2,3]); // not shuffled — explanations reference (A)/(B)/(C)/(D) by original order
   state.results       = Array(ALL.length).fill(null);
   state.revealed={}; state.drafts={};
@@ -87,6 +88,28 @@ function reshuffleFiltered(){
   const qIndices=positions.map(pos=>state.questionOrder[pos]);
   const shuffled=shuffle(qIndices);
   positions.forEach((pos,i)=>{state.questionOrder[pos]=shuffled[i];});
+}
+
+function toggleOrderMode(){
+  const isSeq = state.questionOrder.every((v,i)=>v===i);
+  if(isSeq){
+    state.questionOrder = shuffle([...state.questionOrder]);
+    showToast("🔀 Perguntas baralhadas");
+  } else {
+    state.questionOrder = [...Array(ALL.length).keys()];
+    showToast("📚 Perguntas ordenadas pela matéria");
+  }
+  if(!state.filter){
+    state.filteredOrder = [...Array(ALL.length).keys()];
+  } else {
+    state.filteredOrder = [];
+    state.questionOrder.forEach((qIdx,pos)=>{
+      if(ALL[qIdx][0]===state.filter) state.filteredOrder.push(pos);
+    });
+  }
+  state.index = state.filteredOrder[0] || 0;
+  saveState();
+  render();
 }
 
 function retryWrong(){

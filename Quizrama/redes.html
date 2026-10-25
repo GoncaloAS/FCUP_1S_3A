@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Redes Quiz — Teste 1</title>
 <!-- Progresso de Redes isolado do de SO (chave de localStorage própria). -->
-<script>window.QUIZ_STORAGE_KEY = "redesQuizT1State"; window.QUIZ_PENALTY = 1/3; window.QUIZ_ALL_LABEL = "Todos os tópicos"; /* como no teste: cada errada desconta 1/3 */</script>
+<script>window.QUIZ_STORAGE_KEY = "redesQuizT1State_v3"; window.QUIZ_PENALTY = 1/3; window.QUIZ_ALL_LABEL = "Todos os tópicos (ordem da matéria)"; window.QUIZ_SHUFFLE = false; /* como no teste: cada errada desconta 1/3 */</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 
@@ -150,6 +150,7 @@
     <button class="btn" onclick="skip()">Saltar <span class="kbd">S</span></button>
     <button class="btn" onclick="retryCurrent()">↺ Refazer pergunta <span class="kbd">T</span></button>
     <button class="btn warn" onclick="retryWrong()">↻ Refazer secção <span class="kbd">R</span></button>
+    <button class="btn" id="btnOrderToggle" onclick="toggleOrderMode()" title="Alternar entre ordem da matéria e baralhado">🔀 Baralhar</button>
     <div class="nav-spacer"></div>
     <button class="btn danger" onclick="confirmReset()">Apagar progresso</button>
   </div>
