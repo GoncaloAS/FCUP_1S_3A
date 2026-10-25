@@ -10,3 +10,13 @@ Quizrama/OS_Improved_Study_Guide.docx
 
 # site gerado (publicado pelo GitHub Actions)
 _site/
+
+# pessoal (o repositório é público): vai cifrado em _shared/site/pessoal.enc
+*/.fonte/INFO_*.md
+*/INFO_*.pdf
+!TecnologiasWeb/.fonte/INFO_GERAL.md
+!TecnologiasWeb/INFO_GERAL.pdf
+AGENDA.pdf
+IPM/Trabalho/Feedback_*
+*/.fonte/moodle/Feedback_*
+*/.fonte/moodle/registo.json

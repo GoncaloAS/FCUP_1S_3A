@@ -25,3 +25,5 @@ palavras" não valem. Exemplo-modelo: `SOLUCOES_Logica.md`, `### 1.6` (l. ~155).
 1.13 (a)/(b) corresponde às alíneas (c)/(d) do enunciado; na 1.12 (b) ela
 diz que R4 não é consequência das outras, mas é ({R2, R3} ⊨ R4): fica a
 resposta certa, com nota.
+
+**Suplementar.** `Teoricas/Extra_Notes_Propositional_FOL.pdf` (notas em inglês) também é suplementar, como os apontamentos. `Testes/Teste_1124.pdf` é um teste antigo do Moodle (bom para treinar o 1.º teste).

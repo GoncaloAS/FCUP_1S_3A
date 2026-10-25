@@ -1,0 +1,12 @@
+{
+  "_comentario": "Ficha (caminho no repositório) -> prefixo dos ids das soluções que lhe pertencem (estudo.html: PDF à esquerda, só essas soluções à direita). Fichas de disciplinas com SOLUCOES que não estão aqui mostram todas as soluções da disciplina. Ver as convenções no .fonte/CONTEXTO_<D>.md.",
+  "Redes/Praticas/Semana_1/exercicios_redes.pdf": "Redes-Ex.",
+  "Redes/Praticas/Semana_2/ficha_2.pdf": "Redes-F2.",
+  "Redes/Praticas/Semana_3/ficha_3_protocolos_aplicacionais.pdf": "Redes-F3.",
+  "Redes/Praticas/Semana_4/ficha_4_sockets_smtp.pdf": "Redes-F4.",
+  "Redes/Praticas/Semana_5/ficha_5_servidor_chat.pdf": "Redes-F5.",
+  "Redes/Praticas/Semana_6/ficha_6_camada_transporte.pdf": "Redes-F6.",
+  "Redes/Testes/Teste_Modelo_1.pdf": "Redes-M1",
+  "Logica/Praticas/Semana_1/proplogic.pdf": "Logica-1.",
+  "Logica/Praticas/Semana_3/proplogicproofs.pdf": "Logica-2."
+}

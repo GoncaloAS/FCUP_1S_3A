@@ -152,8 +152,12 @@ letra das figuras novas, compila tudo (filtrado) e faz o `--sol`.
 - O `date:` das SOLUCOES muda-se à mão, se mudou. Se mudou uma convenção ou
   um facto da disciplina, atualiza o `CONTEXTO_<D>.md`.
 - **Site: não lhe mexas.** Esta skill só faz os PDFs. O site gera-se sozinho
-  no GitHub a cada push (HTML e PDF); afiná-lo é com a skill `site`, só
-  quando o Gonçalo a pedir.
+  no GitHub a cada push (resumos só em PDF; o "lê a teoria" das soluções
+  calcula sozinho a página); afiná-lo é com a skill `site`, só quando o
+  Gonçalo a pedir.
+- **Publicar** (o Gonçalo autorizou fazer sempre): `git add` só dos ficheiros
+  desta sessão, por caminho (outras sessões partilham a árvore); commit curto em português, sem
+  Co-Authored-By; `git push`. O site atualiza em ~2 min.
 
 ## Auto-melhoria
 

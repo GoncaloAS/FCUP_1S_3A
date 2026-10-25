@@ -147,3 +147,14 @@ sobre:
 
 Assim que estas informações forem publicadas no site, diz-me para eu voltar
 a consultar e atualizar este ficheiro.
+
+## Datas
+
+Formato da agenda geral (`AGENDA.pdf`, feita pelo `moodle.py agenda`):
+
+| Data | Hora | O quê | Notas |
+|---|---|---|---|
+| 2026-10-30 | 23:59 | 1.ª entrega do trabalho (jogo, só cliente) | Tolerância até seg 2/11 às 10:00; 3 valores |
+| 2026-11-05 | 14:00–16:00 | 1.º teste (em computador) | Na aula prática PL2; 4 valores |
+| 2026-12-11 | 23:59 | 2.ª entrega do trabalho (cliente/servidor + Node.js) | Tolerância até seg 14/12 às 10:00; 5 valores |
+| 2026-12-14 | ? | 2.º teste (provável, a confirmar) | 8 valores; data marcada com «!!» no site, confirmar com o docente |

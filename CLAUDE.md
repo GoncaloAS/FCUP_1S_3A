@@ -17,32 +17,46 @@ sempre a skill `resumo-semanal` (`.claude/skills/resumo-semanal/SKILL.md`).
   .fonte/REVISAO_<D>.md       fonte da folha de revisão (2-3 páginas de receitas)
   .fonte/SOLUCOES_<D>.md      soluções dos "Pratica agora"
   .fonte/CONTEXTO_<D>.md      convenções e factos desta disciplina (não gera PDF)
+  .fonte/INFO_<D>.md          testes, prazos, avaliação, avisos do Moodle → INFO_<D>.pdf (skill moodle-refresh)
+  .fonte/moodle/              estado do Moodle (estado.json) e fonte das páginas passadas a PDF
   .fonte/.cache/              texto extraído dos slides (gerado, fora do git)
   RESUMO_<D>.pdf, REVISAO_<D>.pdf
 _shared/template/             prep.sh, fechar.sh, contexto.sh, extrair.sh, build.sh, preâmbulos, filtros
+AGENDA.pdf                    datas de todas as disciplinas (testes, entregas), feita pelo moodle.py
+_shared/moodle.json           UCs do Moodle seguidas (id do curso → pasta)
 SOLUCOES.html                 site único de soluções, um separador por disciplina (gerado)
 Quizrama/                     quizzes de preparação para testes (redes.html; SO em index.html)
   tools/<d>-guide/            build.py (guia a partir do RESUMO) e perguntas.py (banco; editar aqui)
-_shared/site/                 site para os colegas: build_site.py, design/ (tokens.css = design system), titulos.json
+_shared/site/                 o site do Gonçalo: build_site.py, design/ (tokens.css; pessoal.js, estudo.js), fichas.json, pessoal.enc
 _site/                        site gerado (fora do git; o GitHub Actions publica-o no Pages a cada push)
 ```
 
 ## Site
 
-Um site estático junta tudo para quem não usa o terminal: disciplinas →
-resumo/revisão em HTML, slides e fichas num visualizador dentro do site,
-soluções, quiz. Só modo escuro, design editorial (Charter/Avenir/Menlo, uma
-cor por disciplina, sem gradientes nem sombras). Nada sai do site: o
-resumo e a revisão aparecem em HTML (pandoc, os mesmos filtros do PDF) e em
-PDF, e todos os PDFs abrem no `ver.html`. O site gera-se sozinho no GitHub
-Actions a cada push; a skill `resumo-semanal` não lhe toca (só PDFs), e
-afiná-lo é com a skill `site`, só quando o Gonçalo pedir. Ver localmente:
-`_shared/template/site.sh`. O que se publica
-está em `PUBLICAR`/`EXCLUIR` no `build_site.py` (nunca o CV/página pessoal).
+O site é **do Gonçalo** (feito para as necessidades dele; se servir aos
+colegas, melhor). Computador primeiro, só modo escuro, design editorial
+(Charter/Avenir/Menlo, uma cor por disciplina). Início = painel pessoal
+(próximos 14 dias, a fazer, chegou esta semana, avisos) + disciplinas; tudo em
+**PDF** (sem HTML dos resumos) no `ver.html`; cada ficha com soluções abre no
+`estudo.html` (PDF à esquerda, as soluções dela à direita; `fichas.json`).
+O repositório é **público**: o pessoal (INFO, agenda, tarefas, avisos) só vai
+cifrado em `_shared/site/pessoal.enc` (`_shared/template/pessoal.py`,
+palavra-passe no Keychain `fcup-site`) e os `.md`/PDF pessoais estão no
+`.gitignore`. Gera-se no GitHub Actions a cada push; o `moodle-refresh` e o
+`resumo-semanal` acabam com commit + push. Afinar o site é com a skill `site`.
+Ver localmente: `_shared/template/site.sh`. O que se publica está em
+`PUBLICAR`/`EXCLUIR` no `build_site.py` (nunca o CV/página pessoal).
 
 **`.md` escondido**: o Gonçalo não quer ver `.md` ao navegar as pastas.
 Qualquer documento de uma disciplina gera um PDF com o mesmo pipeline e a
 fonte fica em `.fonte/`.
+
+## Moodle
+
+O material novo vem do Moodle pela skill `moodle-refresh` (refresh semanal, todas
+as disciplinas). Ela traz ficheiros e páginas para `Teoricas/`, `Praticas/`,
+`Trabalho/` e `Testes/`, e guarda as datas e os avisos nos `INFO_<D>` e na `AGENDA`.
+Não toca nos resumos: teóricas novas → `resumo-semanal`.
 
 ## Regra de ouro
 
@@ -64,9 +78,22 @@ fonte fica em `.fonte/`.
 - Nunca ler o RESUMO inteiro nem os slides como imagem por defeito; o
   texto dos slides lê-se uma vez, do cache. Para o resto:
   `contexto.sh <D> [--mapa termos | termos | --indice | --sol]`.
+  Um hook (`.claude/hooks/ler_por_partes.py`) recusa PDFs inteiros e
+  ficheiros > 40 KB sem `limit`; as deny rules tapam `_site/`,
+  `SOLUCOES.html` e o que é gerado.
 - Poucas chamadas (cada uma reenvia o contexto todo): junta numa só
   resposta as que não dependem umas das outras. Edições cirúrgicas
   (`Edit`), uma disciplina por sessão e sem subagentes.
+- Uma tarefa por sessão: `/clear` entre disciplinas ou tarefas sem
+  relação, `/compact` perto dos 70%. Trabalho mecânico (refresh do
+  Moodle, builds) pode ir em Sonnet (`/model`); Opus para resumos e
+  soluções.
+- Browser: texto (`get_page_text`, JS) em vez de screenshots.
+- Há sessões em paralelo nesta árvore: `git add` só por caminho (um hook
+  recusa `git add -A`/`.` e o Co-Authored-By do Claude).
+- Dúvida que só o Gonçalo decide: pergunta tudo numa só
+  `AskUserQuestion` (opção recomendada primeiro) e continua o resto
+  enquanto não responde.
 
 ## Auto-melhoria
 

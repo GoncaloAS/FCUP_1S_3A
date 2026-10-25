@@ -22,3 +22,9 @@ fórmula e resultado. Os testes modelo ficam em `Testes/Teste_Modelo_N.pdf`
 (+ `_resolucao.pdf`, digitalizado: ver como imagem) e os exercícios são
 `MN.x`: os da Parte II na caixa do tópico, a escolha múltipla numa caixa no
 fim. 1.º teste: 75 min, sem calculadora (contas em potências de 10).
+
+**Fichas do Moodle → PDF.** As fichas são páginas do Moodle, não PDFs: a skill
+`moodle-refresh` passa-as a `Praticas/Semana_N/ficha_N_<tema>.pdf` (soluções:
+`solucoes_ficha_N.pdf`), com a fonte em `.fonte/moodle/`. As fichas 5 e 6 e o
+trabalho foram feitos à mão antes da skill (`.fonte/moodle/gerar.py` + `conteudo.py`).
+O trabalho prático está em `Trabalho/` (enunciado, guia passo a passo, esqueletos).

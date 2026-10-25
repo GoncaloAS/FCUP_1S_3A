@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash _shared/template/prep.sh:*)",
+      "Bash(bash _shared/template/fechar.sh:*)",
+      "Bash(bash _shared/template/contexto.sh:*)",
+      "Bash(bash _shared/template/build.sh:*)",
+      "Bash(bash _shared/template/doc.sh:*)",
+      "Bash(_shared/template/prep.sh:*)",
+      "Bash(_shared/template/fechar.sh:*)",
+      "Bash(_shared/template/contexto.sh:*)",
+      "Bash(python3 -I _shared/template/moodle.py:*)",
+      "Bash(uv run -q --with reportlab --with pillow python -I _shared/template/moodle.py:*)",
+      "Bash(pdftotext:*)",
+      "Bash(pdfinfo:*)",
+      "Bash(pdftoppm:*)"
+    ],
+    "deny": [
+      "Read(/_site/**)",
+      "Read(/SOLUCOES.html)",
+      "Read(/Quizrama/node_modules/**)",
+      "Read(/Quizrama/output-*.js)",
+      "Read(**/figuras/auto/**)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [{ "type": "command", "command": "python3 -I \"$CLAUDE_PROJECT_DIR/.claude/hooks/ler_por_partes.py\"" }]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [{ "type": "command", "command": "python3 -I \"$CLAUDE_PROJECT_DIR/.claude/hooks/guarda_git.py\"" }]
+      }
+    ]
+  }
+}

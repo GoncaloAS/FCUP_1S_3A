@@ -1,21 +1,22 @@
 #!/usr/bin/env python3
-"""Gera o site da universidade em _site/ (publicado no GitHub Pages).
+"""Gera o site do Gonçalo em _site/ (publicado no GitHub Pages; o repositório é público).
 
 Um sítio para tudo, sem sair do browser:
-  index.html                 disciplinas, Quizrama, novidades
-  <D>/index.html             resumo, revisão, teóricas, práticas, soluções, quiz, testes
-  <D>/<doc>.html             RESUMO, REVISAO e outros .fonte/*.md, em HTML (pandoc), e o PDF ao lado
-  ver.html?f=...             visualizador dentro do site (PDF com PDF.js, código, download)
-  solucoes/                  o SOLUCOES.html
+  index.html                 painel pessoal (cifrado) + disciplinas, Quizrama, novidades
+  agenda.html                agenda completa (cifrada)
+  <D>/index.html             info (cifrada), resumo e revisão em PDF, teóricas, práticas, soluções, quiz, testes
+  ver.html?f=...#pN          visualizador dentro do site (PDF com PDF.js, código, download)
+  estudo.html?f=...&so=...   ficha em PDF à esquerda, as soluções dela à direita
+  solucoes/                  o SOLUCOES.html ("lê a teoria" abre o resumo em PDF na página certa)
   quizrama/                  os quizzes
 
-Só publica ficheiros que estão no git e passam as regras de PUBLICAR/EXCLUIR.
-O HTML sai sozinho do mesmo .md (sem trabalho à mão); se o pandoc falhar num
-documento, fica só o PDF. No fim verifica as ligações internas (aviso; com
---estrito, falha).
+Só publica ficheiros que estão no git e passam as regras de PUBLICAR/EXCLUIR. A parte
+pessoal (agenda, tarefas, avisos, INFO) só existe cifrada em _shared/site/pessoal.enc
+(feito pelo _shared/template/pessoal.py); nada pessoal em claro entra no site.
+No fim verifica as ligações internas (aviso; com --estrito, falha).
 
 Uso: python3 _shared/site/build_site.py [--saida _site] [--lista] [--estrito]
-Precisa de pandoc, dot (graphviz) e pdftocairo (poppler).
+Precisa de pdftotext (poppler).
 """
 import argparse
 import fnmatch
@@ -39,7 +40,7 @@ TEMPLATE = ROOT / "_shared/template"
 # O que se publica (caminhos do repositório; ** apanha subpastas)
 # --------------------------------------------------------------------------
 PUBLICAR = [
-    "*/Teoricas/**", "*/Praticas/**", "*/Testes/**",
+    "*/Teoricas/**", "*/Praticas/**", "*/Testes/**", "*/Trabalho/**",
     "Quizrama/guia_*.pdf",                              # guias dos testes em PDF
 ]
 EXCLUIR = [
@@ -50,8 +51,6 @@ EXCLUIR = [
 ]
 # executáveis sem extensão (Lexer, CLexer) saem pela verificação de binário
 
-# documentos .fonte/*.md com desenhos em LaTeX (tikz): o HTML perdia-os, vai o PDF
-SO_PDF = {"TRABALHO_Alquerque"}
 
 QUIZZES = {
     "Redes": [
@@ -146,11 +145,14 @@ def numero_aula(caminho: str) -> str:
 # --------------------------------------------------------------------------
 # Moldura comum
 # --------------------------------------------------------------------------
+NAV = (("disciplinas", "", "Início"), ("agenda", "agenda.html", "Agenda"), ("solucoes", "solucoes/", "Soluções"),
+       ("quizrama", "quizrama/", "Quizrama"))
+
+
 def pagina(titulo: str, corpo: str, raiz: str, ativo: str = "", cor=None, extra_head: str = "",
-           descricao: str = "") -> str:
+           descricao: str = "", larga: bool = False) -> str:
     nav = []
-    for chave, href, rotulo in (("disciplinas", "", "Disciplinas"), ("solucoes", "solucoes/", "Soluções"),
-                                ("quizrama", "quizrama/", "Quizrama")):
+    for chave, href, rotulo in NAV:
         atual = ' aria-current="page"' if chave == ativo else ""
         nav.append(f'<a href="{raiz}{href or "index.html"}"{atual}>{rotulo}</a>')
     cor_attr = f' data-cor="{cor}"' if cor is not None else ""
@@ -167,13 +169,13 @@ def pagina(titulo: str, corpo: str, raiz: str, ativo: str = "", cor=None, extra_
 {extra_head}
 </head>
 <body>
-<div class="pagina">
+<div class="pagina{" larga" if larga else ""}">
   <header class="topo">
     <a class="marca" href="{raiz}index.html">FCUP · 3.º ano</a>
     <nav>{"".join(nav)}</nav>
   </header>
 {corpo}
-  <footer class="rodape">Resumos e soluções feitos a partir das aulas. Os slides e os enunciados são dos docentes de cada disciplina.</footer>
+  <footer class="rodape">Os slides e os enunciados são dos docentes de cada disciplina; resumos e soluções feitos a partir das aulas.</footer>
 </div>
 </body>
 </html>
@@ -229,79 +231,97 @@ def ficheiros_publicados():
 
 
 # --------------------------------------------------------------------------
-# Documentos em HTML (pandoc)
+# Resumos em PDF: a página de cada secção (para o "lê a teoria" das soluções)
 # --------------------------------------------------------------------------
-def figuras_svg(md: str, d: Disciplina, saida: Path) -> str:
-    destino = saida / d.pasta / "figuras"
-
-    def troca(m):
-        nome, ext = m.group(1), m.group(2).lower()
-        origem = d.dir / "figuras" / f"{nome}.{ext}"
-        if not origem.exists():
-            return m.group(0)
-        destino.mkdir(parents=True, exist_ok=True)
-        if ext == "pdf":  # diagramas: PDF -> SVG
-            subprocess.run(["pdftocairo", "-svg", str(origem), str(destino / f"{nome}.svg")], check=True)
-            return f"figuras/{nome}.svg"
-        shutil.copy2(origem, destino / f"{nome}.{ext}")
-        return m.group(0)
-
-    return re.sub(r"figuras/([\w./-]+?)\.(pdf|png|jpe?g|gif|svg)\b", troca, md)
+def normaliza(t: str) -> str:
+    import unicodedata
+    t = unicodedata.normalize("NFD", t.lower())
+    return re.sub(r"[^a-z0-9]", "", "".join(c for c in t if unicodedata.category(c) != "Mn"))
 
 
-def doc_html(md_path: Path, d: Disciplina, slug: str, titulo: str, saida: Path) -> str:
-    md = md_path.read_text()
-    md = figuras_svg(md, d, saida)
-    tmp = saida / d.pasta / f".{slug}.md"
-    tmp.write_text(md)
-    sol = d.dir / ".fonte" / f"SOLUCOES_{d.pasta}.md"
-    cmd = ["pandoc", str(tmp), "-f", "markdown-implicit_figures", "-t", "html5",
-           "--section-divs", "--toc", "--toc-depth=2", "--math-method=mathml", "--wrap=none",
-           "--syntax-highlighting=breezedark",
-           "--lua-filter", str(TEMPLATE / "fitch.lua"),
-           "--lua-filter", str(TEMPLATE / "tableau.lua"),
-           "--lua-filter", str(TEMPLATE / "div-envs.lua"),
-           "--lua-filter", str(TEMPLATE / "auto-align.lua"),
-           "--template", str(SITE / "templates" / "documento.html"),
-           "-M", "estilo=v2", "-M", f"pagetitle={titulo}"]
-    if slug == "resumo" and sol.exists():
-        cmd += ["-M", f"solucoes=../solucoes/#{d.pasta}", "-M", f"solucoes_md={sol}"]
-    r = subprocess.run(cmd, capture_output=True, text=True, cwd=str(saida / d.pasta))
-    tmp.unlink()
-    if r.returncode != 0:
-        print(f"AVISO: {md_path.name} sem HTML (pandoc falhou), fica só o PDF:\n{r.stderr}", file=sys.stderr)
-        return None
-    for linha in r.stderr.splitlines():
-        if "AVISO" in linha:
-            print(f"  {d.pasta}/{slug}: {linha}", file=sys.stderr)
-    corpo = r.stdout
-    # "Aula 7 — Título" -> número + título (como no PDF)
-    corpo = re.sub(r'(<h1[^>]*>)(Aulas?|Tema) (\d+(?:–\d+)?) — ',
-                   lambda m: f'{m.group(1)}<span class="aula-n">{m.group(2)} {m.group(3)}</span>', corpo)
-    # o índice pandoc tem "Aula 7 — Título": número em mono
-    corpo = re.sub(r'(<a href="#[^"]*"[^>]*>)(Aulas?|Tema) (\d+(?:–\d+)?) — ',
-                   lambda m: f'{m.group(1)}<span class="n">{m.group(3)}</span>', corpo)
-    return corpo
+def ident_pandoc(t: str) -> str:
+    """O id que o pandoc dá a um título (auto_identifiers), para as ligações do guia do Quizrama."""
+    t = re.sub(r"[^\w\s.-]", "", t.lower())
+    t = re.sub(r"\s+", "-", t.strip())
+    return re.sub(r"^[^a-zà-ÿ]+", "", t) or "section"
 
 
-def pagina_documento(d: Disciplina, slug: str, titulo: str, corpo: str, pdf_href: str = "") -> str:
-    pdf = f'<p class="acoes"><a class="etiqueta" href="{esc(pdf_href)}">Ver em PDF</a></p>' if pdf_href else ""
-    cab = f"""
-  <section class="cabecalho doc-cab">
-    <p class="migalhas"><a href="index.html">{esc(d.nome)}</a> / {esc(titulo)}</p>
-    <h1>{esc(titulo)}</h1>
-    {f'<p class="meta mono">Atualizado: {esc(d.atualizado)}</p>' if d.atualizado and slug == "resumo" else ""}
-    {pdf}
-  </section>
-{corpo}
-  <script src="../assets/doc.js" defer></script>"""
-    return pagina(f"{titulo} — {d.nome}", cab, "../", "disciplinas", d.cor,
-                  extra_head='<link rel="stylesheet" href="../assets/doc.css">')
+def etiqueta(bruta: str) -> str:
+    """"F2.2(c)" -> "F2.2"; "Ex. 6" -> "Ex.6"; "1.13 d)" -> "1.13" (como nos ids das soluções)."""
+    e = re.sub(r"\s+", "", bruta)
+    e = re.sub(r"\(.*$", "", e)
+    return re.sub(r"(?<=\d)[a-z]\)?$", "", e).rstrip(".,:")
+
+
+def grupos_solucoes(d) -> list:
+    """Ids das alíneas de cada secção "##" do SOLUCOES_<D>.md, por ordem (como o ler_solucoes do
+    div-envs.lua: a k-ésima caixa Pratica agora do resumo é a k-ésima secção "##")."""
+    f = d.dir / ".fonte" / f"SOLUCOES_{d.pasta}.md"
+    if not f.exists():
+        return []
+    gs, atual, ex_num, n, vistos = [], None, "sol", 0, defaultdict(int)
+    for linha in f.read_text().splitlines():
+        if linha.startswith("## "):
+            atual = []; gs.append(atual)
+        elif linha.startswith("### "):
+            h3 = linha[4:]
+            ex_txt = re.split(r"\s+---|\s+—", h3, maxsplit=1)[0]
+            ex_num = re.sub(r"\s+", "", ex_txt.replace("---", "—").replace("--", "–"))
+            n = 0
+        elif linha.startswith("#### ") and atual is not None:
+            n += 1
+            h4 = linha[5:]
+            m = re.match(r"\((\w+)\)", h4) or re.match(r"(\d+)\.", h4)
+            id_ = f"{d.pasta}-{ex_num}-{m.group(1) if m else n}"
+            vistos[id_] += 1
+            atual.append(id_ if vistos[id_] == 1 else f"{id_}-{vistos[id_]}")
+    return gs
+
+
+def seccoes_resumo(d) -> list:
+    """[(nível, título, texto, [etiquetas], nº de caixas Pratica agora)] do RESUMO_<D>.md, por ordem."""
+    md = (d.dir / ".fonte" / f"RESUMO_{d.pasta}.md").read_text()
+    md = re.sub(r"^```.*?^```", "", md, flags=re.S | re.M)
+    partes = re.split(r"^(#{1,3}) (.+?)\s*(?:\{[^}]*\})?\s*$", md, flags=re.M)
+    out = []
+    for i in range(1, len(partes), 3):
+        corpo = partes[i + 2]
+        etqs = []
+        for caixa in re.findall(r"^:::+ *\{\.pratica[^}]*\}(.*?)^:::+ *$", corpo, flags=re.S | re.M):
+            etqs += [etiqueta(e) for e in re.findall(r"^\s*[-*] \*\*([^*]+)\*\*", caixa, flags=re.M)]
+        n_caixas = len(re.findall(r"^:::+ *\{\.pratica", corpo, flags=re.M))
+        out.append((len(partes[i]), partes[i + 1].strip(), corpo, [e for e in etqs if e], n_caixas))
+    return out
+
+
+def paginas_pdf(pdf: Path) -> list:
+    r = subprocess.run(["pdftotext", "-enc", "UTF-8", str(pdf), "-"], capture_output=True, text=True)
+    return [normaliza(p) for p in r.stdout.split("\f")]
 
 
 # --------------------------------------------------------------------------
 # Páginas
 # --------------------------------------------------------------------------
+FICHAS = {}      # ficha -> prefixo das soluções (fichas.json)
+SOL_DE = set()   # disciplinas com soluções
+
+
+def prefixo_sol(c: str, d) -> str:
+    """Prefixo dos ids das soluções de uma ficha ("" = esta ficha não tem soluções no site)."""
+    if c in FICHAS:
+        return FICHAS[c]
+    nome = c.rsplit("/", 1)[-1].lower()
+    if d.pasta in SOL_DE and c.split("/")[1] == "Praticas" and tipo(c) == "pdf" \
+            and not re.search(r"solu|respost|resolv", nome):
+        return f"{d.pasta}-"
+    return ""
+
+
+def estudo_href(raiz: str, caminho: str, disciplina: str, titulo: str, so: str) -> str:
+    return (f"{raiz}estudo.html?f={quote('ficheiros/' + caminho)}&d={quote(disciplina)}"
+            f"&t={quote(titulo)}&so={quote(so)}")
+
+
 def lista_ficheiros(itens, d: Disciplina, titulos, raiz="../", numerar=None) -> str:
     li = []
     for c in itens:
@@ -309,9 +329,11 @@ def lista_ficheiros(itens, d: Disciplina, titulos, raiz="../", numerar=None) -> 
         p = ROOT / c
         k = tipo(c)
         ext = (Path(c).suffix[1:] or c.rsplit("/", 1)[-1]).upper()
-        meta = f"{ext} · {tamanho(p.stat().st_size)}"
+        so = prefixo_sol(c, d)
+        meta = f"{ext} · {tamanho(p.stat().st_size)}" + (" · com soluções" if so else "")
         num = numerar(c) if numerar else ""
-        li.append(f'<li><a href="{esc(ver_href(raiz, c, d.pasta, t))}"><span class="num">{esc(num)}</span>'
+        href = estudo_href(raiz, c, d.pasta, t, so) if so else ver_href(raiz, c, d.pasta, t)
+        li.append(f'<li><a href="{esc(href)}"><span class="num">{esc(num)}</span>'
                   f'<span class="titulo">{esc(t)}</span><span class="tipo">{esc(meta)}</span></a></li>')
     return '<ul class="lista">' + "".join(li) + "</ul>"
 
@@ -323,13 +345,14 @@ def pagina_disciplina(d: Disciplina, titulos, solucoes: bool) -> str:
         nav.append(f'<a href="#{id_}">{rotulo}</a>')
         seccoes.append(f'<section class="seccao" id="{id_}"><h2>{rotulo}{extra}</h2>{conteudo}</section>')
 
+    seccoes.append(f'<section class="seccao so-desbloqueado" id="info" hidden><h2>Info <span class="mono">do Moodle</span></h2>'
+                   f'<div class="info-disc" data-info="{esc(d.pasta)}"></div></section>')
+    nav.append('<a href="#info" class="so-desbloqueado">Info</a>')
     if d.docs:
         blocos = []
-        for slug, t, desc, html, pdf in d.docs:
-            botoes = (f'<a class="etiqueta principal" href="{esc(html)}">Ler</a>' if html else "") + \
-                     (f'<a class="etiqueta{"" if html else " principal"}" href="{esc(pdf)}">PDF</a>' if pdf else "")
-            blocos.append(f'<div class="documento"><div><h3><a href="{esc(html or pdf)}">{esc(t)}</a></h3>'
-                          f'<p>{esc(desc)}</p></div><div class="acoes">{botoes}</div></div>')
+        for slug, t, desc, pdf in d.docs:
+            blocos.append(f'<div class="documento"><div><h3><a href="{esc(pdf)}">{esc(t)}</a></h3>'
+                          f'<p>{esc(desc)}</p></div><div class="acoes"><a class="etiqueta principal" href="{esc(pdf)}">Abrir</a></div></div>')
         sec("resumo", "Resumo", '<div class="documentos">' + "".join(blocos) + "</div>",
             f' <span class="mono">{esc(d.atualizado)}</span>' if d.atualizado else "")
 
@@ -389,7 +412,8 @@ def pagina_disciplina(d: Disciplina, titulos, solucoes: bool) -> str:
   </section>
   <nav class="seccoes">{"".join(nav)}</nav>
   {"".join(seccoes)}
-  <script src="../assets/seccoes.js" defer></script>"""
+  <script src="../assets/seccoes.js" defer></script>
+  <script type="module" src="../assets/pessoal.js"></script>"""
     return pagina(d.nome, corpo, "../", "disciplinas", d.cor, descricao=f"Resumos, slides, fichas e soluções de {d.nome}.")
 
 
@@ -417,7 +441,7 @@ def novidades(publicados_por_disciplina, disciplinas):
             d = nomes[partes[0]]
             if partes[1] == ".fonte" and partes[-1].startswith("RESUMO_"):
                 chave, texto = (d.pasta, "res"), "resumo atualizado"
-                href = f"{d.pasta}/resumo.html"
+                href = ver_href("", f"{d.pasta}/RESUMO_{d.pasta}.pdf", d.pasta, "Resumo")
             elif partes[1] == ".fonte" and partes[-1].startswith("SOLUCOES_"):
                 chave, texto, href = (d.pasta, "sol"), "novas soluções", f"solucoes/#{d.pasta}"
             elif partes[1] == "Teoricas" and linha in publicados_por_disciplina:
@@ -463,11 +487,32 @@ def pagina_inicio(disciplinas, nov, n_quizzes) -> str:
         f'<li{f" data-cor={c}" if c is not None else ""}><span class="quando">{data_curta(q)}</span>'
         f'<a href="{esc(h)}"><b>{esc(r)}</b> · {esc(t)}</a></li>'
         for q, r, t, h, c in nov) or '<li><span class="quando">—</span><span class="suave">Nada nas últimas três semanas.</span></li>'
+    cores = json.dumps({d.pasta: d.cor for d in disciplinas})
     corpo = f"""
-  <section class="capa">
-    <p class="sobre">Licenciatura em Ciência de Computadores · 1.º semestre 2026/27</p>
-    <h1>Resumos, fichas e quizzes <em>num só sítio.</em></h1>
-    <p class="lead">Um resumo por disciplina, atualizado todas as semanas com as teóricas novas, os slides e as fichas das práticas, as soluções resolvidas alínea a alínea e quizzes para os testes.</p>
+  <section class="cabecalho inicio">
+    <p class="migalhas">1.º semestre 2026/27 · Ciência de Computadores</p>
+    <h1>Bom estudo, Gonçalo.</h1>
+  </section>
+
+  <section id="painel" data-cores='{esc(cores)}'>
+    <form class="desbloquear so-bloqueado" id="desbloquear" autocomplete="on">
+      <input type="text" name="username" value="painel" autocomplete="username" hidden>
+      <label for="pp">Painel pessoal (agenda, a fazer, avisos)</label>
+      <input id="pp" type="password" autocomplete="current-password" placeholder="palavra-passe" required>
+      <button type="submit">Abrir</button>
+      <p class="erro" id="pp-erro" hidden></p>
+    </form>
+    <div class="painel-grelha so-desbloqueado">
+      <section class="bloco"><h2>Próximos 14 dias <a href="agenda.html">agenda completa →</a></h2><ol id="p-agenda"></ol></section>
+      <section class="bloco"><h2>A fazer</h2>
+        <div class="rolar"><ul id="p-tarefas"></ul>
+          <details hidden><summary>Feitas</summary><ul id="p-feitas"></ul></details></div>
+        <form class="nova-tarefa" id="p-nova"><input type="text" placeholder="+ tarefa tua" aria-label="Nova tarefa">
+          <input type="date" aria-label="Prazo"><button type="submit">Juntar</button></form></section>
+      <section class="bloco"><h2>Chegou esta semana</h2><ul id="p-chegou"></ul></section>
+      <section class="bloco"><h2>Avisos recentes <span class="mono" id="p-gerado"></span>
+        <a href="#" id="bloquear">bloquear</a></h2><ul id="p-avisos"></ul></section>
+    </div>
   </section>
 
   <h2 class="rotulo">Disciplinas</h2>
@@ -478,16 +523,48 @@ def pagina_inicio(disciplinas, nov, n_quizzes) -> str:
   <section class="faixa">
     <div>
       <h2>Quizrama</h2>
-      <p>Perguntas ao estilo do teste, com a correção de cada opção e ligação para a secção da teoria.</p>
+      <p>Perguntas ao estilo do teste, com a correção de cada opção e ligação para a teoria.</p>
       <a class="etiqueta principal" href="quizrama/">Abrir o Quizrama <span class="mono">{n_quizzes} quizzes</span></a>
     </div>
     <div>
-      <h2 class="rotulo" style="margin-top:0">Novidades</h2>
+      <h2 class="rotulo" style="margin-top:0">Atualizações do site</h2>
       <ul class="novidades">{nov_html}</ul>
     </div>
-  </section>"""
-    return pagina("FCUP · 3.º ano", corpo, "", "disciplinas",
-                  descricao="Resumos, slides, fichas, soluções e quizzes das disciplinas do 3.º ano de Ciência de Computadores (FCUP).")
+  </section>
+  <script type="module" src="assets/pessoal.js"></script>"""
+    return pagina("FCUP · 3.º ano", corpo, "", "disciplinas", larga=True)
+
+
+def pagina_agenda() -> str:
+    corpo = """
+  <section class="cabecalho inicio">
+    <p class="migalhas"><a href="index.html">Início</a> / Agenda</p>
+    <h1>Agenda</h1>
+    <p class="meta mono"><span>Testes, entregas e sessões de todas as disciplinas</span></p>
+  </section>
+  <p class="so-bloqueado suave">A agenda é pessoal: abre o painel na <a href="index.html">página inicial</a> com a palavra-passe.</p>
+  <div id="agenda-pagina"></div>
+  <script type="module" src="assets/pessoal.js"></script>"""
+    return pagina("Agenda — FCUP · 3.º ano", corpo, "", "agenda")
+
+
+def pagina_estudo() -> str:
+    corpo = """
+  <div class="estudo-topo">
+    <a id="estudo-voltar" href="index.html">Início</a> <span class="suave">/</span> <b id="estudo-titulo">A abrir…</b>
+    <button type="button" class="botao" id="estudo-ficha" hidden>← Voltar à ficha</button>
+    <div class="modos" id="estudo-modos" role="group" aria-label="O que mostrar" hidden>
+      <button type="button" data-modo="pdf" aria-pressed="true">PDF</button>
+      <button type="button" data-modo="lado" aria-pressed="false">Lado a lado</button>
+      <button type="button" data-modo="sol" aria-pressed="false">Soluções</button>
+    </div>
+  </div>
+  <div class="estudo" data-modo="pdf">
+    <iframe id="estudo-esq" title="PDF"></iframe>
+    <iframe id="estudo-dir" title="Soluções"></iframe>
+  </div>
+  <script src="assets/estudo.js" defer></script>"""
+    return pagina("Estudo — FCUP · 3.º ano", corpo, "", "disciplinas", larga=True)
 
 
 def pagina_quizrama(disciplinas) -> str:
@@ -524,10 +601,40 @@ BARRA_SITE = """<style>
 <header class="site-topo"><div><a class="marca" href="{raiz}index.html">FCUP · 3.º ano</a><nav>{nav}</nav></div></header>"""
 
 
+EMBUTIDO_SOL = """<style>
+html.embutido .site-topo, html.embutido .separadores, html.embutido #indice, html.embutido .indice-movel,
+html.embutido #abrir-indice, html.embutido aside.lado > h1, html.embutido aside.lado > p,
+html.embutido section.disciplina > header.capa .sub { display: none !important; }
+html.embutido .mesa { display: block !important; }
+</style>
+<script>
+(function () {  // dentro do estudo.html: só as soluções da ficha; "lê a teoria" troca o PDF ao lado
+  var q = new URLSearchParams(location.search);
+  if (!q.has("embed")) return;
+  document.documentElement.classList.add("embutido");
+  var so = q.get("so") || "";
+  document.addEventListener("DOMContentLoaded", function () {
+    if (so.indexOf("-") < so.length - 1) {
+      [].forEach.call(document.querySelectorAll("section.level3"), function (s) {
+        var tem = [].some.call(s.querySelectorAll("details.sol"), function (x) { return x.id.indexOf(so) === 0; });
+        if (!tem) s.hidden = true;
+      });
+      [].forEach.call(document.querySelectorAll("section.level2"), function (s) {
+        if (!s.querySelector("section.level3:not([hidden])")) s.hidden = true;
+      });
+    }
+  });
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest(".teoria-link a");
+    if (a && window.parent !== window) { e.preventDefault(); window.parent.postMessage({ teoria: a.href }, location.origin); }
+  });
+})();
+</script>"""
+
+
 def com_barra(texto: str, raiz: str, ativo: str) -> str:
     nav = "".join(f'<a href="{raiz}{h}"{" aria-current=\"page\"" if k == ativo else ""}>{t}</a>'
-                  for k, h, t in (("disciplinas", "index.html", "Disciplinas"),
-                                  ("solucoes", "solucoes/", "Soluções"), ("quizrama", "quizrama/", "Quizrama")))
+                  for k, h, t in ((k, h or "index.html", t) for k, h, t in NAV))
     barra = BARRA_SITE.format(raiz=raiz, nav=nav)
     return re.sub(r"(<body[^>]*>)", lambda m: m.group(1) + barra, texto, count=1)
 
@@ -554,34 +661,45 @@ def palavras(t: str) -> set:
     return {w for w in re.findall(r"[a-z0-9]{3,}", t) if w not in VAZIAS}
 
 
+ANCORAS = defaultdict(dict)  # disciplina -> {id pandoc do título: (href, título)}
+
+
 def mapa_teoria(saida: Path, disciplinas) -> dict:
-    """id da alínea nas soluções -> (href, título) da secção do resumo onde está a caixa Pratica agora."""
+    """id do exercício nas soluções (ex. Redes-F2.2) -> (href, título): a secção do resumo com o
+    Pratica agora desse exercício, aberta no PDF na página certa."""
     mapa = {}
     for d in disciplinas:
-        f = saida / d.pasta / "resumo.html"
-        if not f.exists():
+        pdf = d.dir / f"RESUMO_{d.pasta}.pdf"
+        if not pdf.exists():
             continue
-        pilha = []  # (nível, id, título)
-        for m in re.finditer(r'<section id="([^"]+)" class="level(\d)">\s*<h\d[^>]*>(.*?)</h\d>|</section>|'
-                             r'solucoes/#([^"]+)"', f.read_text(), re.S):
-            if m.group(1):
-                titulo = html.unescape(re.sub(r"<[^>]+>", "", re.sub(r'<span class="aula-n">.*?</span>', "", m.group(3))))
-                pilha.append((int(m.group(2)), m.group(1), " ".join(titulo.split())))
-                if int(m.group(2)) >= 2:
-                    SECCOES[d.pasta].append((f"../{d.pasta}/resumo.html#{quote(m.group(1))}", pilha[-1][2]))
-            elif m.group(0) == "</section>":
-                if pilha:
-                    pilha.pop()
-            elif pilha and m.group(4) not in mapa:
-                nivel, sec, titulo = next((x for x in reversed(pilha) if x[0] >= 2), pilha[-1])
-                mapa[m.group(4)] = (f"../{d.pasta}/resumo.html#{quote(sec)}", titulo)
-        # texto de cada secção, para a escolha múltipla
-        texto = f.read_text()
-        cortes = [(m.start(), m.group(1)) for m in re.finditer(r'<section id="([^"]+)" class="level[23]">', texto)]
-        for i, (ini, sec) in enumerate(cortes):
-            fim = cortes[i + 1][0] if i + 1 < len(cortes) else len(texto)
-            corpo = re.sub(r"<annotation.*?</annotation>|<[^>]+>", " ", texto[ini:fim], flags=re.S)
-            TEXTO_SEC[f"../{d.pasta}/resumo.html#{quote(sec)}"] = palavras(html.unescape(corpo))
+        pags = paginas_pdf(pdf)
+        secs = seccoes_resumo(d)
+        # o índice repete os títulos: começa a procurar depois dele
+        principais = [normaliza(t)[:40] for n, t, *_ in secs if n <= 2]
+        grupos, caixa = grupos_solucoes(d), 0
+        indice = [k for k, pg in enumerate(pags[:10]) if sum(1 for t in principais if t and t in pg) >= 3]
+        k = indice[-1] + 1 if indice else 0
+        base = ver_href("../", f"{d.pasta}/RESUMO_{d.pasta}.pdf", d.pasta, f"Resumo — {d.nome}")
+        atual = None
+        for nivel, titulo, corpo, etqs, n_caixas in secs:
+            limpo = re.sub(r"^(Aulas?|Tema) [\d–-]+ — ", "", titulo)
+            alvo = normaliza(limpo)[:40]
+            achada = next((x for x in range(k, len(pags)) if alvo and alvo in pags[x]), None)
+            if achada is not None:
+                k = achada
+            href = f"{base}#p{k + 1}"
+            mostra = " ".join(re.sub(r"[*`\\]|\$", "", limpo).split()) + f" (p. {k + 1})"
+            ANCORAS[d.pasta].setdefault(ident_pandoc(titulo), (href, mostra))
+            if nivel >= 2:
+                SECCOES[d.pasta].append((href, mostra))
+                TEXTO_SEC[href] = TEXTO_SEC.get(href, set()) | palavras(corpo)
+                atual = (href, mostra)
+            for _ in range(n_caixas):  # cada alínea da caixa -> esta secção
+                for id_ in (grupos[caixa] if caixa < len(grupos) else []):
+                    mapa.setdefault(id_, atual or (href, mostra))
+                caixa += 1
+            for e in etqs:
+                mapa.setdefault(f"{d.pasta}-{e}", atual or (href, mostra))
     return mapa
 
 
@@ -591,7 +709,9 @@ def teoria_do_quiz(disciplina: str) -> dict:
     r = {}
     for f in sorted(pasta.glob("*.js")) if pasta.exists() else []:
         for m in re.finditer(r'\["[^"]*", "([^"]+)", .*?href=\\"[^"#]*#([^\\"]+)\\"[^>]*>(?:📖 )?([^<]*)<', f.read_text()):
-            r[m.group(1)] = (f"../{disciplina}/resumo.html#{quote(m.group(2))}", " ".join(m.group(3).replace("\\n", " ").split()))
+            alvo = ANCORAS[disciplina].get(unquote(m.group(2)))
+            if alvo:
+                r[m.group(1)] = alvo
     return r
 
 
@@ -669,7 +789,7 @@ def verificar_ligacoes(saida: Path) -> list:
             if not alvo.exists():
                 partidas.append(f"{p.relative_to(saida)} -> {ref}")
                 continue
-            if alvo.name == "ver.html":
+            if alvo.name in ("ver.html", "estudo.html"):
                 f = parse_qs(u.query).get("f", [""])[0]
                 if not (saida / f).is_file():
                     partidas.append(f"{p.relative_to(saida)} -> ver.html?f={f}")
@@ -698,8 +818,13 @@ def main():
     # estilos e scripts
     css = (SITE / "design" / "tokens.css").read_text() + "\n" + (SITE / "design" / "site.css").read_text()
     (saida / "assets" / "site.css").write_text(css)
-    for f in ("doc.css", "doc.js", "seccoes.js", "ver.js"):
+    for f in ("seccoes.js", "ver.js", "pessoal.js", "estudo.js"):
         shutil.copy(SITE / "design" / f, saida / "assets" / f)
+    if (SITE / "pessoal.enc").exists():
+        shutil.copy(SITE / "pessoal.enc", saida / "assets" / "pessoal.enc")
+    global FICHAS, SOL_DE
+    FICHAS = {k: v for k, v in json.loads((SITE / "fichas.json").read_text()).items() if not k.startswith("_")}
+    SOL_DE = {p.parent.parent.name for p in ROOT.glob("*/.fonte/SOLUCOES_*.md")}
 
     disciplinas = descobrir()
     nomes = {d.pasta: d for d in disciplinas}
@@ -722,7 +847,8 @@ def main():
     for d in disciplinas:
         d.teoricas.sort(key=lambda c: (numero_aula(c) == "—", numero_aula(c), c))
 
-    # documentos de cada disciplina
+    # documentos de cada disciplina (só PDF; o INFO é pessoal e vai cifrado)
+    rastreados = set(git("ls-files").splitlines())
     for d in disciplinas:
         (saida / d.pasta).mkdir(exist_ok=True)
         fontes = sorted((d.dir / ".fonte").glob("*.md"))
@@ -730,7 +856,7 @@ def main():
         fontes.sort(key=lambda p: (ordem.get(p.stem.split("_")[0], 2), p.stem))
         for md in fontes:
             base = md.stem.split("_")[0]
-            if base in ("SOLUCOES", "CONTEXTO"):
+            if base in ("SOLUCOES", "CONTEXTO", "INFO"):
                 continue
             if base in DOCS_NOMES:
                 slug = base.lower()
@@ -741,25 +867,21 @@ def main():
                 titulo = re.sub(r"^title:\s*", "", primeiro.group(1)) if primeiro else md.stem.title()
                 titulo = re.sub(r"\s*---.*$", "", titulo)
                 desc = "Documento da disciplina."
-            pdf, pdf_href = f"{d.pasta}/{md.stem}.pdf", ""
-            if (ROOT / pdf).exists():
+            pdf = f"{d.pasta}/{md.stem}.pdf"
+            if (ROOT / pdf).exists() and pdf in rastreados:
                 destino = saida / "ficheiros" / pdf
                 destino.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(ROOT / pdf, destino)
-                pdf_href = ver_href("../", pdf, d.pasta, titulo)
-            corpo = None if md.stem in SO_PDF else doc_html(md, d, slug, titulo, saida)
-            if corpo is not None:
-                (saida / d.pasta / f"{slug}.html").write_text(pagina_documento(d, slug, titulo, corpo, pdf_href))
-            if corpo is not None or pdf_href:
-                d.docs.append((slug, titulo, desc, f"{slug}.html" if corpo is not None else "", pdf_href))
+                d.docs.append((slug, titulo, desc, ver_href("../", pdf, d.pasta, titulo)))
 
     # soluções (o mesmo site, já escuro), com a volta para o início
     tem_sol = (ROOT / "SOLUCOES.html").exists()
     if tem_sol:
         (saida / "solucoes").mkdir()
         sol_html, n_teoria = com_teoria((ROOT / "SOLUCOES.html").read_text(), mapa_teoria(saida, disciplinas))
+        sol_html = sol_html.replace("</head>", EMBUTIDO_SOL + "\n</head>", 1)
         (saida / "solucoes" / "index.html").write_text(com_barra(sol_html, "../", "solucoes"))
-    sol_de = {p.parent.parent.name for p in ROOT.glob("*/.fonte/SOLUCOES_*.md")}
+    sol_de = SOL_DE
 
     # Quizrama
     q = ROOT / "Quizrama"
@@ -779,6 +901,8 @@ def main():
     for d in disciplinas:
         (saida / d.pasta / "index.html").write_text(pagina_disciplina(d, TITULOS, d.pasta in sol_de))
     (saida / "ver.html").write_text(pagina_ver())
+    (saida / "estudo.html").write_text(pagina_estudo())
+    (saida / "agenda.html").write_text(pagina_agenda())
     nov = novidades(set(publicados), disciplinas)
     n_quizzes = sum(len(v) for v in QUIZZES.values()) + len(QUIZRAMA_EXTRA)
     (saida / "index.html").write_text(pagina_inicio(disciplinas, nov, n_quizzes))

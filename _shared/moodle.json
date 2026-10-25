@@ -1,0 +1,27 @@
+{
+  "_comentario": "UCs do Moodle (moodle2627.up.pt) seguidas pela skill moodle-refresh. 'outras': disciplinas sem Moodle cujas datas entram na AGENDA; 'datas' = documento .fonte/<nome>.md com a secção '## Datas' (por omissão INFO_<D>).",
+  "cursos": [
+    {
+      "id": 6009,
+      "disciplina": "Compiladores"
+    },
+    {
+      "id": 5968,
+      "disciplina": "IPM"
+    },
+    {
+      "id": 6631,
+      "disciplina": "Logica"
+    },
+    {
+      "id": 6243,
+      "disciplina": "Redes"
+    }
+  ],
+  "outras": [
+    {
+      "disciplina": "TecnologiasWeb",
+      "datas": "CALENDARIO"
+    }
+  ]
+}

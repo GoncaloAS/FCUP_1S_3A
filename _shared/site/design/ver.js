@@ -2,9 +2,11 @@
 // PDF -> páginas desenhadas com PDF.js (só as que estão perto do ecrã);
 // código/texto -> <pre> com números de linha; o resto -> descarregar.
 const PDFJS = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/";
+const PDFJS_DADOS = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/";  // fontes padrão e CMaps (o cdnjs não os serve)
 const TEXTO = /\.(c|h|l|y|x|hs|java|py|txt|flex|bison|js|css|html|mdown|sh|json|xml|csv)$|(^|\/)(Makefile|README)$/i;
 
 const q = new URLSearchParams(location.search);
+if (q.has("embed")) document.documentElement.classList.add("embutido");  // dentro do estudo.html
 const f = q.get("f") || "";
 const disciplina = q.get("d") || "";
 const titulo = q.get("t") || f.split("/").pop();
@@ -80,7 +82,12 @@ async function pdf() {
   lib.GlobalWorkerOptions.workerSrc = PDFJS + "pdf.worker.min.mjs";
   let doc;
   try {
-    doc = await lib.getDocument(f).promise;
+    doc = await lib.getDocument({
+      url: f,
+      // fontes não embebidas (Helvetica das fichas feitas com ReportLab) e CMaps
+      standardFontDataUrl: PDFJS_DADOS + "standard_fonts/",
+      cMapUrl: PDFJS_DADOS + "cmaps/", cMapPacked: true,
+    }).promise;
   } catch (e) {
     return erro("Não consegui abrir este PDF. Usa o botão Descarregar.");
   }
