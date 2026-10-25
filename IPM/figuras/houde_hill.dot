@@ -1,0 +1,10 @@
+graph houde_hill {
+  node [shape=box, style="rounded,filled", fillcolor="#e8eef7", color="#1f3864", fontname="Helvetica", fontsize=14, margin="0.06,0.03"];
+  edge [color="#1f3864"];
+  R [label="Papel (role)\no que faz", pos="150,170!"];
+  L [label="Aspeto\no que se vê", pos="30,20!"];
+  I [label="Implementação\ncomo funciona", pos="270,20!"];
+  G [label="Integração\nos três", fillcolor="#fff2cc", pos="150,85!"];
+  R -- L; L -- I; I -- R;
+  G -- R [style=dashed]; G -- L [style=dashed]; G -- I [style=dashed];
+}

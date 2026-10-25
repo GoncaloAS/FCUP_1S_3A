@@ -1,10 +1,10 @@
 ---
 title: "Interação Pessoa-Máquina (IPM) --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 6 (Aulas 1--6, Módulos 01--06, enunciado do projeto COL)"
+date: "Atualizado: Semana 7 (Aulas 1--8, Módulos 01--08, enunciado do projeto COL)"
 ---
 
-<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pptx, Teoricas/Aula_04.pdf (tópico Esboçar fundido na Aula 2), Teoricas/Aula_05.pdf (três modelos fundidos na Aula 2, T3), Praticas/Semana_2/Enunciado_Projeto_COL.pdf (projeto, fundido na Aula 1), Praticas/Semana_4/IPM_2627_Handout_04.pdf (S4, tabela semanal da Aula 1), Teoricas/Aula_06.pdf -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pptx, Teoricas/Aula_04.pdf (tópico Esboçar fundido na Aula 2), Teoricas/Aula_05.pdf (três modelos fundidos na Aula 2, T3), Praticas/Semana_2/Enunciado_Projeto_COL.pdf (projeto, fundido na Aula 1), Praticas/Semana_4/IPM_2627_Handout_04.pdf (S4, tabela semanal da Aula 1), Praticas/Semana_1/IPM_2627_Handout_01.pdf, Praticas/Semana_3/IPM_2627_Handout_03.pdf (S1/S3, tabela semanal), Praticas/Semana_5/IPM_2627_Handout_05.pdf (S5, tabela semanal e Fase 1 na Aula 6), Teoricas/Aula_06.pdf, Teoricas/Aula_07.pdf, Teoricas/Aula_08.pdf -->
 
 # Aula 1 --- Enquadramento da disciplina e do projeto
 
@@ -441,7 +441,7 @@ testes) e é entregue com o PR2.
 ::: {.definicao title="--- As três fases do projeto"}
 | Fase | Quando | Artefacto (fidelidade) | Avaliação |
 |:-:|:-----|:-----------|:-----------|
-| 1 | S6, semana de **3 nov** | Esboços (*sketches*), baixa | *Cognitive walkthrough* |
+| 1 | S5, semana de **20 out** (o enunciado dizia S6, 3 nov; fez-se antes, Handout 05) | Esboços (*sketches*), baixa | *Cognitive walkthrough* |
 | 2 | S8, semana de **17 nov** | *Wireframes* no Figma, média | Avaliação heurística |
 | 3 | S9, semana de **24 nov** | Protótipo interativo, média a alta | Testes de usabilidade (na aula + **5 pessoas de fora**, como TPC) |
 
@@ -449,19 +449,19 @@ Depois de cada fase: outros grupos avaliam o artefacto → escrevem
 conclusões → o grupo melhora o artefacto com base nisso.
 :::
 
-As três fases são todas em **novembro** (3, 17 e 24; vale o enunciado,
-que é mais recente do que os slides). Dezembro fica para acabar o
+As Fases 2 e 3 são em **novembro** (17 e 24; vale o enunciado, que é mais
+recente do que os slides); a Fase 1 adiantou-se para a S5 (20 out). Dezembro fica para acabar o
 protótipo, o PR2 (13 dez) e a apresentação (15 dez).
 
 ::: {.definicao title="--- O trabalho semana a semana (aulas práticas)"}
 | Semana | Sessão | O que se faz na aula | O que fica feito |
 |:--|:-:|:--------------------|:------------|
-| 22 set | S1 | Aquecimento: exercícios curtos sobre interfaces e sobre como observar quem as usa | Grupos formados |
+| 22 set | S1 | (Handout 01) Aquecimento: "uma Bimby muito melhor". 2 personas, ≥ 4 fraquezas → funcionalidades (votam-se 4), 2 esboços por membro (papel, 5 min), votam-se os 3 melhores | Esboços e votos no Moodle |
 | 29 set | S2 | Leitura guiada do enunciado; discussão do problema e de quem é o operador; perguntas | Todos percebem o problema e o sistema |
-| 6 out | S3 | Cada membro escolhe **um assunto** do sistema e faz **esboços** de como o mostraria e controlaria num ecrã | Um painel por membro, em esboço; **muitas alternativas, nenhuma escolhida** |
+| 6 out | S3 | (Handout 03) 3 esboços por membro; 3--4 **heurísticas** do grupo (uma pergunta a cada esboço, com escala); cada um pontua os dos outros; **matriz**, ficam as 3 ideias; **4 a 8 painéis** (nome, decisão, sítio) | Matriz, 3 ideias, lista de painéis |
 | 13 out | S4 | (Handout 04) Três esboços novos por membro a partir das 3 ideias da S3; pontuá-los com as heurísticas do grupo (ninguém pontua os seus) e ficar com as 3 melhores; cada membro **refina** uma (etiquetas, unidades, valores de exemplo, estados de cada comando); post-its por elemento, agrupados por função, dão os **primeiros painéis** | Esboços refinados; painéis, cada um com **zona de informação** (o que se lê) e **zona de ação** (o que se opera) |
-| 20 out | S5 | Consolidação: escolher, **com critérios escritos**, entre as alternativas de cada painel e ligar os painéis num todo; **storyboards** de duas missões | Conjunto coerente de esboços + 2 storyboards |
-| 3 nov | S6 | **Fase 1:** cada grupo percorre uma missão, passo a passo, nos esboços de outro grupo e regista onde um operador novo se enganaria | Grelha do walkthrough (evidência); lista de correções |
+| 20 out | S5 | (Handout 05) ***Dashboard*** **em papel** (cada painel no monitor 1, 2 ou parede; a parede só informa); **três missões** de ≥ 4 passos; **Fase 1** (Aula 6) | *Dashboard*, missões, tabelas do *walkthrough* |
+| 3 nov | S6 | Trazer tudo o da S5 (folhas do *dashboard*, missões, tabelas do *walkthrough*, notas dos observadores) | Correções da Fase 1 |
 | 10 nov | S7 | Básico de **Figma**; início dos **wireframes** (os esboços corrigidos passam a ecrãs desenhados com precisão, nos 2 monitores e na parede) | Primeiros wireframes no Figma |
 | 17 nov | S8 | **Fase 2:** cada grupo examina os wireframes de outro contra uma lista de princípios e classifica a **severidade** de cada problema | Problemas com severidade (evidência); plano de correção |
 | 24 nov | S9 | **Fase 3:** membros de outro grupo tentam cumprir missões no protótipo, **sem ajuda**, medindo tempo e erros; TPC: repetir com 5 pessoas de fora | Protocolo e resultados (evidência) |
@@ -1527,16 +1527,15 @@ artefacto usado passa de muitos esboços a um sistema que funciona:
 late design).*
 
 **No projeto COL†**, o calendário (Aula 1) segue esta tabela quase à
-letra: S3/S5 = muitos esboços e variações; Fase 1 (S6) = *cognitive
+letra: S3/S5 = muitos esboços e variações; Fase 1 (S5) = *cognitive
 walkthrough* sobre **esboços**; S7 = *wireframes*; Fase 3 (S9) = testes de
 usabilidade sobre o **protótipo interativo**. A única diferença é a
 **avaliação heurística** (Fase 2, S8): a tabela põe-na sobre protótipos de
 alta fidelidade, o COL sobre ***wireframes*** (média fidelidade). No
 projeto, vale o enunciado.
 
-**Fidelidade†:** quão parecido o artefacto é com o sistema final, no
-aspeto e no comportamento. Baixa: papel, sem cores, sem interação real.
-Alta: parece e comporta-se quase como o produto.
+A **fidelidade** (quão parecido com o produto final) e a escolha do
+protótipo estão na Aula 8.
 
 ### Um esboço vs. uma maqueta gerada por IA
 
@@ -3032,7 +3031,7 @@ problema fica mais caro de fase para fase**:
 
 | Fase | Método | Sessão | Corrigir um problema custa |
 |:-:|:------------------|:-----------|:------------------|
-| 1 | *Cognitive walkthrough* sobre os **esboços** | S6 (esta aula) | redesenhar: minutos |
+| 1 | *Cognitive walkthrough* sobre os **esboços** | S5 | redesenhar: minutos |
 | 2 | Avaliação heurística sobre os ***wireframes*** | S8 (Módulo 10) | uma hora no Figma |
 | 3 | Testes de usabilidade sobre o **protótipo** | S9, com 5 pessoas de fora (Módulo 11) | um dia |
 
@@ -3227,12 +3226,27 @@ deixa de avaliar.
 
 ## A Fase 1 do projeto
 
-| Antes (o grupo que desenhou prepara) | Durante (S6, novembro) | Depois (o que se entrega) |
+| Antes (o grupo que desenhou prepara) | Durante (S5, outubro) | Depois (o que se entrega) |
 |:----------------------|:----------------------|:----------------------|
 | A **persona**: quem é o operador e o que já sabe | O grupo A percorre os esboços do grupo B durante cerca de **15 minutos**, depois trocam | As **três tabelas** preenchidas e **meia página com os três piores problemas**, dadas ao grupo que desenhou **no mesmo dia** |
 | **Três missões** do enunciado: uma de **rotina**, uma de **alarme**, uma com o **coordenador** | Facilitador e registador do grupo que desenhou; 2 ou 3 avaliadores do outro | O grupo que desenhou decide o que muda antes dos *wireframes* da S7 |
 | A **sequência correta** de cada missão, **5 a 10 passos**, escrita (é aqui que aparecem os ecrãs em falta) | As quatro perguntas em todos os passos; 3 minutos por passo; regras de Spencer | Guardam-se as duas coisas: as tabelas que escreveram para o outro grupo e a lista do que mudaram nos vossos esboços (evidência do R1, item 7) |
 | Os esboços de **todos** os ecrãs, pela ordem da sequência, e **uma tabela em branco por missão** | Ideias em post-its, discutidas só no fim | |
+
+**Como se fez na S5 (Handout 05).** A Fase 1 correu na S5 (20 e 23 de
+outubro), sobre o ***dashboard*** **em papel**, com uma variante: em vez
+de um grupo inteiro avaliar outro, cada grupo recebe **três avaliadores
+de três grupos diferentes, um de cada vez** (três rondas de 15 min). O
+avaliador toma o lugar do operador e responde às quatro perguntas em voz
+alta, com a razão de cada "não"; do grupo, um **facilitador** lê cada
+passo e só diz o que um elemento mostra ou faz, um **registador**
+preenche as tabelas, os outros **observam** onde o avaliador hesita ou
+aponta (trocam de papel entre rondas). Uma tabela por **missão e por
+avaliador** (nome e grupo em cima; colunas Q1--Q4 e Problema), nove ao
+todo. Missões: rotina, uma que começa num alarme e uma livre, de pelo
+menos 4 passos. No fim, para cada missão, os passos com pelo menos um
+"não": a pergunta, o problema nas palavras do avaliador e **quantos dos
+três o encontraram**; depois, quantos problemas apanhou cada pergunta.
 
 **Ligação à Fase 2.** A avaliação heurística (Módulo 10) olha para os
 mesmos ecrãs com outra pergunta: o *walkthrough* pergunta "esta persona
@@ -3255,4 +3269,694 @@ o facilitador e o registador?
 **(c)** Se um avaliador encontra cerca de um terço dos problemas,
 quantos encontram três avaliadores? Supõe† que cada um encontra cada
 problema com probabilidade 1/3, independentemente dos outros.
+:::
+
+# Aula 7 --- Representação visual de dados
+
+## Um gráfico faz uma tarefa
+
+Um gráfico serve para responder a **uma pergunta do operador**. A regra do
+módulo: **primeiro nomeia-se a tarefa**, depois os dados, só no fim a
+imagem. Escolhe-se a imagem que transforma essa tarefa num **relance**
+em vez de um cálculo.
+
+**Os mesmos dados, três representações, três perguntas.** Com os caudais
+das estações às 14:00 e às 22:00 (Alto Lindoso, Touvedo, Ponte da Barca,
+Ponte de Lima, Viana):
+
+| Representação | Pergunta a que responde |
+|:--|:----------------------|
+| **Tabela** | Que valor está fora do normal? (o valor exato) |
+| **Mapa** (esquema do rio) | Onde, e por que ordem? (o sítio) |
+| **Gráfico** de linhas | Quando chega a onda? (o tempo) |
+
+O operador precisa das três **à vista ao mesmo tempo**, e **ligadas**:
+selecionar uma estação no mapa realça-a na tabela e no gráfico.
+
+**As seis tarefas** e a imagem de cada uma:
+
+![](figuras/grafico_tarefa.pdf){width=70%}
+
+*Cada tarefa, com uma pergunta do COL, e o gráfico que a responde num relance.*
+
+**Minard (1869)**, a campanha da Rússia de Napoleão (1812), mostra o que
+um só gráfico consegue: **seis variáveis** numa folha, sem legenda
+(tamanho do exército pela largura da faixa, 422 000 → 100 000 em Moscovo
+→ 10 000 de volta; posição no mapa, em latitude e longitude; direção, ida ou
+volta; tempo; temperatura no regresso). A largura compara, a temperatura
+sugere a causa. Playfair tinha inventado as barras e as linhas (1786) e a
+tarte (1801). **Snow (1854)**, a cólera no Soho: cada morte num mapa, com
+as bombas de água; as mortes agrupam-se à volta da bomba de Broad
+Street. Duas variáveis no mesmo espaço mostram uma relação que a lista de
+moradas escondia. No COL, as leituras sobre o esquema do rio mostram a
+onda a descer; numa lista, não.
+
+**O mantra de Shneiderman (1996)**, com a regra do COL (sem menus, tudo o
+que uma decisão precisa à vista):
+
+| Passo | No COL |
+|:--|:----------------------------|
+| **Visão geral primeiro** (*overview first*) | A **parede de 12 ecrãs**: o rio inteiro num relance, todas as estações, todos os alarmes, a maré |
+| **Zoom e filtro** | Os **dois ecrãs do operador**: uma barragem, um troço, uma janela de tempo escolhida por ele; o resto continua visível na parede |
+| **Detalhes, sempre à vista** (*details on demand*) | Cada número com o seu detalhe (valor exato, série, última ordem e quem a deu) no ecrã que tem o painel. **Nada espera atrás de um clique** |
+
+As outras quatro tarefas do utilizador, segundo Shneiderman:
+**relacionar** (mostrar a ligação entre dois itens, daí as três
+representações ligadas), **histórico** (desfazer, rever o que se passou na
+noite da cheia), **extrair** (tirar uma série para um relatório).
+
+**Sete tipos de dados** (Shneiderman, 1996; Keim, 2002). O tipo decide que
+gráficos fazem sentido:
+
+| Tipo | O que é | No COL |
+|:-------|:--------|:----------------|
+| 1D | sequências e texto | o registo das ordens, por ordem temporal |
+| 2D | mapas e plantas | o rio de Alto Lindoso ao mar |
+| 3D | objetos no espaço | o corte da barragem com as comportas |
+| Temporal | séries no tempo | o caudal de cada estação, hora a hora |
+| Multidimensional | tabelas com muitos atributos | cada comporta: abertura, caudal, estado, última ordem |
+| Árvore | hierarquias | categorias e subcategorias de alarmes |
+| Rede | nós e ligações | quem é avisado quando muda uma descarga (operador, coordenador, guardas da barragem, proteção civil) |
+
+::: {.pratica title="--- Nomear a tarefa"}
+**Exercício P.12** (perguntas do Módulo 07). Técnica: nomear a tarefa
+antes do gráfico; mantra de Shneiderman.
+
+**(a)** O operador quer saber **quando** Ponte de Lima vai sentir a
+subida de Touvedo das 14:00. Tabela, mapa ou gráfico? E se a pergunta for
+"que estação está acima do limiar **agora**?"
+
+**(b)** Para cada pergunta, diz a tarefa e o gráfico: **(1)** "a
+descarga desta semana foi maior do que a da semana passada, dia a dia?";
+**(2)** "em que troço está a onda?"; **(3)** "quanto do caudal em Viana
+é maré?". Inventa uma sétima pergunta do operador e diz qual das seis
+tarefas é.
+
+**(c)** O que tem de estar na **parede** e nunca só nos ecrãs do
+operador? Porquê?
+:::
+
+## O catálogo
+
+Uma tarefa, um gráfico, com as suas regras e as suas armadilhas. A base de
+tudo: **Cleveland e McGill (1984)** mediram a precisão com que se leem as
+codificações visuais. **Posição e comprimento** leem-se melhor; **ângulo
+e área** mal; **cor** pior de todas (para "quanto").
+
+### Comparar: barras
+
+- O **eixo começa em zero**: a altura é a quantidade.
+- **Ordenam-se** as barras quando a ordem das categorias não tem
+  significado; os **dias ficam por ordem cronológica**.
+- **Barras horizontais** quando as etiquetas são compridas.
+- **Uma cor**; outra cor só para a barra que importa.
+
+No COL: as descargas da semana por barragem, uma barra por dia, com o
+**limiar de alarme como linha** a atravessar o gráfico. Os mesmos números
+numa tarte seriam piores: o ângulo lê-se pior do que o comprimento.
+
+### Parte de um todo: tarte, *doughnut* ou barras
+
+De onde vem a água em Ponte de Lima num dia de chuva: Touvedo 120, Vez 45,
+Vade 12, Estorãos 8, outros 15 (m³/s). Perguntas como "o Vez é mais ou
+menos de um quarto?" ou "qual é maior, Vade ou Estorãos?" respondem-se mal
+na tarte e bem nas barras.
+
+- **Tarte**: só com **até cinco fatias, uma dominante**, e a pergunta
+  "mais ou menos de metade?".
+- **Barra empilhada a 100 %**: compara **composições** entre dias ou
+  estações. Uma tarte **nunca** compara duas composições.
+
+### Tendência: linhas
+
+- **Tempo no eixo horizontal**, sempre.
+- Uma linha liga **medições de uma grandeza**. Nunca se ligam
+  **categorias** com uma linha.
+- **Sem suavizar**: uma curva suave inventa valores entre leituras.
+- **Os eventos marcam-se no próprio gráfico** (a ordem das 14:00).
+- **Proporção** (*aspect ratio*): as inclinações perto de **45°** leem-se
+  melhor (Tufte, 1983; Cleveland, 1993). Largo demais achata, alto demais
+  exagera.
+
+No COL: o gráfico de jusante da Aula 5 (série, linha do alvo, ordem
+marcada, hora prevista para chegar ao alvo).
+
+### *Sparklines*
+
+Gráficos **do tamanho de uma palavra** (Tufte, 2006): tendência recente,
+valor atual, nome e valores fora da norma, em espaço mínimo, dentro de
+uma linha de texto ou de uma linha de tabela. Na parede: uma linha por
+estação (nome, *sparkline* das últimas 24 h, valor atual, estado), doze
+linhas por ecrã. O **número** responde a "quanto", a *sparkline* a "para
+onde vai". As *sparklines* só se comparam **com a mesma escala**:
+partilha-se a escala por tipo de estação (por exemplo, as quatro estações
+do rio).
+
+### Composição ao longo do tempo: barras e áreas empilhadas
+
+- Numa **área empilhada**, o **bordo de cima é o total**: bom para
+  "quanto ao todo, e mais ou menos de onde".
+- **Só a camada de baixo tem base fixa**. As outras sobem e descem com o
+  que está por baixo, por isso a tendência de cada uma lê-se mal. Se a
+  pergunta é sobre **um componente** ("o Vez está a subir?"), desenha-se
+  **sozinho, como linha**.
+- **Barras empilhadas por hora**: a mesma lógica, mais fáceis de ler num
+  instante.
+- ***Small multiples*** **com escala comum**: mais fáceis de ler cada
+  componente.
+
+### Distribuição: histograma e *box plot*
+
+- **Histograma**: o eixo horizontal é dividido em intervalos (classes) do
+  valor; a altura é **quantos casos** caem em cada um. Por exemplo, os 365
+  caudais diários de Ponte de Lima em classes de 30 m³/s, e "hoje: 200"
+  marcado.
+- ***Box plot*** (Tukey, 1977): cinco números, **mínimo, primeiro quartil
+  (Q1), mediana, terceiro quartil (Q3), máximo**, e os ***outliers***
+  para lá de **1,5 vezes a caixa**. **Metade dos dias está dentro da
+  caixa.**
+
+**Como se calcula†** (a convenção mais usada nas aulas de estatística;
+há outras, que dão valores um pouco diferentes):
+
+1. Ordenar os valores.
+2. **Mediana**: o valor do meio (ou a média dos dois do meio).
+3. **Q1** = mediana da metade de baixo, **Q3** = mediana da metade de
+   cima (sem a mediana, se o número de valores for ímpar).
+4. **Amplitude interquartil** IQR = Q3 − Q1 (a altura da caixa).
+5. **Barreiras**: Q1 − 1,5·IQR e Q3 + 1,5·IQR. Fora delas, *outlier*
+   (um ponto à parte).
+6. Os "bigodes" vão até ao **menor e ao maior valor dentro das
+   barreiras**.
+
+::: {.exemplo title="--- Um box plot de onze dias"}
+Caudais diários em Ponte de Lima (m³/s), já ordenados:
+60, 75, 80, 90, 95, **100**, 110, 120, 140, 150, 260.
+
+1. São 11 valores: a **mediana** é o 6.º, **100**.
+2. Metade de baixo (os 5 antes da mediana): 60, 75, **80**, 90, 95 →
+   **Q1 = 80**.
+3. Metade de cima (os 5 depois): 110, 120, **140**, 150, 260 →
+   **Q3 = 140**.
+4. **IQR** = 140 − 80 = **60**; 1,5 · 60 = **90**.
+5. Barreiras: 80 − 90 = **−10** e 140 + 90 = **230**.
+6. Abaixo de −10 não há nada: o bigode de baixo vai até **60**. Acima de
+   230 está **260**: é *outlier* (um ponto). O bigode de cima vai até ao
+   maior valor dentro, **150**.
+
+Um dia de **200 m³/s** está acima de Q3 (no quarto mais alto) mas dentro
+da barreira: invulgar, não excecional. Um de 260, sim.
+:::
+
+No COL: a faixa **"normal para este mês"** atrás de um valor atual é um
+*box plot* deitado. O operador vê dentro ou fora do habitual sem tabela.
+
+### Relação: dispersão e bolhas
+
+- **Dispersão** (*scatter plot*): um ponto por registo; cada eixo é uma
+  variável (por exemplo, chuva na bacia do Vez, mm/dia, e caudal em Ponte
+  da Barca no dia seguinte, m³/s).
+- **Bolhas**: um ponto com tamanho, ou seja, **uma terceira variável** (o
+  nível da albufeira). Cada registo leva três propriedades. A área da
+  bolha lê-se mal: o tamanho serve para "grande ou pequeno", nunca para
+  "quanto".
+- **Correlação não é causa.** Aqui há um mecanismo físico; na maior parte
+  das correlações, não.
+
+### Muitas dimensões, hierarquias, redes, espaço e texto
+
+| Gráfico | O que é | Cuidados |
+|:---------|:-------------|:---------------|
+| **Coordenadas paralelas** (Inselberg, 1985) | Um eixo vertical por variável, uma linha por registo (um dia, um eixo por estação) | A **ordem dos eixos** muda o que se vê: no COL, a ordem do rio |
+| ***Heatmap*** | Uma grelha (estação × dia ou hora), cor = valor | A cor lê-se mal para "quanto" e bem para **padrão**: a faixa vermelha a descer e a ir para a direita é a onda. Bom candidato para a parede, com escala divergente e o normal a branco |
+| ***Treemap*** | Retângulos encaixados, área = valor, cor = outra variável | "Quem pesa mais" numa hierarquia com muitos nós; a área lê-se mal para valores exatos |
+| **Nós e ligações** (*node-link*) | Nós e arestas | Antes de tudo, quatro perguntas: o que são os **nós**, as **arestas**, o **tamanho** dos nós, as **cores**? Sem resposta, é decoração |
+| ***Sankey*** | Fluxos com largura proporcional à quantidade | "De onde, para onde, quanto": a água do COL de Alto Lindoso ao mar, com turbinas, descargas e afluentes |
+| **Coroplético** | Regiões coloridas pelo valor | Regiões grandes e vazias dominam a vista, as cidades desaparecem; a **escala de cor decide tudo** (abaixo) |
+| **Nuvem de palavras** | Tamanho = frequência | Sem contexto, sem comparação, sem ordem, e as palavras compridas parecem importantes. Uma **lista ordenada** de frequências diz mais. **Nunca** |
+
+::: {.pratica title="--- Escolher o gráfico"}
+**Exercício P.13** (atividade do Módulo 07 e exemplo inventado). Técnica:
+o catálogo e as suas regras; o *box plot*.
+
+**(a)** O escolhedor. Faz corresponder cada pergunta a um gráfico; dois
+gráficos não servem para nenhuma. Quais, e porquê? Perguntas: **(1)**
+qual das duas barragens largou mais água esta semana? **(2)** quando
+começou a subir o nível em Ponte de Lima depois da ordem das 14:00?
+**(3)** o caudal de hoje é invulgar para outubro? **(4)** a chuva na
+bacia do Vez prevê o caudal de amanhã em Ponte da Barca? **(5)** como
+difere a composição do caudal em Ponte de Lima entre um dia seco e um dia
+de chuva? **(6)** onde está a onda agora, e onde vai estar daqui a três
+horas? Gráficos: barras; linhas com o evento marcado; histograma ou *box
+plot*; dispersão; barras empilhadas a 100 %; esquema do rio com a onda;
+tarte; nuvem de palavras.
+
+**(b)** Com os dados de Ponte de Lima num dia de chuva (Touvedo 120, Vez
+45, Vade 12, Estorãos 8, outros 15 m³/s): o Vez é mais ou menos de um
+quarto? Qual é maior, Vade ou Estorãos? Porque é que a tarte torna isto
+difícil?
+
+**(c)** Faz o *box plot* (cinco números, barreiras, *outliers*) de nove
+dias: 40, 120, 70, 95, 85, 100, 300, 90, 110 m³/s.
+
+**(d)** Numa área empilhada (Touvedo em baixo, Vez no meio, outros em
+cima), consegues dizer se o Vez está a subir às 10:00? Que gráfico
+desenhavas para responder com certeza?
+:::
+
+## Painéis, parede e cor
+
+**Dashboard** (Few, 2006): a informação mais importante para atingir um
+ou mais objetivos, **reunida num só ecrã** para se acompanhar **num
+relance**. Vocabulário do projeto:
+
+- ***dashboard*** = um ecrã;
+- **painel** = **uma pergunta** (uma ou várias métricas);
+- **métrica** = **um número**, com a sua **unidade**, a sua **tendência**
+  e o seu **limiar**.
+
+O exemplo comercial do módulo (Klipfolio) acerta num número e numa
+tendência por painel, e falha em tudo o resto: nove painéis **com o
+mesmo peso**, sobre preto, **sem hierarquia** (não se percebe qual é o
+mais importante), e verde, vermelho e azul **sem um significado único**.
+
+**Um painel para Touvedo**, pela ordem de leitura **número → tendência →
+estado → comando**:
+
+1. O **número grande com a unidade** e a **hora da leitura** (122 m³/s,
+   lido às 14:52).
+2. As **últimas 24 h** em *sparkline*, com o **limiar** desenhado (150).
+3. **Comando e estado separados**: pedido 120, atual 122 (Aula 5).
+4. A **abertura da comporta** contra o seu **máximo físico** (42 % de
+   0--100 %).
+5. **Quem deu a última ordem** e **o que muda a jusante**, com hora
+   (80 → 120 m³/s às 14:00, por M. Costa, confirmada pelo coordenador;
+   onda em Ponte de Lima prevista para as 20:10, nível 1,84 m a subir).
+6. Cores: **azul para dados, âmbar para uma ordem ativa, vermelho só para
+   alarme**. Nada pisca.
+
+**Densidade e *small multiples*** (Tufte, 1983). A maior parte dos
+gráficos **encolhe muito** sem perder legibilidade (*shrink principle*);
+o espaço libertado vai para **mais dados**. A parede é um conjunto de
+*small multiples*: doze ecrãs, **o mesmo painel por estação, a mesma
+escala por tipo de estação** (por exemplo, cinco estações, 0 a 220 m³/s,
+últimas 24 h). O olho compara porque a estrutura se repete; funciona pelo
+2.º princípio de Tufte (variação nos dados, não no desenho; ver abaixo).
+
+### A escala de cor
+
+Os mesmos dados (variação da população por condado, EUA, 2014--2015)
+dão dois mapas muito diferentes (Ingraham, *Washington Post*, 2016):
+
+| Mapa laranja | Mapa azul e vermelho |
+|:--------------------|:--------------------|
+| **Intervalos iguais**: o intervalo (−6,3 % a +28,7 %) cortado em cinco partes iguais. Os dados não se espalham por igual: 3138 dos 3141 condados caem nas duas primeiras. Três cores nunca se usam e o mapa fica em dois tons parecidos | **Quantis** (cada cor com um número parecido de condados) e escala **divergente**: azul para crescimento, vermelho para perda, fronteira clara no zero. Vê-se quem cresce (costas, *Sun Belt*, petróleo do Dakota do Norte) e quem encolhe (Mississípi, Nordeste rural) |
+
+| Escala | Para quê | Exemplos |
+|:--|:----------------|:----------------|
+| **Sequencial** | quantidades, de claro a escuro | caudal, nível, chuva |
+| **Divergente** | há um **ponto médio com significado** (zero, normal, limiar) | vermelho e azul, ou laranja e azul |
+| **Categórica** | classes **sem ordem** | barragem, estação, maré: **poucas cores, bem separadas** |
+
+**Daltonismo:** cerca de **8 % dos homens e 0,5 % das mulheres** não
+separam bem o vermelho do verde. Usa-se azul e laranja, ou dá-se ao
+vermelho um **segundo sinal** (forma, posição, texto). No COL: **uma cor,
+um significado**, em todos os painéis (Módulo 09), e o **vermelho
+reservado para alarme**.
+
+### Regras para os painéis e a parede do COL
+
+| # | Regra | Porquê |
+|:-:|:----------------|:--------------------------|
+| 1 | **Um painel, uma pergunta** | Se responde a duas, são dois painéis |
+| 2 | **Números com unidade e hora** | Sem a hora da leitura, um dado velho parece vivo |
+| 3 | **Uma tendência ao lado de cada número** | A *sparkline* diz para onde vai |
+| 4 | **Limiares desenhados e com nome** | No próprio gráfico, não numa legenda noutro sítio |
+| 5 | **A mesma escala em painéis comparáveis** | *Small multiples*: o olho só compara se a moldura se repete |
+| 6 | **Parede = visão geral ou detalhe grande; ecrãs = parâmetros** | Tudo o que está na parede é público; nos ecrãs, todo o detalhe de uma decisão à vista, sem menus |
+| 7 | **Alarmes por cor, posição e movimento, com moderação** | Se tudo pisca, nada pisca (Módulo 09) |
+| 8 | **Barras a partir de zero; sem 3D; uma cor, um significado** | A integridade de Tufte (abaixo) e a lição do Stroop (Aula 5) |
+
+A Fase 2 (Módulo 10) procura exatamente isto nos *wireframes*.
+
+::: {.pratica title="--- Desenhar um painel"}
+**Exercício P.14** (pergunta do Módulo 07 e casos inventados). Técnica:
+o conteúdo de um painel, a escala de cor e as oito regras.
+
+**(a)** O painel de Touvedo acima: o que lhe falta? Usa os estados de
+uma manobra (Aula 1) e a regra de verificar a jusante (Aula 6).
+
+**(b)** Que escala de cor (sequencial, divergente, categórica) para:
+**(1)** a chuva acumulada por sub-bacia num mapa; **(2)** o desvio do
+nível em relação ao normal do mês, por estação e hora; **(3)** a linha
+de cada barragem num gráfico com as duas; **(4)** o estado de cada troço
+(normal, vigilância, alerta amarelo/laranja/vermelho, emergência)?
+
+**(c)** Um colega propõe para a parede: um único painel "Estado do rio"
+com o caudal de Alto Lindoso em barras 3D, o nível de Ponte de Lima num
+manómetro, os valores sem unidades, e o fundo do painel a piscar a
+vermelho quando qualquer estação passa do limiar. Que regras quebra?
+Redesenha-o por palavras.
+:::
+
+## Integridade gráfica
+
+As provas de Tufte: **a imagem diz a verdade, e cada gota de tinta
+trabalha?**
+
+**Fator de mentira** (*lie factor*):
+
+$$\text{fator de mentira} = \frac{\text{tamanho do efeito mostrado no gráfico}}{\text{tamanho do efeito nos dados}}$$
+
+O "tamanho do efeito" é a **variação relativa**† entre os dois valores
+comparados: $\frac{\text{novo} - \text{velho}}{\text{velho}}$, medido nos
+números para os dados e nos comprimentos desenhados para o gráfico. Tufte
+só aceita entre **0,95 e 1,05**.
+
+::: {.exemplo title="--- O fator de mentira do New York Times"}
+*New York Times*, 1978: as normas de consumo dos carros sobem de **18 mpg
+(1978)** para **27,5 mpg (1985)**. No gráfico, a linha de 1978 mede
+**0,6 polegadas** e a de 1985 **5,3 polegadas**.
+
+1. Efeito nos dados: $\frac{27{,}5 - 18}{18} = \frac{9{,}5}{18} = 0{,}53$,
+   ou seja **+53 %**.
+2. Efeito no gráfico: $\frac{5{,}3 - 0{,}6}{0{,}6} = \frac{4{,}7}{0{,}6} =
+   7{,}83$, ou seja **+783 %**.
+3. Fator de mentira: $\frac{7{,}83}{0{,}53} \approx$ **14,8**. Muito longe
+   de 0,95--1,05.
+
+Com o eixo em zero, uma subida de 53 % parece uma subida de 53 %.
+:::
+
+**Regra para os painéis:** as barras começam em zero. Quando o que
+importa é uma **diferença pequena** (um nível que sobe 3 cm), mostra-se
+o **próprio desvio**, ou um gráfico de linhas com o **eixo cortado e
+dito como cortado**.
+
+**Tinta de dados** (*data-ink*). A razão de tinta de dados é a parte da
+tinta que mostra dados; quer-se **perto de 1** (um EEG: sinal e mais
+nada). **Os cinco passos de Tufte:**
+
+1. Acima de tudo, mostrar os dados.
+2. Maximizar a razão de tinta de dados.
+3. Apagar a tinta que não é de dados (grelhas pesadas, molduras, fundos,
+   sombras).
+4. Apagar a tinta de dados redundante (o mesmo valor dito duas vezes: o
+   número em cima da barra **e** o eixo com a grelha).
+5. Rever e refazer.
+
+***Chartjunk***: decoração que finge ser dados. Três famílias (Tufte,
+1983):
+
+- **Padrões *moiré***: tramas que vibram na página.
+- **Grelhas pesadas**: o padrão compete com os dados.
+- **Gráficos autopromocionais** (*ducks*, "patos"): desenhados para
+  mostrar a habilidade de quem os fez, não os dados. A versão de 2026: o
+  manómetro 3D e a barra com sombra de um *dashboard* comercial.
+
+**Os cinco princípios de integridade gráfica** (Tufte, 1983, cap. 2):
+
+| # | Princípio | O que diz | No COL |
+|:-:|:-------|:------------|:------------|
+| 1 | **Proporcional** | O tamanho no papel é proporcional ao número | Barras a partir de zero; um manómetro mostra a escala inteira |
+| 2 | **Variação nos dados, não no desenho** | Se algo muda no gráfico, é porque os dados mudaram | A mesma escala em todos os painéis do mesmo tipo; as mesmas cores, o mesmo significado |
+| 3 | **Sem dimensões a mais** | Tantas dimensões visuais quantas as dos dados, não mais | Nada de barras 3D nem manómetros 3D para um só número |
+| 4 | **Etiquetar tudo** | Etiquetas claras, detalhadas e completas vencem a distorção e a ambiguidade | Unidades em todos os valores; a linha do limiar tem nome |
+| 5 | **Em contexto** | Nunca mostrar dados fora de contexto | Não só as últimas duas horas de um dia esgotante: a série que dá sentido ao valor |
+
+::: {.pratica title="--- Integridade gráfica"}
+**Exercício P.15** (atividade do Módulo 07 e caso inventado). Técnica:
+fator de mentira; tinta de dados; os cinco princípios.
+
+**(a)** Duas barras: Alto Lindoso **118** e Touvedo **122** m³/s, com o
+eixo a começar em **116**. Qual parece largar muito mais? Calcula o fator
+de mentira. Como mostrarias a diferença sem mentir?
+
+**(b)** Um gráfico de barras da descarga média diária de Touvedo na
+semana 41 tem: fundo cinzento, grelha horizontal a cada 10 m³/s,
+moldura, sombra em cada barra, cada barra de outra cor, o valor escrito
+em cima de cada barra **e** um eixo vertical com números, e uma legenda
+"Touvedo release (m³/s)" ao lado. Aplica os cinco passos: o que apagas,
+e porquê?
+
+**(c)** Que princípio de Tufte quebra cada caso: **(1)** o painel de
+Ponte de Lima usa 0--300 m³/s e o de Ponte da Barca 0--150, lado a lado
+na parede; **(2)** o nível mostrado como "1,84" sem nada à volta;
+**(3)** um copo 3D que enche com o volume da albufeira; **(4)** só as
+últimas 2 h do caudal, sem o normal do mês?
+:::
+
+# Aula 8 --- Prototipagem I
+
+## Para que serve um protótipo
+
+**Um protótipo responde a uma pergunta**: constrói-se **o mais barato que
+responda à tua**. A pergunta vem primeiro, o artefacto depois.
+
+::: {.definicao title="--- Protótipo"}
+Uma **representação limitada** de um desenho com que utilizadores,
+desenhadores e outros *stakeholders* podem **interagir**, para explorar
+se é adequado. O objetivo é tornar a ideia real o bastante para obter uma
+reação. Pode ser papel, fichas, cartão; diapositivos com *links*; um
+vídeo do uso pretendido; Figma, Penpot, Balsamiq; uma pessoa escondida
+(*Wizard of Oz*); código, quando a pergunta é o tempo de resposta.
+:::
+
+**Esboço e protótipo** (Buxton, 2007; Aula 2): o esboço **explora**
+(muitas ideias, deitadas fora); o protótipo **verifica** (uma ideia,
+construída só o bastante para a testar).
+
+**Porquê prototipar.** Seis coisas que as pessoas dizem a primeira vez
+que tocam num:
+
+| Para quê | O que se ouve | No COL |
+|:--|:--|:----------------------|
+| **Comunicar** | "Onde carrego agora?" | O coordenador vê a disposição da parede em papel e diz o que falta |
+| **Descobrir requisitos** | "Ups, esquecemo-nos disso." | Ninguém tinha desenhado o ecrã de uma comporta que recusa a ordem |
+| **Aprender** | "Isto vai funcionar!" | O esquema do rio com valores vivos lê-se a quatro metros |
+| **Avaliar** | "Os utilizadores não vão perceber isto." | O "Setpoint (%)" outra vez (Aula 6) |
+| **Dar forma ao desenho** | "Isto está pesado demais." | O painel de alarmes está longe demais do lugar do operador |
+| **Poupar tempo e dinheiro** | "Não programes a coisa errada." | Três disposições de painéis em papel custam uma hora; em código, uma semana cada |
+
+Os protótipos respondem a perguntas e ajudam a **escolher entre
+alternativas**. **Sem pergunta, não há protótipo.**
+
+**O que prototipam os protótipos?** (Houde e Hill, 1997). Cada pergunta
+está num canto de um triângulo; diz-se qual **antes** de construir:
+
+![](figuras/houde_hill.pdf){width=62%}
+
+*Os três cantos e a integração ao centro.*
+
+- **Papel** (*role*): o que faz pelo operador. A missão de descarga, do
+  pedido à confirmação, em papel.
+- **Aspeto** (*look and feel*): o que se vê, ouve, toca. A parede em
+  tamanho real, projetada.
+- **Implementação**: como funciona por dentro, e se é possível. Se o
+  SCADA consegue alimentar a 100 ms: no código, não na interface.
+- **Integração**: os três ao mesmo tempo. O protótipo clicável com dados
+  plausíveis para os testes. **O caro.**
+
+A maior parte dos protótipos desta disciplina fica nos cantos de **cima e
+da esquerda** (papel e aspeto).
+
+**A pergunta decide o protótipo:**
+
+| A pergunta | O protótipo mais barato que a responde | Custo |
+|:----------------|:--------------------------|:--|
+| O ecrã está cheio demais? | Um esboço em tamanho real, visto a um metro | 20 min |
+| Botão rotativo ou *slider* para a comporta? | Duas versões em papel, um *cognitive walkthrough* a cada (Aula 6) | 1 h |
+| O alarme nota-se a quatro metros? | A parede projetada em tamanho real, vista do lugar do operador | meio dia |
+| O *feedback* em 100 ms aguenta com a alimentação real? | Uma página de código sem desenho nenhum, e um cronómetro | um dia, uma pessoa |
+| O operador confia numa sugestão automática de descarga? | *Wizard of Oz*: um hidrólogo atrás da cortina escreve as sugestões | uma manhã, duas pessoas |
+
+Só uma das cinco precisa de código, e **nenhuma precisa de Figma**. O
+Figma entra quando a pergunta é sobre **passar entre ecrãs e estados**
+(S7).
+
+::: {.pratica title="--- A pergunta e o protótipo"}
+**Exercício P.16** (perguntas do Módulo 08 e casos inventados). Técnica:
+o triângulo de Houde e Hill; o protótipo mais barato.
+
+**(a)** Tens uma tarde e uma pergunta: um operador da primeira semana
+encontra o comando da comporta no painel novo? Um esboço em papel em
+tamanho real, um *click-through* no Figma, ou uma página web a funcionar?
+Porquê?
+
+**(b)** Para cada pergunta, diz o canto (papel, aspeto, implementação,
+integração) e o protótipo mais barato: **(1)** os operadores percebem a
+diferença entre "pedido" e "atual"? **(2)** o vermelho do alarme
+distingue-se do âmbar da ordem ativa na parede, com a luz da sala?
+**(3)** o histórico de 48 h de doze estações carrega em menos de um
+segundo?
+:::
+
+## Fidelidade, largura e profundidade
+
+**Fidelidade**: quão parecido o protótipo é com o produto final, **no
+aspeto e no comportamento**.
+
+| | Baixa | Média | Alta |
+|:--|:----------|:----------|:----------|
+| **O que é** | Esboços, papel, fichas. Sem desenho visual, sem dados reais | *Wireframes* e *mockups* no ecrã. Disposição e conteúdo, pouca ou nenhuma interação | Protótipo clicável ou código. Parece-se e comporta-se como o produto, com dados plausíveis |
+| **Serve para** | Escolher uma representação; esboçar a interface; *walkthrough* de tarefas e redesenho | Afinar os ecrãs; avaliação heurística e redesenho | Testes de usabilidade e redesenho; testes de campo limitados |
+| **No projeto** | Esboços, *storyboards*, *cognitive walkthrough* (Fase 1) | *Wireframes* no Figma, avaliação heurística (Fase 2) | Testes de usabilidade na S9 com o protótipo Figma (Fase 3) |
+
+Vai do desenho inicial (baixa) ao desenho final (alta), como na tabela da
+Aula 2. **A fidelidade não é uma só escala**: uma *mockup* bonita que não
+clica é alta no aspeto e baixa na interação. Diz-se **que dimensão é
+alta, e porquê**.
+
+| | Baixa fidelidade | Alta fidelidade |
+|:--|:--------------------|:--------------------|
+| **Dá** | Barata, muitas versões numa tarde, qualquer um desenha uma, discute disposição e fluxo, boa para requisitos e prova de conceito | Funcionalidade completa, guiada pelo utilizador, serve para explorar e testar, o aspeto do produto, uma especificação, uma *demo* para o cliente |
+| **Custa** | Guiada pelo facilitador (alguém explica o que acontece), pouca verificação de erros, funcionalidade limitada, difícil de passar a código | Cara e lenta, ineficiente como prova de conceito, má para requisitos (as pessoas comentam pormenores), difícil de deitar fora |
+
+**Dois perigos da alta fidelidade cedo demais:**
+
+1. As reações ficam **"no pequeno"** (a cor de um botão) e escondem
+   falhas de conceito.
+2. **Os gestores pensam que o produto está acabado**: um protótipo
+   polido parece feito.
+
+**Largura ou profundidade** (Nielsen, 1993). Num quadro com as
+funcionalidades na horizontal e a profundidade (até onde funcionam) na
+vertical:
+
+| Tipo | O que cobre | No COL |
+|:--|:----------------|:----------------------|
+| **Horizontal** | **Todas** as funcionalidades, à superfície | O primeiro ecrã de cada painel e a parede, para discutir a arquitetura |
+| **Vertical** | **Uma** funcionalidade, a fundo | A ordem de descarga de Touvedo completa, do pedido à confirmação, **incluindo a recusa** |
+| **Cenário** | O caminho de **uma tarefa**, tão fundo quanto a tarefa precisa | Uma missão do *briefing* do princípio ao fim, e mais nada funciona |
+| Sistema completo | tudo, a fundo | (o produto) |
+
+Os testes da Fase 3 usam um **protótipo de cenário**: as **três missões
+escolhidas, completas**. O resto pode ser um ecrã que não faz nada.
+
+::: {.pratica title="--- Fidelidade e largura"}
+**Exercício P.17** (votação do Módulo 08). Técnica: escolher a
+fidelidade (baixa, média, alta, e em que dimensão) e a largura
+(horizontal, vertical, cenário).
+
+**(a)** A parede lê-se a quatro metros?
+
+**(b)** O operador consegue cancelar uma ordem a meio?
+
+**(c)** Cinco operadores cumprem as três missões em menos de dez
+minutos?
+
+**(d)** O que mostravas primeiro ao coordenador do COL, um protótipo de
+baixa ou de alta fidelidade? Porquê?
+:::
+
+## Técnicas
+
+### Esboços e *storyboards*
+
+A missão em **quatro a seis quadros**, com uma linha de texto em cada,
+traços rápidos e sem cor (Aula 2). Mais de dez minutos a desenhar quer
+dizer pormenor a mais para esta fase. É o que o *walkthrough* da Fase 1
+lê. Exemplo do módulo, "subir Touvedo para 120":
+
+| Quadro | O que mostra |
+|:-:|:--------------------------|
+| 1 | A parede mostra a missão; o operador lê-a a quatro metros |
+| 2 | O operador seleciona Touvedo no esquema do rio; a estação fica realçada |
+| 3 | Escreve 120 no campo do caudal; o campo mostra a gama 0 a 180 m³/s |
+| 4 | Confirma: pedido 120, atual 92, comporta a mexer; *feedback* em 100 ms |
+| 5 | Gráfico de jusante: onda prevista em Ponte de Lima às 20:10; o operador verifica a linha do alvo |
+
+**Ninguém desenha o caso que corre mal**: a recusa (valor fora da gama),
+o *timeout*, a comporta que não se mexe. Desenham-se esses quadros
+também.
+
+### Protótipo em papel
+
+Um teste com um **"computador humano"** (Rettig, 1994; Snyder, 2003).
+
+| Materiais | Quatro papéis | Porque funciona |
+|:----------------|:----------------|:----------------|
+| Folhas do tamanho do ecrã; post-its para menus e diálogos; película transparente para escrever por cima; tesoura, fita-cola, marcador | **Utilizador/avaliador**: faz a tarefa, a pensar em voz alta. **Computador**: troca folhas e post-its, **em silêncio**. **Facilitador**: dá a tarefa, faz perguntas. **Observador**: escreve tudo | Quase não custa nada; muda-se entre dois testes, ou durante um; as pessoas comentam o essencial (parece provisório). **Não** mede tempo, precisão nem animação |
+
+**Regra do computador:** quando o utilizador toca em algo que não existe,
+o computador **não improvisa**. O observador escreve "**estado em
+falta**". Essas notas são a lista dos ecrãs ainda por desenhar.
+
+No COL: a parede e os dois ecrãs como três folhas; o diálogo da comporta
+como um post-it; o alarme como um cartão vermelho que o computador põe na
+folha num momento que o utilizador não espera.
+
+### *Wireframe*, *mockup* e protótipo clicável
+
+| *Wireframe* | *Mockup* | Protótipo clicável |
+|:----------------|:----------------|:----------------|
+| **Só estrutura**: o que vai onde, de que tamanho. Caixas cinzentas, sem cor, sem letra final, sem dados reais | O **aspeto final, estático**: cor, letra, dados plausíveis. **Não clica**. Vem para a avaliação heurística | **Ecrãs ligados**, com estados e transições, para percorrer uma tarefa. É sobre ele que correm os testes da Fase 3 |
+
+Ordem no projeto: *wireframes* (S7) → avaliação heurística (S8) →
+*mockups* e ligações para o protótipo clicável → testes de usabilidade
+(S9). **O aspeto vem no fim** porque distrai a avaliação: as pessoas
+comentam a cor. O slide também diz que a *mockup* "vem para a avaliação
+heurística"; no COL a Fase 2 é sobre *wireframes* (*interpretação*: a
+avaliação heurística serve para os dois níveis de média fidelidade, e no
+projeto vale o calendário, com as *mockups* depois da S8).
+
+**Uma *mockup* de software é um protótipo horizontal fino**: cada cena
+do *storyboard* desenhada no computador. Apresenta a ideia e muitas
+características ao mesmo tempo, mas os elementos não estão ativos: é um
+protótipo em papel num ecrã. No projeto DigiScope (auscultação e
+palpação), não responde a "o utilizador consegue deslizar sobre o tronco
+sem perder o sítio certo?": isso é uma pergunta de **interação**, que
+pede um protótipo **vertical** dessa funcionalidade. No COL, as *mockups*
+dos doze painéis da parede respondem a "a hierarquia está certa?", mas
+não a "o operador encontra o botão de cancelar durante um alarme?".
+
+**O protótipo clicável:**
+
+| O que acrescenta | O que ainda não diz |
+|:--------------------|:--------------------|
+| Navegação entre ecrãs: um utilizador faz uma missão sozinho, sem ninguém a explicar | Os dados reais e os seus casos estranhos (um sensor que dá −1) |
+| Estados: normal, ordem ativa, alarme, recusa, *timeout* | Tempos de resposta e desempenho do sistema |
+| Transições e pequenas animações: a comporta a mexer, o gráfico a atualizar | Doze ecrãs a atualizar ao mesmo tempo, e o que isso faz à atenção |
+| Dados plausíveis em todos os ecrãs, para o testador acreditar | Tudo o que o testador não tentou, porque só três missões funcionam |
+
+Para os testes da Fase 3 (cinco testadores de fora por grupo, três
+missões), o protótipo deixa correr **cada missão do princípio ao fim**,
+com dados plausíveis e **sem becos**: cada clique leva a algum lado,
+nem que seja a um ecrã que diz "fora deste protótipo". Mais nada tem de
+funcionar.
+
+### *Wizard of Oz*
+
+Testar um sistema que **ainda não existe**: o **utilizador** acredita que
+o sistema funciona e usa o ecrã; a **interface** é real ou uma *mockup*;
+o **feiticeiro** (*wizard*), escondido atrás da cortina, segue regras e
+faz o que o sistema faria. Bom para **fala, linguagem natural,
+funcionalidades de IA, ideias futuristas**.
+
+- ***Listening typewriter*** (IBM, 1983; Gould, Conti e Hovanyecz): não
+  havia reconhecimento de fala contínua. Uma datilógrafa atrás da parede
+  escrevia o que o utilizador ditava, **com os erros que o sistema
+  faria**. O estudo mostrou como as pessoas ditariam cartas a uma máquina
+  anos antes de ela existir.
+- **No COL, o assistente de cheias**: um painel que sugere uma descarga.
+  Antes de existir qualquer modelo, um hidrólogo atrás da cortina escreve
+  as sugestões. Mede-se se os operadores **confiam, obedecem ou
+  ignoram**, e quando.
+
+::: {.pratica title="--- Técnicas de prototipagem"}
+**Exercício P.18** (atividades do Módulo 08). Técnica: *storyboard*,
+protótipo em papel com computador humano, *Wizard of Oz*.
+
+**(a)** No *storyboard* "subir Touvedo para 120", que quadro falta?
+
+**(b)** Protótipo em papel da ordem da comporta, a dois. Numa folha, o
+diálogo (campo do valor, confirmar, cancelar, *feedback*); num post-it,
+o que aparece depois de confirmar. Um é o utilizador com a missão "subir
+Touvedo para 120", a pensar em voz alta; o outro é o computador, sem
+uma palavra. Que estados é provável o computador ter de improvisar?
+
+**(c)** Quando é que **não** se deve usar um feiticeiro?
+
+**(d)** Para cada sessão, diz o artefacto (*wireframe*, *mockup*,
+protótipo clicável) e porquê: S7, S8, S9.
 :::

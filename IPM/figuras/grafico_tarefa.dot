@@ -1,0 +1,19 @@
+digraph grafico_tarefa {
+  rankdir=LR; nodesep=0.12; ranksep=0.7;
+  node [shape=box, style="rounded,filled", fillcolor="#fff2cc", color="#1f3864", fontname="Helvetica", fontsize=13, margin="0.1,0.03", width=2.6];
+  edge [color="#1f3864", arrowsize=0.7];
+  T1 [label="Comparar\n\"qual barragem larga mais?\""];
+  T2 [label="Tendência\n\"o nível sobe? a que ritmo?\""];
+  T3 [label="Distribuição\n\"hoje é invulgar?\""];
+  T4 [label="Relação\n\"a chuva prevê o caudal?\""];
+  T5 [label="Parte de um todo\n\"quanto vem de Touvedo?\""];
+  T6 [label="Localizar\n\"onde está o problema?\""];
+  node [fillcolor="#e2efda", width=3.0];
+  C1 [label="barras (eixo em zero)"];
+  C2 [label="linha, sparkline"];
+  C3 [label="histograma, box plot"];
+  C4 [label="dispersão (scatter)"];
+  C5 [label="barra empilhada; tarte só\ncom poucas fatias"];
+  C6 [label="mapa, esquema do rio"];
+  T1 -> C1; T2 -> C2; T3 -> C3; T4 -> C4; T5 -> C5; T6 -> C6;
+}

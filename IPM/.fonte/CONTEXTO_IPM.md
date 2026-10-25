@@ -25,5 +25,5 @@ Exemplo-modelo: `SOLUCOES_IPM.md`, `### P.5` (l. ~424).
 - Sala: operador sentado, 2 monitores de 27" (privados) + parede 4×3 (pública).
   Regras: sempre visível sem scroll, sem menus escondidos, comandos que mudam
   o rio difíceis de acionar por engano, perceber tudo num relance às 3 da manhã.
-- Fases: 1 esboços + *cognitive walkthrough* (S6, 3 nov); 2 *wireframes* +
+- Fases: 1 esboços + *cognitive walkthrough* (fez-se na S5, 20 out, Handout 05: 3 avaliadores de 3 grupos, um por ronda); 2 *wireframes* +
   avaliação heurística; 3 protótipo + testes de usabilidade.

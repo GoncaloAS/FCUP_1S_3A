@@ -1,7 +1,7 @@
 ---
 title: "Interação Pessoa-Máquina --- Folha de revisão"
 author: "Gonçalo Sousa"
-date: "Aulas 1--6 (Módulos 01--06). As receitas do resumo, sem exemplos: para rever antes do exame."
+date: "Aulas 1--8 (Módulos 01--08). As receitas do resumo, sem exemplos: para rever antes do exame."
 ---
 
 ## Avaliação e projeto
@@ -127,10 +127,6 @@ contínuo.
 |:-----------------|:-----------------|
 | evocativo, sugere, explora, pergunta, propõe, provoca | didático, descreve, refina, responde, testa, resolve, específico |
 
-**Fidelidade**: quão parecido com o sistema final, no aspeto e no
-comportamento. A fidelidade sobe com as fases: esboço → *wireframe* →
-protótipo.
-
 ## Avaliação (T4)
 
 ***Task flow***: um objetivo e os seus passos, uma linha por passo (o que o
@@ -228,3 +224,59 @@ tudo, 3 min por passo.
 sequência correta de 5--10 passos, esboços por ordem, tabela por missão →
 ~15 min cada grupo, depois trocam → entregar 3 tabelas + meia página com
 os 3 piores problemas no mesmo dia → mudar antes dos *wireframes* (S7).
+
+## Representação visual de dados
+
+**Primeiro a tarefa, depois o gráfico**: comparar → barras (eixo em
+zero); tendência → linhas, *sparklines*; distribuição → histograma, *box
+plot*; relação → dispersão; parte de um todo → barra empilhada (tarte só
+≤ 5 fatias, uma dominante; nunca compara duas composições); localizar →
+mapa, esquema do rio. Tabela = valor exato; mapa = onde; gráfico = quando.
+
+**Precisão de leitura** (Cleveland e McGill): posição e comprimento >
+ângulo e área > cor. **Shneiderman**: visão geral (parede) → zoom e filtro
+(ecrãs) → detalhes sempre à vista; e relacionar, histórico, extrair.
+
+**Linhas**: tempo na horizontal, sem suavizar, eventos marcados, ~45°,
+nunca ligar categorias. **Área empilhada**: o topo é o total; só a camada
+de baixo tem base fixa. ***Box plot***: mediana; Q1/Q3 = medianas das
+metades; IQR = Q3 − Q1; *outlier* fora de Q1 − 1,5·IQR e Q3 + 1,5·IQR;
+bigodes até ao último valor dentro.
+
+**Painel** = uma pergunta; **métrica** = número + unidade + hora +
+tendência + limiar. Ordem: número → tendência → estado → comando.
+**Cor**: sequencial (quantidade), divergente (ponto médio com
+significado), categórica (sem ordem, poucas cores); quantis em vez de
+intervalos iguais quando os dados se concentram; daltonismo → segundo
+sinal; vermelho só para alarme.
+
+**Integridade (Tufte)**: fator de mentira = efeito no gráfico ÷ efeito
+nos dados (efeito = (novo − velho)/velho), aceitável 0,95--1,05. Razão de
+tinta de dados → 1; apagar tinta não-dados e redundante; sem
+*chartjunk* (moiré, grelhas pesadas, "patos"). Princípios: proporcional;
+variação nos dados, não no desenho; sem dimensões a mais; etiquetar tudo;
+em contexto.
+
+## Prototipagem
+
+**Um protótipo responde a uma pergunta**: o mais barato que a responda.
+Esboço explora, protótipo verifica. Para: comunicar, requisitos,
+aprender, avaliar, dar forma, poupar.
+
+**Houde e Hill**: papel (o que faz), aspeto (o que se vê), implementação
+(como funciona), integração (os três; o caro). Diz-se o canto antes de
+construir.
+
+**Fidelidade** (quão parecido no aspeto e no comportamento; não é uma só
+escala): baixa (papel; *walkthrough*, Fase 1), média (*wireframes*,
+*mockups*; heurística, Fase 2), alta (clicável; testes, Fase 3). Alta cedo
+demais: comentários "no pequeno" e parece acabado. **Largura**:
+horizontal (tudo, à superfície), vertical (uma funcionalidade a fundo),
+cenário (uma tarefa; o da Fase 3: três missões completas, sem becos).
+
+**Técnicas**: *storyboard* de 4--6 quadros (desenhar também o que corre
+mal); papel com 4 papéis (utilizador, computador calado, facilitador,
+observador; não se improvisa → "estado em falta"); *wireframe*
+(estrutura) → *mockup* (aspeto estático) → clicável (estados e
+transições; não diz dados reais nem desempenho); *Wizard of Oz* (pessoa
+escondida faz de sistema; fala, IA).

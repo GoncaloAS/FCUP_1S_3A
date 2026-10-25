@@ -878,3 +878,296 @@ $1 - \left(\tfrac23\right)^2 = \tfrac59 \approx 56\,\%$. Passa-se de
 cerca de 33 % para 56--70 %. Na prática fica abaixo disto, porque os
 avaliadores tendem a encontrar os mesmos problemas fáceis (não são
 independentes), e há falsos alarmes para filtrar.
+
+## Aula 7 --- Nomear a tarefa
+
+### P.12 --- Nomear a tarefa
+
+#### (a) Tabela, mapa ou gráfico
+
+"**Quando** chega a Ponte de Lima?" é uma pergunta de **tempo**
+(tendência): **gráfico de linhas**, com o tempo no eixo horizontal, a
+ordem das 14:00 marcada e a série de Ponte de Lima. "Que estação está
+**acima do limiar agora**?" é uma pergunta de **valor fora do normal**:
+**tabela** (uma linha por estação, valor atual e limiar). Se a pergunta
+fosse "e onde fica?", o **mapa**. O operador precisa das três à vista e
+ligadas.
+
+#### (b) Tarefa e gráfico
+
+| Pergunta | Tarefa | Gráfico |
+|:--|:--|:--------------------|
+| **(1)** Esta semana vs. a passada, dia a dia | **Comparar** | **Barras** agrupadas por dia (duas por dia), dias por ordem cronológica, eixo em zero, uma cor por semana |
+| **(2)** Em que troço está a onda | **Localizar** | **Esquema do rio** com a onda desenhada sobre ele |
+| **(3)** Quanto do caudal em Viana é maré | **Parte de um todo** | **Barra empilhada**; aqui a tarte serve, porque são duas fatias e a pergunta é "mais ou menos de metade?" |
+
+**Sétima pergunta (resposta-modelo):** "a descarga de Touvedo de ontem
+explica a subida de hoje em Ponte da Barca?" é **relação**: dispersão
+(descarga num dia × caudal no seguinte). Uma pergunta como "quem deu a
+última ordem?" não é nenhuma das seis: é um **detalhe** (dado 1D, o
+registo das ordens), e responde-se com texto no painel, sem gráfico.
+
+#### (c) O que vai para a parede
+
+A **visão geral** (Shneiderman): o **rio inteiro** (esquema com todas as
+estações e o seu estado), **todos os alarmes**, a **maré** e as
+**manobras em curso**. Porquê: a parede é **pública** (o coordenador e
+quem entra na sala veem o mesmo que o operador) e está sempre à vista; os
+ecrãs são **privados** e mostram uma barragem ou um troço de cada vez. Um
+alarme só nos ecrãs pode estar fora do zoom que o operador escolheu. A
+parede **só mostra informação**; as ações ficam nos monitores.
+
+## Aula 7 --- Escolher o gráfico
+
+### P.13 --- Escolher o gráfico
+
+#### (a) O escolhedor
+
+| Pergunta | Gráfico | Porquê |
+|:-:|:--|:----------------------|
+| 1 | **Barras** | Comparar duas quantidades: comprimento a partir de zero |
+| 2 | **Linhas com o evento marcado** | Tendência no tempo; a ordem das 14:00 no próprio gráfico |
+| 3 | **Histograma ou *box plot*** | Distribuição: onde fica hoje em relação ao habitual de outubro |
+| 4 | **Dispersão** | Relação entre duas variáveis (chuva hoje, caudal amanhã) |
+| 5 | **Barras empilhadas a 100 %** | Comparar **duas composições** (dia seco, dia de chuva) |
+| 6 | **Esquema do rio com a onda** | Localizar, agora e daqui a três horas |
+
+Sobram a **tarte** (a única candidata era a 5, mas uma tarte **nunca
+compara duas composições**: teria de ler ângulos em duas tartes) e a
+**nuvem de palavras** (só mostra frequências de palavras; nenhuma
+pergunta é sobre texto).
+
+#### (b) A composição de Ponte de Lima
+
+Total: $120 + 45 + 12 + 8 + 15 = 200$ m³/s.
+
+- Vez: $\frac{45}{200} = 0{,}225 = 22{,}5\,\%$: **menos** de um quarto
+  (25 %).
+- Vade $\frac{12}{200} = 6\,\%$ contra Estorãos $\frac{8}{200} = 4\,\%$:
+  **o Vade é maior**.
+
+Na tarte, 22,5 % e 25 % são ângulos de $0{,}225 \cdot 360° = 81°$ e
+$90°$, e o Vade e o Estorãos são fatias de $21{,}6°$ e $14{,}4°$: o
+**ângulo e a área leem-se mal** (Cleveland e McGill), e fatias finas não
+alinhadas comparam-se pior ainda. Nas barras, é ver qual das duas é mais
+comprida, a partir da mesma base.
+
+#### (c) O box plot de nove dias
+
+1. Ordenar: 40, 70, 85, 90, **95**, 100, 110, 120, 300.
+2. São 9 valores: a **mediana** é o 5.º, **95**.
+3. Metade de baixo: 40, 70, 85, 90 → **Q1** $= \frac{70 + 85}{2} =$
+   **77,5**.
+4. Metade de cima: 100, 110, 120, 300 → **Q3** $= \frac{110 + 120}{2} =$
+   **115**.
+5. **IQR** $= 115 - 77{,}5 = 37{,}5$; $1{,}5 \cdot 37{,}5 = 56{,}25$.
+6. Barreiras: $77{,}5 - 56{,}25 = 21{,}25$ e $115 + 56{,}25 = 171{,}25$.
+7. Abaixo de 21,25 não há nada: o bigode de baixo vai até **40**. O
+   **300** está acima de 171,25: é **outlier**. O bigode de cima vai até
+   **120**.
+
+Cinco números: **mín. 40, Q1 77,5, mediana 95, Q3 115, máx. 120**, mais
+o *outlier* 300.
+
+#### (d) A área empilhada
+
+**Não, com certeza não.** O Vez está no meio: a sua base é o topo da
+camada de Touvedo, que também sobe e desce. Se a faixa do Vez sobe no
+gráfico, pode ser Touvedo a subir por baixo; só a **espessura** da faixa
+é o Vez, e a espessura de uma faixa inclinada lê-se mal. Para responder,
+desenha-se **o Vez sozinho, como linha** (ou *small multiples* com escala
+comum, um por componente).
+
+## Aula 7 --- Desenhar um painel
+
+### P.14 --- Desenhar um painel
+
+#### (a) O que falta ao painel de Touvedo
+
+Resposta-modelo (a pergunta é aberta):
+
+- O **estado da manobra** no vocabulário do COL (pedida, à espera de
+  autorização, autorizada, **em curso**, concluída, cancelada) e o
+  **tempo previsto** para acabar: "pedido 120, atual 122" não diz se a
+  manobra acabou.
+- **Ponte da Barca**, logo a jusante (nível, caudal, previsão): a regra
+  "verificar a jusante antes de subir a descarga" tem de estar no ecrã,
+  não na cabeça (Aula 6). O painel só mostra Ponte de Lima.
+- O **limite dos 300 m³/s** (a partir daí é preciso o coordenador), como
+  linha ou texto, ao lado do valor pedido.
+- O **estado da descarga de fundo** (fechada, a abrir, aberta, avariada).
+
+#### (b) Escalas de cor
+
+| Caso | Escala | Porquê |
+|:-:|:--|:----------------------|
+| **(1)** Chuva acumulada | **Sequencial** | Quantidade, de pouco a muito: claro → escuro |
+| **(2)** Desvio do normal | **Divergente** | Há um ponto médio com significado (o normal, a branco); abaixo e acima em duas cores (azul e laranja) |
+| **(3)** Linha de cada barragem | **Categórica** | Duas classes sem ordem: duas cores bem separadas, nenhuma vermelha (o vermelho é do alarme) |
+| **(4)** Estado do troço | **Sequencial** (ordenada) | *Interpretação*: são classes, mas **com ordem** (de normal a emergência), por isso não é categórica. Os alertas amarelo/laranja/vermelho já têm cor; dá-se a cada estado um **segundo sinal** (texto, por causa do daltonismo) |
+
+#### (c) O painel "Estado do rio"
+
+| Problema | Regra quebrada |
+|:--|:--|
+| Alto Lindoso e Ponte de Lima no mesmo painel | **1** (um painel, uma pergunta): são duas estações, duas perguntas |
+| Barras 3D | **8** (sem 3D) e o princípio 3 de Tufte (dimensões a mais) |
+| Valores sem unidade (e sem hora) | **2** (unidade e hora) |
+| Sem tendência nem limiar à vista | **3** e **4** |
+| Fundo a piscar quando **qualquer** estação passa | **7** (se tudo pisca, nada pisca); e não diz **qual** |
+
+Redesenho (resposta-modelo): **uma linha por estação**, todas com a mesma
+estrutura e a mesma escala por tipo (*small multiples*): nome, número
+grande com unidade e hora, *sparkline* das últimas 24 h com o limiar
+desenhado e com nome, estado em texto. Quando uma passa o limiar, **só
+essa** fica vermelha, com o texto "acima do limiar" e um ícone (segundo
+sinal), e sobe para o topo da lista; nada pisca, ou pisca uma vez.
+
+## Aula 7 --- Integridade gráfica
+
+### P.15 --- Integridade gráfica
+
+#### (a) As duas barragens
+
+Com o eixo a começar em 116, as barras desenhadas medem
+$118 - 116 = 2$ e $122 - 116 = 6$: **Touvedo parece largar o triplo**.
+
+1. Efeito nos dados: $\frac{122 - 118}{118} = \frac{4}{118} \approx
+   0{,}034$, ou seja **+3,4 %**.
+2. Efeito no gráfico: $\frac{6 - 2}{2} = 2$, ou seja **+200 %**.
+3. Fator de mentira: $\frac{2}{0{,}034} \approx$ **59**.
+
+Sem mentir: **barras a partir de zero** (118 e 122 quase iguais, que é a
+verdade), ou, se a diferença de 4 m³/s é o que importa, mostrar o
+**próprio desvio** ("Touvedo +4 m³/s") ou um gráfico de linhas com o
+**eixo cortado e dito como cortado**.
+
+#### (b) Os cinco passos
+
+1. **Mostrar os dados**: as sete barras ficam.
+2. e 3. **Apagar tinta que não é de dados**: o **fundo cinzento**, a
+   **moldura**, as **sombras** (dimensão a mais) e a **grelha** (a cada
+   10 m³/s compete com as barras). As **cores diferentes** saem: é uma só
+   série, por isso **uma cor** (outra só para a barra que importa).
+4. **Apagar tinta de dados redundante**: os valores estão ditos duas vezes
+   (em cima das barras **e** no eixo). Fica um: os valores em cima das
+   barras, e o eixo vertical sai (ou um eixo leve com 0, 50, 100, 150). A
+   legenda repete o título: sai, e o título passa a "Touvedo, descarga
+   média diária, semana 41, m³/s".
+5. **Rever e refazer**: ver se a razão de tinta de dados ficou perto de
+   1 e se ainda há o que apagar.
+
+#### (c) Que princípio
+
+| Caso | Princípio |
+|:-:|:--------------------|
+| **(1)** Escalas diferentes lado a lado | **2** (variação nos dados, não no desenho): a mesma altura quer dizer números diferentes; os *small multiples* exigem a mesma escala |
+| **(2)** "1,84" sozinho | **4** (etiquetar tudo): falta a unidade (m), a hora da leitura e o limiar |
+| **(3)** O copo 3D | **3** (sem dimensões a mais): um número em três dimensões; e **1** (proporcional), porque o olho lê o volume e não a altura |
+| **(4)** Só 2 h, sem o normal | **5** (em contexto): sem a série longa e a faixa do normal, não se sabe se o valor é invulgar |
+
+## Aula 8 --- A pergunta e o protótipo
+
+### P.16 --- A pergunta e o protótipo
+
+#### (a) Uma tarde, uma pergunta
+
+**Um esboço em papel em tamanho real.** A pergunta é se o comando **se
+vê** e se **liga ao efeito** (Q2 e Q3 do *walkthrough*): é do canto do
+**papel** (*role*), com um pouco de **aspeto** (o tamanho real). Numa
+tarde fazem-se **várias versões** e um *walkthrough* a cada uma, com
+alguém a fazer de operador da primeira semana. O *click-through* no Figma
+acrescenta navegação entre ecrãs, que a pergunta não pede; a página web
+gasta a tarde a programar e dá **uma** versão só.
+
+#### (b) Canto e protótipo
+
+| Pergunta | Canto | O protótipo mais barato |
+|:-:|:--|:----------------------|
+| **(1)** "Pedido" vs. "atual" | **Papel** | Duas versões do painel em papel e um *cognitive walkthrough* a cada (Q4), ou um teste com computador humano |
+| **(2)** Vermelho vs. âmbar na parede | **Aspeto** | A parede **projetada em tamanho real**, com as cores reais, vista do lugar do operador **com a luz da sala**; o papel não serve (as cores impressas não são as do ecrã) |
+| **(3)** 48 h × 12 estações em < 1 s | **Implementação** | Uma página de código **sem desenho nenhum** que pede os dados e mede o tempo |
+
+## Aula 8 --- Fidelidade e largura
+
+### P.17 --- Fidelidade e largura
+
+#### (a) A parede a quatro metros
+
+**Alta no aspeto** (tamanho real, letra e cores reais, projetada), **baixa
+na interação** (nada precisa de clicar). **Horizontal**: a parede
+inteira, todos os painéis, à superfície.
+
+#### (b) Cancelar uma ordem a meio
+
+**Vertical**: só a ordem de descarga, a fundo, com **todos os seus
+estados** (pedida, em curso, cancelada) e o que o ecrã mostra entre eles.
+Fidelidade **baixa a média** chega: um protótipo em papel com computador
+humano, um post-it por estado. A pergunta é se o operador encontra e
+percebe o cancelar, não quanto tempo demora.
+
+#### (c) Cinco operadores, três missões, dez minutos
+
+**Alta fidelidade** (há um **tempo medido**, e o papel não mede tempo:
+um computador humano é lento), protótipo de **cenário**: as três
+missões completas, com dados plausíveis e sem becos, e o resto a não
+funcionar. É o protótipo da Fase 3.
+
+#### (d) O que mostrar ao coordenador
+
+**Baixa fidelidade.** Nesta fase quer-se **requisitos e conceito**: o
+coordenador vê a disposição em papel e diz o que falta (o "comunicar" e o
+"descobrir requisitos" da aula). Um protótipo polido levava-o a comentar
+pormenores (a cor de um botão), escondia as falhas de conceito, e fazia-o
+pensar que o produto estava quase acabado.
+
+## Aula 8 --- Técnicas de prototipagem
+
+### P.18 --- Técnicas de prototipagem
+
+#### (a) O quadro que falta
+
+Resposta-modelo. No caminho feliz, falta o **fim da manobra**: entre o 4
+("atual 92, comporta a mexer") e o 5, o quadro em que o atual chega a
+120 e o estado passa a **concluída**. E faltam **os quadros do caso que
+corre mal**, que ninguém desenha: a **recusa** de um valor fora da gama
+(por exemplo, 200 com a gama 0--180), o ***timeout*** e a **comporta que
+não se mexe**.
+
+#### (b) O que o computador improvisa
+
+Resposta-modelo (cada uma é um **estado em falta**, e a lista é a dos
+ecrãs por desenhar):
+
+1. A **recusa** de um valor fora da gama (o utilizador escreve 200).
+2. O **duplo toque** em confirmar: aceita duas ordens, ignora a segunda,
+   avisa?
+3. O que o ecrã mostra **enquanto a comporta se mexe** (pedido/atual,
+   progresso).
+4. **Cancelar a meio** da manobra.
+5. O ***timeout*** ou a comporta que não responde.
+
+#### (c) Quando não usar um feiticeiro
+
+Resposta-modelo (o módulo deixa a pergunta à turma):
+
+- Quando a pergunta é de **implementação ou desempenho**: um humano não
+  responde em 100 ms nem atualiza doze ecrãs ao mesmo tempo, e o teste
+  mede o feiticeiro e não o sistema.
+- Quando o feiticeiro **não consegue ser consistente** (regras demasiado
+  complexas para seguir à mão em tempo real): cada utilizador vê um
+  sistema diferente.
+- Quando simula algo que **nunca se vai conseguir construir**: os
+  utilizadores habituam-se a um sistema perfeito e as conclusões não
+  valem para o real (por isso a datilógrafa da IBM copiava os erros que a
+  máquina faria).
+- Quando a pergunta se responde com **papel ou com o produto** (um ecrã
+  normal): o feiticeiro custa duas pessoas sem necessidade.
+
+#### (d) Artefacto por sessão
+
+| Sessão | Artefacto | Porquê |
+|:-:|:--|:----------------------|
+| S7 | ***Wireframes*** | Os esboços corrigidos passam a ecrãs com estrutura precisa (o que vai onde, de que tamanho), sem cor que distraia |
+| S8 | ***Wireframes*** (avaliação heurística, Fase 2) | No COL, a Fase 2 olha para os *wireframes*; as *mockups* vêm depois |
+| S9 | **Protótipo clicável** de cenário | Os testes de usabilidade (Fase 3) precisam de navegação, estados e dados plausíveis para o testador fazer a missão sozinho |
