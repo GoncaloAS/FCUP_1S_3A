@@ -1,6 +1,6 @@
 ---
 title: "Compiladores --- Soluções dos exercícios \"Pratica agora\""
-subtitle: "Folha laboratorial 2 (Praticas/Semana_1/scanner-c), Folha laboratorial 3 (Praticas/Semana_2/gramatica) Folha laboratorial 4 (Praticas/Semana_3/Parsing) lab. ASTs (Praticas/Semana_4/Abstract_Syntax_Trees) e exercícios da Aula 7 (slides e inventados). Tenta primeiro sozinho; abre uma alínea só depois de a teres feito."
+subtitle: "Folha laboratorial 2 (Praticas/Semana_1/scanner-c), Folha laboratorial 3 (Praticas/Semana_2/gramatica) Folha laboratorial 4 (Praticas/Semana_3/Parsing) lab. ASTs (Praticas/Semana_4/Abstract_Syntax_Trees) e exercícios das Aulas 7 a 9 (slides e inventados). Tenta primeiro sozinho; abre uma alínea só depois de a teres feito."
 ---
 
 ## Aula 2 --- Expressões regulares
@@ -1875,3 +1875,201 @@ uma produção por entrada, **é LL(1)**.
 | $b\,\$$ | `b$` | consumir $b$ |
 | \$ | `$` | consumir \$ |
 | $\varepsilon$ | $\varepsilon$ | aceitação |
+
+## Aula 8 --- Âmbitos
+
+### Ex. K --- Âmbitos de x e y (inventado)
+
+#### Resposta
+
+Regra: cada uso liga-se à declaração envolvente **mais próxima**.
+
+| Linha | `x` | `y` |
+|:-:|:--|:--|
+| 5 | `float x` da linha 4 (bloco interior) | parâmetro `int y` da linha 2 |
+| 7 | `char x` da linha 3 (o bloco da linha 4 já fechou) | parâmetro `int y` da linha 2 |
+| 9 | `int x` global da linha 1 (`h` não declara `x`) | (não é usado; seria o `float y` global) |
+
+O parâmetro `y` de `g` esconde o `float y` global dentro de todo o corpo
+de `g`.
+
+## Aula 8 --- Tabelas de símbolos
+
+### Ex. L --- Pilha da tabela de símbolos (inventado)
+
+Base à esquerda, $\mid$ marca um topo guardado. `g` e `h` entram no âmbito
+global antes de se abrir o âmbito da função.
+
+#### (a) Linha 5
+
+(x,int) (y,float) (g,fun) $\mid$ (y,int) (x,char) $\mid$ (x,float)
+
+- `x`: do topo, (x,float) ⇒ **float**.
+- `y`: (x,float) não, (x,char) não, (y,int) ⇒ **int**.
+
+#### (b) Linha 7
+
+O bloco da linha 4 fechou (topo reposto) e abriu-se o da linha 6:
+
+(x,int) (y,float) (g,fun) $\mid$ (y,int) (x,char) $\mid$ (z,int)
+
+- `x`: (z,int) não, (x,char) ⇒ **char**.
+- `y`: (z,int), (x,char) não, (y,int) ⇒ **int**.
+
+#### (c) Linha 9
+
+O âmbito de `g` fechou; inseriu-se `h` e abriu-se o seu âmbito (vazio):
+
+(x,int) (y,float) (g,fun) (h,fun) $\mid$
+
+- `x`: (h,fun), (g,fun), (y,float) não, (x,int) ⇒ **int**.
+- `y`: (h,fun), (g,fun) não, (y,float) ⇒ **float**.
+
+### Ex. M --- Tabela de partição com N = 7 (inventado)
+
+#### (a) Valores de h
+
+- $h(\texttt{x}) = 120 \bmod 7 = 1$ ($7\cdot17 = 119$).
+- $h(\texttt{y}) = 121 \bmod 7 = 2$.
+- $h(\texttt{n}) = 110 \bmod 7 = 5$ ($7\cdot15 = 105$).
+- `yx`: $121 \to 121\cdot16 + 120 = 2056$; $2056 \bmod 7 = 5$
+  ($7\cdot293 = 2051$).
+
+Confirmado com a função em C.
+
+#### (b) Buckets dentro do âmbito novo
+
+| *Bucket* | Lista (cabeça à esquerda) |
+|:-:|:--|
+| 0, 3, 4, 6 | |
+| 1 | x (local) → x (global) |
+| 2 | y |
+| 5 | yx → n |
+
+Duas colisões: `x` repetido (o local esconde o global) e `yx`/`n`
+(chaves diferentes, mesmo *hash*).
+
+#### (c) Buckets depois de fechar o âmbito
+
+Retiram-se as entradas que o âmbito inseriu (`yx` e o `x` local):
+
+| *Bucket* | Lista |
+|:-:|:--|
+| 1 | x (global) |
+| 2 | y |
+| 5 | n |
+
+### Ex. N --- Tabela com Data.Map (inventado)
+
+#### Resposta
+
+Como `Data.Map` é persistente, cada âmbito é só um nome novo para a
+tabela estendida; "fechar" é voltar a usar o nome de fora.
+
+```haskell
+import qualified Data.Map as Map
+type Table = Map.Map String String
+
+scopes :: (String, String)          -- (j no bloco 1, j depois do bloco 1)
+scopes =
+  let global = Map.fromList [("i","int"), ("j","int"), ("f","fun")]
+      emF    = foldl (\t (k,v) -> Map.insert k v t) global
+                     [("size","int"), ("i","char"), ("temp","char")]
+      bloco1 = Map.insert "j" "double" emF
+  in (Map.findWithDefault "?" "j" bloco1, Map.findWithDefault "?" "j" emF)
+```
+
+Saída (GHC): `("double","int")`. O `Map.insert` do bloco 1 não mexeu em
+`emF`.
+
+## Aula 9 --- Declarações e comandos
+
+### Ex. O --- Aplicar checkExpr e checkStm (inventado)
+
+`env = {x ↦ int, b ↦ bool}`.
+
+#### (a) Soma com uma comparação
+
+`checkExpr env (Add (Var "x") (LessThan (Num 1) (Var "x")))`:
+
+1. `t1 = checkExpr env (Var "x")`: `lookup` dá `Just TyInt` ⇒ `TyInt`.
+2. `t2 = checkExpr env (LessThan (Num 1) (Var "x"))`: `Num 1` ⇒ `TyInt`,
+   `Var "x"` ⇒ `TyInt`; ambos `TyInt` ⇒ `TyBool`.
+3. `Add`: `t2 = TyBool` ≠ `TyInt` ⇒ **`type error in +`**.
+
+#### (b) if-then
+
+`checkStm env (IfThen (Var "b") (Assign "b" (LessThan (Var "x") (Num 0))))`:
+
+1. `tycond = checkExpr env (Var "b")` = `TyBool`.
+2. Corpo: `lookup b` = `Just TyBool`; `checkExpr env (LessThan (Var "x")
+   (Num 0))` = `TyBool` (dois `TyInt`); iguais ⇒ `True`.
+3. `TyBool` e `True` ⇒ **`True`** (bem tipado).
+
+#### (c) Bloco que redeclara b
+
+1. `env' = extendEnv env [("b",TyInt)] = {x ↦ int, b ↦ int}`:
+   `Map.insert` substitui o `b ↦ bool`.
+2. `Assign "b" (Add (Var "b") (Num 1))`: `lookup b` em `env'` =
+   `TyInt`; `Add`: `Var "b"` ⇒ `TyInt`, `Num 1` ⇒ `TyInt` ⇒ `TyInt`;
+   iguais ⇒ `True`.
+3. `all` de `[True]` ⇒ **`True`**. O `b` interior esconde o exterior.
+
+### Ex. P --- Mul, And, Not e IfThen (inventado)
+
+#### Resposta
+
+```haskell
+data Expr = ... | Mul Expr Expr | And Expr Expr | Not Expr
+
+checkExpr env (Mul e1 e2)
+  = let t1 = checkExpr env e1
+        t2 = checkExpr env e2
+    in if t1==TyInt && t2==TyInt then TyInt else error "type error in *"
+checkExpr env (And e1 e2)
+  = let t1 = checkExpr env e1
+        t2 = checkExpr env e2
+    in if t1==TyBool && t2==TyBool then TyBool else error "type error in &&"
+checkExpr env (Not e)
+  = if checkExpr env e == TyBool then TyBool else error "type error in not"
+
+checkStm env (IfThen cond stm)
+  = let tycond = checkExpr env cond
+        check  = checkStm env stm
+    in if tycond == TyBool && check then True else error "type error in if then"
+```
+
+Saídas (GHC, `env = {x ↦ int, b ↦ bool}`):
+`checkExpr env (Not (LessThan (Num 1) (Num 2)))` = `TyBool`;
+`checkExpr env (And (Num 1) (Var "b"))` ⇒ `type error in &&` (`Num 1` é
+`TyInt`).
+
+## Aula 9 --- Funções
+
+### Ex. Q --- checkFunDef de uma função recursiva (inventado)
+
+#### Resposta
+
+Não há subtração, por isso `n + -1` é `Add (Var "n") (Num (-1))`:
+
+```haskell
+FunDef "sum" [("n",TyInt)] TyInt
+  (IfThenElse (LessThan (Var "n") (Num 1))
+     (Return (Num 0))
+     (Return (Add (Var "n") (FunCall "sum" [Add (Var "n") (Num (-1))]))))
+```
+
+1. `tyargs = [TyInt]`.
+2. `env' = {sum ↦ TyFun [TyInt] TyInt, n ↦ int}`.
+3. `checkStm env' (Just TyInt) (IfThenElse ...)`:
+   - condição: `LessThan (Var "n") (Num 1)` ⇒ `TyBool`;
+   - `Return (Num 0)`: `TyInt == TyInt` ⇒ `True`;
+   - `Return (Add (Var "n") (FunCall "sum" [...]))`: o argumento
+     `Add (Var "n") (Num (-1))` ⇒ `TyInt`; `lookup sum` em `env'` =
+     `TyFun [TyInt] TyInt`, `[TyInt] == [TyInt]` ⇒ a chamada é `TyInt`;
+     `Add` de dois `TyInt` ⇒ `TyInt`, igual ao esperado ⇒ `True`;
+   - `TyBool`, `True`, `True` ⇒ `True`.
+4. Resultado: **`{sum ↦ TyFun [TyInt] TyInt}`** (corrido em GHC).
+
+A chamada recursiva é aceite no passo 2: `env'` já tem `sum` com o seu
+tipo **antes** de se verificar o corpo.

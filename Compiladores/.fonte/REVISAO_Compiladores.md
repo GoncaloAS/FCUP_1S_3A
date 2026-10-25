@@ -1,7 +1,7 @@
 ---
 title: "Compiladores --- Folha de revisão"
 author: "Gonçalo Sousa"
-date: "Aulas 1--6. As receitas do resumo, sem exemplos: para rever antes do exame."
+date: "Aulas 1--9. As receitas do resumo, sem exemplos: para rever antes do exame."
 ---
 
 ## Análise lexical
@@ -174,3 +174,45 @@ por entrada; vazia = erro.
 próximo: consumir e tirar. Topo não-terminal $X$ → produção de
 table[$X$, próximo]: tira $X$, empilha o lado direito (1.º símbolo no
 topo). Pilha e entrada vazias → aceita.
+
+## Âmbitos e tabelas de símbolos
+
+**Análise semântica**: verificações dependentes do contexto (declarado
+antes de usar, tipos compatíveis, nº e tipos dos argumentos), numa
+passagem sobre a AST; sai AST + tabela de símbolos. **Âmbito lexical**:
+cada uso liga-se à declaração envolvente **mais próxima** na AST; a
+interior esconde a exterior.
+
+**Operações**: inicializar, inserir, procurar (falha se não existe),
+**abrir** âmbito, **fechar** âmbito (repor as associações de antes, não
+só apagar). **Persistente** (Haskell): abrir = guardar a tabela, fechar =
+voltar a ela. **Efémera** (C): desfazer à mão.
+
+| Estrutura | Procurar | Abrir / fechar |
+|:--|:--|:--|
+| lista `(id,info)` / pilha | da cabeça/topo, $O(n)$ | guardar / repor a lista ou o topo |
+| árvore equilibrada | $O(\log n)$ comparações | trivial se persistente (`Data.Map`) |
+| *hash*: $b[h(k)]$, novas à cabeça | ~$O(1)$ | fechar retira as entradas do âmbito |
+
+$h(x) = (x_0\alpha^{k-1}+\dots+x_{k-1}) \bmod N$; em C com $\alpha=16$:
+`h = (h<<4) + c`, ou seja $h \leftarrow 16h + c$, e no fim `h % N`.
+
+## Análise de tipos
+
+Estático/dinâmico (quando) × forte/fraco (erros proibidos ou não):
+Haskell, Java estáticos fortes; Python dinâmico forte; C estático fraco.
+**Sintetizado** (folhas → raiz, resultado da função: o tipo); **herdado**
+(raiz → folhas, argumento: o ambiente, o tipo de retorno esperado).
+
+`checkExpr :: TypeEnv -> Expr -> Type`: tipar os filhos com o mesmo
+`env`, exigir os tipos do operador, devolver o do resultado (`+`: int,
+int → int; `<`: int, int → bool; `Var`: `lookup`, senão "undeclared").
+`checkStm :: TypeEnv -> Maybe Type -> Stm -> Bool`: atribuição = tipo
+declarado igual ao da expressão; `if`/`while` = condição `bool` e corpos
+bem tipados; bloco = `extendEnv` com as declarações e `all`; `return e`
+= tipo de `e` igual ao esperado (`Nothing` ⇒ erro).
+
+**Chamada** $f(e_1..e_n)$: $f$ tem tipo `TyFun [t1..tn] tr` e
+`map (checkExpr env) args == [t1..tn]` ⇒ `tr`. **Definição**: `env'` =
+`env` + $f$ + parâmetros (por isso pode ser recursiva); corpo com
+`Just tr`; devolve `env` + $f$.

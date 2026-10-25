@@ -1,10 +1,10 @@
 ---
 title: "Compiladores (CC3001) --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 5 (Aulas 1--7)"
+date: "Atualizado: Semana 7 (Aulas 1--9)"
 ---
 
-<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf, Teoricas/Aula_04.pdf, Teoricas/Aula_05.pdf, Teoricas/Aula_06.pdf, Praticas/Semana_4/Abstract_Syntax_Trees, Teoricas/Aula_07.pdf -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf, Teoricas/Aula_04.pdf, Teoricas/Aula_05.pdf, Teoricas/Aula_06.pdf, Praticas/Semana_4/Abstract_Syntax_Trees, Teoricas/Aula_07.pdf, Teoricas/Aula_08.pdf, Teoricas/Aula_09.pdf -->
 
 *O sinal † marca matéria que não está nos slides mas faz falta para as
 práticas.*
@@ -51,6 +51,7 @@ linguagens (o LLVM serve Clang, Swift e Rust). A cadeira trata do
 |:--|:--|:--|:-:|
 | Análise lexical | carateres | *tokens* | 2--3 |
 | Análise sintática | *tokens* | árvore (AST) | 4--7 |
+| Análise semântica | AST | AST + tabela de símbolos | 8--9 |
 
 # Aula 2 --- Análise lexical
 
@@ -2681,3 +2682,611 @@ com a pilha explícita.
 - **(b)** fatoriza-a à esquerda, mostra que o resultado é LL(1) e faz o
   *parsing* de `aabb` com a tabela.
 :::
+
+# Aula 8 --- Âmbitos e tabelas de símbolos
+
+## Análise semântica
+
+::: {.definicao title="--- Análise semântica"}
+Todas as verificações de correção que **dependem do contexto**, e que por
+isso uma gramática independente de contexto não consegue fazer:
+
+- cada variável é **declarada antes de ser usada**;
+- o **tipo** declarado de cada variável é compatível com as operações
+  feitas sobre ela;
+- cada função é chamada com o **número e os tipos certos** de argumentos.
+:::
+
+Os primeiros compiladores de C faziam-nas durante a análise sintática; hoje
+faz-se uma **passagem separada sobre a AST**, que já tem a estrutura do
+programa toda. Essa passagem junta a informação sobre cada identificador
+(variável, função, ...) numa **tabela de símbolos**, que a geração de
+código volta a usar (por exemplo, para saber onde está guardada cada
+variável). A saída da fase é a **AST + a tabela de símbolos**.
+
+## Âmbitos
+
+Um identificador é **declarado uma vez** e **usado muitas**. As
+declarações têm **âmbito** limitado, e o mesmo nome pode ser reutilizado
+noutro âmbito sem colisão: uma variável local pode ter o nome de uma
+global, e **esconde-a** enquanto o âmbito durar.
+
+::: {.definicao title="--- Âmbito lexical (estático)"}
+Cada **uso** de um identificador associa-se à **declaração envolvente
+mais próxima na AST**: procura-se no bloco atual, depois no que o
+envolve, e assim por diante até ao global. Depende só do texto do
+programa, não da execução. É a regra de C, C++, Java, Pascal, Haskell e
+SML; só os primeiros LISP e algumas linguagens de *scripting* usam
+**âmbito dinâmico** (a declaração mais recente **na execução**, †).
+:::
+
+::: {.exemplo title="--- Âmbitos num fragmento de C"}
+```c
+int i, j;              // global: i, j
+int f(int size)        // global: f
+{ char i, temp;        // função: size, i, temp   (este i esconde o global)
+  ...
+  { double j;          // bloco 1: j esconde o global
+    ...
+  }
+  ...                  // aqui j volta a ser o int global
+  { char *j;           // bloco 2: outro j, também esconde o global
+    ...
+  }
+}
+```
+
+Um uso de `i` dentro de `f` é o `char` (declaração mais próxima); um uso
+de `j` no bloco 1 é o `double`, entre os blocos é o `int` global.
+:::
+
+**Funções dentro de funções.** Pascal, Modula, Ada, as linguagens
+funcionais (Haskell, ML, Scheme) e JavaScript, Ruby e Python deixam
+declarar funções em qualquer âmbito; C só as deixa no âmbito global (o GCC
+aceita-as como extensão) e C++/Java dentro de classes. Servem para
+**esconder** funções auxiliares, simplificar o controlo de fluxo e, nas
+linguagens funcionais, substituir ciclos. A função local vê as variáveis
+da que a envolve (o `x` abaixo):
+
+```haskell
+e :: Float -> Float                isPrime :: Int -> Bool
+e x = f 3 + f 4                    isPrime n = n > 1 && checkDivs 2
+  where f y = x + y                  where checkDivs d
+                                           | n `mod` d == 0 = False
+                                           | d*d <= n       = checkDivs (d+1)
+                                           | otherwise      = True
+```
+
+O `checkDivs` faz o papel do ciclo `while (d*d <= n)` da versão em C.
+
+**Espaços de nomes.** Muitas linguagens separam os identificadores em
+espaços distintos: em Haskell um tipo e um construtor podem ter o mesmo
+nome (`data Expr = Int Int | Add Expr Expr`: `Int` é tipo e construtor);
+módulos e *packages* também são espaços de nomes. Usa-se uma tabela por
+espaço, ou uma só com os nomes distinguidos por prefixo
+(`Prelude.lookup`, `Data.Map.lookup`).
+
+::: {.pratica title="--- Âmbitos (exercício inventado)"}
+**Ex. K** No fragmento abaixo, diz a que declaração (linha e tipo)
+corresponde cada uso de `x` e de `y` nas linhas 5, 7 e 9.
+
+```c
+1  int x; float y;
+2  void g(int y) {
+3    char x;
+4    { float x;
+5      x = y; }
+6    { int z;
+7      z = x + y; }
+8  }
+9  int h(void) { return x; }
+```
+:::
+
+## Tabelas de símbolos
+
+::: {.definicao title="--- Tabela de símbolos"}
+Estrutura de dados que associa cada **identificador** a uma
+**informação**: o valor da variável (num interpretador), o tipo declarado
+(num compilador), os tipos dos argumentos e do resultado (numa função) ou
+a localização em registo/memória (na geração de código).
+:::
+
+**Operações.** As três de qualquer dicionário (`Map` em Java, `Data.Map`
+em Haskell, `dict` em Python, `std::map` em C++), mais duas para os
+âmbitos:
+
+| Operação | O que faz |
+|:--|:--|
+| **inicializar** | cria uma tabela vazia |
+| **inserir**$(id, info)$ | acrescenta a entrada; se $id$ já existe, passa a valer a nova |
+| **procurar**$(id)$ | devolve a informação, ou falha (exceção ou resultado opcional) |
+| **abrir** âmbito | à entrada de um bloco ou função |
+| **fechar** âmbito | repõe **todas** as associações como estavam antes de abrir |
+
+Fechar não é só apagar as entradas do âmbito: se o bloco escondeu um `j`
+global, o `j` global tem de **voltar a ser visível**.
+
+### Persistentes e efémeras
+
+::: {.definicao title="--- Estrutura persistente vs. efémera"}
+- **Persistente**: cada operação devolve uma versão nova e a **anterior
+  continua válida** (normal em Haskell, SML).
+- **Efémera**: as operações **destroem** a versão anterior (normal em C,
+  Java).
+:::
+
+![](figuras/persistente_vs_efemera.pdf){width=62%}
+
+*À esquerda, `append` muda o último nó de `xs`: o `xs` antigo deixa de
+existir. À direita, `xs ++ ys` copia os nós de `xs` (tracejado) e partilha
+`ys`: `xs`, `ys` e `zs` continuam válidos. Num conjunto em árvore binária,
+`Set.insert "e" xs` copia só o caminho da raiz até ao sítio novo e
+partilha o resto.*
+
+Com uma tabela **persistente** os âmbitos são triviais: ao abrir,
+**guarda-se uma referência** para a tabela; ao fechar, **volta-se a
+ela** (o que ficou sem uso é libertado pelo *garbage collector*). Com uma
+**efémera** é preciso trabalho extra: guardar o que cada inserção mudou e
+**desfazê-lo** ao fechar.
+
+### Implementações simples: lista funcional e pilha imperativa
+
+| Operação | Lista de pares (Haskell) | Pilha (C) |
+|:--|:--|:--|
+| inicializar | `[]` | pilha vazia |
+| inserir | `(id,info)` à **cabeça** | empilhar `(id,info)` |
+| procurar | da cabeça para o fim (`lookup` do prelúdio) | do **topo** para a base |
+| abrir âmbito | lembrar a lista atual | guardar o topo atual |
+| fechar âmbito | voltar à lista guardada | repor o topo guardado |
+
+Procurar a partir da entrada **mais recente** é o que faz a declaração
+mais interior esconder a exterior; repor o topo é o que a faz reaparecer.
+
+::: {.exemplo title="--- Pilha para o fragmento de C dos âmbitos"}
+Tabela de tipos; pilha com a base à esquerda, $\mid$ marca um topo
+guardado.
+
+| Ponto do programa | Operação | Pilha | procurar |
+|:--|:--|:--|:--|
+| `int i, j;` | inserir i, j | (i,int) (j,int) | |
+| `int f(...)` | inserir f; abrir | (i,int) (j,int) (f,fun) $\mid$ | |
+| parâmetro, `char i, temp;` | inserir size, i, temp | ... (f,fun) $\mid$ (size,int) (i,char) (temp,char) | i → **char** |
+| `{ double j;` | abrir; inserir j | ... (temp,char) $\mid$ (j,double) | j → **double** |
+| `}` do bloco 1 | fechar | ... (f,fun) $\mid$ (size,int) (i,char) (temp,char) | j → **int** |
+| `}` de `f` | fechar | (i,int) (j,int) (f,fun) | i → **int** |
+
+Na 3.ª linha, procurar `i` percorre do topo: temp (não), i (**sim**,
+char); o (i,int) da base nunca é visto. Depois do bloco 1 o topo volta a
+(temp,char) e o `j` encontrado é o da base.
+:::
+
+Com listas funcionais é igual; fechar o âmbito de `f` é voltar a usar a
+lista de fora, que nunca foi alterada:
+
+```haskell
+dentroDeF = [("temp",char), ("i",char), ("size",int), ("f",fun), ("j",int), ("i",int)]
+foraDeF   = [("f",fun), ("j",int), ("i",int)]     -- a cauda de dentroDeF
+```
+
+### Eficiência: árvores de pesquisa e tabelas de partição
+
+Listas e pilhas procuram **sequencialmente**: $O(n)$ para $n$ entradas.
+Num protótipo não importa, mas num compilador real $n$ inclui os
+identificadores das bibliotecas.
+
+- **Árvores de pesquisa binária equilibradas** (AVL, *red-black*):
+  pesquisa e inserção em $O(\log n)$ **comparações**, com uma ordem total
+  sobre as chaves. As funcionais são persistentes (`Data.Map`) e servem
+  bem; as imperativas são efémeras (`java.util.TreeMap`) e tornam os
+  âmbitos difíceis.
+- Comparar duas cadeias **não é $O(1)$** (percorre os carateres). As
+  **tabelas de partição** (*hash tables*) procuram **sem comparar
+  chaves**.
+
+::: {.definicao title="--- Tabela de partição imperativa"}
+Um *array* $b[0],\dots,b[N-1]$ de **listas ligadas** (*buckets*) e uma
+**função de *hash*** $h$ que leva cada identificador a um inteiro de $0$ a
+$N-1$. A chave $k$ procura-se só no *bucket* $b[h(k)]$. Duas chaves no
+mesmo *bucket* (**colisão**) ficam na mesma lista; as novas entram **à
+cabeça** e procura-se sempre do início para o fim, por isso uma
+redeclaração esconde a anterior. Ao **fechar** um âmbito retiram-se todas
+as entradas que ele inseriu. Com $h$ rápida, que **espalhe as chaves de
+forma uniforme**, e $N$ bem escolhido (centenas ou milhares), as colisões
+são raras e a pesquisa é, na prática, de tempo constante.
+:::
+
+**Função de *hash* para identificadores.** Com $x = x_0x_1\dots x_{k-1}$
+(os códigos dos carateres):
+$$h(x) = \left(x_0\alpha^{k-1} + x_1\alpha^{k-2} + \cdots + x_{k-1}\alpha^0\right) \bmod N$$
+Com $\alpha$ potência de 2, multiplicar por $\alpha$ é um *shift*. Em C,
+com $\alpha = 2^4 = 16$ (o ciclo é a regra de Horner: $h \leftarrow 16h +
+x_i$):
+
+```c
+unsigned hash(char *ptr) {
+  unsigned h = 0;
+  while (*ptr) {
+    h = (h << 4) + (unsigned)(*ptr++);   /* h*16 + código do carater */
+  }
+  return (h % N);
+}
+```
+
+Um compilador real usa funções mais robustas. Em Haskell há tabelas de
+partição **persistentes**: `Data.HashMap` (pacote `unordered-containers`),
+feitas com árvores $n$-árias (*hashed array mapped tries*); a função de
+*hash* vem da classe `Hashable`.
+
+::: {.exemplo title="--- Tabela de partição do fragmento de C, com N = 5"}
+Códigos ASCII: `i`=105, `j`=106, `f`=102, `s`=115, `z`=122, `e`=101,
+`t`=116, `m`=109, `p`=112. Um só carater: $h = x_0 \bmod 5$.
+
+- $h(\texttt{i}) = 105 \bmod 5 = 0$; $h(\texttt{j}) = 106 \bmod 5 = 1$;
+  $h(\texttt{f}) = 102 \bmod 5 = 2$.
+- `size`: $115 \to 115\cdot16+105 = 1945 \to 1945\cdot16+122 = 31242
+  \to 31242\cdot16+101 = 499973$; $499973 \bmod 5 = 3$.
+- `temp`: $116 \to 116\cdot16+101 = 1957 \to 1957\cdot16+109 = 31421
+  \to 31421\cdot16+112 = 502848$; $502848 \bmod 5 = 3$.
+
+Depois de `int i, j; int f(int size) { char i, temp;` (corrido em C):
+
+| *Bucket* | Lista (cabeça à esquerda) |
+|:-:|:--|
+| 0 | (i,char) → (i,int) |
+| 1 | (j,int) |
+| 2 | (f,fun) |
+| 3 | (temp,char) → (size,int) |
+| 4 | |
+
+Há duas colisões: a chave repetida `i` (a nova esconde a antiga) e
+`size`/`temp`, chaves diferentes com o mesmo *hash* (a pesquisa compara
+o nome dentro do *bucket*). Fechar o âmbito de `f` retira (i,char),
+(temp,char) e (size,int), e o (i,int) volta a ser o primeiro do
+*bucket* 0.
+:::
+
+### Para o trabalho
+
+A eficiência **não é crítica**: vale mais uma solução simples, obviamente
+correta, do que uma complicada. A tabela deve ser um **módulo com
+interface bem definida** (é mais fácil de testar e a implementação pode
+trocar-se depois). Em C, uma **pilha**; em Haskell, `Data.Map` ou
+`Data.HashMap`.
+
+::: {.exemplo title="--- Tabela de símbolos em C com uma pilha †"}
+```c
+typedef struct { char *name; char *info; } Entry;
+static Entry stack[MAX];  static int top = 0;      /* 1.ª posição livre */
+static int scopes[MAX];   static int nscopes = 0;  /* topos guardados   */
+
+void st_insert(char *n, char *i) { stack[top].name = n; stack[top].info = i; top++; }
+char *st_lookup(char *n) {
+  for (int k = top - 1; k >= 0; k--)              /* do topo para a base */
+    if (strcmp(stack[k].name, n) == 0) return stack[k].info;
+  return NULL;                                     /* não declarado */
+}
+void st_open(void)  { scopes[nscopes++] = top; }
+void st_close(void) { top = scopes[--nscopes]; }
+```
+
+Corrido com o fragmento: dentro de `f` `st_lookup("i")` dá `char`; no
+bloco 1 `j` dá `double`; depois do primeiro `st_close` `j` dá `int` (e
+`top` = 6); depois do segundo, `i` dá `int` e `size` dá `NULL`.
+:::
+
+::: {.pratica title="--- Tabelas de símbolos (exercícios inventados)"}
+**Ex. L** Para o código do Ex. K, desenha a pilha e o resultado de
+procurar `x` e `y`: **(a)** na linha 5; **(b)** na linha 7; **(c)** na
+linha 9. Pista: os parâmetros de `g` entram no âmbito de `g`.
+
+**Ex. M** Com a função `hash` acima e $N = 7$ (`x`=120, `y`=121, `n`=110):
+
+- **(a)** calcula $h$ de `x`, `y`, `n` e `yx`;
+- **(b)** desenha os *buckets* depois de inserir os globais `x`, `y`, `n`
+  e, num âmbito novo, `yx` e `x`;
+- **(c)** desenha-os depois de fechar o âmbito.
+
+**Ex. N** Implementa em Haskell a tabela com `Data.Map`
+(`type Table = Map String String`) e a função `scopes` que, dada a lista
+de declarações de cada âmbito do fragmento de C, devolve o tipo de `j`
+dentro do bloco 1 e depois dele. Pista: abrir/fechar não precisam de
+código, basta guardar a tabela num `let`.
+:::
+
+# Aula 9 --- Análise de tipos
+
+## Sistemas de tipos
+
+::: {.definicao title="--- Sistema de tipos"}
+Conjunto de **regras lógicas** que todos os programas de uma linguagem
+têm de respeitar. Exemplos: `+ - * /` só operam sobre números; a condição
+de um `if` é um booleano; em `var = expr`, `var` foi declarada com um tipo
+compatível com o de `expr`.
+:::
+
+Classificam-se em **dois eixos independentes**:
+
+| Eixo | | |
+|:--|:--|:--|
+| **quando** se verifica | **estático**: antes da execução (compilação) | **dinâmico**: durante a execução |
+| o que acontece a um erro | **forte**: operações com erro de tipos são proibidas | **fraco**: são permitidas |
+
+Haskell, SML e Java são **estáticos e fortes**; Python e Scheme
+**dinâmicos e fortes**; C **estático e fraco** (um *cast* deixa ler
+qualquer memória como outro tipo, †). As classes são graduais: Java é mais
+forte do que C e mais fraco do que Haskell. Em código máquina a distinção
+deixa de fazer sentido.
+
+Verificar **na compilação** poupa as verificações em execução e deixa
+gerar código mais eficiente; em qualquer caso, os tipos apanham erros
+lógicos do programador.
+
+## Atributos sintetizados e herdados
+
+A análise de tipos é uma (ou mais) **travessias recursivas da AST**, que
+calculam **atributos** dos nós: o tipo de cada subexpressão, a tabela
+identificador → tipo (o **ambiente**).
+
+::: {.definicao title="--- Atributos sintetizados e herdados"}
+- **Sintetizado**: calcula-se **das folhas para a raiz**, a partir dos
+  atributos dos filhos (o **tipo** de uma expressão: é o **resultado** da
+  função recursiva).
+- **Herdado**: passa **da raiz para as folhas** (o **ambiente**: é um
+  **argumento** da função recursiva).
+
+O mesmo atributo pode ser sintetizado numa parte da AST e herdado noutra:
+a tabela de símbolos é **sintetizada nas declarações** e **herdada nas
+expressões** que as usam.
+:::
+
+![](figuras/atributos_tipos.pdf){width=48%}
+
+*`(1+x) < y`: o ambiente desce (tracejado) e os tipos sobem (setas).*
+
+## Expressões
+
+Linguagem com inteiros, variáveis, `+` e `<`, e dois tipos, `int` e
+`bool`. `1+2*3`, `(1+2)<3` são válidas; `1+x*3` só se `x` for `int`;
+`1+(2<3)` é um **erro de tipos** (soma um inteiro com um booleano).
+
+```haskell
+data Expr = Num Int | Var Ident | Add Expr Expr | LessThan Expr Expr
+data Type = TyInt | TyBool  deriving Eq
+type TypeEnv = Map Ident Type          -- ambiente (tabela de símbolos)
+
+checkExpr :: TypeEnv -> Expr -> Type   -- tipo sintetizado, ou erro
+checkExpr env (Num n) = TyInt
+checkExpr env (Var x) = case Map.lookup x env of
+                          Nothing -> error "undeclared var"
+                          Just t  -> t
+checkExpr env (Add e1 e2)
+  = let t1 = checkExpr env e1
+        t2 = checkExpr env e2
+    in if t1==TyInt && t2==TyInt then TyInt else error "type error in +"
+checkExpr env (LessThan e1 e2)
+  = let t1 = checkExpr env e1
+        t2 = checkExpr env e2
+    in if t1==TyInt && t2==TyInt then TyBool else error "type error in <"
+```
+
+**Procedimento** (uma equação por construtor): **tipar os filhos** com o
+mesmo `env` (herdado), **confirmar** que são os que o operador exige e
+**devolver** o tipo do resultado (sintetizado). O ambiente inicial dá-se
+na chamada de topo, na raiz.
+
+::: {.exemplo title="--- checkExpr de (1+x) menor que y"}
+`env = {x ↦ int, y ↦ int}`, AST `LessThan (Add (Num 1) (Var "x")) (Var "y")`.
+
+1. `LessThan`: tipa os filhos com o mesmo `env`.
+2. `Add (Num 1) (Var "x")`: `Num 1` ⇒ `TyInt`; `Var "x"`: `lookup` dá
+   `Just TyInt` ⇒ `TyInt`. Ambos `TyInt` ⇒ **`TyInt`**.
+3. `Var "y"`: `lookup` dá `Just TyInt` ⇒ `TyInt`.
+4. `LessThan`: `t1 = TyInt`, `t2 = TyInt` ⇒ **`TyBool`**.
+
+Com `env = {x ↦ bool}`, `Add (Var "x") (Num 1)` falha no passo 2:
+`t1 = TyBool` ⇒ `type error in +`. Sem `x` no ambiente:
+`undeclared var`.
+:::
+
+## Declarações e comandos
+
+```haskell
+data Stm = Assign Ident Expr          -- x := e
+         | IfThenElse Expr Stm Stm    -- if cond then stm1 else stm2
+         | IfThen Expr Stm            -- if cond then stm
+         | While Expr Stm             -- while cond stm
+         | Block [Decl] [Stm]         -- { decls; stms }
+type Decl = (Ident, Type)
+```
+
+Por exemplo:
+
+```haskell
+-- if x<y then x=y else x=0
+IfThenElse (LessThan (Var "x") (Var "y")) (Assign "x" (Var "y")) (Assign "x" (Num 0))
+-- { int n; n = 1; while (n < 10) n = n+1; }
+Block [("n",TyInt)] [ Assign "n" (Num 1)
+                    , While (LessThan (Var "n") (Num 10))
+                            (Assign "n" (Add (Var "n") (Num 1))) ]
+```
+
+**Regras de tipos** (um comando não tem tipo: ou está **bem tipado** ou
+não):
+
+| Comando | Bem tipado se |
+|:--|:--|
+| `var = expr` | `var` está declarada **com o mesmo tipo** de `expr` |
+| `if (c) s1 else s2` | `c` é `bool` e `s1`, `s2` bem tipados (sem `else`: igual, só com `s1`) |
+| `while (c) s` | `c` é `bool` e `s` bem tipado |
+| `{decls; stms}` | com `decls` **acrescentadas ao ambiente**, todos os `stms` bem tipados |
+
+```haskell
+checkStm :: TypeEnv -> Stm -> Bool     -- True: bem tipado; senão erro
+checkStm env (Assign id expr)
+  = case Map.lookup id env of
+      Just typ -> if checkExpr env expr == typ then True
+                  else error "type error in assign"
+      Nothing  -> error "undeclared variable"
+checkStm env (IfThenElse cond stm1 stm2)
+  = let tycond = checkExpr env cond
+        check1 = checkStm env stm1
+        check2 = checkStm env stm2
+    in if tycond == TyBool && check1 && check2 then True
+       else error "type error in if then else"
+checkStm env (While cond stm)
+  = let tycond = checkExpr env cond
+        check  = checkStm env stm
+    in if tycond == TyBool && check then True else error "type error in while"
+checkStm env (Block decls stms)
+  = let env' = extendEnv env decls
+    in all (checkStm env') stms        -- all :: (a -> Bool) -> [a] -> Bool
+
+extendEnv :: TypeEnv -> [Decl] -> TypeEnv
+extendEnv env [] = env
+extendEnv env ((v,t):rest) = extendEnv (Map.insert v t env) rest
+```
+
+O bloco é onde entram os **âmbitos**: `env'` só existe dentro do bloco, e
+como `Data.Map` é persistente, à saída o `env` de fora está intacto (a
+regra da tabela persistente da Aula 8). `Map.insert` de uma variável que
+já existe substitui-a: a declaração interior esconde a exterior.
+
+::: {.exemplo title="--- checkStm do bloco com while"}
+`checkStm {} (Block [("n",TyInt)] [s1, s2])`, com `s1 = Assign "n" (Num 1)`
+e `s2 = While (LessThan (Var "n") (Num 10)) (Assign "n" (Add (Var "n") (Num 1)))`.
+
+1. `env' = extendEnv {} [("n",TyInt)] = {n ↦ int}`.
+2. `s1`: `lookup n` = `Just TyInt`; `checkExpr env' (Num 1)` = `TyInt`;
+   iguais ⇒ `True`.
+3. `s2`: `tycond = checkExpr env' (LessThan (Var "n") (Num 10))` =
+   `TyBool` (dois `TyInt`). Corpo: `lookup n` = `TyInt`, `Add (Var "n")
+   (Num 1)` ⇒ `TyInt`, iguais ⇒ `True`. `TyBool` e `True` ⇒ `True`.
+4. `all` de `[True, True]` ⇒ **`True`**: bem tipado (corrido em GHC).
+
+Com `env = {x ↦ int}`, `While (Var "x") ...` dá `type error in while`:
+a condição é `int`, não `bool`.
+:::
+
+::: {.pratica title="--- Tipos de expressões e comandos (exercícios inventados)"}
+**Ex. O** Com `env = {x ↦ int, b ↦ bool}`, aplica `checkExpr`/`checkStm`
+passo a passo e diz o resultado:
+
+- **(a)** `Add (Var "x") (LessThan (Num 1) (Var "x"))`;
+- **(b)** `IfThen (Var "b") (Assign "b" (LessThan (Var "x") (Num 0)))`;
+- **(c)** `Block [("b",TyInt)] [Assign "b" (Add (Var "b") (Num 1))]`
+  (o `b` de fora é `bool`!).
+
+**Ex. P** Estende o verificador com `Mul`, `And` e `Not` (expressões) e
+com o caso `IfThen`. Testa `Not (LessThan (Num 1) (Num 2))` e
+`And (Num 1) (Var "b")`.
+:::
+
+## Funções
+
+A linguagem ganha chamadas, `return` e definições:
+
+```haskell
+data Expr   = ... | FunCall Ident [Expr]                 -- f(e1, e2, ...)
+data Stm    = ... | Return Expr
+data FunDef = FunDef Ident [(Ident,Type)] Type Stm       -- t f(t1 x1,...,tn xn) stm
+data Type   = ... | TyFun [Type] Type                    -- (t1,...,tn) -> tr
+```
+
+`int incr(int x) { return x+1; }` é
+`FunDef "incr" [("x",TyInt)] TyInt (Return (Add (Var "x") (Num 1)))`, de
+tipo $(\texttt{int}) \to \texttt{int}$, ou `TyFun [TyInt] TyInt`.
+
+**Chamada** $f(e_1,\dots,e_n)$: (1) procurar $f$ no ambiente, que tem de
+dar um tipo $(t_1,\dots,t_n)\to t_r$; (2) sintetizar os tipos de
+$e_1,\dots,e_n$; (3) se forem **iguais** a $t_1,\dots,t_n$ (mesmo número
+e pela ordem), o tipo da chamada é $t_r$; senão, erro.
+
+```haskell
+checkExpr env (FunCall f args)
+  = case Map.lookup f env of
+      Just (TyFun argTypes result) ->
+        if map (checkExpr env) args == argTypes then result
+        else error "invalid argument types"
+      _ -> error "invalid function name"     -- não existe, ou não é função
+```
+
+**`return expr`**: sintetiza-se o tipo de `expr` e compara-se com o tipo
+**esperado**, que tem de vir de cima: é mais um **atributo herdado**.
+Como `return` só pode aparecer dentro de uma função, passa-se um
+`Maybe Type` (`Nothing` fora de funções), e **todas** as outras equações
+de `checkStm` o passam aos comandos de dentro:
+
+```haskell
+checkStm :: TypeEnv -> Maybe Type -> Stm -> Bool
+checkStm env (Just typ) (Return exp) = checkExpr env exp == typ
+checkStm env Nothing    (Return _)   = error "return outside of function"
+checkStm env tr (While cond stm)                     -- as outras: propagar tr
+  = let tycond = checkExpr env cond
+        check  = checkStm env tr stm
+    in if tycond == TyBool && check then True else error "type error in while"
+```
+
+**Definição** de função: (1) estender o ambiente com os tipos dos
+parâmetros; (2) verificar o corpo nesse ambiente, (3) com o tipo do
+resultado como tipo esperado (herdado); (4) devolver o ambiente
+**estendido com o tipo da função** (sintetizado), para o resto do
+programa a poder chamar. O ambiente é ao mesmo tempo herdado e
+sintetizado.
+
+```haskell
+checkFunDef :: TypeEnv -> FunDef -> TypeEnv
+checkFunDef env (FunDef fun decls tyret stm)
+  = let tyargs = map snd decls
+        env'   = extendEnv env ((fun, TyFun tyargs tyret):decls)
+    in if checkStm env' (Just tyret) stm
+       then extendEnv env [(fun, TyFun tyargs tyret)]
+       else error "type error in function definition"
+```
+
+**Recursão.** O corpo é verificado em `env'`, que **já tem a própria
+função**: por isso o corpo pode chamá-la.
+
+::: {.exemplo title="--- checkFunDef de incr"}
+`checkFunDef {} (FunDef "incr" [("x",TyInt)] TyInt (Return (Add (Var "x") (Num 1))))`
+
+1. `tyargs = map snd [("x",TyInt)] = [TyInt]`.
+2. `env' = extendEnv {} [("incr", TyFun [TyInt] TyInt), ("x", TyInt)]`
+   `= {incr ↦ TyFun [TyInt] TyInt, x ↦ int}`.
+3. `checkStm env' (Just TyInt) (Return (Add (Var "x") (Num 1)))`:
+   `checkExpr env' (Add (Var "x") (Num 1))` = `TyInt` (`x` é `TyInt`),
+   igual a `TyInt` ⇒ `True`.
+4. Resultado: `extendEnv {} [("incr", TyFun [TyInt] TyInt)]`
+   = **`{incr ↦ TyFun [TyInt] TyInt}`** (corrido em GHC).
+
+Uma chamada `incr(1<2)` com este ambiente: `map (checkExpr env) [LessThan
+(Num 1) (Num 2)] = [TyBool]` ≠ `[TyInt]` ⇒ `invalid argument types`.
+:::
+
+**Erro típico:** um `return` com o tipo errado dá `False` (a equação
+compara com `==`), não `error`; o `False` sobe pelo `&&`/`all` e quem
+decide o erro é `checkFunDef`.
+
+::: {.pratica title="--- Funções (exercício inventado)"}
+**Ex. Q** Escreve a AST de
+`int sum(int n) { if (n < 1) return 0; else return n + sum(n + -1); }`
+e aplica `checkFunDef {}`. Que passo deixa a chamada recursiva
+`sum(...)` ser aceite?
+:::
+
+## Extras: *overloading*, coerção, polimorfismo e inferência
+
+- ***Overloading***: o mesmo operador para operações em tipos diferentes
+  (`1 + 2` em `int`, `1.0 + 2.5` em `float`). **Coerção**: conversão de
+  tipo **explícita** (`(float)x + 2.5`) ou **implícita** (`x + 2.5`, com
+  `x` inteiro). Com operadores e tipos pré-definidos (C, Pascal) a
+  verificação é simples: escolhe-se a operação pelos tipos dos operandos;
+  é muito mais difícil quando o programador define operadores sobre tipos
+  novos (C++, Haskell).
+- **Polimorfismo**: código que opera sobre vários tipos. **Paramétrico**:
+  `reverse :: [t] -> [t]` em Haskell, *generics* em Java/C#
+  (`void reverse(List<T> list)`). ***Ad-hoc***: *overloading*,
+  interfaces, herança.
+- **Inferência**: em alguns sistemas os tipos **deduzem-se** em vez de
+  só se verificarem as declarações; as linguagens funcionais usam o
+  algoritmo **Damas-Milner** (com extensões).

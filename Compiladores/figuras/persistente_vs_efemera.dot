@@ -1,0 +1,18 @@
+digraph G {
+  rankdir=LR; ranksep=0.25; nodesep=0.18; margin=0;
+  node [shape=box, style=rounded, fontname="Helvetica", fontsize=13, height=0.3, width=0.3];
+  edge [arrowsize=0.6];
+  subgraph cluster_e { label="Efémera: xs.append(ys)"; fontname="Helvetica"; fontsize=13; style=rounded;
+    xs [shape=plaintext, label="xs"]; ys [shape=plaintext, label="ys"];
+    a0 [label="0"]; a1 [label="1"]; a2 [label="2"]; b3 [label="3"]; b4 [label="4"]; b5 [label="5"];
+    xs -> a0; a0 -> a1 -> a2 -> b3 -> b4 -> b5; ys -> b3;
+    {rank=same; xs; ys}
+  }
+  subgraph cluster_p { label="Persistente: zs = xs ++ ys"; fontname="Helvetica"; fontsize=13; style=rounded;
+    pxs [shape=plaintext, label="xs"]; pys [shape=plaintext, label="ys"]; pzs [shape=plaintext, label="zs"];
+    c0 [label="0"]; c1 [label="1"]; c2 [label="2"];
+    d3 [label="3"]; d4 [label="4"]; d5 [label="5"];
+    z0 [label="0", style="rounded,dashed"]; z1 [label="1", style="rounded,dashed"]; z2 [label="2", style="rounded,dashed"];
+    pxs -> c0 -> c1 -> c2; pys -> d3 -> d4 -> d5; pzs -> z0 -> z1 -> z2 -> d3;
+  }
+}

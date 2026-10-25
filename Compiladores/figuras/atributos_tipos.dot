@@ -1,0 +1,13 @@
+digraph G {
+  rankdir=TB; ranksep=0.22; nodesep=0.35; margin=0;
+  node [shape=box, style=rounded, fontname="Helvetica", fontsize=13];
+  edge [arrowsize=0.6];
+  env [shape=plaintext, label="env = {x ↦ int, y ↦ int}"];
+  lt [label="LessThan  ⇒ bool"]; add [label="Add  ⇒ int"]; y [label="Var y  ⇒ int"];
+  n1 [label="Num 1  ⇒ int"]; x [label="Var x  ⇒ int"];
+  env -> lt [style=dashed, label=" herdado", fontname="Helvetica", fontsize=11];
+  lt -> add [dir=back, label=" int", fontname="Helvetica", fontsize=11];
+  lt -> y [dir=back, label=" int", fontname="Helvetica", fontsize=11];
+  add -> n1 [dir=back, label=" int", fontname="Helvetica", fontsize=11];
+  add -> x [dir=back, label=" int", fontname="Helvetica", fontsize=11];
+}
