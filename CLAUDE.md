@@ -10,24 +10,28 @@ sempre a skill `resumo-semanal` (`.claude/skills/resumo-semanal/SKILL.md`).
 
 ```
 <Disciplina>/
+  RESUMO_<D>.pdf, REVISAO_<D>.pdf, INFO_<D>.pdf   só estes três na raiz (INFO: pessoal, fora do git)
   Teoricas/Aula_NN.pdf        slides, um por aula (zero à esquerda)
   Praticas/Semana_N/...       labs/fichas: só servem para escolher os "Pratica agora"
-  figuras/                    diagramas gerados (graphviz)
+  Testes/                     testes modelo e antigos (+ resoluções)
+  Trabalho/                   enunciado do trabalho; GUIAO_*/TRABALHO_* gerados de .fonte/
+  figuras/                    diagramas gerados (graphviz; figuras/auto/ pelos filtros)
   .fonte/RESUMO_<D>.md        fonte do resumo (escondida; nunca apagar)
   .fonte/REVISAO_<D>.md       fonte da folha de revisão (2-3 páginas de receitas)
   .fonte/SOLUCOES_<D>.md      soluções dos "Pratica agora"
   .fonte/CONTEXTO_<D>.md      convenções e factos desta disciplina (não gera PDF)
-  .fonte/INFO_<D>.md          testes, prazos, avaliação, avisos do Moodle → INFO_<D>.pdf (skill moodle-refresh)
+  .fonte/INFO_<D>.md          datas, avaliação, aulas, avisos → INFO_<D>.pdf (skill moodle-refresh)
   .fonte/moodle/              estado do Moodle (estado.json) e fonte das páginas passadas a PDF
   .fonte/.cache/              texto extraído dos slides (gerado, fora do git)
-  RESUMO_<D>.pdf, REVISAO_<D>.pdf
-_shared/template/             prep.sh, fechar.sh, contexto.sh, extrair.sh, build.sh, preâmbulos, filtros
-AGENDA.pdf                    datas de todas as disciplinas (testes, entregas), feita pelo moodle.py
+_shared/template/             prep.sh, fechar.sh, contexto.sh, extrair.sh, build.sh, doc.sh, moodle.py, pessoal.py, preâmbulo, filtros
+_shared/tools/                verificadores (fitch_check.py, tableau.py)
 _shared/moodle.json           UCs do Moodle seguidas (id do curso → pasta)
+_shared/site/                 o site do Gonçalo: build_site.py, design/ (tokens.css; pessoal.js, estudo.js), fichas.json, pessoal.enc
+AGENDA.pdf                    datas de todas as disciplinas (testes, entregas), feita pelo moodle.py (fora do git)
 SOLUCOES.html                 site único de soluções, um separador por disciplina (gerado)
 Quizrama/                     quizzes de preparação para testes (redes.html; SO em index.html)
   tools/<d>-guide/            build.py (guia a partir do RESUMO) e perguntas.py (banco; editar aqui)
-_shared/site/                 o site do Gonçalo: build_site.py, design/ (tokens.css; pessoal.js, estudo.js), fichas.json, pessoal.enc
+  arquivo/so/                 material de SO do 2.º ano (slides, testes, guia em .md)
 _site/                        site gerado (fora do git; o GitHub Actions publica-o no Pages a cada push)
 ```
 
@@ -49,7 +53,9 @@ Ver localmente: `_shared/template/site.sh`. O que se publica está em
 
 **`.md` escondido**: o Gonçalo não quer ver `.md` ao navegar as pastas.
 Qualquer documento de uma disciplina gera um PDF com o mesmo pipeline e a
-fonte fica em `.fonte/`.
+fonte fica em `.fonte/`. Um documento por assunto: o que sobrepõe um
+existente (resumo de protocolos, exercícios resolvidos, calendário) entra
+no RESUMO/REVISAO/SOLUCOES/INFO dessa disciplina, não num PDF à parte.
 
 ## Moodle
 
@@ -72,12 +78,8 @@ Não toca nos resumos: teóricas novas → `resumo-semanal`.
 
 ## Poupar tokens
 
-- A sessão começa com `_shared/template/prep.sh <D>` (estado, extração dos
-  slides para o cache, sobreposições, convenções) e acaba com
-  `_shared/template/fechar.sh <D>` (build, verificações, soluções).
-- Nunca ler o RESUMO inteiro nem os slides como imagem por defeito; o
-  texto dos slides lê-se uma vez, do cache. Para o resto:
-  `contexto.sh <D> [--mapa termos | termos | --indice | --sol]`.
+- Resumos: as regras de leitura (`prep.sh`, `fechar.sh`, `contexto.sh`,
+  cache dos slides, RESUMO por troços) estão na skill `resumo-semanal`.
   Um hook (`.claude/hooks/ler_por_partes.py`) recusa PDFs inteiros e
   ficheiros > 40 KB sem `limit`; as deny rules tapam `_site/`,
   `SOLUCOES.html` e o que é gerado.
