@@ -68,21 +68,15 @@
 │       ├── html-structure.test.js  # valida que IDs DOM esperados existem
 │       └── os-guide.test.js        # valida que os_guide carrega sem erro
 │
-├── docs/
-│   ├── perguntas_quiz.md
-│   ├── sistemas_operacoes_estudo__2_.md
-│   └── sistemas_operacoes_estudo__2_.html
+├── arquivo/so/                 # material de SO: slides e testes (material/), guia e perguntas em .md
 │
 ├── package.json                # mínimo, declara dependência de docx
 ├── .gitignore
 ├── README.md
-├── CONTRIBUTING.md
-├── ARCHITECTURE.md             # (este ficheiro)
-├── ANALYSIS.md
-└── REFACTOR_LOG.md
+└── ARCHITECTURE.md             # (este ficheiro, inclui «Como contribuir»)
 ```
 
-> **Conteúdo (`docs/`)** — os ficheiros `perguntas_quiz.md`, `sistemas_operacoes_estudo__2_.md` e `sistemas_operacoes_estudo__2_.html` são material de estudo. **Atenção**: `output.js` linka para `sistemas_operacoes_estudo__2_.html` em explicações (ex.: linha 1 de output.js: `target="_blank"` para `sistemas_operacoes_estudo__2_.html#…`). Mover para `docs/` exigiria reescrever 538 hrefs em `output.js`. **Decisão**: mantém-se `sistemas_operacoes_estudo__2_.html` na raiz (servido pela mesma origem que `index.html`), e só os outros dois (`.md` e `perguntas_quiz.md`) movem-se para `docs/`. Documentar esta decisão em `CONTRIBUTING.md`.
+> **Material de SO (`arquivo/so/`)** — o guia e as perguntas em `.md`, e os slides e testes antigos, são material de estudo. O `sistemas_operacoes_estudo__2_.html` fica na raiz: o `output.js` liga-o em ~540 explicações.
 
 ---
 
@@ -265,3 +259,73 @@ Refactor termina quando:
 - `node tools/os-guide/index.js` produz `OS_Improved_Study_Guide.docx` idêntico (ou pelo menos do mesmo tamanho ±5%) ao baseline.
 - Não há `console.log` deixados de debug.
 - `README.md` e `CONTRIBUTING.md` actualizados.
+
+---
+
+## Como contribuir
+
+### Onde adicionar coisas
+
+| Mudança | Localização |
+|---|---|
+| Adicionar perguntas novas | `output.js` (mantém o esquema `[topic, id, html, [4 options], correctIdx, explanationHtml, hint?]`). Tópicos novos: também adicionar entrada em `assets/js/data/topic-colors.js` e em `TOPIC_ORDER` em `assets/js/ui/topic-filter.js`. |
+| Mudar visual / layout | `assets/css/{tokens,layout,components}.css` — ver §Convenções CSS. |
+| Lógica de estado / persistência | `assets/js/core/state.js` ou `core/storage.js`. **Não** introduzir DOM aqui. |
+| Renderização de DOM | `assets/js/ui/*.js`. Lê de `state` e `ALL`; escreve no DOM. |
+| Caso de uso (responder, navegar, reset) | `assets/js/quiz.js`. |
+| Atalho de teclado novo | `assets/js/keyboard.js`. |
+| Script gerador do guia (texto, diagramas) | `tools/os-guide/`. Conteúdo por capítulo em `content/chapter-NN-*.js`; helpers em `theme.js`/`primitives.js`/`tables.js`/`diagrams.js`. |
+
+### Regra de dependência (browser)
+
+```
+boot.js → keyboard.js → quiz.js → ui/*.js → core/*.js → data/*.js
+                                                ▲
+                                          output.js (ALL)
+```
+
+- UI não chama `quiz.js`; o oposto sim.
+- Core não toca DOM (testável em Node puro).
+- Data é estático.
+
+A ordem de carregamento dos `<script>` no `index.html` reflecte esta hierarquia. **`boot.js` tem de ser o último.**
+
+### Convenções de código
+
+- **JS**: 2 espaços, sem ponto e vírgula opcional (segue o estilo existente em `assets/js/`). `function foo(arg)` para definições de funções globais (assim ficam em `window.foo` para callbacks `onclick="foo(…)"` referenciados no HTML).
+- **CSS**: organizado por secção (`/* COMPONENT */`), classes em kebab-case, design tokens em CSS custom properties no `:root`.
+- **Ficheiros**: kebab-case (`topic-filter.js`, `chapter-04-scheduling.js`).
+- **Constantes globais**: `SCREAMING_SNAKE_CASE` (`TOPIC_COLORS`, `TOPIC_ORDER`, `STORAGE_KEY`, `GRADES`).
+- **Limite de tamanho**: 1 ficheiro = 1 responsabilidade clara, alvo ≤300 linhas, máximo 500.
+
+### Workflow
+
+1. Branch a partir de `main`.
+2. Commits atómicos: 1 commit por extracção / mudança lógica.
+3. Mensagens descritivas em português ou inglês — seguir estilo do histórico.
+4. Antes de abrir PR, correr:
+   ```bash
+   npm run validate
+   ```
+5. Para o gerador de guia:
+   ```bash
+   npm run build:guide
+   # confere o tamanho do .docx — diff <5% vs último commit é normal
+   ```
+
+### Smoke tests
+
+Os tests vivem em `tests/smoke/*.test.js` e correm via `tests/smoke/run-all.js` (sem framework — só `assert`). Adicionar novo teste:
+
+1. Cria `tests/smoke/<nome>.test.js`.
+2. Importa `assert`, lê o que precisa de verificar, faz `assert.*`.
+3. O runner descobre automaticamente.
+
+Não adicionar Jest / Mocha / Vitest sem proposta clara — a leveza é deliberada.
+
+### Decisões intencionais (não mexer sem justificação)
+
+- **`output.js` exporta o global `ALL`** — alterar o nome quebra a app inteira.
+- **`sistemas_operacoes_estudo__2_.html` fica na raiz** — é referenciado por `output.js` em ~540 hrefs nas explicações; mover quebraria todos os links.
+- **Sem `<script type="module">`** — os `onclick="…"` no HTML precisam de funções no escopo global; ESM partia o modelo.
+- **`optionOrder` é forçado a `[0,1,2,3]` em `loadState()`** — as explicações em `output.js` referem opções por letra original `(A)`/`(B)`/`(C)`/`(D)`. Não mexer.

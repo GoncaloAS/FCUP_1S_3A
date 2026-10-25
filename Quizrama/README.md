@@ -77,8 +77,8 @@ Ver [ARCHITECTURE.md](ARCHITECTURE.md) para detalhe.
 │   ├── theme.js, primitives.js, tables.js, diagrams.js
 │   └── content/chapter-NN-*.js
 ├── tests/smoke/                # smoke tests (Node puro)
-├── docs/                       # material de estudo extra (.md)
-├── ANALYSIS.md, ARCHITECTURE.md, REFACTOR_LOG.md, CONTRIBUTING.md
+├── arquivo/so/                 # material de SO (slides, testes antigos, guia em .md)
+├── ARCHITECTURE.md             # arquitetura e como contribuir
 └── package.json, .gitignore
 ```
 
