@@ -14473,6 +14473,43 @@ de cada uma o que leva — por exemplo: “1: GET A www.jn.pt”, “2: NS pt”
 IP-final”).</em></p>
 </div></details>
 </section>
+<section id="Redes-c2.9-email-para-um-subdomínio-exercício-inventado" class="level3">
+<h3>C2.9 — Email para um subdomínio (exercício inventado)</h3>
+<details class="sol" id="Redes-C2.9-a"><summary><span class="enun">
+(a) Primeiro registo
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>O registo <strong>MX</strong> de <code>dei.uc.pt</code>. O SMTP não
+entrega ao IP do domínio, mas ao <strong>servidor de email</strong> do
+domínio, e é o MX que o diz: por exemplo
+<code>(dei.uc.pt, mail.dei.uc.pt, MX)</code>, com uma preferência (menor
+primeiro). Depois falta o <strong>A</strong> de
+<code>mail.dei.uc.pt</code>, para ter o IP a que se liga o SMTP;
+normalmente já vem na secção <em>additional</em> da resposta ao MX.</p>
+</div></details>
+<details class="sol" id="Redes-C2.9-b"><summary><span class="enun">
+(b) Servidores e mensagens
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>O servidor local pergunta <strong>iterativamente</strong> a quatro
+servidores, cada um com uma referência para o seguinte:</p>
+<ol type="1">
+<li><strong>raiz</strong> → NS do TLD <code>pt</code>;</li>
+<li><strong>TLD <code>pt</code></strong> → NS de
+<code>uc.pt</code>;</li>
+<li><strong>servidor com autoridade de <code>uc.pt</code></strong> → NS
+de <code>dei.uc.pt</code> (a delegação do subdomínio);</li>
+<li><strong>servidor com autoridade de <code>dei.uc.pt</code></strong> →
+o <strong>MX</strong> (com <code>aa</code>).</li>
+</ol>
+<p>São
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mo>×</mo><mn>2</mn><mo>=</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">4 \times 2 = 8</annotation></semantics></math>
+mensagens iterativas, mais <strong>2</strong> entre o servidor de
+correio e o servidor local (pedido recursivo e resposta):
+<strong>10</strong>. Se o A de <code>mail.dei.uc.pt</code> não vier na
+secção <em>additional</em>, há mais 2 (o local já tem o NS de
+<code>dei.uc.pt</code> em <em>cache</em> e pergunta-lhe diretamente), e
+mais 2 entre o servidor de correio e o local.</p>
+</div></details>
+</section>
 </section>
 <section id="Redes-aula-2-dns-host-e-dig" class="level2">
 <h2>Aula 2 — DNS: host e dig</h2>

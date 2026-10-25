@@ -1654,6 +1654,33 @@ São **6 mensagens** (3 pares de pedido/resposta), sempre entre o cliente (na pr
 
 *(No teste: desenha as 6 setas tal como na figura e escreve junto de cada uma o que leva — por exemplo: "1: GET A www.jn.pt", "2: NS pt", "3: GET A www.jn.pt", "4: NS jn.pt", "5: GET A www.jn.pt", "6: A IP-final").*
 
+### C2.9 --- Email para um subdomínio (exercício inventado)
+
+#### (a) Primeiro registo
+
+O registo **MX** de `dei.uc.pt`. O SMTP não entrega ao IP do domínio, mas
+ao **servidor de email** do domínio, e é o MX que o diz: por exemplo
+`(dei.uc.pt, mail.dei.uc.pt, MX)`, com uma preferência (menor primeiro).
+Depois falta o **A** de `mail.dei.uc.pt`, para ter o IP a que se liga o
+SMTP; normalmente já vem na secção *additional* da resposta ao MX.
+
+#### (b) Servidores e mensagens
+
+O servidor local pergunta **iterativamente** a quatro servidores, cada um
+com uma referência para o seguinte:
+
+1. **raiz** → NS do TLD `pt`;
+2. **TLD `pt`** → NS de `uc.pt`;
+3. **servidor com autoridade de `uc.pt`** → NS de `dei.uc.pt` (a
+   delegação do subdomínio);
+4. **servidor com autoridade de `dei.uc.pt`** → o **MX** (com `aa`).
+
+São $4 \times 2 = 8$ mensagens iterativas, mais **2** entre o servidor de
+correio e o servidor local (pedido recursivo e resposta): **10**. Se o A
+de `mail.dei.uc.pt` não vier na secção *additional*, há mais 2 (o local
+já tem o NS de `dei.uc.pt` em *cache* e pergunta-lhe diretamente), e mais
+2 entre o servidor de correio e o local.
+
 ## Aula 2 --- DNS: host e dig
 
 ### F3.4 --- dig da name? (Ficha 3, Ex. 4)

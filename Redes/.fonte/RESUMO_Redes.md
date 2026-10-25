@@ -1703,7 +1703,10 @@ A Network Utopia quer `networkutopia.com`:
    Solutions), com os nomes e IPs dos seus servidores com autoridade.
 2. O agente insere **dois RRs no servidor TLD** `com`:
    `(networkutopia.com, dns1.networkutopia.com, NS)` e
-   `(dns1.networkutopia.com, 212.212.212.1, A)`.
+   `(dns1.networkutopia.com, 212.212.212.1, A)`. O segundo chama-se
+   **registo de cola** (*glue record*) †: o servidor de nomes está dentro
+   do próprio domínio, por isso o TLD dá logo o seu IP (secção
+   *additional*), senão não havia maneira de o contactar.
 3. No seu **servidor com autoridade**, a empresa cria os registos do
    domínio: um **A** para `www.networkutopia.com`, um **MX** para
    `networkutopia.com`, etc.
@@ -1738,6 +1741,12 @@ cada uma:
 linhas verticais (cliente, servidor de raiz, servidor TLD, servidor com
 autoridade), as setas das mensagens DNS que resolvem **iterativamente**
 `www.jn.pt`. Diz o que leva cada mensagem.
+
+**C2.9** Alguém envia um email para `aluno@dei.uc.pt`, com as *caches*
+vazias. **(a)** Que registo pede primeiro o servidor de correio do
+remetente, e porquê? **(b)** Se `dei.uc.pt` tiver servidor com autoridade
+próprio (delegado por `uc.pt`), que servidores pergunta o servidor local,
+e quantas mensagens DNS há?
 :::
 
 ### Ferramentas: `host` e `dig` †

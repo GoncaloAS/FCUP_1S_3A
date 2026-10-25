@@ -2162,7 +2162,11 @@ servidores com autoridade.</li>
 <li>O agente insere <strong>dois RRs no servidor TLD</strong>
 <code>com</code>:
 <code>(networkutopia.com, dns1.networkutopia.com, NS)</code> e
-<code>(dns1.networkutopia.com, 212.212.212.1, A)</code>.</li>
+<code>(dns1.networkutopia.com, 212.212.212.1, A)</code>. O segundo
+chama-se <strong>registo de cola</strong> (<em>glue record</em>) †: o
+servidor de nomes está dentro do próprio domínio, por isso o TLD dá logo
+o seu IP (secção <em>additional</em>), senão não havia maneira de o
+contactar.</li>
 <li>No seu <strong>servidor com autoridade</strong>, a empresa cria os
 registos do domínio: um <strong>A</strong> para
 <code>www.networkutopia.com</code>, um <strong>MX</strong> para

@@ -141,10 +141,12 @@ pedida), `ra` (disponível), `aa` (com autoridade), 4 contadores. Secções:
 **Hierarquia**: raiz (13, *root hints*) → TLD → com autoridade. Servidor
 local: recebe pedidos **recursivos**, faz pedidos **iterativos**, guarda em
 *cache*. Caso normal com *cache* vazia: 8 mensagens; só a parte
-iterativa: 6 setas, todas de e para o cliente. **TTL**: fixo no
+iterativa: 6 setas, todas de e para o cliente (**nenhuma seta liga dois
+servidores**). Cada nível já em *cache* poupa 2 mensagens. **TTL**: fixo no
 servidor com autoridade; desce quando vem da *cache*. Registar um domínio:
-NS + A do servidor de nomes no TLD; A, MX, CNAME... no servidor com
-autoridade.
+NS + A do servidor de nomes no TLD (o A é o **registo de cola**); A, MX,
+CNAME... no servidor com autoridade. Email: primeiro o **MX**, depois o A
+do servidor de correio.
 
 `dig nome TIPO`, `@servidor`, `+short`, `+norecurse` (iterativo), `+trace`,
 `+qr`; `host -t mx`.
