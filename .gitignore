@@ -2,6 +2,7 @@
 **/.fonte/.cache/
 _shared/.venv/
 __pycache__/
+*.zip
 
 # Quizrama (Node)
 Quizrama/node_modules/
@@ -14,8 +15,6 @@ _site/
 # pessoal (o repositório é público): vai cifrado em _shared/site/pessoal.enc
 */.fonte/INFO_*.md
 */INFO_*.pdf
-!TecnologiasWeb/.fonte/INFO_GERAL.md
-!TecnologiasWeb/INFO_GERAL.pdf
 AGENDA.pdf
 IPM/Trabalho/Feedback_*
 */.fonte/moodle/Feedback_*

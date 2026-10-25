@@ -1,5 +1,5 @@
 #!/bin/bash
-# Compila só um documento .fonte/<NOME>.md -> <Disciplina>/<NOME>.pdf, no estilo dos resumos
+# Compila só um documento .fonte/<NOME>.md -> <Disciplina>/<NOME>.pdf (GUIAO_*/TRABALHO_*: Trabalho/), no estilo dos resumos
 # (o mesmo que o build.sh faz a todos os "outros documentos", sem refazer o RESUMO).
 # Uso: _shared/template/doc.sh Redes INFO_Redes
 set -euo pipefail
@@ -15,5 +15,6 @@ pandoc "$SUBJECT_DIR/.fonte/$DOC.md" -f markdown-implicit_figures -s -H "$T/prea
 tectonic -Z search-path="$SUBJECT_DIR" --keep-logs --outdir "$TMP" "$TMP/$DOC.tex" > "$TMP/out" 2>&1 \
   || { grep -v "^warning:\|^note:" "$TMP/out" >&2; exit 1; }
 grep -q "Missing character" "$TMP/$DOC.log" && echo "AVISO ($DOC): caracteres sem glifo" >&2
-cp "$TMP/$DOC.pdf" "$SUBJECT_DIR/$DOC.pdf"
-echo "Gerado: $SUBJECT/$DOC.pdf"
+DEST="$SUBJECT_DIR"; case "$DOC" in GUIAO_*|TRABALHO_*) DEST="$SUBJECT_DIR/Trabalho"; mkdir -p "$DEST" ;; esac
+cp "$TMP/$DOC.pdf" "$DEST/$DOC.pdf"
+echo "Gerado: ${DEST#$ROOT/}/$DOC.pdf"

@@ -1,5 +1,5 @@
 -- Converte ::: nomedaclasse ... ::: (fenced divs) em \begin{nomedaclasse}...\end{nomedaclasse}
--- para que as caixas definidas em preamble.tex (definicao, exemplo, atencao, exame) funcionem.
+-- para que as caixas definidas em preamble-v2.tex (definicao, exemplo, atencao, exame) funcionem.
 -- Atributo opcional title="..." vira o argumento opcional da tcolorbox, ex:
 --   ::: {.definicao title=" — Autómato finito"}
 local solucoes = nil

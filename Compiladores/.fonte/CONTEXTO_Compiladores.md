@@ -22,7 +22,7 @@ Semana_3 Parsing LR (folha 4), Semana_4 Abstract_Syntax_Trees.
 **Trabalho prático.** Enunciados em `Trabalho/` (`Enunciado_TP1.pdf`: *scanner*
 + *parser* de um subconjunto de Pascal com impressão da AST, entrega
 `COMP_TP1.zip` + `README.pdf` até 8 nov 2026, defesa na semana de 9 nov).
-Guião em `.fonte/GUIAO_TP1_Compiladores.md` → `GUIAO_TP1_Compiladores.pdf`.
+Guião em `.fonte/GUIAO_TP1_Compiladores.md` → `Trabalho/GUIAO_TP1_Compiladores.pdf`.
 A 2.ª parte deverá usar a tabela de símbolos e a análise de tipos (Aulas 8--9).
 
 **Suplementar.** `Teoricas/Extra_*.pdf` (Debray, 3 endereços → MIPS; Monads em Haskell) é material de apoio do Moodle, não são aulas: não entram na numeração nem no resumo.

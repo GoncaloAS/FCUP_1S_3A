@@ -8,19 +8,13 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/.."
 SUBJECT_DIR="$ROOT/$SUBJECT"
 MD="$SUBJECT_DIR/.fonte/RESUMO_${SUBJECT}.md"
 PDF="$SUBJECT_DIR/RESUMO_${SUBJECT}.pdf"
-PREAMBLE="$ROOT/_shared/template/preamble.tex"
+PREAMBLE="$ROOT/_shared/template/preamble-v2.tex"
 FILTER="$ROOT/_shared/template/div-envs.lua"
 
-# Estilo v2 (preamble-v2.tex: Charter/Avenir/Menlo, compacto, sem caixas de
-# atenção/exame). Disciplinas ainda não convertidas ficam no estilo antigo.
-ESTILO_V2=" Compiladores TecnologiasWeb Redes Logica IPM "
-STYLE_ARGS=(-V geometry:margin=2.5cm)
-if [[ "$ESTILO_V2" == *" $SUBJECT "* ]]; then
-  PREAMBLE="$ROOT/_shared/template/preamble-v2.tex"
-  STYLE_ARGS=(-M estilo=v2 -V fontsize=10pt
-    -V "geometry:left=2.2cm,right=2.2cm,top=2.1cm,bottom=2.3cm,headsep=14pt"
-    -V mainfont=Charter -V "sansfont=Avenir Next" -V "mathfont=STIX Two Math")
-fi
+# Estilo v2 (preamble-v2.tex: Charter/Avenir/Menlo, compacto, sem caixas de atenção/exame).
+STYLE_ARGS=(-M estilo=v2 -V fontsize=10pt
+  -V "geometry:left=2.2cm,right=2.2cm,top=2.1cm,bottom=2.3cm,headsep=14pt"
+  -V mainfont=Charter -V "sansfont=Avenir Next" -V "mathfont=STIX Two Math")
 # Índice a duas colunas (v2) quando não cabe numa página (indice-2col.tex).
 INDICE_2COL=" TecnologiasWeb "
 TOC_ARGS=()
@@ -111,11 +105,14 @@ fi
 
 # Outros documentos (opcional): .fonte/REVISAO_<Disciplina>.md (folha de
 # revisão para o exame) e qualquer outro .fonte/*.md que não seja o RESUMO
-# nem as SOLUCOES nem o CONTEXTO (calendário, enunciado do trabalho...) -> <nome>.pdf ao lado.
+# nem as SOLUCOES nem o CONTEXTO (INFO, guião do trabalho...) -> <nome>.pdf ao lado
+# (GUIAO_*/TRABALHO_* -> Trabalho/<nome>.pdf).
 # Mesmo estilo, sem índice, sem página nova por secção.
 for DOC_MD in "$SUBJECT_DIR"/.fonte/*.md; do
   DOC="$(basename "$DOC_MD" .md)"
   case "$DOC" in RESUMO_*|SOLUCOES_*|CONTEXTO_*) continue ;; esac
+  # documentos de um trabalho (guião, enunciado resumido) saem em Trabalho/
+  DEST="$SUBJECT_DIR"; case "$DOC" in GUIAO_*|TRABALHO_*) DEST="$SUBJECT_DIR/Trabalho"; mkdir -p "$DEST" ;; esac
   DOC_TEX="$TMP/$DOC.tex"
   pandoc "$DOC_MD" \
     -f markdown-implicit_figures -s \
@@ -130,14 +127,14 @@ for DOC_MD in "$SUBJECT_DIR"/.fonte/*.md; do
     -o "$DOC_TEX"
   tectonic -Z search-path="$SUBJECT_DIR" --keep-logs --outdir "$TMP" "$DOC_TEX" \
     > "$TMP/tectonic-$DOC.out" 2>&1 || { grep -v "^warning:\|^note:" "$TMP/tectonic-$DOC.out" >&2; exit 1; }
-  cp "$TMP/$DOC.pdf" "$SUBJECT_DIR/$DOC.pdf"
+  cp "$TMP/$DOC.pdf" "$DEST/$DOC.pdf"
   DOC_LOG="$TMP/$DOC.log"
   grep -qF 'has occurred while \output is active' "$DOC_LOG" && echo "AVISO ($DOC): caixa maior que uma página" >&2
   grep -q "Missing character" "$DOC_LOG" && { echo "AVISO ($DOC): caracteres sem glifo:" >&2; grep -o "Missing character: There is no .* in font [^!]*" "$DOC_LOG" | sort | uniq -c >&2; }
   awk '/Overfull \\hbox \(/{ match($0, /\(([0-9.]+)pt/); v=substr($0, RSTART+1, RLENGTH-3); if (v+0 > 20) print "  " $0 }' "$DOC_LOG" \
     | sed "1s/^/AVISO ($DOC): linhas a sair da margem direita:\n/" >&2
-  check_markup "$SUBJECT_DIR/$DOC.pdf" "$DOC"
-  echo "Gerado: $SUBJECT_DIR/$DOC.pdf"
+  check_markup "$DEST/$DOC.pdf" "$DOC"
+  echo "Gerado: $DEST/$DOC.pdf"
 done
 
 # Soluções dos exercícios "Pratica agora": um só site para todas as
