@@ -1,0 +1,17 @@
+digraph G {
+  rankdir=TB; ranksep=0.22; nodesep=0.35; margin=0; pad=0.05;
+  node [shape=plaintext, fontname="Helvetica", fontsize=13, height=0.25, width=0.25];
+  edge [arrowsize=0.6];
+  root [label="→"];
+  fa [label="∀x"];
+  imp [label="→"];
+  px1 [label="P(x)  ligada", fontcolor="#1f5fa8"];
+  qx1 [label="Q(x)  ligada", fontcolor="#1f5fa8"];
+  or [label="∨"];
+  neg [label="¬"];
+  px2 [label="P(x)  livre", fontcolor="#b03030"];
+  qy [label="Q(y)  livre", fontcolor="#b03030"];
+  root -> fa; root -> or;
+  fa -> imp; imp -> px1; imp -> qx1;
+  or -> neg; or -> qy; neg -> px2;
+}

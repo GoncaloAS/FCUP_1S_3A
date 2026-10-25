@@ -1,10 +1,10 @@
 ---
 title: "Lógica Computacional --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 5 (Aulas 1--10)"
+date: "Atualizado: Semana 6 (Aulas 1--11)"
 ---
 
-<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf, Teoricas/Aula_04.pdf, Teoricas/Aula_05-06.pdf, Teoricas/Aula_07.pdf, Teoricas/Aula_08.pdf, Teoricas/Aula_09-10.pdf -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf, Teoricas/Aula_04.pdf, Teoricas/Aula_05-06.pdf, Teoricas/Aula_07.pdf, Teoricas/Aula_08.pdf, Teoricas/Aula_09-10.pdf, Teoricas/Aula_11.pdf -->
 
 *O sinal † marca matéria que não está nos slides mas faz falta para as
 práticas.*
@@ -3087,3 +3087,269 @@ de verdade de $\phi$, que é finita, e ver se é tautologia.
 **Corolários.** É decidível se uma fórmula é **teorema** (= válida). É
 decidível se uma fórmula é **satisfazível**: $\phi$ é satisfazível sse
 $\neg\phi$ não é tautologia.
+
+# Aula 11 --- Lógica de primeira ordem: sintaxe
+
+Para que serve: a lógica proposicional não consegue dizer "**todos** os
+pássaros têm penas" ou "**algum** pássaro canta", porque $p$ é uma frase
+inteira sem estrutura. Na lógica de primeira ordem (LPO) as frases falam
+de **objetos** (termos), das suas **propriedades e relações**
+(predicados) e de **todos/alguns** objetos (quantificadores $\forall$,
+$\exists$).
+
+| Frase | Representação |
+|:--|:--|
+| O Carlos é irmão da Joana | $\mathit{irmao}(\mathit{carlos},\mathit{joana})$ |
+| A Joana deu um livro ao Carlos | $\mathit{deu}(\mathit{joana},\mathit{livro},\mathit{carlos})$ |
+| 2 é par | $\mathit{par}(2)$ |
+| $2=1+1$ | $\mathit{igual}(2,\mathit{soma}(1,1))$ |
+
+Os objetos podem ser simples ($\mathit{joana}$, $x$) ou compostos
+($\mathit{mae}(\mathit{joana})$, $\mathit{soma}(1,1)$); as propriedades
+podem combinar-se com conectivos ($\mathit{par}(2)\land\neg\mathit{par}(3)$).
+
+## Linguagens de primeira ordem
+
+::: {.definicao title="--- Linguagem de primeira ordem L"}
+**Símbolos lógicos** (iguais em todas as linguagens): um conjunto
+numerável de **variáveis** $\mathit{Var}=\{x,y,\dots,x_0,y_0,\dots\}$; os
+conectivos $\land,\lor,\neg,\to$; os quantificadores $\forall$
+(universal) e $\exists$ (existencial); os parêntesis; possivelmente a
+igualdade $=$.
+
+**Símbolos não lógicos** (são eles que distinguem uma linguagem de
+outra):
+
+- para cada $n\geq 0$, um conjunto (possivelmente vazio) $\mathcal{F}_n$
+  de **símbolos funcionais** de aridade $n$. Os de $\mathcal{F}_0$ são as
+  **constantes** ($a,b,c,\dots$); os outros escrevem-se $f,g,h,\dots$;
+- para cada $n\geq 0$, um conjunto (possivelmente vazio) $\mathcal{R}_n$
+  de **símbolos de predicado** (ou relacionais) de aridade $n$: $P,Q,R,\dots$
+:::
+
+A **aridade** é o número de argumentos. Um enunciado dá a linguagem
+assim: $\mathcal{F}_0=\{a,d\}$, $\mathcal{F}_2=\{f,h\}$,
+$\mathcal{R}_2=\{R,S\}$; o que não aparece é vazio. O mesmo símbolo pode
+ter várias aridades (ex. $g\in\mathcal{F}_1$ e $g\in\mathcal{F}_3$).
+Funções dão **objetos**; predicados dão **verdadeiro/falso**.
+
+## Termos
+
+::: {.definicao title="--- Termo e termo fechado"}
+Os **termos** ($t, s, t_1,\dots$) representam objetos e definem-se
+indutivamente:
+
+1. uma variável $x$ é um termo;
+2. uma constante $a$ é um termo;
+3. se $t_1,\dots,t_n$ são termos e $f\in\mathcal{F}_n$ com $n>0$, então
+   $f(t_1,\dots,t_n)$ é um termo.
+
+Em BNF†: $t ::= x \mid a \mid f(t,\dots,t)$. Um termo é **fechado** se
+não tem variáveis; $T_O$ é o conjunto dos termos fechados. Ex.: $a$,
+$f(a,g(b,c))$.
+:::
+
+**Procedimento (é termo?).** De fora para dentro, para cada símbolo:
+
+1. é uma variável ou uma constante **da linguagem**? Então é termo e
+   não leva argumentos;
+2. é um símbolo funcional da linguagem? Conta os argumentos: o número
+   tem de ser uma das aridades desse símbolo, e cada argumento tem de ser
+   termo (repete o procedimento);
+3. os parêntesis fecham certo?
+
+Erros típicos: usar uma constante que não está em $\mathcal{F}_0$; dar a
+$f$ o número errado de argumentos; aplicar uma variável ou uma constante
+a argumentos ($x(d)$, $a(x)$). Fechado = nenhuma variável em lado nenhum.
+
+::: {.exemplo title="--- Termos (Aula 11, slide 9)"}
+$\mathcal{F}_0=\{a,d\}$, $\mathcal{F}_1=\{g\}$, $\mathcal{F}_2=\{f,h\}$,
+$\mathcal{F}_3=\{g\}$.
+
+| Sequência | Termo? | Fechado? | Porquê |
+|:--|:-:|:-:|:----------|
+| $a$ | sim | sim | constante de $\mathcal{F}_0$ |
+| $f(x,g(b,x))$ | não | --- | $b\notin\mathcal{F}_0$ |
+| $f(c,c,g(h(x,y)))$ | não | --- | $c\notin\mathcal{F}_0$; $f$ tem aridade 2, não 3 |
+| $f(f(y,a)))$ | não | --- | um $)$ a mais; o $f$ exterior só tem 1 argumento |
+| $f(a,g(d,g(a),a))$ | sim | sim | $g$ com 3 argumentos ($\mathcal{F}_3$) e $g(a)$ com 1 ($\mathcal{F}_1$) |
+| $g(d,h(y,z),f(d,a))$ | sim | não | $g\in\mathcal{F}_3$, $h,f\in\mathcal{F}_2$; tem $y$, $z$ |
+| $h(d,f(a,h(d)))$ | não | --- | $h(d)$: $h$ tem aridade 2, não 1 |
+| $f(f(x,x),f(y,y))$ | sim | não | tem $x$, $y$ |
+| $x(d,g(y))$ | não | --- | uma variável não leva argumentos |
+:::
+
+::: {.pratica title="--- Termos (Apontamentos, Exemplo 2.1)"}
+Mesma linguagem do exemplo acima. Diz se é termo e se é fechado (técnica:
+o procedimento acima, símbolo a símbolo).
+
+- **Apontamentos, Exemplo 2.1 (a)** $f(a,g(x,g(a),a))$
+- **Apontamentos, Exemplo 2.1 (b)** $g(d,h(y,z),d,f(a)))$
+- **Apontamentos, Exemplo 2.1 (c)** $f(a,a(x))$
+- **Apontamentos, Exemplo 2.1 (d)** $h(h(h(g(a),d),g(a)),d)$
+:::
+
+## Fórmulas
+
+::: {.definicao title="--- Fórmulas atómicas e fórmulas"}
+**Atómicas:** se $t_1,\dots,t_n$ são termos e $R\in\mathcal{R}_n$, então
+$R(t_1,\dots,t_n)$ é atómica; se $L$ tem igualdade, $t_1=t_2$ é atómica.
+Ex.: $R(a)$, $R(x,y,z)$, $T(f(b,z),a)$.
+
+**Fórmulas:** toda a atómica é fórmula; se $\phi,\psi$ são fórmulas e $x$
+é variável, $(\neg\phi)$, $(\phi\land\psi)$, $(\phi\lor\psi)$,
+$(\phi\to\psi)$, $(\forall x\,\phi)$ e $(\exists x\,\phi)$ são fórmulas.
+
+Em BNF†: $\phi ::= R(t_1,\dots,t_n) \mid t_1=t_2 \mid \neg\phi \mid
+\phi\land\phi \mid \phi\lor\phi \mid \phi\to\phi \mid \forall x\,\phi
+\mid \exists x\,\phi$.
+:::
+
+**Duas camadas.** Termos ficam **dentro** dos predicados; conectivos e
+quantificadores ficam **fora**, a ligar fórmulas. Logo: um predicado nunca
+tem uma fórmula como argumento ($R(R(m,x))$ não é fórmula) e um conectivo
+nunca liga termos ($g(x,y)\to S(y,x)$ não é fórmula, se $g$ é função).
+
+**Parêntesis.** As convenções da lógica proposicional mantêm-se, e os
+**quantificadores têm prioridade maior do que qualquer conectivo**: o
+$\forall x$/$\exists x$ só abrange a fórmula imediatamente a seguir (um
+átomo, um $\neg\dots$ ou um parêntesis). Assim $\exists x\,P(x)\lor\neg
+P(x)$ é $(\exists x\,P(x))\lor\neg P(x)$, diferente de
+$\exists x\,(P(x)\lor\neg P(x))$.
+
+::: {.exemplo title="--- Fórmulas (Aula 11, slide 13)"}
+$\mathcal{F}_0=\{m,d\}$, $\mathcal{F}_1=\{f\}$, $\mathcal{F}_2=\{g\}$,
+$\mathcal{R}_2=\{R,S\}$.
+
+| Expressão | Fórmula? | Porquê |
+|:--|:-:|:----------|
+| $S(m,x)$ | sim | $S\in\mathcal{R}_2$ com dois termos |
+| $f(m)$ | não | é um termo (um objeto), não uma fórmula |
+| $R(R(m,x))$ | não | $R(m,x)$ é fórmula, não termo; e $R$ pede 2 argumentos |
+| $(R(x,y)\to(\exists z\,S(z,f(y))))$ | sim | $f(y)$ é termo; $\to$ liga duas fórmulas |
+| $R(x,y)\to R(\exists z\,R(z,z))$ | não | fórmula como argumento de $R$ (e só 1 argumento) |
+| $\forall x\,R(f(d),g(f(m),y))$ | sim | quantificar $x$ sem $x$ ocorrer é permitido |
+| $\forall x\forall y\,(g(x,y)\to S(y,x))$ | não | $g(x,y)$ é termo; $\to$ liga fórmulas |
+:::
+
+### Linguagem da aritmética
+
+$\mathcal{F}_0=\{0,1\}$, $\mathcal{F}_2=\{+,\times\}$, $\mathcal{R}_2=\{<\}$,
+com igualdade. Os naturais são termos fechados: $0$, $1$, $+(1,1)$,
+$+(1,+(1,1))$, ...; não há constante $2$, escreve-se $1+1$. Usa-se a
+notação infixa: $(1\times 1)<(1+1)$ em vez de $<(\times(1,1),+(1,1))$.
+Fórmulas: $\forall x\,(0+x=x)$; $\forall x\forall y\,(x+1=y+1\to x=y)$.
+
+Definem-se propriedades como fórmulas com uma variável livre:
+
+- $x$ é **múltiplo** de $y$: $\exists q\; x=q\times y$;
+- $\mathit{Par}(x)$: $\exists q\; x=q\times(1+1)$;
+- $\mathit{Primo}(x)$†: $\neg(x<1+1)\land\forall y\,\big((\exists q\;
+  x=q\times y)\to(y=1\lor y=x)\big)$ ($x\geq 2$ e os únicos divisores são
+  $1$ e $x$).
+
+## Traduzir frases para fórmulas
+
+| Frase | Fórmula |
+|:--|:--|
+| Todos os P são Q | $\forall x\,(P(x)\to Q(x))$ |
+| Alguns P são Q | $\exists x\,(P(x)\land Q(x))$ |
+| Nenhum P é Q | $\forall x\,(P(x)\to\neg Q(x))$ |
+| Nem todos os P são Q | $\exists x\,(P(x)\land\neg Q(x))$ |
+
+**Regra:** $\forall$ anda com $\to$, $\exists$ anda com $\land$. Erros
+típicos: $\forall x\,(P(x)\land Q(x))$ diz "tudo é P e Q", não "todos os
+P são Q"; $\exists x\,(P(x)\to Q(x))$ é verdade logo que exista um
+objeto que não seja P, por isso não diz "algum P é Q".
+
+::: {.exemplo title="--- Pássaros (Aula 11, slide 5)"}
+- Todos os pássaros têm penas: $\forall x\,(\mathit{passaro}(x)\to\mathit{penas}(x))$.
+- Alguns pássaros cantam: $\exists x\,(\mathit{passaro}(x)\land\mathit{canta}(x))$.
+- Nem todos os pássaros voam: $\exists x\,(\mathit{passaro}(x)\land\neg\mathit{voa}(x))$.
+- Todos os pássaros são mais leves do que algum mamífero (encaixa-se
+  "algum mamífero é mais pesado do que $x$" dentro de "todos os $x$"):
+  $\forall x\,\big(\mathit{passaro}(x)\to\exists y\,(\mathit{mamifero}(y)\land\mathit{maisLeve}(x,y))\big)$.
+:::
+
+::: {.exemplo title="--- Todo o número par é primo (Aula 11, slide 16)"}
+Padrão "todos os P são Q" com $P=\mathit{Par}$, $Q=\mathit{Primo}$:
+$$\forall x\,(\mathit{Par}(x)\to\mathit{Primo}(x)).$$
+Só na linguagem da aritmética, substitui-se $\mathit{Par}(x)$ pela fórmula
+da secção anterior:
+$\forall x\,\big(\exists q\,(x=q\times(1+1))\to\mathit{Primo}(x)\big)$.
+:::
+
+::: {.pratica title="--- Traduzir frases (Aula 11, slide 16)"}
+Com os predicados $\mathit{Par}$ e $\mathit{Primo}$, exprime na linguagem
+da aritmética (técnica: a tabela acima; o $2$ escreve-se $1+1$):
+
+- **Aula 11, slide 16 (a)** Nem todos os números primos são pares.
+- **Aula 11, slide 16 (b)** Alguns primos não são pares.
+- **Aula 11, slide 16 (c)** Nenhum primo é par.
+- **Aula 11, slide 16 (d)** Todo o primo é não par ou igual a 2.
+:::
+
+## Variáveis livres e ligadas
+
+::: {.definicao title="--- Ocorrência livre e ligada; proposição"}
+Uma ocorrência de $x$ em $\phi$ é **ligada** se está dentro de uma
+subfórmula $\forall x\,\psi$ ou $\exists x\,\psi$ (o **alcance** do
+quantificador); caso contrário é **livre**. A mesma variável pode ter
+ocorrências livres e ligadas na mesma fórmula.
+
+Uma **proposição** (ou fórmula fechada) é uma fórmula sem variáveis
+livres.
+:::
+
+O $x$ escrito logo a seguir ao $\forall$/$\exists$ não se conta como
+ocorrência; contam-se as que estão nos termos.
+
+**Conjunto das variáveis livres†** $\mathit{VL}(\phi)$, por indução
+($\mathit{Var}(t)$ = variáveis que aparecem no termo $t$):
+$$\begin{aligned}
+\mathit{VL}(R(t_1,\dots,t_n)) &= \mathit{Var}(t_1)\cup\dots\cup\mathit{Var}(t_n) &
+\mathit{VL}(t_1=t_2) &= \mathit{Var}(t_1)\cup\mathit{Var}(t_2)\\
+\mathit{VL}(\neg\phi) &= \mathit{VL}(\phi) &
+\mathit{VL}(\phi\circ\psi) &= \mathit{VL}(\phi)\cup\mathit{VL}(\psi)\ \ (\circ\in\{\land,\lor,\to\})\\
+\mathit{VL}(\forall x\,\phi) &= \mathit{VL}(\phi)\setminus\{x\} &
+\mathit{VL}(\exists x\,\phi) &= \mathit{VL}(\phi)\setminus\{x\}
+\end{aligned}$$
+$\phi$ é proposição sse $\mathit{VL}(\phi)=\emptyset$.
+
+**Procedimento.** (1) Repõe os parêntesis (o quantificador só abrange o
+que vem imediatamente a seguir). (2) Para cada quantificador, sublinha o
+seu alcance. (3) Para cada ocorrência de cada variável: está no alcance de
+um quantificador **com essa mesma variável**? Ligada; senão, livre.
+(4) Proposição sse não sobrou nenhuma livre. Erro típico: achar que
+$\forall y$ liga o $x$, ou que um $\forall x$ à esquerda liga um $x$ que
+está fora do seu parêntesis.
+
+::: {.exemplo title="--- Livres e ligadas (Aula 11, slide 17)"}
+$\phi=\forall x\,(P(x)\to Q(x))\to(\neg P(x)\lor Q(y))$. O conectivo
+principal é o segundo $\to$; o $\forall x$ só abrange $(P(x)\to Q(x))$.
+
+::: center
+![Árvore de φ: as ocorrências abaixo de ∀x estão ligadas](figuras/livres_ligadas.pdf){height=3.6cm}
+:::
+
+- $x$: três ocorrências; em $P(x)$ e $Q(x)$ (dentro do alcance de
+  $\forall x$) são **ligadas**; em $\neg P(x)$ é **livre**.
+- $y$: uma ocorrência, em $Q(y)$, **livre** (não há $\forall y$/$\exists y$).
+- $\mathit{VL}(\phi)=(\{x\}\setminus\{x\})\cup\{x\}\cup\{y\}=\{x,y\}\neq\emptyset$:
+  não é proposição.
+
+Ao contrário, $R(a,f(a,b))\land\forall x\,(R(x,x)\to\exists y\,P(y)\lor
+P(x))$ é proposição: o $\forall x$ abrange o parêntesis inteiro (logo
+os três $x$) e o $y$ está em $\exists y\,P(y)$.
+:::
+
+::: {.pratica title="--- Livres e ligadas (Aula 11, slide 18)"}
+Indica as ocorrências livres e ligadas de cada variável e se a fórmula é
+proposição (técnica: o procedimento acima). A $P(a,f(a,b))$ do slide é
+imediata (sem variáveis, logo proposição).
+
+- **Aula 11, slide 18 (a)** $\exists x\,(P(y,z)\land\forall y\,(\neg Q(x,y)\lor P(y,z)))$
+- **Aula 11, slide 18 (b)** $\neg(\forall x\exists y\,P(x,y,z)\land\forall z\,P(x,y,z))$
+- **Aula 11, slide 18 (c)** $\forall x\,((P(x)\land C(x))\to\exists y\,L(x,y))$
+- **Aula 11, slide 18 (d)** $\exists x\,(P(x)\to\neg Q(x))$
+:::

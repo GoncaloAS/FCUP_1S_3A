@@ -2005,3 +2005,108 @@ Supõe-se a disjunção e cada caso do $\lor$E dá $\mathbf{F}$.
 phi2                 ; &E, 1
 phi1 \/ phi2         ; vI, 2
 ```
+
+## Aula 11 --- Termos
+
+### AP2.1 --- Termos (Apontamentos, Exemplo 2.1)
+
+$\mathcal{F}_0=\{a,d\}$, $\mathcal{F}_1=\{g\}$, $\mathcal{F}_2=\{f,h\}$,
+$\mathcal{F}_3=\{g\}$.
+
+#### (a) $f(a,g(x,g(a),a))$
+
+**É termo, não é fechado.** $g(a)$: $g\in\mathcal{F}_1$ com 1 argumento
+($a\in\mathcal{F}_0$). $g(x,g(a),a)$: $g\in\mathcal{F}_3$ com 3 termos
+($x$ variável, $g(a)$, $a$). $f(a,\dots)$: $f\in\mathcal{F}_2$ com 2
+termos. Contém a variável $x$, logo não é fechado.
+
+#### (b) $g(d,h(y,z),d,f(a)))$
+
+**Não é termo.** $g$ recebe 4 argumentos, mas só tem aridades 1 e 3.
+Além disso $f(a)$ dá a $f\in\mathcal{F}_2$ só 1 argumento e há um $)$ a mais.
+
+#### (c) $f(a,a(x))$
+
+**Não é termo.** $a$ é constante ($\mathcal{F}_0$): não leva argumentos,
+logo $a(x)$ não é termo.
+
+#### (d) $h(h(h(g(a),d),g(a)),d)$
+
+**É termo fechado.** De dentro para fora: $g(a)$ ($g\in\mathcal{F}_1$);
+$h(g(a),d)$ ($h\in\mathcal{F}_2$, 2 termos); $h(h(g(a),d),g(a))$ (2
+termos); $h(\dots,d)$ (2 termos). Só aparecem as constantes $a$ e $d$:
+não há variáveis.
+
+## Aula 11 --- Traduzir frases
+
+### A11.16 --- Traduzir frases (Aula 11, slide 16)
+
+Predicados $\mathit{Par}(x)$ ($=\exists q\;x=q\times(1+1)$) e
+$\mathit{Primo}(x)$. O 2 é o termo $1+1$.
+
+#### (a) Nem todos os números primos são pares.
+
+Padrão "nem todos os P são Q":
+$$\exists x\,(\mathit{Primo}(x)\land\neg\mathit{Par}(x)).$$
+Equivale a $\neg\forall x\,(\mathit{Primo}(x)\to\mathit{Par}(x))$ (negar
+"todos os primos são pares").
+
+#### (b) Alguns primos não são pares.
+
+Padrão "alguns P são Q" com $Q=\neg\mathit{Par}$:
+$$\exists x\,(\mathit{Primo}(x)\land\neg\mathit{Par}(x)).$$
+É a mesma fórmula da (a): "nem todos os primos são pares" e "alguns
+primos não são pares" dizem o mesmo.
+
+#### (c) Nenhum primo é par.
+
+Padrão "nenhum P é Q":
+$$\forall x\,(\mathit{Primo}(x)\to\neg\mathit{Par}(x)).$$
+
+#### (d) Todo o primo é não par ou igual a 2.
+
+Padrão "todos os P são Q" com $Q(x)=\neg\mathit{Par}(x)\lor x=1+1$:
+$$\forall x\,\big(\mathit{Primo}(x)\to(\neg\mathit{Par}(x)\lor x=1+1)\big).$$
+
+## Aula 11 --- Livres e ligadas
+
+### A11.18 --- Livres e ligadas (Aula 11, slide 18)
+
+#### (a) $\exists x\,(P(y,z)\land\forall y\,(\neg Q(x,y)\lor P(y,z)))$
+
+Alcance de $\exists x$: o parêntesis todo. Alcance de $\forall y$:
+$(\neg Q(x,y)\lor P(y,z))$.
+
+- $x$: uma ocorrência, em $Q(x,y)$, **ligada** (por $\exists x$).
+- $y$: em $P(y,z)$ (o primeiro) **livre**, porque está fora do alcance de
+  $\forall y$; em $Q(x,y)$ e no segundo $P(y,z)$ **ligadas** (por $\forall y$).
+- $z$: duas ocorrências, ambas **livres** (não há quantificador em $z$).
+
+$\mathit{VL}=\{y,z\}$: **não é proposição**.
+
+#### (b) $\neg(\forall x\exists y\,P(x,y,z)\land\forall z\,P(x,y,z))$
+
+Os quantificadores têm prioridade sobre $\land$: a fórmula é
+$\neg\big((\forall x\,\exists y\,P(x,y,z))\land(\forall z\,P(x,y,z))\big)$.
+
+- No primeiro $P(x,y,z)$: $x$ **ligada** (por $\forall x$), $y$
+  **ligada** (por $\exists y$), $z$ **livre**.
+- No segundo $P(x,y,z)$: $x$ **livre**, $y$ **livre**, $z$ **ligada**
+  (por $\forall z$).
+
+Cada variável tem uma ocorrência livre e uma ligada; $\mathit{VL}=\{x,y,z\}$:
+**não é proposição**.
+
+#### (c) $\forall x\,((P(x)\land C(x))\to\exists y\,L(x,y))$
+
+O $\forall x$ abrange o parêntesis todo; o $\exists y$ abrange $L(x,y)$.
+
+- $x$: três ocorrências ($P(x)$, $C(x)$, $L(x,y)$), todas **ligadas**.
+- $y$: uma ocorrência, em $L(x,y)$, **ligada**.
+
+$\mathit{VL}=\emptyset$: **é proposição**.
+
+#### (d) $\exists x\,(P(x)\to\neg Q(x))$
+
+$x$: duas ocorrências ($P(x)$, $Q(x)$), ambas **ligadas** por $\exists x$,
+que abrange o parêntesis todo. $\mathit{VL}=\emptyset$: **é proposição**.

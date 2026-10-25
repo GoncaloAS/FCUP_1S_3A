@@ -176,3 +176,23 @@ cláusulas → resolver até $\mathbf{F}$: de $C\cup\{p\}$, $C'\cup\{\neg p\}$
 sai $C\cup C'$. **Um par de cada vez** ($\{p,q\},\{\neg p,\neg q\}$ não
 dão $\mathbf{F}$). Começar pelas unitárias. Numerar e citar "de $i$ e
 $k$".
+
+## Lógica de 1.ª ordem: sintaxe
+
+**Termo**: variável, constante ($\mathcal{F}_0$), ou $f(t_1,\dots,t_n)$
+com $f\in\mathcal{F}_n$ (contar argumentos!). Fechado = sem variáveis.
+**Fórmula**: $R(t_1,\dots,t_n)$ com $R\in\mathcal{R}_n$, $t_1=t_2$,
+conectivos, $\forall x\,\phi$, $\exists x\,\phi$. Termos só dentro de
+predicados; nunca fórmula dentro de predicado nem conectivo entre termos.
+Quantificador abrange só o que vem logo a seguir
+($\exists x\,P(x)\lor\neg P(x)$ = $(\exists x\,P(x))\lor\neg P(x)$).
+
+**Tradução**: todos P são Q $\forall x(P\to Q)$; alguns $\exists x(P\land
+Q)$; nenhum $\forall x(P\to\neg Q)$; nem todos $\exists x(P\land\neg Q)$.
+Par: $\exists q\,x=q\times(1+1)$.
+
+**Livres**: $\mathit{VL}$(atómica) = variáveis dos termos; conectivos:
+união; $\mathit{VL}(\forall x\,\phi)=\mathit{VL}(\exists x\,\phi)=
+\mathit{VL}(\phi)\setminus\{x\}$. Ocorrência ligada sse dentro do
+alcance de um quantificador com a mesma variável. Proposição sse
+$\mathit{VL}=\emptyset$.
