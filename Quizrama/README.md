@@ -1,6 +1,6 @@
 # Quizrama
 
-Quizzes de estudo para testes da FCUP: **Sistemas de Operações** (`index.html`, `teste2.html`) e **Redes de Comunicação — 1.º teste** (`redes.html`).
+Quizzes de estudo para testes da FCUP: **Sistemas de Operações** (`index.html`, `teste2.html`) e **Redes de Comunicação — 1.º teste** (`redes.html`) e **Tecnologias Web — 1.º teste** (`tw.html`).
 
 ## Redes de Comunicação (Teste 1)
 
@@ -11,6 +11,18 @@ Quizzes de estudo para testes da FCUP: **Sistemas de Operações** (`index.html`
 ```bash
 python3 tools/redes-guide/build.py      # guia + figuras + ids das secções
 python3 tools/redes-guide/perguntas.py  # banco de perguntas (edita as perguntas aqui)
+npm test
+```
+
+## Tecnologias Web (Teste 1)
+
+- `tw.html` — 166 perguntas de escolha múltipla do 1.º teste (5 nov 2026): HTML, CSS, JavaScript (Temas 2–6 do resumo) e a 1.ª entrega do trabalho (Alquerque). Nota /20 com desconto de 1/3 por errada.
+- `guia_tw_teste1.html` / `.pdf` — a matéria, gerada a partir do resumo e do enunciado do trabalho.
+- A certa está equilibrada pelas letras e não é a opção mais comprida mais vezes do que o acaso (o `npm test` recusa > 30%).
+
+```bash
+python3 tools/tecnologiasweb-guide/build.py
+python3 tools/tecnologiasweb-guide/perguntas.py   # edita as perguntas aqui
 npm test
 ```
 

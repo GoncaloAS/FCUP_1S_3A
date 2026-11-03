@@ -1,0 +1,1476 @@
+<!doctype html><html lang="pt"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>Resumo parte 2 LC</title><style>
+:root{color-scheme:dark;--bg:#16171a;--fg:#e4e2dc;--mut:#9a9890;--line:#2e3036;--card:#1e2024;--acc:#8fb4e0;--ok:#5fbf86}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 Charter,'Iowan Old Style',Georgia,serif}
+main{max-width:860px;margin:0 auto;padding:24px 16px 80px}
+header{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line);z-index:5}
+header .in{max-width:860px;margin:0 auto;padding:12px 16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+h1{font:600 20px/1.2 Avenir,'Helvetica Neue',sans-serif;margin:0;flex:1}
+.prog{font:14px Avenir,sans-serif;color:var(--mut)}
+.bar{height:6px;background:var(--line);border-radius:3px;width:160px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok);width:0}
+label.tog{font:14px Avenir,sans-serif;color:var(--mut);cursor:pointer}
+h2{font:600 17px Avenir,sans-serif;margin:36px 0 12px;color:var(--acc)}
+.ex{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 16px;margin:10px 0}
+.ex.done{opacity:.55}
+.ex > p:first-of-type{font:600 15px Avenir,sans-serif;margin:0 0 4px;display:flex;gap:10px;align-items:center}
+.ex input[type=checkbox]{width:18px;height:18px;accent-color:var(--ok);cursor:pointer}
+details.sol{margin-top:8px;border-top:1px dashed var(--line);padding-top:6px}
+details.sol summary{cursor:pointer;color:var(--acc);font:14px Avenir,sans-serif}
+details.sol[open] summary{margin-bottom:8px}
+body.hide .ex.done{display:none}
+math[display=block]{overflow-x:auto;max-width:100%}
+table.fitch{border-collapse:collapse;margin:8px 0;font-size:15px}
+table.fitch td{padding:1px 6px;vertical-align:top}
+table.fitch td.n{color:var(--mut);text-align:right;font:13px Menlo,monospace}
+table.fitch td.b{width:10px;padding:0;border-left:1.5px solid var(--fg)}
+table.fitch td.f.hyp span{border-bottom:1.5px solid var(--fg);padding-bottom:1px}
+table.fitch td.j{color:var(--mut);font-size:14px;padding-left:18px;white-space:nowrap}
+.arvore{overflow-x:auto;margin:8px 0}
+.arvore svg{max-width:100%;height:auto;filter:invert(.9) hue-rotate(180deg)}
+pre{background:#24262b;padding:8px;border-radius:6px;overflow-x:auto}
+table:not(.fitch){border-collapse:collapse}
+table:not(.fitch) td,table:not(.fitch) th{border:1px solid var(--line);padding:2px 8px}
+
+nav.toc{display:flex;flex-wrap:wrap;gap:6px 14px;font:14px Avenir,sans-serif;margin:8px 0 24px}
+nav.toc a{color:var(--acc);text-decoration:none}
+h2{border-top:1px solid var(--line);padding-top:20px}
+table:not(.fitch){margin:10px 0;font-size:15px}
+table:not(.fitch) th{text-align:left;color:var(--mut);font:600 13px Avenir,sans-serif}
+table.fitch{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:6px 10px}
+li{margin:3px 0}
+a{color:var(--acc)}
+</style></head>
+<body><header><div class="in"><h1>Lógica Computacional — parte 2: dedução natural, tableaux, resolução</h1>
+<a class="prog" href="Treino_1o_teste.html">→ exercícios</a></div></header>
+<main><nav class="toc"><a href="#o-que-está-no-form-e-o-que-tens-de-saber-de-cor">0. Form vs. de cor</a><a href="#como-ler-o-form-dedução-natural">1. Ler o form</a><a href="#as-10-regras-cada-uma-com-um-exemplo">2. As 10 regras</a><a href="#estratégia-como-decidir-o-passo-seguinte">3. Estratégia</a><a href="#regras-derivadas-não-estão-no-form">4. Regras derivadas</a><a href="#verificar-e-completar-deduções-dadas-2.4-e-pergunta-2-do-teste">5. Verificar/completar</a><a href="#propriedades-de-vdash-2.10-2.15-pergunta-1d-do-teste">6. Propriedades de ⊢</a><a href="#sistema-de-hilbert-aula-8">7. Hilbert</a><a href="#tableaux-pergunta-5b-3e-do-teste-2.17-2.21">8. Tableaux</a><a href="#resolução-não-está-no-form">9. Resolução</a><a href="#mapa-do-teste-que-secção-usar-em-cada-pergunta">10. Mapa do teste</a></nav><h2 id="o-que-está-no-form-e-o-que-tens-de-saber-de-cor">0. O que está
+no form e o que tens de saber de cor</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>No form (podes consultar)</th>
+<th><strong>Não</strong> está no form (de cor)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>As 10 regras da dedução natural: tabela com linhas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∧</mi><annotation encoding="application/x-tex">\land</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+e colunas <em>Introduction</em> / <em>Elimination</em></td>
+<td>As estratégias (secção 3): que regra escolher</td>
+</tr>
+<tr>
+<td>A nota “<em>You can also use the repetition rule</em>” (regra
+R)</td>
+<td>Regras derivadas (MT, terceiro excluído,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo>¬</mo></mrow><annotation encoding="application/x-tex">\neg\neg</annotation></semantics></math>I,
+De Morgan): se as usares, <strong>tens de as provar à
+parte</strong></td>
+</tr>
+<tr>
+<td>Tableaux: as 5 regras de expansão (tabela pequena à esquerda) e a
+tabela
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>/<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>
+(à direita)</td>
+<td>Resolução: cláusulas, a regra e como passar a FNC</td>
+</tr>
+<tr>
+<td></td>
+<td>Propriedades de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⊢</mo><annotation encoding="application/x-tex">\vdash</annotation></semantics></math>,
+integridade e completude, axiomas de Hilbert</td>
+</tr>
+</tbody>
+</table>
+<p>Regra de ouro no teste: <strong>não uses regras derivadas.</strong>
+Fazer à mão o que o MT faria custa 3 linhas (exemplo 4) e poupa-te a
+prova à parte.</p>
+<h2 id="como-ler-o-form-dedução-natural">1. Como ler o form (dedução
+natural)</h2>
+<p><strong>As duas colunas respondem a duas perguntas
+diferentes:</strong></p>
+<ul>
+<li><em>Introduction</em> = “quero <strong>obter</strong> uma fórmula
+com este conectivo”. Vai à linha do conectivo <strong>principal do
+objetivo</strong>.</li>
+<li><em>Elimination</em> = “<strong>tenho</strong> uma fórmula com este
+conectivo; o que tiro dela?”. Vai à linha do conectivo <strong>principal
+da premissa</strong>.</li>
+</ul>
+<p>Conectivo principal = o último a ser aplicado. Em
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∧</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">(p\land q)\to r</annotation></semantics></math>
+é o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>;
+em
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\neg(p\to q)</annotation></semantics></math>
+é o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>.</p>
+<p><strong>Os símbolos do form:</strong></p>
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>φ</mi><annotation encoding="application/x-tex">\varphi</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ψ</mi><annotation encoding="application/x-tex">\psi</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math>
+são <strong>moldes</strong>: põe lá qualquer fórmula. Exemplo: o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∧</mi><annotation encoding="application/x-tex">\land</annotation></semantics></math>E
+com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>φ</mi><mo>∧</mo><mi>ψ</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\varphi\land\psi = (p\to q)\land\neg r</annotation></semantics></math>
+dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p\to q</annotation></semantics></math>
+(ou
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\neg r</annotation></semantics></math>).</li>
+<li>Os
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>⋮</mi><annotation encoding="application/x-tex">\vdots</annotation></semantics></math>
+querem dizer “pode haver outras linhas pelo meio”: as linhas que citas
+não têm de estar seguidas, nem por ordem.</li>
+<li><strong>Uma caixa</strong> (barra vertical com um risco por baixo da
+1.ª fórmula) é uma <strong>hipótese</strong>: uma suposição temporária.
+A regra que a fecha cita-a inteira, como intervalo:
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>I,
+3–5”.</li>
+<li>Ao lado de cada fórmula escreves o nome da regra e as linhas que
+usa, por esta ordem:
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>E,
+1, 3” (a implicação e depois o antecedente), “FI, 4, 2” (a fórmula e
+depois a sua negação),
+“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>E,
+1, 2–3, 4–5” (a disjunção e depois as duas caixas).</li>
+</ul>
+<p><strong>A linha do
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>
+e a do
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>
+trabalham juntas.</strong> Isto é o que mais se confunde:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Regra (onde está no form)</th>
+<th>O que faz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FI (linha <strong>F</strong>, esquerda)</td>
+<td>tens
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p</annotation></semantics></math>
+→ escreves
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math></td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>I
+(linha
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math></strong>,
+esquerda)</td>
+<td>supuseste
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+e chegaste a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>
+→ fechas a caixa e escreves
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p</annotation></semantics></math></td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>E
+(linha
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math></strong>,
+direita)</td>
+<td><strong>só</strong> tira dupla negação: de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg\neg p</annotation></semantics></math>
+escreves
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math></td>
+</tr>
+<tr>
+<td>FE (linha <strong>F</strong>, direita)</td>
+<td>de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>
+escreves <strong>o que quiseres</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Acesso às linhas (a regra que dá mais erros):</strong> só
+podes usar linhas de caixas <strong>ainda abertas</strong> (a tua ou as
+que estão por fora dela). Uma caixa <strong>fechada</strong> já não se
+usa linha a linha, só inteira, como intervalo, na regra que a fecha.</p>
+<p><strong>Repetição (R):</strong> copiar uma linha acessível para
+dentro da caixa onde estás: “R, 1”. Serve quando a conclusão de uma
+caixa já está escrita mais acima (exemplos 6 e 7).</p>
+<h2 id="as-10-regras-cada-uma-com-um-exemplo">2. As 10 regras, cada uma
+com um exemplo</h2>
+<p><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∧</mi><annotation encoding="application/x-tex">\land</annotation></semantics></math>
+(linha
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∧</mi><annotation encoding="application/x-tex">\land</annotation></semantics></math>
+do form).</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∧</mi><annotation encoding="application/x-tex">\land</annotation></semantics></math>I
+junta duas fórmulas;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∧</mi><annotation encoding="application/x-tex">\land</annotation></semantics></math>E
+tira uma das partes. Exemplo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∧</mo><mi>q</mi><mo>⊢</mo><mi>q</mi><mo>∧</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">p\land q \vdash q\land p</annotation></semantics></math>:</p>
+<table class="fitch"><tbody>
+<tr><td class="n">1</td><td class="b"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∧</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p  \land  q </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">2</td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q </annotation></semantics></math></span></td><td class="j">∧E, 1</td></tr>
+<tr><td class="n">3</td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p </annotation></semantics></math></span></td><td class="j">∧E, 1</td></tr>
+<tr><td class="n">4</td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>∧</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">q  \land  p </annotation></semantics></math></span></td><td class="j">∧I, 2, 3</td></tr>
+</tbody></table>
+<p><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+(linha
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>).</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>E
+é o <em>modus ponens</em>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p\to q</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+dão
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>).
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>I:
+para <strong>obter</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">p\to r</annotation></semantics></math>,
+supõe
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+numa caixa, chega a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
+e fecha a caixa. Exemplo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>q</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>q</mi><mo>→</mo><mi>r</mi><mo>⊢</mo><mi>p</mi><mo>→</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">p\to q,\ q\to r \vdash p\to r</annotation></semantics></math>:</p>
+<table class="fitch"><tbody>
+<tr><td class="n">1</td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p  \to  q </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">2</td><td class="b"></td><td colspan="2" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>→</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">q  \to  r </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">3</td><td class="b"></td><td class="b s"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">4</td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q </annotation></semantics></math></span></td><td class="j">→E, 1, 3</td></tr>
+<tr><td class="n">5</td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r </annotation></semantics></math></span></td><td class="j">→E, 2, 4</td></tr>
+<tr><td class="n">6</td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">p  \to  r </annotation></semantics></math></span></td><td class="j">→I, 3–5</td></tr>
+</tbody></table>
+<p><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>
+(linha
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>).</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>I
+junta qualquer coisa a uma fórmula que tens
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>∨</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">q\lor p</annotation></semantics></math>
+ou
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p\lor q</annotation></semantics></math>).
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>E
+é o “<strong>por casos</strong>”: para usar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p\lor q</annotation></semantics></math>
+abres <strong>duas caixas</strong>, uma que supõe
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+e outra que supõe
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>,
+e as <strong>duas</strong> acabam na <strong>mesma</strong> fórmula
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math>.
+Essa
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>γ</mi><annotation encoding="application/x-tex">\gamma</annotation></semantics></math>
+escreve-se depois cá fora. Exemplo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mi>q</mi><mo>⊢</mo><mi>q</mi><mo>∨</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">p\lor q \vdash q\lor p</annotation></semantics></math>:</p>
+<table class="fitch"><tbody>
+<tr><td class="n">1</td><td class="b"></td><td colspan="2" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p  \lor  q </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">2</td><td class="b"></td><td class="b s"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">3</td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>∨</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">q  \lor  p </annotation></semantics></math></span></td><td class="j">∨I, 2</td></tr>
+<tr><td class="n">4</td><td class="b"></td><td class="b s"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">5</td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>∨</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">q  \lor  p </annotation></semantics></math></span></td><td class="j">∨I, 4</td></tr>
+<tr><td class="n">6</td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>∨</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">q  \lor  p </annotation></semantics></math></span></td><td class="j">∨E, 1, 2–3, 4–5</td></tr>
+</tbody></table>
+<p><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>
+(linhas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>).</strong>
+Para <strong>obter</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p</annotation></semantics></math>:
+supõe
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>,
+chega a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>
+(com FI) e fecha com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>I.
+Exemplo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>q</mi><mo>,</mo><mspace width="0.222em"></mspace><mo>¬</mo><mi>q</mi><mo>⊢</mo><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">p\to q,\ \neg q \vdash \neg p</annotation></semantics></math>
+(é o MT feito só com regras do form):</p>
+<table class="fitch"><tbody>
+<tr><td class="n">1</td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p  \to  q </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">2</td><td class="b"></td><td colspan="2" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg q </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">3</td><td class="b"></td><td class="b s"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">4</td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q </annotation></semantics></math></span></td><td class="j">→E, 1, 3</td></tr>
+<tr><td class="n">5</td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F} </annotation></semantics></math></span></td><td class="j"><b>F</b>&#8239;I, 4, 2</td></tr>
+<tr><td class="n">6</td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p </annotation></semantics></math></span></td><td class="j">¬I, 3–5</td></tr>
+</tbody></table>
+<p><strong>Prova por contradição de uma letra (padrão
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>I
++
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>E).</strong>
+Queres
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+e não há caminho direto: supõe
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg q</annotation></semantics></math>,
+chega a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>,
+o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>I
+dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg\neg q</annotation></semantics></math>
+e o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>E
+dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>.
+Exemplo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi><mo>→</mo><mo>¬</mo><mi>p</mi><mo>⊢</mo><mi>p</mi><mo>→</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg q\to\neg p \vdash p\to q</annotation></semantics></math>:</p>
+<table class="fitch"><tbody>
+<tr><td class="n">1</td><td class="b"></td><td colspan="3" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi><mo>→</mo><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg q  \to  \neg p </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">2</td><td class="b"></td><td class="b s"></td><td colspan="2" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">3</td><td class="b"></td><td class="b"></td><td class="b s"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg q </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">4</td><td class="b"></td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p </annotation></semantics></math></span></td><td class="j">→E, 1, 3</td></tr>
+<tr><td class="n">5</td><td class="b"></td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F} </annotation></semantics></math></span></td><td class="j"><b>F</b>&#8239;I, 2, 4</td></tr>
+<tr><td class="n">6</td><td class="b"></td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg \neg q </annotation></semantics></math></span></td><td class="j">¬I, 3–5</td></tr>
+<tr><td class="n">7</td><td class="b"></td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q </annotation></semantics></math></span></td><td class="j">¬E, 6</td></tr>
+<tr><td class="n">8</td><td class="b"></td><td colspan="3" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p  \to  q </annotation></semantics></math></span></td><td class="j">→I, 2–7</td></tr>
+</tbody></table>
+<p><strong>FE + R dentro de um
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>E.</strong>
+Exemplo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mi>q</mi><mo>,</mo><mspace width="0.222em"></mspace><mo>¬</mo><mi>p</mi><mo>⊢</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p\lor q,\ \neg p \vdash q</annotation></semantics></math>.
+No caso
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+há uma contradição com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p</annotation></semantics></math>,
+e de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>
+tira-se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+(FE). No caso
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+basta repetir.</p>
+<table class="fitch"><tbody>
+<tr><td class="n">1</td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p  \lor  q </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">2</td><td class="b"></td><td colspan="2" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">3</td><td class="b"></td><td class="b s"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">4</td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F} </annotation></semantics></math></span></td><td class="j"><b>F</b>&#8239;I, 3, 2</td></tr>
+<tr><td class="n">5</td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q </annotation></semantics></math></span></td><td class="j"><b>F</b>&#8239;E, 4</td></tr>
+<tr><td class="n">6</td><td class="b"></td><td class="b s"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">7</td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q </annotation></semantics></math></span></td><td class="j">R, 6</td></tr>
+<tr><td class="n">8</td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q </annotation></semantics></math></span></td><td class="j">∨E, 1, 3–5, 6–7</td></tr>
+</tbody></table>
+<p><strong>R com uma hipótese que não se usa.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>⊢</mo><mi>q</mi><mo>→</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">p \vdash q\to p</annotation></semantics></math>:
+supões
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+e repetes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>.
+A hipótese pode ficar por usar.</p>
+<table class="fitch"><tbody>
+<tr><td class="n">1</td><td class="b"></td><td colspan="2" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">2</td><td class="b"></td><td class="b s"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">3</td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p </annotation></semantics></math></span></td><td class="j">R, 1</td></tr>
+<tr><td class="n">4</td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>→</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">q  \to  p </annotation></semantics></math></span></td><td class="j">→I, 2–3</td></tr>
+</tbody></table>
+<h2 id="estratégia-como-decidir-o-passo-seguinte">3. Estratégia: como
+decidir o passo seguinte</h2>
+<p>Trabalha <strong>de trás para a frente</strong>: olha para o que
+queres obter (o objetivo) e escolhe a regra pela tabela. Começa sempre
+pelo objetivo.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>O objetivo é…</th>
+<th>Faz isto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>→</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A\to B</annotation></semantics></math></td>
+<td>caixa com hipótese
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>;
+chega a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>;
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>I</strong></td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">\neg A</annotation></semantics></math></td>
+<td>caixa com hipótese
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>;
+chega a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>;
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>I</strong></td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>∧</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A\land B</annotation></semantics></math></td>
+<td>obtém
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>,
+obtém
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>;
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∧</mi><annotation encoding="application/x-tex">\land</annotation></semantics></math>I</strong></td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>∨</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A\lor B</annotation></semantics></math></td>
+<td>se consegues
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+(ou
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>)
+sozinho:
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>I</strong>.
+Se tens uma premissa com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>:
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>E</strong>
+sobre ela. Se nada disso: contradição (supor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>∨</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\neg(A\lor B)</annotation></semantics></math>,
+como no terceiro excluído, secção 4)</td>
+</tr>
+<tr>
+<td>uma letra
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>)
+sem caminho direto</td>
+<td>contradição: supor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg q</annotation></semantics></math>,
+chegar a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>I
+dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg\neg q</annotation></semantics></math>,
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>E</strong>
+dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math></td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math></td>
+<td>procura um par
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">\neg X</annotation></semantics></math>
+e usa <strong>FI</strong></td>
+</tr>
+</tbody>
+</table>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tens a premissa ou linha…</th>
+<th>Faz isto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>∧</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A\land B</annotation></semantics></math></td>
+<td>tira as partes já
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∧</mi><annotation encoding="application/x-tex">\land</annotation></semantics></math>E)</td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>∨</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A\lor B</annotation></semantics></math></td>
+<td><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>E</strong>:
+dois casos com a mesma conclusão</td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>→</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A\to B</annotation></semantics></math></td>
+<td>arranja
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+e usa
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>E</strong>.
+Se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+for uma implicação, obtém-na com uma caixa
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>I)</td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">\neg A</annotation></semantics></math></td>
+<td>guarda-a para chegar a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>:
+arranja
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+e usa <strong>FI</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Exemplo completo 1</strong> (o tipo da pergunta 5(a) do
+teste):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⊢</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>→</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∧</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\vdash (p\to(q\to r))\to((p\land q)\to r)</annotation></semantics></math>.</p>
+<ol type="1">
+<li>O objetivo é uma
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>:
+supor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>→</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">p\to(q\to r)</annotation></semantics></math>
+e procurar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∧</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">(p\land q)\to r</annotation></semantics></math>.</li>
+<li>Outra
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>:
+supor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∧</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p\land q</annotation></semantics></math>
+e procurar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>.</li>
+<li>Tenho
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∧</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p\land q</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∧</mi><annotation encoding="application/x-tex">\land</annotation></semantics></math>E
+dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>.
+Tenho
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>→</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">p\to(q\to r)</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>E
+dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>→</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">q\to r</annotation></semantics></math>;
+com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>E
+dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>.</li>
+<li>Fechar as duas caixas com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>I,
+de dentro para fora.</li>
+</ol>
+<table class="fitch"><tbody>
+<tr><td class="n">1</td><td class="b"></td><td class="b s"></td><td colspan="2" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>→</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">p  \to  (q  \to  r )</annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">2</td><td class="b"></td><td class="b"></td><td class="b s"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∧</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p  \land  q </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">3</td><td class="b"></td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p </annotation></semantics></math></span></td><td class="j">∧E, 2</td></tr>
+<tr><td class="n">4</td><td class="b"></td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q </annotation></semantics></math></span></td><td class="j">∧E, 2</td></tr>
+<tr><td class="n">5</td><td class="b"></td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>→</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">q  \to  r </annotation></semantics></math></span></td><td class="j">→E, 1, 3</td></tr>
+<tr><td class="n">6</td><td class="b"></td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r </annotation></semantics></math></span></td><td class="j">→E, 5, 4</td></tr>
+<tr><td class="n">7</td><td class="b"></td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∧</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">(p  \land  q ) \to  r </annotation></semantics></math></span></td><td class="j">→I, 2–6</td></tr>
+<tr><td class="n">8</td><td class="b"></td><td colspan="3" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>→</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∧</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(p  \to  (q  \to  r )) \to  ((p  \land  q ) \to  r )</annotation></semantics></math></span></td><td class="j">→I, 1–7</td></tr>
+</tbody></table>
+<p><strong>Exemplo completo 2</strong> (o tipo da pergunta 6 do teste):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>∨</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo>,</mo><mspace width="0.222em"></mspace><mo>¬</mo><mi>q</mi><mo>⊢</mo><mi>p</mi><mo>→</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">p\to(q\lor r),\ \neg q \vdash p\to r</annotation></semantics></math>.</p>
+<ol type="1">
+<li>O objetivo é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">p\to r</annotation></semantics></math>:
+supor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+e procurar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>.</li>
+<li>Com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>,
+a 1.ª premissa dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>∨</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">q\lor r</annotation></semantics></math>.
+Há um
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>:
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>E</strong>,
+com as duas caixas a terminar em
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>.</li>
+<li>Caso
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>:
+choca com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg q</annotation></semantics></math>,
+o que dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>
+e depois
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>
+por FE. Caso
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>:
+R.</li>
+</ol>
+<table class="fitch"><tbody>
+<tr><td class="n">1</td><td class="b"></td><td colspan="3" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>∨</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">p  \to  (q  \lor  r )</annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">2</td><td class="b"></td><td colspan="3" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg q </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">3</td><td class="b"></td><td class="b s"></td><td colspan="2" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">4</td><td class="b"></td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>∨</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">q  \lor  r </annotation></semantics></math></span></td><td class="j">→E, 1, 3</td></tr>
+<tr><td class="n">5</td><td class="b"></td><td class="b"></td><td class="b s"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">6</td><td class="b"></td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F} </annotation></semantics></math></span></td><td class="j"><b>F</b>&#8239;I, 5, 2</td></tr>
+<tr><td class="n">7</td><td class="b"></td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r </annotation></semantics></math></span></td><td class="j"><b>F</b>&#8239;E, 6</td></tr>
+<tr><td class="n">8</td><td class="b"></td><td class="b"></td><td class="b s"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">9</td><td class="b"></td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r </annotation></semantics></math></span></td><td class="j">R, 8</td></tr>
+<tr><td class="n">10</td><td class="b"></td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>r</mi><annotation encoding="application/x-tex">r </annotation></semantics></math></span></td><td class="j">∨E, 4, 5–7, 8–9</td></tr>
+<tr><td class="n">11</td><td class="b"></td><td colspan="3" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">p  \to  r </annotation></semantics></math></span></td><td class="j">→I, 3–10</td></tr>
+</tbody></table>
+<p><strong>Duas caixas seguidas ao mesmo nível</strong> (como as do
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>E)
+desenham-se como duas caixas separadas, uma por baixo da outra. A 2.ª
+não pode usar linhas da 1.ª.</p>
+<h2 id="regras-derivadas-não-estão-no-form">4. Regras derivadas (não
+estão no form)</h2>
+<p>Se usares uma no teste, o enunciado diz “<em>If you use derived
+rules, write their proofs in this space</em>”. Estas são as provas (cada
+uma serve como molde).</p>
+<p><strong>Terceiro excluído</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⊢</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\vdash p\lor\neg p</annotation></semantics></math>.
+O truque: supor o contrário do objetivo,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\neg(p\lor\neg p)</annotation></semantics></math>,
+e usá-lo duas vezes com FI.</p>
+<table class="fitch"><tbody>
+<tr><td class="n">1</td><td class="b"></td><td class="b s"></td><td colspan="2" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\neg (p  \lor  \neg p )</annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">2</td><td class="b"></td><td class="b"></td><td class="b s"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">3</td><td class="b"></td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">p  \lor  \neg p </annotation></semantics></math></span></td><td class="j">∨I, 2</td></tr>
+<tr><td class="n">4</td><td class="b"></td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F} </annotation></semantics></math></span></td><td class="j"><b>F</b>&#8239;I, 3, 1</td></tr>
+<tr><td class="n">5</td><td class="b"></td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p </annotation></semantics></math></span></td><td class="j">¬I, 2–4</td></tr>
+<tr><td class="n">6</td><td class="b"></td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">p  \lor  \neg p </annotation></semantics></math></span></td><td class="j">∨I, 5</td></tr>
+<tr><td class="n">7</td><td class="b"></td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F} </annotation></semantics></math></span></td><td class="j"><b>F</b>&#8239;I, 6, 1</td></tr>
+<tr><td class="n">8</td><td class="b"></td><td colspan="3" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo>¬</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\neg \neg (p  \lor  \neg p )</annotation></semantics></math></span></td><td class="j">¬I, 1–7</td></tr>
+<tr><td class="n">9</td><td class="b"></td><td colspan="3" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">p  \lor  \neg p </annotation></semantics></math></span></td><td class="j">¬E, 8</td></tr>
+</tbody></table>
+<p><strong>Dupla negação ao contrário</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo>¬</mo></mrow><annotation encoding="application/x-tex">\neg\neg</annotation></semantics></math>I)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>⊢</mo><mo>¬</mo><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">p \vdash \neg\neg p</annotation></semantics></math>:</p>
+<table class="fitch"><tbody>
+<tr><td class="n">1</td><td class="b"></td><td colspan="2" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">2</td><td class="b"></td><td class="b s"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">3</td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F} </annotation></semantics></math></span></td><td class="j"><b>F</b>&#8239;I, 1, 2</td></tr>
+<tr><td class="n">4</td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg \neg p </annotation></semantics></math></span></td><td class="j">¬I, 2–3</td></tr>
+</tbody></table>
+<p><strong>De Morgan</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>⊢</mo><mo>¬</mo><mi>p</mi><mo>∧</mo><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg(p\lor q) \vdash \neg p\land\neg q</annotation></semantics></math>.
+Cada metade é um
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>I
+que usa a premissa como “arma”:</p>
+<table class="fitch"><tbody>
+<tr><td class="n">1</td><td class="b"></td><td colspan="2" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\neg (p  \lor  q )</annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">2</td><td class="b"></td><td class="b s"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">3</td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p  \lor  q </annotation></semantics></math></span></td><td class="j">∨I, 2</td></tr>
+<tr><td class="n">4</td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F} </annotation></semantics></math></span></td><td class="j"><b>F</b>&#8239;I, 3, 1</td></tr>
+<tr><td class="n">5</td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p </annotation></semantics></math></span></td><td class="j">¬I, 2–4</td></tr>
+<tr><td class="n">6</td><td class="b"></td><td class="b s"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">7</td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p  \lor  q </annotation></semantics></math></span></td><td class="j">∨I, 6</td></tr>
+<tr><td class="n">8</td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F} </annotation></semantics></math></span></td><td class="j"><b>F</b>&#8239;I, 7, 1</td></tr>
+<tr><td class="n">9</td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg q </annotation></semantics></math></span></td><td class="j">¬I, 6–8</td></tr>
+<tr><td class="n">10</td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi><mo>∧</mo><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg p  \land  \neg q </annotation></semantics></math></span></td><td class="j">∧I, 5, 9</td></tr>
+</tbody></table>
+<p><strong>MT</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p\to q</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg q</annotation></semantics></math>
+dão
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p</annotation></semantics></math>)
+é o 4.º exemplo da secção 2: em vez de o usar, faz essas 3 linhas.</p>
+<h2
+id="verificar-e-completar-deduções-dadas-2.4-e-pergunta-2-do-teste">5.
+Verificar e completar deduções dadas (2.4 e pergunta 2 do teste)</h2>
+<p><strong>Verificar, linha a linha</strong>: cada linha tem de ser
+premissa, hipótese (início de caixa) ou o resultado de uma regra do form
+aplicada a linhas <strong>acessíveis</strong>. Os erros clássicos:</p>
+<ol type="1">
+<li><strong>Usar uma linha de uma caixa fechada.</strong> Na linha 5
+abaixo, a linha 3 já não está acessível:</li>
+</ol>
+<table class="fitch"><tbody>
+<tr><td class="n">1</td><td class="b"></td><td colspan="2" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p  \to  q </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">2</td><td class="b"></td><td class="b s"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">3</td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q </annotation></semantics></math></span></td><td class="j">→E, 1, 2</td></tr>
+<tr><td class="n">4</td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p  \to  q </annotation></semantics></math></span></td><td class="j">→I, 2–3</td></tr>
+<tr><td class="n">5</td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q </annotation></semantics></math></span></td><td class="j">R, 3</td></tr>
+</tbody></table>
+<ol start="2" type="1">
+<li><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>E
+mal feito</strong>: as duas caixas não acabam na mesma fórmula, ou a
+fórmula de fora é diferente da que está no fim das caixas (2.4(b):
+caixas com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">p\lor r</annotation></semantics></math>
+e cá fora
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∧</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">p\land r</annotation></semantics></math>).</li>
+<li><strong>Uma caixa fechada sem a regra certa</strong>: uma caixa
+fechada só dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mo>→</mo><mi>B</mi></mrow><annotation encoding="application/x-tex">A\to B</annotation></semantics></math>
+(com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>I)
+ou
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">\neg A</annotation></semantics></math>
+(com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>I,
+e só se acabar em
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>).
+Fechar uma caixa e escrever outra coisa (por exemplo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg p\lor q</annotation></semantics></math>,
+como na 2.4(d)) é inválido.</li>
+<li><strong>Uma “regra” que não existe no form</strong>, ou uma
+equivalência semântica usada como regra.</li>
+</ol>
+<p>Se a dedução for inválida, diz o passo errado e vê se a conclusão é
+consequência das premissas (com uma tabela ou uma valoração). Se for,
+existe uma dedução correta (completude, secção 6) e deves escrevê-la. Se
+não for, não existe nenhuma (integridade).</p>
+<p><strong>Completar</strong> (pergunta 2): a regra escrita ao lado diz
+a <strong>forma</strong> da linha:</p>
+<ul>
+<li>“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∧</mi><annotation encoding="application/x-tex">\land</annotation></semantics></math>I,
+3, 4” → a linha é (linha
+3)<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∧</mi><annotation encoding="application/x-tex">\land</annotation></semantics></math>(linha
+4).</li>
+<li>“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>E,
+1, 5” dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math>
+→ a linha 1 é (linha
+5)<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo><mi>θ</mi></mrow><annotation encoding="application/x-tex">\to\theta</annotation></semantics></math>.</li>
+<li>“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>I,
+4–7” → a linha é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>(hipótese
+da linha 4).</li>
+<li>“<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>I,
+2–9” → a linha é (hipótese da linha
+2)<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>(linha
+9).</li>
+<li>Uma linha que é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>
+vem quase sempre de <strong>FI</strong>, citando um par
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>X</mi></mrow><annotation encoding="application/x-tex">\neg X</annotation></semantics></math>.</li>
+</ul>
+<p>Preenche de baixo para cima e de fora para dentro.</p>
+<h2 id="propriedades-de-vdash-2.10-2.15-pergunta-1d-do-teste">6.
+Propriedades de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⊢</mo><annotation encoding="application/x-tex">\vdash</annotation></semantics></math>
+(2.10, 2.15, pergunta 1(d) do teste)</h2>
+<p><strong>O que tens de saber:</strong></p>
+<ul>
+<li><strong>Integridade:</strong> se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Σ</mi><mo>⊢</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">\Sigma\vdash A</annotation></semantics></math>
+então
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Σ</mi><mo>⊨</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">\Sigma\models A</annotation></semantics></math>.
+<strong>Completude:</strong> se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Σ</mi><mo>⊨</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">\Sigma\models A</annotation></semantics></math>
+então
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Σ</mi><mo>⊢</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">\Sigma\vdash A</annotation></semantics></math>.
+Juntas:
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⊢</mo><annotation encoding="application/x-tex">\vdash</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⊨</mo><annotation encoding="application/x-tex">\models</annotation></semantics></math>
+são a mesma coisa</strong>, e podes decidir “deduz-se?” com tabelas e
+valorações.</li>
+<li>Para mostrar que <strong>não</strong> se deduz: dá uma valoração que
+torna as premissas V e a conclusão F. Exemplo:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mi>q</mi><mo>⊬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">p\lor q \nvdash p</annotation></semantics></math>,
+porque com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">v(p)=F</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">v(q)=V</annotation></semantics></math>
+a premissa é V e a conclusão é F (logo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⊭</mo><annotation encoding="application/x-tex">\not\models</annotation></semantics></math>,
+e pela integridade
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⊬</mo><annotation encoding="application/x-tex">\nvdash</annotation></semantics></math>).</li>
+<li><strong>Mais premissas não estragam:</strong> se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>p</mi><mo stretchy="false" form="postfix">}</mo><mo>⊢</mo><mi>p</mi><mo>∨</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\{p\}\vdash p\lor q</annotation></semantics></math>
+então
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>p</mi><mo>,</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo><mo>⊢</mo><mi>p</mi><mo>∨</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\{p, r\}\vdash p\lor q</annotation></semantics></math>
+(usas a mesma dedução).</li>
+<li>A ordem e a repetição das premissas não contam:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>,</mo><mi>q</mi><mo>⊢</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">p, q \vdash A</annotation></semantics></math>
+sse
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>,</mo><mi>p</mi><mo>⊢</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">q, p \vdash A</annotation></semantics></math>
+sse
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>,</mo><mi>p</mi><mo>,</mo><mi>q</mi><mo>⊢</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">p, p, q\vdash A</annotation></semantics></math>.</li>
+<li><strong>Juntar deduções:</strong> se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Σ</mi><mo>⊢</mo><mi>p</mi><mo>→</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\Sigma\vdash p\to q</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Γ</mi><mo>⊢</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\Gamma\vdash p</annotation></semantics></math>,
+então
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Σ</mi><mo>∪</mo><mi mathvariant="normal">Γ</mi><mo>⊢</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\Sigma\cup\Gamma\vdash q</annotation></semantics></math>
+(colas as duas e fazes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>E).
+Mas só com <strong>todas</strong> as premissas:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>
+sozinho pode não chegar.</li>
+<li><strong>Teorema da dedução:</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Σ</mi><mo>,</mo><mi>p</mi><mo>⊢</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\Sigma, p\vdash q</annotation></semantics></math>
+sse
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Σ</mi><mo>⊢</mo><mi>p</mi><mo>→</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\Sigma\vdash p\to q</annotation></semantics></math>
+(é a regra
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>I).</li>
+<li><strong>Inconsistente:</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Σ</mi><mo>⊢</mo><mi mathvariant="bold-italic">𝑭</mi></mrow><annotation encoding="application/x-tex">\Sigma\vdash\mathbf{F}</annotation></semantics></math>
+sse
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>
+não é satisfazível. Nesse caso
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>
+deduz <strong>tudo</strong> (FE). Exemplo:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>p</mi><mo>,</mo><mo>¬</mo><mi>p</mi><mo stretchy="false" form="postfix">}</mo><mo>⊢</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\{p,\neg p\}\vdash q</annotation></semantics></math>.</li>
+</ul>
+<p><strong>Receita para “verdadeiro ou falso” com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="normal">Σ</mi><annotation encoding="application/x-tex">\Sigma</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>δ</mi><mn>1</mn></msub><annotation encoding="application/x-tex">\delta_1</annotation></semantics></math>…:</strong></p>
+<ul>
+<li><strong>Falso:</strong> escolhe fórmulas concretas pequenas que
+estraguem a afirmação (premissas vazias,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>…)
+e mostra que não se deduz com uma valoração.
+<ul>
+<li>2.10(b) “se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>δ</mi><mn>1</mn></msub><mo>⊢</mo><mi>ψ</mi></mrow><annotation encoding="application/x-tex">\delta_1\vdash\psi</annotation></semantics></math>
+então
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⊢</mo><mi>ψ</mi></mrow><annotation encoding="application/x-tex">\vdash\psi</annotation></semantics></math>”:
+com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>δ</mi><mn>1</mn></msub><mo>=</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\delta_1=p</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ψ</mi><mo>=</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\psi=p</annotation></semantics></math>
+tens
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>⊢</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">p\vdash p</annotation></semantics></math>,
+mas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⊬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\nvdash p</annotation></semantics></math>
+porque
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">v(p)=F</annotation></semantics></math>
+a falsifica.</li>
+</ul></li>
+<li><strong>Verdadeiro:</strong> mostra como construir a dedução a
+partir das que te dão (colar, acrescentar premissas,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>E
+ou
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>I).</li>
+<li><strong>“Para todo o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>δ</mi><annotation encoding="application/x-tex">\delta</annotation></semantics></math>”:</strong>
+escolhe o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>δ</mi><annotation encoding="application/x-tex">\delta</annotation></semantics></math>
+que te dá jeito. Na 2.15,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi><mo>=</mo><mi mathvariant="bold-italic">𝑭</mi></mrow><annotation encoding="application/x-tex">\delta=\mathbf{F}</annotation></semantics></math>
+dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Σ</mi><mo>⊢</mo><mi mathvariant="bold-italic">𝑭</mi></mrow><annotation encoding="application/x-tex">\Sigma\vdash\mathbf{F}</annotation></semantics></math>
+ou
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Γ</mi><mo>⊢</mo><mi mathvariant="bold-italic">𝑭</mi></mrow><annotation encoding="application/x-tex">\Gamma\vdash\mathbf{F}</annotation></semantics></math>,
+logo um deles é insatisfazível.</li>
+</ul>
+<p><strong>Pergunta 1(d) do teste, com letras concretas:</strong> “tenho
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+(que é o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ψ</mi><annotation encoding="application/x-tex">\psi</annotation></semantics></math>)
+e tenho
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg q</annotation></semantics></math>
+(que é o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>ϕ</mi></mrow><annotation encoding="application/x-tex">\neg\phi</annotation></semantics></math>)”.
+Testa cada opção com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">v(p)=V</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">v(q)=F</annotation></semantics></math>:
+a opção que der <strong>F</strong> nessa valoração é a que não se
+deduz.</p>
+<h2 id="sistema-de-hilbert-aula-8">7. Sistema de Hilbert (Aula 8)</h2>
+<p>Só usa
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>,
+tem <strong>3 axiomas</strong> e uma regra (<em>modus ponens</em>):</p>
+<ul>
+<li>A1:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>φ</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>ψ</mi><mo>→</mo><mi>φ</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\varphi\to(\psi\to\varphi)</annotation></semantics></math></li>
+<li>A2:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>φ</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>ψ</mi><mo>→</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>φ</mi><mo>→</mo><mi>ψ</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>φ</mi><mo>→</mo><mi>θ</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\varphi\to(\psi\to\theta))\to((\varphi\to\psi)\to(\varphi\to\theta))</annotation></semantics></math></li>
+<li>A3:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>ψ</mi><mo>→</mo><mo>¬</mo><mi>φ</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>ψ</mi><mo>→</mo><mi>φ</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mi>ψ</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\neg\psi\to\neg\varphi)\to((\neg\psi\to\varphi)\to\psi)</annotation></semantics></math></li>
+<li>MP: de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>φ</mi><annotation encoding="application/x-tex">\varphi</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>φ</mi><mo>→</mo><mi>ψ</mi></mrow><annotation encoding="application/x-tex">\varphi\to\psi</annotation></semantics></math>
+tira-se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>ψ</mi><annotation encoding="application/x-tex">\psi</annotation></semantics></math></li>
+</ul>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Σ</mi><msub><mo>⊢</mo><mrow><mi>D</mi><mi>N</mi></mrow></msub><mi>φ</mi></mrow><annotation encoding="application/x-tex">\Sigma\vdash_{DN}\varphi</annotation></semantics></math>
+sse
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Σ</mi><msub><mo>⊢</mo><mi>H</mi></msub><mi>φ</mi></mrow><annotation encoding="application/x-tex">\Sigma\vdash_{H}\varphi</annotation></semantics></math>.
+Para mostrar o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⇐</mo><annotation encoding="application/x-tex">\Leftarrow</annotation></semantics></math>
+basta deduzir os axiomas em DN (o MP é o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>E).
+Exemplo A1 com letras:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⊢</mo><mi>p</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>→</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\vdash p\to(q\to p)</annotation></semantics></math>.</p>
+<table class="fitch"><tbody>
+<tr><td class="n">1</td><td class="b"></td><td class="b s"></td><td colspan="2" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">2</td><td class="b"></td><td class="b"></td><td class="b s"></td><td colspan="1" class="f hyp"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q </annotation></semantics></math></span></td><td class="j"></td></tr>
+<tr><td class="n">3</td><td class="b"></td><td class="b"></td><td class="b"></td><td colspan="1" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p </annotation></semantics></math></span></td><td class="j">R, 1</td></tr>
+<tr><td class="n">4</td><td class="b"></td><td class="b"></td><td colspan="2" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>→</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">q  \to  p </annotation></semantics></math></span></td><td class="j">→I, 2–3</td></tr>
+<tr><td class="n">5</td><td class="b"></td><td colspan="3" class="f"><span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>→</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">p  \to  (q  \to  p )</annotation></semantics></math></span></td><td class="j">→I, 1–4</td></tr>
+</tbody></table>
+<h2 id="tableaux-pergunta-5b-3e-do-teste-2.17-2.21">8. Tableaux
+(pergunta 5(b), 3(e) do teste, 2.17, 2.21)</h2>
+<p><strong>Como se usa o form:</strong> a tabela da
+<strong>direita</strong> diz se a fórmula é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+ou
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>
+e quais são os componentes. A tabela pequena da
+<strong>esquerda</strong> diz o que fazer com isso:</p>
+<ul>
+<li><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></strong>
+→ escreves
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>α</mi><mn>1</mn></msub><annotation encoding="application/x-tex">\alpha_1</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>α</mi><mn>2</mn></msub><annotation encoding="application/x-tex">\alpha_2</annotation></semantics></math>
+<strong>no mesmo ramo</strong>, um por baixo do outro.</li>
+<li><strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math></strong>
+→ o ramo <strong>divide-se em dois</strong>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>β</mi><mn>1</mn></msub><annotation encoding="application/x-tex">\beta_1</annotation></semantics></math>
+à esquerda e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>β</mi><mn>2</mn></msub><annotation encoding="application/x-tex">\beta_2</annotation></semantics></math>
+à direita.</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo>¬</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">\neg\neg A</annotation></semantics></math>
+→ escreves
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>.
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi mathvariant="bold-italic">𝑭</mi></mrow><annotation encoding="application/x-tex">\neg\mathbf{F}</annotation></semantics></math>
+→
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑻</mi><annotation encoding="application/x-tex">\mathbf{T}</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi mathvariant="bold-italic">𝑻</mi></mrow><annotation encoding="application/x-tex">\neg\mathbf{T}</annotation></semantics></math>
+→
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>
+quase nunca aparecem.)</li>
+</ul>
+<p>Para saber em que linha da tabela estás: vê o conectivo principal e
+se a fórmula começa por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>.</p>
+<table>
+<thead>
+<tr>
+<th>Fórmula</th>
+<th>Tipo</th>
+<th>Componentes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∧</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p\land q</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math></td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\neg(p\lor q)</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg q</annotation></semantics></math></td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\neg(p\to q)</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg q</annotation></semantics></math></td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>∧</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\neg(p\land q)</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p</annotation></semantics></math>
+|
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg q</annotation></semantics></math></td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>∨</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p\lor q</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+|
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math></td>
+</tr>
+<tr>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>→</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">p\to q</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math></td>
+<td><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p</annotation></semantics></math>
+|
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math></td>
+</tr>
+</tbody>
+</table>
+<p>Exemplo do tipo da pergunta 3(e):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo>¬</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\neg((p\to q)\to\neg r)</annotation></semantics></math>
+é um
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>→</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\neg(A\to B)</annotation></semantics></math>,
+logo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>,
+com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mn>1</mn></msub><mo>=</mo><mi>p</mi><mo>→</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\alpha_1 = p\to q</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>α</mi><mn>2</mn></msub><mo>=</mo><mo>¬</mo><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\alpha_2 = \neg\neg r</annotation></semantics></math>.
+Só desmontas <strong>um nível</strong>.</p>
+<p><strong>Receita para provar que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+é teorema:</strong></p>
+<ol type="1">
+<li>Começa com
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">\neg A</annotation></semantics></math></strong>
+(estás a tentar que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+seja falsa).</li>
+<li>Expande as fórmulas, primeiro as
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></strong>
+(não dividem) e só depois as
+<strong><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math></strong>.
+Ao lado de cada nó escreve de onde veio (“; 3”).</li>
+<li>Um ramo <strong>fecha</strong> (×) quando tem uma fórmula e a sua
+negação, como
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p</annotation></semantics></math>,
+em qualquer altura do ramo. Escreve os dois nós: “× 4, 9”.</li>
+<li><strong>Todos os ramos fechados</strong> →
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">\neg A</annotation></semantics></math>
+é impossível, logo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+é tautologia (e teorema).</li>
+<li>Um ramo <strong>aberto</strong> já sem nada para expandir →
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+não é tautologia, e esse ramo dá uma valoração que a torna falsa.</li>
+</ol>
+<p><strong>Exemplo (fechado):</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>q</mi><mo>→</mo><mo>¬</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(p\to q)\to(\neg q\to\neg p)</annotation></semantics></math>.</p>
+<div class="arvore"><svg width="176pt" height="215pt"
+ viewBox="0.00 0.00 175.88 214.52" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 210.52)">
+<title>T</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-210.52 171.88,-210.52 171.88,4 -4,4"/>
+<!-- n1 -->
+<g id="node1" class="node">
+<title>n1</title>
+<text text-anchor="start" x="1.44" y="-194.45" font-family="Charter" font-size="10.00" fill="#888888">1</text>
+<text text-anchor="start" x="6.69" y="-194.45" font-family="Charter" font-size="13.00"> &#160;¬((p → q) → (¬q → ¬p))</text>
+</g>
+<!-- n2 -->
+<g id="node2" class="node">
+<title>n2</title>
+<text text-anchor="start" x="50.19" y="-167.51" font-family="Charter" font-size="10.00" fill="#888888">2</text>
+<text text-anchor="start" x="55.44" y="-167.51" font-family="Charter" font-size="13.00"> &#160;p → q</text>
+<text text-anchor="start" x="97.44" y="-167.51" font-family="Charter" font-size="10.00" fill="#888888"> &#160;[1]</text>
+</g>
+<!-- n1&#45;&#45;n2 -->
+<g id="edge1" class="edge">
+<title>n1&#45;&#45;n2</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M83.94,-188.66C83.94,-185.69 83.94,-182.32 83.94,-179.36"/>
+</g>
+<!-- n3 -->
+<g id="node3" class="node">
+<title>n3</title>
+<text text-anchor="start" x="29.19" y="-140.57" font-family="Charter" font-size="10.00" fill="#888888">3</text>
+<text text-anchor="start" x="34.44" y="-140.57" font-family="Charter" font-size="13.00"> &#160;¬(¬q → ¬p)</text>
+<text text-anchor="start" x="118.44" y="-140.57" font-family="Charter" font-size="10.00" fill="#888888"> &#160;[1]</text>
+</g>
+<!-- n2&#45;&#45;n3 -->
+<g id="edge2" class="edge">
+<title>n2&#45;&#45;n3</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M83.94,-161.72C83.94,-158.75 83.94,-155.38 83.94,-152.42"/>
+</g>
+<!-- n4 -->
+<g id="node4" class="node">
+<title>n4</title>
+<text text-anchor="start" x="58.81" y="-113.63" font-family="Charter" font-size="10.00" fill="#888888">4</text>
+<text text-anchor="start" x="64.06" y="-113.63" font-family="Charter" font-size="13.00"> &#160;¬q</text>
+<text text-anchor="start" x="88.81" y="-113.63" font-family="Charter" font-size="10.00" fill="#888888"> &#160;[3]</text>
+</g>
+<!-- n3&#45;&#45;n4 -->
+<g id="edge3" class="edge">
+<title>n3&#45;&#45;n4</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M83.94,-134.78C83.94,-131.81 83.94,-128.44 83.94,-125.48"/>
+</g>
+<!-- n5 -->
+<g id="node5" class="node">
+<title>n5</title>
+<text text-anchor="start" x="53.19" y="-86.69" font-family="Charter" font-size="10.00" fill="#888888">5</text>
+<text text-anchor="start" x="58.44" y="-86.69" font-family="Charter" font-size="13.00"> &#160;¬¬p</text>
+<text text-anchor="start" x="94.44" y="-86.69" font-family="Charter" font-size="10.00" fill="#888888"> &#160;[3]</text>
+</g>
+<!-- n4&#45;&#45;n5 -->
+<g id="edge4" class="edge">
+<title>n4&#45;&#45;n5</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M83.94,-107.84C83.94,-104.87 83.94,-101.5 83.94,-98.54"/>
+</g>
+<!-- n6 -->
+<g id="node6" class="node">
+<title>n6</title>
+<text text-anchor="start" x="63.69" y="-59.75" font-family="Charter" font-size="10.00" fill="#888888">6</text>
+<text text-anchor="start" x="68.94" y="-59.75" font-family="Charter" font-size="13.00"> &#160;p</text>
+<text text-anchor="start" x="83.94" y="-59.75" font-family="Charter" font-size="10.00" fill="#888888"> &#160;[5]</text>
+</g>
+<!-- n5&#45;&#45;n6 -->
+<g id="edge5" class="edge">
+<title>n5&#45;&#45;n6</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M83.94,-80.9C83.94,-77.93 83.94,-74.56 83.94,-71.6"/>
+</g>
+<!-- n7 -->
+<g id="node7" class="node">
+<title>n7</title>
+<text text-anchor="start" x="22.44" y="-32.81" font-family="Charter" font-size="10.00" fill="#888888">7</text>
+<text text-anchor="start" x="27.69" y="-32.81" font-family="Charter" font-size="13.00"> &#160;¬p</text>
+<text text-anchor="start" x="53.19" y="-32.81" font-family="Charter" font-size="10.00" fill="#888888"> &#160;[2]</text>
+</g>
+<!-- n6&#45;&#45;n7 -->
+<g id="edge6" class="edge">
+<title>n6&#45;&#45;n7</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M72.55,-53.96C68.26,-50.99 63.4,-47.62 59.13,-44.66"/>
+</g>
+<!-- n9 -->
+<g id="node9" class="node">
+<title>n9</title>
+<text text-anchor="start" x="100.06" y="-32.81" font-family="Charter" font-size="10.00" fill="#888888">9</text>
+<text text-anchor="start" x="105.31" y="-32.81" font-family="Charter" font-size="13.00"> &#160;q</text>
+<text text-anchor="start" x="119.56" y="-32.81" font-family="Charter" font-size="10.00" fill="#888888"> &#160;[2]</text>
+</g>
+<!-- n6&#45;&#45;n9 -->
+<g id="edge8" class="edge">
+<title>n6&#45;&#45;n9</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M95.33,-53.96C99.62,-50.99 104.48,-47.62 108.75,-44.66"/>
+</g>
+<!-- n8 -->
+<g id="node8" class="node">
+<title>n8</title>
+<text text-anchor="start" x="28.44" y="-5.87" font-family="Charter" font-weight="bold" font-size="13.00" fill="#b03030">×</text>
+<text text-anchor="start" x="38.94" y="-5.87" font-family="Charter" font-size="10.00" fill="#888888"> (6, 7)</text>
+</g>
+<!-- n7&#45;&#45;n8 -->
+<g id="edge7" class="edge">
+<title>n7&#45;&#45;n8</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M47.94,-27.02C47.94,-24.05 47.94,-20.68 47.94,-17.72"/>
+</g>
+<!-- n10 -->
+<g id="node10" class="node">
+<title>n10</title>
+<text text-anchor="start" x="100.44" y="-5.87" font-family="Charter" font-weight="bold" font-size="13.00" fill="#b03030">×</text>
+<text text-anchor="start" x="110.94" y="-5.87" font-family="Charter" font-size="10.00" fill="#888888"> (4, 9)</text>
+</g>
+<!-- n9&#45;&#45;n10 -->
+<g id="edge9" class="edge">
+<title>n9&#45;&#45;n10</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M119.94,-27.02C119.94,-24.05 119.94,-20.68 119.94,-17.72"/>
+</g>
+</g>
+</svg>
+</div>
+<p>Os nós 2 e 3 vêm do nó 1
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+do tipo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo stretchy="false" form="prefix">(</mo><mi>A</mi><mo>→</mo><mi>B</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\neg(A\to B)</annotation></semantics></math>),
+os 4 e 5 do nó 3 (outra
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>)
+e o 6 do
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo>¬</mo></mrow><annotation encoding="application/x-tex">\neg\neg</annotation></semantics></math>.
+Só depois vem a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>
+do nó 2. Os dois ramos fecham, logo é uma tautologia.</p>
+<p><strong>Exemplo (aberto):</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>→</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(p\to q)\to(q\to p)</annotation></semantics></math>.</p>
+<div class="arvore"><svg width="155pt" height="161pt"
+ viewBox="0.00 0.00 154.88 160.64" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 156.64)">
+<title>T</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-156.64 150.88,-156.64 150.88,4 -4,4"/>
+<!-- n1 -->
+<g id="node1" class="node">
+<title>n1</title>
+<text text-anchor="start" x="1.44" y="-140.57" font-family="Charter" font-size="10.00" fill="#888888">1</text>
+<text text-anchor="start" x="6.69" y="-140.57" font-family="Charter" font-size="13.00"> &#160;¬((p → q) → (q → p))</text>
+</g>
+<!-- n2 -->
+<g id="node2" class="node">
+<title>n2</title>
+<text text-anchor="start" x="39.69" y="-113.63" font-family="Charter" font-size="10.00" fill="#888888">2</text>
+<text text-anchor="start" x="44.94" y="-113.63" font-family="Charter" font-size="13.00"> &#160;p → q</text>
+<text text-anchor="start" x="86.94" y="-113.63" font-family="Charter" font-size="10.00" fill="#888888"> &#160;[1]</text>
+</g>
+<!-- n1&#45;&#45;n2 -->
+<g id="edge1" class="edge">
+<title>n1&#45;&#45;n2</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M73.44,-134.78C73.44,-131.81 73.44,-128.44 73.44,-125.48"/>
+</g>
+<!-- n3 -->
+<g id="node3" class="node">
+<title>n3</title>
+<text text-anchor="start" x="29.19" y="-86.69" font-family="Charter" font-size="10.00" fill="#888888">3</text>
+<text text-anchor="start" x="34.44" y="-86.69" font-family="Charter" font-size="13.00"> &#160;¬(q → p)</text>
+<text text-anchor="start" x="97.44" y="-86.69" font-family="Charter" font-size="10.00" fill="#888888"> &#160;[1]</text>
+</g>
+<!-- n2&#45;&#45;n3 -->
+<g id="edge2" class="edge">
+<title>n2&#45;&#45;n3</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M73.44,-107.84C73.44,-104.87 73.44,-101.5 73.44,-98.54"/>
+</g>
+<!-- n4 -->
+<g id="node4" class="node">
+<title>n4</title>
+<text text-anchor="start" x="53.56" y="-59.75" font-family="Charter" font-size="10.00" fill="#888888">4</text>
+<text text-anchor="start" x="58.81" y="-59.75" font-family="Charter" font-size="13.00"> &#160;q</text>
+<text text-anchor="start" x="73.06" y="-59.75" font-family="Charter" font-size="10.00" fill="#888888"> &#160;[3]</text>
+</g>
+<!-- n3&#45;&#45;n4 -->
+<g id="edge3" class="edge">
+<title>n3&#45;&#45;n4</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M73.44,-80.9C73.44,-77.93 73.44,-74.56 73.44,-71.6"/>
+</g>
+<!-- n5 -->
+<g id="node5" class="node">
+<title>n5</title>
+<text text-anchor="start" x="47.94" y="-32.81" font-family="Charter" font-size="10.00" fill="#888888">5</text>
+<text text-anchor="start" x="53.19" y="-32.81" font-family="Charter" font-size="13.00"> &#160;¬p</text>
+<text text-anchor="start" x="78.69" y="-32.81" font-family="Charter" font-size="10.00" fill="#888888"> &#160;[3]</text>
+</g>
+<!-- n4&#45;&#45;n5 -->
+<g id="edge4" class="edge">
+<title>n4&#45;&#45;n5</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M73.44,-53.96C73.44,-50.99 73.44,-47.62 73.44,-44.66"/>
+</g>
+<!-- n6 -->
+<g id="node6" class="node">
+<title>n6</title>
+<text text-anchor="start" x="11.94" y="-5.87" font-family="Charter" font-size="10.00" fill="#888888">6</text>
+<text text-anchor="start" x="17.19" y="-5.87" font-family="Charter" font-size="13.00"> &#160;¬p</text>
+<text text-anchor="start" x="42.69" y="-5.87" font-family="Charter" font-size="10.00" fill="#888888"> &#160;[2]</text>
+</g>
+<!-- n5&#45;&#45;n6 -->
+<g id="edge5" class="edge">
+<title>n5&#45;&#45;n6</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M62.05,-27.02C57.76,-24.05 52.9,-20.68 48.63,-17.72"/>
+</g>
+<!-- n7 -->
+<g id="node7" class="node">
+<title>n7</title>
+<text text-anchor="start" x="89.56" y="-5.87" font-family="Charter" font-size="10.00" fill="#888888">7</text>
+<text text-anchor="start" x="94.81" y="-5.87" font-family="Charter" font-size="13.00"> &#160;q</text>
+<text text-anchor="start" x="109.06" y="-5.87" font-family="Charter" font-size="10.00" fill="#888888"> &#160;[2]</text>
+</g>
+<!-- n5&#45;&#45;n7 -->
+<g id="edge6" class="edge">
+<title>n5&#45;&#45;n7</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M84.83,-27.02C89.12,-24.05 93.98,-20.68 98.25,-17.72"/>
+</g>
+</g>
+</svg>
+</div>
+<p>Nenhum ramo fecha. O ramo da esquerda tem
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p</annotation></semantics></math>:
+com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>V</mi></mrow><annotation encoding="application/x-tex">v(q)=V</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mi>F</mi></mrow><annotation encoding="application/x-tex">v(p)=F</annotation></semantics></math>
+a fórmula é falsa, logo não é uma tautologia.</p>
+<h2 id="resolução-não-está-no-form">9. Resolução (não está no form)</h2>
+<p><strong>Cláusula</strong> = conjunto de literais ligados por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mo>¬</mo><mi>p</mi><mo>,</mo><mi>q</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\neg p, q\}</annotation></semantics></math>
+é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi></mrow><annotation encoding="application/x-tex">\neg p\lor q</annotation></semantics></math>.
+A cláusula vazia é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>.</p>
+<p><strong>A única regra:</strong> de duas cláusulas com um literal
+<strong>complementar</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>
+numa e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\neg p</annotation></semantics></math>
+na outra), tira-se a união do resto.
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mo>¬</mo><mi>p</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>q</mi><mo stretchy="false" form="postfix">}</mo><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> e </mtext><mspace width="0.333em"></mspace></mrow><mo stretchy="false" form="prefix">{</mo><mi>p</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>r</mi><mo stretchy="false" form="postfix">}</mo><mspace width="0.278em"></mspace><mo>⇒</mo><mspace width="0.278em"></mspace><mo stretchy="false" form="prefix">{</mo><mi>q</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\neg p,\ q\} \text{ e } \{p,\ r\} \;\Rightarrow\; \{q,\ r\}</annotation></semantics></math>
+<strong>Só se elimina UM par de cada vez.</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>p</mi><mo>,</mo><mi>q</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{p, q\}</annotation></semantics></math>
+com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mo>¬</mo><mi>p</mi><mo>,</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\neg p, \neg q\}</annotation></semantics></math>
+<strong>não</strong> dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\}</annotation></semantics></math>:
+dá
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>q</mi><mo>,</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{q,\neg q\}</annotation></semantics></math>
+(eliminando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>)
+ou
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>p</mi><mo>,</mo><mo>¬</mo><mi>p</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{p,\neg p\}</annotation></semantics></math>
+(eliminando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>).</p>
+<p><strong>Provar que
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+é teorema por resolução (refutação):</strong></p>
+<ol type="1">
+<li>Nega:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">\neg A</annotation></semantics></math>.</li>
+<li>Passa a FNC: tira os
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>→</mo><mi>Y</mi><mo>⇔</mo><mo>¬</mo><mi>X</mi><mo>∨</mo><mi>Y</mi></mrow><annotation encoding="application/x-tex">X\to Y \Leftrightarrow \neg X\lor Y</annotation></semantics></math>),
+empurra os
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>¬</mo><annotation encoding="application/x-tex">\neg</annotation></semantics></math>
+para dentro (De Morgan, dupla negação) e distribui
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math>
+sobre
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∧</mi><annotation encoding="application/x-tex">\land</annotation></semantics></math>
+se for preciso.</li>
+<li>Cada parcela do
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∧</mi><annotation encoding="application/x-tex">\land</annotation></semantics></math>
+é uma cláusula.</li>
+<li>Resolve até chegar a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>.
+Se chegares,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">\neg A</annotation></semantics></math>
+é insatisfazível e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>
+é tautologia.</li>
+</ol>
+<p>Para uma consequência
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Σ</mi><mo>⊨</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">\Sigma\models A</annotation></semantics></math>,
+juntas as cláusulas das premissas com as de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>A</mi></mrow><annotation encoding="application/x-tex">\neg A</annotation></semantics></math>.</p>
+<p><strong>Exemplo:</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>→</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo stretchy="false" form="postfix">)</mo><mo>→</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">((p\to q)\land(q\to r))\to(p\to r)</annotation></semantics></math>.</p>
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mi>A</mi><mo>⇔</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mo stretchy="false" form="prefix">(</mo><mi>q</mi><mo>→</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mo>¬</mo><mo stretchy="false" form="prefix">(</mo><mi>p</mi><mo>→</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\neg A \Leftrightarrow (p\to q)\land(q\to r)\land\neg(p\to r)</annotation></semantics></math>
+(negar uma
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>→</mo><annotation encoding="application/x-tex">\to</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>¬</mo><mo stretchy="false" form="prefix">(</mo><mi>X</mi><mo>→</mo><mi>Y</mi><mo stretchy="false" form="postfix">)</mo><mo>⇔</mo><mi>X</mi><mo>∧</mo><mo>¬</mo><mi>Y</mi></mrow><annotation encoding="application/x-tex">\neg(X\to Y)\Leftrightarrow X\land\neg Y</annotation></semantics></math>)</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>⇔</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>p</mi><mo>∨</mo><mi>q</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mo stretchy="false" form="prefix">(</mo><mo>¬</mo><mi>q</mi><mo>∨</mo><mi>r</mi><mo stretchy="false" form="postfix">)</mo><mo>∧</mo><mi>p</mi><mo>∧</mo><mo>¬</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">\Leftrightarrow (\neg p\lor q)\land(\neg q\lor r)\land p\land\neg r</annotation></semantics></math></li>
+</ul>
+<p>Cláusulas:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mo>¬</mo><mi>p</mi><mo>,</mo><mi>q</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\neg p,q\}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mo>¬</mo><mi>q</mi><mo>,</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\neg q,r\}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>p</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{p\}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mo>¬</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\neg r\}</annotation></semantics></math>.</p>
+<div class="arvore"><svg width="219pt" height="146pt"
+ viewBox="0.00 0.00 218.94 145.76" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 141.76)">
+<title>R</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-141.76 214.94,-141.76 214.94,4 -4,4"/>
+<!-- c1 -->
+<g id="node1" class="node">
+<title>c1</title>
+<text text-anchor="start" x="1.44" y="-125.69" font-family="Charter" font-size="10.00" fill="#888888">1</text>
+<text text-anchor="start" x="6.69" y="-125.69" font-family="Charter" font-size="13.00"> &#160;{¬p, q}</text>
+</g>
+<!-- c5 -->
+<g id="node5" class="node">
+<title>c5</title>
+<text text-anchor="start" x="53.19" y="-85.75" font-family="Charter" font-size="10.00" fill="#888888">5</text>
+<text text-anchor="start" x="58.44" y="-85.75" font-family="Charter" font-size="13.00"> &#160;{q}</text>
+</g>
+<!-- c1&#45;&gt;c5 -->
+<g id="edge1" class="edge">
+<title>c1&#45;&gt;c5</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M37.83,-120.11C43.26,-114.83 50.57,-107.72 56.74,-101.72"/>
+<polygon fill="#666666" stroke="#666666" stroke-width="0.7" points="57.67,-103.26 60.03,-98.52 55.23,-100.75 57.67,-103.26"/>
+</g>
+<!-- c2 -->
+<g id="node2" class="node">
+<title>c2</title>
+<text text-anchor="start" x="119.56" y="-85.75" font-family="Charter" font-size="10.00" fill="#888888">2</text>
+<text text-anchor="start" x="124.81" y="-85.75" font-family="Charter" font-size="13.00"> &#160;{¬q, r}</text>
+</g>
+<!-- c6 -->
+<g id="node6" class="node">
+<title>c6</title>
+<text text-anchor="start" x="92.94" y="-45.81" font-family="Charter" font-size="10.00" fill="#888888">6</text>
+<text text-anchor="start" x="98.19" y="-45.81" font-family="Charter" font-size="13.00"> &#160;{r}</text>
+</g>
+<!-- c2&#45;&gt;c6 -->
+<g id="edge4" class="edge">
+<title>c2&#45;&gt;c6</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M139.05,-80.17C133.62,-74.89 126.31,-67.78 120.14,-61.78"/>
+<polygon fill="#666666" stroke="#666666" stroke-width="0.7" points="121.65,-60.81 116.85,-58.58 119.21,-63.32 121.65,-60.81"/>
+</g>
+<!-- c3 -->
+<g id="node3" class="node">
+<title>c3</title>
+<text text-anchor="start" x="92.81" y="-125.69" font-family="Charter" font-size="10.00" fill="#888888">3</text>
+<text text-anchor="start" x="98.06" y="-125.69" font-family="Charter" font-size="13.00"> &#160;{p}</text>
+</g>
+<!-- c3&#45;&gt;c5 -->
+<g id="edge2" class="edge">
+<title>c3&#45;&gt;c5</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M100.85,-120.11C95.28,-114.83 87.78,-107.72 81.45,-101.72"/>
+<polygon fill="#666666" stroke="#666666" stroke-width="0.7" points="82.9,-100.68 78.07,-98.51 80.49,-103.22 82.9,-100.68"/>
+</g>
+<!-- c4 -->
+<g id="node4" class="node">
+<title>c4</title>
+<text text-anchor="start" x="163.69" y="-45.81" font-family="Charter" font-size="10.00" fill="#888888">4</text>
+<text text-anchor="start" x="168.94" y="-45.81" font-family="Charter" font-size="13.00"> &#160;{¬r}</text>
+</g>
+<!-- c7 -->
+<g id="node7" class="node">
+<title>c7</title>
+<text text-anchor="start" x="135.81" y="-5.87" font-family="Charter" font-size="10.00" fill="#888888">7</text>
+<text text-anchor="start" x="141.06" y="-5.87" font-family="Charter" font-size="13.00"> &#160;</text>
+<text text-anchor="start" x="148.56" y="-5.87" font-family="Charter" font-weight="bold" font-size="13.00" fill="#b03030">F</text>
+</g>
+<!-- c4&#45;&gt;c7 -->
+<g id="edge6" class="edge">
+<title>c4&#45;&gt;c7</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M176.25,-40.23C170.96,-34.95 163.84,-27.84 157.83,-21.84"/>
+<polygon fill="#666666" stroke="#666666" stroke-width="0.7" points="159.4,-20.94 154.63,-18.65 156.93,-23.42 159.4,-20.94"/>
+</g>
+<!-- c5&#45;&gt;c6 -->
+<g id="edge3" class="edge">
+<title>c5&#45;&gt;c6</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M76.83,-80.17C82.26,-74.89 89.57,-67.78 95.74,-61.78"/>
+<polygon fill="#666666" stroke="#666666" stroke-width="0.7" points="96.67,-63.32 99.03,-58.58 94.23,-60.81 96.67,-63.32"/>
+</g>
+<!-- c6&#45;&gt;c7 -->
+<g id="edge5" class="edge">
+<title>c6&#45;&gt;c7</title>
+<path fill="none" stroke="#666666" stroke-width="0.7" d="M115.63,-40.23C120.92,-34.95 128.04,-27.84 134.05,-21.84"/>
+<polygon fill="#666666" stroke="#666666" stroke-width="0.7" points="134.95,-23.42 137.25,-18.65 132.48,-20.94 134.95,-23.42"/>
+</g>
+</g>
+</svg>
+</div>
+<p>Dica: começa pelas cláusulas com um só literal.</p>
+<p><strong>“Todas as cláusulas que se obtêm por resolução”</strong>
+(pergunta 3(d)): resolve <strong>cada par</strong> que tenha um literal
+complementar, um par de literais de cada vez. Depois repete com as
+cláusulas novas até não aparecer nada novo. Exemplo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mo stretchy="false" form="prefix">{</mo><mi>p</mi><mo>,</mo><mi>q</mi><mo stretchy="false" form="postfix">}</mo><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mo>¬</mo><mi>p</mi><mo>,</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo><mo>,</mo><mo stretchy="false" form="prefix">{</mo><mo>¬</mo><mi>q</mi><mo stretchy="false" form="postfix">}</mo><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{\{p,q\},\{\neg p,r\},\{\neg q\}\}</annotation></semantics></math>:</p>
+<ul>
+<li>1 e 2 (sobre
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>q</mi><mo>,</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{q,r\}</annotation></semantics></math></li>
+<li>1 e 3 (sobre
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>p</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{p\}</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>q</mi><mo>,</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{q,r\}</annotation></semantics></math>
+e 3 (sobre
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>q</mi><annotation encoding="application/x-tex">q</annotation></semantics></math>):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{r\}</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>p</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{p\}</annotation></semantics></math>
+e 2 (sobre
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{r\}</annotation></semantics></math>,
+que já existe</li>
+</ul>
+<p>Resposta:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>q</mi><mo>,</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{q,r\}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>p</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{p\}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mi>r</mi><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{r\}</annotation></semantics></math>.
+Não aparece
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi mathvariant="bold-italic">𝑭</mi><annotation encoding="application/x-tex">\mathbf{F}</annotation></semantics></math>,
+logo o conjunto é satisfazível.</p>
+<h2 id="mapa-do-teste-que-secção-usar-em-cada-pergunta">10. Mapa do
+teste: que secção usar em cada pergunta</h2>
+<table>
+<thead>
+<tr>
+<th>Pergunta (teste 1124)</th>
+<th>Secção</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1(d) propriedades de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>⊢</mo><annotation encoding="application/x-tex">\vdash</annotation></semantics></math></td>
+<td>6</td>
+</tr>
+<tr>
+<td>2 completar deduções</td>
+<td>5 (e o terceiro excluído da 4)</td>
+</tr>
+<tr>
+<td>3(d) fecho por resolução</td>
+<td>9</td>
+</tr>
+<tr>
+<td>3(e) componentes do tableau</td>
+<td>8</td>
+</tr>
+<tr>
+<td>5(a) dedução de um teorema</td>
+<td>3, exemplo 1</td>
+</tr>
+<tr>
+<td>5(b) tableau</td>
+<td>8</td>
+</tr>
+<tr>
+<td>6 dedução com premissas e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∨</mi><annotation encoding="application/x-tex">\lor</annotation></semantics></math></td>
+<td>3, exemplo 2</td>
+</tr>
+</tbody>
+</table>
+</main></body></html>

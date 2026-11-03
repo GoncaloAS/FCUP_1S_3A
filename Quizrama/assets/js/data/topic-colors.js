@@ -53,6 +53,18 @@ const TOPIC_COLORS = {
   "Parte II · HTTP":               {color:"#c0392b",bg:"transparent"},
   "Parte II · DNS, email e P2P":   {color:"#c0392b",bg:"transparent"},
   "Teste · Modelo 1":              {color:"#8a6d00",bg:"transparent"},
+  // ── Tecnologias Web · Teste 1 ──
+  "HTML: elementos e estrutura":       {color:"#b5651d",bg:"transparent"},
+  "HTML: formulários e tabelas":       {color:"#9c4221",bg:"transparent"},
+  "CSS: regras e cascata":             {color:"#2f5bd3",bg:"transparent"},
+  "CSS: seletores":                    {color:"#3b6e8f",bg:"transparent"},
+  "CSS: caixa, unidades e texto":      {color:"#5a5fd6",bg:"transparent"},
+  "CSS: posicionamento, flex e grid":  {color:"#6b4fbf",bg:"transparent"},
+  "JS: sintaxe, tipos e âmbito":       {color:"#8a6d00",bg:"transparent"},
+  "JS: objetos, arrays e Map":         {color:"#1e7a4c",bg:"transparent"},
+  "JS: classes e this":                {color:"#0f7c8a",bg:"transparent"},
+  "DOM, CSSOM e eventos":              {color:"#b8337a",bg:"transparent"},
+  "Trabalho: Alquerque (1.ª entrega)": {color:"#c0392b",bg:"transparent"},
 };
 const tc = t => (TOPIC_COLORS[t]||TOPIC_COLORS["General OS"]).color;
 const tb = t => (TOPIC_COLORS[t]||TOPIC_COLORS["General OS"]).bg;

@@ -110,7 +110,7 @@ O antigo projeto `~/Personal Projects/quizrama` vive agora em `Quizrama/`
 disciplina tem `Quizrama/tools/<d>-guide/`; o `fechar.sh` regenera o guia e
 as perguntas e corre o `npm test`. Perguntas só da matéria do teste, ao estilo
 do teste, com correção de todas as opções, link para a secção da teoria e a
-posição da certa sorteada e equilibrada.
+posição da certa sorteada e equilibrada (nunca quase sempre a B), e a certa **não pode ser a opção mais comprida** mais vezes do que o acaso (≤ 30%; escreve as erradas com o mesmo detalhe que a certa) nem haver "todas/nenhuma das anteriores".
 Objetivo: quem faz o treino chega ao teste modelo e consegue fazer tudo, incluindo
 as perguntas de desenvolvimento. Por isso o treino inclui perguntas de resposta aberta
 com os exercícios das fichas que usam as mesmas técnicas, e o teste modelo tem as de

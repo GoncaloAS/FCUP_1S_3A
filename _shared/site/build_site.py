@@ -59,6 +59,12 @@ QUIZZES = {
         ("ver.html?f=ficheiros/Quizrama/guia_redes_teste1.pdf&d=Redes&t=Guia%20do%201.%C2%BA%20teste",
          "Guia do 1.º teste em PDF", "o mesmo guia, para imprimir"),
     ],
+    "TecnologiasWeb": [
+        ("quizrama/tw.html", "Quiz do 1.º teste", "HTML, CSS, JavaScript e a 1.ª entrega, com nota /20"),
+        ("quizrama/guia_tw_teste1.html", "Guia do 1.º teste", "a matéria, ligada às perguntas"),
+        ("ver.html?f=ficheiros/Quizrama/guia_tw_teste1.pdf&d=TecnologiasWeb&t=Guia%20do%201.%C2%BA%20teste",
+         "Guia do 1.º teste em PDF", "o mesmo guia, para imprimir"),
+    ],
 }
 QUIZRAMA_EXTRA = [
     ("quizrama/index.html", "Sistemas de Operações — perguntas", "~540 perguntas de exames anteriores"),

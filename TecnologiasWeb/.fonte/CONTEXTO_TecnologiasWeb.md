@@ -13,3 +13,9 @@ pessoal, fora do git; entra na `AGENDA` pela secção `## Datas`) e
 de 2025/26). Ainda não há `SOLUCOES_TecnologiasWeb.md`.
 
 **Build.** O índice é a duas colunas (`INDICE_2COL` no `build.sh`).
+
+**1.º teste (5 nov 2026).** Só escolha múltipla, em computador (as erradas
+descontam). Matéria pelo aviso do professor no Slack: as linguagens do
+cliente (HTML, CSS, JavaScript = Temas 2–6 do resumo) e a 1.ª fase do
+trabalho; o HTTP fica de fora. Treino em `Quizrama/tw.html` (guia e banco
+em `Quizrama/tools/tecnologiasweb-guide/`), sem perguntas abertas.
