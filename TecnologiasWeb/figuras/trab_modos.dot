@@ -1,0 +1,24 @@
+digraph Modos {
+  rankdir=TB; fontname="Helvetica"; nodesep=0.5; ranksep=0.45;
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11];
+  edge [fontname="Helvetica", fontsize=9];
+  fim  [label="fimDeJogo\n(cliques ignorados)", fillcolor="#e8e8e8"];
+  esp  [label="esperaJogada\n(início da tua vez)", fillcolor="#dbe9ff"];
+  sel  [label="pecaSelecionada\n(destinos a amarelo)", fillcolor="#dbe9ff"];
+  mult [label="capturaMultipla\n(continua a saltar)", fillcolor="#dbe9ff"];
+  comp [label="vezComputador\n(cliques ignorados)", fillcolor="#fde2de"];
+
+  fim -> esp  [label="Iniciar jogo\n(eu primeiro)"];
+  fim -> comp [label="Iniciar jogo\n(computador primeiro)"];
+  esp -> sel  [label="clico numa peça\ncom jogadas"];
+  esp -> esp  [label="clico numa vermelha\nsoprável → sopro"];
+  sel -> esp  [label="clico na mesma\npeça (cancela)"];
+  sel -> sel  [label="clico noutra\npeça minha"];
+  sel -> comp [label="movimento simples\nou captura que acaba"];
+  sel -> mult [label="captura e ainda\nhá saltos"];
+  mult -> mult [label="salto outra vez"];
+  mult -> comp [label="sem mais saltos, ou\nclico na peça (paro → soprável)"];
+  comp -> esp [label="o computador\njogou"];
+  esp -> fim  [label="sem jogadas (perdi),\ndesistir, empate"];
+  comp -> fim [label="sem jogadas\n(ganhei)"];
+}

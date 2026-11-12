@@ -1,0 +1,13 @@
+digraph AstExemplo {
+  rankdir=TB; fontname="Helvetica"; nodesep=0.25; ranksep=0.3;
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11, fillcolor="#f4f4f4"];
+  a  [label="C_ASSIGN\nvar = \"x\"", fillcolor="#e3f2e7"];
+  p  [label="E_OPERATION\nPLUS", fillcolor="#fff3c4"];
+  i2 [label="E_INTEGER\n2", fillcolor="#dbe9ff"];
+  m  [label="E_OPERATION\nMULT", fillcolor="#fff3c4"];
+  i3 [label="E_INTEGER\n3", fillcolor="#dbe9ff"];
+  i4 [label="E_INTEGER\n4", fillcolor="#dbe9ff"];
+  a -> p [label=" expr", fontsize=9];
+  p -> i2 [label=" left", fontsize=9]; p -> m [label=" right", fontsize=9];
+  m -> i3 [label=" left", fontsize=9]; m -> i4 [label=" right", fontsize=9];
+}

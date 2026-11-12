@@ -19,3 +19,11 @@ descontam). Matéria pelo aviso do professor no Slack: as linguagens do
 cliente (HTML, CSS, JavaScript = Temas 2–6 do resumo) e a 1.ª fase do
 trabalho; o HTTP fica de fora. Treino em `Quizrama/tw.html` (guia e banco
 em `Quizrama/tools/tecnologiasweb-guide/`), sem perguntas abertas.
+
+**Defesa da 1.ª entrega.** Não há apresentação: o professor testa o jogo à
+frente do grupo e pergunta sobre o site todo. Guião em
+`GUIAO_Defesa_1aEntrega` (esquema do site, o que ele vai testar,
+perguntas e respostas), feito do repositório do grupo
+(github.com/hugobolotoreis-wq/Tec-web, commit 297b5be); substitui o
+guião da apresentação. HTML e os 5 CSS validados no W3C a 3 nov 2026:
+0 erros, 0 avisos.

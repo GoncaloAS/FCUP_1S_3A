@@ -1,0 +1,33 @@
+digraph Arquitetura {
+  rankdir=TB; fontname="Helvetica"; nodesep=0.3; ranksep=0.45; newrank=true;
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=10];
+
+  html [label="index.html — estrutura: áreas, botões, painéis escondidos\n<link> 5 CSS no <head>  ·  9 <script> no fim do <body>", fillcolor="#e8e8e8"];
+
+  subgraph cluster_dados { label="DADOS e REGRAS\n(não tocam no ecrã)"; style="rounded"; color="#2a5db0"; fontcolor="#2a5db0";
+    c1 [label="1 constantes.js", fillcolor="#dbe9ff"];
+    c2 [label="2 pecas.js\nPosition, Piece", fillcolor="#dbe9ff"];
+    c3 [label="3 tabuleiro.js\nBoard: matriz + regras", fillcolor="#dbe9ff"];
+    c1 -> c2 -> c3 [style=invis];
+  }
+  subgraph cluster_logica { label="ANDAMENTO\nDO JOGO"; style="rounded"; color="#b8860b"; fontcolor="#b8860b";
+    c4 [label="4 jogo.js\nGame: vez, modos,\ncliques, sopro, empate", fillcolor="#fff3c4"];
+    c5 [label="5 ia.js\nfácil/médio/difícil", fillcolor="#fff3c4"];
+    c4 -> c5 [label="escolhe\njogada"];
+  }
+  subgraph cluster_ecra { label="ECRÃ e ÁREAS\n(DOM + classes CSS)"; style="rounded"; color="#2e7d4f"; fontcolor="#2e7d4f";
+    c6 [label="6 interface.js\ndesenhar, animar, mensagens", fillcolor="#e3f2e7"];
+    c7 [label="7 classificacoes.js", fillcolor="#e3f2e7"];
+    c8 [label="8 identificacao.js", fillcolor="#e3f2e7"];
+    c9 [label="9 comandos.js\nbotões + arranque:\nconst jogo = new Game()", fillcolor="#e3f2e7"];
+    c6 -> c7 -> c8 -> c9 [style=invis];
+  }
+  ls [label="localStorage\n\"alquerqueClassificacoes\" (JSON)", shape=cylinder, fillcolor="#ffe8cf"];
+
+  html -> c1; html -> c4; html -> c6;
+  c4 -> c3 [label="gerarJogadas()", constraint=false];
+  c4 -> c6 [label="redesenha", constraint=false];
+  c7 -> ls;
+  {rank=same; c1; c4; c6}
+}

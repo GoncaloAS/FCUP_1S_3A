@@ -1,0 +1,20 @@
+digraph Vez {
+  rankdir=TB; fontname="Helvetica"; nodesep=0.3; ranksep=0.32;
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11, fillcolor="#f4f4f4"];
+  edge [fontname="Helvetica", fontsize=9];
+  iv  [label="iniciarVez()\njogadas = tabuleiro.gerarJogadas(cor)\npodiamCapturar = pecasQuePodemCapturar(cor)", fillcolor="#fff3c4"];
+  q   [label="de quem é a vez?", shape=diamond, fillcolor="#ffffff"];
+  h0  [label="iniciarVezHumano()\nsem jogadas e nada a soprar? → perde\nsenão modo = esperaJogada + mensagem", fillcolor="#dbe9ff"];
+  h1  [label="cliques do humano\n(cliqueCasa → switch(modo))\nanimarEDepois: desliza 300 ms", fillcolor="#dbe9ff"];
+  c0  [label="iniciarVezComputador()\nespera 1,1 s (setTimeout)", fillcolor="#fde2de"];
+  c1  [label="computadorSopra()\nconforme o nível", fillcolor="#fde2de"];
+  c2  [label="computadorJoga()\nsem jogadas? → humano ganha\nescolherJogada() (ia.js)\npasso a passo, 1,1 s entre saltos", fillcolor="#fde2de"];
+  tj  [label="terminarJogada()\n1 sopraveis = calcularSopraveis()\n2 tira as peças capturadas\n3 conta jogadas sem captura\n4 passa a vez", fillcolor="#fff3c4"];
+  dr  [label="desenharTabuleiro()\napaga e recria os 25 círculos", fillcolor="#e3f2e7"];
+  iv -> q;
+  q -> h0 [label="azul (tu)"]; h0 -> h1;
+  q -> c0 [label="vermelha"]; c0 -> c1 -> c2;
+  h1 -> tj; c2 -> tj;
+  tj -> iv [label="volta ao início", constraint=false];
+  iv -> dr [style=dashed, label="no fim"];
+}

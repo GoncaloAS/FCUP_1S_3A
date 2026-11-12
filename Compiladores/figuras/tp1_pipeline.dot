@@ -1,0 +1,21 @@
+digraph Pipeline {
+  rankdir=LR; fontname="Helvetica"; nodesep=0.3; ranksep=0.35;
+  node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11];
+  edge [fontname="Helvetica", fontsize=9];
+  src  [label="ficheiro.pas\n(ou stdin)", shape=note, fillcolor="#f4f4f4"];
+  main [label="main.c\nyyin = fopen(...)\nyyparse()", fillcolor="#e8e8e8"];
+  lex  [label="scanner.flex\nyylex()\nexpressões regulares", fillcolor="#dbe9ff"];
+  par  [label="parser.bison\nyyparse(): LALR(1)\ngramática + precedências", fillcolor="#fff3c4"];
+  ast  [label="ast.h / ast.c\nnós Expr, Cmd, Decl,\nProgram (malloc)", fillcolor="#e3f2e7"];
+  pr   [label="printAbsTree.c\nprintProgram(root)\npré-ordem, 2 espaços", fillcolor="#e3f2e7"];
+  out  [label="AST no stdout\nsaída 0", shape=note, fillcolor="#f4f4f4"];
+  err  [label="\"Linha N: ...\"\nno stderr, saída 1", shape=note, fillcolor="#fde2de"];
+  src -> main -> par;
+  par -> lex [label="pede o próximo\ntoken"];
+  lex -> par [label="código do token\n+ yylval (INT, ID, STR)"];
+  par -> ast [label="ações { $$ = ast_...($1,$3) }"];
+  ast -> pr [label="root"];
+  pr -> out;
+  lex -> err [label="caracter inválido,\ncomentário aberto", style=dashed, color="#c0392b"];
+  par -> err [label="yyerror", style=dashed, color="#c0392b"];
+}
