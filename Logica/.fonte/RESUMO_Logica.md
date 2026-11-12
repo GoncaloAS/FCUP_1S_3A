@@ -1,10 +1,10 @@
 ---
 title: "Lógica Computacional --- Resumo Teórico"
 author: "Gonçalo Sousa"
-date: "Atualizado: Semana 6 (Aulas 1--11)"
+date: "Atualizado: Semana 8 (Aulas 1--14)"
 ---
 
-<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf, Teoricas/Aula_04.pdf, Teoricas/Aula_05-06.pdf, Teoricas/Aula_07.pdf, Teoricas/Aula_08.pdf, Teoricas/Aula_09-10.pdf, Teoricas/Aula_11.pdf -->
+<!-- processado: Teoricas/Aula_01.pdf, Teoricas/Aula_02.pdf, Teoricas/Aula_03.pdf, Teoricas/Aula_04.pdf, Teoricas/Aula_05-06.pdf, Teoricas/Aula_07.pdf, Teoricas/Aula_08.pdf, Teoricas/Aula_09-10.pdf, Teoricas/Aula_11.pdf, Teoricas/Aula_12.pdf, Teoricas/Aula_13.pdf, Teoricas/Aula_14.pdf -->
 
 *O sinal † marca matéria que não está nos slides mas faz falta para as
 práticas.*
@@ -3179,7 +3179,7 @@ $\mathcal{F}_3=\{g\}$.
 | $x(d,g(y))$ | não | --- | uma variável não leva argumentos |
 :::
 
-::: {.pratica title="--- Termos (Apontamentos, Exemplo 2.1)"}
+::: {.pratica title="--- Termos (Apontamentos, Exemplo 2.1; folsem.pdf, 3.5)"}
 Mesma linguagem do exemplo acima. Diz se é termo e se é fechado (técnica:
 o procedimento acima, símbolo a símbolo).
 
@@ -3187,6 +3187,22 @@ o procedimento acima, símbolo a símbolo).
 - **Apontamentos, Exemplo 2.1 (b)** $g(d,h(y,z),d,f(a)))$
 - **Apontamentos, Exemplo 2.1 (c)** $f(a,a(x))$
 - **Apontamentos, Exemplo 2.1 (d)** $h(h(h(g(a),d),g(a)),d)$
+
+Exercício 3.5: $\mathcal{F}_0=\{a,b\}$, $\mathcal{F}_1=\{g\}$,
+$\mathcal{F}_2=\{f,h\}$, $\mathcal{R}_1=\{R,S\}$, $\mathcal{R}_2=\{P,Q\}$,
+com igualdade. O **comprimento** de um termo é o número de caracteres
+(sem espaços): $f(a,h(a,a))$ tem 11. Pista para (i): $|g(t)|=|t|+3$ e
+$|f(t_1,t_2)|=|t_1|+|t_2|+4$; constrói por comprimentos crescentes.
+
+- **3.5i (a)** Todos os termos fechados de comprimento $<10$ em que nenhum
+  símbolo funcional aparece mais de uma vez.
+- **3.5i (b)** Todos os termos fechados de comprimento $<8$.
+- **3.5ii (a)** $h(a,f(a,g(a),g(a)))$; diz se é termo e se é fechado.
+- **3.5ii (b)** $f(h(x,g(g(a))),x)$
+- **3.5ii (c)** $f(a,P(a,g(x)))$
+- **3.5ii (d)** $h(g(f(a,a)),f(b,a))$
+- **3.5ii (e)** $f(h(x,h(y,y)),g(g(b)))$
+- **3.5ii (f)** $f(a,g(h(g(x),x(a))))$
 :::
 
 ## Fórmulas
@@ -3247,6 +3263,32 @@ Definem-se propriedades como fórmulas com uma variável livre:
 - $\mathit{Primo}(x)$†: $\neg(x<1+1)\land\forall y\,\big((\exists q\;
   x=q\times y)\to(y=1\lor y=x)\big)$ ($x\geq 2$ e os únicos divisores são
   $1$ e $x$).
+
+::: {.pratica title="--- Fórmulas (folsem.pdf, 3.4)"}
+Diz se é fórmula e, se não for, porquê (técnica: as duas camadas; conta os
+argumentos de cada predicado e de cada função).
+
+Com $\mathcal{F}_0=\{m\}$, $\mathcal{F}_1=\{f\}$, $\mathcal{R}_2=\{S,B\}$:
+
+- **3.4a (a)** $S(m,x)$
+- **3.4a (b)** $B(m,f(m))$
+- **3.4a (c)** $f(m)$
+- **3.4a (d)** $B(B(m,x),y)$
+- **3.4a (e)** $S(B(m),z)$
+- **3.4a (f)** $(B(x,y)\to(\exists z\,S(z,y)))$
+- **3.4a (g)** $(S(x,y)\to S(y,f(f(x))))$
+- **3.4a (h)** $(B(x)\to B(B(x)))$
+
+Com $\mathcal{F}_0=\{c,d\}$, $\mathcal{F}_1=\{f\}$, $\mathcal{F}_2=\{g\}$,
+$\mathcal{F}_3=\{h\}$, $\mathcal{R}_3=\{P,Q\}$:
+
+- **3.4b (a)** $\forall x\,P(f(d),h(g(c,x),d,y))$
+- **3.4b (b)** $\forall x\,P(f(d),h(P(x,y),d,y))$
+- **3.4b (c)** $\forall x\,Q(g(h(x,f(d),x),g(x,x)),h(x,x,x),c)$
+- **3.4b (d)** $\exists z\,(Q(z,z,z)\to P(z))$
+- **3.4b (e)** $\forall x\forall y\,(g(x,y)\to P(x,y,x))$
+- **3.4b (f)** $Q(c,d,c)$
+:::
 
 ## Traduzir frases para fórmulas
 
@@ -3352,4 +3394,751 @@ imediata (sem variáveis, logo proposição).
 - **Aula 11, slide 18 (b)** $\neg(\forall x\exists y\,P(x,y,z)\land\forall z\,P(x,y,z))$
 - **Aula 11, slide 18 (c)** $\forall x\,((P(x)\land C(x))\to\exists y\,L(x,y))$
 - **Aula 11, slide 18 (d)** $\exists x\,(P(x)\to\neg Q(x))$
+:::
+
+# Aula 12 --- Lógica de primeira ordem: semântica
+
+Para que serve: na lógica proposicional bastava dar $V$ ou $F$ a cada
+letra. Uma fórmula de 1.ª ordem fala de objetos, por isso, para saber se é
+verdadeira, é preciso fixar **de que objetos se fala** e **o que significa
+cada símbolo** (a estrutura $\mathcal{A}$) e **que objeto é cada variável
+livre** (a interpretação $s$). Escreve-se $\mathcal{A}\models_s\phi$.
+
+## Estruturas
+
+::: {.definicao title="--- Estrutura de uma linguagem L"}
+Uma **estrutura** de $L$ é um par $\mathcal{A}=(A,\cdot^{\mathcal{A}})$ em
+que $A\neq\emptyset$ é o **domínio** (ou universo) e $\cdot^{\mathcal{A}}$
+dá significado a cada símbolo não lógico:
+
+- a cada constante $c\in\mathcal{F}_0$, um elemento $c^{\mathcal{A}}\in A$;
+- a cada $f\in\mathcal{F}_n$ ($n>0$), uma função $f^{\mathcal{A}}:A^n\to A$
+  (total: dá um elemento de $A$ para **todos** os argumentos);
+- a cada $R\in\mathcal{R}_n$, uma relação $R^{\mathcal{A}}\subseteq A^n$:
+  o conjunto dos tuplos para os quais $R$ é verdade.
+:::
+
+Os símbolos lógicos têm sempre o mesmo significado (o $=$ é sempre a
+igualdade em $A$). Uma fórmula pode ser verdadeira numa estrutura e falsa
+noutra: é isso que se usa para mostrar que algo **não** é válido (Aula 13).
+
+::: {.exemplo title="--- Mundo dos blocos (Aula 12, slides 7--13)"}
+Linguagem: $\mathcal{F}_1=\{\mathit{fm},\mathit{lm},\mathit{rm}\}$ (o
+bloco mais à frente na mesma coluna, o mais à esquerda e o mais à direita
+na mesma linha), $\mathcal{R}_1=\{\mathit{Cube},\mathit{Tetra},\mathit{Dodec},\mathit{Small},\mathit{Medium},\mathit{Large}\}$,
+$\mathcal{R}_2=\{\mathit{Smaller},\mathit{Larger},\mathit{Left},\mathit{Right},\mathit{SameSize},\mathit{SameShape},\mathit{SameRow},\mathit{SameColumn}\}$,
+$\mathcal{R}_3=\{\mathit{Between}\}$; não há constantes.
+
+Estrutura $\mathcal{A}$ (o tabuleiro dos slides): $A=\{o_1,\dots,o_8\}$;
+$\mathit{fm}^{\mathcal{A}}(o_1)=o_6$, $\mathit{fm}^{\mathcal{A}}(o_4)=o_7$
+e $\mathit{fm}^{\mathcal{A}}(o)=o$ para os outros;
+$\mathit{Cube}^{\mathcal{A}}=\{o_4,o_5\}$, $\mathit{Tetra}^{\mathcal{A}}=\{o_1,o_2,o_3\}$,
+$\mathit{Dodec}^{\mathcal{A}}=\mathit{Small}^{\mathcal{A}}=\{o_6,o_7,o_8\}$,
+$\mathit{Large}^{\mathcal{A}}=\{o_3\}$, $\mathit{Medium}^{\mathcal{A}}=\{o_1,o_2,o_4,o_5\}$;
+$\mathit{Left}^{\mathcal{A}}=\{(o_1,o_2),(o_4,o_5),(o_6,o_7),(o_7,o_8),(o_6,o_8)\}$;
+$\mathit{Between}^{\mathcal{A}}=\{(o_7,o_6,o_8)\}$.
+
+- $\exists y\,(\mathit{Cube}(y)\land\mathit{Medium}(y))$ é **verdadeira**:
+  $o_4\in\mathit{Cube}^{\mathcal{A}}$ e $o_4\in\mathit{Medium}^{\mathcal{A}}$.
+- $\forall x\,(\mathit{Dodec}(x)\to\mathit{Small}(x))$ é **verdadeira**:
+  os dodecaedros $o_6,o_7,o_8$ estão em $\mathit{Small}^{\mathcal{A}}$; para
+  os outros cinco objetos o antecedente é falso, logo a $\to$ é verdadeira.
+- $\forall x\,(\mathit{Medium}(x)\to\mathit{Cube}(x))$ é **falsa**:
+  $o_2\in\mathit{Medium}^{\mathcal{A}}$ e $o_2\notin\mathit{Cube}^{\mathcal{A}}$.
+- $\forall x\,(\mathit{Small}(x)\to\mathit{fm}(x)=x)$ é **verdadeira**: os
+  pequenos são $o_6,o_7,o_8$ e $\mathit{fm}^{\mathcal{A}}$ só muda $o_1$ e
+  $o_4$, logo $\mathit{fm}^{\mathcal{A}}(o)=o$ para cada pequeno.
+- $\mathit{Cube}(x)$ **não tem valor só com** $\mathcal{A}$: depende do
+  objeto que $x$ representa (verdadeira se $x$ for $o_4$, falsa se for
+  $o_1$). Para isso serve a interpretação das variáveis.
+:::
+
+## Interpretação das variáveis e valor dos termos
+
+::: {.definicao title="--- Interpretação s e valor de um termo"}
+Uma **interpretação das variáveis** é uma função $s:\mathit{Var}\to A$.
+Estende-se aos termos, $s:T\to A$, de dentro para fora:
+
+- $s(x)$ já está dado, para $x\in\mathit{Var}$;
+- $s(c)=c^{\mathcal{A}}$, para $c\in\mathcal{F}_0$;
+- $s(f(t_1,\dots,t_n))=f^{\mathcal{A}}(s(t_1),\dots,s(t_n))$.
+
+Se $t$ é fechado, $s(t)$ não depende de $s$ e escreve-se $t^{\mathcal{A}}$.
+:::
+
+**Procedimento.** Troca cada variável pelo seu valor $s(x)$ e cada
+constante por $c^{\mathcal{A}}$; depois aplica as funções
+$f^{\mathcal{A}}$ de dentro para fora. Um termo com o número errado de
+argumentos não é termo e não tem valor.
+
+::: {.exemplo title="--- Valor de termos"}
+Domínio $\mathbb{N}$, $a^{\mathcal{A}}=2$, $g^{\mathcal{A}}(n)=n+1$, e
+$s(x)=5$.
+
+- $s(g(a))=g^{\mathcal{A}}(a^{\mathcal{A}})=g^{\mathcal{A}}(2)=3$ (termo
+  fechado: é $g(a)^{\mathcal{A}}$, igual para qualquer $s$).
+- $s(g(g(x)))=g^{\mathcal{A}}(g^{\mathcal{A}}(s(x)))=g^{\mathcal{A}}(g^{\mathcal{A}}(5))=g^{\mathcal{A}}(6)=7$.
+- No mundo dos blocos, com $s(x)=o_1$: $s(\mathit{fm}(x))=\mathit{fm}^{\mathcal{A}}(o_1)=o_6$.
+:::
+
+::: {.pratica title="--- Valor de termos (folsem.pdf, 3.7 a)"}
+Domínio $\mathbb{Z}$; $a^{\mathcal{A}}=0$, $b^{\mathcal{A}}=7$,
+$g^{\mathcal{A}}(n)=n^2$, $f^{\mathcal{A}}(n,m)=n-m$. Interpretações
+$s_1(x)=0$, $s_1(y)=7$ e $s_2(x)=1$, $s_2(y)=-1$. Calcula $s_1(t)$ e
+$s_2(t)$ (técnica: o procedimento acima, de dentro para fora).
+
+- **3.7a (a)** $f(g(x),a)$
+- **3.7a (b)** $g(f(y,a))$
+- **3.7a (c)** $f(a,g(f(x,y)))$
+- **3.7a (d)** $g(g(f(b,b)))$
+- **3.7a (e)** $f(a,x)$
+- **3.7a (f)** $g(y,g(a))$
+:::
+
+## Relação de satisfação
+
+::: {.definicao title="--- A satisfaz phi com s"}
+$\mathcal{A}\models_s\phi$ define-se por indução na fórmula:
+
+1. $\mathcal{A}\models_s t_1=t_2$ sse $s(t_1)=s(t_2)$;
+2. $\mathcal{A}\models_s R(t_1,\dots,t_n)$ sse $(s(t_1),\dots,s(t_n))\in R^{\mathcal{A}}$;
+3. $\mathcal{A}\models_s\neg\phi$ sse $\mathcal{A}\nmodels_s\phi$;
+4. $\mathcal{A}\models_s\phi\land\psi$ sse $\mathcal{A}\models_s\phi$ e $\mathcal{A}\models_s\psi$;
+5. $\mathcal{A}\models_s\phi\lor\psi$ sse $\mathcal{A}\models_s\phi$ ou $\mathcal{A}\models_s\psi$;
+6. $\mathcal{A}\models_s\phi\to\psi$ sse $\mathcal{A}\nmodels_s\phi$ ou $\mathcal{A}\models_s\psi$;
+7. $\mathcal{A}\models_s\forall x\,\phi$ sse para **todo** $a\in A$, $\mathcal{A}\models_{s[a/x]}\phi$;
+8. $\mathcal{A}\models_s\exists x\,\phi$ sse **existe** $a\in A$ com $\mathcal{A}\models_{s[a/x]}\phi$;
+
+onde $s[a/x]$ é igual a $s$ exceto em $x$, que passa a valer $a$:
+$s[a/x](x)=a$ e $s[a/x](y)=s(y)$ para $y\neq x$.
+:::
+
+As regras 3--6 são as da lógica proposicional, só que agora o valor
+depende de $\mathcal{A}$ e de $s$ e não de uma valoração. Nos
+quantificadores, $x$ percorre o domínio: o valor que $s$ dava a $x$ deixa
+de interessar (é substituído por $a$). Para os $\not\models$:
+
+| | $\mathcal{A}\models_s$ | $\mathcal{A}\nmodels_s$ |
+|:--|:---------------------|:---------------------|
+| $\forall x\,\phi$ | todo o $a\in A$ dá $\models_{s[a/x]}\phi$ | **existe** $a$ com $\nmodels_{s[a/x]}\phi$ (contraexemplo) |
+| $\exists x\,\phi$ | **existe** $a$ com $\models_{s[a/x]}\phi$ (testemunha) | todo o $a$ dá $\nmodels_{s[a/x]}\phi$ |
+
+**Procedimento (decidir se $\mathcal{A}\models_s\phi$, formato de exame).**
+
+1. Repõe os parêntesis e encontra o símbolo principal.
+2. Abre-o pela regra 1--8 desse símbolo, uma linha por passo, a citar a
+   regra, com $s[a/x][b/y]$ escrito por extenso: desdobra **todos** os
+   quantificadores até ficar uma afirmação sobre os elementos do domínio
+   (ex. "para todo $a$ existe $b$ com $b>a$"). Só então decides.
+3. $\exists$ verdadeiro ou $\forall$ falso: basta **um** elemento. Dá-o
+   (testemunha ou contraexemplo) e verifica-o.
+4. $\forall$ verdadeiro ou $\exists$ falso: argumenta para um $a\in A$
+   **arbitrário** ("seja $a\in A$ qualquer"); exemplos não chegam.
+5. Nas atómicas, calcula os termos com $s[a/x]$ e vê se o tuplo está na
+   relação.
+
+Erros típicos: usar o $s(x)$ inicial dentro de $\forall x$; ver um
+$\forall$ verdadeiro só com alguns exemplos; esquecer que uma $\to$ com
+antecedente falso é verdadeira.
+
+::: {.exemplo title="--- Aritmética (Aula 12, slide 20)"}
+$\mathcal{N}=(\mathbb{N},\cdot^{\mathcal{N}})$ com $0^{\mathcal{N}}=0$,
+$1^{\mathcal{N}}=1$, $+^{\mathcal{N}}(n,m)=n+m$,
+$\times^{\mathcal{N}}(n,m)=n\times m$ e $<^{\mathcal{N}}=\{(n,m)\mid n<m\}$.
+
+**(1)** $\mathcal{N}\models_s\forall x\,{<}(x,+(x,1))$, para qualquer $s$:
+$$\begin{aligned}
+\mathcal{N}\models_s\forall x\,{<}(x,+(x,1))
+&\text{ sse para todo } n\in\mathbb{N},\ \mathcal{N}\models_{s[n/x]}{<}(x,+(x,1)) && (\text{regra }7)\\
+&\text{ sse para todo } n,\ (s[n/x](x),\ s[n/x](+(x,1)))\in{<}^{\mathcal{N}} && (\text{regra }2)
+\end{aligned}$$
+Seja $n\in\mathbb{N}$ qualquer. $s[n/x](x)=n$ e
+$s[n/x](+(x,1))=+^{\mathcal{N}}(n,1^{\mathcal{N}})=n+1$. Como $n<n+1$,
+$(n,n+1)\in{<}^{\mathcal{N}}$. Como $n$ era arbitrário, a fórmula é
+satisfeita.
+
+**(2)** Se $s(x)=2$, $\mathcal{N}\models_s x=+(1,1)$: pela regra 1, sse
+$s(x)=s(+(1,1))$; e $s(+(1,1))=+^{\mathcal{N}}(1^{\mathcal{N}},1^{\mathcal{N}})=1+1=2=s(x)$.
+:::
+
+::: {.exemplo title="--- Seis proposições numa estrutura (Aula 12, slide 21)"}
+$\mathcal{F}_0=\{a\}$, $\mathcal{F}_1=\{g\}$, $\mathcal{R}_1=\{R\}$,
+$\mathcal{R}_2=\{P,Q\}$. Domínio $\mathbb{N}$, $a^{\mathcal{A}}=2$,
+$g^{\mathcal{A}}(n)=n+1$, $R^{\mathcal{A}}=\{n\mid n\text{ par}\}$,
+$P^{\mathcal{A}}=\{(n,m)\mid n<m\}$, $Q^{\mathcal{A}}=\emptyset$. São
+proposições, por isso $s$ não interessa.
+
+**(1)** $\exists x\,g(x)=a\land\forall x\,g(x)\neq x$: **verdadeira**. Regra 4: as
+duas partes. $\exists x\,g(x)=a$: testemunha $1$, pois
+$g^{\mathcal{A}}(1)=2=a^{\mathcal{A}}$. $\forall x\,\neg(g(x)=x)$: seja
+$n$ qualquer; $g^{\mathcal{A}}(n)=n+1\neq n$.
+
+**(2)** $\exists x\exists y\,Q(x,y)$: **falsa**. Para quaisquer $n,m$,
+$(n,m)\notin\emptyset=Q^{\mathcal{A}}$; não há testemunha.
+
+**(3)** $\neg R(a)\to\forall x\forall y\,Q(x,y)$: **verdadeira**.
+$a^{\mathcal{A}}=2$ é par, logo $\mathcal{A}\models R(a)$ e
+$\mathcal{A}\nmodels\neg R(a)$ (regra 3); pela regra 6 a $\to$ é
+verdadeira (antecedente falso).
+:::
+
+::: {.exemplo title="--- Seis proposições numa estrutura (cont.)"}
+**(4)** $\forall x\,(R(x)\to\forall x\,R(g(g(x))))$: **falsa**. O
+$\forall x$ interior volta a ligar $x$: o consequente não fala do $x$ de
+fora. Contraexemplo $x=0$: $R(0)$ é verdade (0 é par), mas
+$\forall x\,R(g(g(x)))$ é falsa (com $x=1$, $g^{\mathcal{A}}(g^{\mathcal{A}}(1))=3$,
+ímpar). Antecedente verdadeiro e consequente falso: a $\to$ é falsa
+para $x=0$, logo o $\forall$ é falso.
+
+**(5)** $\forall x\exists y\,P(x,y)$: **verdadeira**. Seja $n$ qualquer;
+testemunha $y=n+1$: $(n,n+1)\in P^{\mathcal{A}}$ porque $n<n+1$.
+
+**(6)** $\exists y\forall x\,P(x,y)$: **falsa**. Seja $m$ qualquer
+candidato a $y$; contraexemplo $x=m$: $(m,m)\notin P^{\mathcal{A}}$
+($m<m$ é falso). Nenhum $m$ serve. Compara com (5): trocar $\forall$ e
+$\exists$ muda o significado ("todo o número tem um maior" contra
+"há um número maior do que todos").
+:::
+
+::: {.pratica title="--- Satisfação (folsem.pdf, 3.7 b e 3.8)"}
+**3.7 b)** Mesma estrutura e $s_1$, $s_2$ da 3.7 a), e ainda
+$T^{\mathcal{A}}=\{n\mid n>0\}$, $S^{\mathcal{A}}=\{(2,1),(3,3)\}$,
+$R^{\mathcal{A}}=\{(-1,1),(3,9),(-4,16)\}$. Decide se
+$\mathcal{A}\models_{s_1}\phi$ e se $\mathcal{A}\models_{s_2}\phi$
+(técnica: o procedimento acima).
+
+- **3.7b (a)** $S(f(x,y),x)$
+- **3.7b (b)** $\exists x\,S(x,x)$
+- **3.7b (c)** $\forall x\,(x=a\lor y=b)$
+- **3.7b (d)** $\forall z\,S(z,x)\to\exists x\,S(x,x)$
+- **3.7b (e)** $\neg\forall x\,(x=a\lor y=b)$
+- **3.7b (f)** $\exists z\,S(z,x)\to\exists x\,S(x,x)$
+- **3.7b (g)** $\forall y\forall z\,(f(y,z)=a\lor x\neq g(f(z,y)))$
+- **3.7b (h)** $\exists z\,((f(x,y)=z\land S(z,x))\to\exists x\,S(x,x))$
+
+**3.8** Linguagem do 3.5; domínio $\mathbb{N}$, $a^{\mathcal{A}}=1$,
+$b^{\mathcal{A}}=0$, $g^{\mathcal{A}}(n)=n+4$, $h^{\mathcal{A}}(n,m)=n+m$,
+$f^{\mathcal{A}}(n,m)=n\times m$, $S^{\mathcal{A}}$ = ímpares,
+$R^{\mathcal{A}}$ = pares, $P^{\mathcal{A}}=\{(n,m)\mid n>m\}$,
+$Q^{\mathcal{A}}=\emptyset$. Diz, justificando, se $\mathcal{A}\models\phi$.
+
+- **3.8 (a)** $\forall x\exists y\,P(y,x)$
+- **3.8 (b)** $\exists x\forall y\,P(y,x)$
+- **3.8 (c)** $\forall x\exists y\,(f(x,y)=a)$
+- **3.8 (d)** $\forall x\,S(x)\to\exists x\,S(x)$
+- **3.8 (e)** $\forall x\,(S(x)\lor R(x))\to(\forall x\,S(x)\lor\forall x\,R(x))$
+
+A 3.6 (mundo dos blocos) é a mesma técnica com a estrutura do exemplo da
+secção Estruturas.
+:::
+
+# Aula 13 --- Lógica de primeira ordem: validade, equivalências e forma prenex
+
+## Satisfazível, válida e consequência
+
+::: {.definicao title="--- Satisfazível, válida, consequência semântica"}
+Uma fórmula $\phi$ é **satisfazível** se existem $\mathcal{A}$ e $s$ com
+$\mathcal{A}\models_s\phi$, e **válida** ($\models\phi$) se
+$\mathcal{A}\models_s\phi$ para **todas** as estruturas $\mathcal{A}$ e
+interpretações $s$.
+
+Um conjunto $\Gamma$ é satisfeito em $\mathcal{A}$ com $s$
+($\mathcal{A}\models_s\Gamma$) se $\mathcal{A}\models_s\gamma$ para cada
+$\gamma\in\Gamma$. $\phi$ é **consequência semântica** de $\Gamma$
+($\Gamma\models\phi$) se, para toda a $\mathcal{A}$ e toda a $s$,
+$\mathcal{A}\models_s\Gamma$ implica $\mathcal{A}\models_s\phi$.
+:::
+
+Para qualquer $\phi$ (as duas primeiras como na lógica proposicional; as
+outras porque $\models_s\forall x\,\phi$ para todo o $s$ é o mesmo que
+$\models_s\phi$ para todo o $s$):
+
+- $\phi$ é válida sse $\neg\phi$ não é satisfazível;
+- $\phi$ é satisfazível sse $\neg\phi$ não é válida;
+- $\phi$ é válida sse $\forall x\,\phi$ é válida;
+- $\phi$ é satisfazível sse $\exists x\,\phi$ é satisfazível.
+
+**Proposições e modelos.** O valor de $\mathcal{A}\models_s\phi$ só
+depende do que $s$ dá às variáveis **livres** de $\phi$. Numa proposição
+não há livres, logo ou $\mathcal{A}\models_s\phi$ para todas as $s$, ou
+para nenhuma. Escreve-se $\mathcal{A}\models\phi$ ("$\phi$ é verdadeira em
+$\mathcal{A}$", "$\mathcal{A}$ é **modelo** de $\phi$") ou
+$\mathcal{A}\nmodels\phi$ ("falsa em $\mathcal{A}$"). Para um conjunto de
+proposições $\Sigma$: $\mathcal{A}\models\Sigma$ se é modelo de todas, e
+$\Sigma\models\phi$ sse todo o modelo de $\Sigma$ é modelo de $\phi$.
+
+**Procedimento (dar estruturas).**
+
+- **$\phi$ não é válida**: dá **uma** estrutura (domínio, constantes,
+  funções, relações) onde $\phi$ é falsa (um contramodelo) e justifica com
+  a definição de $\models$. Para ser satisfazível, uma onde é verdadeira.
+- Para construir: domínio pequeno ($\{0\}$, $\{0,1\}$ ou $\mathbb{N}$);
+  relações vazias ($\emptyset$) ou cheias ($A^n$) para tornar
+  antecedentes falsos ou verdadeiros; funções constantes ou a identidade.
+- **$\phi$ é válida**: não há contramodelo. Prova com a definição para
+  $\mathcal{A}$ e $s$ **arbitrários** (como na lógica proposicional, com
+  casos).
+
+::: {.exemplo title="--- Válida ou não"}
+**(1)** $\models\forall x\,P(x)\to\exists x\,P(x)$. Sejam $\mathcal{A}$ e
+$s$ quaisquer. Pela regra 6 basta ver que, se $\mathcal{A}\models_s\forall
+x\,P(x)$, então $\mathcal{A}\models_s\exists x\,P(x)$. Suponha-se
+$\mathcal{A}\models_s\forall x\,P(x)$: para todo o $a\in A$,
+$a\in P^{\mathcal{A}}$ (regras 7 e 2). Como $A\neq\emptyset$, existe
+algum $a_0\in A$, e $a_0\in P^{\mathcal{A}}$: é testemunha de
+$\exists x\,P(x)$ (regra 8). Como $\mathcal{A}$ e $s$ eram arbitrárias, é
+válida. (Só funciona porque o domínio nunca é vazio.)
+
+**(2)** $\phi=\forall x\exists y\,P(x,y)\to\exists y\forall x\,P(x,y)$ não
+é válida nem a sua negação: é falsa em $(\mathbb{N},<)$ (o antecedente é
+verdadeiro com $y=x+1$; o consequente é falso, como no exemplo (6) da Aula
+12), e é verdadeira em $\mathcal{B}$ com $B=\{0\}$ e
+$P^{\mathcal{B}}=\{(0,0)\}$ (o consequente é verdadeiro com $y=0$, logo a
+$\to$ é verdadeira). Logo $\nmodels\phi$ e $\nmodels\neg\phi$.
+:::
+
+::: {.pratica title="--- Verdadeira numa estrutura, falsa noutra (folsem.pdf, 3.9)"}
+Linguagem do 3.5. Para cada proposição, dá uma estrutura onde é verdadeira
+e outra onde é falsa (técnica: o procedimento acima). A ficha usa $R$ com
+dois argumentos em (c), (e), (g), um $T$ unário em (g), (h) e $h$ com um
+argumento em (d): nessas alíneas toma $R\in\mathcal{R}_2$, $T\in\mathcal{R}_1$
+e $h\in\mathcal{F}_1$. Nas (f), (g), (h) a ficha junta duas fórmulas: faz
+cada uma. No fim: podes concluir que nem as proposições nem as suas
+negações são válidas?
+
+- **3.9 (a)** $\forall x\,(x=a)$
+- **3.9 (b)** $\forall x\forall y\,(R(x)\to R(y))$
+- **3.9 (c)** $\exists y\forall x\,R(x,y)\to\forall x\exists y\,R(x,y)$
+- **3.9 (d)** $\exists x\,(h(x)=g(a)\to\exists z\,(g(z)=a))$
+- **3.9 (e)** $\forall x\,Q(x,g(x))\to\exists x\,R(a,x)$
+- **3.9 (f)** $\exists z\,((g(z)\neq a)\to\exists z\,(g(z)=a))$ e
+  $\exists x\,Q(x,g(x))\to\forall x\,R(a,x)$
+- **3.9 (g)** $\forall y\exists x\,R(x,y)$ e $\forall x\,(T(x)\to\exists y\,Q(x,y))$
+- **3.9 (h)** $\exists y\exists x\,(g(x)\neq g(y))$ e $\exists x\,(T(x)\to\forall y\,Q(x,y))$
+:::
+
+## Equivalência semântica
+
+$\phi\Leftrightarrow\psi$ se $\phi\models\psi$ e $\psi\models\phi$. Todas
+as equivalências da lógica proposicional continuam válidas com fórmulas de
+1.ª ordem no lugar das letras: comutatividade, associatividade,
+idempotência, De Morgan, distributividade, $\neg\neg\phi\Leftrightarrow\phi$,
+$\phi\to\psi\Leftrightarrow\neg\phi\lor\psi$. As novas são as dos
+quantificadores:
+
+| Equivalência | Nome / condição |
+|:--|:--|
+| $\neg\forall x\,\phi\Leftrightarrow\exists x\,\neg\phi$, $\ \neg\exists x\,\phi\Leftrightarrow\forall x\,\neg\phi$ | De Morgan dos quantificadores |
+| $\forall x\,(\phi\land\psi)\Leftrightarrow\forall x\,\phi\land\forall x\,\psi$ | $\forall$ distribui por $\land$ (não por $\lor$) |
+| $\exists x\,(\phi\lor\psi)\Leftrightarrow\exists x\,\phi\lor\exists x\,\psi$ | $\exists$ distribui por $\lor$ (não por $\land$) |
+| $\forall x\forall y\,\phi\Leftrightarrow\forall y\forall x\,\phi$, $\ \exists x\exists y\,\phi\Leftrightarrow\exists y\exists x\,\phi$ | quantificadores iguais trocam (diferentes não) |
+| $\forall x\,(\phi\circ\psi)\Leftrightarrow\forall x\,\phi\circ\psi$, $\ \exists x\,(\phi\circ\psi)\Leftrightarrow\exists x\,\phi\circ\psi$ | $x$ não livre em $\psi$; $\circ\in\{\land,\lor\}$ |
+| $\forall x\,(\psi\to\phi)\Leftrightarrow\psi\to\forall x\,\phi$, $\ \exists x\,(\psi\to\phi)\Leftrightarrow\psi\to\exists x\,\phi$ | $x$ não livre em $\psi$ |
+| $\exists x\,(\phi\to\psi)\Leftrightarrow\forall x\,\phi\to\psi$, $\ \forall x\,(\phi\to\psi)\Leftrightarrow\exists x\,\phi\to\psi$ | $x$ não livre em $\psi$; **troca** o quantificador |
+
+Porque é que o quantificador troca no antecedente: $\phi\to\psi\Leftrightarrow\neg\phi\lor\psi$,
+e o $\neg$ troca $\forall$ por $\exists$ (De Morgan). Contraexemplos para
+as que falham, em $\mathbb{N}$ com $\phi=\mathit{Par}(x)$,
+$\psi=\mathit{Impar}(x)$: $\forall x\,(\phi\lor\psi)$ é verdadeira, mas
+$\forall x\,\phi\lor\forall x\,\psi$ é falsa; $\exists x\,\phi\land\exists
+x\,\psi$ é verdadeira, mas $\exists x\,(\phi\land\psi)$ é falsa.
+
+::: {.exemplo title="--- De Morgan dos quantificadores (Aula 13, slide 8)"}
+$\neg\forall x\,\phi\Leftrightarrow\exists x\,\neg\phi$. Sejam
+$\mathcal{A}$ e $s$ quaisquer.
+$$\begin{aligned}
+\mathcal{A}\models_s\neg\forall x\,\phi
+&\text{ sse } \mathcal{A}\nmodels_s\forall x\,\phi && (\text{regra }3)\\
+&\text{ sse não é verdade que, para todo } a\in A,\ \mathcal{A}\models_{s[a/x]}\phi && (\text{regra }7)\\
+&\text{ sse existe } a\in A \text{ com } \mathcal{A}\nmodels_{s[a/x]}\phi\\
+&\text{ sse existe } a\in A \text{ com } \mathcal{A}\models_{s[a/x]}\neg\phi && (\text{regra }3)\\
+&\text{ sse } \mathcal{A}\models_s\exists x\,\neg\phi && (\text{regra }8)
+\end{aligned}$$
+Como é "sse" em todos os passos, dá as duas consequências. A outra lei
+($\neg\exists x\,\phi\Leftrightarrow\forall x\,\neg\phi$) é igual, com as
+regras 8 e 7 trocadas.
+:::
+
+::: {.pratica title="--- Equivalências com quantificadores (folsem.pdf, 3.10 e 3.11)"}
+- **3.10 (c)** Mostra $\forall x\,\phi\to\exists x\,\psi\Leftrightarrow\exists
+  x\,(\phi\to\psi)$ (técnica: a tabela e $\phi\to\psi\Leftrightarrow\neg\phi\lor\psi$,
+  ou a definição como no exemplo).
+- **3.11 (a)** Mostra que $\forall x\,(\phi\lor\psi)$ e $\forall
+  x\,\phi\lor\forall x\,\psi$ não são equivalentes: dá $L$, $\phi$, $\psi$ e
+  uma estrutura.
+- **3.11 (f)** O mesmo para $\forall x\exists y\,\phi$ e $\exists y\forall x\,\phi$.
+
+As outras alíneas da 3.10 e da 3.11 são a mesma técnica.
+:::
+
+## Substituição
+
+::: {.definicao title="--- Substituição e termo livre para x"}
+$\phi[t/x]$ é a fórmula que se obtém de $\phi$ trocando **todas as
+ocorrências livres** de $x$ pelo termo $t$ (as ligadas ficam).
+
+$x$ é **substituível** por $t$ em $\phi$ ($t$ é **livre para** $x$ em
+$\phi$) se nenhuma ocorrência livre de $x$ em $\phi$ está dentro de uma
+subfórmula $\forall y\,\psi$ ou $\exists y\,\psi$ com $y$ uma variável de
+$t$.
+:::
+
+O problema que a condição evita é a **captura**: uma variável de $t$ que
+era livre passa a ser ligada por um quantificador de $\phi$, e o
+significado muda. As regras de dedução (Aula 14) só deixam substituir
+quando $x$ é substituível.
+
+**Procedimento.** (1) Marca as ocorrências **livres** de $x$ (Aula 11).
+(2) Troca só essas por $t$. (3) Para ver se é substituível: alguma dessas
+ocorrências está no alcance de um $\forall y$/$\exists y$ com $y$ em $t$?
+Se sim, não é. Se $x$ não tem ocorrências livres, $\phi[t/x]=\phi$ e $x$ é
+substituível por qualquer $t$.
+
+::: {.exemplo title="--- Substituição e captura (Aula 13, slide 11)"}
+$\phi=\forall x\,(P(x)\land Q(x))\to(\neg P(x)\lor Q(y))$. Só o $x$ de
+$\neg P(x)$ é livre:
+$$\phi[f(x,y)/x]=\forall x\,(P(x)\land Q(x))\to(\neg P(f(x,y))\lor Q(y)).$$
+Aqui não há captura (o $x$ livre não está debaixo de nenhum quantificador).
+
+Com $\phi=\forall y\,(\neg P(x)\lor Q(y))$:
+$\phi[f(x,y)/x]=\forall y\,(\neg P(f(x,y))\lor Q(y))$, mas o $y$ de
+$f(x,y)$, que era livre, ficou ligado por $\forall y$: **$x$ não é
+substituível** por $f(x,y)$ em $\phi$.
+:::
+
+::: {.pratica title="--- Substituição (Aula 13, slide 12)"}
+$\phi=\exists x\,(P(y,z)\land\forall y\,(\neg Q(x,y)\lor P(y,z)))$
+(técnica: o procedimento acima).
+
+- **Aula 13, slide 12 (a)** Calcula $\phi[w/x]$, $\phi[w/y]$, $\phi[f(x)/y]$ e $\phi[g(y,z)/z]$.
+- **Aula 13, slide 12 (b)** Para quais dos termos $w$, $f(x)$, $g(y,z)$ é $x$
+  substituível em $\phi$? E $y$?
+:::
+
+## Forma normal prenex
+
+::: {.definicao title="--- Forma normal prenex"}
+Uma fórmula está em **forma normal prenex** se não tem quantificadores ou
+é da forma $Q_1x_1\,Q_2x_2\dots Q_nx_n\,\phi$, com cada
+$Q_i\in\{\forall,\exists\}$ e $\phi$ **sem quantificadores** (todos os
+quantificadores à frente). Ex.: $\forall x\forall y\forall
+z\,\neg((\neg P(x,x)\lor(\neg P(x,y)\land P(z,z)))\lor\neg P(w,0))$.
+
+**Proposição:** toda a fórmula é semanticamente equivalente a uma fórmula
+em forma normal prenex.
+:::
+
+**Procedimento** (a prova da proposição):
+
+1. Elimina $\to$ (e $\leftrightarrow$): $\phi\to\psi\Leftrightarrow\neg\phi\lor\psi$.
+   Ficam só $\land,\lor,\neg$.
+2. Renomeia as variáveis ligadas ($\forall x\,\phi\Leftrightarrow\forall
+   w\,\phi[w/x]$, com $w$ nova) até que nenhuma variável seja ao mesmo
+   tempo livre e ligada e cada uma seja quantificada no máximo uma vez.
+3. Puxa os quantificadores para fora, nas subfórmulas, com ($\circ$ é
+   $\land$ ou $\lor$):
+   $$\neg\forall x\,\phi\to\exists x\,\neg\phi\qquad\neg\exists
+   x\,\phi\to\forall x\,\neg\phi\qquad\forall x\,\psi\circ\phi\to\forall
+   x\,(\psi\circ\phi)\qquad\exists x\,\psi\circ\phi\to\exists x\,(\psi\circ\phi)$$
+   (e o mesmo com o quantificador à direita do $\circ$). São as
+   equivalências da tabela; o passo 2 garante que $x$ não é livre na outra
+   parte.
+
+A forma prenex não é única (depende da ordem em que se puxam os
+quantificadores). Erro típico: puxar um quantificador por cima de um
+$\neg$ sem o trocar.
+
+::: {.exemplo title="--- Forma prenex (Aula 13, slide 15)"}
+$\forall x\,(P(x,x)\land(\forall y\,P(x,y)\lor\exists y\,\neg P(y,y)))\land G(x,0)$.
+Não há $\to$. O $x$ é livre em $G(x,0)$ e ligado no resto, e $y$ é
+quantificado duas vezes.
+
+1. Renomeia as ligadas ($x\mapsto w$; o segundo $y\mapsto z$):
+   $\forall w\,(P(w,w)\land(\forall y\,P(w,y)\lor\exists z\,\neg P(z,z)))\land G(x,0)$.
+2. Puxa $\forall w$ ($w$ não é livre em $G(x,0)$):
+   $\forall w\,((P(w,w)\land(\forall y\,P(w,y)\lor\exists z\,\neg P(z,z)))\land G(x,0))$.
+3. Puxa $\forall y$ (primeiro por cima do $\lor$, depois do $\land$ e do
+   $\land$ exterior; $y$ não ocorre no resto):
+   $\forall w\forall y\,((P(w,w)\land(P(w,y)\lor\exists z\,\neg P(z,z)))\land G(x,0))$.
+4. Puxa $\exists z$ da mesma maneira:
+   $\forall w\forall y\exists z\,((P(w,w)\land(P(w,y)\lor\neg P(z,z)))\land G(x,0))$.
+:::
+
+::: {.pratica title="--- Forma prenex (Aula 13, slide 16)"}
+- **Aula 13, slide 16** Encontra uma forma normal prenex de
+  $\forall x\,R(x,y)\land\exists y\,(\neg(\forall z\,(R(y,z)\to Q(u,y))))$.
+  Pista: o $y$ aparece livre e ligado.
+:::
+
+# Aula 14 --- Lógica de primeira ordem: dedução natural
+
+Para que serve: provar $\Gamma\models\phi$ pela definição obriga a olhar
+para **todas** as estruturas (infinitas). Uma dedução $\Gamma\vdash\phi$ é
+sintática e finita; como o sistema é correto, $\Gamma\vdash\phi$ dá
+$\Gamma\models\phi$. As regras dos conectivos são as da lógica
+proposicional ($\land$, $\lor$, $\to$, $\neg$, $\mathbf{F}$, e as derivadas
+RA, MT, TE); juntam-se seis regras novas:
+
+| Regra | De | Conclui | Condição |
+|:--|:--------|:-------|:----------------|
+| $=$I | --- | $t=t$ | --- |
+| $=$E | $t_1=t_2$, $\phi[t_1/x]$ | $\phi[t_2/x]$ | $x$ substituível por $t_1$ e $t_2$ |
+| $\forall$E | $\forall x\,\phi$ | $\phi[t/x]$ | $x$ substituível por $t$ |
+| $\forall$I | caixa $\boxed{v}$ que acaba em $\phi[v/x]$ | $\forall x\,\phi$ | $v$ nova |
+| $\exists$I | $\phi[t/x]$ | $\exists x\,\phi$ | $x$ substituível por $t$ |
+| $\exists$E | $\exists x\,\phi$; caixa $\boxed{v}\ \phi[v/x]\dots\psi$ | $\psi$ | $v$ nova e não ocorre em $\psi$ |
+
+**Notação.** A caixa de $\forall$I e de $\exists$E abre com a variável
+nova escrita num quadrado, $\boxed{v}$. **Nova** quer dizer que $v$ não
+aparece em nenhuma linha acessível antes da caixa (premissas incluídas).
+Na de $\exists$E a primeira linha é uma hipótese ($\phi[v/x]$, sublinhada);
+na de $\forall$I não há hipótese: a primeira linha já é um passo
+justificado. Várias caixas podem abrir na mesma linha (ex. $\boxed{u}$ à
+volta de uma hipótese).
+
+## Igualdade
+
+$=$I: qualquer termo é igual a si próprio (reflexividade); não cita linhas.
+$=$E: se $t_1=t_2$, pode trocar-se $t_1$ por $t_2$ em **algumas** das
+ocorrências numa fórmula já deduzida (o $\phi$ diz quais: as que têm $x$).
+Cita a igualdade e a fórmula.
+
+::: {.exemplo title="--- Simetria e transitividade (Aula 14, slide 7)"}
+**(a)** $t_1=t_2\vdash t_2=t_1$. A linha 2 é $\phi[t_1/x]$ com $\phi$ =
+$x=t_1$; a $=$E troca o primeiro $t_1$ por $t_2$:
+
+```{.fitch seq="t1 = t2 |- t2 = t1"}
+t1 = t2
+---
+t1 = t1 ; =I
+t2 = t1 ; =E, 1, 2
+```
+
+**(b)** $t_1=t_2,\ t_2=t_3\vdash t_1=t_3$, com $\phi$ = $t_1=x$ (troca
+o $t_2$ da linha 1 por $t_3$):
+
+```{.fitch seq="t1 = t2, t2 = t3 |- t1 = t3"}
+t1 = t2
+t2 = t3
+---
+t1 = t3 ; =E, 2, 1
+```
+:::
+
+## Quantificador universal
+
+**$\forall$E** (instanciar): de $\forall x\,\phi$ conclui-se $\phi[t/x]$
+para **qualquer** termo $t$ (desde que não haja captura). Se é verdade
+para todos, é verdade para $t$.
+
+**$\forall$I** (generalizar): abre uma caixa com uma variável **nova**
+$v$; se lá dentro se chega a $\phi[v/x]$, conclui-se $\forall x\,\phi$.
+Como sobre $v$ não se sabe nada (não aparece em premissas nem hipóteses
+anteriores), o raciocínio serve para qualquer objeto. Erro típico: usar
+uma variável que já aparece numa premissa ($P(v)\vdash\forall x\,P(x)$
+não vale).
+
+::: {.exemplo title="--- Instanciar e generalizar (Aula 14, slides 9 e 11)"}
+**(a)** $P(t),\ \forall x\,(P(x)\to\neg Q(x))\vdash\neg Q(t)$:
+
+```{.fitch seq="P(t), forall x (P(x) -> ~Q(x)) |- ~Q(t)"}
+P(t)
+forall x (P(x) -> ~Q(x))
+---
+P(t) -> ~Q(t) ; AE, 2
+~Q(t) ; ->E, 3, 1
+```
+
+**(b)** $\forall x\,(P(x)\to Q(x)),\ \forall x\,P(x)\vdash\forall
+x\,Q(x)$. A caixa de $v$ instancia as duas premissas com o mesmo $v$ e
+chega a $Q(v)=Q(x)[v/x]$:
+
+```{.fitch seq="forall x (P(x) -> Q(x)), forall x P(x) |- forall x Q(x)"}
+forall x (P(x) -> Q(x))
+forall x P(x)
+---
+|> [v] P(v) -> Q(v) ; AE, 1
+|  P(v) ; AE, 2
+|  Q(v) ; ->E, 3, 4
+forall x Q(x) ; AI, 3-5
+```
+:::
+
+## Quantificador existencial
+
+**$\exists$I**: de $\phi[t/x]$ conclui-se $\exists x\,\phi$ (o $t$ é a
+testemunha).
+
+**$\exists$E**: de $\exists x\,\phi$ sabe-se que **algum** objeto
+satisfaz $\phi$, mas não qual. Dá-se-lhe um nome novo $v$, supõe-se
+$\phi[v/x]$ numa caixa e deduz-se $\psi$; se $v$ **não aparece em
+$\psi$**, $\psi$ vale fora da caixa. É como a $\lor$E com um caso por
+objeto.
+
+**Procedimento (dedução de 1.ª ordem).**
+
+1. Premissa $\exists x\,\phi$: abre **logo** a caixa de $\exists$E com
+   $v$ nova (antes de instanciar os $\forall$, para $v$ ser nova).
+2. Premissa $\forall x\,\phi$: instancia com $\forall$E no termo de que
+   precisas (normalmente o $v$ da caixa).
+3. Conclusão $\forall x\,\psi$: caixa $\boxed{v}$ que acaba em $\psi[v/x]$.
+4. Conclusão $\exists x\,\psi$: encontra um termo $t$ e prova $\psi[t/x]$.
+5. O resto: as regras proposicionais (→I, ¬I, RA...).
+
+::: {.exemplo title="--- Existencial (Aula 14, slides 13 e 14)"}
+**(a)** $\forall x\,\phi\vdash\exists x\,\phi$ (instancia com um termo $t$
+qualquer e generaliza):
+
+```{.fitch seq="forall x phi |- exists x phi"}
+forall x phi
+---
+phi[t/x] ; AE, 1
+exists x phi ; EI, 2
+```
+
+**(b)** $\forall x\,(P(x)\to Q(x)),\ \exists x\,P(x)\vdash\exists x\,Q(x)$.
+O $\exists$I fica **dentro** da caixa, para que a linha 6 já não tenha $v$:
+
+```{.fitch seq="forall x (P(x) -> Q(x)), exists x P(x) |- exists x Q(x)"}
+forall x (P(x) -> Q(x))
+exists x P(x)
+---
+|> [v] P(v)
+|  P(v) -> Q(v) ; AE, 1
+|  Q(v) ; ->E, 4, 3
+|  exists x Q(x) ; EI, 5
+exists x Q(x) ; EE, 2, 3-6
+```
+
+**Errada:** fechar a caixa em $Q(v)$ e só depois fazer $\exists$I. A
+linha 6 tem $v$, que só pode aparecer dentro da caixa:
+
+```{.fitch .nocheck}
+forall x (P(x) -> Q(x))
+exists x P(x)
+---
+|> [v] P(v)
+|  P(v) -> Q(v) ; AE, 1
+|  Q(v) ; ->E, 4, 3
+Q(v) ; EE, 2, 3-5
+exists x Q(x) ; EI, 6
+```
+:::
+
+::: {.pratica title="--- Deduções de primeira ordem (Aula 14, slides 22 e 24)"}
+Mostra por dedução natural (técnica: o procedimento acima). As alíneas do
+slide 24 são os seus pontos, por ordem. $\exists!x\,P(x)$ abrevia $\exists x\,(P(x)\land\forall y\,(P(y)\to y=x))$.
+
+- **Aula 14, slide 22 (a)** $\vdash\forall x\,(\phi\to\psi)\to(\exists x\,\phi\to\exists x\,\psi)$
+- **Aula 14, slide 22 (b)** $\exists x\,P(x),\ \forall x\forall y\,((P(x)\land P(y))\to x=y)\vdash\exists!x\,P(x)$.
+  Pista: dentro da caixa de $\exists$E, um $\forall$I para o $\forall y$.
+- **Aula 14, slide 24 (a)** $\vdash\forall x\forall y\,(x=y\to f(x)=f(y))$
+- **Aula 14, slide 24 (d)** $\forall x\,(Q(x)\to R(x)),\ \exists x\,(P(x)\land Q(x))\vdash\exists x\,(P(x)\land R(x))$
+- **Aula 14, slide 24 (e)** $\exists x\,P(x),\ \forall x\forall y\,(P(x)\to Q(y))\vdash\forall y\,Q(y)$
+- **Aula 14, slide 24 (g)** $\forall x\,(P(x)\lor Q(x)),\ \neg\forall x\,Q(x),\ \forall x\,(R(x)\to\neg P(x))\vdash\neg\forall x\,R(x)$
+
+As outras do slide 24 ((b) $\vdash(\forall x\,P(x)\land\forall x\,Q(x))\to\forall x\,(P(x)\land Q(x))$,
+(c) $\vdash x=f(y)\to\forall z\,(P(x,z)\to P(f(y),z))$, (f)
+$\vdash\forall x\,(P(x)\to Q(x))\to(\forall x\,P(x)\to\forall x\,Q(x))$)
+são a mesma técnica.
+:::
+
+## Equivalência dedutiva, correção e completude
+
+$\phi\dashv\vdash\psi$ (**dedutivamente equivalentes**) se $\phi\vdash\psi$
+e $\psi\vdash\phi$. As equivalências semânticas da Aula 13 têm versão
+dedutiva:
+
+1. $\neg\forall x\,\phi\dashv\vdash\exists x\,\neg\phi$;
+2. $\neg\exists x\,\phi\dashv\vdash\forall x\,\neg\phi$;
+3. $\forall x\,\phi\land\forall x\,\psi\dashv\vdash\forall x\,(\phi\land\psi)$;
+4. $\exists x\,\phi\lor\exists x\,\psi\dashv\vdash\exists x\,(\phi\lor\psi)$;
+5. se $x$ não é livre em $\psi$ e $\circ$ é $\land$ ou $\lor$:
+   $\forall x\,\phi\circ\psi\dashv\vdash\forall x\,(\phi\circ\psi)$ e
+   $\exists x\,\phi\circ\psi\dashv\vdash\exists x\,(\phi\circ\psi)$.
+
+::: {.exemplo title="--- De Morgan dos quantificadores, por dedução (Aula 14, slides 16 e 17)"}
+**(a)** $\neg\forall x\,\phi\vdash\exists x\,\neg\phi$, por redução ao
+absurdo. Na linha 3 abrem duas caixas: a de $\boxed{u}$ (para o
+$\forall$I da linha 7) e a hipótese da RA:
+
+```{.fitch seq="~forall x phi |- exists x ~phi"}
+~forall x phi
+---
+|> ~exists x ~phi
+||> [u]
+|||> ~phi[u/x]
+|||  exists x ~phi ; EI, 3
+|||  F ; FI, 4, 2
+||  phi[u/x] ; RA, 3-5
+| forall x phi ; AI, 3-6
+| F ; FI, 7, 1
+exists x ~phi ; RA, 2-8
+```
+
+**(b)** $\exists x\,\neg\phi\vdash\neg\forall x\,\phi$:
+
+```{.fitch seq="exists x ~phi |- ~forall x phi"}
+exists x ~phi
+---
+|> forall x phi
+||> [u] ~phi[u/x]
+||  phi[u/x] ; AE, 2
+||  F ; FI, 3, 4
+| F ; EE, 1, 3-5
+~forall x phi ; ~I, 2-6
+```
+:::
+
+::: {.exemplo title="--- Quantificador e conjunção ou disjunção (Aula 14, slides 18 e 20)"}
+**(a)** $\forall x\,\phi\land\psi\vdash\forall x\,(\phi\land\psi)$, com
+$x$ não livre em $\psi$ (por isso $(\phi\land\psi)[v/x]$ é
+$\phi[v/x]\land\psi$, linha 6):
+
+```{.fitch seq="forall x phi /\ psi |- forall x (phi /\ psi)" naolivre="psi:x"}
+forall x phi /\ psi
+---
+forall x phi ; &E, 1
+psi ; &E, 1
+|> [v] phi[v/x] ; AE, 2
+|  phi[v/x] /\ psi ; &I, 4, 3
+|  (phi /\ psi)[v/x] ; R, 5
+forall x (phi /\ psi) ; AI, 4-6
+```
+
+**(b)** $\exists x\,\phi\lor\exists x\,\psi\vdash\exists x\,(\phi\lor\psi)$:
+$\lor$E com um $\exists$E em cada caso (o mesmo nome $v$ pode voltar a
+usar-se, porque a primeira caixa já fechou):
+
+```{.fitch seq="exists x phi \/ exists x psi |- exists x (phi \/ psi)"}
+exists x phi \/ exists x psi
+---
+|> exists x phi
+||> [v] phi[v/x]
+||  phi[v/x] \/ psi[v/x] ; vI, 3
+||  exists x (phi \/ psi) ; EI, 4
+|  exists x (phi \/ psi) ; EE, 2, 3-5
+|> exists x psi
+||> [v] psi[v/x]
+||  phi[v/x] \/ psi[v/x] ; vI, 8
+||  exists x (phi \/ psi) ; EI, 9
+|  exists x (phi \/ psi) ; EE, 7, 8-10
+exists x (phi \/ psi) ; vE, 1, 2-6, 7-11
+```
+:::
+
+**Correção e completude.** A DN de 1.ª ordem é **correta** (se
+$\Sigma\vdash\phi$ então $\Sigma\models\phi$; em particular, todo o
+teorema é válido) e **completa** (se $\Sigma\models\phi$ então
+$\Sigma\vdash\phi$; toda a fórmula válida é teorema). Logo, para mostrar
+$\Sigma\models\phi$ basta uma dedução, e para mostrar $\Sigma\nvdash\phi$
+basta um contramodelo.
+
+::: {.pratica title="--- Equivalências dedutivas (Aula 14, slides 19 e 21)"}
+As direções que faltam nos exemplos acima (técnica: os mesmos padrões de
+caixas).
+
+- **Aula 14, slide 15 (a)** $\forall x\,(\phi\land\psi)\vdash\forall x\,\phi\land\psi$,
+  com $x$ não livre em $\psi$.
+- **Aula 14, slide 15 (b)** $\exists x\,(\phi\lor\psi)\vdash\exists x\,\phi\lor\exists x\,\psi$.
 :::

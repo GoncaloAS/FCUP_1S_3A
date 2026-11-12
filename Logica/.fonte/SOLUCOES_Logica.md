@@ -2037,6 +2037,148 @@ $h(g(a),d)$ ($h\in\mathcal{F}_2$, 2 termos); $h(h(g(a),d),g(a))$ (2
 termos); $h(\dots,d)$ (2 termos). Só aparecem as constantes $a$ e $d$:
 não há variáveis.
 
+### 3.5i --- Termos fechados por comprimento
+
+$\mathcal{F}_0=\{a,b\}$, $\mathcal{F}_1=\{g\}$, $\mathcal{F}_2=\{f,h\}$.
+Comprimentos: $|a|=|b|=1$, $|g(t)|=|t|+3$, $|f(t_1,t_2)|=|h(t_1,t_2)|=|t_1|+|t_2|+4$.
+
+#### (a) Comprimento $<10$, sem repetir símbolos funcionais
+
+Leitura: as constantes são símbolos funcionais de aridade 0
+($\mathcal{F}_0$), por isso também não se repetem. Por comprimento:
+
+- 1: $a$, $b$;
+- 4: $g(a)$, $g(b)$;
+- 6: $f(a,b)$, $f(b,a)$, $h(a,b)$, $h(b,a)$ ($f(a,a)$ repetiria $a$);
+- 7: nenhum ($g(g(\cdot))$ repete $g$);
+- 9: $g(f(a,b))$, $g(f(b,a))$, $g(h(a,b))$, $g(h(b,a))$ ($3+6$), e
+  $f(g(a),b)$, $f(g(b),a)$, $f(a,g(b))$, $f(b,g(a))$, $h(g(a),b)$,
+  $h(g(b),a)$, $h(a,g(b))$, $h(b,g(a))$ ($4+1+4$).
+
+Total: 20 termos. Com 10 ou mais já não cabe nada: o mais curto seguinte
+seria $f(h(a,b),\dots)$ ($\geq 11$). Se se contarem só $f,g,h$ (as
+constantes podem repetir-se), juntam-se os que repetem $a$ ou $b$, como
+$f(a,a)$, $g(f(a,a))$ e $f(g(a),a)$: 36 no total.
+
+#### (b) Comprimento $<8$
+
+- 1: $a$, $b$;
+- 4: $g(a)$, $g(b)$;
+- 6: $f(a,a)$, $f(a,b)$, $f(b,a)$, $f(b,b)$, $h(a,a)$, $h(a,b)$,
+  $h(b,a)$, $h(b,b)$;
+- 7: $g(g(a))$, $g(g(b))$.
+
+Total: 14. Não há mais: $g$ de um termo de comprimento 6 dá 9, e $f$/$h$
+com um argumento de comprimento $\geq 4$ dá $\geq 9$.
+
+### 3.5ii --- É termo? É fechado?
+
+#### (a) $h(a,f(a,g(a),g(a)))$
+
+**Não é termo.** $f\in\mathcal{F}_2$, mas aqui tem 3 argumentos
+($a$, $g(a)$, $g(a)$).
+
+#### (b) $f(h(x,g(g(a))),x)$
+
+**É termo, não é fechado.** $g(a)$ e $g(g(a))$: $g\in\mathcal{F}_1$ com
+1 argumento; $h(x,g(g(a)))$: $h\in\mathcal{F}_2$ com 2 termos; $f(\dots,x)$:
+$f\in\mathcal{F}_2$ com 2 termos. Tem a variável $x$.
+
+#### (c) $f(a,P(a,g(x)))$
+
+**Não é termo.** $P\in\mathcal{R}_2$ é um predicado: $P(a,g(x))$ é uma
+fórmula atómica e não pode ser argumento de $f$.
+
+#### (d) $h(g(f(a,a)),f(b,a))$
+
+**É termo fechado.** $f(a,a)$ e $f(b,a)$: $f\in\mathcal{F}_2$ com 2
+constantes; $g(f(a,a))$: 1 argumento; $h(\dots,\dots)$: 2 termos. Só
+há constantes.
+
+#### (e) $f(h(x,h(y,y)),g(g(b)))$
+
+**É termo, não é fechado.** $h(y,y)$ e $h(x,h(y,y))$: 2 termos cada;
+$g(g(b))$: 1 argumento cada $g$; $f$: 2 termos. Tem $x$ e $y$.
+
+#### (f) $f(a,g(h(g(x),x(a))))$
+
+**Não é termo.** $x$ é uma variável: não leva argumentos, logo $x(a)$
+não é termo (e $h(g(x),x(a))$ também não).
+
+## Aula 11 --- Fórmulas
+
+### 3.4a --- É fórmula? ($\mathcal{F}_0=\{m\}$, $\mathcal{F}_1=\{f\}$, $\mathcal{R}_2=\{S,B\}$)
+
+#### (a) $S(m,x)$
+
+**É fórmula** (atómica): $S\in\mathcal{R}_2$ com dois termos, $m$ e $x$.
+
+#### (b) $B(m,f(m))$
+
+**É fórmula** (atómica): $f(m)$ é termo ($f\in\mathcal{F}_1$) e
+$B\in\mathcal{R}_2$ tem dois termos.
+
+#### (c) $f(m)$
+
+**Não é fórmula:** é um termo (um objeto). Não tem predicado.
+
+#### (d) $B(B(m,x),y)$
+
+**Não é fórmula:** $B(m,x)$ é uma fórmula, não um termo, e não pode ser
+argumento de $B$.
+
+#### (e) $S(B(m),z)$
+
+**Não é fórmula:** $B$ é predicado (não dá um termo) e, além disso, tem
+aridade 2, não 1.
+
+#### (f) $(B(x,y)\to(\exists z\,S(z,y)))$
+
+**É fórmula:** $B(x,y)$ e $S(z,y)$ são atómicas; $\exists z\,S(z,y)$ é
+fórmula; $\to$ liga duas fórmulas.
+
+#### (g) $(S(x,y)\to S(y,f(f(x))))$
+
+**É fórmula:** $f(f(x))$ é termo ($f$ com 1 argumento, duas vezes); as
+duas atómicas têm $S$ com 2 termos; $\to$ liga-as.
+
+#### (h) $(B(x)\to B(B(x)))$
+
+**Não é fórmula:** $B\in\mathcal{R}_2$ aparece com 1 argumento; e
+$B(B(x))$ põe uma fórmula como argumento.
+
+### 3.4b --- É fórmula? ($\mathcal{F}_0=\{c,d\}$, $\mathcal{F}_1=\{f\}$, $\mathcal{F}_2=\{g\}$, $\mathcal{F}_3=\{h\}$, $\mathcal{R}_3=\{P,Q\}$)
+
+#### (a) $\forall x\,P(f(d),h(g(c,x),d,y))$
+
+**Não é fórmula:** os termos estão certos ($g(c,x)$ com 2, $h(\dots,d,y)$
+com 3), mas $P\in\mathcal{R}_3$ tem só 2 argumentos.
+
+#### (b) $\forall x\,P(f(d),h(P(x,y),d,y))$
+
+**Não é fórmula:** $P(x,y)$ é (seria) uma fórmula dentro de $h$, que só
+aceita termos; e $P$ tem 2 argumentos em vez de 3.
+
+#### (c) $\forall x\,Q(g(h(x,f(d),x),g(x,x)),h(x,x,x),c)$
+
+**É fórmula.** $f(d)$: 1 argumento; $h(x,f(d),x)$: 3; $g(x,x)$: 2;
+$g(h(\dots),g(x,x))$: 2; $h(x,x,x)$: 3; $c$ constante. $Q\in\mathcal{R}_3$
+com 3 termos; $\forall x$ à frente de uma fórmula.
+
+#### (d) $\exists z\,(Q(z,z,z)\to P(z))$
+
+**Não é fórmula:** $Q(z,z,z)$ está certa, mas $P\in\mathcal{R}_3$ aparece
+com 1 argumento.
+
+#### (e) $\forall x\forall y\,(g(x,y)\to P(x,y,x))$
+
+**Não é fórmula:** $g(x,y)$ é um termo; $\to$ só liga fórmulas.
+
+#### (f) $Q(c,d,c)$
+
+**É fórmula** (atómica, e até proposição): $Q\in\mathcal{R}_3$ com 3
+constantes.
+
 ## Aula 11 --- Traduzir frases
 
 ### A11.16 --- Traduzir frases (Aula 11, slide 16)
@@ -2110,3 +2252,603 @@ $\mathit{VL}=\emptyset$: **é proposição**.
 
 $x$: duas ocorrências ($P(x)$, $Q(x)$), ambas **ligadas** por $\exists x$,
 que abrange o parêntesis todo. $\mathit{VL}=\emptyset$: **é proposição**.
+
+## Aula 12 --- Valor de termos
+
+### 3.7a --- Valor de termos
+
+Domínio $\mathbb{Z}$; $a^{\mathcal{A}}=0$, $b^{\mathcal{A}}=7$,
+$g^{\mathcal{A}}(n)=n^2$, $f^{\mathcal{A}}(n,m)=n-m$; $s_1(x)=0$,
+$s_1(y)=7$; $s_2(x)=1$, $s_2(y)=-1$.
+
+#### (a) $f(g(x),a)$
+
+$s_1(f(g(x),a))=f^{\mathcal{A}}(g^{\mathcal{A}}(s_1(x)),a^{\mathcal{A}})=f^{\mathcal{A}}(0^2,0)=0-0=0$.
+
+$s_2(f(g(x),a))=f^{\mathcal{A}}(g^{\mathcal{A}}(1),0)=1^2-0=1$.
+
+#### (b) $g(f(y,a))$
+
+$s_1$: $g^{\mathcal{A}}(f^{\mathcal{A}}(7,0))=g^{\mathcal{A}}(7)=49$.
+$s_2$: $g^{\mathcal{A}}(f^{\mathcal{A}}(-1,0))=g^{\mathcal{A}}(-1)=1$.
+
+#### (c) $f(a,g(f(x,y)))$
+
+$s_1$: $f^{\mathcal{A}}(x,y)=0-7=-7$; $g^{\mathcal{A}}(-7)=49$;
+$f^{\mathcal{A}}(0,49)=-49$.
+
+$s_2$: $f^{\mathcal{A}}(1,-1)=1-(-1)=2$; $g^{\mathcal{A}}(2)=4$;
+$f^{\mathcal{A}}(0,4)=-4$.
+
+#### (d) $g(g(f(b,b)))$
+
+Termo fechado, igual para $s_1$ e $s_2$: $f^{\mathcal{A}}(7,7)=0$;
+$g^{\mathcal{A}}(0)=0$; $g^{\mathcal{A}}(0)=0$. Valor $0$.
+
+#### (e) $f(a,x)$
+
+$s_1$: $f^{\mathcal{A}}(0,0)=0$. $s_2$: $f^{\mathcal{A}}(0,1)=-1$.
+
+#### (f) $g(y,g(a))$
+
+**Não é termo:** $g\in\mathcal{F}_1$ aparece com 2 argumentos. Não tem
+valor.
+
+## Aula 12 --- Satisfação
+
+### 3.7b --- Satisfação com $s_1$ e $s_2$
+
+Mais $S^{\mathcal{A}}=\{(2,1),(3,3)\}$; $s_1(x)=0$, $s_1(y)=7$;
+$s_2(x)=1$, $s_2(y)=-1$. Os números entre parêntesis são as regras da
+definição de $\models_s$ (1 igualdade, 2 predicado, 3 $\neg$, 4 $\land$,
+5 $\lor$, 6 $\to$, 7 $\forall$, 8 $\exists$). Desdobra-se a definição até
+ficar uma afirmação sobre números, e só então se decide.
+
+#### (a) $S(f(x,y),x)$
+
+$$\mathcal{A}\models_{s}S(f(x,y),x)\ \text{ sse }\ (s(f(x,y)),\,s(x))\in S^{\mathcal{A}}\qquad(2)$$
+
+- $s_1$: $s_1(f(x,y))=f^{\mathcal{A}}(s_1(x),s_1(y))=f^{\mathcal{A}}(0,7)=0-7=-7$
+  e $s_1(x)=0$. Como $(-7,0)\notin\{(2,1),(3,3)\}$,
+  $\mathcal{A}\not\models_{s_1}S(f(x,y),x)$.
+- $s_2$: $s_2(f(x,y))=f^{\mathcal{A}}(1,-1)=1-(-1)=2$ e $s_2(x)=1$. Como
+  $(2,1)\in S^{\mathcal{A}}$, $\mathcal{A}\models_{s_2}S(f(x,y),x)$.
+
+#### (b) $\exists x\,S(x,x)$
+
+$$\begin{aligned}
+\mathcal{A}\models_s\exists x\,S(x,x)
+&\text{ sse existe } n\in\mathbb{Z} \text{ tal que } \mathcal{A}\models_{s[n/x]}S(x,x) && (8)\\
+&\text{ sse existe } n\in\mathbb{Z} \text{ tal que } (s[n/x](x),\,s[n/x](x))\in S^{\mathcal{A}} && (2)\\
+&\text{ sse existe } n\in\mathbb{Z} \text{ tal que } (n,n)\in\{(2,1),(3,3)\}.
+\end{aligned}$$
+Verdade com $n=3$. O resultado não depende de $s$ (é uma proposição):
+$\mathcal{A}\models_{s_1}\exists x\,S(x,x)$ e $\mathcal{A}\models_{s_2}\exists x\,S(x,x)$.
+
+#### (c) $\forall x\,(x=a\lor y=b)$
+
+$$\begin{aligned}
+\mathcal{A}\models_s\forall x\,(x=a\lor y=b)
+&\text{ sse para todo } n\in\mathbb{Z},\ \mathcal{A}\models_{s[n/x]}x=a\lor y=b && (7)\\
+&\text{ sse para todo } n,\ \mathcal{A}\models_{s[n/x]}x=a \text{ ou } \mathcal{A}\models_{s[n/x]}y=b && (5)\\
+&\text{ sse para todo } n,\ s[n/x](x)=s[n/x](a) \text{ ou } s[n/x](y)=s[n/x](b) && (1)\\
+&\text{ sse para todo } n\in\mathbb{Z},\ n=0 \text{ ou } s(y)=7,
+\end{aligned}$$
+porque $s[n/x](x)=n$, $s[n/x](y)=s(y)$ ($y\neq x$), $a^{\mathcal{A}}=0$ e
+$b^{\mathcal{A}}=7$.
+
+- $s_1$: $s_1(y)=7$, logo a 2.ª condição vale para todo o $n$:
+  $\mathcal{A}\models_{s_1}\forall x\,(x=a\lor y=b)$.
+- $s_2$: $s_2(y)=-1\neq7$, logo seria preciso $n=0$ para todo o $n$; falha
+  em $n=1$: $\mathcal{A}\not\models_{s_2}\forall x\,(x=a\lor y=b)$.
+
+#### (d) $\forall z\,S(z,x)\to\exists x\,S(x,x)$
+
+$$\mathcal{A}\models_s\forall z\,S(z,x)\to\exists x\,S(x,x)\ \text{ sse }\ \mathcal{A}\not\models_s\forall z\,S(z,x)\ \text{ ou }\ \mathcal{A}\models_s\exists x\,S(x,x)\qquad(6)$$
+Pela (b), $\mathcal{A}\models_s\exists x\,S(x,x)$ para qualquer $s$. Logo
+$\mathcal{A}\models_{s_1}$ e $\mathcal{A}\models_{s_2}$. (O $x$ de
+$\exists x\,S(x,x)$ está ligado; o $s(x)$ não entra lá.)
+
+#### (e) $\neg\forall x\,(x=a\lor y=b)$
+
+$\mathcal{A}\models_s\neg\forall x\,(x=a\lor y=b)$ sse
+$\mathcal{A}\not\models_s\forall x\,(x=a\lor y=b)$ (3). Pela (c):
+$\mathcal{A}\not\models_{s_1}\neg\forall x\,(x=a\lor y=b)$ e
+$\mathcal{A}\models_{s_2}\neg\forall x\,(x=a\lor y=b)$.
+
+#### (f) $\exists z\,S(z,x)\to\exists x\,S(x,x)$
+
+Pela regra 6, como na (d): o consequente $\exists x\,S(x,x)$ é satisfeito
+com qualquer $s$ (b), logo $\mathcal{A}\models_{s_1}$ e $\mathcal{A}\models_{s_2}$.
+
+#### (g) $\forall y\forall z\,(f(y,z)=a\lor x\neq g(f(z,y)))$
+
+Seja $s'=s[n/y][m/z]$. Então $s'(f(y,z))=n-m$, $s'(a)=0$, $s'(x)=s(x)$ e
+$s'(g(f(z,y)))=(m-n)^2$.
+$$\begin{aligned}
+\mathcal{A}\models_s\forall y\forall z\,(\dots)
+&\text{ sse para todos } n,m\in\mathbb{Z},\ \mathcal{A}\models_{s'}f(y,z)=a\lor\neg(x=g(f(z,y))) && (7,\ 7)\\
+&\text{ sse para todos } n,m,\ \mathcal{A}\models_{s'}f(y,z)=a \text{ ou } \mathcal{A}\not\models_{s'}x=g(f(z,y)) && (5,\ 3)\\
+&\text{ sse para todos } n,m,\ s'(f(y,z))=s'(a) \text{ ou } s'(x)\neq s'(g(f(z,y))) && (1)\\
+&\text{ sse para todos } n,m\in\mathbb{Z},\ n-m=0 \text{ ou } s(x)\neq(m-n)^2.
+\end{aligned}$$
+
+- $s_1$ ($s_1(x)=0$). Sejam $n,m$ quaisquer. Caso $n=m$: $n-m=0$. Caso
+  $n\neq m$: $(m-n)^2\geq1$, logo $0\neq(m-n)^2$. Nos dois casos a
+  condição vale: $\mathcal{A}\models_{s_1}$.
+- $s_2$ ($s_2(x)=1$). Com $n=0$, $m=1$: $n-m=-1\neq0$ e $(1-0)^2=1=s_2(x)$;
+  as duas partes falham. Logo $\mathcal{A}\not\models_{s_2}$.
+
+#### (h) $\exists z\,((f(x,y)=z\land S(z,x))\to\exists x\,S(x,x))$
+
+$$\begin{aligned}
+\mathcal{A}\models_s\exists z\,(\dots)
+&\text{ sse existe } m\in\mathbb{Z} \text{ tal que } \mathcal{A}\models_{s[m/z]}(f(x,y)=z\land S(z,x))\to\exists x\,S(x,x) && (8)\\
+&\text{ sse existe } m \text{ tal que } \mathcal{A}\not\models_{s[m/z]}f(x,y)=z\land S(z,x) \text{ ou } \mathcal{A}\models_{s[m/z]}\exists x\,S(x,x) && (6)
+\end{aligned}$$
+Pela (b), $\mathcal{A}\models_{s[m/z]}\exists x\,S(x,x)$ para qualquer
+$m$; basta $m=0$. Logo $\mathcal{A}\models_{s_1}$ e $\mathcal{A}\models_{s_2}$.
+
+### 3.8 --- Verdadeira ou falsa em $\mathcal{A}$
+
+Domínio $\mathbb{N}$, $a^{\mathcal{A}}=1$, $f^{\mathcal{A}}(n,m)=n\times
+m$, $S^{\mathcal{A}}$ ímpares, $R^{\mathcal{A}}$ pares,
+$P^{\mathcal{A}}=\{(n,m)\mid n>m\}$. $\mathcal{A}\models\phi$ sse
+$\mathcal{A}\models_s\phi$ para toda a interpretação $s$; seja $s$
+qualquer.
+
+#### (a) $\forall x\exists y\,P(y,x)$
+
+$$\begin{aligned}
+\mathcal{A}\models_s\forall x\exists y\,P(y,x)
+&\text{ sse para todo } a\in\mathbb{N},\ \mathcal{A}\models_{s[a/x]}\exists y\,P(y,x) && (7)\\
+&\text{ sse para todo } a\in\mathbb{N} \text{ existe } b\in\mathbb{N} \text{ tal que } \mathcal{A}\models_{s[a/x][b/y]}P(y,x) && (8)\\
+&\text{ sse para todo } a \text{ existe } b \text{ tal que } (s[a/x][b/y](y),\,s[a/x][b/y](x))\in P^{\mathcal{A}} && (2)\\
+&\text{ sse para todo } a\in\mathbb{N} \text{ existe } b\in\mathbb{N} \text{ tal que } b>a.
+\end{aligned}$$
+Verdade: para cada $a$, $b=a+1>a$. Logo $\mathcal{A}\models\forall x\exists y\,P(y,x)$.
+
+#### (b) $\exists x\forall y\,P(y,x)$
+
+$$\begin{aligned}
+\mathcal{A}\models_s\exists x\forall y\,P(y,x)
+&\text{ sse existe } a\in\mathbb{N} \text{ tal que } \mathcal{A}\models_{s[a/x]}\forall y\,P(y,x) && (8)\\
+&\text{ sse existe } a \text{ tal que, para todo } b\in\mathbb{N},\ \mathcal{A}\models_{s[a/x][b/y]}P(y,x) && (7)\\
+&\text{ sse existe } a \text{ tal que, para todo } b,\ (s[a/x][b/y](y),\,s[a/x][b/y](x))\in P^{\mathcal{A}} && (2)\\
+&\text{ sse existe } a\in\mathbb{N} \text{ tal que, para todo } b\in\mathbb{N},\ b>a.
+\end{aligned}$$
+Falso: para cada $a$, o $b=0$ dá $0>a$ falso (e $b=a$ também). Logo
+$\mathcal{A}\not\models\exists x\forall y\,P(y,x)$.
+
+#### (c) $\forall x\exists y\,(f(x,y)=a)$
+
+$$\begin{aligned}
+\mathcal{A}\models_s\forall x\exists y\,(f(x,y)=a)
+&\text{ sse para todo } b\in\mathbb{N} \text{ existe } c\in\mathbb{N} \text{ tal que } \mathcal{A}\models_{s[b/x][c/y]}f(x,y)=a && (7,\ 8)\\
+&\text{ sse para todo } b \text{ existe } c \text{ tal que } f^{\mathcal{A}}(s[b/x][c/y](x),\,s[b/x][c/y](y))=a^{\mathcal{A}} && (1)\\
+&\text{ sse para todo } b\in\mathbb{N} \text{ existe } c\in\mathbb{N} \text{ tal que } b\times c=1.
+\end{aligned}$$
+Falso: com $b=0$ (ou $b=2$), $b\times c\neq1$ para todo o $c$. Logo
+$\mathcal{A}\not\models\forall x\exists y\,(f(x,y)=a)$.
+
+#### (d) $\forall x\,S(x)\to\exists x\,S(x)$
+
+$$\mathcal{A}\models_s\forall x\,S(x)\to\exists x\,S(x)\ \text{ sse }\ \mathcal{A}\not\models_s\forall x\,S(x)\ \text{ ou }\ \mathcal{A}\models_s\exists x\,S(x)\qquad(6)$$
+$$\mathcal{A}\models_s\exists x\,S(x)\ \text{ sse existe } a\in\mathbb{N} \text{ com } s[a/x](x)\in S^{\mathcal{A}}\ \text{ sse existe } a\in\mathbb{N} \text{ ímpar}\qquad(8,\ 2)$$
+Verdade ($a=1$). Logo o consequente é verdadeiro e
+$\mathcal{A}\models\forall x\,S(x)\to\exists x\,S(x)$.
+
+#### (e) $\forall x\,(S(x)\lor R(x))\to(\forall x\,S(x)\lor\forall x\,R(x))$
+
+Pela regra 6, é verdadeira sse $\mathcal{A}\not\models_s\forall x\,(S(x)\lor
+R(x))$ ou $\mathcal{A}\models_s\forall x\,S(x)\lor\forall x\,R(x)$.
+
+- $\mathcal{A}\models_s\forall x\,(S(x)\lor R(x))$ sse para todo o
+  $a\in\mathbb{N}$, $a\in S^{\mathcal{A}}$ ou $a\in R^{\mathcal{A}}$ (7, 5,
+  2), isto é, todo o natural é ímpar ou par: **verdade**. Logo a 1.ª
+  condição falha.
+- $\mathcal{A}\models_s\forall x\,S(x)$ sse todo o $a\in\mathbb{N}$ é
+  ímpar (7, 2): **falso** ($a=0$). $\mathcal{A}\models_s\forall x\,R(x)$
+  sse todo o $a$ é par: **falso** ($a=1$). Pela regra 5,
+  $\mathcal{A}\not\models_s\forall x\,S(x)\lor\forall x\,R(x)$: a 2.ª
+  condição também falha.
+
+Logo $\mathcal{A}\not\models\forall x\,(S(x)\lor R(x))\to(\forall x\,S(x)\lor\forall x\,R(x))$.
+
+## Aula 13 --- Verdadeira numa estrutura, falsa noutra
+
+### 3.9 --- Uma estrutura onde é verdadeira e outra onde é falsa
+
+Para cada estrutura dá-se o domínio e os símbolos que a fórmula usa (os
+outros podem ser quaisquer, ex. $\emptyset$). São proposições, por isso
+$\mathcal{A}\models\phi$ sse $\mathcal{A}\models_s\phi$ para uma $s$
+qualquer. Regras numeradas como na 3.7 b).
+
+#### (a) $\forall x\,(x=a)$
+
+$$\mathcal{A}\models_s\forall x\,(x=a)\ \text{ sse para todo } n\in A,\ s[n/x](x)=s[n/x](a)\ \text{ sse para todo } n\in A,\ n=a^{\mathcal{A}}\qquad(7,\ 1)$$
+
+- **Verdadeira** em $\mathcal{A}=(\{0\},\cdot^{\mathcal{A}})$, $a^{\mathcal{A}}=0$:
+  o único $n\in\{0\}$ é $0=a^{\mathcal{A}}$.
+- **Falsa** em $\mathcal{B}=(\mathbb{N},\cdot^{\mathcal{B}})$, $a^{\mathcal{B}}=0$:
+  com $n=1$, $1\neq0$.
+
+#### (b) $\forall x\forall y\,(R(x)\to R(y))$
+
+$$\mathcal{A}\models_s\forall x\forall y\,(R(x)\to R(y))\ \text{ sse para todos } n,m\in A,\ n\notin R^{\mathcal{A}} \text{ ou } m\in R^{\mathcal{A}}\qquad(7,\ 7,\ 6,\ 2)$$
+
+- **Verdadeira** em $\mathbb{N}$ com $R^{\mathcal{A}}=\emptyset$: para
+  todos $n,m$, $n\notin\emptyset$.
+- **Falsa** em $\mathbb{N}$ com $R^{\mathcal{B}}$ = pares: com $n=0$,
+  $m=1$, $0\in R^{\mathcal{B}}$ e $1\notin R^{\mathcal{B}}$; as duas
+  partes falham.
+
+#### (c) $\exists y\forall x\,R(x,y)\to\forall x\exists y\,R(x,y)$
+
+$$\mathcal{A}\models_s\phi\ \text{ sse }\ \underbrace{\text{não existe } b\in A \text{ tal que, para todo } a,\ (a,b)\in R^{\mathcal{A}}}_{\mathcal{A}\not\models_s\exists y\forall x\,R(x,y)}\ \text{ ou }\ \underbrace{\text{para todo } a\in A \text{ existe } b \text{ com } (a,b)\in R^{\mathcal{A}}}_{\mathcal{A}\models_s\forall x\exists y\,R(x,y)}\qquad(6,\ 8,\ 7,\ 2)$$
+
+- **Verdadeira** em $\mathcal{A}=(\{0\},\cdot^{\mathcal{A}})$,
+  $R^{\mathcal{A}}=\emptyset$: não há $b$ com $(0,b)\in\emptyset$, logo a
+  1.ª condição vale.
+- **Não há estrutura onde seja falsa: é válida.** Sejam $\mathcal{A}$ e
+  $s$ quaisquer. Se a 1.ª condição vale, já está. Senão, existe $b_0\in A$
+  tal que $(a,b_0)\in R^{\mathcal{A}}$ para todo o $a\in A$. Então, para
+  cada $a\in A$, o $b=b_0$ serve: $(a,b_0)\in R^{\mathcal{A}}$. A 2.ª
+  condição vale. Em ambos os casos $\mathcal{A}\models_s\phi$; como
+  $\mathcal{A}$ e $s$ eram quaisquer, $\models\phi$.
+
+#### (d) $\exists x\,(h(x)=g(a)\to\exists z\,(g(z)=a))$
+
+($h$ unário.)
+$$\mathcal{A}\models_s\phi\ \text{ sse existe } n\in A \text{ tal que } h^{\mathcal{A}}(n)\neq g^{\mathcal{A}}(a^{\mathcal{A}}) \text{ ou existe } m\in A \text{ com } g^{\mathcal{A}}(m)=a^{\mathcal{A}}\qquad(8,\ 6,\ 1,\ 8,\ 1)$$
+
+- **Verdadeira** em $\mathbb{N}$, $a^{\mathcal{A}}=0$,
+  $g^{\mathcal{A}}(n)=n$, $h^{\mathcal{A}}(n)=n$: com $n=0$ e $m=0$,
+  $g^{\mathcal{A}}(0)=0=a^{\mathcal{A}}$; a 2.ª parte vale.
+- **Falsa** em $\mathbb{N}$, $a^{\mathcal{B}}=0$,
+  $g^{\mathcal{B}}(n)=n+1$, $h^{\mathcal{B}}(n)=1$. 2.ª parte:
+  $g^{\mathcal{B}}(m)=m+1\neq0$ para todo o $m$, falha. 1.ª parte: para
+  todo o $n$, $h^{\mathcal{B}}(n)=1=g^{\mathcal{B}}(0)=g^{\mathcal{B}}(a^{\mathcal{B}})$,
+  falha. Nenhum $n$ serve.
+
+#### (e) $\forall x\,Q(x,g(x))\to\exists x\,R(a,x)$
+
+$$\mathcal{A}\models_s\phi\ \text{ sse existe } n \text{ com } (n,g^{\mathcal{A}}(n))\notin Q^{\mathcal{A}}\ \text{ ou existe } m \text{ com } (a^{\mathcal{A}},m)\in R^{\mathcal{A}}\qquad(6,\ 7,\ 8,\ 2)$$
+
+- **Verdadeira** em $\mathbb{N}$, $g^{\mathcal{A}}(n)=n$,
+  $Q^{\mathcal{A}}=\emptyset$: com $n=0$, $(0,0)\notin\emptyset$.
+- **Falsa** em $\mathbb{N}$, $a^{\mathcal{B}}=0$, $g^{\mathcal{B}}(n)=n$,
+  $Q^{\mathcal{B}}=\mathbb{N}^2$, $R^{\mathcal{B}}=\emptyset$: todo o
+  $(n,n)$ está em $\mathbb{N}^2$ (1.ª falha) e nenhum $(0,m)$ está em
+  $\emptyset$ (2.ª falha).
+
+#### (f) $\exists z\,((g(z)\neq a)\to\exists z\,(g(z)=a))$ e $\exists x\,Q(x,g(x))\to\forall x\,R(a,x)$
+
+Primeira:
+$$\mathcal{A}\models_s\phi_1\ \text{ sse existe } n \text{ com } g^{\mathcal{A}}(n)=a^{\mathcal{A}}\ \text{ ou existe } m \text{ com } g^{\mathcal{A}}(m)=a^{\mathcal{A}}\qquad(8,\ 6,\ 3,\ 1,\ 8,\ 1)$$
+(as duas partes dizem o mesmo: "$g$ atinge $a$").
+
+- **Verdadeira** em $\mathbb{N}$, $a^{\mathcal{A}}=0$, $g^{\mathcal{A}}(n)=n$: $g^{\mathcal{A}}(0)=0$.
+- **Falsa** em $\mathbb{N}$, $a^{\mathcal{B}}=0$, $g^{\mathcal{B}}(n)=n+1$:
+  $n+1\neq0$ para todo o $n$.
+
+Segunda:
+$$\mathcal{A}\models_s\phi_2\ \text{ sse para todo } n,\ (n,g^{\mathcal{A}}(n))\notin Q^{\mathcal{A}}\ \text{ ou para todo } m,\ (a^{\mathcal{A}},m)\in R^{\mathcal{A}}\qquad(6,\ 8,\ 7,\ 2)$$
+
+- **Verdadeira** em $\mathbb{N}$, $g^{\mathcal{A}}(n)=n$, $Q^{\mathcal{A}}=\emptyset$: a 1.ª parte vale.
+- **Falsa** em $\mathbb{N}$, $a^{\mathcal{B}}=0$, $g^{\mathcal{B}}(n)=n$,
+  $Q^{\mathcal{B}}=\mathbb{N}^2$, $R^{\mathcal{B}}=\emptyset$: $(0,0)\in
+  Q^{\mathcal{B}}$ (1.ª falha) e $(0,0)\notin R^{\mathcal{B}}$ (2.ª falha).
+
+#### (g) $\forall y\exists x\,R(x,y)$ e $\forall x\,(T(x)\to\exists y\,Q(x,y))$
+
+Primeira: $\mathcal{A}\models_s\forall y\exists x\,R(x,y)$ sse para todo
+o $m$ existe $n$ com $(n,m)\in R^{\mathcal{A}}$ (7, 8, 2).
+
+- **Verdadeira** em $\mathbb{N}$, $R^{\mathcal{A}}=\mathbb{N}^2$: para cada $m$, $n=0$.
+- **Falsa** em $\mathbb{N}$, $R^{\mathcal{B}}=\emptyset$: com $m=0$, nenhum $(n,0)\in\emptyset$.
+
+Segunda: $\mathcal{A}\models_s\forall x\,(T(x)\to\exists y\,Q(x,y))$ sse
+para todo o $n$, $n\notin T^{\mathcal{A}}$ ou existe $m$ com $(n,m)\in
+Q^{\mathcal{A}}$ (7, 6, 8, 2).
+
+- **Verdadeira** em $\mathbb{N}$, $T^{\mathcal{A}}=\emptyset$: $n\notin\emptyset$ para todo o $n$.
+- **Falsa** em $\mathbb{N}$, $T^{\mathcal{B}}=\mathbb{N}$, $Q^{\mathcal{B}}=\emptyset$:
+  com $n=0$, $0\in T^{\mathcal{B}}$ e nenhum $(0,m)\in\emptyset$.
+
+#### (h) $\exists y\exists x\,(g(x)\neq g(y))$ e $\exists x\,(T(x)\to\forall y\,Q(x,y))$
+
+Primeira: $\mathcal{A}\models_s\exists y\exists x\,\neg(g(x)=g(y))$ sse
+existem $m,n$ com $g^{\mathcal{A}}(n)\neq g^{\mathcal{A}}(m)$ (8, 8, 3, 1).
+
+- **Verdadeira** em $\mathbb{N}$, $g^{\mathcal{A}}(n)=n$: $m=0$, $n=1$, $1\neq0$.
+- **Falsa** em $\mathbb{N}$, $g^{\mathcal{B}}(n)=0$: $g^{\mathcal{B}}(n)=0=g^{\mathcal{B}}(m)$ para todos $n,m$.
+
+Segunda: $\mathcal{A}\models_s\exists x\,(T(x)\to\forall y\,Q(x,y))$ sse
+existe $n$ com $n\notin T^{\mathcal{A}}$ ou com $(n,m)\in Q^{\mathcal{A}}$
+para todo o $m$ (8, 6, 7, 2).
+
+- **Verdadeira** em $\mathbb{N}$, $T^{\mathcal{A}}=\emptyset$: $n=0\notin\emptyset$.
+- **Falsa** em $\mathbb{N}$, $T^{\mathcal{B}}=\mathbb{N}$, $Q^{\mathcal{B}}=\emptyset$:
+  para todo o $n$, $n\in T^{\mathcal{B}}$ e $(n,0)\notin\emptyset$; nenhum $n$ serve.
+
+#### Conclusão
+
+Se $\mathcal{B}\not\models\phi$, então $\phi$ não é válida. Se
+$\mathcal{A}\models\phi$, então $\mathcal{A}\not\models\neg\phi$ (regra 3),
+logo $\neg\phi$ não é válida. Isto vale para todas **exceto a (c)**: essa é
+válida (não há estrutura onde seja falsa); só a sua negação não é válida.
+
+## Aula 13 --- Equivalências com quantificadores
+
+### 3.10 --- Equivalência semântica
+
+#### (c) $\forall x\,\phi\to\exists x\,\psi\Leftrightarrow\exists x\,(\phi\to\psi)$
+
+$$\begin{aligned}
+\exists x\,(\phi\to\psi)
+&\Leftrightarrow \exists x\,(\neg\phi\lor\psi) && (\phi\to\psi\Leftrightarrow\neg\phi\lor\psi)\\
+&\Leftrightarrow \exists x\,\neg\phi\lor\exists x\,\psi && (\exists\text{ distribui por }\lor)\\
+&\Leftrightarrow \neg\forall x\,\phi\lor\exists x\,\psi && (\text{De Morgan: }\exists x\,\neg\phi\Leftrightarrow\neg\forall x\,\phi)\\
+&\Leftrightarrow \forall x\,\phi\to\exists x\,\psi && (\neg\alpha\lor\beta\Leftrightarrow\alpha\to\beta)
+\end{aligned}$$
+
+### 3.11 --- Não equivalentes
+
+Estruturas da resolução oficial (domínio $\{1,2\}$, mais simples do que
+$\mathbb{N}$). Para mostrar que não são equivalentes basta uma estrutura
+que é modelo de uma e não da outra.
+
+#### (a) $\forall x\,(\phi\lor\psi)$ e $\forall x\,\phi\lor\forall x\,\psi$
+
+$L$ com $\mathcal{R}_1=\{P,Q\}$, $\phi=P(x)$, $\psi=Q(x)$;
+$\mathcal{A}=(\{1,2\},\cdot^{\mathcal{A}})$ com $P^{\mathcal{A}}=\{1\}$ e
+$Q^{\mathcal{A}}=\{2\}$; $s$ qualquer.
+
+$$\begin{aligned}
+\mathcal{A}\models_s\forall x\,(P(x)\lor Q(x))
+&\text{ sse para todo } a\in\{1,2\},\ \mathcal{A}\models_{s[a/x]}P(x) \text{ ou } \mathcal{A}\models_{s[a/x]}Q(x) && (7,\ 5)\\
+&\text{ sse para todo } a\in\{1,2\},\ a\in\{1\} \text{ ou } a\in\{2\} && (2)
+\end{aligned}$$
+Verdade ($1\in\{1\}$, $2\in\{2\}$): $\mathcal{A}\models_s\forall x\,(\phi\lor\psi)$.
+
+$\mathcal{A}\models_s\forall x\,P(x)$ sse para todo o $a\in\{1,2\}$,
+$a\in\{1\}$ (7, 2): falso ($a=2$). $\mathcal{A}\models_s\forall x\,Q(x)$
+sse todo o $a\in\{2\}$: falso ($a=1$). Pela regra 5,
+$\mathcal{A}\not\models_s\forall x\,\phi\lor\forall x\,\psi$.
+
+$\mathcal{A}$ é modelo da primeira e não da segunda: não são equivalentes.
+
+#### (f) $\forall x\exists y\,\phi$ e $\exists y\forall x\,\phi$
+
+$L$ com $\mathcal{R}_2=\{P\}$, $\phi=P(x,y)$;
+$\mathcal{A}=(\{1,2\},\cdot^{\mathcal{A}})$ com
+$P^{\mathcal{A}}=\{(1,1),(2,2)\}$; $s$ qualquer.
+
+$$\mathcal{A}\models_s\forall x\exists y\,P(x,y)\ \text{ sse para todo } a\in\{1,2\} \text{ existe } b\in\{1,2\} \text{ com } (a,b)\in P^{\mathcal{A}}\qquad(7,\ 8,\ 2)$$
+Verdade: para cada $a$, $b=a$ dá $(a,a)\in P^{\mathcal{A}}$.
+
+$$\mathcal{A}\models_s\exists y\forall x\,P(x,y)\ \text{ sse existe } b\in\{1,2\} \text{ tal que, para todo } a\in\{1,2\},\ (a,b)\in P^{\mathcal{A}}\qquad(8,\ 7,\ 2)$$
+Falso: para cada $b$, o $a\neq b$ dá $(a,b)\notin P^{\mathcal{A}}$. Logo
+$\mathcal{A}\not\models_s\exists y\forall x\,\phi$, e não são equivalentes.
+(Na resolução oficial esta é a alínea (d).) Ao contrário,
+$\exists y\forall x\,\phi\models\forall x\exists y\,\phi$ vale sempre: ver a
+3.9 (c).
+
+## Aula 13 --- Substituição
+
+### A13.12 --- Substituição (Aula 13, slide 12)
+
+$\phi=\exists x\,(P(y,z)\land\forall y\,(\neg Q(x,y)\lor P(y,z)))$.
+Ocorrências livres: $x$ nenhuma (a única, em $Q(x,y)$, está ligada por
+$\exists x$); $y$ só a de $P(y,z)$ (a primeira); $z$ as duas.
+
+#### (a) As quatro substituições
+
+- $\phi[w/x]=\phi$: $x$ não tem ocorrências livres.
+- $\phi[w/y]=\exists x\,(P(w,z)\land\forall y\,(\neg Q(x,y)\lor P(y,z)))$:
+  só o primeiro $y$ muda.
+- $\phi[f(x)/y]=\exists x\,(P(f(x),z)\land\forall y\,(\neg Q(x,y)\lor
+  P(y,z)))$. O $x$ de $f(x)$ fica **capturado** por $\exists x$.
+- $\phi[g(y,z)/z]=\exists x\,(P(y,g(y,z))\land\forall y\,(\neg
+  Q(x,y)\lor P(y,g(y,z))))$. No segundo $z$, que está dentro de $\forall
+  y$, o $y$ de $g(y,z)$ fica **capturado**.
+
+#### (b) Para que termos é $x$ substituível? E $y$?
+
+- $x$: por **todos** ($w$, $f(x)$, $g(y,z)$): não tem ocorrências livres,
+  logo não há nada que capturar.
+- $y$: a ocorrência livre está dentro de $\exists x$ (e de nenhum
+  $\forall y$/$\exists y$). É substituível por $t$ sse $x$ não está em
+  $t$: por $w$ **sim**, por $f(x)$ **não**, por $g(y,z)$ **sim**.
+
+(E $z$ não é substituível por $g(y,z)$: o segundo $z$ está dentro de
+$\forall y$, como se viu na (a).)
+
+## Aula 13 --- Forma prenex
+
+### A13.16 --- Forma prenex (Aula 13, slide 16)
+
+#### Resposta
+
+$\phi=\forall x\,R(x,y)\land\exists y\,(\neg\forall z\,(R(y,z)\to Q(u,y)))$.
+Livres: $y$ (em $R(x,y)$) e $u$; o $y$ também aparece ligado por
+$\exists y$.
+
+1. Elimina $\to$:
+   $\forall x\,R(x,y)\land\exists y\,\neg\forall z\,(\neg R(y,z)\lor Q(u,y))$.
+2. Renomeia o $y$ ligado para $w$ (nova), para não ser livre e ligado:
+   $\forall x\,R(x,y)\land\exists w\,\neg\forall z\,(\neg R(w,z)\lor Q(u,w))$.
+3. $\neg\forall z\to\exists z\,\neg$:
+   $\forall x\,R(x,y)\land\exists w\exists z\,\neg(\neg R(w,z)\lor Q(u,w))$.
+4. Puxa $\forall x$ ($x$ não é livre à direita):
+   $\forall x\,(R(x,y)\land\exists w\exists z\,\neg(\neg R(w,z)\lor Q(u,w)))$.
+5. Puxa $\exists w$ e $\exists z$ ($w$, $z$ não ocorrem em $R(x,y)$):
+   $$\forall x\exists w\exists z\,\big(R(x,y)\land\neg(\neg R(w,z)\lor Q(u,w))\big).$$
+
+Com De Morgan na parte sem quantificadores, fica também
+$\forall x\exists w\exists z\,(R(x,y)\land R(w,z)\land\neg Q(u,w))$. As
+livres $y$ e $u$ ficam livres.
+
+## Aula 14 --- Deduções de primeira ordem
+
+### A14.22 --- Aula 14, slide 22
+
+#### (a) $\vdash\forall x\,(\phi\to\psi)\to(\exists x\,\phi\to\exists x\,\psi)$
+
+Duas $\to$I; lá dentro, $\exists$E sobre $\exists x\,\phi$ e $\forall$E
+com o mesmo $v$:
+
+```{.fitch seq="|- forall x (phi -> psi) -> (exists x phi -> exists x psi)"}
+|> forall x (phi -> psi)
+||> exists x phi
+|||> [v] phi[v/x]
+|||  phi[v/x] -> psi[v/x] ; AE, 1
+|||  psi[v/x] ; ->E, 4, 3
+|||  exists x psi ; EI, 5
+||  exists x psi ; EE, 2, 3-6
+|  exists x phi -> exists x psi ; ->I, 2-7
+forall x (phi -> psi) -> (exists x phi -> exists x psi) ; ->I, 1-8
+```
+
+#### (b) $\exists x\,P(x),\ \forall x\forall y\,((P(x)\land P(y))\to x=y)\vdash\exists!x\,P(x)$
+
+Abre o $\exists$E ($P(v)$). Para $\forall y\,(P(y)\to y=v)$ abre a caixa
+de $\boxed{w}$ e instancia a premissa 2 com $x:=w$, $y:=v$:
+
+```{.fitch seq="exists x P(x), forall x forall y ((P(x) /\ P(y)) -> x = y) |- exists x (P(x) /\ forall y (P(y) -> y = x))"}
+exists x P(x)
+forall x forall y ((P(x) /\ P(y)) -> x = y)
+---
+|> [v] P(v)
+||> [w] forall y ((P(w) /\ P(y)) -> w = y) ; AE, 2
+||  (P(w) /\ P(v)) -> w = v ; AE, 4
+|||> P(w)
+|||  P(w) /\ P(v) ; &I, 6, 3
+|||  w = v ; ->E, 5, 7
+||  P(w) -> w = v ; ->I, 6-8
+|  forall y (P(y) -> y = v) ; AI, 4-9
+|  P(v) /\ forall y (P(y) -> y = v) ; &I, 3, 10
+|  exists x (P(x) /\ forall y (P(y) -> y = x)) ; EI, 11
+exists x (P(x) /\ forall y (P(y) -> y = x)) ; EE, 1, 3-12
+```
+
+### A14.24 --- Aula 14, slide 24
+
+#### (a) $\vdash\forall x\forall y\,(x=y\to f(x)=f(y))$
+
+Na linha 1 abrem três caixas: $\boxed{u}$, $\boxed{w}$ e a hipótese
+$u=w$. O $=$E troca o segundo $u$ de $f(u)=f(u)$ por $w$:
+
+```{.fitch seq="|- forall x forall y (x = y -> f(x) = f(y))"}
+|> [u]
+||> [w]
+|||> u = w
+||| f(u) = f(u) ; =I
+||| f(u) = f(w) ; =E, 1, 2
+|| u = w -> f(u) = f(w) ; ->I, 1-3
+| forall y (u = y -> f(u) = f(y)) ; AI, 1-4
+forall x forall y (x = y -> f(x) = f(y)) ; AI, 1-5
+```
+
+#### (d) $\forall x\,(Q(x)\to R(x)),\ \exists x\,(P(x)\land Q(x))\vdash\exists x\,(P(x)\land R(x))$
+
+```{.fitch seq="forall x (Q(x) -> R(x)), exists x (P(x) /\ Q(x)) |- exists x (P(x) /\ R(x))"}
+forall x (Q(x) -> R(x))
+exists x (P(x) /\ Q(x))
+---
+|> [v] P(v) /\ Q(v)
+|  P(v) ; &E, 3
+|  Q(v) ; &E, 3
+|  Q(v) -> R(v) ; AE, 1
+|  R(v) ; ->E, 6, 5
+|  P(v) /\ R(v) ; &I, 4, 7
+|  exists x (P(x) /\ R(x)) ; EI, 8
+exists x (P(x) /\ R(x)) ; EE, 2, 3-9
+```
+
+#### (e) $\exists x\,P(x),\ \forall x\forall y\,(P(x)\to Q(y))\vdash\forall y\,Q(y)$
+
+Primeiro o $\exists$E ($v$), depois o $\forall$I ($u$, nova também em
+relação a $v$). A conclusão $\forall y\,Q(y)$ não tem $v$, por isso pode
+sair da caixa:
+
+```{.fitch seq="exists x P(x), forall x forall y (P(x) -> Q(y)) |- forall y Q(y)"}
+exists x P(x)
+forall x forall y (P(x) -> Q(y))
+---
+|> [v] P(v)
+||> [u] forall y (P(v) -> Q(y)) ; AE, 2
+||  P(v) -> Q(u) ; AE, 4
+||  Q(u) ; ->E, 5, 3
+|  forall y Q(y) ; AI, 4-6
+forall y Q(y) ; EE, 1, 3-7
+```
+
+#### (g) $\forall x\,(P(x)\lor Q(x)),\ \neg\forall x\,Q(x),\ \forall x\,(R(x)\to\neg P(x))\vdash\neg\forall x\,R(x)$
+
+$\neg$I: supõe $\forall x\,R(x)$ e mostra $\forall x\,Q(x)$, que contradiz
+a premissa 2. Para um $v$ qualquer, $\neg P(v)$ e $P(v)\lor Q(v)$ dão
+$Q(v)$ por $\lor$E:
+
+```{.fitch seq="forall x (P(x) \/ Q(x)), ~forall x Q(x), forall x (R(x) -> ~P(x)) |- ~forall x R(x)"}
+forall x (P(x) \/ Q(x))
+~forall x Q(x)
+forall x (R(x) -> ~P(x))
+---
+|> forall x R(x)
+||> [v] P(v) \/ Q(v) ; AE, 1
+||  R(v) ; AE, 4
+||  R(v) -> ~P(v) ; AE, 3
+||  ~P(v) ; ->E, 7, 6
+|||> P(v)
+|||  F ; FI, 9, 8
+|||  Q(v) ; FE, 10
+|||> Q(v)
+|||  Q(v) ; R, 12
+||  Q(v) ; vE, 5, 9-11, 12-13
+|  forall x Q(x) ; AI, 5-14
+|  F ; FI, 15, 2
+~forall x R(x) ; ~I, 4-16
+```
+
+## Aula 14 --- Equivalências dedutivas
+
+### A14.15 --- Aula 14, slides 19 e 21
+
+#### (a) $\forall x\,(\phi\land\psi)\vdash\forall x\,\phi\land\psi$ ($x$ não livre em $\psi$)
+
+O $\psi$ tira-se **fora** da caixa (linhas 2--3, $\forall$E com o termo
+$x$): no slide, a linha final cita o $\psi$ de dentro da caixa já fechada,
+o que não é permitido.
+
+```{.fitch seq="forall x (phi /\ psi) |- forall x phi /\ psi" naolivre="psi:x"}
+forall x (phi /\ psi)
+---
+phi /\ psi ; AE, 1
+psi ; &E, 2
+|> [v] (phi /\ psi)[v/x] ; AE, 1
+|  phi[v/x] /\ psi ; R, 4
+|  phi[v/x] ; &E, 5
+forall x phi ; AI, 4-6
+forall x phi /\ psi ; &I, 7, 3
+```
+
+#### (b) $\exists x\,(\phi\lor\psi)\vdash\exists x\,\phi\lor\exists x\,\psi$
+
+$\exists$E e, lá dentro, $\lor$E:
+
+```{.fitch seq="exists x (phi \/ psi) |- exists x phi \/ exists x psi"}
+exists x (phi \/ psi)
+---
+|> [v] (phi \/ psi)[v/x]
+|  phi[v/x] \/ psi[v/x] ; R, 2
+||> phi[v/x]
+||  exists x phi ; EI, 4
+||  exists x phi \/ exists x psi ; vI, 5
+||> psi[v/x]
+||  exists x psi ; EI, 7
+||  exists x phi \/ exists x psi ; vI, 8
+|  exists x phi \/ exists x psi ; vE, 3, 4-6, 7-9
+exists x phi \/ exists x psi ; EE, 1, 2-10
+```

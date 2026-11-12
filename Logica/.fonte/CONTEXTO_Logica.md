@@ -31,4 +31,17 @@ diz ¬I, 1–9, mas é ¬I, 1–7; na 2 (esquerda) põe a premissa ¬(φ∧γ) e
 o que contradiz o "θ →E, 1, 5" do enunciado: a premissa é (φ∧γ)→θ e a linha 7
 é FI, 6, 2.
 
+**Ficha 3** (`Praticas/Semana_8/folsem.pdf`, cap. 3, semântica de 1.ª
+ordem) e a resolução oficial (`folsem_resolv.pdf`, só as alíneas ⇒; forma
+na `resolver-exercicio`). Recomendados na semana 8: 3.4, 3.5, 3.7, 3.8,
+3.9. Gralhas da 3.9: usa $R$ binário em (c), (e), (g), $h$ com 1 argumento
+em (d) e um $T$ fora da linguagem; (f)--(h) juntam duas fórmulas. Na
+resolução, a 3.11 (d) é a (f) do enunciado. Slide 19 da Aula 14: a linha 7
+cita a 4, de dentro da caixa já fechada (a nossa versão tira $\psi$ antes).
+
+**DN de 1.ª ordem no verificador**: `forall x`, `exists x`, `t != u`,
+`phi[v/x]`, regras `AI AE EI EE =I =E`; `|> [v] ...` abre a caixa da
+variável nova; `|> [u]` sozinho abre-a na linha seguinte; `naolivre="psi:x"`
+no bloco.
+
 **Suplementar.** `Teoricas/Extra_Notes_Propositional_FOL.pdf` (notas em inglês) também é suplementar, como os apontamentos. `Testes/Teste_1124.pdf` é um teste antigo do Moodle (bom para treinar o 1.º teste).

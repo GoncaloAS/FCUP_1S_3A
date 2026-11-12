@@ -1,7 +1,7 @@
 ---
 title: "Lógica Computacional --- Folha de revisão"
 author: "Gonçalo Sousa"
-date: "Aulas 1--8. As receitas do resumo, sem exemplos: para rever antes do exame."
+date: "Aulas 1--14. As receitas do resumo, sem exemplos: para rever antes do exame."
 ---
 
 ## Sintaxe e semântica
@@ -196,3 +196,36 @@ união; $\mathit{VL}(\forall x\,\phi)=\mathit{VL}(\exists x\,\phi)=
 \mathit{VL}(\phi)\setminus\{x\}$. Ocorrência ligada sse dentro do
 alcance de um quantificador com a mesma variável. Proposição sse
 $\mathit{VL}=\emptyset$.
+
+## Lógica de 1.ª ordem: semântica
+
+**Estrutura** $\mathcal{A}=(A,\cdot^{\mathcal{A}})$, $A\neq\emptyset$:
+$c^{\mathcal{A}}\in A$, $f^{\mathcal{A}}:A^n\to A$, $R^{\mathcal{A}}\subseteq
+A^n$. **Termos** com $s$: de dentro para fora. $\models_s t_1=t_2$ sse
+$s(t_1)=s(t_2)$; $\models_s R(\vec t)$ sse $(s(t_1),\dots)\in
+R^{\mathcal{A}}$; conectivos como na proposicional;
+$\models_s\forall x\,\phi$ sse para **todo** $a$, $\models_{s[a/x]}\phi$
+($\nmodels$: um contraexemplo); $\models_s\exists x\,\phi$ sse **existe**
+$a$ (testemunha). **Exame:** desdobra com $s[a/x][b/y]$ até uma afirmação
+sobre o domínio, e só então decide.
+
+**Válida**: todas as $\mathcal{A},s$; não válida → um contramodelo
+(domínio $\{0\}$/$\{1,2\}$/$\mathbb{N}$, relações $\emptyset$ ou cheias).
+Proposição: $\mathcal{A}\models\phi$ ou $\mathcal{A}\models\neg\phi$.
+
+**Equivalências**: $\neg\forall\Leftrightarrow\exists\neg$,
+$\neg\exists\Leftrightarrow\forall\neg$; $\forall$ distribui por $\land$,
+$\exists$ por $\lor$ (não ao contrário); $\forall\forall$ e $\exists\exists$
+trocam, $\forall\exists$ não. $x$ não livre em $\psi$: o quantificador
+entra/sai de $\phi\circ\psi$ e de $\psi\to\phi$; em $\phi\to\psi$
+**troca** ($\forall x(\phi\to\psi)\Leftrightarrow\exists x\phi\to\psi$).
+
+**Substituição** $\phi[t/x]$: só as ocorrências livres; não substituível
+se uma variável de $t$ fica capturada. **Prenex**: tira $\to$; renomeia
+ligadas; $\neg\forall\to\exists\neg$; puxa os quantificadores para fora.
+
+**DN**: $=$I ($t=t$); $=$E ($t_1=t_2$, $\phi[t_1/x]$ ⊢ $\phi[t_2/x]$);
+$\forall$E ($\phi[t/x]$, qualquer $t$); $\forall$I (caixa $\boxed{v}$, $v$
+nova, acaba em $\phi[v/x]$); $\exists$I (de $\phi[t/x]$); $\exists$E
+(caixa $\boxed{v}\ \phi[v/x]\dots\psi$, $v\notin\psi$). Abre o $\exists$E
+**antes** de instanciar os $\forall$; o $\exists$I fica dentro da caixa.

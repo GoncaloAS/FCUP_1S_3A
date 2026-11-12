@@ -176,6 +176,23 @@ São a referência de forma (2026-10-15). Resumo do que ela faz:
   ponto de escolha com o complementar; { } = "satisfazível para v(p)=…,
   v(q)=…" (só as variáveis atribuídas).
 
+### Lógica de 1.ª ordem (`Praticas/Semana_8/folsem_resolv.pdf`)
+
+- **𝒜 ⊨ φ numa estrutura**: "𝒜 ⊨ φ se para toda a s, 𝒜 ⊨ₛ φ. Isto
+  acontece se para todo a ∈ A, 𝒜 ⊨ₛ₍ₐ/ₓ₎ …, isto é, se existe b com
+  𝒜 ⊨ₛ₍ₐ/ₓ₎₍ᵦ/ᵧ₎ P(y,x), isto é, (s[a/x][b/y](y), s[a/x][b/y](x)) ∈ Pᴬ.
+  Isto equivale a: para todo a existe b com b > a." Desdobra quantificador
+  a quantificador (com s[a/x][b/y]) até uma afirmação sobre os elementos do
+  domínio, e só então decide com testemunha/contraexemplo. Nunca saltar
+  logo para "é verdade porque…" (o Gonçalo, 2026-11-12: "nada de coisas
+  não justificadas ou não explicadas").
+- **Equivalência semântica**: ou as duas direções (⇒, ⇐) com 𝒜 e s
+  arbitrárias, ou uma cadeia de ⇔ com as leis da tabela, uma por passo.
+- **Não equivalentes**: dá L, φ, ψ e a estrutura (a oficial prefere
+  domínio {1,2} com relações pequenas, ex. Pᴬ={1}, Qᴬ={2}) e mostra modelo
+  de uma e não da outra, com a mesma cadeia.
+- **Formas**: resposta em tabela "Formula? ✓/×" + motivo curto.
+
 ### Exemplo de referência (aprovado pelo Gonçalo, 2026-10-01)
 
 1.13 (d): `{ (p ∨ q) → r } ⊨ (p → r) ∨ (q → r)`
