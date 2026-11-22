@@ -356,10 +356,10 @@ topic("tcp-seq-rtt", "Q_R2_TCPSEQ", "TCP: sequência, ACK e timeout", [
    "rtt", lembrar="peso da amostra i: α(1−α)^(i−1)."),
  Q("TS9", "O que indica o campo <b>janela do receptor</b> no cabeçalho TCP?",
    "quantos bytes o receptor ainda pode aceitar no seu buffer",
-   ["quantos segmentos o emissor pode ter por confirmar na rede", "o tamanho atual da janela de congestionamento do emissor", "o número máximo de bytes de dados num segmento (MSS)"],
+   ["quantos segmentos o emissor pode ter por confirmar na rede", "o número de sequência do próximo byte a enviar", "o número máximo de bytes de dados num segmento (MSS)"],
    "É o espaço livre no buffer de receção (RcvWindow), anunciado em cada segmento: é o controlo de fluxo.",
    ["O TCP conta bytes, não segmentos, e este campo vem do receptor.",
-    "A CongWin é uma variável interna do emissor; nunca vai no cabeçalho.",
+    "Isso é o campo número de sequência.",
     "O MSS negoceia-se nas opções, não neste campo."],
    "tcpseg", lembrar="campo janela = RcvWindow (bytes)."),
 ])
@@ -375,10 +375,10 @@ topic("tcp-fluxo-conexoes", "Q_R2_FLUXO", "TCP: fluxo e conexões", [
    "fluxo", calc=["RcvWindow = 4000 − (2999 − 999) = 2000"], lembrar="espaço livre = buffer − (recebido − lido)."),
  Q("FC2", "O receptor anuncia RcvWindow = 0. O que faz o emissor TCP?",
    "pára, mas vai enviando segmentos de 1 byte",
-   ["fecha a conexão com FIN", "reduz a janela de congestionamento para 1 MSS", "continua a enviar ao mesmo ritmo, porque o receptor descarta o excesso"],
+   ["fecha a conexão com FIN", "retransmite o último segmento até a janela reabrir", "continua a enviar ao mesmo ritmo, porque o receptor descarta o excesso"],
    "Se parasse totalmente, nunca recebia um ACK com a janela atualizada. Os segmentos de 1 byte geram ACKs que trazem a RcvWindow nova.",
    ["A janela zero é temporária (a aplicação ainda vai ler); não é razão para fechar.",
-    "A CongWin é do controlo de congestionamento (a rede), não do receptor.",
+    "Não há nada a retransmitir: o segmento chegou; o que falta é espaço no buffer.",
     "O controlo de fluxo existe precisamente para não extravasar o buffer."],
    "fluxo", lembrar="janela 0 → sondas de 1 byte."),
  Q("FC3", "Qual destas frases distingue bem o controlo de fluxo do controlo de congestionamento?",
@@ -398,11 +398,11 @@ topic("tcp-fluxo-conexoes", "Q_R2_FLUXO", "TCP: fluxo e conexões", [
    "fluxo", lembrar="SYN(x) → SYN+ACK(y, x+1) → ACK(y+1)."),
  Q("FC5", "Para que serve o three-way handshake?",
    "fixar os números de sequência iniciais e reservar buffers",
-   ["medir o RTT inicial da conexão", "fixar a janela de congestionamento inicial dos dois lados", "medir a capacidade disponível na rede"],
+   ["medir o RTT inicial da conexão", "garantir um débito mínimo para toda a conexão", "escolher o caminho que os segmentos vão seguir"],
    "Abrir a conexão inicializa as variáveis do TCP: <b>números de sequência</b> (cada lado escolhe o seu e tem de saber que o outro o recebeu) e <b>buffers</b>/RcvWindow. Pergunta de exame antigo.",
    ["O RTT estima-se com amostras ao longo da conexão.",
-    "A CongWin começa em 1 MSS no slow start; não se negoceia.",
-    "A capacidade é descoberta pelo controlo de congestionamento, perda a perda."],
+    "O TCP não garante débito.",
+    "O caminho é decidido pela camada de rede, salto a salto; o TCP não o escolhe."],
    "fluxo", lembrar="handshake = nºs de sequência iniciais + buffers."),
  Q("FC6", "No fecho de uma conexão TCP, quem fecha primeiro fica no estado <b>TIME_WAIT</b>. Porquê?",
    "para reenviar o último ACK se o FIN do outro lado se repetir",
@@ -759,37 +759,109 @@ topic("exames-antigos", "Q_R2_EXAMES", "Exames antigos", [
    "cong", lembrar="rede → congestionamento."),
 ])
 
-# ═════════════════════════ sortear a posição da certa ═════════════════════════
-rng = random.Random(20261122)
-glob = [0] * 4
-OUT.mkdir(parents=True, exist_ok=True)
-for f in OUT.glob("*.js"): f.unlink()
-total, ids, mais_comprida = 0, set(), 0
-txt = lambda s: re.sub(r"<[^>]+>", "", s)
-for slug, var, name, qs in TOPICOS:
-    n = len(qs)
-    pos = [i % 4 for i in range(n - n % 4)]
-    resto = sorted(range(4), key=lambda l: (glob[l] + pos.count(l), rng.random()))[: n % 4]
-    pos += resto
-    rng.shuffle(pos)
-    for p in pos: glob[p] += 1
-    entries = []
-    for q, p in zip(qs, pos):
-        assert q["id"] not in ids, q["id"]; ids.add(q["id"])
-        if len(txt(q["right"])) > max(len(txt(w)) for w in q["wrongs"]): mais_comprida += 1
-        entries.append(montar(q, p, name))
-    body = ",\n".join("  " + json.dumps(e, ensure_ascii=False) for e in entries)
-    (OUT / f"{slug}.js").write_text(
-        f"/**\n * Banco de perguntas — {name} (Redes de Comunicação, Teste 2). {n} perguntas.\n"
-        f" * GERADO por tools/redes-guide/perguntas2.py — edita lá, não aqui.\n"
-        f" * Esquema: [topic, id, questionHtml, [4 options], correctIdx, explanationHtml, hintHtml]\n */\n"
-        f"/* eslint-disable */\nconst {var} = [\n{body},\n];\n")
-    total += n
-    print(f"{name:34s} {n:3d}  A-D: {[pos.count(i) for i in range(4)]}")
-print(f"total {total}; certa A-D: {glob}; certa é a mais comprida em {mais_comprida} ({100*mais_comprida/total:.0f}%)")
-assert mais_comprida <= 0.30 * total, "a certa é a opção mais comprida demasiadas vezes"
+# ═════════════════════════ perguntas que completam a matéria (entram no plano abaixo) ═════════════════════════
+topic("extra", "Q_R2_EXTRA", "extra", [
+ Q("TU0", "Qual destes serviços o TCP dá e o UDP <b>não</b> dá?",
+   "entrega fiável e por ordem, com controlo de fluxo e de congestionamento",
+   ["garantia de um atraso máximo e de um débito mínimo para cada conexão", "deteção de erros nos segmentos recebidos através de um checksum", "entrega dos dados ao processo certo, através das portas"],
+   "O TCP: fiável, ordenado, controlo de fluxo (não afogar o receptor), controlo de congestionamento (não afogar a rede), com conexão. O UDP é o <b>melhor esforço</b> do IP com portas e checksum. Termos que vais aprender a seguir.",
+   ["Nenhum dos dois garante atraso nem débito: o IP por baixo não dá essas garantias.",
+    "O checksum existe nos dois.",
+    "A multiplexagem por portas existe nos dois."],
+   "mux", lembrar="UDP = portas + checksum; TCP = isso + fiabilidade, fluxo, congestionamento, conexão."),
+ Q("TU10", "No UDP, o checksum é opcional. Se o cálculo der <code>0000000000000000</code>, o que se envia no campo?",
+   "<code>1111111111111111</code>", ["<code>0000000000000000</code>", "<code>0000000000000001</code>", "o datagrama é descartado e recalculado"],
+   "\"Tudo zeros\" no campo quer dizer \"sem checksum\". Para não haver confusão, um checksum calculado como zeros envia-se como <b>tudo uns</b> (em complemento para 1, são o mesmo valor: +0 e −0).",
+   ["Seria lido como \"este datagrama não tem checksum\".",
+    "Mudaria o valor e daria erro na verificação.",
+    "Não há nada a recalcular: o valor é válido, só muda a representação."],
+   "udp", lembrar="checksum 0 → envia-se 1111…1."),
+ Q("RD0", "No rdt, que versão junta um <b>temporizador</b>, e porquê?",
+   "a rdt3.0, porque o canal passa a perder pacotes", ["a rdt2.0, porque o canal passa a trocar bits", "a rdt2.1, porque os ACKs podem vir corrompidos", "a rdt2.2, porque deixa de haver NAKs"],
+   "Com perdas, nenhum evento chega ao emissor: sem um <b>timeout</b> ficava à espera para sempre. Por ordem: 1.0 canal perfeito; 2.0 checksum + ACK/NAK; 2.1 números de sequência; 2.2 sem NAK; 3.0 temporizador.",
+   ["Bits trocados resolvem-se com checksum + ACK/NAK.",
+    "ACKs corrompidos resolvem-se com números de sequência.",
+    "Tirar o NAK só muda como se avisa o erro (ACK duplicado)."],
+   "rdt", lembrar="cada versão resolve um defeito novo do canal."),
+ Q("RD9", "No rdt2.1 bastam os números de sequência 0 e 1. Porquê?",
+   "só há um pacote em trânsito de cada vez", ["os ACKs não precisam de número de sequência", "o canal nunca perde pacotes nesta versão", "o receptor guarda todos os pacotes num buffer"],
+   "Com stop-and-wait o receptor só tem de distinguir \"o pacote novo\" de \"a repetição do anterior\": dois valores chegam.",
+   ["No rdt2.2 os ACKs também levam número; e isso não explica o 1 bit.",
+    "É verdade que não há perdas no 2.1, mas não é isso que limita os números a 2.",
+    "Não há buffer: só um pacote de cada vez."],
+   "rdt", lembrar="1 pacote em trânsito → 1 bit chega."),
+ Q("TS0", "No TCP, o <b>MSS</b> (<i>maximum segment size</i>) é…",
+   "o máximo de dados da aplicação num segmento", ["o tamanho máximo do segmento com o cabeçalho TCP", "o tamanho máximo do datagrama IP numa ligação", "o número máximo de segmentos por confirmar"],
+   "MSS = tamanho máximo do campo de <b>dados</b> (sem cabeçalhos). Com 1460 B de dados, o segmento tem 1480 e o datagrama IP 1500.",
+   ["O cabeçalho TCP não conta para o MSS.",
+    "Isso é a MTU da ligação (vês na camada de rede).",
+    "O TCP conta bytes; a quantidade em trânsito é a janela."],
+   "tcpseg", lembrar="MSS = só dados."),
+ Q("TS11", "A envia <code>Seq=92</code> (8 B) e <code>Seq=100</code> (20 B). O <code>ACK=100</code> perde-se, mas o <code>ACK=120</code> chega antes do timeout. O que retransmite A?",
+   "nada", ["o segmento 92", "o segmento 100", "os segmentos 92 e 100"],
+   "O ACK é <b>cumulativo</b>: <code>ACK=120</code> diz que B tem tudo até ao byte 119, ou seja, os dois segmentos. O temporizador é cancelado. É um dos três cenários dos slides.",
+   ["O 92 está confirmado pelo ACK 120.",
+    "O 100 é exatamente o que o ACK 120 confirma.",
+    "Os dois estão confirmados."],
+   "tcprel", lembrar="ACK cumulativo tapa ACKs perdidos."),
+ Q("FC8", "O servidor recebe o FIN do cliente e responde ACK, mas a aplicação dele ainda não fechou. Em que estado fica?",
+   "CLOSE_WAIT", ["TIME_WAIT", "FIN_WAIT_2", "LAST_ACK"],
+   "Fecho passivo: ESTABLISHED → (recebe FIN, envia ACK) <b>CLOSE_WAIT</b> → (aplicação faz close, envia FIN) LAST_ACK → (recebe ACK) CLOSED.",
+   ["TIME_WAIT é do lado que fecha primeiro, no fim.",
+    "FIN_WAIT_2 é do cliente, à espera do FIN do servidor.",
+    "LAST_ACK vem depois, quando o servidor envia o seu FIN."],
+   "fluxo", lembrar="passivo: CLOSE_WAIT → LAST_ACK; ativo: FIN_WAIT_1/2 → TIME_WAIT."),
+ Q("CG13", "Cenário 2 do congestionamento (fila finita, retransmissões). Porque é que, com <b>timeouts prematuros</b>, o débito útil já não chega a R/2?",
+   "chegam cópias duplicadas, que gastam capacidade sem dados novos", ["a fila infinita faz o atraso crescer sem limite", "os routers descartam primeiro as retransmissões", "o receptor deixa de enviar ACKs quando a fila enche"],
+   "Um timeout prematuro retransmite um pacote que não se perdeu: a ligação leva <b>duplicados</b>. Mais retransmissões para o mesmo goodput, e algumas desnecessárias.",
+   ["Fila infinita é o cenário 1.",
+    "As filas são FIFO: não distinguem retransmissões.",
+    "O receptor confirma o que recebe; o problema é do lado do emissor."],
+   "cong", lembrar="custos: retransmissões, duplicados, capacidade a montante desperdiçada."),
+ Q("CG14", "Qual é a diferença entre o TCP <b>Tahoe</b> e o TCP <b>Reno</b>?",
+   "o Tahoe volta a 1 MSS em qualquer perda", ["o Reno volta a 1 MSS em qualquer perda", "o Tahoe não tem fase de slow start", "o Reno não tem limiar de slow start"],
+   "O Reno acrescentou a <b>recuperação rápida</b>: com 3 ACKs duplicados corta só a metade. No Tahoe, qualquer perda (timeout ou 3 ACKs dup.) leva a janela a 1 MSS e volta ao slow start.",
+   ["É o contrário: o Reno distingue os dois tipos de perda.",
+    "Os dois começam em slow start.",
+    "Os dois usam o limiar (metade da janela na perda)."],
+   "reno", lembrar="Reno = Tahoe + recuperação rápida."),
+ Q("CG15", "Para 10 Gbps com RTT de 100 ms e segmentos de 1500 bytes, quantos segmentos têm de estar em trânsito?",
+   "≈ 83 333", ["≈ 666 667", "≈ 8 333", "≈ 833 333"],
+   "Débito = W·L/RTT, logo W = débito·RTT/L = 10<sup>10</sup> × 0,1 / (1500 × 8) = 10<sup>9</sup>/12 000 ≈ <b>83 333</b>. E pela fórmula 1,22·MSS/(RTT√L) seria precisa uma taxa de perdas de 2×10<sup>−10</sup>: por isso há outras variantes do TCP.",
+   ["Esqueceu-se de passar bytes a bits (÷1500 em vez de ÷12 000).",
+    "Erro de 10× no RTT (usou 10 ms).",
+    "Erro de 10× no RTT (usou 1 s)."],
+   "reno", calc=["W = 10¹⁰ × 0,1 / (1500 × 8) = 10⁹ / 12 000 ≈ 83 333"], lembrar="W = débito × RTT / tamanho do segmento."),
+ Q("RC12", "Em que redes existe <b>estabelecimento de conexão</b> na camada de rede?",
+   "ATM, frame relay e X.25", ["na Internet (IP)", "em todas as redes de datagramas", "só nas redes locais Ethernet"],
+   "É a 3.ª função da camada de rede, só em algumas arquiteturas (com circuitos virtuais): os terminais <b>e os routers</b> estabelecem o circuito antes dos dados. No IP não existe.",
+   ["O IP não tem conexões; a conexão do TCP é só entre os terminais.",
+    "Redes de datagramas, por definição, não têm conexões.",
+    "Os slides não falam de Ethernet aqui."],
+   "rede", lembrar="CV ⇒ conexão na rede; IP ⇒ não."),
+ Q("RC13", "Que garantias dá a camada de rede da Internet (modelo de serviço)?",
+   "nenhuma: é melhor esforço", ["entrega garantida, mas sem limite de atraso", "entrega por ordem, mas sem débito mínimo", "atraso máximo, mas sem entrega garantida"],
+   "Os slides: entrega garantida, atraso máximo, entrega ordenada, débito mínimo, limite ao jitter — \"na Internet não há nenhuma destas garantias\".",
+   ["Os pacotes podem perder-se.",
+    "Podem chegar fora de ordem.",
+    "Não há limite de atraso."],
+   "rede", lembrar="best effort = zero garantias."),
+ Q("RC14", "Num router, o que faz o <b>plano de controlo</b> e o que faz o <b>plano de dados</b>?",
+   "controlo: corre o encaminhamento; dados: reenvia os pacotes", ["controlo: reenvia os pacotes; dados: corre o encaminhamento", "controlo: verifica checksums; dados: guarda as filas de saída", "controlo: escalona as filas; dados: calcula a tabela"],
+   "Plano de controlo = processador de encaminhamento (RIP, OSPF, BGP → tabela, gestão). Plano de dados = interfaces de entrada, matriz de comutação e saídas: o reenvio, à velocidade da linha (cada entrada tem uma cópia da tabela).",
+   ["Está trocado.",
+    "Não é esta a divisão dos slides.",
+    "Está trocado e misturado."],
+   "router", lembrar="controlo = routing; dados = forwarding."),
+ Q("IF10", "Um datagrama com a <i>flag</i> <b>DF = 1</b> é maior do que a MTU da ligação seguinte. O que acontece?",
+   "é descartado", ["é fragmentado na mesma", "é enviado assim mesmo", "é guardado até a MTU aumentar"],
+   "DF = <i>don't fragment</i>: o router não o pode partir; como não cabe, é <b>descartado</b> (e o emissor recebe um aviso de erro, ICMP, que é matéria do 3.º teste).",
+   ["DF proíbe exatamente isso.",
+    "A ligação não transmite mais do que a MTU.",
+    "Os routers não guardam datagramas à espera."],
+   "ip", lembrar="DF = 1 e não cabe → descartado."),
+])
 
-# ═════════════════════════ Parte II: desenvolvimento (resposta aberta) ═════════════════════════
 REDES = ROOT.parent / "Redes"
 SOL = (REDES / ".fonte" / "SOLUCOES_Redes.md").read_text()
 FIG = ROOT / "assets" / "guia-redes"
@@ -885,12 +957,39 @@ ABERTAS = [  # (tópico, id, número no SOLUCOES, alínea, enunciado, secção, 
  (RD, "D-F82d", "F8.2", "(d)", "<b>Ficha 8, Ex. 2 — Circuitos virtuais vs. datagramas.</b> (d) Para que serve o encaixe do prefixo mais longo? Usa-se nas duas arquiteturas?", "cv",
   "agrupar destinos e escolher o mais específico; só em datagramas."),
 ]
-FICHEIRO_ABERTAS = {TR: ("parte2-transporte-abertas", "Q_R2_ABERTAS_TRANSPORTE"), RD: ("parte2-rede-abertas", "Q_R2_ABERTAS_REDE")}
 
-abertas = defaultdict(list)
-for topico, qid, num, alinea, texto, sec, lembrar in ABERTAS:
-    assert qid not in ids, qid; ids.add(qid)
-    if qid == "D-F74":   # a (h) e as leituras do gráfico (a)-(g) vêm juntas
+# ═════════════════════════ plano de estudo: ordem da matéria, sem dependências para a frente ═════════════════════════
+# Cada tópico: as de escolha múltipla pela ordem em que a matéria se aprende (conceito → regra → conta) e, logo a
+# seguir, as de desenvolvimento (Parte II) que usam essa matéria. Nenhuma pergunta precisa de um tópico posterior.
+PLANO = [
+ ("01-transporte-udp", "1 · Transporte, portas e UDP",
+  "TU0 TU1 TU2 TU3 TU4 TU5 TU9 TU6 TU7 TU8 TU10", "D-F65b D-F65d"),
+ ("02-rdt", "2 · Transferência fiável e stop-and-wait",
+  "RD0 RD1 RD9 RD2 RD3 RD4 RD8 RD5 RD6 RD7", "D-F61a D-F61b"),
+ ("03-gbn-sr", "3 · Go-Back-N e Selective Repeat",
+  "GS8 GS1 GS2 GS9 GS3 GS4 GS6 GS5 GS7", "D-F64a D-F62b"),
+ ("04-tcp-seq-timeout", "4 · TCP: sequência, ACKs e timeout",
+  "TS0 TS1 TS8 TS5 TS6 TS7 TS3 TS2 TS11 TS4", "D-F73a D-F73d D-C32b"),
+ ("05-tcp-fluxo-conexoes", "5 · TCP: fluxo e conexões",
+  "TS9 FC1 FC2 FC4 FC5 FC7 FC8 FC6", "D-F72a"),
+ ("06-congestionamento", "6 · Congestionamento e TCP Reno",
+  "CG11 CG13 CG12 CG6 CG1 CG3 CG5 CG14 CG2 CG4 FC3 CG7 CG8 CG15 CG10 CG9", "D-F71 D-F74 D-F74i D-F81a"),
+ ("07-rede-routers", "7 · Rede: CVs, datagramas e routers",
+  "RC1 RC12 RC13 RC2 RC4 RC3 RC5 RC6 RC7 RC14 RC10 RC9 RC11 RC8", "D-F82a D-F82d"),
+ ("08-ip-fragmentacao", "8 · IP e fragmentação",
+  "IF9 IF8 IF7 IF3 IF1 IF2 IF4 IF10 IF5 IF6", "D-F83a D-F83c D-C42a D-C42b"),
+ ("09-revisao-exames", "9 · Revisão final: exames antigos",
+  "EA1 EA2 EA3 EA4 EA5 EA6 EA7 EA8 EA9 EA10 EA11 EA12", ""),
+]
+POOL = {q["id"]: q for _, _, _, qs in TOPICOS for q in qs}
+ABERTA = {a[1]: a for a in ABERTAS}
+usadas = [i for _, _, mc, ab in PLANO for i in (mc + " " + ab).split()]
+assert len(usadas) == len(set(usadas)), "pergunta repetida no plano"
+assert set(usadas) == set(POOL) | set(ABERTA), f"fora do plano: {(set(POOL) | set(ABERTA)) ^ set(usadas)}"
+
+def aberta(qid, topico):
+    _, _, num, alinea, texto, sec, lembrar = ABERTA[qid]
+    if qid == "D-F74":   # a (h) e as leituras do gráfico (c)-(g) vêm juntas
         md = "\n\n".join(f"**{a}** " + alinea_md(num, a) for a in ["(c)", "(d)", "(e)", "(f)", "(g)", "(h)"])
     elif qid in ("D-F65b", "D-C32b", "D-F81a", "D-F72a", "D-F83c"):   # várias alíneas no mesmo enunciado
         al = {"D-F65b": ["(a)", "(b)"], "D-C32b": ["(a)", "(b)", "(c)"], "D-F81a": ["(a)", "(b)"],
@@ -902,13 +1001,45 @@ for topico, qid, num, alinea, texto, sec, lembrar in ABERTAS:
     nota = (f"<b>Para lembrar:</b> {lembrar}<br>"
             f'Se a resolução não chegou, lê a teoria: <a class="teoria" href="{GUIA}#{S[sec]}" target="_blank">'
             f'📖 {TITULO[S[sec]]}</a>')
-    abertas[topico].append([topico, qid, texto, None, -1, exp, nota])
-for topico, qs in abertas.items():
-    slug, var = FICHEIRO_ABERTAS[topico]
-    body = ",\n".join("  " + json.dumps(e, ensure_ascii=False) for e in qs)
+    return [topico, qid, "<b>Desenvolvimento (Parte II).</b> " + texto, None, -1, exp, nota]
+
+rng = random.Random(20261122)
+glob = [0] * 4
+OUT.mkdir(parents=True, exist_ok=True)
+for f in OUT.glob("*.js"): f.unlink()
+txt = lambda s: re.sub(r"<[^>]+>", "", s)
+total = mais_comprida = n_abertas = 0
+variaveis, ficheiros = [], []
+for n_t, (slug, nome, mc, ab) in enumerate(PLANO, 1):
+    qs = [POOL[i] for i in mc.split()]
+    n = len(qs)
+    pos = [i % 4 for i in range(n - n % 4)]
+    resto = sorted(range(4), key=lambda l: (glob[l] + pos.count(l), rng.random()))[: n % 4]
+    pos += resto
+    rng.shuffle(pos)
+    for p in pos: glob[p] += 1
+    entries = [montar(q, p, nome) for q, p in zip(qs, pos)]
+    mais_comprida += sum(len(txt(q["right"])) > max(len(txt(w)) for w in q["wrongs"]) for q in qs)
+    entries += [aberta(i, nome) for i in ab.split()]
+    var = f"Q_R2_T{n_t}"
+    body = ",\n".join("  " + json.dumps(e, ensure_ascii=False) for e in entries)
     (OUT / f"{slug}.js").write_text(
-        f"/**\n * Banco de perguntas — {topico}, resposta aberta (Redes de Comunicação, Teste 2). {len(qs)} perguntas.\n"
-        f" * GERADO por tools/redes-guide/perguntas2.py — edita lá, não aqui.\n"
-        f" * Esquema (resposta aberta): [topic, id, enunciadoHtml, null, -1, resoluçãoHtml, notaHtml]\n */\n"
+        f"/**\n * Banco de perguntas — {nome} (Redes de Comunicação, Teste 2). {n} de escolha múltipla"
+        f" + {len(ab.split())} de desenvolvimento.\n * GERADO por tools/redes-guide/perguntas2.py — edita lá, não aqui.\n"
+        f" * Esquema: [topic, id, questionHtml, [4 options] | null, correctIdx | -1, explanationHtml, hintHtml]\n */\n"
         f"/* eslint-disable */\nconst {var} = [\n{body},\n];\n")
-    print(f"{topico + ' (abertas)':34s} {len(qs):3d}")
+    variaveis.append(var); ficheiros.append(slug)
+    total += n; n_abertas += len(ab.split())
+    print(f"{nome:42s} {n:3d} + {len(ab.split())} abertas  A-D: {[pos.count(i) for i in range(4)]}")
+print(f"total {total} + {n_abertas} abertas; certa A-D: {glob}; certa é a mais comprida em {mais_comprida} ({100*mais_comprida/total:.0f}%)")
+assert mais_comprida <= 0.30 * total, "a certa é a opção mais comprida demasiadas vezes"
+
+# junta o banco (pela ordem do plano) e liga os ficheiros no redes2.html
+(ROOT / "output-redes2.js").write_text(
+    "/* GERADO por tools/redes-guide/perguntas2.py: o banco do 2.º teste, pela ordem do plano de estudo. */\n"
+    f"const ALL = [{', '.join('...' + v for v in variaveis)}];\n")
+pagina = ROOT / "redes2.html"
+h = pagina.read_text()
+tags = "\n".join(f'<script src="assets/js/data/questions-redes2/{f}.js"></script>' for f in ficheiros)
+h = re.sub(r'(?:<script src="assets/js/data/questions-redes2/[^"]+"></script>\n)+', tags + "\n", h)
+pagina.write_text(h)

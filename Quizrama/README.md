@@ -4,7 +4,7 @@ Quizzes de estudo para testes da FCUP: **Sistemas de Operações** (`index.html`
 
 ## Redes de Comunicação (Testes 1 e 2)
 
-- `redes2.html` — 2.º teste (Cap. 3 Transporte e Cap. 4 até à fragmentação IP): 86 de escolha múltipla (conceitos, contas, exames antigos) e 20 de desenvolvimento das fichas 6–8, com a resolução do site de soluções. Banco em `tools/redes-guide/perguntas2.py` (corre no fim do `perguntas.py`); `output-redes2.js` junta os ficheiros.
+- `redes2.html` — 2.º teste (Cap. 3 Transporte e Cap. 4 até à fragmentação IP): 9 tópicos pela ordem de estudo (sem dependências para a frente): 100 de escolha múltipla e 20 de desenvolvimento das fichas 6–8 logo a seguir à matéria que usam; no fim, revisão com exames antigos. Ordem no `PLANO` de `tools/redes-guide/perguntas2.py` (corre no fim do `perguntas.py`, e gera também o `output-redes2.js` e os scripts do `redes2.html`).
 
 - `redes.html` — 157 perguntas dos Capítulos 1–2 (matéria do 1.º teste), mais a escolha múltipla do teste modelo e treino da Parte II (cálculos e diagramas). Mostra a nota /20 com o desconto de 1/3 por errada.
 - `guia_redes_teste1.html` — a matéria, gerada a partir do resumo de Redes; cada correção liga à secção certa.
