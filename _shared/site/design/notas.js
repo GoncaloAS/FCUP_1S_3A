@@ -64,8 +64,14 @@ function avaliar(r, notas) {
   return { feito, ok: true, txt: `Para ${fmt(OBJETIVO)}: ${precisa.join(" · ")}` };
 }
 
-export function notas(alvo, cores = {}) {
-  const todas = ler();
+// base = notas que vêm do painel cifrado (secção "## Notas" do INFO_<D>.md); o que se escreve aqui por cima
+// fica no localStorage e ganha (apagar um campo grava null: a nota do painel deixa de contar).
+export function notas(alvo, cores = {}, base = {}) {
+  const locais = ler(), todas = {};
+  for (const r of REGRAS) {
+    todas[r.d] = { ...(base[r.d] || {}) };
+    for (const [k, v] of Object.entries(locais[r.d] || {})) { if (v == null) delete todas[r.d][k]; else todas[r.d][k] = v; }
+  }
   alvo.replaceChildren();
   for (const r of REGRAS) {
     const minhas = todas[r.d] || {};
@@ -96,9 +102,9 @@ export function notas(alvo, cores = {}) {
         const ok = v == null || (v >= 0 && v <= c.max);
         inp.classList.toggle("invalida", !ok);
         if (!ok) return;
-        todas[r.d] = todas[r.d] || {};
         if (v == null) delete todas[r.d][c.id]; else todas[r.d][c.id] = v;
-        guardar(todas);
+        locais[r.d] = locais[r.d] || {}; locais[r.d][c.id] = v;
+        guardar(locais);
         atualizar();
       });
       lab.append(inp, esc);

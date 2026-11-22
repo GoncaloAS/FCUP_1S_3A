@@ -72,7 +72,7 @@ def info_html(D, doc):
 
 def recolher():
     hoje = date.today()
-    agenda, tarefas, avisos, chegou, info = [], [], [], [], {}
+    agenda, tarefas, avisos, chegou, info, notas = [], [], [], [], {}, {}
     for D, doc in disciplinas():
         doc = doc or f"INFO_{D}"
         p = os.path.join(ROOT, D, ".fonte", f"{doc}.md")
@@ -93,6 +93,11 @@ def recolher():
         for l in seccao(txt, "Avisos").splitlines():
             if l.startswith("- "):
                 avisos.append({"d": D, "data": data_aviso(l[:40]), "html": inline(l[2:])})
+        # notas do Gonçalo ("- <componente>: <valor na escala da componente>"; ver design/notas.js)
+        for l in seccao(txt, "Notas").splitlines():
+            m = re.match(r"\s*- (\w+): ([\d.,]+)", l)
+            if m:
+                notas.setdefault(D, {})[m.group(1)] = float(m.group(2).replace(",", "."))
         if doc.startswith("INFO_"):
             info[D] = info_html(D, doc)
         # o que o refresh trouxe (registo do moodle.py arrumar)
@@ -129,7 +134,7 @@ def recolher():
             "tarefas": sorted(tarefas, key=lambda t: (t["prazo"] or "9999", t["d"])),
             "avisos": sorted(avisos, key=lambda a: a["data"], reverse=True),
             "chegou": sorted(chegou, key=lambda c: c["data"], reverse=True),
-            "info": info}
+            "info": info, "notas": notas}
 
 
 def palavra_passe():

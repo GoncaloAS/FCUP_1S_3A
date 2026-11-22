@@ -140,7 +140,7 @@ function preencher() {
     avisos(p("p-avisos"), 6);
     p("p-gerado").textContent = `dados de ${curta(D.gerado)}`;
   }
-  if (p("p-notas")) notas(p("p-notas"), cores);
+  if (p("p-notas")) notas(p("p-notas"), cores, D.notas || {});
   if (p("agenda-pagina")) agendaCompleta(p("agenda-pagina"));
   document.querySelectorAll("[data-info]").forEach(e => {
     const h = D.info[e.dataset.info];
