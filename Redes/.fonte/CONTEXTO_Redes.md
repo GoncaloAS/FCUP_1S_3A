@@ -28,3 +28,24 @@ fim. 1.º teste: 75 min, sem calculadora (contas em potências de 10).
 `solucoes_ficha_N.pdf`), com a fonte em `.fonte/moodle/`. As fichas 5 e 6 e o
 trabalho foram feitos à mão antes da skill (`.fonte/moodle/gerar.py` + `conteudo.py`).
 O trabalho prático está em `Trabalho/` (enunciado, guia passo a passo, esqueletos).
+
+**2.º teste (25/11/2026, 16:30, FC2 009).** Matéria: Camada de Transporte
+(Cap. 3, `Aula_04`) e Camada de Rede até à fragmentação IP inclusive
+(Cap. 4, `Aula_05`, slides 1--36). O endereçamento IPv4 (slide 38 em
+diante: sub-redes, máscaras, DHCP, NAT, ICMP, IPv6), a Ficha 8 Ex. 3e e 4
+e a Ficha 9 são do 3.º teste. Não há teste modelo do 2.º teste.
+
+**Convenções dos Cap. 3--4.** Exercícios inventados `C3.x`/`C4.x`;
+escolha múltipla de exames antigos `EA.x` (fonte: `~/Desktop/universidade 2/3ºano/Redes de Comunicação/Testes e Exames/.../RC - múltiplas.pdf`,
+sem respostas oficiais). RTT/timeout: o DevRTT usa o EstimatedRTT
+**antigo** e a 1.ª amostra também entra; é a única leitura que dá os
+84,9 ms oficiais da F7.3d. Reno: a ronda em que o *slow start* chega ao
+limiar ainda conta como SS (solução oficial da F7.4a). Figuras dos Cap.
+3--4: `figuras/src/transporte.py` (matplotlib, `uv run -q --with
+matplotlib==3.9.2 python -I figuras/src/transporte.py` a partir de
+`Redes/`) e `figuras/router.dot`.
+
+**Material antigo útil** (não copiado para o repo): `~/Desktop/universidade 2/3ºano/Redes de Comunicação/`
+tem fichas antigas com soluções (HTML) e resumos de anos anteriores
+(`Aulas Teóricas/Resumos/`); `~/Desktop/LCC-MIERSI/.../Redes de Comunicacao/Aulas Teóricas/Livros/`
+tem o livro adotado (Kurose & Ross, 6.ª ed., PDF).

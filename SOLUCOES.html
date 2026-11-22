@@ -13069,9 +13069,11 @@ e, lá dentro,
 (Praticas/Semana_2/ficha_2.pdf, exercícios F2.x), Ficha 3
 (Praticas/Semana_3/ficha_3_protocolos_aplicacionais.pdf, exercícios
 F3.x), Ficha 4 (Praticas/Semana_4/ficha_4_sockets_smtp.pdf, exercícios
-F4.x) o Teste modelo 1 (Testes/Teste_Modelo_1.pdf, M1.x) e exercícios
-inventados para o Capítulo 2 (C2.x). As fichas 1 a 3 e o teste modelo
-têm soluções oficiais; as diferenças estão assinaladas. Tenta primeiro
+F4.x) o Teste modelo 1 (Testes/Teste_Modelo_1.pdf, M1.x), Fichas 6, 7 e
+8 (Praticas/Semana_6 a 8, F6.x, F7.x, F8.x; soluções oficiais no
+Moodle), escolha múltipla de exames antigos (EA.x) e exercícios
+inventados (C2.x, C3.x, C4.x). As fichas 1 a 3 e o teste modelo têm
+soluções oficiais; as diferenças estão assinaladas. Tenta primeiro
 sozinho; abre uma alínea só depois de a teres feito. Convenções: 1 MB =
 10⁶ bytes, 1 Mbps = 10⁶ bit/s, 1 byte = 8 bits.</p>
 </header>
@@ -16906,6 +16908,1408 @@ nenhuma muda com a carga.</p>
 <p><strong>(a)</strong>. Depois do <code>DATA</code>, a mensagem acaba
 numa linha só com <code>.</code> (<code>CRLF.CRLF</code>). Não pode ser
 (c): a conexão é persistente e pode levar mais mensagens.</p>
+</div></details>
+</section>
+</section>
+<section id="Redes-aula-3-desmultiplexagem" class="level2">
+<h2>Aula 3 — Desmultiplexagem</h2>
+<section id="Redes-c3.1-que-socket-recebe-cada-segmento-exercício-inventado" class="level3">
+<h3>C3.1 — Que socket recebe cada segmento (exercício inventado)</h3>
+<p>Servidor C: <em>socket</em> UDP na porta 6428 e servidor TCP na porta
+80.</p>
+<details class="sol" id="Redes-C3.1-a"><summary><span class="enun">
+(a) Sockets dos dois segmentos UDP
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>Uma só.</strong> No UDP a <em>socket</em> é identificada por
+<strong>(IP de destino, porta de destino)</strong>. Os dois segmentos
+têm destino <code>C:6428</code>, por isso vão para a mesma
+<em>socket</em>, apesar de virem de IPs e portas de origem diferentes
+(<code>A:9157</code> e <code>B:5775</code>). O servidor distingue-os
+pelo endereço de origem que o <code>receive</code> lhe devolve.</p>
+</div></details>
+<details class="sol" id="Redes-C3.1-b"><summary><span class="enun">
+(b) Sockets dos três segmentos TCP
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>Três</strong>, uma por conexão. No TCP a <em>socket</em> é
+identificada pelo tuplo (IP orig., porta orig., IP dest., porta
+dest.):</p>
+<ul>
+<li><code>(A, 9157, C, 80)</code>;</li>
+<li><code>(B, 9157, C, 80)</code>: mesma porta de origem que o anterior,
+mas outro IP;</li>
+<li><code>(B, 5775, C, 80)</code>: mesmo IP que o anterior, mas outra
+porta.</li>
+</ul>
+<p>Basta um valor diferente para ser outra conexão. (A <em>welcome
+socket</em> da porta 80 só recebe os SYN de conexões novas.)</p>
+</div></details>
+<details class="sol" id="Redes-C3.1-c"><summary><span class="enun">
+(c) Portas da resposta UDP de C para A
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Origem <code>C:6428</code>, destino <code>A:9157</code>. A porta de
+origem do pedido é o “endereço para a resposta”.</p>
+</div></details>
+</section>
+</section>
+<section id="Redes-aula-3-checksums" class="level2">
+<h2>Aula 3 — Checksums</h2>
+<section id="Redes-f6.5-checksums-ficha-6" class="level3">
+<h3>F6.5 — Checksums (Ficha 6)</h3>
+<p>Palavras de 16 bits, por ordem:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mn>1</mn></msub><annotation encoding="application/x-tex">w_1</annotation></semantics></math>
+<code>0100101001101010</code>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mn>2</mn></msub><annotation encoding="application/x-tex">w_2</annotation></semantics></math>
+<code>1101101100101000</code>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mn>3</mn></msub><annotation encoding="application/x-tex">w_3</annotation></semantics></math>
+<code>0000000000010000</code>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mn>4</mn></msub><annotation encoding="application/x-tex">w_4</annotation></semantics></math>
+<code>0000000000000000</code>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mn>5</mn></msub><annotation encoding="application/x-tex">w_5</annotation></semantics></math>
+<code>1010001010101010</code>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mn>6</mn></msub><annotation encoding="application/x-tex">w_6</annotation></semantics></math>
+<code>1000000111110101</code>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mn>7</mn></msub><annotation encoding="application/x-tex">w_7</annotation></semantics></math>
+<code>1101000111101000</code>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mn>8</mn></msub><annotation encoding="application/x-tex">w_8</annotation></semantics></math>
+<code>1000101010110111</code>.</p>
+<details class="sol" id="Redes-F6.5-a"><summary><span class="enun">
+(a) Portas de origem e destino e tamanho
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>O cabeçalho UDP tem 4 campos de 16 bits, por esta ordem: porta de
+origem, porta de destino, comprimento e <em>checksum</em>. Em
+<em>network order</em> (<em>big endian</em>), o primeiro byte é o mais
+significativo:</p>
+<ul>
+<li>porta de origem
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><msub><mi>w</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">= w_1</annotation></semantics></math>
+= <code>0100101001101010</code> $=
+2<sup>{14}+2</sup>{11}+2<sup>{9}+2</sup>{6}+2<sup>{5}+2</sup>{3}+2^{1} =
+16384+2048+512+64+32+8+2 = $ <strong>19050</strong>;</li>
+<li>porta de destino
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><msub><mi>w</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">= w_2</annotation></semantics></math>
+= <code>1101101100101000</code> $= 32768+16384+4096+2048+512+256+32+8 =
+$ <strong>56104</strong>;</li>
+<li>comprimento
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><msub><mi>w</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">= w_3</annotation></semantics></math>
+= <code>0000000000010000</code> $= $ <strong>16 bytes</strong> (8 de
+cabeçalho + 8 de dados: as duas últimas linhas);</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mn>4</mn></msub><annotation encoding="application/x-tex">w_4</annotation></semantics></math>
+= 0: o campo do <em>checksum</em> ainda não foi preenchido.</li>
+</ul>
+</div></details>
+<details class="sol" id="Redes-F6.5-b"><summary><span class="enun">
+(b) Calcular e verificar o checksum
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Soma com <em>wraparound</em> (quando passa de 16 bits, o 1 da
+esquerda soma-se à direita), com o campo do <em>checksum</em> a
+zeros:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">passo</th>
+<th style="text-align: left;">soma</th>
+<th style="text-align: left;">resultado (16 bits)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mn>1</mn></msub><annotation encoding="application/x-tex">w_1</annotation></semantics></math></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"><code>0100101001101010</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mspace width="0.167em"></mspace><msub><mi>w</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">+\,w_2</annotation></semantics></math></td>
+<td style="text-align: left;"><code>1 0010010110010010</code> →
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">+1</annotation></semantics></math></td>
+<td style="text-align: left;"><code>0010010110010011</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mspace width="0.167em"></mspace><msub><mi>w</mi><mn>3</mn></msub></mrow><annotation encoding="application/x-tex">+\,w_3</annotation></semantics></math></td>
+<td style="text-align: left;">sem transporte</td>
+<td style="text-align: left;"><code>0010010110100011</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mspace width="0.167em"></mspace><msub><mi>w</mi><mn>4</mn></msub></mrow><annotation encoding="application/x-tex">+\,w_4</annotation></semantics></math></td>
+<td style="text-align: left;">(zeros)</td>
+<td style="text-align: left;"><code>0010010110100011</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mspace width="0.167em"></mspace><msub><mi>w</mi><mn>5</mn></msub></mrow><annotation encoding="application/x-tex">+\,w_5</annotation></semantics></math></td>
+<td style="text-align: left;">sem transporte</td>
+<td style="text-align: left;"><code>1100100001001101</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mspace width="0.167em"></mspace><msub><mi>w</mi><mn>6</mn></msub></mrow><annotation encoding="application/x-tex">+\,w_6</annotation></semantics></math></td>
+<td style="text-align: left;"><code>1 0100101001000010</code> →
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">+1</annotation></semantics></math></td>
+<td style="text-align: left;"><code>0100101001000011</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mspace width="0.167em"></mspace><msub><mi>w</mi><mn>7</mn></msub></mrow><annotation encoding="application/x-tex">+\,w_7</annotation></semantics></math></td>
+<td style="text-align: left;"><code>1 0001110000101011</code> →
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">+1</annotation></semantics></math></td>
+<td style="text-align: left;"><code>0001110000101100</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mspace width="0.167em"></mspace><msub><mi>w</mi><mn>8</mn></msub></mrow><annotation encoding="application/x-tex">+\,w_8</annotation></semantics></math></td>
+<td style="text-align: left;">sem transporte</td>
+<td style="text-align: left;"><code>1010011011100011</code></td>
+</tr>
+</tbody>
+</table>
+<p>Soma = <code>1010011011100011</code>;
+<strong><em>checksum</em></strong> = complemento para 1 =
+<strong><code>0101100100011100</code></strong> (0x591C). O datagrama
+fica com a 2.ª linha
+<code>00000000 00010000 01011001 00011100</code>.</p>
+<p><strong>Verificação</strong> (receptor: soma tudo, com o
+<em>checksum</em>):
+<code>1010011011100011 + 0101100100011100 = 1111111111111111</code>.
+Tudo uns: nenhum erro detetado.</p>
+</div></details>
+<details class="sol" id="Redes-F6.5-c"><summary><span class="enun">
+(c) Um erro detetado
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Troca o último bit de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mn>8</mn></msub><annotation encoding="application/x-tex">w_8</annotation></semantics></math>:
+<code>1000101010110111</code> → <code>1000101010110110</code> (vale
+menos 1). A soma do receptor passa a
+<code>1111111111111111 − 1 = 1111111111111110</code>: há um 0,
+<strong>erro detetado</strong>. Qualquer erro de um só bit muda a soma,
+por isso é sempre detetado.</p>
+</div></details>
+<details class="sol" id="Redes-F6.5-d"><summary><span class="enun">
+(d) Um erro que o checksum não deteta
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Na <strong>mesma coluna</strong> de duas palavras, um 0 passa a 1
+numa e um 1 passa a 0 na outra. Por exemplo, o último bit de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mn>5</mn></msub><annotation encoding="application/x-tex">w_5</annotation></semantics></math>
+(0 → 1: <code>1010001010101011</code>, mais 1) e o último bit de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mn>8</mn></msub><annotation encoding="application/x-tex">w_8</annotation></semantics></math>
+(1 → 0: <code>1000101010110110</code>, menos 1). A soma não muda: o
+receptor obtém outra vez <code>1111111111111111</code> e <strong>não
+deteta</strong> o erro. (Trocar duas palavras de ordem também passa
+despercebido.)</p>
+</div></details>
+</section>
+</section>
+<section id="Redes-aula-3-stop-and-wait" class="level2">
+<h2>Aula 3 — Stop-and-wait</h2>
+<section id="Redes-f6.1-stop-and-wait-ficha-6" class="level3">
+<h3>F6.1 — Stop-and-wait (Ficha 6)</h3>
+<details class="sol" id="Redes-F6.1-a"><summary><span class="enun">
+(a) Porquê números de sequência nas confirmações
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Por causa dos <strong><em>timeouts</em> prematuros</strong> (ou de
+ACKs que só se atrasam). Sem números:</p>
+<ol type="1">
+<li>o emissor envia o pacote P1 e o ACK atrasa-se;</li>
+<li>dá <em>timeout</em> e retransmite P1;</li>
+<li>chega o 1.º ACK (de P1): o emissor envia P2;</li>
+<li>P2 perde-se, mas chega o 2.º ACK, que é da
+<strong>retransmissão</strong> de P1;</li>
+<li>sem número, o emissor toma-o como confirmação de <strong>P2</strong>
+e avança: P2 perdeu-se e ninguém deu por isso.</li>
+</ol>
+<p>Com o número (1 bit chega, 0/1), o 2.º ACK diz “ACK de P1” e o
+emissor, que espera o ACK de P2, ignora-o. (Os pacotes também precisam
+de número, para o receptor descartar o P1 duplicado.)</p>
+</div></details>
+<details class="sol" id="Redes-F6.1-b"><summary><span class="enun">
+(b) É adequado a 10 Mbps, 20 ms, 1500 bytes?
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<ol type="1">
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>/</mi><mi>R</mi><mo>=</mo><mn>1500</mn><mo>×</mo><mn>8</mn><mi>/</mi><msup><mn>10</mn><mn>7</mn></msup><mo>=</mo><mn>12</mn><mspace width="0.167em"></mspace><mn>000</mn><mi>/</mi><msup><mn>10</mn><mn>7</mn></msup><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>×</mo><msup><mn>10</mn><mrow><mi>−</mi><mn>3</mn></mrow></msup></mrow><annotation encoding="application/x-tex">L/R = 1500\times8/10^7 = 12\,000/10^7 = 1{,}2\times10^{-3}</annotation></semantics></math>
+s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">= 1{,}2</annotation></semantics></math>
+ms.</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mi>T</mi><mi>T</mi><mo>=</mo><mn>2</mn><mo>×</mo><mn>20</mn><mo>=</mo><mn>40</mn></mrow><annotation encoding="application/x-tex">RTT = 2\times20 = 40</annotation></semantics></math>
+ms.</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi><mo>=</mo><mstyle displaystyle="true"><mfrac><mrow><mi>L</mi><mi>/</mi><mi>R</mi></mrow><mrow><mi>R</mi><mi>T</mi><mi>T</mi><mo>+</mo><mi>L</mi><mi>/</mi><mi>R</mi></mrow></mfrac></mstyle><mo>=</mo><mstyle displaystyle="true"><mfrac><mrow><mn>1</mn><mo>,</mo><mn>2</mn></mrow><mrow><mn>41</mn><mo>,</mo><mn>2</mn></mrow></mfrac></mstyle><mo>≈</mo><mn>0</mn><mo>,</mo><mn>029</mn></mrow><annotation encoding="application/x-tex">U = \dfrac{L/R}{RTT + L/R} = \dfrac{1{,}2}{41{,}2} \approx 0{,}029</annotation></semantics></math>.</li>
+</ol>
+<p><strong>Não é adequado</strong>: a ligação só está ocupada cerca de
+3% do tempo (débito
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≈</mo><mn>0</mn><mo>,</mo><mn>029</mn><mo>×</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">\approx 0{,}029\times10</annotation></semantics></math>
+Mbps
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≈</mo><mn>290</mn></mrow><annotation encoding="application/x-tex">\approx 290</annotation></semantics></math>
+kbps). Para transmissão contínua seriam precisos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>41</mn><mo>,</mo><mn>2</mn><mi>/</mi><mn>1</mn><mo>,</mo><mn>2</mn><mo>≈</mo><mn>34</mn><mo>,</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">41{,}2/1{,}2 \approx 34{,}3</annotation></semantics></math>,
+ou seja, <strong>35 pacotes em trânsito</strong> (<em>pipelining</em>).
+Solução oficial:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi><mo>≈</mo><mn>0</mn><mo>,</mo><mn>029</mn></mrow><annotation encoding="application/x-tex">U \approx 0{,}029</annotation></semantics></math>,
+“não é adequado”.</p>
+</div></details>
+</section>
+</section>
+<section id="Redes-aula-3-janelas" class="level2">
+<h2>Aula 3 — Janelas</h2>
+<section id="Redes-f6.2-repetições-seletivas-manuais-ficha-6" class="level3">
+<h3>F6.2 — Repetições seletivas manuais (Ficha 6)</h3>
+<details class="sol" id="Redes-F6.2-a"><summary><span class="enun">
+(a) Porque é necessária e suficiente uma gama de 2 × janela
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>Necessária:</strong> com janela
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+e menos de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>N</mi></mrow><annotation encoding="application/x-tex">2N</annotation></semantics></math>
+números, o receptor pode confirmar uma janela inteira cujos ACKs se
+perdem todos. A janela dele avança para números que, com a gama “a dar a
+volta”, <strong>coincidem</strong> com os da janela antiga que o emissor
+vai retransmitir. Um pacote velho é então aceite como novo (o dilema dos
+slides: números 0 a 3, janela 3).</p>
+<p><strong>Suficiente:</strong> no pior caso, a janela do emissor e a do
+receptor estão completamente desfasadas mas <strong>contíguas</strong>:
+o emissor ainda está na janela antiga (à espera de ACKs perdidos) e o
+receptor já na seguinte. São
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>N</mi></mrow><annotation encoding="application/x-tex">2N</annotation></semantics></math>
+números seguidos; se a gama tiver pelo menos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>N</mi></mrow><annotation encoding="application/x-tex">2N</annotation></semantics></math>,
+são todos diferentes, e um segmento retransmitido nunca é confundido no
+receptor com outro mais à frente com o mesmo número.</p>
+</div></details>
+<details class="sol" id="Redes-F6.2-b"><summary><span class="enun">
+(b) Esquema: 5 blocos, janela 3, timeout 3, perdem-se B(3) e A(2)
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Regras: em cada instante o emissor envia no máximo uma mensagem; uma
+mensagem enviada no instante
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>
+chega em
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">t+1</annotation></semantics></math>
+e o receptor responde logo, por isso o ACK chega ao emissor em
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>+</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">t+2</annotation></semantics></math>;
+sem ACK, reenvia em
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>+</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">t+3</annotation></semantics></math>.</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">instante</th>
+<th style="text-align: left;">emissor</th>
+<th style="text-align: left;">mensagem</th>
+<th style="text-align: left;">receptor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: left;">janela [0,2]; envia B(0)</td>
+<td style="text-align: left;">B(0) →</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: left;">envia B(1)</td>
+<td style="text-align: left;">B(1) →</td>
+<td style="text-align: left;">recebe B(0), entrega-o; envia A(0); janela
+[1,3]</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: left;">recebe A(0): janela [1,3]; envia B(2)</td>
+<td style="text-align: left;">B(2) →</td>
+<td style="text-align: left;">recebe B(1), entrega-o; envia A(1); janela
+[2,4]</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: left;">recebe A(1): janela [2,4]; envia B(3)</td>
+<td style="text-align: left;">B(3) ✕ perdido</td>
+<td style="text-align: left;">recebe B(2), entrega-o; envia A(2) ✕
+perdido; janela [3,5]</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td style="text-align: left;">envia B(4)</td>
+<td style="text-align: left;">B(4) →</td>
+<td style="text-align: left;">(nada chega)</td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td style="text-align: left;"><em>timeout</em> de B(2) (enviado em 3):
+reenvia B(2)</td>
+<td style="text-align: left;">B(2) →</td>
+<td style="text-align: left;">recebe B(4): fora de ordem →
+<em>buffer</em>; envia A(4)</td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td style="text-align: left;">recebe A(4): marca o 4; <em>timeout</em>
+de B(3) (enviado em 4): reenvia B(3)</td>
+<td style="text-align: left;">B(3) →</td>
+<td style="text-align: left;">recebe B(2): já entregue (em [0,2]),
+reenvia A(2)</td>
+</tr>
+<tr>
+<td style="text-align: center;">8</td>
+<td style="text-align: left;">recebe A(2): janela [3,5]</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">recebe B(3): entrega 3 e 4; envia A(3);
+janela [5,7]</td>
+</tr>
+<tr>
+<td style="text-align: center;">9</td>
+<td style="text-align: left;">recebe A(3): tudo confirmado, janela
+[5,7]</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p>O B(4) <strong>não</strong> é retransmitido: o A(4) chega no instante
+7, antes do seu <em>timeout</em> (5 + 3 = 8). No instante 7 o receptor
+tem de voltar a confirmar o B(2), que já tinha entregue: sem esse ACK, o
+emissor ficava a retransmitir B(2) para sempre. A solução oficial é uma
+figura (não transcrita no Moodle); confere com ela os instantes.</p>
+</div></details>
+</section>
+<section id="Redes-f6.4-size-matters-ficha-6" class="level3">
+<h3>F6.4 — Size matters? (Ficha 6)</h3>
+<details class="sol" id="Redes-F6.4-a"><summary><span class="enun">
+(a) Janela para fluxo contínuo
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<ol type="1">
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mrow><mi>p</mi><mi>r</mi><mi>o</mi><mi>p</mi></mrow></msub><mo>=</mo><mn>5</mn><mo>×</mo><msup><mn>10</mn><mn>6</mn></msup><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> m</mtext></mrow><mi>/</mi><mn>2</mn><mo>×</mo><msup><mn>10</mn><mn>8</mn></msup><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> m/s</mtext></mrow><mo>=</mo><mn>0</mn><mo>,</mo><mn>025</mn></mrow><annotation encoding="application/x-tex">d_{prop} = 5\times10^6\text{ m} / 2\times10^8\text{ m/s} = 0{,}025</annotation></semantics></math>
+s;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mi>T</mi><mi>T</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>05</mn></mrow><annotation encoding="application/x-tex">RTT = 0{,}05</annotation></semantics></math>
+s.</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>/</mi><mi>R</mi><mo>=</mo><mn>1000</mn><mo>×</mo><mn>8</mn><mi>/</mi><mn>2</mn><mo>×</mo><msup><mn>10</mn><mn>9</mn></msup><mo>=</mo><mn>4</mn><mo>×</mo><msup><mn>10</mn><mrow><mi>−</mi><mn>6</mn></mrow></msup></mrow><annotation encoding="application/x-tex">L/R = 1000\times8 / 2\times10^9 = 4\times10^{-6}</annotation></semantics></math>
+s.</li>
+<li>Fluxo contínuo quando o 1.º ACK chega mesmo antes de a janela
+acabar:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>⋅</mo><mi>L</mi><mi>/</mi><mi>R</mi><mo>≥</mo><mi>R</mi><mi>T</mi><mi>T</mi><mo>+</mo><mi>L</mi><mi>/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">N\cdot L/R \ge RTT + L/R</annotation></semantics></math>,
+logo $N = 12,500 + 1 = $ <strong>12 501 blocos</strong>.</li>
+</ol>
+<p>Números de sequência: no SR a gama tem de ter
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>N</mi><mo>=</mo><mn>25</mn><mspace width="0.167em"></mspace><mn>002</mn></mrow><annotation encoding="application/x-tex">2N = 25\,002</annotation></semantics></math>
+números;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>14</mn></msup><mo>=</mo><mn>16</mn><mspace width="0.167em"></mspace><mn>384</mn><mo>&lt;</mo><mn>25</mn><mspace width="0.167em"></mspace><mn>002</mn><mo>≤</mo><msup><mn>2</mn><mn>15</mn></msup><mo>=</mo><mn>32</mn><mspace width="0.167em"></mspace><mn>768</mn></mrow><annotation encoding="application/x-tex">2^{14} = 16\,384 &lt; 25\,002 \le 2^{15} = 32\,768</annotation></semantics></math>,
+por isso <strong>15 bits</strong>. Solução oficial: 12 501 blocos.</p>
+</div></details>
+<details class="sol" id="Redes-F6.4-b"><summary><span class="enun">
+(b) Faz sentido uma janela maior?
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>Sem perdas, não:</strong> com 12 501 blocos a transmissão já
+é contínua. <strong>Com perdas, sim:</strong> recuperar de uma perda
+demora pelo menos mais um RTT (o <em>timeout</em> ou o pedido de
+retransmissão), e uma janela maior deixa continuar a enviar blocos novos
+durante esse tempo em vez de parar.</p>
+</div></details>
+</section>
+</section>
+<section id="Redes-aula-3-timeout" class="level2">
+<h2>Aula 3 — Timeout</h2>
+<section id="Redes-f7.3-timeout-ficha-7" class="level3">
+<h3>F7.3 — Timeout (Ficha 7)</h3>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\alpha = 0{,}1</annotation></semantics></math>;
+SampleRTT(1) é a amostra mais recente.</p>
+<details class="sol" id="Redes-F7.3-a"><summary><span class="enun">
+(a) EstimatedRTT com 4 amostras
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>O valor inicial é a 1.ª amostra, SampleRTT(4). Aplicando a fórmula
+três vezes:</p>
+<ol type="1">
+<li>depois de S(3):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><mo stretchy="false" form="postfix">)</mo><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mn>4</mn><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>α</mi><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">E = (1-\alpha)S(4) + \alpha S(3)</annotation></semantics></math>;</li>
+<li>depois de S(2):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mn>4</mn><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>α</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><mo stretchy="false" form="postfix">)</mo><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>α</mi><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">E = (1-\alpha)^2 S(4) + \alpha(1-\alpha) S(3) + \alpha S(2)</annotation></semantics></math>;</li>
+<li>depois de S(1):
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>=</mo><mi>α</mi><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>α</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><mo stretchy="false" form="postfix">)</mo><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>α</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><msup><mo stretchy="false" form="postfix">)</mo><mn>2</mn></msup><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><msup><mo stretchy="false" form="postfix">)</mo><mn>3</mn></msup><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mn>4</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">E = \alpha S(1) + \alpha(1-\alpha) S(2) + \alpha(1-\alpha)^2 S(3) + (1-\alpha)^3 S(4)</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>0</mn><mo>,</mo><mn>1</mn><mspace width="0.167em"></mspace><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>0</mn><mo>,</mo><mn>09</mn><mspace width="0.167em"></mspace><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mn>2</mn><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>0</mn><mo>,</mo><mn>081</mn><mspace width="0.167em"></mspace><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mn>3</mn><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mn>0</mn><mo>,</mo><mn>729</mn><mspace width="0.167em"></mspace><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mn>4</mn><mo stretchy="false" form="postfix">)</mo><mi>.</mi></mrow><annotation encoding="application/x-tex">= 0{,}1\,S(1) + 0{,}09\,S(2) + 0{,}081\,S(3) + 0{,}729\,S(4).</annotation></semantics></math></li>
+</ol>
+<p>(Os pesos somam 1. A mais antiga pesa tanto porque também é o valor
+inicial.)</p>
+</div></details>
+<details class="sol" id="Redes-F7.3-b"><summary><span class="enun">
+(b) Generalização para n amostras
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>=</mo><mi>α</mi><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></munderover><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow></msup><mspace width="0.167em"></mspace><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msup><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mi>n</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.222em"></mspace><mo>≈</mo><mspace width="0.222em"></mspace><mi>α</mi><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow></msup><mspace width="0.167em"></mspace><mi>S</mi><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">E = \alpha\sum_{i=1}^{n-1}(1-\alpha)^{i-1}\,S(i) + (1-\alpha)^{n-1}S(n)
+\ \approx\ \alpha\sum_{i=1}^{n}(1-\alpha)^{i-1}\,S(i)</annotation></semantics></math></p>
+<p>Para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+grande,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">(1-\alpha)^{n-1}</annotation></semantics></math>
+é desprezável e fica a forma aproximada (é a da solução oficial).</p>
+</div></details>
+<details class="sol" id="Redes-F7.3-c"><summary><span class="enun">
+(c) Porque se chama média móvel exponencial
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Por causa do expoente
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">i-1</annotation></semantics></math>:
+cada amostra perde peso <strong>exponencialmente</strong> (fator
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>α</mi></mrow><annotation encoding="application/x-tex">1-\alpha</annotation></semantics></math>)
+à medida que chegam amostras novas. É “móvel” porque a média acompanha
+os valores recentes.</p>
+</div></details>
+<details class="sol" id="Redes-F7.3-d"><summary><span class="enun">
+(d) Timeout depois das 8 amostras
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Valores iniciais:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>=</mo><mn>54</mn></mrow><annotation encoding="application/x-tex">E = 54</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>=</mo><mn>54</mn><mi>/</mi><mn>2</mn><mo>=</mo><mn>27</mn></mrow><annotation encoding="application/x-tex">D = 54/2 = 27</annotation></semantics></math>.
+Para cada amostra
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>,
+pela ordem da receita:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>←</mo><mn>0</mn><mo>,</mo><mn>8</mn><mi>D</mi><mo>+</mo><mn>0</mn><mo>,</mo><mn>2</mn><mo stretchy="false" form="prefix">|</mo><mi>S</mi><mo>−</mo><mi>E</mi><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">D \leftarrow 0{,}8D + 0{,}2|S - E|</annotation></semantics></math>
+(com o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>
+antigo) e depois
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>←</mo><mn>0</mn><mo>,</mo><mn>9</mn><mi>E</mi><mo>+</mo><mn>0</mn><mo>,</mo><mn>1</mn><mi>S</mi></mrow><annotation encoding="application/x-tex">E \leftarrow 0{,}9E + 0{,}1S</annotation></semantics></math>.
+A 1.ª amostra (54) também entra.</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math></th>
+<th style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mi>S</mi><mo>−</mo><mi>E</mi><mo stretchy="false" form="postfix">|</mo></mrow><annotation encoding="application/x-tex">\lvert S-E\rvert</annotation></semantics></math></th>
+<th style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>D</mi><annotation encoding="application/x-tex">D</annotation></semantics></math>
+novo</th>
+<th style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>
+novo</th>
+<th style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mo>+</mo><mn>4</mn><mi>D</mi></mrow><annotation encoding="application/x-tex">E + 4D</annotation></semantics></math></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">54</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>8</mn><mo>⋅</mo><mn>27</mn><mo>=</mo><mn>21</mn><mo>,</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">0{,}8\cdot27 = 21{,}6</annotation></semantics></math></td>
+<td style="text-align: right;">54</td>
+<td style="text-align: right;">140,4</td>
+</tr>
+<tr>
+<td style="text-align: right;">63</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>17</mn><mo>,</mo><mn>28</mn><mo>+</mo><mn>1</mn><mo>,</mo><mn>8</mn><mo>=</mo><mn>19</mn><mo>,</mo><mn>08</mn></mrow><annotation encoding="application/x-tex">17{,}28 + 1{,}8 = 19{,}08</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>48</mn><mo>,</mo><mn>6</mn><mo>+</mo><mn>6</mn><mo>,</mo><mn>3</mn><mo>=</mo><mn>54</mn><mo>,</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">48{,}6 + 6{,}3 = 54{,}9</annotation></semantics></math></td>
+<td style="text-align: right;">131,22</td>
+</tr>
+<tr>
+<td style="text-align: right;">55</td>
+<td style="text-align: right;">0,1</td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>15</mn><mo>,</mo><mn>264</mn><mo>+</mo><mn>0</mn><mo>,</mo><mn>02</mn><mo>=</mo><mn>15</mn><mo>,</mo><mn>284</mn></mrow><annotation encoding="application/x-tex">15{,}264 + 0{,}02 = 15{,}284</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>49</mn><mo>,</mo><mn>41</mn><mo>+</mo><mn>5</mn><mo>,</mo><mn>5</mn><mo>=</mo><mn>54</mn><mo>,</mo><mn>91</mn></mrow><annotation encoding="application/x-tex">49{,}41 + 5{,}5 = 54{,}91</annotation></semantics></math></td>
+<td style="text-align: right;">116,05</td>
+</tr>
+<tr>
+<td style="text-align: right;">57</td>
+<td style="text-align: right;">2,09</td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>,</mo><mn>227</mn><mo>+</mo><mn>0</mn><mo>,</mo><mn>418</mn><mo>=</mo><mn>12</mn><mo>,</mo><mn>645</mn></mrow><annotation encoding="application/x-tex">12{,}227 + 0{,}418 = 12{,}645</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>49</mn><mo>,</mo><mn>419</mn><mo>+</mo><mn>5</mn><mo>,</mo><mn>7</mn><mo>=</mo><mn>55</mn><mo>,</mo><mn>119</mn></mrow><annotation encoding="application/x-tex">49{,}419 + 5{,}7 = 55{,}119</annotation></semantics></math></td>
+<td style="text-align: right;">105,70</td>
+</tr>
+<tr>
+<td style="text-align: right;">68</td>
+<td style="text-align: right;">12,881</td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mo>,</mo><mn>116</mn><mo>+</mo><mn>2</mn><mo>,</mo><mn>576</mn><mo>=</mo><mn>12</mn><mo>,</mo><mn>692</mn></mrow><annotation encoding="application/x-tex">10{,}116 + 2{,}576 = 12{,}692</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>49</mn><mo>,</mo><mn>607</mn><mo>+</mo><mn>6</mn><mo>,</mo><mn>8</mn><mo>=</mo><mn>56</mn><mo>,</mo><mn>407</mn></mrow><annotation encoding="application/x-tex">49{,}607 + 6{,}8 = 56{,}407</annotation></semantics></math></td>
+<td style="text-align: right;">107,18</td>
+</tr>
+<tr>
+<td style="text-align: right;">56</td>
+<td style="text-align: right;">0,407</td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mo>,</mo><mn>154</mn><mo>+</mo><mn>0</mn><mo>,</mo><mn>081</mn><mo>=</mo><mn>10</mn><mo>,</mo><mn>235</mn></mrow><annotation encoding="application/x-tex">10{,}154 + 0{,}081 = 10{,}235</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>50</mn><mo>,</mo><mn>766</mn><mo>+</mo><mn>5</mn><mo>,</mo><mn>6</mn><mo>=</mo><mn>56</mn><mo>,</mo><mn>366</mn></mrow><annotation encoding="application/x-tex">50{,}766 + 5{,}6 = 56{,}366</annotation></semantics></math></td>
+<td style="text-align: right;">97,31</td>
+</tr>
+<tr>
+<td style="text-align: right;">55</td>
+<td style="text-align: right;">1,366</td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>8</mn><mo>,</mo><mn>188</mn><mo>+</mo><mn>0</mn><mo>,</mo><mn>273</mn><mo>=</mo><mn>8</mn><mo>,</mo><mn>462</mn></mrow><annotation encoding="application/x-tex">8{,}188 + 0{,}273 = 8{,}462</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>50</mn><mo>,</mo><mn>730</mn><mo>+</mo><mn>5</mn><mo>,</mo><mn>5</mn><mo>=</mo><mn>56</mn><mo>,</mo><mn>230</mn></mrow><annotation encoding="application/x-tex">50{,}730 + 5{,}5 = 56{,}230</annotation></semantics></math></td>
+<td style="text-align: right;">90,08</td>
+</tr>
+<tr>
+<td style="text-align: right;">58</td>
+<td style="text-align: right;">1,770</td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6</mn><mo>,</mo><mn>769</mn><mo>+</mo><mn>0</mn><mo>,</mo><mn>354</mn><mo>=</mo><mn>7</mn><mo>,</mo><mn>123</mn></mrow><annotation encoding="application/x-tex">6{,}769 + 0{,}354 = 7{,}123</annotation></semantics></math></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>50</mn><mo>,</mo><mn>607</mn><mo>+</mo><mn>5</mn><mo>,</mo><mn>8</mn><mo>=</mo><mn>56</mn><mo>,</mo><mn>407</mn></mrow><annotation encoding="application/x-tex">50{,}607 + 5{,}8 = 56{,}407</annotation></semantics></math></td>
+<td style="text-align: right;"><strong>84,90</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Timeout ≈ 84,9 ms</strong> (igual à solução oficial). Nota:
+só se chega aos 84,9 com estas duas escolhas (a 1.ª amostra também
+entra, e o DevRTT usa o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>
+antigo). Sem a 1.ª amostra daria 89,4 ms; com o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>E</mi><annotation encoding="application/x-tex">E</annotation></semantics></math>
+novo, 83,9 ms; com os valores típicos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>125</mn></mrow><annotation encoding="application/x-tex">\alpha = 0{,}125</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>25</mn></mrow><annotation encoding="application/x-tex">\beta = 0{,}25</annotation></semantics></math>,
+78,4 ms.</p>
+</div></details>
+<details class="sol" id="Redes-F7.3-e"><summary><span class="enun">
+(e) E se algum pacote tivesse sido retransmitido?
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Sim. Quando chega o ACK de um segmento retransmitido, não se sabe se
+é da 1.ª transmissão ou da retransmissão, por isso não se sabe que RTT
+mediu. Por isso <strong>os ACKs de segmentos retransmitidos não são
+usados como amostras</strong>: essa amostra saía da tabela, e os valores
+seguintes mudavam.</p>
+</div></details>
+<details class="sol" id="Redes-F7.3-f"><summary><span class="enun">
+(f) O RTT aumenta muito e há timeouts sucessivos
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Em cada <em>timeout</em>, o TCP <strong>duplica o
+temporizador</strong> (<em>backoff</em> exponencial). Se continuasse a
+usar o valor antigo, todos os segmentos dariam <em>timeout</em> e seriam
+retransmitidos e, como as amostras de segmentos retransmitidos são
+ignoradas, a estimativa do RTT nunca mais se atualizaria. Duplicando, o
+temporizador acaba por ultrapassar o RTT novo, chegam ACKs de segmentos
+não retransmitidos e a estimativa volta a ajustar-se (e alivia-se a
+rede, que provavelmente está congestionada).</p>
+</div></details>
+</section>
+</section>
+<section id="Redes-aula-3-retransmissão-rápida" class="level2">
+<h2>Aula 3 — Retransmissão rápida</h2>
+<section id="Redes-c3.2-números-de-sequência-e-retransmissão-rápida-exercício-inventado" class="level3">
+<h3>C3.2 — Números de sequência e retransmissão rápida (exercício
+inventado)</h3>
+<p>Situação: o 1000 (500 B) chegou (<code>ACK=1500</code>), o 1500 (300
+B) perdeu-se, e o 1800 (200 B) chegou fora de ordem
+(<code>ACK=1500</code>, <strong>1.º duplicado</strong>).</p>
+<details class="sol" id="Redes-C3.2-a"><summary><span class="enun">
+(a) Os três segmentos novos e os seus ACKs
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Continuam a partir do último byte enviado
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1800</mn><mo>+</mo><mn>200</mn><mo>=</mo><mn>2000</mn></mrow><annotation encoding="application/x-tex">1800 + 200 = 2000</annotation></semantics></math>):
+sequências <strong>2000</strong>, <strong>2100</strong> e
+<strong>2200</strong> (100 bytes cada). Todos chegam fora de ordem (o
+buraco 1500–1799 continua), por isso cada um gera <code>ACK=1500</code>
+(2.º, 3.º e 4.º duplicados).</p>
+</div></details>
+<details class="sol" id="Redes-C3.2-b"><summary><span class="enun">
+(b) Quando é a retransmissão rápida
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Contando os duplicados de 1500: o do 1800 é o 1.º, o do 2000 o 2.º e
+o do 2100 o <strong>3.º</strong>. Quando A recebe o ACK duplicado gerado
+pelo segmento <strong>2100</strong>, retransmite logo o 1500, sem
+esperar pelo <em>timeout</em>. (O 4.º duplicado, do 2200, já não volta a
+provocar retransmissão.)</p>
+</div></details>
+<details class="sol" id="Redes-C3.2-c"><summary><span class="enun">
+(c) ACK quando o 1500 chega
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>B passa a ter os bytes 1000 a 2299 seguidos (o 1500 tapa o buraco; o
+1800, 2000, 2100 e 2200 estavam no <em>buffer</em>): envia
+<strong><code>ACK=2300</code></strong>, que confirma tudo de uma
+vez.</p>
+</div></details>
+</section>
+</section>
+<section id="Redes-aula-3-conexões-e-janela-do-receptor" class="level2">
+<h2>Aula 3 — Conexões e janela do receptor</h2>
+<section id="Redes-f7.2-hello-goodbye-ficha-7" class="level3">
+<h3>F7.2 — Hello Goodbye (Ficha 7)</h3>
+<details class="sol" id="Redes-F7.2-a"><summary><span class="enun">
+(a) Three-way handshake
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Serve para <strong>inicializar as variáveis da conexão</strong> nos
+dois lados antes dos dados: os <strong>números de sequência
+iniciais</strong> de cada sentido e os <em>buffers</em>/janela do
+receptor. Processa-se em três segmentos:</p>
+<ol type="1">
+<li><strong>SYN</strong> (cliente → servidor): sem dados, com o número
+de sequência inicial do cliente,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>;</li>
+<li><strong>SYN+ACK</strong> (servidor → cliente): o servidor reserva os
+<em>buffers</em>, envia o seu número inicial
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+e confirma o do cliente (<code>ACK = x+1</code>);</li>
+<li><strong>ACK</strong> (cliente → servidor): <code>ACK = y+1</code>;
+já pode levar dados.</li>
+</ol>
+<p>São precisos três porque cada lado tem de saber que o outro recebeu o
+seu número inicial: o 2.º segmento confirma o do cliente, o 3.º o do
+servidor.</p>
+</div></details>
+<details class="sol" id="Redes-F7.2-b"><summary><span class="enun">
+(b) Terminar a conexão
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Cada sentido fecha em separado (a conexão é <em>full
+duplex</em>):</p>
+<ol type="1">
+<li>quem fecha primeiro (p. ex. o cliente, <code>close()</code>) envia
+<strong>FIN</strong>;</li>
+<li>o outro responde <strong>ACK</strong> (pode ainda enviar dados) e,
+quando a aplicação dele também fechar, envia o seu
+<strong>FIN</strong>;</li>
+<li>o primeiro responde <strong>ACK</strong> e fica em
+<strong>TIME_WAIT</strong> (2 vezes o tempo de vida de um segmento),
+para voltar a responder com ACK se o FIN se repetir (o último ACK pode
+perder-se);</li>
+<li>ao receber esse ACK, o outro lado fecha; o primeiro fecha quando
+acaba o TIME_WAIT.</li>
+</ol>
+<p>Solução oficial: SYN, SYN+ACK e ACK; FIN e ACK + FIN e ACK.</p>
+</div></details>
+</section>
+<section id="Redes-c3.3-janela-do-receptor-exercício-inventado" class="level3">
+<h3>C3.3 — Janela do receptor (exercício inventado)</h3>
+<p>RcvBuffer = 4000; LastByteRcvd = 2999; LastByteRead = 999.</p>
+<details class="sol" id="Redes-C3.3-a"><summary><span class="enun">
+(a) RcvWindow anunciada
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>$ = 4000 - (2999 - 999) = 4000 - 2000 = $ <strong>2000 bytes</strong>
+(há 2000 bytes recebidos que a aplicação ainda não leu).</p>
+</div></details>
+<details class="sol" id="Redes-C3.3-b"><summary><span class="enun">
+(b) Até que byte pode o emissor enviar
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">LastByteSent</mtext><mo>−</mo><mtext mathvariant="normal">LastByteAcked</mtext><mo>≤</mo><mn>2000</mn></mrow><annotation encoding="application/x-tex">\text{LastByteSent} - \text{LastByteAcked} \le 2000</annotation></semantics></math>,
+logo $ + 2000 = $ <strong>4999</strong>.</p>
+</div></details>
+<details class="sol" id="Redes-C3.3-c"><summary><span class="enun">
+(c) A aplicação pára de ler e chegam mais 2000 bytes
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>LastByteRcvd
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>4999</mn></mrow><annotation encoding="application/x-tex">= 4999</annotation></semantics></math>,
+LastByteRead
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>999</mn></mrow><annotation encoding="application/x-tex">= 999</annotation></semantics></math>:
+RcvWindow $= 4000 - (4999 - 999) = $ <strong>0</strong>. O emissor pára
+de enviar dados novos, mas continua a enviar <strong>segmentos de 1
+byte</strong> de vez em quando: os ACKs deles trazem a RcvWindow
+atualizada, e é assim que fica a saber quando a aplicação voltou a ler e
+há espaço (sem isso, ficaria bloqueado para sempre).</p>
+</div></details>
+</section>
+</section>
+<section id="Redes-aula-3-controlo-de-congestionamento" class="level2">
+<h2>Aula 3 — Controlo de congestionamento</h2>
+<section id="Redes-f7.1-controla-o-quê-ficha-7" class="level3">
+<h3>F7.1 — Controla o quê? (Ficha 7)</h3>
+<details class="sol" id="Redes-F7.1-1"><summary><span class="enun">
+Resposta
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;">controlo de fluxo</th>
+<th style="text-align: left;">controlo de congestionamento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">objetivo</td>
+<td style="text-align: left;">o emissor não envia mais depressa do que o
+<strong>receptor</strong> consegue processar (não extravasar o
+<em>buffer</em> dele)</td>
+<td style="text-align: left;">o emissor não envia mais depressa do que a
+<strong>rede</strong> consegue levar até ao receptor</td>
+</tr>
+<tr>
+<td style="text-align: left;">entidade ativa</td>
+<td style="text-align: left;">o <strong>receptor</strong>, que anuncia a
+RcvWindow (espaço livre no <em>buffer</em>)</td>
+<td style="text-align: left;">o <strong>emissor</strong>, que infere o
+congestionamento pelas perdas (3 ACKs dup. ou <em>timeout</em>) e reduz
+a CongWin</td>
+</tr>
+</tbody>
+</table>
+<p>As duas janelas são limites superiores à janela de
+<em>pipelining</em>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">LastByteSent</mtext><mo>−</mo><mtext mathvariant="normal">LastByteAcked</mtext><mo>≤</mo><mrow><mi mathvariant="normal">min</mi><mo>⁡</mo></mrow><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">CongWin</mtext><mo>,</mo><mtext mathvariant="normal">RcvWindow</mtext><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\text{LastByteSent} - \text{LastByteAcked} \le \min(\text{CongWin}, \text{RcvWindow})</annotation></semantics></math>.</p>
+</div></details>
+</section>
+<section id="Redes-f7.4-controlo-de-congestionamento-ficha-7" class="level3">
+<h3>F7.4 — Controlo de congestionamento (Ficha 7)</h3>
+<p>Leitura do gráfico, ronda a ronda: 1, 2, 4, 8, 16, 32 (rondas 1–6);
+33 a 42 (rondas 7–16); 21 a 26 (17–22); 1, 2, 4, 8 (23–26).</p>
+<details class="sol" id="Redes-F7.4-a"><summary><span class="enun">
+(a) Slow start
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>[1, 6] e [23, 26]</strong>: a janela <strong>duplica</strong>
+a cada ronda (1→2→4→8→16→32 e 1→2→4→8).</p>
+</div></details>
+<details class="sol" id="Redes-F7.4-b"><summary><span class="enun">
+(b) Congestion avoidance
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>[7, 22]</strong>: a janela cresce <strong>1 MSS por
+ronda</strong> (33→42 e 21→26). Na ronda 17 recomeça em 21 já em CA,
+porque foi um triplo ACK duplicado.</p>
+</div></details>
+<details class="sol" id="Redes-F7.4-c"><summary><span class="enun">
+(c) Perda no fim da ronda 16
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>Triplo ACK duplicado</strong>: a janela passa de 42 para
+<strong>21</strong>, metade (e continua a crescer linearmente). Um
+<em>timeout</em> levava-a a 1.</p>
+</div></details>
+<details class="sol" id="Redes-F7.4-d"><summary><span class="enun">
+(d) Perda no fim da ronda 22
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong><em>Timeout</em></strong>: a janela passa de 26 para
+<strong>1</strong> MSS e volta ao <em>slow start</em>.</p>
+</div></details>
+<details class="sol" id="Redes-F7.4-e"><summary><span class="enun">
+(e) Limiar inicial
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>32 MSS</strong>: é onde o crescimento passa de exponencial
+(até 32, na ronda 6) a linear (33 na ronda 7).</p>
+</div></details>
+<details class="sol" id="Redes-F7.4-f"><summary><span class="enun">
+(f) Limiar na ronda 18
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Na perda do fim da ronda 16 a janela era 42: limiar $= 42/2 = $
+<strong>21 MSS</strong>.</p>
+</div></details>
+<details class="sol" id="Redes-F7.4-g"><summary><span class="enun">
+(g) Limiar na ronda 24
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Na perda do fim da ronda 22 a janela era 26: limiar $= 26/2 = $
+<strong>13 MSS</strong>. (A ronda 26, com 8, ainda está abaixo dele, em
+<em>slow start</em>.)</p>
+</div></details>
+<details class="sol" id="Redes-F7.4-h"><summary><span class="enun">
+(h) Ronda do 70.º segmento
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Segmentos acumulados: ronda 1: 1; 2:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>+</mo><mn>2</mn><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">1+2 = 3</annotation></semantics></math>;
+3:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>+</mo><mn>4</mn><mo>=</mo><mn>7</mn></mrow><annotation encoding="application/x-tex">3+4 = 7</annotation></semantics></math>;
+4:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn><mo>+</mo><mn>8</mn><mo>=</mo><mn>15</mn></mrow><annotation encoding="application/x-tex">7+8 =
+15</annotation></semantics></math>; 5:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>15</mn><mo>+</mo><mn>16</mn><mo>=</mo><mn>31</mn></mrow><annotation encoding="application/x-tex">15+16 = 31</annotation></semantics></math>;
+6:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>31</mn><mo>+</mo><mn>32</mn><mo>=</mo><mn>63</mn></mrow><annotation encoding="application/x-tex">31+32 = 63</annotation></semantics></math>;
+7:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>63</mn><mo>+</mo><mn>33</mn><mo>=</mo><mn>96</mn></mrow><annotation encoding="application/x-tex">63+33 = 96</annotation></semantics></math>.
+Os segmentos 64 a 96 saem na ronda 7, por isso o 70.º sai na
+<strong>ronda 7</strong>.</p>
+</div></details>
+<details class="sol" id="Redes-F7.4-i"><summary><span class="enun">
+(i) Triplo ACK duplicado depois da ronda 26
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Na ronda 26 a janela é 8: limiar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>8</mn><mi>/</mi><mn>2</mn><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">= 8/2 = 4</annotation></semantics></math>
+e CongWin
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">= 4</annotation></semantics></math>
+(Reno: CongWin = limiar). <strong>Ambos 4 MSS.</strong></p>
+</div></details>
+</section>
+<section id="Redes-f7.5-janela-de-congestionamento-ficha-7" class="level3">
+<h3>F7.5 — Janela de congestionamento (Ficha 7)</h3>
+<p>Numa janela de CongWin bytes há
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mtext mathvariant="normal">CongWin</mtext><mi>/</mi><mtext mathvariant="normal">MSS</mtext></mrow><annotation encoding="application/x-tex">n = \text{CongWin}/\text{MSS}</annotation></semantics></math>
+segmentos, logo chegam
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+ACKs por RTT.</p>
+<details class="sol" id="Redes-F7.5-a"><summary><span class="enun">
+(a) Duplicar a cada RTT
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Por RTT a janela tem de crescer CongWin
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mi>n</mi><mo>⋅</mo></mrow><annotation encoding="application/x-tex">= n\cdot</annotation></semantics></math>MSS;
+repartido por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+ACKs, dá <strong>+MSS por ACK</strong> (é o <em>slow start</em>).</p>
+</div></details>
+<details class="sol" id="Redes-F7.5-b"><summary><span class="enun">
+(b) Aumentar 1 MSS por RTT
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Por RTT tem de crescer 1 MSS, repartido por
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+ACKs:
+<strong>+MSS/<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+= MSS·MSS/CongWin por ACK</strong> (é o <em>congestion avoidance</em>,
+na tabela do Reno).</p>
+</div></details>
+</section>
+<section id="Redes-f8.1-de-janelas-e-perdas-ficha-8" class="level3">
+<h3>F8.1 — De janelas e perdas (Ficha 8)</h3>
+<details class="sol" id="Redes-F8.1-a"><summary><span class="enun">
+(a) Taxa de perdas ≈ 8/(3W²)
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>
+= pacotes perdidos / pacotes enviados. Num ciclo (de uma perda à
+seguinte) perde-se <strong>1</strong> pacote. A janela começa em
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">W/2</annotation></semantics></math>
+e sobe 1 por RTT até
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>:
+são as janelas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mi>/</mi><mn>2</mn><mo>,</mo><mspace width="0.222em"></mspace><mi>W</mi><mi>/</mi><mn>2</mn><mo>+</mo><mn>1</mn><mo>,</mo><mspace width="0.222em"></mspace><mi>…</mi><mo>,</mo><mspace width="0.222em"></mspace><mi>W</mi></mrow><annotation encoding="application/x-tex">W/2,\ W/2+1,\ \ldots,\ W</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mi>/</mi><mn>2</mn><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">W/2 + 1</annotation></semantics></math>
+rondas). Pacotes enviados num ciclo:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><munderover><mo>∑</mo><mrow><mi>n</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>W</mi><mi>/</mi><mn>2</mn></mrow></munderover><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>W</mi><mn>2</mn></mfrac><mo>+</mo><mi>n</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mi>W</mi><mn>2</mn></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>W</mi><mn>2</mn></mfrac><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mfrac><mrow><mfrac><mi>W</mi><mn>2</mn></mfrac><mrow><mo stretchy="true" form="prefix">(</mo><mfrac><mi>W</mi><mn>2</mn></mfrac><mo>+</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mn>2</mn></mfrac><mo>=</mo><mfrac><msup><mi>W</mi><mn>2</mn></msup><mn>4</mn></mfrac><mo>+</mo><mfrac><mi>W</mi><mn>2</mn></mfrac><mo>+</mo><mfrac><msup><mi>W</mi><mn>2</mn></msup><mn>8</mn></mfrac><mo>+</mo><mfrac><mi>W</mi><mn>4</mn></mfrac><mo>=</mo><mfrac><mn>3</mn><mn>8</mn></mfrac><msup><mi>W</mi><mn>2</mn></msup><mo>+</mo><mfrac><mn>3</mn><mn>4</mn></mfrac><mi>W</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">\sum_{n=0}^{W/2}\left(\frac W2 + n\right)
+= \frac W2\left(\frac W2 + 1\right) + \frac{\frac W2\left(\frac W2+1\right)}{2}
+= \frac{W^2}{4} + \frac W2 + \frac{W^2}{8} + \frac W4
+= \frac38 W^2 + \frac34 W.</annotation></semantics></math> Logo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>1</mn><mrow><mfrac><mn>3</mn><mn>8</mn></mfrac><msup><mi>W</mi><mn>2</mn></msup><mo>+</mo><mfrac><mn>3</mn><mn>4</mn></mfrac><mi>W</mi></mrow></mfrac></mstyle></mrow><annotation encoding="application/x-tex">L = \dfrac{1}{\frac38W^2 + \frac34W}</annotation></semantics></math>.
+Para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>
+grande,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>3</mn><mn>8</mn></mfrac><msup><mi>W</mi><mn>2</mn></msup><mo>≫</mo><mfrac><mn>3</mn><mn>4</mn></mfrac><mi>W</mi></mrow><annotation encoding="application/x-tex">\frac38W^2 \gg \frac34W</annotation></semantics></math>,
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>≈</mo><mstyle displaystyle="true"><mfrac><mn>8</mn><mrow><mn>3</mn><msup><mi>W</mi><mn>2</mn></msup></mrow></mfrac></mstyle></mrow><annotation encoding="application/x-tex">L \approx \dfrac{8}{3W^2}</annotation></semantics></math>.</p>
+</div></details>
+<details class="sol" id="Redes-F8.1-b"><summary><span class="enun">
+(b) Débito ≈ 1,22·MSS/(RTT·√L)
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<ol type="1">
+<li>De (a):
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>W</mi><mn>2</mn></msup><mo>≈</mo><mstyle displaystyle="true"><mfrac><mn>8</mn><mrow><mn>3</mn><mi>L</mi></mrow></mfrac></mstyle></mrow><annotation encoding="application/x-tex">W^2 \approx \dfrac{8}{3L}</annotation></semantics></math>,
+logo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>≈</mo><msqrt><mstyle displaystyle="true"><mfrac><mn>8</mn><mrow><mn>3</mn><mi>L</mi></mrow></mfrac></mstyle></msqrt></mrow><annotation encoding="application/x-tex">W \approx \sqrt{\dfrac{8}{3L}}</annotation></semantics></math>.</li>
+<li>A janela varia linearmente entre
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">W/2</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>:
+em média
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>3</mn><mn>4</mn></mfrac><mi>W</mi></mrow><annotation encoding="application/x-tex">\frac34W</annotation></semantics></math>
+segmentos por RTT, isto é, débito
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>3</mn><mn>4</mn></mfrac></mstyle><mo>⋅</mo><mstyle displaystyle="true"><mfrac><mrow><mi>W</mi><mo>⋅</mo><mtext mathvariant="normal">MSS</mtext></mrow><mrow><mi>R</mi><mi>T</mi><mi>T</mi></mrow></mfrac></mstyle></mrow><annotation encoding="application/x-tex">= \dfrac34\cdot\dfrac{W\cdot\text{MSS}}{RTT}</annotation></semantics></math>.</li>
+<li>Substituindo: débito
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mstyle displaystyle="true"><mfrac><mn>3</mn><mn>4</mn></mfrac></mstyle><msqrt><mstyle displaystyle="true"><mfrac><mn>8</mn><mn>3</mn></mfrac></mstyle></msqrt><mo>⋅</mo><mstyle displaystyle="true"><mfrac><mtext mathvariant="normal">MSS</mtext><mrow><mi>R</mi><mi>T</mi><mi>T</mi><msqrt><mi>L</mi></msqrt></mrow></mfrac></mstyle></mrow><annotation encoding="application/x-tex">= \dfrac34\sqrt{\dfrac83}\cdot\dfrac{\text{MSS}}{RTT\sqrt L}</annotation></semantics></math>,
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle displaystyle="true"><mfrac><mn>3</mn><mn>4</mn></mfrac></mstyle><msqrt><mstyle displaystyle="true"><mfrac><mn>8</mn><mn>3</mn></mfrac></mstyle></msqrt><mo>=</mo><mn>0</mn><mo>,</mo><mn>75</mn><mo>×</mo><mn>1</mn><mo>,</mo><mn>633</mn><mo>≈</mo><mn>1</mn><mo>,</mo><mn>22</mn></mrow><annotation encoding="application/x-tex">\dfrac34\sqrt{\dfrac83} = 0{,}75\times1{,}633 \approx 1{,}22</annotation></semantics></math>.
+Logo débito
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≈</mo><mstyle displaystyle="true"><mfrac><mrow><mn>1</mn><mo>,</mo><mn>22</mn><mo>⋅</mo><mtext mathvariant="normal">MSS</mtext></mrow><mrow><mi>R</mi><mi>T</mi><mi>T</mi><mo>⋅</mo><msqrt><mi>L</mi></msqrt></mrow></mfrac></mstyle></mrow><annotation encoding="application/x-tex">\approx \dfrac{1{,}22\cdot\text{MSS}}{RTT\cdot\sqrt L}</annotation></semantics></math>
+bytes/s.</li>
+</ol>
+<p>(Igual à resolução oficial,
+<code>Praticas/Semana_8/F8ex1.pdf</code>.)</p>
+</div></details>
+</section>
+<section id="Redes-f6.3-o-transporte-ficha-6" class="level3">
+<h3>F6.3 — O transporte (Ficha 6)</h3>
+<details class="sol" id="Redes-F6.3-a"><summary><span class="enun">
+(a) Funções da camada de transporte
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>Multiplexagem/desmultiplexagem</strong> (entregar a cada
+processo), <strong>deteção de erros</strong> (<em>checksum</em>),
+<strong>fiabilidade</strong> (entrega sem perdas nem duplicados, por
+ordem), <strong>controlo de fluxo</strong> e <strong>controlo de
+congestionamento</strong> (e, no TCP, a gestão de conexões). O
+<strong>UDP</strong> só tem as duas primeiras; o <strong>TCP</strong>
+tem todas.</p>
+</div></details>
+<details class="sol" id="Redes-F6.3-b"><summary><span class="enun">
+(b) Parâmetros para escolher a socket
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<ul>
+<li><strong>UDP:</strong> IP de destino e porta de destino. Não há
+conexões: uma <em>socket</em> recebe datagramas de qualquer origem.</li>
+<li><strong>TCP:</strong> IPs e portas de origem <strong>e</strong> de
+destino. Cada <em>socket</em> corresponde a uma
+<strong>conexão</strong>, identificada pelas duas pontas; um servidor
+tem várias <em>sockets</em> na mesma porta, uma por cliente.</li>
+</ul>
+</div></details>
+</section>
+</section>
+<section id="Redes-aula-4-circuitos-virtuais-e-datagramas" class="level2">
+<h2>Aula 4 — Circuitos virtuais e datagramas</h2>
+<section id="Redes-f8.2-circuitos-virtuais-vs.-datagramas-ficha-8" class="level3">
+<h3>F8.2 — Circuitos virtuais vs. datagramas (Ficha 8)</h3>
+<details class="sol" id="Redes-F8.2-a"><summary><span class="enun">
+(a) Vantagens e inconvenientes
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>Circuitos virtuais.</strong> Vantagens: entrega
+<strong>ordenada</strong>; facilitam a <strong>reserva de
+recursos</strong> por fluxo (desempenho previsível). Inconvenientes:
+<strong>estado por fluxo</strong> em cada <em>router</em> (entre pares
+de máquinas, cresce com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math>
+no número de terminais); <strong>recuperam mal da falha</strong> de um
+nó ou ligação (o circuito tem de ser restabelecido); é preciso
+estabelecer a chamada antes, por isso <strong>demora mais até ao 1.º
+pacote</strong>.</p>
+<p><strong>Datagramas.</strong> Vantagens: <em>routers</em> sem estado
+por fluxo (núcleo simples, escala bem); cada pacote é reenviado
+independentemente, e por isso contornam falhas logo que as tabelas
+mudam; não há estabelecimento. Inconvenientes: sem garantias (podem
+perder-se e chegar fora de ordem), difícil dar QoS.</p>
+</div></details>
+<details class="sol" id="Redes-F8.2-b"><summary><span class="enun">
+(b) Ligações que falham com frequência
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>Datagramas</strong>: não há circuito que caia; os pacotes
+seguintes seguem outro caminho logo que o encaminhamento se adapta.</p>
+</div></details>
+<details class="sol" id="Redes-F8.2-c"><summary><span class="enun">
+(c) Fluxos multimédia com garantias
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>Circuitos virtuais</strong>: permitem reservar capacidade e
+<em>buffers</em> ao longo do caminho para cada fluxo.</p>
+</div></details>
+<details class="sol" id="Redes-F8.2-d"><summary><span class="enun">
+(d) Encaixe do prefixo mais longo
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Serve para <strong>agrupar</strong> os endereços de destino na tabela
+(há demasiados para uma entrada cada) e, quando um endereço encaixa em
+vários prefixos, usar o <strong>caminho mais específico</strong> (o
+prefixo mais longo). Só se usa em <strong>redes de datagramas</strong>,
+onde o reenvio é pelo endereço de destino; com circuitos virtuais, o
+reenvio é pelo número de CV, com encaixe <strong>exato</strong>.</p>
+</div></details>
+<details class="sol" id="Redes-F8.2-e"><summary><span class="enun">
+(e) Perdas sim, reordenamento não
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Todos os pacotes de um CV seguem o <strong>mesmo caminho</strong>,
+fixado no estabelecimento, e cada ligação e fila é FIFO: nenhum pode
+ultrapassar outro, por isso a ordem mantém-se. Pode haver perdas (erros,
+<em>buffers</em> cheios).</p>
+</div></details>
+</section>
+<section id="Redes-f8.5-modelos-de-serviço-e-qos-ficha-8" class="level3">
+<h3>F8.5 — Modelos de serviço e QoS (Ficha 8)</h3>
+<details class="sol" id="Redes-F8.5-a"><summary><span class="enun">
+(a) Melhor esforço
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>A rede <strong>tenta</strong> entregar os pacotes, mas <strong>sem
+garantias</strong>: podem perder-se ou chegar fora de ordem, e não há
+limite de atraso nem de <em>jitter</em>, nem débito mínimo.</p>
+</div></details>
+<details class="sol" id="Redes-F8.5-b"><summary><span class="enun">
+(b) Componentes do atraso controláveis sem mudar o hardware
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Só o <strong>atraso em fila de espera</strong>, baixando o
+congestionamento. O de transmissão
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">L/R</annotation></semantics></math>)
+depende da capacidade da ligação, o de propagação da distância e do
+meio, e o de processamento do <em>router</em>: todos são
+<em>hardware</em> ou física.</p>
+</div></details>
+<details class="sol" id="Redes-F8.5-c"><summary><span class="enun">
+(c) Reservar recursos por fluxo
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>Vantagens:</strong> melhor qualidade de serviço (débito e
+atraso garantidos), melhor experiência do utilizador.
+<strong>Inconvenientes:</strong> obriga a guardar <strong>estado por
+fluxo</strong> nos <em>routers</em>, que pode crescer com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math>
+no número de terminais; precisa de sinalização e de controlo de
+admissão; recursos reservados e não usados ficam desperdiçados.</p>
+</div></details>
+</section>
+<section id="Redes-c4.1-prefixo-mais-longo-exercício-inventado" class="level3">
+<h3>C4.1 — Prefixo mais longo (exercício inventado)</h3>
+<p>Prefixos: interface 0 <code>11001000 00010111 00010</code> (21 bits);
+1 <code>11001000 00010111 00011000</code> (24); 2
+<code>11001000 00010111 00011</code> (21); senão 3.</p>
+<details class="sol" id="Redes-C4.1-a"><summary><span class="enun">
+(a) <code>11001000 00010111 00011111 00000001</code>
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Dois primeiros bytes iguais aos da tabela. Terceiro byte
+<code>00011111</code>: começa por <code>00011</code> (encaixa no 2), mas
+não é <code>00011000</code> (não encaixa no 1) nem começa por
+<code>00010</code> (não encaixa no 0). → <strong>interface
+2</strong>.</p>
+</div></details>
+<details class="sol" id="Redes-C4.1-b"><summary><span class="enun">
+(b) <code>11001000 00010111 00010000 11111111</code>
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Terceiro byte <code>00010000</code>: começa por <code>00010</code> →
+encaixa só no 0 → <strong>interface 0</strong>.</p>
+</div></details>
+<details class="sol" id="Redes-C4.1-c"><summary><span class="enun">
+(c) <code>11001000 00010110 00011000 00000000</code>
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>O <strong>segundo</strong> byte é <code>00010110</code>, e todos os
+prefixos têm <code>00010111</code>: não encaixa em nenhum →
+<strong>interface 3</strong> (a “senão”). Erro típico: olhar só para o
+terceiro byte.</p>
+</div></details>
+</section>
+</section>
+<section id="Redes-aula-4-fragmentação" class="level2">
+<h2>Aula 4 — Fragmentação</h2>
+<section id="Redes-f8.3-quem-parte-e-reparte-ficha-8" class="level3">
+<h3>F8.3 — Quem parte e reparte… (Ficha 8)</h3>
+<details class="sol" id="Redes-F8.3-a"><summary><span class="enun">
+(a) Fragmentação de 1500 bytes com MTU de 600
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<ol type="1">
+<li>Dados:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1500</mn><mo>−</mo><mn>20</mn><mo>=</mo><mn>1480</mn></mrow><annotation encoding="application/x-tex">1500 - 20 = 1480</annotation></semantics></math>
+bytes.</li>
+<li>Por fragmento:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>600</mn><mo>−</mo><mn>20</mn><mo>=</mo><mn>580</mn></mrow><annotation encoding="application/x-tex">600 - 20 = 580</annotation></semantics></math>,
+arredondado para baixo a múltiplo de 8:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>576</mn><annotation encoding="application/x-tex">576</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>8</mn><mo>×</mo><mn>72</mn></mrow><annotation encoding="application/x-tex">= 8\times72</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>584</mn><annotation encoding="application/x-tex">584</annotation></semantics></math>
+já passaria).</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1480</mn><mo>=</mo><mn>576</mn><mo>+</mo><mn>576</mn><mo>+</mo><mn>328</mn></mrow><annotation encoding="application/x-tex">1480 = 576 + 576 + 328</annotation></semantics></math>.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">fragmento</th>
+<th style="text-align: right;">dados</th>
+<th style="text-align: right;"><em>length</em></th>
+<th style="text-align: center;">ID</th>
+<th style="text-align: center;">DF</th>
+<th style="text-align: center;">MF</th>
+<th style="text-align: right;"><em>offset</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">576</td>
+<td style="text-align: right;">596</td>
+<td style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">576</td>
+<td style="text-align: right;">596</td>
+<td style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>576</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>72</mn></mrow><annotation encoding="application/x-tex">576/8 = 72</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: right;">328</td>
+<td style="text-align: right;">348</td>
+<td style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>X</mi><annotation encoding="application/x-tex">X</annotation></semantics></math></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1152</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>144</mn></mrow><annotation encoding="application/x-tex">1152/8 = 144</annotation></semantics></math></td>
+</tr>
+</tbody>
+</table>
+<p>Confirmação:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>576</mn><mo>+</mo><mn>576</mn><mo>+</mo><mn>328</mn><mo>=</mo><mn>1480</mn></mrow><annotation encoding="application/x-tex">576 + 576 + 328 = 1480</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>144</mn><mo>×</mo><mn>8</mn><mo>+</mo><mn>328</mn><mo>=</mo><mn>1480</mn></mrow><annotation encoding="application/x-tex">144\times8 + 328 = 1480</annotation></semantics></math>.
+Igual à solução oficial.</p>
+</div></details>
+<details class="sol" id="Redes-F8.3-b"><summary><span class="enun">
+(b) Overhead dos cabeçalhos IP
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Dados da aplicação (só IP): 1480 bytes.</p>
+<ul>
+<li><strong>Sem fragmentação:</strong> 20 bytes;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>20</mn><mi>/</mi><mn>1480</mn><mo>≈</mo></mrow><annotation encoding="application/x-tex">20/1480 \approx</annotation></semantics></math>
+<strong>1,4%</strong>.</li>
+<li><strong>Com fragmentação:</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>20</mn><mo>=</mo><mn>60</mn></mrow><annotation encoding="application/x-tex">3\times20 = 60</annotation></semantics></math>
+bytes;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>60</mn><mi>/</mi><mn>1480</mn><mo>≈</mo></mrow><annotation encoding="application/x-tex">60/1480 \approx</annotation></semantics></math>
+<strong>4,1%</strong>.</li>
+</ul>
+<p>Em relação ao tamanho total:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>20</mn><mi>/</mi><mn>1500</mn><mo>≈</mo><mn>1</mn><mo>,</mo><mn>3</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">20/1500 \approx 1{,}3\%</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>60</mn><mi>/</mi><mn>1540</mn><mo>≈</mo><mn>3</mn><mo>,</mo><mn>9</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">60/1540 \approx
+3{,}9\%</annotation></semantics></math> (como a nota da solução
+oficial).</p>
+</div></details>
+<details class="sol" id="Redes-F8.3-c"><summary><span class="enun">
+(c) Com TCP
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Os 1480 bytes de dados IP são 20 de cabeçalho TCP + 1460 de
+aplicação. O cabeçalho TCP só vai no <strong>1.º fragmento</strong> (é o
+início dos dados IP).</p>
+<ul>
+<li><strong>Sem fragmentação:</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>20</mn><mo>+</mo><mn>20</mn><mo>=</mo><mn>40</mn></mrow><annotation encoding="application/x-tex">20 + 20 = 40</annotation></semantics></math>
+bytes;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>40</mn><mi>/</mi><mn>1460</mn><mo>≈</mo></mrow><annotation encoding="application/x-tex">40/1460 \approx</annotation></semantics></math>
+<strong>2,7%</strong>.</li>
+<li><strong>Com fragmentação:</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>20</mn><mo>+</mo><mn>20</mn><mo>=</mo><mn>80</mn></mrow><annotation encoding="application/x-tex">3\times20 + 20 = 80</annotation></semantics></math>
+bytes;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80</mn><mi>/</mi><mn>1460</mn><mo>≈</mo></mrow><annotation encoding="application/x-tex">80/1460 \approx</annotation></semantics></math>
+<strong>5,5%</strong>.</li>
+</ul>
+<p>A solução oficial dá 2,7% e <strong>5,4%</strong>: o 5,4% é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80</mn><mi>/</mi><mn>1480</mn></mrow><annotation encoding="application/x-tex">80/1480</annotation></semantics></math>
+(divide pelos dados IP, não pelos da aplicação). Em relação ao total,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>40</mn><mi>/</mi><mn>1500</mn><mo>≈</mo><mn>2</mn><mo>,</mo><mn>7</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">40/1500 \approx
+2{,}7\%</annotation></semantics></math> e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80</mn><mi>/</mi><mn>1540</mn><mo>≈</mo><mn>5</mn><mo>,</mo><mn>2</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">80/1540 \approx 5{,}2\%</annotation></semantics></math>,
+como na nota oficial.</p>
+</div></details>
+<details class="sol" id="Redes-F8.3-d"><summary><span class="enun">
+(d) Onde se remonta
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>No <strong>nó de destino</strong>: (1) é o <strong>único</strong> nó
+por onde passam garantidamente todos os fragmentos (podem seguir
+caminhos diferentes); (2) não se sobrecarregam os <em>routers</em>
+(memória e processamento para guardar fragmentos à espera dos outros), e
+o núcleo da rede fica simples.</p>
+</div></details>
+</section>
+<section id="Redes-c4.2-fragmentar-um-fragmento-exercício-inventado" class="level3">
+<h3>C4.2 — Fragmentar um fragmento (exercício inventado)</h3>
+<p>Do exemplo: fragmento 1 = <em>length</em> 1500, dados 1480, MF 1,
+<em>offset</em> 0; fragmento 3 = <em>length</em> 1040, dados 1020, MF 0,
+<em>offset</em> 370. MTU 620: dados por sub-fragmento
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>620</mn><mo>−</mo><mn>20</mn><mo>=</mo><mn>600</mn></mrow><annotation encoding="application/x-tex">= 620 - 20 = 600</annotation></semantics></math>
+(múltiplo de 8:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>600</mn><mo>=</mo><mn>8</mn><mo>×</mo><mn>75</mn></mrow><annotation encoding="application/x-tex">600 =
+8\times75</annotation></semantics></math>).</p>
+<details class="sol" id="Redes-C4.2-a"><summary><span class="enun">
+(a) O fragmento 1
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1480</mn><mo>=</mo><mn>600</mn><mo>+</mo><mn>600</mn><mo>+</mo><mn>280</mn></mrow><annotation encoding="application/x-tex">1480 = 600 + 600 + 280</annotation></semantics></math>;
+os <em>offsets</em> somam-se ao do fragmento (0).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">sub-fragmento</th>
+<th style="text-align: right;">dados</th>
+<th style="text-align: right;"><em>length</em></th>
+<th style="text-align: center;">MF</th>
+<th style="text-align: right;"><em>offset</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1a</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">620</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td style="text-align: left;">1b</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">620</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>600</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>75</mn></mrow><annotation encoding="application/x-tex">600/8 = 75</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;">1c</td>
+<td style="text-align: right;">280</td>
+<td style="text-align: right;">300</td>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1200</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>150</mn></mrow><annotation encoding="application/x-tex">1200/8 = 150</annotation></semantics></math></td>
+</tr>
+</tbody>
+</table>
+<p>O 1c fica com MF = 1 porque o fragmento 1 tinha MF = 1: depois dele
+ainda vêm dados do datagrama original. Todos têm ID 777.</p>
+</div></details>
+<details class="sol" id="Redes-C4.2-b"><summary><span class="enun">
+(b) O fragmento 3
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1020</mn><mo>=</mo><mn>600</mn><mo>+</mo><mn>420</mn></mrow><annotation encoding="application/x-tex">1020 = 600 + 420</annotation></semantics></math>;
+<em>offset</em> de partida 370.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">sub-fragmento</th>
+<th style="text-align: right;">dados</th>
+<th style="text-align: right;"><em>length</em></th>
+<th style="text-align: center;">MF</th>
+<th style="text-align: right;"><em>offset</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">3a</td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">620</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>370</mn><mo>+</mo><mn>0</mn><mo>=</mo><mn>370</mn></mrow><annotation encoding="application/x-tex">370 + 0 = 370</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;">3b</td>
+<td style="text-align: right;">420</td>
+<td style="text-align: right;">440</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>370</mn><mo>+</mo><mn>75</mn><mo>=</mo><mn>445</mn></mrow><annotation encoding="application/x-tex">370 + 75 = 445</annotation></semantics></math></td>
+</tr>
+</tbody>
+</table>
+<p>Confirmação:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>445</mn><mo>×</mo><mn>8</mn><mo>+</mo><mn>420</mn><mo>=</mo><mn>3560</mn><mo>+</mo><mn>420</mn><mo>=</mo><mn>3980</mn></mrow><annotation encoding="application/x-tex">445\times8 + 420 = 3560 + 420 = 3980</annotation></semantics></math>,
+os dados todos do original. O 3b herda MF = 0 (é o fim do original).</p>
+</div></details>
+<details class="sol" id="Redes-C4.2-c"><summary><span class="enun">
+(c) Como sabe o destino que está completo
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p>Junta os fragmentos com o mesmo <strong>ID</strong> (777), com a
+mesma origem, o mesmo destino e o mesmo protocolo †. O fragmento com
+<strong>MF = 0</strong> dá o tamanho total
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>445</mn><mo>×</mo><mn>8</mn><mo>+</mo><mn>420</mn><mo>=</mo><mn>3980</mn></mrow><annotation encoding="application/x-tex">445\times8 + 420 = 3980</annotation></semantics></math>
+bytes de dados); a remontagem está completa quando os intervalos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mtext mathvariant="normal">offset</mtext><mo>×</mo><mn>8</mn><mo>,</mo><mspace width="0.222em"></mspace><mtext mathvariant="normal">offset</mtext><mo>×</mo><mn>8</mn><mo>+</mo><mtext mathvariant="normal">dados</mtext><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">[\text{offset}\times8,\ \text{offset}\times8
++ \text{dados})</annotation></semantics></math> cobrem 0 a 3979
+<strong>sem buracos</strong>: 1a, 1b, 1c (0–1479), o fragmento 2
+(1480–2959), 3a e 3b (2960–3979).</p>
+</div></details>
+</section>
+</section>
+<section id="Redes-exames-antigos-escolha-múltipla" class="level2">
+<h2>Exames antigos — escolha múltipla</h2>
+<section id="Redes-ea.120-transporte-e-rede-exames-antigos-de-rc" class="level3">
+<h3>EA.1–20 — Transporte e rede (exames antigos de RC)</h3>
+<p>Perguntas sem resolução oficial: as respostas são nossas,
+justificadas.</p>
+<details class="sol" id="Redes-EA.1–20-1"><summary><span class="enun">
+(1) Transporte fiável: é necessário…
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(c) identificar cada segmento</strong> (números de sequência,
+para detetar duplicados e perdas). (a) não: os erros recuperam-se por
+retransmissão, não se corrigem; (b) não: o rdt2.2 e o TCP passam sem
+NAK; (d) não faz sentido.</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-2"><summary><span class="enun">
+(2) Fragmentação
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(c) camada de rede</strong> (IP, quando o datagrama é maior
+do que a MTU). O transporte <strong>segmenta</strong>, não
+fragmenta.</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-3"><summary><span class="enun">
+(3) Serviço do TCP
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(d) fiável e com controlo de fluxo.</strong> (a): o TCP
+deteta erros e retransmite, não os “corrige”; (b): não garante largura
+de banda; (c) é o UDP.</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-4"><summary><span class="enun">
+(4) Crescimento no slow start
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(c) exponencial</strong>: a janela duplica a cada RTT, apesar
+do nome.</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-5"><summary><span class="enun">
+(5) O UDP
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(b) best effort.</strong> (a) não: sem controlo de
+congestionamento, não é justo; (c) é encapsulado no IP como qualquer
+segmento; (d) pode até desestabilizar a rede.</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-6"><summary><span class="enun">
+(6) Controlo de fluxo
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(c) evitar a sobrecarga do <em>buffer</em> do
+receptor.</strong> (a) é o controlo de congestionamento; (d) é da camada
+de ligação.</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-7"><summary><span class="enun">
+(7) Adaptar a taxa à capacidade da rede
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(b) controlo de congestionamento.</strong> O de fluxo
+adapta-a ao receptor.</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-8"><summary><span class="enun">
+(8) Objetivo do pipelining
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(c) melhorar o débito efetivo</strong>: várias mensagens em
+trânsito em vez de parar à espera de cada ACK. A recuperação de perdas e
+erros (a, b) faz-se com <em>timeouts</em>, números e <em>checksums</em>,
+com ou sem <em>pipelining</em>.</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-9"><summary><span class="enun">
+(9) Desmultiplexagem no TCP
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(c) IPs e portas de origem e de destino</strong> (o tuplo de
+4). (b) é o UDP.</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-10"><summary><span class="enun">
+(10) Para que é o three-way handshake
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(a) estabelecer os números de sequência iniciais</strong> (e
+reservar os <em>buffers</em>). O RTT, a janela de congestionamento e a
+capacidade não se negoceiam no <em>handshake</em>.</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-11"><summary><span class="enun">
+(11) Objetivo do GBN e do SR
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(c) melhorar o débito efetivo</strong>: são as versões com
+<em>pipelining</em> da transferência fiável. A entrega ordenada e a
+recuperação de erros já existiam no <em>stop-and-wait</em> (rdt3.0);
+adaptar a taxa à rede (d) é o controlo de congestionamento.</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-12"><summary><span class="enun">
+(12) Transporte fiável sem usar…
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(d) pipelining</strong>: o rdt3.0 é fiável e é
+<em>stop-and-wait</em>. Sem temporizadores, não se recupera de perdas;
+sem confirmações, o emissor não sabe o que chegou; sem retransmissões,
+nada se recupera.</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-13"><summary><span class="enun">
+(13) Reno: 42 MSS e triplo ACK duplicado; 3 RTT depois
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(a) janela 23 e limiar 21.</strong> Na perda: limiar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>42</mn><mi>/</mi><mn>2</mn><mo>=</mo><mn>21</mn></mrow><annotation encoding="application/x-tex">= 42/2 = 21</annotation></semantics></math>
+e CongWin
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>21</mn></mrow><annotation encoding="application/x-tex">= 21</annotation></semantics></math>,
+em CA. Uma ronda depois da perda a janela é 21, depois 22, e 3 RTT
+depois 23 (como na F7.4: perda no fim da ronda 16 com 42, ronda 17 = 21,
+18 = 22, 19 = 23). O limiar mantém-se 21. (c) e (d) seriam um
+<em>timeout</em>.</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-14"><summary><span class="enun">
+(14) Equidade
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(d) todas as anteriores</strong>: as aplicações UDP e as que
+usam transporte sem controlo de congestionamento não reduzem o débito
+quando há perdas, e as que abrem várias conexões TCP ficam com uma fatia
+por conexão.</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-15"><summary><span class="enun">
+(15) Impossível numa rede de CVs
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(c) reordenamento</strong>: o caminho é fixo e FIFO. Erros de
+bit, perdas e congestionamento podem acontecer.</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-16"><summary><span class="enun">
+(16) Campo identification
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(b) fragmentação</strong>: identifica os fragmentos do mesmo
+datagrama original. (d) é o campo protocolo (e as portas, no
+transporte).</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-17"><summary><span class="enun">
+(17) Limitação do stop-and-wait
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(b) pode limitar severamente a taxa de transmissão</strong>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mi>L</mi><mi>/</mi><mi>R</mi><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mi>R</mi><mi>T</mi><mi>T</mi><mo>+</mo><mi>L</mi><mi>/</mi><mi>R</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">U = (L/R)/(RTT +
+L/R)</annotation></semantics></math>). (a) é falso (deteta-as por
+<em>timeout</em>); (c) é o Go-Back-N; (d) é falso (com um pacote de cada
+vez, a ordem é garantida).</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-18"><summary><span class="enun">
+(18) Para que servem os temporizadores
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(a) recuperar de perdas.</strong> Os duplicados detetam-se
+com números de sequência (b); os erros de bit com o <em>checksum</em>
+(d).</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-19"><summary><span class="enun">
+(19) Débito reduzido a 1 MSS por RTT
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(d) timeout</strong>: é o único evento que põe CongWin a 1
+MSS. O triplo ACK duplicado só o reduz a metade (a); um segmento fora de
+ordem (c) gera um ACK duplicado, não uma redução.</p>
+</div></details>
+<details class="sol" id="Redes-EA.1–20-20"><summary><span class="enun">
+(20) Rede de circuitos virtuais
+</span><span class="estado" aria-hidden="true"></span></summary><div class="corpo">
+<p><strong>(b) os <em>routers</em> guardam informação sobre fluxos
+individuais</strong> (a tabela de CVs). (a): o reenvio usa o número de
+CV; (c) e (d) são propriedades das redes de datagramas.</p>
 </div></details>
 </section>
 </section>

@@ -1,7 +1,7 @@
 ---
 title: "Redes de Comunicação --- Folha de revisão"
 author: "Gonçalo Sousa"
-date: "Capítulos 1--2. As receitas do resumo, sem exemplos: para rever antes do teste."
+date: "Capítulos 1--4 (até à fragmentação IP). As receitas do resumo, sem exemplos: para rever antes do teste."
 ---
 
 ## Comutação
@@ -191,3 +191,79 @@ alta de pedidos curtos).
 | estado | não | sim | --- | POP3 não; IMAP sim | --- |
 | controlo | *in-band* | *out-of-band* | *in-band* | *in-band* | --- |
 | sentido | *pull* | ambos | *push* | *pull* | pergunta/resposta |
+
+## Transporte: UDP, checksum, rdt
+
+**Socket**: UDP = (IP dest., porta dest.); TCP = (IP orig., porta orig.,
+IP dest., porta dest.). Só nos terminais. Cabeçalho UDP 8 B (portas,
+comprimento do segmento inteiro, *checksum*); TCP 20 B.
+
+***Checksum***: somar palavras de 16 bits (campo a zeros), o transporte
+volta a entrar à direita; *checksum* = complemento para 1. Receptor: soma
+tudo com o *checksum* → tudo uns = sem erros. Falha com um 0→1 e um 1→0
+na mesma coluna. UDP: tudo zeros envia-se como tudo uns.
+
+**rdt**: 2.0 *checksum* + ACK/NAK; 2.1 nº de seq. 0/1 (ACK/NAK
+corrompidos → duplicados); 2.2 sem NAK (ACK duplicado = NAK); 3.0
+temporizador (perdas; só retransmite por *timeout*). ACKs com número por
+causa dos *timeouts* prematuros.
+
+$$U = \frac{N\cdot L/R}{RTT + L/R}\quad(N=1:\ \textit{stop-and-wait});\qquad
+N_{\text{contínuo}} \ge \frac{RTT + L/R}{L/R}$$
+
+| | GBN | SR |
+|:--|:--|:--|
+| ACK | cumulativo | individual |
+| fora de ordem | descarta, repete ACK do último em ordem | *buffer* + ACK |
+| temporizador | 1 (o mais antigo) | 1 por pacote |
+| *timeout* | reenvia esse e todos os seguintes | só esse |
+| $k$ bits | $N \le 2^k-1$ | $N \le 2^{k-1}$ |
+
+## TCP
+
+Seq = nº do 1.º byte do segmento; ACK = próximo byte esperado
+(cumulativo); somar **bytes**, não segmentos. **3 ACKs duplicados** (4
+iguais) → retransmissão rápida. Receptor: em ordem → *delayed ACK* (500
+ms); fora de ordem → ACK duplicado já.
+
+**RTT** (não usar segmentos retransmitidos): $D \leftarrow (1-\beta)D +
+\beta|S-E|$ (com o $E$ antigo), $E \leftarrow (1-\alpha)E + \alpha S$,
+*timeout* $= E + 4D$; $\alpha = 1/8$, $\beta = 1/4$. *Timeout* → duplica o
+temporizador.
+
+**Fluxo**: RcvWindow = RcvBuffer − (LastByteRcvd − LastByteRead);
+LastByteSent − LastByteAcked ≤ min(CongWin, RcvWindow). Janela 0 →
+segmentos de 1 byte. **Conexão**: SYN($x$) → SYN+ACK($y$, $x+1$) →
+ACK($y+1$, já com dados); fecho: FIN/ACK em cada sentido, TIME_WAIT no
+que fecha primeiro.
+
+## Congestionamento (TCP Reno)
+
+Débito ≈ CongWin/RTT. SS: +1 MSS por ACK (duplica por RTT) até ao limiar;
+CA: +MSS·MSS/CongWin por ACK (+1 MSS por RTT). **3 ACKs dup.**: limiar =
+CongWin/2, CongWin = limiar (CA). **Timeout**: limiar = CongWin/2,
+CongWin = 1 (SS). Tahoe: 1 em qualquer perda. Gráfico: metade = 3 ACKs
+dup.; 1 = *timeout*. $k$-ésimo segmento: somar as janelas por ronda.
+
+Débito médio $0{,}75\,W/RTT$; $\approx 1{,}22\,\text{MSS}/(RTT\sqrt L)$,
+$L\approx 8/(3W^2)$. Equidade: $R/K$ (AIMD converge); UDP e conexões
+paralelas fogem-lhe. Colapso: perdas desperdiçam capacidade a montante.
+
+## Rede até à fragmentação
+
+**Encaminhamento** (rota, algoritmos, tabela) vs **reenvio** (entrada →
+saída num *router*). **CV**: estabelecimento, nº de CV por ligação (muda
+em cada salto), estado por conexão, reserva possível, sem reordenamento.
+**Datagramas**: sem estado, pelo destino, caminhos diferentes, **prefixo
+mais longo**. Internet = melhor esforço (sem garantias).
+
+**Router**: plano de controlo (encaminhamento) e de dados (reenvio);
+matriz por memória (2× o barramento), barramento ou rede de interligação;
+filas na entrada (bloqueio HOL) e na saída (escalonamento, perdas).
+*Buffer* = RTT·C (ou RTT·C/√N).
+
+**IP**: 20 B; TTL, protocolo, *checksum* só do cabeçalho; com TCP, 40 B.
+**Fragmentar**: dados = total − 20; por fragmento (MTU − 20) arredondado para baixo a múltiplo
+de 8; *length* = dados + 20; mesmo ID; MF = 1 exceto o último; *offset* =
+bytes antes/8. Remonta só no destino. Fragmento de fragmento: *offsets*
+relativos ao original, MF do último = MF do pai.

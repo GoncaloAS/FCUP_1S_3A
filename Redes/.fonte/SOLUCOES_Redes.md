@@ -1,6 +1,6 @@
 ---
 title: "Redes de Comunicação --- Soluções dos exercícios \"Pratica agora\""
-subtitle: "Ficha 1 (Praticas/Semana_1/exercicios_redes.pdf), Ficha 2 (Praticas/Semana_2/ficha_2.pdf, exercícios F2.x), Ficha 3 (Praticas/Semana_3/ficha_3_protocolos_aplicacionais.pdf, exercícios F3.x), Ficha 4 (Praticas/Semana_4/ficha_4_sockets_smtp.pdf, exercícios F4.x) o Teste modelo 1 (Testes/Teste_Modelo_1.pdf, M1.x) e exercícios inventados para o Capítulo 2 (C2.x). As fichas 1 a 3 e o teste modelo têm soluções oficiais; as diferenças estão assinaladas. Tenta primeiro sozinho; abre uma alínea só depois de a teres feito. Convenções: 1 MB = 10⁶ bytes, 1 Mbps = 10⁶ bit/s, 1 byte = 8 bits."
+subtitle: "Ficha 1 (Praticas/Semana_1/exercicios_redes.pdf), Ficha 2 (Praticas/Semana_2/ficha_2.pdf, exercícios F2.x), Ficha 3 (Praticas/Semana_3/ficha_3_protocolos_aplicacionais.pdf, exercícios F3.x), Ficha 4 (Praticas/Semana_4/ficha_4_sockets_smtp.pdf, exercícios F4.x) o Teste modelo 1 (Testes/Teste_Modelo_1.pdf, M1.x), Fichas 6, 7 e 8 (Praticas/Semana_6 a 8, F6.x, F7.x, F8.x; soluções oficiais no Moodle), escolha múltipla de exames antigos (EA.x) e exercícios inventados (C2.x, C3.x, C4.x). As fichas 1 a 3 e o teste modelo têm soluções oficiais; as diferenças estão assinaladas. Tenta primeiro sozinho; abre uma alínea só depois de a teres feito. Convenções: 1 MB = 10⁶ bytes, 1 Mbps = 10⁶ bit/s, 1 byte = 8 bits."
 ---
 
 ## Comutação de pacotes --- multiplexagem estatística
@@ -2351,3 +2351,777 @@ distância e do meio, e a transmissão de $L/R$; nenhuma muda com a carga.
 **(a)**. Depois do `DATA`, a mensagem acaba numa linha só com `.`
 (`CRLF.CRLF`). Não pode ser (c): a conexão é persistente e pode levar
 mais mensagens.
+
+## Aula 3 --- Desmultiplexagem
+
+### C3.1 --- Que socket recebe cada segmento (exercício inventado)
+
+Servidor C: *socket* UDP na porta 6428 e servidor TCP na porta 80.
+
+#### (a) Sockets dos dois segmentos UDP
+
+**Uma só.** No UDP a *socket* é identificada por **(IP de destino, porta de
+destino)**. Os dois segmentos têm destino `C:6428`, por isso vão para a
+mesma *socket*, apesar de virem de IPs e portas de origem diferentes
+(`A:9157` e `B:5775`). O servidor distingue-os pelo endereço de origem
+que o `receive` lhe devolve.
+
+#### (b) Sockets dos três segmentos TCP
+
+**Três**, uma por conexão. No TCP a *socket* é identificada pelo tuplo
+(IP orig., porta orig., IP dest., porta dest.):
+
+- `(A, 9157, C, 80)`;
+- `(B, 9157, C, 80)`: mesma porta de origem que o anterior, mas outro IP;
+- `(B, 5775, C, 80)`: mesmo IP que o anterior, mas outra porta.
+
+Basta um valor diferente para ser outra conexão. (A *welcome socket* da
+porta 80 só recebe os SYN de conexões novas.)
+
+#### (c) Portas da resposta UDP de C para A
+
+Origem `C:6428`, destino `A:9157`. A porta de origem do pedido é o
+"endereço para a resposta".
+
+## Aula 3 --- Checksums
+
+### F6.5 --- Checksums (Ficha 6)
+
+Palavras de 16 bits, por ordem:
+$w_1$ `0100101001101010`, $w_2$ `1101101100101000`, $w_3$
+`0000000000010000`, $w_4$ `0000000000000000`, $w_5$
+`1010001010101010`, $w_6$ `1000000111110101`, $w_7$
+`1101000111101000`, $w_8$ `1000101010110111`.
+
+#### (a) Portas de origem e destino e tamanho
+
+O cabeçalho UDP tem 4 campos de 16 bits, por esta ordem: porta de origem,
+porta de destino, comprimento e *checksum*. Em *network order* (*big
+endian*), o primeiro byte é o mais significativo:
+
+- porta de origem $= w_1$ = `0100101001101010` $= 2^{14}+2^{11}+2^{9}+2^{6}+2^{5}+2^{3}+2^{1} = 16384+2048+512+64+32+8+2 = $ **19050**;
+- porta de destino $= w_2$ = `1101101100101000` $= 32768+16384+4096+2048+512+256+32+8 = $ **56104**;
+- comprimento $= w_3$ = `0000000000010000` $= $ **16 bytes** (8 de
+  cabeçalho + 8 de dados: as duas últimas linhas);
+- $w_4$ = 0: o campo do *checksum* ainda não foi preenchido.
+
+#### (b) Calcular e verificar o checksum
+
+Soma com *wraparound* (quando passa de 16 bits, o 1 da esquerda soma-se
+à direita), com o campo do *checksum* a zeros:
+
+| passo | soma | resultado (16 bits) |
+|:--|:--|:--|
+| $w_1$ | | `0100101001101010` |
+| $+\,w_2$ | `1 0010010110010010` → $+1$ | `0010010110010011` |
+| $+\,w_3$ | sem transporte | `0010010110100011` |
+| $+\,w_4$ | (zeros) | `0010010110100011` |
+| $+\,w_5$ | sem transporte | `1100100001001101` |
+| $+\,w_6$ | `1 0100101001000010` → $+1$ | `0100101001000011` |
+| $+\,w_7$ | `1 0001110000101011` → $+1$ | `0001110000101100` |
+| $+\,w_8$ | sem transporte | `1010011011100011` |
+
+Soma = `1010011011100011`; ***checksum*** = complemento para 1 =
+**`0101100100011100`** (0x591C). O datagrama fica com a 2.ª linha
+`00000000 00010000 01011001 00011100`.
+
+**Verificação** (receptor: soma tudo, com o *checksum*):
+`1010011011100011 + 0101100100011100 = 1111111111111111`. Tudo uns:
+nenhum erro detetado.
+
+#### (c) Um erro detetado
+
+Troca o último bit de $w_8$: `1000101010110111` → `1000101010110110`
+(vale menos 1). A soma do receptor passa a
+`1111111111111111 − 1 = 1111111111111110`: há um 0, **erro detetado**.
+Qualquer erro de um só bit muda a soma, por isso é sempre detetado.
+
+#### (d) Um erro que o checksum não deteta
+
+Na **mesma coluna** de duas palavras, um 0 passa a 1 numa e um 1 passa a
+0 na outra. Por exemplo, o último bit de $w_5$ (0 → 1:
+`1010001010101011`, mais 1) e o último bit de $w_8$ (1 → 0:
+`1000101010110110`, menos 1). A soma não muda: o receptor obtém outra vez
+`1111111111111111` e **não deteta** o erro. (Trocar duas palavras de
+ordem também passa despercebido.)
+
+## Aula 3 --- Stop-and-wait
+
+### F6.1 --- Stop-and-wait (Ficha 6)
+
+#### (a) Porquê números de sequência nas confirmações
+
+Por causa dos ***timeouts* prematuros** (ou de ACKs que só se atrasam).
+Sem números:
+
+1. o emissor envia o pacote P1 e o ACK atrasa-se;
+2. dá *timeout* e retransmite P1;
+3. chega o 1.º ACK (de P1): o emissor envia P2;
+4. P2 perde-se, mas chega o 2.º ACK, que é da **retransmissão** de P1;
+5. sem número, o emissor toma-o como confirmação de **P2** e avança: P2
+   perdeu-se e ninguém deu por isso.
+
+Com o número (1 bit chega, 0/1), o 2.º ACK diz "ACK de P1" e o emissor,
+que espera o ACK de P2, ignora-o. (Os pacotes também precisam de número,
+para o receptor descartar o P1 duplicado.)
+
+#### (b) É adequado a 10 Mbps, 20 ms, 1500 bytes?
+
+1. $L/R = 1500\times8/10^7 = 12\,000/10^7 = 1{,}2\times10^{-3}$ s $= 1{,}2$
+   ms.
+2. $RTT = 2\times20 = 40$ ms.
+3. $U = \dfrac{L/R}{RTT + L/R} = \dfrac{1{,}2}{41{,}2} \approx 0{,}029$.
+
+**Não é adequado**: a ligação só está ocupada cerca de 3% do tempo
+(débito $\approx 0{,}029\times10$ Mbps $\approx 290$ kbps). Para
+transmissão contínua seriam precisos $41{,}2/1{,}2 \approx 34{,}3$, ou
+seja, **35 pacotes em trânsito** (*pipelining*). Solução oficial:
+$U \approx 0{,}029$, "não é adequado".
+
+## Aula 3 --- Janelas
+
+### F6.2 --- Repetições seletivas manuais (Ficha 6)
+
+#### (a) Porque é necessária e suficiente uma gama de 2 × janela
+
+**Necessária:** com janela $N$ e menos de $2N$ números, o receptor pode
+confirmar uma janela inteira cujos ACKs se perdem todos. A janela dele
+avança para números que, com a gama "a dar a volta", **coincidem** com os
+da janela antiga que o emissor vai retransmitir. Um pacote velho é então
+aceite como novo (o dilema dos slides: números 0 a 3, janela 3).
+
+**Suficiente:** no pior caso, a janela do emissor e a do receptor estão
+completamente desfasadas mas **contíguas**: o emissor ainda está na
+janela antiga (à espera de ACKs perdidos) e o receptor já na seguinte.
+São $2N$ números seguidos; se a gama tiver pelo menos $2N$, são todos
+diferentes, e um segmento retransmitido nunca é confundido no receptor
+com outro mais à frente com o mesmo número.
+
+#### (b) Esquema: 5 blocos, janela 3, timeout 3, perdem-se B(3) e A(2)
+
+Regras: em cada instante o emissor envia no máximo uma mensagem; uma
+mensagem enviada no instante $t$ chega em $t+1$ e o receptor responde
+logo, por isso o ACK chega ao emissor em $t+2$; sem ACK, reenvia em
+$t+3$.
+
+| instante | emissor | mensagem | receptor |
+|:--:|:--|:--|:--|
+| 1 | janela [0,2]; envia B(0) | B(0) → | |
+| 2 | envia B(1) | B(1) → | recebe B(0), entrega-o; envia A(0); janela [1,3] |
+| 3 | recebe A(0): janela [1,3]; envia B(2) | B(2) → | recebe B(1), entrega-o; envia A(1); janela [2,4] |
+| 4 | recebe A(1): janela [2,4]; envia B(3) | B(3) ✕ perdido | recebe B(2), entrega-o; envia A(2) ✕ perdido; janela [3,5] |
+| 5 | envia B(4) | B(4) → | (nada chega) |
+| 6 | *timeout* de B(2) (enviado em 3): reenvia B(2) | B(2) → | recebe B(4): fora de ordem → *buffer*; envia A(4) |
+| 7 | recebe A(4): marca o 4; *timeout* de B(3) (enviado em 4): reenvia B(3) | B(3) → | recebe B(2): já entregue (em [0,2]), reenvia A(2) |
+| 8 | recebe A(2): janela [3,5] | | recebe B(3): entrega 3 e 4; envia A(3); janela [5,7] |
+| 9 | recebe A(3): tudo confirmado, janela [5,7] | | |
+
+O B(4) **não** é retransmitido: o A(4) chega no instante 7, antes do seu
+*timeout* (5 + 3 = 8). No instante 7 o receptor tem de voltar a
+confirmar o B(2), que já tinha entregue: sem esse ACK, o emissor ficava a
+retransmitir B(2) para sempre. A solução oficial é uma figura (não
+transcrita no Moodle); confere com ela os instantes.
+
+### F6.4 --- Size matters? (Ficha 6)
+
+#### (a) Janela para fluxo contínuo
+
+1. $d_{prop} = 5\times10^6\text{ m} / 2\times10^8\text{ m/s} = 0{,}025$ s;
+   $RTT = 0{,}05$ s.
+2. $L/R = 1000\times8 / 2\times10^9 = 4\times10^{-6}$ s.
+3. Fluxo contínuo quando o 1.º ACK chega mesmo antes de a janela acabar:
+   $N\cdot L/R \ge RTT + L/R$, logo
+   $N \ge \dfrac{0{,}05 + 0{,}000004}{0{,}000004} = 12\,500 + 1 = $
+   **12 501 blocos**.
+
+Números de sequência: no SR a gama tem de ter $2N = 25\,002$ números;
+$2^{14} = 16\,384 < 25\,002 \le 2^{15} = 32\,768$, por isso **15 bits**.
+Solução oficial: 12 501 blocos.
+
+#### (b) Faz sentido uma janela maior?
+
+**Sem perdas, não:** com 12 501 blocos a transmissão já é contínua. **Com
+perdas, sim:** recuperar de uma perda demora pelo menos mais um RTT (o
+*timeout* ou o pedido de retransmissão), e uma janela maior deixa
+continuar a enviar blocos novos durante esse tempo em vez de parar.
+
+## Aula 3 --- Timeout
+
+### F7.3 --- Timeout (Ficha 7)
+
+$\alpha = 0{,}1$; SampleRTT(1) é a amostra mais recente.
+
+#### (a) EstimatedRTT com 4 amostras
+
+O valor inicial é a 1.ª amostra, SampleRTT(4). Aplicando a fórmula três
+vezes:
+
+1. depois de S(3): $E = (1-\alpha)S(4) + \alpha S(3)$;
+2. depois de S(2): $E = (1-\alpha)^2 S(4) + \alpha(1-\alpha) S(3) + \alpha S(2)$;
+3. depois de S(1):
+$$E = \alpha S(1) + \alpha(1-\alpha) S(2) + \alpha(1-\alpha)^2 S(3) + (1-\alpha)^3 S(4)$$
+$$= 0{,}1\,S(1) + 0{,}09\,S(2) + 0{,}081\,S(3) + 0{,}729\,S(4).$$
+
+(Os pesos somam 1. A mais antiga pesa tanto porque também é o valor
+inicial.)
+
+#### (b) Generalização para n amostras
+
+$$E = \alpha\sum_{i=1}^{n-1}(1-\alpha)^{i-1}\,S(i) + (1-\alpha)^{n-1}S(n)
+\ \approx\ \alpha\sum_{i=1}^{n}(1-\alpha)^{i-1}\,S(i)$$
+
+Para $n$ grande, $(1-\alpha)^{n-1}$ é desprezável e fica a forma
+aproximada (é a da solução oficial).
+
+#### (c) Porque se chama média móvel exponencial
+
+Por causa do expoente $i-1$: cada amostra perde peso **exponencialmente**
+(fator $1-\alpha$) à medida que chegam amostras novas. É "móvel" porque a
+média acompanha os valores recentes.
+
+#### (d) Timeout depois das 8 amostras
+
+Valores iniciais: $E = 54$, $D = 54/2 = 27$. Para cada amostra $S$, pela
+ordem da receita: $D \leftarrow 0{,}8D + 0{,}2|S - E|$ (com o $E$ antigo)
+e depois $E \leftarrow 0{,}9E + 0{,}1S$. A 1.ª amostra (54) também entra.
+
+| $S$ | $\lvert S-E\rvert$ | $D$ novo | $E$ novo | $E + 4D$ |
+|--:|--:|--:|--:|--:|
+| 54 | 0 | $0{,}8\cdot27 = 21{,}6$ | 54 | 140,4 |
+| 63 | 9 | $17{,}28 + 1{,}8 = 19{,}08$ | $48{,}6 + 6{,}3 = 54{,}9$ | 131,22 |
+| 55 | 0,1 | $15{,}264 + 0{,}02 = 15{,}284$ | $49{,}41 + 5{,}5 = 54{,}91$ | 116,05 |
+| 57 | 2,09 | $12{,}227 + 0{,}418 = 12{,}645$ | $49{,}419 + 5{,}7 = 55{,}119$ | 105,70 |
+| 68 | 12,881 | $10{,}116 + 2{,}576 = 12{,}692$ | $49{,}607 + 6{,}8 = 56{,}407$ | 107,18 |
+| 56 | 0,407 | $10{,}154 + 0{,}081 = 10{,}235$ | $50{,}766 + 5{,}6 = 56{,}366$ | 97,31 |
+| 55 | 1,366 | $8{,}188 + 0{,}273 = 8{,}462$ | $50{,}730 + 5{,}5 = 56{,}230$ | 90,08 |
+| 58 | 1,770 | $6{,}769 + 0{,}354 = 7{,}123$ | $50{,}607 + 5{,}8 = 56{,}407$ | **84,90** |
+
+**Timeout ≈ 84,9 ms** (igual à solução oficial). Nota: só se chega aos
+84,9 com estas duas escolhas (a 1.ª amostra também entra, e o DevRTT usa
+o $E$ antigo). Sem a 1.ª amostra daria 89,4 ms; com o $E$ novo, 83,9 ms;
+com os valores típicos $\alpha = 0{,}125$, $\beta = 0{,}25$, 78,4 ms.
+
+#### (e) E se algum pacote tivesse sido retransmitido?
+
+Sim. Quando chega o ACK de um segmento retransmitido, não se sabe se é da
+1.ª transmissão ou da retransmissão, por isso não se sabe que RTT mediu.
+Por isso **os ACKs de segmentos retransmitidos não são usados como
+amostras**: essa amostra saía da tabela, e os valores seguintes mudavam.
+
+#### (f) O RTT aumenta muito e há timeouts sucessivos
+
+Em cada *timeout*, o TCP **duplica o temporizador** (*backoff*
+exponencial). Se continuasse a usar o valor antigo, todos os segmentos
+dariam *timeout* e seriam retransmitidos e, como as amostras de
+segmentos retransmitidos são ignoradas, a estimativa do RTT nunca mais
+se atualizaria. Duplicando, o temporizador acaba por ultrapassar o RTT
+novo, chegam ACKs de segmentos não retransmitidos e a estimativa volta a
+ajustar-se (e alivia-se a rede, que provavelmente está congestionada).
+
+## Aula 3 --- Retransmissão rápida
+
+### C3.2 --- Números de sequência e retransmissão rápida (exercício inventado)
+
+Situação: o 1000 (500 B) chegou (`ACK=1500`), o 1500 (300 B) perdeu-se, e
+o 1800 (200 B) chegou fora de ordem (`ACK=1500`, **1.º duplicado**).
+
+#### (a) Os três segmentos novos e os seus ACKs
+
+Continuam a partir do último byte enviado ($1800 + 200 = 2000$):
+sequências **2000**, **2100** e **2200** (100 bytes cada). Todos chegam
+fora de ordem (o buraco 1500--1799 continua), por isso cada um gera
+`ACK=1500` (2.º, 3.º e 4.º duplicados).
+
+#### (b) Quando é a retransmissão rápida
+
+Contando os duplicados de 1500: o do 1800 é o 1.º, o do 2000 o 2.º e o do
+2100 o **3.º**. Quando A recebe o ACK duplicado gerado pelo segmento
+**2100**, retransmite logo o 1500, sem esperar pelo *timeout*. (O 4.º
+duplicado, do 2200, já não volta a provocar retransmissão.)
+
+#### (c) ACK quando o 1500 chega
+
+B passa a ter os bytes 1000 a 2299 seguidos (o 1500 tapa o buraco; o
+1800, 2000, 2100 e 2200 estavam no *buffer*): envia **`ACK=2300`**, que
+confirma tudo de uma vez.
+
+## Aula 3 --- Conexões e janela do receptor
+
+### F7.2 --- Hello Goodbye (Ficha 7)
+
+#### (a) Three-way handshake
+
+Serve para **inicializar as variáveis da conexão** nos dois lados antes
+dos dados: os **números de sequência iniciais** de cada sentido e os
+*buffers*/janela do receptor. Processa-se em três segmentos:
+
+1. **SYN** (cliente → servidor): sem dados, com o número de sequência
+   inicial do cliente, $x$;
+2. **SYN+ACK** (servidor → cliente): o servidor reserva os *buffers*,
+   envia o seu número inicial $y$ e confirma o do cliente (`ACK = x+1`);
+3. **ACK** (cliente → servidor): `ACK = y+1`; já pode levar dados.
+
+São precisos três porque cada lado tem de saber que o outro recebeu o seu
+número inicial: o 2.º segmento confirma o do cliente, o 3.º o do servidor.
+
+#### (b) Terminar a conexão
+
+Cada sentido fecha em separado (a conexão é *full duplex*):
+
+1. quem fecha primeiro (p. ex. o cliente, `close()`) envia **FIN**;
+2. o outro responde **ACK** (pode ainda enviar dados) e, quando a
+   aplicação dele também fechar, envia o seu **FIN**;
+3. o primeiro responde **ACK** e fica em **TIME_WAIT** (2 vezes o tempo de
+   vida de um segmento), para voltar a responder com ACK se o FIN se
+   repetir (o último ACK pode perder-se);
+4. ao receber esse ACK, o outro lado fecha; o primeiro fecha quando
+   acaba o TIME_WAIT.
+
+Solução oficial: SYN, SYN+ACK e ACK; FIN e ACK + FIN e ACK.
+
+### C3.3 --- Janela do receptor (exercício inventado)
+
+RcvBuffer = 4000; LastByteRcvd = 2999; LastByteRead = 999.
+
+#### (a) RcvWindow anunciada
+
+$\text{RcvWindow} = 4000 - (2999 - 999) = 4000 - 2000 = $ **2000 bytes**
+(há 2000 bytes recebidos que a aplicação ainda não leu).
+
+#### (b) Até que byte pode o emissor enviar
+
+$\text{LastByteSent} - \text{LastByteAcked} \le 2000$, logo
+$\text{LastByteSent} \le 2999 + 2000 = $ **4999**.
+
+#### (c) A aplicação pára de ler e chegam mais 2000 bytes
+
+LastByteRcvd $= 4999$, LastByteRead $= 999$: RcvWindow $= 4000 -
+(4999 - 999) = $ **0**. O emissor pára de enviar dados novos, mas continua a
+enviar **segmentos de 1 byte** de vez em quando: os ACKs deles trazem a
+RcvWindow atualizada, e é assim que fica a saber quando a aplicação
+voltou a ler e há espaço (sem isso, ficaria bloqueado para sempre).
+
+## Aula 3 --- Controlo de congestionamento
+
+### F7.1 --- Controla o quê? (Ficha 7)
+
+#### Resposta
+
+| | controlo de fluxo | controlo de congestionamento |
+|:--|:--|:--|
+| objetivo | o emissor não envia mais depressa do que o **receptor** consegue processar (não extravasar o *buffer* dele) | o emissor não envia mais depressa do que a **rede** consegue levar até ao receptor |
+| entidade ativa | o **receptor**, que anuncia a RcvWindow (espaço livre no *buffer*) | o **emissor**, que infere o congestionamento pelas perdas (3 ACKs dup. ou *timeout*) e reduz a CongWin |
+
+As duas janelas são limites superiores à janela de *pipelining*:
+$\text{LastByteSent} - \text{LastByteAcked} \le \min(\text{CongWin}, \text{RcvWindow})$.
+
+### F7.4 --- Controlo de congestionamento (Ficha 7)
+
+Leitura do gráfico, ronda a ronda: 1, 2, 4, 8, 16, 32 (rondas 1--6); 33 a
+42 (rondas 7--16); 21 a 26 (17--22); 1, 2, 4, 8 (23--26).
+
+#### (a) Slow start
+
+**[1, 6] e [23, 26]**: a janela **duplica** a cada ronda (1→2→4→8→16→32 e
+1→2→4→8).
+
+#### (b) Congestion avoidance
+
+**[7, 22]**: a janela cresce **1 MSS por ronda** (33→42 e 21→26). Na ronda
+17 recomeça em 21 já em CA, porque foi um triplo ACK duplicado.
+
+#### (c) Perda no fim da ronda 16
+
+**Triplo ACK duplicado**: a janela passa de 42 para **21**, metade (e
+continua a crescer linearmente). Um *timeout* levava-a a 1.
+
+#### (d) Perda no fim da ronda 22
+
+***Timeout***: a janela passa de 26 para **1** MSS e volta ao *slow
+start*.
+
+#### (e) Limiar inicial
+
+**32 MSS**: é onde o crescimento passa de exponencial (até 32, na ronda
+6) a linear (33 na ronda 7).
+
+#### (f) Limiar na ronda 18
+
+Na perda do fim da ronda 16 a janela era 42: limiar $= 42/2 = $ **21
+MSS**.
+
+#### (g) Limiar na ronda 24
+
+Na perda do fim da ronda 22 a janela era 26: limiar $= 26/2 = $ **13
+MSS**. (A ronda 26, com 8, ainda está abaixo dele, em *slow start*.)
+
+#### (h) Ronda do 70.º segmento
+
+Segmentos acumulados: ronda 1: 1; 2: $1+2 = 3$; 3: $3+4 = 7$; 4: $7+8 =
+15$; 5: $15+16 = 31$; 6: $31+32 = 63$; 7: $63+33 = 96$. Os segmentos 64 a
+96 saem na ronda 7, por isso o 70.º sai na **ronda 7**.
+
+#### (i) Triplo ACK duplicado depois da ronda 26
+
+Na ronda 26 a janela é 8: limiar $= 8/2 = 4$ e CongWin $= 4$ (Reno:
+CongWin = limiar). **Ambos 4 MSS.**
+
+### F7.5 --- Janela de congestionamento (Ficha 7)
+
+Numa janela de CongWin bytes há $n = \text{CongWin}/\text{MSS}$
+segmentos, logo chegam $n$ ACKs por RTT.
+
+#### (a) Duplicar a cada RTT
+
+Por RTT a janela tem de crescer CongWin $= n\cdot$MSS; repartido por $n$
+ACKs, dá **+MSS por ACK** (é o *slow start*).
+
+#### (b) Aumentar 1 MSS por RTT
+
+Por RTT tem de crescer 1 MSS, repartido por $n$ ACKs: **+MSS/$n$ =
+MSS·MSS/CongWin por ACK** (é o *congestion avoidance*, na tabela do Reno).
+
+### F8.1 --- De janelas e perdas (Ficha 8)
+
+#### (a) Taxa de perdas ≈ 8/(3W²)
+
+$L$ = pacotes perdidos / pacotes enviados. Num ciclo (de uma perda à
+seguinte) perde-se **1** pacote. A janela começa em $W/2$ e sobe 1 por
+RTT até $W$: são as janelas $W/2,\ W/2+1,\ \ldots,\ W$ ($W/2 + 1$ rondas).
+Pacotes enviados num ciclo:
+$$\sum_{n=0}^{W/2}\left(\frac W2 + n\right)
+= \frac W2\left(\frac W2 + 1\right) + \frac{\frac W2\left(\frac W2+1\right)}{2}
+= \frac{W^2}{4} + \frac W2 + \frac{W^2}{8} + \frac W4
+= \frac38 W^2 + \frac34 W.$$
+Logo $L = \dfrac{1}{\frac38W^2 + \frac34W}$. Para $W$ grande,
+$\frac38W^2 \gg \frac34W$, e $L \approx \dfrac{8}{3W^2}$.
+
+#### (b) Débito ≈ 1,22·MSS/(RTT·√L)
+
+1. De (a): $W^2 \approx \dfrac{8}{3L}$, logo $W \approx \sqrt{\dfrac{8}{3L}}$.
+2. A janela varia linearmente entre $W/2$ e $W$: em média $\frac34W$
+   segmentos por RTT, isto é, débito $= \dfrac34\cdot\dfrac{W\cdot\text{MSS}}{RTT}$.
+3. Substituindo: débito $= \dfrac34\sqrt{\dfrac83}\cdot\dfrac{\text{MSS}}{RTT\sqrt L}$,
+   e $\dfrac34\sqrt{\dfrac83} = 0{,}75\times1{,}633 \approx 1{,}22$. Logo
+   débito $\approx \dfrac{1{,}22\cdot\text{MSS}}{RTT\cdot\sqrt L}$ bytes/s.
+
+(Igual à resolução oficial, `Praticas/Semana_8/F8ex1.pdf`.)
+
+### F6.3 --- O transporte (Ficha 6)
+
+#### (a) Funções da camada de transporte
+
+**Multiplexagem/desmultiplexagem** (entregar a cada processo), **deteção
+de erros** (*checksum*), **fiabilidade** (entrega sem perdas nem
+duplicados, por ordem), **controlo de fluxo** e **controlo de
+congestionamento** (e, no TCP, a gestão de conexões). O **UDP** só tem as
+duas primeiras; o **TCP** tem todas.
+
+#### (b) Parâmetros para escolher a socket
+
+- **UDP:** IP de destino e porta de destino. Não há conexões: uma
+  *socket* recebe datagramas de qualquer origem.
+- **TCP:** IPs e portas de origem **e** de destino. Cada *socket*
+  corresponde a uma **conexão**, identificada pelas duas pontas; um
+  servidor tem várias *sockets* na mesma porta, uma por cliente.
+
+## Aula 4 --- Circuitos virtuais e datagramas
+
+### F8.2 --- Circuitos virtuais vs. datagramas (Ficha 8)
+
+#### (a) Vantagens e inconvenientes
+
+**Circuitos virtuais.** Vantagens: entrega **ordenada**; facilitam a
+**reserva de recursos** por fluxo (desempenho previsível). Inconvenientes:
+**estado por fluxo** em cada *router* (entre pares de máquinas, cresce
+com $O(n^2)$ no número de terminais); **recuperam mal da falha** de um nó
+ou ligação (o circuito tem de ser restabelecido); é preciso estabelecer a
+chamada antes, por isso **demora mais até ao 1.º pacote**.
+
+**Datagramas.** Vantagens: *routers* sem estado por fluxo (núcleo
+simples, escala bem); cada pacote é reenviado independentemente, e por
+isso contornam falhas logo que as tabelas mudam; não há
+estabelecimento. Inconvenientes: sem garantias (podem perder-se e chegar
+fora de ordem), difícil dar QoS.
+
+#### (b) Ligações que falham com frequência
+
+**Datagramas**: não há circuito que caia; os pacotes seguintes seguem
+outro caminho logo que o encaminhamento se adapta.
+
+#### (c) Fluxos multimédia com garantias
+
+**Circuitos virtuais**: permitem reservar capacidade e *buffers* ao longo
+do caminho para cada fluxo.
+
+#### (d) Encaixe do prefixo mais longo
+
+Serve para **agrupar** os endereços de destino na tabela (há demasiados
+para uma entrada cada) e, quando um endereço encaixa em vários prefixos,
+usar o **caminho mais específico** (o prefixo mais longo). Só se usa em
+**redes de datagramas**, onde o reenvio é pelo endereço de destino; com
+circuitos virtuais, o reenvio é pelo número de CV, com encaixe
+**exato**.
+
+#### (e) Perdas sim, reordenamento não
+
+Todos os pacotes de um CV seguem o **mesmo caminho**, fixado no
+estabelecimento, e cada ligação e fila é FIFO: nenhum pode ultrapassar
+outro, por isso a ordem mantém-se. Pode haver perdas (erros, *buffers*
+cheios).
+
+### F8.5 --- Modelos de serviço e QoS (Ficha 8)
+
+#### (a) Melhor esforço
+
+A rede **tenta** entregar os pacotes, mas **sem garantias**: podem
+perder-se ou chegar fora de ordem, e não há limite de atraso nem de
+*jitter*, nem débito mínimo.
+
+#### (b) Componentes do atraso controláveis sem mudar o hardware
+
+Só o **atraso em fila de espera**, baixando o congestionamento. O de
+transmissão ($L/R$) depende da capacidade da ligação, o de propagação da
+distância e do meio, e o de processamento do *router*: todos são
+*hardware* ou física.
+
+#### (c) Reservar recursos por fluxo
+
+**Vantagens:** melhor qualidade de serviço (débito e atraso garantidos),
+melhor experiência do utilizador. **Inconvenientes:** obriga a guardar
+**estado por fluxo** nos *routers*, que pode crescer com $O(n^2)$ no
+número de terminais; precisa de sinalização e de controlo de admissão;
+recursos reservados e não usados ficam desperdiçados.
+
+### C4.1 --- Prefixo mais longo (exercício inventado)
+
+Prefixos: interface 0 `11001000 00010111 00010` (21 bits); 1
+`11001000 00010111 00011000` (24); 2 `11001000 00010111 00011` (21);
+senão 3.
+
+#### (a) `11001000 00010111 00011111 00000001`
+
+Dois primeiros bytes iguais aos da tabela. Terceiro byte `00011111`:
+começa por `00011` (encaixa no 2), mas não é `00011000` (não encaixa no
+1) nem começa por `00010` (não encaixa no 0). → **interface 2**.
+
+#### (b) `11001000 00010111 00010000 11111111`
+
+Terceiro byte `00010000`: começa por `00010` → encaixa só no 0 →
+**interface 0**.
+
+#### (c) `11001000 00010110 00011000 00000000`
+
+O **segundo** byte é `00010110`, e todos os prefixos têm `00010111`:
+não encaixa em nenhum → **interface 3** (a "senão"). Erro típico: olhar
+só para o terceiro byte.
+
+## Aula 4 --- Fragmentação
+
+### F8.3 --- Quem parte e reparte... (Ficha 8)
+
+#### (a) Fragmentação de 1500 bytes com MTU de 600
+
+1. Dados: $1500 - 20 = 1480$ bytes.
+2. Por fragmento: $600 - 20 = 580$, arredondado para baixo a múltiplo de
+   8: $576$ ($= 8\times72$; $584$ já passaria).
+3. $1480 = 576 + 576 + 328$.
+
+| fragmento | dados | *length* | ID | DF | MF | *offset* |
+|:--|--:|--:|:--:|:--:|:--:|--:|
+| 1 | 576 | 596 | $X$ | 0 | 1 | 0 |
+| 2 | 576 | 596 | $X$ | 0 | 1 | $576/8 = 72$ |
+| 3 | 328 | 348 | $X$ | 0 | 0 | $1152/8 = 144$ |
+
+Confirmação: $576 + 576 + 328 = 1480$; $144\times8 + 328 = 1480$. Igual à
+solução oficial.
+
+#### (b) Overhead dos cabeçalhos IP
+
+Dados da aplicação (só IP): 1480 bytes.
+
+- **Sem fragmentação:** 20 bytes; $20/1480 \approx$ **1,4%**.
+- **Com fragmentação:** $3\times20 = 60$ bytes; $60/1480 \approx$ **4,1%**.
+
+Em relação ao tamanho total: $20/1500 \approx 1{,}3\%$ e $60/1540 \approx
+3{,}9\%$ (como a nota da solução oficial).
+
+#### (c) Com TCP
+
+Os 1480 bytes de dados IP são 20 de cabeçalho TCP + 1460 de aplicação. O
+cabeçalho TCP só vai no **1.º fragmento** (é o início dos dados IP).
+
+- **Sem fragmentação:** $20 + 20 = 40$ bytes; $40/1460 \approx$ **2,7%**.
+- **Com fragmentação:** $3\times20 + 20 = 80$ bytes; $80/1460 \approx$
+  **5,5%**.
+
+A solução oficial dá 2,7% e **5,4%**: o 5,4% é $80/1480$ (divide pelos
+dados IP, não pelos da aplicação). Em relação ao total, $40/1500 \approx
+2{,}7\%$ e $80/1540 \approx 5{,}2\%$, como na nota oficial.
+
+#### (d) Onde se remonta
+
+No **nó de destino**: (1) é o **único** nó por onde passam garantidamente
+todos os fragmentos (podem seguir caminhos diferentes); (2) não se
+sobrecarregam os *routers* (memória e processamento para guardar
+fragmentos à espera dos outros), e o núcleo da rede fica simples.
+
+### C4.2 --- Fragmentar um fragmento (exercício inventado)
+
+Do exemplo: fragmento 1 = *length* 1500, dados 1480, MF 1, *offset* 0;
+fragmento 3 = *length* 1040, dados 1020, MF 0, *offset* 370. MTU 620:
+dados por sub-fragmento $= 620 - 20 = 600$ (múltiplo de 8: $600 =
+8\times75$).
+
+#### (a) O fragmento 1
+
+$1480 = 600 + 600 + 280$; os *offsets* somam-se ao do fragmento (0).
+
+| sub-fragmento | dados | *length* | MF | *offset* |
+|:--|--:|--:|:--:|--:|
+| 1a | 600 | 620 | 1 | 0 |
+| 1b | 600 | 620 | 1 | $600/8 = 75$ |
+| 1c | 280 | 300 | **1** | $1200/8 = 150$ |
+
+O 1c fica com MF = 1 porque o fragmento 1 tinha MF = 1: depois dele ainda
+vêm dados do datagrama original. Todos têm ID 777.
+
+#### (b) O fragmento 3
+
+$1020 = 600 + 420$; *offset* de partida 370.
+
+| sub-fragmento | dados | *length* | MF | *offset* |
+|:--|--:|--:|:--:|--:|
+| 3a | 600 | 620 | 1 | $370 + 0 = 370$ |
+| 3b | 420 | 440 | 0 | $370 + 75 = 445$ |
+
+Confirmação: $445\times8 + 420 = 3560 + 420 = 3980$, os dados todos do
+original. O 3b herda MF = 0 (é o fim do original).
+
+#### (c) Como sabe o destino que está completo
+
+Junta os fragmentos com o mesmo **ID** (777), com a mesma origem, o mesmo
+destino e o mesmo protocolo †. O fragmento com **MF = 0** dá o tamanho
+total ($445\times8 + 420 = 3980$ bytes de dados); a remontagem está
+completa quando os intervalos $[\text{offset}\times8,\ \text{offset}\times8
++ \text{dados})$ cobrem 0 a 3979 **sem buracos**: 1a, 1b, 1c (0--1479), o
+fragmento 2 (1480--2959), 3a e 3b (2960--3979).
+
+## Exames antigos --- escolha múltipla
+
+### EA.1--20 --- Transporte e rede (exames antigos de RC)
+
+Perguntas sem resolução oficial: as respostas são nossas, justificadas.
+
+#### (1) Transporte fiável: é necessário...
+
+**(c) identificar cada segmento** (números de sequência, para detetar
+duplicados e perdas). (a) não: os erros recuperam-se por retransmissão,
+não se corrigem; (b) não: o rdt2.2 e o TCP passam sem NAK; (d) não faz
+sentido.
+
+#### (2) Fragmentação
+
+**(c) camada de rede** (IP, quando o datagrama é maior do que a MTU). O
+transporte **segmenta**, não fragmenta.
+
+#### (3) Serviço do TCP
+
+**(d) fiável e com controlo de fluxo.** (a): o TCP deteta erros e
+retransmite, não os "corrige"; (b): não garante largura de banda; (c) é o
+UDP.
+
+#### (4) Crescimento no slow start
+
+**(c) exponencial**: a janela duplica a cada RTT, apesar do nome.
+
+#### (5) O UDP
+
+**(b) best effort.** (a) não: sem controlo de congestionamento, não é
+justo; (c) é encapsulado no IP como qualquer segmento; (d) pode até
+desestabilizar a rede.
+
+#### (6) Controlo de fluxo
+
+**(c) evitar a sobrecarga do *buffer* do receptor.** (a) é o controlo de
+congestionamento; (d) é da camada de ligação.
+
+#### (7) Adaptar a taxa à capacidade da rede
+
+**(b) controlo de congestionamento.** O de fluxo adapta-a ao receptor.
+
+#### (8) Objetivo do pipelining
+
+**(c) melhorar o débito efetivo**: várias mensagens em trânsito em vez de
+parar à espera de cada ACK. A recuperação de perdas e erros (a, b) faz-se
+com *timeouts*, números e *checksums*, com ou sem *pipelining*.
+
+#### (9) Desmultiplexagem no TCP
+
+**(c) IPs e portas de origem e de destino** (o tuplo de 4). (b) é o UDP.
+
+#### (10) Para que é o three-way handshake
+
+**(a) estabelecer os números de sequência iniciais** (e reservar os
+*buffers*). O RTT, a janela de congestionamento e a capacidade não se
+negoceiam no *handshake*.
+
+#### (11) Objetivo do GBN e do SR
+
+**(c) melhorar o débito efetivo**: são as versões com *pipelining* da
+transferência fiável. A entrega ordenada e a recuperação de erros já
+existiam no *stop-and-wait* (rdt3.0); adaptar a taxa à rede (d) é o
+controlo de congestionamento.
+
+#### (12) Transporte fiável sem usar...
+
+**(d) pipelining**: o rdt3.0 é fiável e é *stop-and-wait*. Sem
+temporizadores, não se recupera de perdas; sem confirmações, o emissor
+não sabe o que chegou; sem retransmissões, nada se recupera.
+
+#### (13) Reno: 42 MSS e triplo ACK duplicado; 3 RTT depois
+
+**(a) janela 23 e limiar 21.** Na perda: limiar $= 42/2 = 21$ e CongWin
+$= 21$, em CA. Uma ronda depois da perda a janela é 21, depois 22, e 3
+RTT depois 23 (como na F7.4: perda no fim da ronda 16 com 42, ronda 17 =
+21, 18 = 22, 19 = 23). O limiar mantém-se 21. (c) e (d) seriam um
+*timeout*.
+
+#### (14) Equidade
+
+**(d) todas as anteriores**: as aplicações UDP e as que usam transporte
+sem controlo de congestionamento não reduzem o débito quando há perdas, e
+as que abrem várias conexões TCP ficam com uma fatia por conexão.
+
+#### (15) Impossível numa rede de CVs
+
+**(c) reordenamento**: o caminho é fixo e FIFO. Erros de bit, perdas e
+congestionamento podem acontecer.
+
+#### (16) Campo identification
+
+**(b) fragmentação**: identifica os fragmentos do mesmo datagrama
+original. (d) é o campo protocolo (e as portas, no transporte).
+
+#### (17) Limitação do stop-and-wait
+
+**(b) pode limitar severamente a taxa de transmissão** ($U = (L/R)/(RTT +
+L/R)$). (a) é falso (deteta-as por *timeout*); (c) é o Go-Back-N; (d) é
+falso (com um pacote de cada vez, a ordem é garantida).
+
+#### (18) Para que servem os temporizadores
+
+**(a) recuperar de perdas.** Os duplicados detetam-se com números de
+sequência (b); os erros de bit com o *checksum* (d).
+
+#### (19) Débito reduzido a 1 MSS por RTT
+
+**(d) timeout**: é o único evento que põe CongWin a 1 MSS. O triplo ACK
+duplicado só o reduz a metade (a); um segmento fora de ordem (c) gera um
+ACK duplicado, não uma redução.
+
+#### (20) Rede de circuitos virtuais
+
+**(b) os *routers* guardam informação sobre fluxos individuais** (a
+tabela de CVs). (a): o reenvio usa o número de CV; (c) e (d) são
+propriedades das redes de datagramas.

@@ -1,0 +1,12 @@
+digraph router {
+  rankdir=LR; nodesep=0.15; ranksep=0.35; margin=0;
+  node [shape=box, fontname="Helvetica", fontsize=14, style=filled, fillcolor="#e8eef8", height=0.3];
+  edge [arrowsize=0.6];
+  rp [label="processador de\nencaminhamento\n(plano de controlo:\nRIP, OSPF, BGP)", fillcolor="#f6e3e1"];
+  subgraph cluster_d { label="plano de dados (reenvio)"; fontname="Helvetica"; fontsize=14; style=dashed;
+    i1 [label="entrada 1"]; i2 [label="entrada 2"];
+    sw [label="matriz de\ncomutação", fillcolor="#dfe9d6"];
+    o1 [label="saída 1"]; o2 [label="saída 2"];
+    i1 -> sw; i2 -> sw; sw -> o1; sw -> o2; }
+  rp -> i1 [style=dashed]; rp -> i2 [style=dashed];
+}

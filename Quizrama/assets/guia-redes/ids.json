@@ -38,5 +38,22 @@
  "sockets-tcp",
  "sockets-udp",
  "um-cliente-smtp-com-sockets",
- "resumo-comparativo-dos-protocolos"
+ "resumo-comparativo-dos-protocolos",
+ "aula-3-camada-de-transporte",
+ "serviços-e-multiplexagem",
+ "udp-e-o-checksum",
+ "princípios-da-transferência-fiável",
+ "stop-and-wait-e-a-sua-utilização",
+ "pipelining-go-back-n-e-selective-repeat",
+ "tcp-segmento-números-de-sequência-e-timeout",
+ "estimar-o-rtt-e-escolher-o-timeout",
+ "tcp-transferência-fiável-e-retransmissão-rápida",
+ "tcp-controlo-de-fluxo-e-gestão-de-conexões",
+ "princípios-do-controlo-de-congestionamento",
+ "controlo-de-congestionamento-no-tcp",
+ "aula-4-camada-de-rede-até-à-fragmentação-ip",
+ "reenvio-encaminhamento-e-modelos-de-serviço",
+ "circuitos-virtuais-e-datagramas",
+ "por-dentro-de-um-router",
+ "ip-formato-do-datagrama-e-fragmentação"
 ]

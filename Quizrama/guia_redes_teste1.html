@@ -128,6 +128,62 @@ id="toc-um-cliente-smtp-com-sockets">Um cliente SMTP com sockets
 id="toc-resumo-comparativo-dos-protocolos">Resumo comparativo dos
 protocolos</a></li>
 </ul></li>
+<li><a href="#aula-3-camada-de-transporte"
+id="toc-aula-3-camada-de-transporte">Aula 3 — Camada de transporte</a>
+<ul>
+<li><a href="#serviços-e-multiplexagem"
+id="toc-serviços-e-multiplexagem">Serviços e multiplexagem</a></li>
+<li><a href="#udp-e-o-checksum" id="toc-udp-e-o-checksum">UDP e o
+<em>checksum</em></a></li>
+<li><a href="#princípios-da-transferência-fiável"
+id="toc-princípios-da-transferência-fiável">Princípios da transferência
+fiável</a>
+<ul>
+<li><a href="#stop-and-wait-e-a-sua-utilização"
+id="toc-stop-and-wait-e-a-sua-utilização"><em>Stop-and-wait</em> e a sua
+utilização</a></li>
+</ul></li>
+<li><a href="#pipelining-go-back-n-e-selective-repeat"
+id="toc-pipelining-go-back-n-e-selective-repeat"><em>Pipelining</em>:
+Go-Back-N e Selective Repeat</a></li>
+<li><a href="#tcp-segmento-números-de-sequência-e-timeout"
+id="toc-tcp-segmento-números-de-sequência-e-timeout">TCP: segmento,
+números de sequência e <em>timeout</em></a>
+<ul>
+<li><a href="#estimar-o-rtt-e-escolher-o-timeout"
+id="toc-estimar-o-rtt-e-escolher-o-timeout">Estimar o RTT e escolher o
+<em>timeout</em></a></li>
+</ul></li>
+<li><a href="#tcp-transferência-fiável-e-retransmissão-rápida"
+id="toc-tcp-transferência-fiável-e-retransmissão-rápida">TCP:
+transferência fiável e retransmissão rápida</a></li>
+<li><a href="#tcp-controlo-de-fluxo-e-gestão-de-conexões"
+id="toc-tcp-controlo-de-fluxo-e-gestão-de-conexões">TCP: controlo de
+fluxo e gestão de conexões</a></li>
+<li><a href="#princípios-do-controlo-de-congestionamento"
+id="toc-princípios-do-controlo-de-congestionamento">Princípios do
+controlo de congestionamento</a></li>
+<li><a href="#controlo-de-congestionamento-no-tcp"
+id="toc-controlo-de-congestionamento-no-tcp">Controlo de
+congestionamento no TCP</a></li>
+</ul></li>
+<li><a href="#aula-4-camada-de-rede-até-à-fragmentação-ip"
+id="toc-aula-4-camada-de-rede-até-à-fragmentação-ip">Aula 4 — Camada de
+rede (até à fragmentação IP)</a>
+<ul>
+<li><a href="#reenvio-encaminhamento-e-modelos-de-serviço"
+id="toc-reenvio-encaminhamento-e-modelos-de-serviço">Reenvio,
+encaminhamento e modelos de serviço</a></li>
+<li><a href="#circuitos-virtuais-e-datagramas"
+id="toc-circuitos-virtuais-e-datagramas">Circuitos virtuais e
+datagramas</a></li>
+<li><a href="#por-dentro-de-um-router"
+id="toc-por-dentro-de-um-router">Por dentro de um
+<em>router</em></a></li>
+<li><a href="#ip-formato-do-datagrama-e-fragmentação"
+id="toc-ip-formato-do-datagrama-e-fragmentação">IP: formato do datagrama
+e fragmentação</a></li>
+</ul></li>
 </ul>
 </nav>
 <main class="g-sheet">
@@ -2940,6 +2996,1471 @@ ou não</strong>; <strong>complexidade nas extremidades</strong>.</p>
 </table>
 <p>(—: não está nos slides; as portas do POP3, IMAP e DNS são 110, 143 e
 53 †.)</p>
+<h1 id="aula-3-camada-de-transporte">Aula 3 — Camada de transporte</h1>
+<h2 id="serviços-e-multiplexagem">Serviços e multiplexagem</h2>
+<p><strong>Para que serve.</strong> A camada de rede (IP) leva
+datagramas de <strong>máquina a máquina</strong>; a de transporte
+acrescenta-lhe a comunicação lógica entre <strong>processos</strong>. Só
+corre nos <strong>terminais</strong>: o emissor parte as mensagens da
+aplicação em <strong>segmentos</strong> e passa-os ao IP; o receptor
+junta-os e entrega-os à aplicação. Os <em>routers</em> nunca olham para
+o cabeçalho de transporte. (Analogia dos slides: o IP são os CTT entre
+edifícios; o transporte é o funcionário que distribui as cartas dentro
+de cada edifício.)</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;">TCP</th>
+<th style="text-align: left;">UDP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">entrega</td>
+<td style="text-align: left;">fiável e ordenada</td>
+<td style="text-align: left;">não fiável, pode desordenar (<em>best
+effort</em>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">conexão</td>
+<td style="text-align: left;">sim (<em>handshake</em> antes dos
+dados)</td>
+<td style="text-align: left;">não</td>
+</tr>
+<tr>
+<td style="text-align: left;">controlo de fluxo / congestionamento</td>
+<td style="text-align: left;">sim / sim</td>
+<td style="text-align: left;">não / não</td>
+</tr>
+<tr>
+<td style="text-align: left;">cabeçalho</td>
+<td style="text-align: left;">20 bytes (sem opções)</td>
+<td style="text-align: left;">8 bytes</td>
+</tr>
+<tr>
+<td style="text-align: left;">nenhum dos dois garante</td>
+<td style="text-align: left;">atraso máximo, débito mínimo</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Multiplexagem</strong> (no emissor): juntar dados de várias
+<em>sockets</em> e pôr em cada segmento um cabeçalho com as
+<strong>portas de origem e de destino</strong> (16 bits cada).
+<strong>Desmultiplexagem</strong> (no receptor): entregar cada segmento
+à <em>socket</em> certa, usando os endereços IP (do cabeçalho IP) e as
+portas (do cabeçalho de transporte).</p>
+<div class="definicao" title="--- Que socket recebe o segmento?">
+<ul>
+<li><strong>UDP</strong> (sem conexões): a <em>socket</em> é
+identificada pelo par <strong>(IP de destino, porta de
+destino)</strong>. Segmentos de origens diferentes para o mesmo par vão
+para a <strong>mesma</strong> <em>socket</em>; a porta de origem serve
+só de “endereço para a resposta”. O IP de destino conta porque a máquina
+pode ter várias interfaces.</li>
+<li><strong>TCP</strong> (com conexões): a <em>socket</em> é
+identificada pelo <strong>tuplo de 4 (IP origem, porta origem, IP
+destino, porta destino)</strong>, as duas pontas da conexão. Um servidor
+<em>web</em> tem uma <em>socket</em> por conexão, todas na porta 80;
+basta um dos quatro valores ser diferente para ser outra <em>socket</em>
+(e o HTTP não persistente abre uma <em>socket</em> nova por
+pedido).</li>
+</ul>
+</div>
+<p><strong>Erro típico:</strong> dizer que o TCP escolhe a
+<em>socket</em> só pela porta de destino. Dois clientes na mesma porta
+de origem mas com IPs diferentes são duas conexões e duas
+<em>sockets</em>.</p>
+<h2 id="udp-e-o-checksum">UDP e o <em>checksum</em></h2>
+<p>O UDP (RFC 768) é o transporte mínimo: multiplexagem e deteção de
+erros, mais nada. Cada segmento é tratado de forma independente, sem
+<em>handshake</em>, e pode perder-se ou chegar fora de ordem.
+<strong>Porque existe:</strong> não há atraso de estabelecimento de
+conexão; não há estado no emissor nem no receptor; o cabeçalho é
+pequeno; e, sem controlo de congestionamento, a aplicação envia ao ritmo
+que quer. Usam-no as aplicações multimédia (toleram perdas, sensíveis ao
+débito e ao atraso), o DNS, o SNMP e o
+<em>multicast</em>/<em>broadcast</em>. Fiabilidade sobre UDP faz-se na
+camada de aplicação (o QUIC, por exemplo).</p>
+<p><strong>Cabeçalho UDP (8 bytes):</strong> porta de origem, porta de
+destino, <strong>comprimento</strong> (em bytes, do segmento
+<strong>inteiro</strong>, cabeçalho incluído) e
+<strong><em>checksum</em></strong>, cada um com 16 bits.</p>
+<div class="definicao" title="--- Receita: Internet checksum">
+<ol type="1">
+<li>Parte o segmento em palavras de <strong>16 bits</strong>, com o
+campo de <em>checksum</em> a <strong>zeros</strong>.</li>
+<li>Soma-as em binário. Se a soma passar de 16 bits, o bit que sai à
+esquerda <strong>volta a somar-se</strong> ao bit menos significativo
+(<em>wraparound</em>, soma em complemento para 1).</li>
+<li>O <strong><em>checksum</em> é o complemento para 1 da soma</strong>
+(trocar cada 0 por 1 e cada 1 por 0).</li>
+<li><strong>Receptor:</strong> soma todas as palavras,
+<strong>incluindo</strong> o <em>checksum</em>. Tudo uns
+(<code>1111111111111111</code>): nenhum erro detetado. Algum 0:
+erro.</li>
+</ol>
+</div>
+<p>O <em>checksum</em> do UDP cobre o segmento inteiro e ainda um
+<strong>pseudo-cabeçalho</strong> com os IPs de origem e destino, o
+campo protocolo do IP e o comprimento UDP. É <strong>opcional</strong>
+no UDP: um <em>checksum</em> calculado como zeros envia-se como tudo
+uns, porque “tudo zeros” quer dizer “sem <em>checksum</em>”. Deteta
+qualquer erro de um só bit, mas <strong>não</strong> deteta erros que se
+anulem na soma: o mesmo bit a passar de 0 para 1 numa palavra e de 1
+para 0 noutra, ou duas palavras trocadas de ordem.</p>
+<div class="exemplo" title="--- Checksum de duas palavras (slides)">
+<pre><code>   1110011001100110
+ + 1101010101010101
+ = 1 1011101110111011    17 bits: o 1 da esquerda volta a entrar
+ +                  1
+ = 1011101110111100      soma
+   0100010001000011      checksum (complemento para 1)</code></pre>
+<p>No receptor:
+<code>1011101110111100 + 0100010001000011 = 1111111111111111</code>:
+nenhum erro detetado. Num segmento real somam-se <strong>todas</strong>
+as palavras, uma de cada vez, com o <em>wraparound</em> sempre que a
+soma passa de 16 bits.</p>
+</div>
+<h2 id="princípios-da-transferência-fiável">Princípios da transferência
+fiável</h2>
+<p><strong>Para que serve.</strong> Construir um canal
+<strong>fiável</strong> (sem bits trocados, sem perdas, pela ordem
+certa) por cima de um canal <strong>não fiável</strong>. Os slides
+fazem-no por etapas com um protocolo didático, o <strong>rdt</strong>
+(<em>reliable data transfer</em>), em que cada versão resolve um defeito
+novo do canal. Só se considera transferência num sentido, mas há
+controlo nos dois. Os diagramas de sequência (MSC) dão a visão global de
+um caso; as máquinas de estados (FSM) dão a visão local de cada lado,
+mais próxima da implementação (um nó não “adivinha” o que se passa do
+outro lado).</p>
+<p>Interface: <code>rdt_send()</code> (a aplicação entrega dados ao
+emissor), <code>udt_send()</code> (o rdt envia um pacote pelo canal não
+fiável), <code>rdt_rcv()</code> (chega um pacote ao receptor) e
+<code>deliver_data()</code> (o rdt entrega dados à aplicação).</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">versão</th>
+<th style="text-align: left;">o canal…</th>
+<th style="text-align: left;">mecanismo novo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">rdt1.0</td>
+<td style="text-align: left;">é perfeito</td>
+<td style="text-align: left;">nenhum: o emissor envia, o receptor
+lê</td>
+</tr>
+<tr>
+<td style="text-align: left;">rdt2.0</td>
+<td style="text-align: left;">troca bits</td>
+<td style="text-align: left;"><em>checksum</em>; <strong>ACK</strong>
+(recebido bem) e <strong>NAK</strong> (com erros); retransmite com
+NAK</td>
+</tr>
+<tr>
+<td style="text-align: left;">rdt2.1</td>
+<td style="text-align: left;">troca bits também nos ACK/NAK</td>
+<td style="text-align: left;"><strong>número de sequência</strong>
+(0/1): o emissor retransmite se o ACK/NAK vier corrompido; o receptor
+descarta duplicados</td>
+</tr>
+<tr>
+<td style="text-align: left;">rdt2.2</td>
+<td style="text-align: left;">(igual)</td>
+<td style="text-align: left;">sem NAK: o receptor repete o <strong>ACK
+do último pacote bom</strong>, com o número; um ACK duplicado vale um
+NAK</td>
+</tr>
+<tr>
+<td style="text-align: left;">rdt3.0</td>
+<td style="text-align: left;">também <strong>perde</strong> pacotes
+(dados ou ACKs)</td>
+<td style="text-align: left;"><strong>temporizador</strong>: sem ACK ao
+fim de um tempo “razoável”, retransmite</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Porque basta 1 bit de sequência no rdt2.1:</strong> o emissor
+só tem um pacote em trânsito de cada vez, por isso o receptor só precisa
+de distinguir “o pacote novo” de “uma repetição do anterior”. O receptor
+não tem maneira de saber se o seu último ACK/NAK chegou bem; é por isso
+que o duplicado tem de ser reconhecível. No rdt2.2 a quantidade de
+informação é a mesma: 1 bit distinguia ACK de NAK, agora 1 bit diz que
+pacote se confirma.</p>
+<p><strong>rdt3.0.</strong> Com perdas, checksum, números e ACKs não
+chegam: uma FSM ficava “encravada” à espera de um pacote que nunca
+chega. O temporizador gera um evento artificial que a desencrava. Se o
+pacote ou o ACK só se <strong>atrasou</strong>, a retransmissão é um
+duplicado, mas o número de sequência deteta-o; por isso o receptor não
+muda. No rdt3.0 o emissor <strong>só retransmite por
+<em>timeout</em></strong>: um ACK corrompido ou com o número errado é
+ignorado, ou seja, os erros tratam-se como perdas. Os quatro casos dos
+slides:</p>
+<ul>
+<li><strong>sem perdas:</strong> pkt0/ACK0, pkt1/ACK1, …;</li>
+<li><strong>perda do pacote:</strong> o <em>timeout</em> reenvia o
+pkt1;</li>
+<li><strong>perda do ACK:</strong> o <em>timeout</em> reenvia o pkt1, o
+receptor deteta o duplicado, descarta-o e volta a enviar ACK1;</li>
+<li><strong><em>timeout</em> prematuro:</strong> o ACK1 só se atrasou; o
+pkt1 é reenviado, o receptor responde outra vez ACK1; quando chega o
+segundo ACK1, o emissor já está à espera do ACK0 e
+<strong>ignora-o</strong>. Se os ACKs não tivessem número, este ACK1
+atrasado seria tomado como confirmação do pacote seguinte.</li>
+</ul>
+<h3 id="stop-and-wait-e-a-sua-utilização"><em>Stop-and-wait</em> e a sua
+utilização</h3>
+<p>Protocolos como o rdt3.0 são <strong><em>stop-and-wait</em></strong>:
+depois de enviar um pacote, o emissor não envia mais nenhum
+(<em>stop</em>) até receber a confirmação dele (<em>wait</em>).
+Funciona, mas com um desempenho péssimo quando o RTT é grande comparado
+com o tempo de transmissão.</p>
+<div class="definicao" title="--- Utilização do emissor">
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>U</mi><annotation encoding="application/x-tex">U</annotation></semantics></math>
+= fração do tempo em que o emissor está de facto a transmitir. O
+primeiro bit sai em
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">t=0</annotation></semantics></math>,
+o último em
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mi>L</mi><mi>/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">t = L/R</annotation></semantics></math>,
+o ACK chega em
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mi>R</mi><mi>T</mi><mi>T</mi><mo>+</mo><mi>L</mi><mi>/</mi><mi>R</mi></mrow><annotation encoding="application/x-tex">t = RTT + L/R</annotation></semantics></math>
+(desprezando o tempo de transmissão do ACK):
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>U</mi><mtext mathvariant="normal">stop-and-wait</mtext></msub><mo>=</mo><mfrac><mrow><mi>L</mi><mi>/</mi><mi>R</mi></mrow><mrow><mi>R</mi><mi>T</mi><mi>T</mi><mo>+</mo><mi>L</mi><mi>/</mi><mi>R</mi></mrow></mfrac><mspace width="2.0em"></mspace><msub><mi>U</mi><mrow><mrow><mtext mathvariant="normal">pipelining, </mtext><mspace width="0.333em"></mspace></mrow><mi>N</mi><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> pacotes</mtext></mrow></mrow></msub><mo>=</mo><mfrac><mrow><mi>N</mi><mo>⋅</mo><mi>L</mi><mi>/</mi><mi>R</mi></mrow><mrow><mi>R</mi><mi>T</mi><mi>T</mi><mo>+</mo><mi>L</mi><mi>/</mi><mi>R</mi></mrow></mfrac><mspace width="0.222em"></mspace><mo stretchy="false" form="prefix">(</mo><mo>≤</mo><mn>1</mn><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">U_{\text{stop-and-wait}} = \frac{L/R}{RTT + L/R} \qquad
+U_{\text{pipelining, } N \text{ pacotes}} = \frac{N\cdot L/R}{RTT + L/R}\ (\le 1)</annotation></semantics></math>
+Débito efetivo
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mi>U</mi><mo>⋅</mo><mi>R</mi></mrow><annotation encoding="application/x-tex">= U\cdot R</annotation></semantics></math>
+(ou
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mi>R</mi><mi>T</mi><mi>T</mi><mo>+</mo><mi>L</mi><mi>/</mi><mi>R</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">L/(RTT+L/R)</annotation></semantics></math>
+no <em>stop-and-wait</em>). Para transmissão contínua:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>≥</mo><mo stretchy="false" form="prefix">(</mo><mi>R</mi><mi>T</mi><mi>T</mi><mo>+</mo><mi>L</mi><mi>/</mi><mi>R</mi><mo stretchy="false" form="postfix">)</mo><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mi>L</mi><mi>/</mi><mi>R</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">N \ge (RTT + L/R)/(L/R)</annotation></semantics></math>.</p>
+</div>
+<p><img src="assets/guia-redes/stop_wait_pipelining.svg" /></p>
+<div class="exemplo" title="--- Utilização do stop-and-wait (slides)">
+<p>Ligação de 1 Gbps, propagação de 15 ms, pacotes de 8000 bits.</p>
+<ol type="1">
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi>/</mi><mi>R</mi><mo>=</mo><mn>8000</mn><mi>/</mi><msup><mn>10</mn><mn>9</mn></msup><mo>=</mo><mn>8</mn><mo>×</mo><msup><mn>10</mn><mrow><mi>−</mi><mn>6</mn></mrow></msup></mrow><annotation encoding="application/x-tex">L/R = 8000 / 10^9 = 8\times10^{-6}</annotation></semantics></math>
+s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>8</mn><mspace width="0.222em"></mspace><mi>μ</mi></mrow><annotation encoding="application/x-tex">= 8\ \mu</annotation></semantics></math>s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>0</mn><mo>,</mo><mn>008</mn></mrow><annotation encoding="application/x-tex">= 0{,}008</annotation></semantics></math>
+ms.</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mi>T</mi><mi>T</mi><mo>=</mo><mn>2</mn><mo>×</mo><mn>15</mn><mo>=</mo><mn>30</mn></mrow><annotation encoding="application/x-tex">RTT = 2\times 15 = 30</annotation></semantics></math>
+ms.</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>008</mn><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>30</mn><mo>+</mo><mn>0</mn><mo>,</mo><mn>008</mn><mo stretchy="false" form="postfix">)</mo><mo>=</mo><mn>0</mn><mo>,</mo><mn>008</mn><mi>/</mi><mn>30</mn><mo>,</mo><mn>008</mn><mo>≈</mo><mn>0</mn><mo>,</mo><mn>00027</mn></mrow><annotation encoding="application/x-tex">U = 0{,}008/(30 + 0{,}008) = 0{,}008/30{,}008 \approx 0{,}00027</annotation></semantics></math>
+(0,027%).</li>
+<li>Débito: 8000 bits a cada 30,008 ms
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≈</mo><mn>8000</mn><mi>/</mi><mn>0</mn><mo>,</mo><mn>030</mn><mo>≈</mo><mn>267</mn></mrow><annotation encoding="application/x-tex">\approx 8000/0{,}030 \approx
+267</annotation></semantics></math> kbit/s numa ligação de 1 Gbps (os
+slides arredondam para 270 kb/s). O protocolo de transporte limita o uso
+da ligação física.</li>
+<li>Com <em>pipelining</em> de 3 pacotes,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>U</mi><annotation encoding="application/x-tex">U</annotation></semantics></math>
+triplica:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>0</mn><mo>,</mo><mn>00027</mn><mo>=</mo><mn>0</mn><mo>,</mo><mn>0008</mn></mrow><annotation encoding="application/x-tex">3\times 0{,}00027 =
+0{,}0008</annotation></semantics></math>. Para
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">U = 1</annotation></semantics></math>:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>≥</mo><mn>30</mn><mo>,</mo><mn>008</mn><mi>/</mi><mn>0</mn><mo>,</mo><mn>008</mn><mo>≈</mo><mn>3751</mn></mrow><annotation encoding="application/x-tex">N \ge 30{,}008/0{,}008 \approx 3751</annotation></semantics></math>
+pacotes.</li>
+</ol>
+</div>
+<h2 id="pipelining-go-back-n-e-selective-repeat"><em>Pipelining</em>:
+Go-Back-N e Selective Repeat</h2>
+<p><strong><em>Pipelining</em></strong> (protocolos de <strong>janela
+deslizante</strong>): o emissor pode ter <strong>vários pacotes em
+trânsito</strong> sem ter recebido o ACK dos anteriores. Obriga a uma
+<strong>gama maior de números de sequência</strong> e a <em>buffers</em>
+no emissor (pacotes por confirmar) e/ou no receptor (fora de ordem).</p>
+<div class="definicao" title="--- Go-Back-N e Selective Repeat">
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;"><strong>Go-Back-N (GBN)</strong></th>
+<th style="text-align: left;"><strong>Selective Repeat
+(SR)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">em trânsito</td>
+<td style="text-align: left;">até
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+pacotes por confirmar</td>
+<td style="text-align: left;">até
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+pacotes por confirmar</td>
+</tr>
+<tr>
+<td style="text-align: left;">ACK</td>
+<td style="text-align: left;"><strong>cumulativo</strong>:
+ACK(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>)
+confirma tudo até
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>,
+inclusive</td>
+<td style="text-align: left;"><strong>individual</strong>: um ACK por
+pacote</td>
+</tr>
+<tr>
+<td style="text-align: left;">receptor fora de ordem</td>
+<td style="text-align: left;"><strong>descarta</strong> e repete o ACK
+do último em ordem (sem <em>buffer</em>; só guarda
+<code>expectedseqnum</code>)</td>
+<td style="text-align: left;">guarda em <strong><em>buffer</em></strong>
+e confirma-o; entrega em ordem quando o “buraco” se tapa</td>
+</tr>
+<tr>
+<td style="text-align: left;">temporizador</td>
+<td style="text-align: left;"><strong>um só</strong>, do pacote mais
+antigo por confirmar; um ACK novo reinicia-o</td>
+<td style="text-align: left;"><strong>um por pacote</strong> por
+confirmar</td>
+</tr>
+<tr>
+<td style="text-align: left;"><em>timeout</em></td>
+<td style="text-align: left;">retransmite o pacote
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+e <strong>todos</strong> os enviados depois</td>
+<td style="text-align: left;">retransmite <strong>só</strong> esse
+pacote</td>
+</tr>
+<tr>
+<td style="text-align: left;">números de seq.
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+bits)</td>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>≤</mo><msup><mn>2</mn><mi>k</mi></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">N \le 2^k - 1</annotation></semantics></math></td>
+<td
+style="text-align: left;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>≤</mo><msup><mn>2</mn><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">N \le 2^{k-1}</annotation></semantics></math>
+(gama
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo><mn>2</mn><mi>N</mi></mrow><annotation encoding="application/x-tex">\ge 2N</annotation></semantics></math>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">complexidade</td>
+<td style="text-align: left;">receptor simples</td>
+<td style="text-align: left;">emissor e receptor mais complexos</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Janela do emissor, da esquerda para a direita: já confirmados |
+<strong>base</strong>: enviados mas por confirmar | <strong>próximo nº
+de sequência</strong>: disponíveis, não enviados | fora da janela
+(indisponíveis). Emissor GBN:</p>
+<pre><code>rdt_send(data): se nextseqnum &lt; base+N: envia pkt[nextseqnum];
+                se base == nextseqnum: arranca temporizador; nextseqnum++
+                senão: recusa (a aplicação tenta mais tarde)
+timeout:        reenvia pkt[base .. nextseqnum-1]; reinicia temporizador
+ACK(n) bom:     base = n+1; se base == nextseqnum: pára temporizador
+                senão: reinicia temporizador</code></pre>
+<p>Receptor SR: um pacote
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+em <code>[rcvbase, rcvbase+N-1]</code> (dentro da janela) é confirmado
+com
+ACK(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>);
+se estiver fora de ordem vai para o <em>buffer</em>; se for o
+<code>rcvbase</code>, entrega-o com os seguintes que estiverem no
+<em>buffer</em> e a janela avança até ao próximo que falta. Um pacote em
+<code>[rcvbase-N, rcvbase-1]</code> (já entregue)
+<strong>também</strong> recebe
+ACK(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>):
+o ACK anterior pode ter-se perdido e o emissor ficaria bloqueado.
+Qualquer outro é ignorado. No emissor SR, um
+ACK(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>)
+marca o pacote
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>;
+se for a base, a janela avança até ao primeiro por confirmar.</p>
+<p><img src="assets/guia-redes/gbn_sr.svg" /></p>
+<p><em>As duas demonstrações dos slides, com o mesmo cenário (janela 4,
+perde-se o pkt2). No GBN o pkt3, o pkt4 e o pkt5 chegam bem mas são
+descartados e retransmitidos; no SR só o pkt2 é retransmitido.</em></p>
+<p><strong>Porque o SR precisa de gama
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo><mn>2</mn><mi>N</mi></mrow><annotation encoding="application/x-tex">\ge 2N</annotation></semantics></math>
+(o dilema dos slides).</strong> Números 0 a 3
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">k=2</annotation></semantics></math>)
+e janela
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">N=3</annotation></semantics></math>.
+O emissor envia 0, 1 e 2; o receptor recebe-os, confirma-os e a sua
+janela passa a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>3</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{3, 0, 1\}</annotation></semantics></math>.
+<strong>(a)</strong> Se os ACKs chegam, o emissor envia o 3 e depois um
+pacote 0 <strong>novo</strong>: o receptor aceita-o, bem.
+<strong>(b)</strong> Se os três ACKs se perdem, o emissor dá
+<em>timeout</em> e retransmite o <strong>pacote 0 antigo</strong>: o
+receptor, que espera
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">{</mo><mn>3</mn><mo>,</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">}</mo></mrow><annotation encoding="application/x-tex">\{3, 0, 1\}</annotation></semantics></math>,
+aceita-o como se fosse novo. Para o receptor os dois casos são
+idênticos. No pior caso a janela do emissor e a do receptor estão
+completamente desfasadas mas contíguas
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>N</mi></mrow><annotation encoding="application/x-tex">2N</annotation></semantics></math>
+números seguidos); se todos forem diferentes, a confusão é impossível.
+Daí
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>N</mi><mo>≤</mo><msup><mn>2</mn><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">2N \le 2^k</annotation></semantics></math>,
+isto é,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>≤</mo><msup><mn>2</mn><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">N \le 2^{k-1}</annotation></semantics></math>.
+No GBN o receptor só aceita <strong>um</strong> número (o esperado), por
+isso basta
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>+</mo><mn>1</mn><mo>≤</mo><msup><mn>2</mn><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">N + 1 \le 2^k</annotation></semantics></math>
+†.</p>
+<h2 id="tcp-segmento-números-de-sequência-e-timeout">TCP: segmento,
+números de sequência e <em>timeout</em></h2>
+<p>O TCP (RFC 793 original, RFC 9293 atual) é
+<strong>ponto-a-ponto</strong> (um emissor, um receptor), <strong>full
+duplex</strong> (dados nos dois sentidos na mesma conexão), uma
+<strong>sequência de bytes fiável sem delimitação de mensagens</strong>,
+com <em>pipelining</em> (a janela é decidida pelo controlo de fluxo e de
+congestionamento), <em>buffers</em> de emissão e de receção, e
+<strong>orientado a conexões</strong> (o <em>handshake</em> inicializa o
+estado dos dois lados antes dos dados). <strong>MSS</strong>
+(<em>maximum segment size</em>): o tamanho máximo dos <strong>dados da
+aplicação</strong> num segmento (sem cabeçalhos).</p>
+<div class="definicao" title="--- Cabeçalho TCP (20 bytes sem opções)">
+<p>Porta de origem e de destino (16 bits cada) · <strong>número de
+sequência</strong> (32) · <strong>número de confirmação</strong> (32) ·
+tamanho do cabeçalho · <em>flags</em> <strong>U A P R S F</strong> ·
+<strong>janela do receptor</strong> (16; quantos bytes o receptor ainda
+aceita) · <strong><em>checksum</em></strong> (como no UDP) · apontador
+de dados urgentes · opções (comprimento variável) · dados.</p>
+<ul>
+<li><strong>ACK</strong>: o campo de confirmação é válido. <strong>SYN,
+FIN, RST</strong>: abrir, fechar e reiniciar a conexão.
+<strong>PSH</strong>: passar já os dados à aplicação.
+<strong>URG</strong>: dados urgentes (raramente usado).</li>
+<li>Os números contam <strong>bytes</strong>, não segmentos.</li>
+</ul>
+</div>
+<p><strong>Números de sequência e ACKs.</strong> O número de sequência
+de um segmento é o número do <strong>primeiro byte</strong> dos seus
+dados no fluxo. O ACK é o número do <strong>próximo byte que o receptor
+espera</strong>, e é <strong>cumulativo</strong> (confirma tudo o que
+vem antes). O que o receptor faz aos segmentos fora de ordem <strong>não
+está especificado</strong>: fica ao critério da implementação
+(normalmente guarda-os). No exemplo do <em>telnet</em> dos slides, A
+envia <code>Seq=42, ACK=79</code> com o ‘C’; B confirma e ecoa com
+<code>Seq=79, ACK=43</code>; A confirma o eco com
+<code>Seq=43, ACK=80</code> †(números do livro).</p>
+<p><strong>Erro típico:</strong> somar 1 ao número de sequência por
+segmento. Soma-se o <strong>número de bytes</strong> de dados: segmentos
+de 500 e 300 bytes a partir do 1000 têm sequência 1000 e 1500, e os ACKs
+são 1500 e 1800.</p>
+<h3 id="estimar-o-rtt-e-escolher-o-timeout">Estimar o RTT e escolher o
+<em>timeout</em></h3>
+<p>O <em>timeout</em> tem de ser <strong>maior do que o RTT</strong>,
+mas o RTT varia. Curto demais dá <em>timeouts</em> prematuros e
+retransmissões desnecessárias; longo demais reage devagar às perdas. O
+TCP mede o <strong>SampleRTT</strong> (do envio de um segmento até ao
+seu ACK), <strong>ignorando segmentos retransmitidos</strong> (não se
+sabe se o ACK é da primeira transmissão ou da retransmissão), e alisa-o
+com uma <strong>média móvel exponencialmente pesada</strong> (EWMA).</p>
+<div class="definicao"
+title="--- Receita: EstimatedRTT, DevRTT e TimeoutInterval">
+<p>Para cada SampleRTT novo:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">DevRTT</mtext><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>β</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mtext mathvariant="normal">DevRTT</mtext><mo>+</mo><mi>β</mi><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">|</mo><mtext mathvariant="normal">SampleRTT</mtext><mo>−</mo><mtext mathvariant="normal">EstimatedRTT</mtext><mo stretchy="false" form="prefix">|</mo></mrow><annotation encoding="application/x-tex">\text{DevRTT} = (1-\beta)\,\text{DevRTT} + \beta\,|\text{SampleRTT} - \text{EstimatedRTT}|</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">EstimatedRTT</mtext><mo>=</mo><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><mo stretchy="false" form="postfix">)</mo><mspace width="0.167em"></mspace><mtext mathvariant="normal">EstimatedRTT</mtext><mo>+</mo><mi>α</mi><mspace width="0.167em"></mspace><mtext mathvariant="normal">SampleRTT</mtext></mrow><annotation encoding="application/x-tex">\text{EstimatedRTT} = (1-\alpha)\,\text{EstimatedRTT} + \alpha\,\text{SampleRTT}</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">TimeoutInterval</mtext><mo>=</mo><mtext mathvariant="normal">EstimatedRTT</mtext><mo>+</mo><mn>4</mn><mspace width="0.167em"></mspace><mtext mathvariant="normal">DevRTT</mtext></mrow><annotation encoding="application/x-tex">\text{TimeoutInterval} = \text{EstimatedRTT} + 4\,\text{DevRTT}</annotation></semantics></math>
+Valores típicos
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>125</mn></mrow><annotation encoding="application/x-tex">\alpha = 0{,}125</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mo>=</mo><mn>0</mn><mo>,</mo><mn>25</mn></mrow><annotation encoding="application/x-tex">\beta = 0{,}25</annotation></semantics></math>.
+O DevRTT calcula-se com o EstimatedRTT <strong>antigo</strong> (antes de
+o atualizar) †: é a ordem do RFC 6298 e a que reproduz a solução oficial
+da F7.3. Os slides não dizem a ordem; se um enunciado der outra,
+segue-o.</p>
+</div>
+<p>A margem
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4</mn><mspace width="0.167em"></mspace><mtext mathvariant="normal">DevRTT</mtext></mrow><annotation encoding="application/x-tex">4\,\text{DevRTT}</annotation></semantics></math>
+cresce quando o RTT varia muito. Cada amostra perde peso por um fator
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(1-\alpha)</annotation></semantics></math>
+a cada amostra nova:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">EstimatedRTT</mtext><mo>≈</mo><mi>α</mi><msub><mo>∑</mo><mrow><mi>i</mi><mo>≥</mo><mn>1</mn></mrow></msub><mo stretchy="false" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><msup><mo stretchy="false" form="postfix">)</mo><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow></msup><mspace width="0.167em"></mspace><mtext mathvariant="normal">SampleRTT</mtext><mo stretchy="false" form="prefix">(</mo><mi>i</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\text{EstimatedRTT} \approx \alpha \sum_{i\ge1} (1-\alpha)^{i-1}\,\text{SampleRTT}(i)</annotation></semantics></math>,
+com SampleRTT(1) a mais recente; daí “média móvel
+<strong>exponencial</strong>”. <strong>Quando há <em>timeout</em>, o TCP
+duplica o valor do temporizador</strong> (<em>backoff</em> exponencial)
+para esse segmento, em vez de usar a fórmula: se o RTT disparar, evita
+que todos os segmentos deem <em>timeout</em>, sejam retransmitidos e a
+estimativa deixe de ser atualizada.</p>
+<div class="exemplo" title="--- Uma atualização do timeout">
+<p>EstimatedRTT = 100 ms, DevRTT = 8 ms, chega SampleRTT = 140 ms, com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">\alpha = 1/8</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi><mo>=</mo><mn>1</mn><mi>/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">\beta = 1/4</annotation></semantics></math>.</p>
+<ol type="1">
+<li>DevRTT
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mstyle displaystyle="false"><mfrac><mn>3</mn><mn>4</mn></mfrac></mstyle><mo>⋅</mo><mn>8</mn><mo>+</mo><mstyle displaystyle="false"><mfrac><mn>1</mn><mn>4</mn></mfrac></mstyle><mo>⋅</mo><mo stretchy="false" form="prefix">|</mo><mn>140</mn><mo>−</mo><mn>100</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>6</mn><mo>+</mo><mn>10</mn><mo>=</mo><mn>16</mn></mrow><annotation encoding="application/x-tex">= \tfrac34\cdot 8 + \tfrac14\cdot|140-100| = 6 + 10 = 16</annotation></semantics></math>
+ms (com o EstimatedRTT antigo, 100).</li>
+<li>EstimatedRTT
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mstyle displaystyle="false"><mfrac><mn>7</mn><mn>8</mn></mfrac></mstyle><mo>⋅</mo><mn>100</mn><mo>+</mo><mstyle displaystyle="false"><mfrac><mn>1</mn><mn>8</mn></mfrac></mstyle><mo>⋅</mo><mn>140</mn><mo>=</mo><mn>87</mn><mo>,</mo><mn>5</mn><mo>+</mo><mn>17</mn><mo>,</mo><mn>5</mn><mo>=</mo><mn>105</mn></mrow><annotation encoding="application/x-tex">= \tfrac78\cdot100 + \tfrac18\cdot140 = 87{,}5 + 17{,}5 =
+105</annotation></semantics></math> ms.</li>
+<li>TimeoutInterval
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>105</mn><mo>+</mo><mn>4</mn><mo>⋅</mo><mn>16</mn><mo>=</mo><mn>169</mn></mrow><annotation encoding="application/x-tex">= 105 + 4\cdot16 = 169</annotation></semantics></math>
+ms.</li>
+</ol>
+<p>(Com a outra ordem:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">|</mo><mn>140</mn><mo>−</mo><mn>105</mn><mo stretchy="false" form="prefix">|</mo><mo>=</mo><mn>35</mn></mrow><annotation encoding="application/x-tex">|140 - 105| = 35</annotation></semantics></math>,
+DevRTT
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>6</mn><mo>+</mo><mn>8</mn><mo>,</mo><mn>75</mn><mo>=</mo><mn>14</mn><mo>,</mo><mn>75</mn></mrow><annotation encoding="application/x-tex">= 6 + 8{,}75 = 14{,}75</annotation></semantics></math>
+e o <em>timeout</em> daria
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>105</mn><mo>+</mo><mn>59</mn><mo>=</mo><mn>164</mn></mrow><annotation encoding="application/x-tex">105 + 59 = 164</annotation></semantics></math>
+ms. Por isso é preciso saber a ordem.)</p>
+</div>
+<h2 id="tcp-transferência-fiável-e-retransmissão-rápida">TCP:
+transferência fiável e retransmissão rápida</h2>
+<p>O TCP é fiável por cima do IP não fiável, com <em>pipelining</em>,
+<strong>ACKs cumulativos</strong> e <strong>um só temporizador</strong>
+de retransmissão (o do segmento mais antigo por confirmar). Retransmite
+em dois casos: <strong><em>timeout</em></strong> e <strong>ACKs
+duplicados</strong>. Um emissor simplificado (sem ACKs duplicados, nem
+controlo de fluxo ou de congestionamento) reage a três eventos:</p>
+<pre><code>NextSeqNum = SendBase = InitialSeqNum
+dados da aplicação: cria segmento com seq = NextSeqNum;
+                    se o temporizador está parado, arranca-o;
+                    NextSeqNum += tamanho dos dados
+timeout:            retransmite o segmento por confirmar mais antigo;
+                    reinicia o temporizador
+ACK com valor y:    se y &gt; SendBase:      (confirma dados novos)
+                        SendBase = y
+                        se ainda há segmentos por confirmar: reinicia temporizador</code></pre>
+<p><code>SendBase - 1</code> é o último byte confirmado: com
+<code>SendBase - 1 = 71</code>, um <code>y = 73</code> diz que o
+receptor já tem até ao 72 e espera o 73. Os três cenários dos
+slides:</p>
+<ul>
+<li><strong>perda do ACK:</strong> A envia <code>Seq=92</code> (8
+bytes), o <code>ACK=100</code> perde-se, o <em>timeout</em> reenvia o 92
+e B responde outra vez <code>ACK=100</code>;</li>
+<li><strong><em>timeout</em> prematuro:</strong> A envia 92 (8 bytes) e
+100 (20 bytes); os ACKs 100 e 120 atrasam-se, o <em>timeout</em> reenvia
+o 92, e B responde <code>ACK=120</code> (já tem tudo). A não reenvia o
+100;</li>
+<li><strong>ACK cumulativo:</strong> o <code>ACK=100</code> perde-se mas
+o <code>ACK=120</code> chega antes do <em>timeout</em>: confirma os dois
+segmentos, nada é retransmitido.</li>
+</ul>
+<div class="definicao"
+title="--- Geração de ACKs no receptor (RFC 1122 e 2581)">
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">evento no receptor</th>
+<th style="text-align: left;">ação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">segmento em ordem, tudo o anterior já
+confirmado</td>
+<td style="text-align: left;"><strong><em>delayed ACK</em></strong>:
+espera até 500 ms pelo seguinte; se não vier, envia o ACK</td>
+</tr>
+<tr>
+<td style="text-align: left;">segmento em ordem, há um anterior por
+confirmar</td>
+<td style="text-align: left;">envia <strong>já</strong> um ACK
+cumulativo (confirma os dois)</td>
+</tr>
+<tr>
+<td style="text-align: left;">segmento <strong>fora de ordem</strong>
+(seq maior do que a esperada: “buraco”)</td>
+<td style="text-align: left;">envia <strong>já</strong> um <strong>ACK
+duplicado</strong> com o nº do próximo byte esperado (o início do
+buraco)</td>
+</tr>
+<tr>
+<td style="text-align: left;">segmento que tapa o buraco, total ou
+parcialmente</td>
+<td style="text-align: left;">envia <strong>já</strong> o ACK, se o
+segmento encaixar no início do buraco</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Retransmissão rápida.</strong> O <em>timeout</em> é longo, e
+o emissor costuma enviar segmentos em rajada: se um se perder, os
+seguintes geram vários ACKs duplicados. <strong>Ao receber 3 ACKs
+duplicados</strong> para o mesmo valor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+(isto é, 4 ACKs iguais), o emissor assume que o segmento
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+se perdeu e <strong>retransmite-o já</strong>, sem esperar pelo
+<em>timeout</em>:</p>
+<pre><code>ACK com valor y: se y &gt; SendBase: (como acima)
+                 senão: conta mais um ACK duplicado para y
+                        se o contador de y chega a 3: retransmite o segmento y</code></pre>
+<div class="exemplo" title="--- Números de sequência, ACKs e um buraco">
+<p>A envia a B três segmentos de 500, 300 e 200 bytes a partir do byte
+1000; B guarda os segmentos fora de ordem e confirma cada um logo.</p>
+<ol type="1">
+<li>Sequências:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1000</mn><annotation encoding="application/x-tex">1000</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1000</mn><mo>+</mo><mn>500</mn><mo>=</mo><mn>1500</mn></mrow><annotation encoding="application/x-tex">1000+500 = 1500</annotation></semantics></math>;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1500</mn><mo>+</mo><mn>300</mn><mo>=</mo><mn>1800</mn></mrow><annotation encoding="application/x-tex">1500+300 = 1800</annotation></semantics></math>.</li>
+<li>Sem perdas, os ACKs são
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1500</mn><annotation encoding="application/x-tex">1500</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1800</mn><annotation encoding="application/x-tex">1800</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1800</mn><mo>+</mo><mn>200</mn><mo>=</mo><mn>2000</mn></mrow><annotation encoding="application/x-tex">1800+200 = 2000</annotation></semantics></math>.</li>
+<li>Se o segmento 1500 se perder: o 1000 gera <code>ACK=1500</code>; o
+1800 chega fora de ordem, vai para o <em>buffer</em> e gera
+<code>ACK=1500</code> <strong>duplicado</strong>.</li>
+<li>Quando o 1500 chega (por retransmissão), tapa o buraco: B já tem os
+bytes 1000 a 1999 e envia um só <code>ACK=2000</code>, que confirma os
+dois.</li>
+</ol>
+</div>
+<h2 id="tcp-controlo-de-fluxo-e-gestão-de-conexões">TCP: controlo de
+fluxo e gestão de conexões</h2>
+<p><strong>Controlo de fluxo:</strong> garantir que o emissor não
+<strong>extravasa o <em>buffer</em> do receptor</strong> por enviar
+depressa demais, porque a aplicação pode ler devagar. Adapta a taxa de
+envio à velocidade a que a aplicação consome. (Não confundir com o
+controlo de <strong>congestionamento</strong>, que protege a
+<strong>rede</strong>.)</p>
+<div class="definicao" title="--- Janela do receptor">
+<p>O receptor anuncia em <strong>todos</strong> os segmentos que envia o
+espaço livre no seu <em>buffer</em>:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">RcvWindow</mtext><mo>=</mo><mtext mathvariant="normal">RcvBuffer</mtext><mo>−</mo><mo stretchy="false" form="prefix">[</mo><mtext mathvariant="normal">LastByteRcvd</mtext><mo>−</mo><mtext mathvariant="normal">LastByteRead</mtext><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">\text{RcvWindow} = \text{RcvBuffer} - [\text{LastByteRcvd} - \text{LastByteRead}]</annotation></semantics></math>
+O emissor garante
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">LastByteSent</mtext><mo>−</mo><mtext mathvariant="normal">LastByteAcked</mtext><mo>≤</mo><mtext mathvariant="normal">RcvWindow</mtext></mrow><annotation encoding="application/x-tex">\text{LastByteSent} - \text{LastByteAcked} \le
+\text{RcvWindow}</annotation></semantics></math>: a janela do receptor é
+um <strong>limite superior à janela de <em>pipelining</em></strong>, e o
+<em>buffer</em> nunca extravasa. (Os slides supõem que o receptor deita
+fora os segmentos fora de ordem.)</p>
+</div>
+<p>Com RcvWindow = 0, o emissor continua a enviar segmentos com
+<strong>1 byte</strong> de dados †: assim recebe ACKs que lhe dizem
+quando o <em>buffer</em> voltou a ter espaço (sem isto, ficava bloqueado
+para sempre).</p>
+<p><strong>Gestão de conexões.</strong> Antes dos dados, o TCP abre a
+conexão para inicializar as variáveis: números de sequência,
+<em>buffers</em> e informação de controlo de fluxo (RcvWindow). O
+cliente inicia (<code>new Socket("hostname", porta)</code>); o servidor
+é contactado (<code>welcomeSocket.accept()</code>).</p>
+<div class="definicao" title="--- Three-way handshake e fecho">
+<p><strong>Abrir:</strong></p>
+<ol type="1">
+<li>o cliente envia <strong>SYN</strong> (sem dados) com o seu número de
+sequência inicial
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math>;</li>
+<li>o servidor reserva os <em>buffers</em> e responde
+<strong>SYN+ACK</strong>, com o seu número inicial
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math>
+e <code>ACK = x+1</code>;</li>
+<li>o cliente responde <strong>ACK</strong> (<code>ACK = y+1</code>),
+que <strong>já pode levar dados</strong>.</li>
+</ol>
+<p><strong>Fechar</strong> (cada sentido fecha em separado): o cliente
+faz <code>close()</code> e envia <strong>FIN</strong>; o servidor
+responde <strong>ACK</strong> e, quando a aplicação dele fechar, envia o
+seu <strong>FIN</strong>; o cliente responde <strong>ACK</strong> e fica
+em <strong>TIME_WAIT</strong> (2 vezes o tempo de vida de um segmento),
+a responder ACK a um FIN repetido, se o último ACK se perder
+(fiabilidade do FIN). O servidor recebe o ACK: conexão fechada. É
+simétrico se for o servidor a fechar primeiro, e os dois podem fechar em
+simultâneo.</p>
+</div>
+<p><img src="assets/guia-redes/tcp_conexao.svg" /></p>
+<p><strong>Estados do TCP</strong> (máquina de estados dos slides).
+Cliente: CLOSED → SYN_SENT → ESTABLISHED → (fecho ativo) FIN_WAIT_1 →
+FIN_WAIT_2 → TIME_WAIT → CLOSED. Servidor: CLOSED → LISTEN (<em>passive
+open</em>) → SYN_RCVD → ESTABLISHED → (fecho passivo) CLOSE_WAIT →
+LAST_ACK → CLOSED. Casos raros: SYN_SENT → SYN_RCVD (abertura
+simultânea) e FIN_WAIT_1 → CLOSING → TIME_WAIT (fecho simultâneo).</p>
+<p><strong>Porquê três mensagens †:</strong> cada lado escolhe o seu
+número inicial e tem de saber que o outro o recebeu. Com só duas
+mensagens, um SYN antigo duplicado que chegasse atrasado abria no
+servidor uma conexão que o cliente não pediu.</p>
+<h2 id="princípios-do-controlo-de-congestionamento">Princípios do
+controlo de congestionamento</h2>
+<p><strong>Congestionamento:</strong> “demasiados emissores a enviar
+demasiados pacotes para a capacidade da rede”. Sintomas: <strong>atrasos
+elevados</strong> (filas nos <em>routers</em>) e <strong>perdas</strong>
+(filas que extravasam). Os três cenários dos slides mostram o custo, com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>λ</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">\lambda_{in}</annotation></semantics></math>
+= débito de dados originais,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>λ</mi><mrow><mi>i</mi><mi>n</mi></mrow><mo>′</mo></msubsup><annotation encoding="application/x-tex">\lambda&#39;_{in}</annotation></semantics></math>
+= dados originais <strong>mais retransmissões</strong> (carga oferecida)
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>λ</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><annotation encoding="application/x-tex">\lambda_{out}</annotation></semantics></math>
+= débito útil (<em>goodput</em>):</p>
+<ol type="1">
+<li><strong>Dois emissores, um <em>router</em> com fila infinita, sem
+retransmissões.</strong> Cada um chega a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>λ</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><mo>=</mo><mi>R</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">\lambda_{out} = R/2</annotation></semantics></math>
+(a capacidade máxima), mas o atraso <strong>tende para infinito</strong>
+quando
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>λ</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub><mo>→</mo><mi>R</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">\lambda_{in} \to R/2</annotation></semantics></math>.</li>
+<li><strong>Fila finita, o emissor retransmite os perdidos.</strong> No
+ideal (o emissor adivinha se há espaço)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>λ</mi><mrow><mi>o</mi><mi>u</mi><mi>t</mi></mrow></msub><mo>=</mo><msub><mi>λ</mi><mrow><mi>i</mi><mi>n</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\lambda_{out} = \lambda_{in}</annotation></semantics></math>
+até
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">R/2</annotation></semantics></math>.
+Se só retransmitir o que se perdeu de facto (<em>timeout</em> muito
+grande), parte do que envia são retransmissões e o <em>goodput</em> fica
+abaixo de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>λ</mi><mrow><mi>i</mi><mi>n</mi></mrow><mo>′</mo></msubsup><annotation encoding="application/x-tex">\lambda&#39;_{in}</annotation></semantics></math>.
+Com <em>timeouts</em> prematuros chegam <strong>duplicados</strong>, e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">R/2</annotation></semantics></math>
+deixa de ser atingível. Custos: mais retransmissões para o mesmo
+<em>goodput</em>, e retransmissões <strong>desnecessárias</strong>.</li>
+<li><strong>Quatro emissores, caminhos com vários saltos.</strong>
+Quando um pacote se perde num salto, a capacidade gasta <strong>a
+montante</strong> para o transportar foi desperdiçada. Com a carga a
+subir, o <em>goodput</em> <strong>tende para 0</strong>:
+<strong>colapso</strong> da rede.</li>
+</ol>
+<p><strong>Objetivo do controlo de congestionamento:</strong> transmitir
+tão depressa quanto a rede aguenta, mas não mais, e, se possível,
+<strong>repartir a capacidade equitativamente</strong> entre os
+fluxos.</p>
+<h2 id="controlo-de-congestionamento-no-tcp">Controlo de
+congestionamento no TCP</h2>
+<p>O TCP adapta a transmissão à capacidade disponível (a da ligação de
+estrangulamento) <strong>sem ajuda dos <em>routers</em></strong>: o
+núcleo fica simples e a complexidade vai para os terminais, que
+<strong>inferem</strong> o congestionamento a partir das perdas e dos
+atrasos que observam (os ACKs são o <em>feedback</em>). O emissor mantém
+uma <strong>janela de congestionamento</strong> (CongWin), outro limite
+superior à janela de <em>pipelining</em>:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">LastByteSent</mtext><mo>−</mo><mtext mathvariant="normal">LastByteAcked</mtext><mo>≤</mo><mrow><mi mathvariant="normal">min</mi><mo>&#8289;</mo></mrow><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">CongWin</mtext><mo>,</mo><mtext mathvariant="normal">RcvWindow</mtext><mo stretchy="false" form="postfix">)</mo><mspace width="0.222em"></mspace><mo>†</mo></mrow><annotation encoding="application/x-tex">\text{LastByteSent} - \text{LastByteAcked} \le \min(\text{CongWin}, \text{RcvWindow})\ †</annotation></semantics></math>
+(os slides só escrevem
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≤</mo><annotation encoding="application/x-tex">\le</annotation></semantics></math>
+CongWin; o mínimo junta o controlo de fluxo). É transmitida uma janela
+por RTT, por isso
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">débito</mtext><mo>≈</mo><mfrac><mtext mathvariant="normal">CongWin</mtext><mrow><mi>R</mi><mi>T</mi><mi>T</mi></mrow></mfrac><mspace width="0.222em"></mspace><mtext mathvariant="normal">bytes/s</mtext><mi>.</mi></mrow><annotation encoding="application/x-tex">\text{débito} \approx \frac{\text{CongWin}}{RTT}\ \text{bytes/s}.</annotation></semantics></math></p>
+<p><strong>Deteção de perda:</strong> <em>timeout</em> ou <strong>3 ACKs
+duplicados</strong>. Três mecanismos: <strong>AIMD</strong>
+(<em>congestion avoidance</em>), <strong><em>slow start</em></strong> e
+reação conservadora a <em>timeouts</em>.</p>
+<ul>
+<li><strong>AIMD</strong> (<em>additive increase, multiplicative
+decrease</em>): sem perdas, CongWin aumenta <strong>1 MSS por
+RTT</strong>; numa perda, <strong>reduz-se a metade</strong>. O gráfico
+em <strong>dentes de serra</strong> vai testando a capacidade
+disponível.</li>
+<li><strong><em>Slow start</em>:</strong> ao abrir a conexão, CongWin =
+1 MSS, o que dá um débito inicial baixo (MSS = 1000 bytes e RTT = 200 ms
+dão 8000 bits / 0,2 s = 40 kbps), quando a capacidade pode ser muito
+maior. Por isso, no início CongWin aumenta <strong>1 MSS por cada
+ACK</strong> de um MSS: como numa janela de
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+segmentos chegam
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+ACKs, a janela <strong>duplica a cada RTT</strong> (crescimento
+<strong>exponencial</strong>, apesar do nome).</li>
+<li><strong>Limiar</strong> (<em>threshold</em>, <em>ssthresh</em>):
+quando CongWin chega ao limiar, passa-se do crescimento exponencial ao
+linear. Numa perda, o limiar passa a <strong>metade do valor que CongWin
+tinha imediatamente antes</strong>.</li>
+<li><strong>Filosofia do Reno:</strong> 3 ACKs duplicados mostram que a
+rede perdeu um segmento mas <strong>continua a entregar</strong> os
+seguintes (congestionamento ligeiro) → corta só a metade
+(<strong>recuperação rápida</strong>). Um <em>timeout</em> mostra
+congestionamento <strong>mais severo</strong> (não chega nada) → volta a
+1 MSS. O <strong>TCP Tahoe</strong> (a versão anterior) volta a 1 MSS em
+<strong>qualquer</strong> perda.</li>
+</ul>
+<div class="definicao"
+title="--- TCP Reno (a tabela importante dos slides)">
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">estado</th>
+<th style="text-align: left;">evento</th>
+<th style="text-align: left;">ação no emissor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><em>Slow Start</em></td>
+<td style="text-align: left;">ACK de dados novos</td>
+<td style="text-align: left;">CongWin += MSS; se CongWin
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&gt;</mo><annotation encoding="application/x-tex">&gt;</annotation></semantics></math>
+limiar, passa a <em>Congestion Avoidance</em> (duplica por RTT)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><em>Congestion Avoidance</em></td>
+<td style="text-align: left;">ACK de dados novos</td>
+<td style="text-align: left;">CongWin += MSS·(MSS/CongWin) (≈ +1 MSS por
+RTT)</td>
+</tr>
+<tr>
+<td style="text-align: left;">SS ou CA</td>
+<td style="text-align: left;"><strong>3 ACKs duplicados</strong></td>
+<td style="text-align: left;">limiar = CongWin/2; <strong>CongWin =
+limiar</strong>; passa a CA (nunca abaixo de 1 MSS)</td>
+</tr>
+<tr>
+<td style="text-align: left;">SS ou CA</td>
+<td style="text-align: left;"><strong><em>timeout</em></strong></td>
+<td style="text-align: left;">limiar = CongWin/2; <strong>CongWin = 1
+MSS</strong>; volta a SS</td>
+</tr>
+<tr>
+<td style="text-align: left;">SS ou CA</td>
+<td style="text-align: left;">ACK duplicado</td>
+<td style="text-align: left;">conta-o; CongWin e limiar não mudam</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="definicao"
+title="--- Receita: seguir a janela ronda a ronda">
+<p>Uma ronda = um RTT. Escreve uma tabela
+<code>ronda | CongWin | limiar | fase</code>.</p>
+<ol type="1">
+<li>Em SS, a janela da ronda seguinte é o <strong>dobro</strong>, mas
+<strong>não passa do limiar</strong>; a ronda em que chega ao limiar
+ainda é SS, e as seguintes são CA.</li>
+<li>Em CA, a janela da ronda seguinte é <strong>+1</strong>.</li>
+<li>Perda no fim de uma ronda com janela
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>W</mi><annotation encoding="application/x-tex">W</annotation></semantics></math>:
+limiar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mi>W</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">= W/2</annotation></semantics></math>;
+a ronda seguinte começa com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">W/2</annotation></semantics></math>
+(3 ACKs dup.) ou com 1 (<em>timeout</em>).</li>
+<li>“Em que ronda sai o
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-ésimo
+segmento?”: soma as janelas das rondas até a soma acumulada chegar a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>.</li>
+<li>Para ler um gráfico: queda para metade = 3 ACKs dup.; queda para 1 =
+<em>timeout</em>; o limiar inicial é onde a subida exponencial passa a
+linear.</li>
+</ol>
+</div>
+<div class="exemplo" title="--- Reno com limiar inicial 8 MSS">
+<p>Uma perda por 3 ACKs duplicados no fim da ronda 8 e um
+<em>timeout</em> no fim da ronda 11.</p>
+<table>
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">ronda</th>
+<th style="text-align: right;">1</th>
+<th style="text-align: right;">2</th>
+<th style="text-align: right;">3</th>
+<th style="text-align: right;">4</th>
+<th style="text-align: right;">5</th>
+<th style="text-align: right;">6</th>
+<th style="text-align: right;">7</th>
+<th style="text-align: right;">8</th>
+<th style="text-align: right;">9</th>
+<th style="text-align: right;">10</th>
+<th style="text-align: right;">11</th>
+<th style="text-align: right;">12</th>
+<th style="text-align: right;">13</th>
+<th style="text-align: right;">14</th>
+<th style="text-align: right;">15</th>
+<th style="text-align: right;">16</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">CongWin</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr>
+<td style="text-align: left;">limiar</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td style="text-align: left;">fase</td>
+<td style="text-align: right;">SS</td>
+<td style="text-align: right;">SS</td>
+<td style="text-align: right;">SS</td>
+<td style="text-align: right;">SS</td>
+<td style="text-align: right;">CA</td>
+<td style="text-align: right;">CA</td>
+<td style="text-align: right;">CA</td>
+<td style="text-align: right;">CA</td>
+<td style="text-align: right;">CA</td>
+<td style="text-align: right;">CA</td>
+<td style="text-align: right;">CA</td>
+<td style="text-align: right;">SS</td>
+<td style="text-align: right;">SS</td>
+<td style="text-align: right;">SS</td>
+<td style="text-align: right;">CA</td>
+<td style="text-align: right;">CA</td>
+</tr>
+</tbody>
+</table>
+<ol type="1">
+<li>Rondas 1–4: SS duplica 1, 2, 4, 8; na ronda 4 chega ao limiar 8 (a
+ronda 4 ainda conta como SS, como na solução oficial da F7.4) e a partir
+daí está em CA.</li>
+<li>Rondas 5–8: +1 por ronda: 9, 10, 11, 12.</li>
+<li>Fim da ronda 8 (CongWin 12), 3 ACKs dup.: limiar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>12</mn><mi>/</mi><mn>2</mn><mo>=</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">=12/2 = 6</annotation></semantics></math>,
+CongWin
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">= 6</annotation></semantics></math>
+e continua em CA: 6, 7, 8.</li>
+<li>Fim da ronda 11 (CongWin 8), <em>timeout</em>: limiar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>8</mn><mi>/</mi><mn>2</mn><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">= 8/2 = 4</annotation></semantics></math>,
+CongWin
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">= 1</annotation></semantics></math>,
+SS: 1, 2, 4 (chega ao limiar 4), depois CA: 5, 6.</li>
+<li>Segmentos enviados nas rondas 1–5:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>+</mo><mn>2</mn><mo>+</mo><mn>4</mn><mo>+</mo><mn>8</mn><mo>+</mo><mn>9</mn><mo>=</mo><mn>24</mn></mrow><annotation encoding="application/x-tex">1+2+4+8+9 = 24</annotation></semantics></math>;
+o 30.º segmento sai na ronda 6 (acumulado
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>24</mn><mo>+</mo><mn>10</mn><mo>=</mo><mn>34</mn><mo>≥</mo><mn>30</mn></mrow><annotation encoding="application/x-tex">24 + 10 = 34 \ge 30</annotation></semantics></math>).</li>
+</ol>
+</div>
+<p><img src="assets/guia-redes/reno_exemplo.svg" /></p>
+<p><strong>Débito médio de uma conexão</strong> (ignorando o <em>slow
+start</em>): seja
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>W</mi><mrow><mi>p</mi><mi>i</mi><mi>c</mi><mi>o</mi></mrow></msub><annotation encoding="application/x-tex">W_{pico}</annotation></semantics></math>
+a janela quando há uma perda. O débito oscila entre
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>W</mi><mrow><mi>p</mi><mi>i</mi><mi>c</mi><mi>o</mi></mrow></msub><mi>/</mi><mi>R</mi><mi>T</mi><mi>T</mi></mrow><annotation encoding="application/x-tex">W_{pico}/RTT</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>5</mn><mspace width="0.167em"></mspace><msub><mi>W</mi><mrow><mi>p</mi><mi>i</mi><mi>c</mi><mi>o</mi></mrow></msub><mi>/</mi><mi>R</mi><mi>T</mi><mi>T</mi></mrow><annotation encoding="application/x-tex">0{,}5\,W_{pico}/RTT</annotation></semantics></math>
+e cresce linearmente, por isso a média é
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>75</mn><mspace width="0.167em"></mspace><msub><mi>W</mi><mrow><mi>p</mi><mi>i</mi><mi>c</mi><mi>o</mi></mrow></msub><mi>/</mi><mi>R</mi><mi>T</mi><mi>T</mi></mrow><annotation encoding="application/x-tex">0{,}75\,W_{pico}/RTT</annotation></semantics></math>.
+Em função da <strong>taxa de perdas</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>L</mi><annotation encoding="application/x-tex">L</annotation></semantics></math>:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">débito</mtext><mo>≈</mo><mfrac><mrow><mn>1</mn><mo>,</mo><mn>22</mn><mo>⋅</mo><mtext mathvariant="normal">MSS</mtext></mrow><mrow><mi>R</mi><mi>T</mi><mi>T</mi><mo>⋅</mo><msqrt><mi>L</mi></msqrt></mrow></mfrac></mrow><annotation encoding="application/x-tex">\text{débito} \approx \frac{1{,}22\cdot \text{MSS}}{RTT\cdot\sqrt{L}}</annotation></semantics></math></p>
+<p><strong>“<em>Long, fat pipes</em>”.</strong> Segmentos de 1500 bytes
+e RTT = 100 ms; para 10 Gbps é preciso
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mo>=</mo><msup><mn>10</mn><mn>10</mn></msup><mo>⋅</mo><mn>0</mn><mo>,</mo><mn>1</mn><mi>/</mi><mo stretchy="false" form="prefix">(</mo><mn>1500</mn><mo>⋅</mo><mn>8</mn><mo stretchy="false" form="postfix">)</mo><mo>≈</mo><mn>83</mn><mspace width="0.167em"></mspace><mn>333</mn></mrow><annotation encoding="application/x-tex">W = 10^{10}\cdot 0{,}1/(1500\cdot8) \approx 83\,333</annotation></semantics></math>
+segmentos em trânsito, e pela fórmula acima uma taxa de perdas
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>≈</mo><mn>2</mn><mo>⋅</mo><msup><mn>10</mn><mrow><mi>−</mi><mn>10</mn></mrow></msup></mrow><annotation encoding="application/x-tex">L \approx 2\cdot10^{-10}</annotation></semantics></math>
+(perder só 1 segmento em cada 5 mil milhões). Para débitos destes são
+precisas outras variantes do TCP.</p>
+<p><strong>Equidade.</strong> Se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>K</mi><annotation encoding="application/x-tex">K</annotation></semantics></math>
+sessões TCP partilham uma ligação de estrangulamento de capacidade
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>,
+cada uma deve ter, idealmente,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mi>/</mi><mi>K</mi></mrow><annotation encoding="application/x-tex">R/K</annotation></semantics></math>.
+<strong>Porque o TCP é justo:</strong> com duas conexões, o crescimento
+aditivo é igual nas duas (uma reta de declive 1 no gráfico débito 1 ×
+débito 2), e a redução a metade reduz mais a que tem mais débito. Os
+ciclos convergem para a <strong>distribuição equitativa</strong>. Há
+duas exceções:</p>
+<ul>
+<li><strong>UDP:</strong> as aplicações multimédia não querem o débito
+limitado pelo controlo de congestionamento e usam UDP (débito constante,
+toleram perdas). Algumas implementam um controlo
+<em>TCP-friendly</em>.</li>
+<li><strong>Conexões paralelas:</strong> nada impede uma aplicação de
+abrir várias (os <em>browsers</em> fazem-no, os <em>download
+accelerators</em> ainda mais, e as P2P usam várias para <em>peers</em>
+diferentes). Numa ligação
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>
+com 9 conexões, uma aplicação que abra 1 fica com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mi>/</mi><mn>10</mn></mrow><annotation encoding="application/x-tex">R/10</annotation></semantics></math>;
+outra que abra 10 fica com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mi>/</mi><mn>19</mn><mo>≈</mo><mi>R</mi><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">10/19 \approx R/2</annotation></semantics></math>.</li>
+</ul>
+<p>A Ficha 7, Ex. 6 (procurar outras versões do TCP) é pesquisa livre:
+fica de fora.</p>
+<h1 id="aula-4-camada-de-rede-até-à-fragmentação-ip">Aula 4 — Camada de
+rede (até à fragmentação IP)</h1>
+<h2 id="reenvio-encaminhamento-e-modelos-de-serviço">Reenvio,
+encaminhamento e modelos de serviço</h2>
+<p><strong>Para que serve.</strong> Levar segmentos da máquina de
+<strong>origem</strong> à de <strong>destino</strong>: o emissor
+encapsula-os em <strong>datagramas</strong> e o receptor desencapsula-os
+e entrega-os ao transporte. Ao contrário do transporte, a camada de rede
+corre em <strong>todos os terminais e <em>routers</em></strong>, e cada
+<em>router</em> examina o cabeçalho de <strong>todos</strong> os
+datagramas que o atravessam.</p>
+<div class="definicao" title="--- Encaminhamento e reenvio">
+<ul>
+<li><strong>Encaminhamento</strong> (<em>routing</em>): determinar a
+<strong>rota</strong> da origem ao destino. É feito por
+<strong>algoritmos de encaminhamento</strong> e preenche a
+<strong>tabela de encaminhamento</strong>. Analogia: planear a
+viagem.</li>
+<li><strong>Reenvio</strong> (<em>forwarding</em>): num <em>router</em>,
+passar cada pacote da <strong>interface de entrada para a de
+saída</strong> certa, consultando a tabela com um valor do cabeçalho.
+Analogia: mudar do metro para o autocarro numa estação.</li>
+<li><strong>Estabelecimento de conexão</strong>: 3.ª função, só em
+algumas arquiteturas (ATM, <em>frame relay</em>, X.25), <strong>não no
+IP</strong>: antes dos pacotes, os dois terminais <strong>e os
+<em>routers</em> intermédios</strong> estabelecem um circuito virtual.
+No transporte, a conexão envolve só os dois processos nos
+terminais.</li>
+</ul>
+</div>
+<p><strong>Modelo de serviço</strong> (o que o “canal” da origem ao
+destino garante). Para pacotes individuais: entrega garantida, atraso
+máximo (p. ex. 40 ms). Para um fluxo: entrega ordenada, débito mínimo,
+limite ao <em>jitter</em> (variação do espaçamento entre pacotes).
+<strong>A Internet não dá nenhuma destas garantias</strong>: é
+<strong>melhor esforço</strong> (<em>best effort</em>): tenta entregar,
+mas os pacotes podem perder-se ou chegar fora de ordem, sem limite de
+atraso nem débito mínimo.</p>
+<h2 id="circuitos-virtuais-e-datagramas">Circuitos virtuais e
+datagramas</h2>
+<p>Uma rede de <strong>datagramas</strong> dá um serviço <strong>sem
+conexões</strong>; uma de <strong>circuitos virtuais (CV)</strong> dá um
+serviço <strong>com conexões</strong>. É parecido com o transporte, mas
+interliga <strong>terminais</strong> (não processos), <strong>não há
+escolha</strong> (a rede dá um tipo ou o outro) e a implementação é no
+<strong>núcleo</strong> da rede.</p>
+<p><strong>Circuitos virtuais</strong> (“o caminho funciona como um
+circuito telefónico”): há <strong>estabelecimento de chamada</strong>
+antes dos dados; cada pacote leva um <strong>identificador de
+CV</strong>, não o endereço de destino; todos os <em>routers</em> do
+caminho guardam <strong>estado por conexão</strong>; e podem reservar-se
+recursos (capacidade, <em>buffers</em>) para o CV, o que dá
+<strong>desempenho previsível</strong>. Um CV é: (1) um caminho fixo;
+(2) um número de CV <strong>por ligação</strong> do caminho; (3)
+entradas nas tabelas dos <em>routers</em>. O número <strong>pode mudar
+em cada salto</strong> (o novo vem da tabela): assim cada ligação
+escolhe números livres localmente, sem combinar com a rede toda †.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">interface de entrada</th>
+<th style="text-align: center;">nº CV à entrada</th>
+<th style="text-align: center;">interface de saída</th>
+<th style="text-align: center;">nº CV à saída</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">22</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">63</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">18</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">17</td>
+</tr>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">97</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">87</td>
+</tr>
+</tbody>
+</table>
+<p><em>Tabela do router R1 (slides): um pacote que entra pela interface
+1 com o CV 12 sai pela 3 com o CV 22.</em> Os <strong>protocolos de
+sinalização</strong> estabelecem, mantêm e terminam os CVs (ATM,
+<em>frame relay</em>, X.25; não se usam na Internet), pela ordem:
+iniciação da chamada, chamada recebida, chamada aceite, chamada
+estabelecida, início do fluxo de dados, receção.</p>
+<p><strong>Datagramas</strong> (Internet): não há chamadas nem conexões
+na camada de rede, nem estado por fluxo nos <em>routers</em>; cada
+pacote é reenviado <strong>independentemente</strong>, pelo
+<strong>endereço de destino</strong>, e pacotes entre a mesma origem e
+destino podem seguir <strong>caminhos diferentes</strong> (e chegar fora
+de ordem).</p>
+<p><strong>Tabela de reenvio de datagramas.</strong> Há mais de 4 mil
+milhões de endereços (32 bits), por isso a tabela agrupa-os em
+<strong>gamas</strong> com a mesma interface de saída, escritas como
+<strong>prefixos</strong>. Um endereço pode encaixar em vários prefixos:
+usa-se o <strong>encaixe do prefixo mais longo</strong> (<em>longest
+prefix matching</em>), o mais específico.</p>
+<div class="exemplo" title="--- Encaixe do prefixo mais longo (slides)">
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">prefixo</th>
+<th style="text-align: center;">interface</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>11001000 00010111 00010</code></td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>11001000 00010111 00011000</code></td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>11001000 00010111 00011</code></td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr>
+<td style="text-align: left;">senão</td>
+<td style="text-align: center;">3</td>
+</tr>
+</tbody>
+</table>
+<p><strong>DA =
+<code>11001000 00010111 00010110 10100001</code>.</strong> Os dois
+primeiros bytes são iguais em todos. Terceiro byte
+<code>00010110</code>: começa por <code>00010</code> (encaixa no prefixo
+da interface 0, 21 bits); não começa por <code>00011</code>, por isso
+não encaixa no 1 nem no 2. → <strong>interface 0</strong>.</p>
+<p><strong>DA =
+<code>11001000 00010111 00011000 10101010</code>.</strong> Terceiro byte
+<code>00011000</code>: encaixa no prefixo da interface 1 (24 bits)
+<strong>e</strong> no da 2 (<code>00011</code>, 21 bits). O mais longo é
+o de 24 bits → <strong>interface 1</strong>.</p>
+</div>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Internet (datagramas)</th>
+<th style="text-align: left;">ATM (circuitos virtuais)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">origem</td>
+<td style="text-align: left;">troca de dados entre computadores</td>
+<td style="text-align: left;">evolução da rede telefónica</td>
+</tr>
+<tr>
+<td style="text-align: left;">serviço</td>
+<td style="text-align: left;">“elástico”, sem requisitos temporais
+estritos</td>
+<td style="text-align: left;">conversação humana: tempo e fiabilidade
+estritos, serviço garantido</td>
+</tr>
+<tr>
+<td style="text-align: left;">terminais</td>
+<td style="text-align: left;">“inteligentes”: adaptam-se, controlam e
+recuperam erros</td>
+<td style="text-align: left;">“estúpidos” (telefones)</td>
+</tr>
+<tr>
+<td style="text-align: left;">complexidade</td>
+<td style="text-align: left;">nas extremidades; núcleo simples</td>
+<td style="text-align: left;">no núcleo</td>
+</tr>
+<tr>
+<td style="text-align: left;">ligações</td>
+<td style="text-align: left;">muitos tipos, difícil um serviço
+uniforme</td>
+<td style="text-align: left;">—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Vantagens e custos (Ficha 8 †).</strong> Os CVs garantem
+entrega <strong>ordenada</strong> (todos os pacotes seguem o mesmo
+caminho, por isso podem perder-se mas não trocar de ordem) e facilitam a
+<strong>reserva de recursos</strong> por fluxo; mas obrigam a guardar
+estado por fluxo (cresce com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false" form="prefix">(</mo><msup><mi>n</mi><mn>2</mn></msup><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math>
+no número de terminais), recuperam mal da falha de um nó ou ligação e
+demoram mais até ao primeiro pacote. O encaixe do prefixo mais longo só
+existe em redes de datagramas; com CVs procura-se o número de CV
+exato.</p>
+<h2 id="por-dentro-de-um-router">Por dentro de um <em>router</em></h2>
+<p><img src="assets/guia-redes/router.svg" /></p>
+<p>Duas funções: correr os <strong>algoritmos/protocolos de
+encaminhamento</strong> (RIP, OSPF, BGP) no <strong>processador de
+encaminhamento</strong> (<strong>plano de controlo</strong>, que também
+faz a gestão), e <strong>reenviar</strong> datagramas da interface de
+entrada para a de saída (<strong>plano de dados</strong>).</p>
+<p><strong>Interface de entrada:</strong> terminação de linha (camada
+física: receção de bits) → camada de ligação (p. ex. Ethernet:
+protocolo, desencapsulamento) → <strong>procura, reenvio e fila de
+espera</strong>. A comutação é <strong>descentralizada</strong>: cada
+interface tem uma cópia da tabela e procura nela a porta de saída, com o
+objetivo de processar à <strong>velocidade da linha</strong>. Há fila se
+os datagramas chegarem mais depressa do que a matriz os consegue
+levar.</p>
+<p><strong>Três tipos de matriz de comutação:</strong></p>
+<ol type="1">
+<li><strong>Memória</strong> (1.ª geração): um computador vulgar com a
+CPU a comutar; o pacote é copiado para a memória do sistema e daí para a
+saída. Limitado pela largura de banda da memória (cada datagrama
+atravessa <strong>2 vezes</strong> o barramento).</li>
+<li><strong>Barramento</strong> partilhado entre entrada e saída: há
+contenda, e a velocidade fica limitada pela capacidade do
+barramento.</li>
+<li><strong>Rede de interligação</strong> (barramento cruzado, redes
+Banyan…): ultrapassa o limite de um só barramento. Desenho avançado:
+partir o datagrama em <strong>células de tamanho fixo</strong> e comutar
+as células.</li>
+</ol>
+<p><strong>Filas nas entradas:</strong> quando a matriz é mais lenta do
+que as entradas todas juntas. <strong>Bloqueio <em>Head-of-Line</em>
+(HOL):</strong> o pacote à frente de uma fila, à espera de uma saída
+ocupada, impede os de trás de avançar, mesmo que a saída deles esteja
+livre. Dá atrasos e perdas por extravasamento do <em>buffer</em> de
+entrada.</p>
+<p><strong>Interfaces de saída:</strong> fila (gestão de
+<em>buffer</em>) → camada de ligação (protocolo, encapsulamento) →
+terminação de linha. Há fila quando os datagramas chegam da matriz mais
+depressa do que a ligação os transmite; um <strong>algoritmo de
+escalonamento</strong> escolhe o próximo (normalmente FIFO). É aqui que
+surgem a maioria dos atrasos em fila e das perdas.</p>
+<p><strong>Tamanho do <em>buffer</em>:</strong> a regra do RFC 3439 é
+RTT “típico” × capacidade (p. ex.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>,</mo><mn>25</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> s</mtext></mrow><mo>×</mo><mn>10</mn><mrow><mspace width="0.333em"></mspace><mtext mathvariant="normal"> Gbps</mtext></mrow><mo>=</mo><mn>2</mn><mo>,</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">0{,}25\text{ s}\times 10\text{ Gbps} = 2{,}5</annotation></semantics></math>
+Gbit), pensada para o pior caso; depois recomendou-se
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mi>T</mi><mi>T</mi><mo>⋅</mo><mi>C</mi><mi>/</mi><msqrt><mi>N</mi></msqrt></mrow><annotation encoding="application/x-tex">RTT\cdot C/\sqrt{N}</annotation></semantics></math>
+com
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+fluxos, e estudos recentes sugerem <em>buffers</em> ainda menores, para
+evitar o <strong><em>bufferbloat</em></strong> (filas enormes que só
+acrescentam atraso).</p>
+<h2 id="ip-formato-do-datagrama-e-fragmentação">IP: formato do datagrama
+e fragmentação</h2>
+<p>Na Internet, a camada de rede tem três peças: os <strong>protocolos
+de encaminhamento</strong> (RIP, OSPF, BGP: escolha de percursos,
+preenchem a tabela), o <strong>protocolo IP</strong> (endereçamento,
+formato dos datagramas, tratamento dos pacotes) e o
+<strong>ICMP</strong> (relatórios de erro, “sinalização” entre
+<em>routers</em>).</p>
+<div class="definicao"
+title="--- Cabeçalho IPv4 (20 bytes sem opções; linhas de 32 bits)">
+<ol type="1">
+<li><strong>versão</strong> (4) · <strong>tamanho do cabeçalho</strong>
+· <strong>tipo de serviço</strong> · <strong>comprimento total</strong>
+do datagrama, em bytes (16 bits).</li>
+<li><strong>identificador</strong> (16 bits) ·
+<strong><em>flags</em></strong> (3) · <strong><em>offset</em> do
+fragmento</strong> (13): para a fragmentação e a remontagem.</li>
+<li><strong><em>time to live</em></strong> (TTL): número máximo de
+saltos restantes, decrementado em cada <em>router</em> (o datagrama é
+descartado em 0) · <strong>protocolo</strong> de transporte a quem
+entregar os dados (6 = TCP, 17 = UDP †) · <strong><em>checksum</em> do
+cabeçalho</strong> (só do cabeçalho; recalculado em cada
+<em>router</em>, porque o TTL muda †).</li>
+<li><strong>endereço IP de origem</strong> (32 bits).</li>
+<li><strong>endereço IP de destino</strong> (32 bits).</li>
+<li><strong>opções</strong>, se existirem (<em>timestamp</em>, lista de
+<em>routers</em> atravessados ou a atravessar…), e os
+<strong>dados</strong> (tipicamente um segmento TCP ou UDP).</li>
+</ol>
+</div>
+<p><strong>Overhead com TCP:</strong> 20 bytes do TCP + 20 do IP =
+<strong>40 bytes</strong> por segmento, mais o <em>overhead</em> da
+aplicação.</p>
+<p><strong>Fragmentação.</strong> A <strong>MTU</strong> (<em>maximum
+transfer unit</em>) é o maior pacote que uma ligação transmite de uma
+vez; depende da tecnologia de ligação de dados, e ligações diferentes
+têm MTUs diferentes. Um datagrama maior do que a MTU da ligação seguinte
+é <strong>fragmentado</strong> pelo <em>router</em> em vários datagramas
+mais pequenos, cada um com o seu cabeçalho IP. Os fragmentos <strong>só
+são remontados no destino</strong>: é o único nó por onde todos passam
+com certeza (podem seguir caminhos diferentes), e assim os
+<em>routers</em> não ficam sobrecarregados. O cabeçalho identifica e
+ordena os fragmentos:</p>
+<ul>
+<li><strong>ID</strong>: o mesmo em todos os fragmentos do mesmo
+datagrama original;</li>
+<li><strong><em>flag</em> MF</strong> (<em>more fragments</em>): 1 em
+todos menos no <strong>último</strong>;</li>
+<li><strong><em>flag</em> DF</strong> (<em>don’t fragment</em>): se for
+1, o datagrama não pode ser fragmentado (se não couber, é descartado †);
+a 3.ª <em>flag</em> não se usa;</li>
+<li><strong><em>offset</em></strong>: a posição dos dados do fragmento
+no datagrama original, <strong>em unidades de 8 bytes</strong> (os 13
+bits não chegam para contar bytes). Por isso <strong>todos os
+fragmentos, menos o último, têm dados em múltiplos de 8
+bytes</strong>.</li>
+</ul>
+<div class="definicao" title="--- Receita: fragmentar um datagrama">
+<ol type="1">
+<li><strong>Dados a dividir</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>=</mo><annotation encoding="application/x-tex">=</annotation></semantics></math>
+comprimento total
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>−</mi><annotation encoding="application/x-tex">-</annotation></semantics></math>
+20 (cabeçalho).</li>
+<li><strong>Dados por fragmento</strong>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>=</mo><annotation encoding="application/x-tex">=</annotation></semantics></math>
+MTU
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>−</mi><annotation encoding="application/x-tex">-</annotation></semantics></math>
+20, <strong>arredondado para baixo a múltiplo de 8</strong>.</li>
+<li>Divide os dados por esse valor; o último fragmento fica com o
+resto.</li>
+<li>Para cada fragmento: comprimento
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>=</mo><annotation encoding="application/x-tex">=</annotation></semantics></math>
+dados
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>+</mi><annotation encoding="application/x-tex">+</annotation></semantics></math>
+20; ID igual ao original; MF
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">=1</annotation></semantics></math>
+(exceto o último, que fica com o MF do original); <em>offset</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>=</mo><annotation encoding="application/x-tex">=</annotation></semantics></math>
+(bytes de dados antes deste) / 8.</li>
+<li><strong>Confirma:</strong> a soma dos dados dá o original, e
+<em>offset</em>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>×</mi><mn>8</mn></mrow><annotation encoding="application/x-tex">\times 8</annotation></semantics></math>
+do último
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>+</mi><annotation encoding="application/x-tex">+</annotation></semantics></math>
+os seus dados
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>=</mo><annotation encoding="application/x-tex">=</annotation></semantics></math>
+dados do original.</li>
+<li><strong>Fragmentar um fragmento:</strong> os <em>offsets</em>
+somam-se ao <em>offset</em> dele (contam sempre a partir do início do
+datagrama <strong>original</strong>), e o MF do último sub-fragmento é o
+MF do fragmento que se partiu.</li>
+</ol>
+</div>
+<div class="exemplo"
+title="--- 4000 bytes numa ligação com MTU de 1500 (slides)">
+<ol type="1">
+<li>Dados:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4000</mn><mo>−</mo><mn>20</mn><mo>=</mo><mn>3980</mn></mrow><annotation encoding="application/x-tex">4000 - 20 = 3980</annotation></semantics></math>
+bytes.</li>
+<li>Por fragmento:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1500</mn><mo>−</mo><mn>20</mn><mo>=</mo><mn>1480</mn></mrow><annotation encoding="application/x-tex">1500 - 20 = 1480</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1480</mn><mo>=</mo><mn>8</mn><mo>×</mo><mn>185</mn></mrow><annotation encoding="application/x-tex">1480 = 8\times185</annotation></semantics></math>,
+já é múltiplo de 8).</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3980</mn><mo>=</mo><mn>1480</mn><mo>+</mo><mn>1480</mn><mo>+</mo><mn>1020</mn></mrow><annotation encoding="application/x-tex">3980 = 1480 + 1480 + 1020</annotation></semantics></math>.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">fragmento</th>
+<th style="text-align: right;">dados</th>
+<th style="text-align: right;"><em>length</em></th>
+<th style="text-align: center;">ID</th>
+<th style="text-align: center;">DF</th>
+<th style="text-align: center;">MF</th>
+<th style="text-align: right;"><em>offset</em></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">original</td>
+<td style="text-align: right;">3980</td>
+<td style="text-align: right;">4000</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">1480</td>
+<td style="text-align: right;">1500</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">1480</td>
+<td style="text-align: right;">1500</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td
+style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1480</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>185</mn></mrow><annotation encoding="application/x-tex">1480/8 = 185</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: right;">1020</td>
+<td style="text-align: right;">1040</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math></td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td
+style="text-align: right;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2960</mn><mi>/</mi><mn>8</mn><mo>=</mo><mn>370</mn></mrow><annotation encoding="application/x-tex">2960/8 = 370</annotation></semantics></math></td>
+</tr>
+</tbody>
+</table>
+<p>Confirmação:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1480</mn><mo>+</mo><mn>1480</mn><mo>+</mo><mn>1020</mn><mo>=</mo><mn>3980</mn></mrow><annotation encoding="application/x-tex">1480 + 1480 + 1020 = 3980</annotation></semantics></math>
+e
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>370</mn><mo>×</mo><mn>8</mn><mo>+</mo><mn>1020</mn><mo>=</mo><mn>2960</mn><mo>+</mo><mn>1020</mn><mo>=</mo><mn>3980</mn></mrow><annotation encoding="application/x-tex">370\times8 + 1020 = 2960 +
+1020 = 3980</annotation></semantics></math>. O <em>overhead</em> passou
+de 20 para 60 bytes de cabeçalhos IP.</p>
+</div>
+<p>A Ficha 8, Ex. 3e (fragmentação e NAT) e Ex. 4 (máscaras e tabela de
+um <em>router</em> Linux) e a Ficha 9 usam endereçamento IPv4, que é
+matéria do 3.º teste.</p>
 </main>
 </div>
 </body>
