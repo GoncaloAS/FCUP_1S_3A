@@ -322,3 +322,21 @@ html.embutido .topo, html.embutido .rodape, html.embutido .ver-cab { display: no
 html.embutido .pagina { max-width: none; padding: 0; }
 html.embutido .ver { margin-top: 0; border: 0; border-radius: 0; padding: var(--e-4) var(--e-3); }
 html.embutido .ver-barra { padding: 0 var(--e-3); }
+
+/* ---------- notas (painel) ---------- */
+.notas-bloco { grid-column: 1 / -1; }
+@media (min-width: 960px) { .notas-bloco { grid-row: span 2; } }
+.notas-grelha { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: thin; display: grid; gap: var(--e-3);
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); border-top: 1px solid var(--linha); padding-top: var(--e-3); }
+.nota-uc { border-left: 3px solid var(--d); padding: 4px 10px 8px 12px; }
+.nota-cab { display: flex; align-items: baseline; gap: var(--e-2); }
+.nota-cab b { font: 600 var(--t-1)/1.3 var(--ui); color: var(--d); }
+.nota-tot { margin-left: auto; }
+.nota-regra { font-size: var(--t-0); margin: 2px 0 6px; }
+.nota-linha { display: grid; grid-template-columns: 1fr 5.5ch auto; align-items: center; gap: var(--e-2); padding: 2px 0; }
+.nota-linha input { background: var(--papel2); color: var(--tinta); border: 1px solid var(--linha); padding: 3px 6px;
+  font: 500 var(--t-1)/1.2 var(--mono); text-align: right; width: 100%; box-sizing: border-box; }
+.nota-linha input.invalida { border-color: var(--c1); }
+.nota-estado { margin: 6px 0 0; font-size: var(--t-1); }
+.nota-estado.ok { color: var(--c2); }
+.nota-estado.risco { color: var(--c1); }

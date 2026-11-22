@@ -519,6 +519,8 @@ def pagina_inicio(disciplinas, nov, n_quizzes) -> str:
       <section class="bloco"><h2>Chegou esta semana</h2><ul id="p-chegou"></ul></section>
       <section class="bloco"><h2>Avisos recentes <span class="mono" id="p-gerado"></span>
         <a href="#" id="bloquear">bloquear</a></h2><ul id="p-avisos"></ul></section>
+      <section class="bloco notas-bloco"><h2>Notas <span class="mono">objetivo ≥ 9,5 · guardadas só neste browser</span></h2>
+        <div id="p-notas" class="notas-grelha"></div></section>
     </div>
   </section>
 
@@ -825,7 +827,7 @@ def main():
     # estilos e scripts
     css = (SITE / "design" / "tokens.css").read_text() + "\n" + (SITE / "design" / "site.css").read_text()
     (saida / "assets" / "site.css").write_text(css)
-    for f in ("seccoes.js", "ver.js", "pessoal.js", "estudo.js"):
+    for f in ("seccoes.js", "ver.js", "pessoal.js", "notas.js", "estudo.js"):
         shutil.copy(SITE / "design" / f, saida / "assets" / f)
     if (SITE / "pessoal.enc").exists():
         shutil.copy(SITE / "pessoal.enc", saida / "assets" / "pessoal.enc")

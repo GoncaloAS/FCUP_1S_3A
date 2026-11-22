@@ -2,6 +2,7 @@
 // _shared/template/pessoal.py) e preenche o que a página tiver: o painel do início (#painel),
 // a agenda completa (#agenda-pagina) e o separador Info das disciplinas ([data-info]).
 // A chave derivada fica no localStorage deste browser; "Bloquear" apaga-a.
+import { notas } from "./notas.js";
 const ENC = new URL("pessoal.enc", import.meta.url);
 const CHAVE = "painel-chave", FEITAS = "painel-feitas", MINHAS = "painel-minhas";
 
@@ -139,6 +140,7 @@ function preencher() {
     avisos(p("p-avisos"), 6);
     p("p-gerado").textContent = `dados de ${curta(D.gerado)}`;
   }
+  if (p("p-notas")) notas(p("p-notas"), cores);
   if (p("agenda-pagina")) agendaCompleta(p("agenda-pagina"));
   document.querySelectorAll("[data-info]").forEach(e => {
     const h = D.info[e.dataset.info];
