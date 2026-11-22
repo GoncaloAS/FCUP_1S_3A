@@ -53,7 +53,7 @@ tmp = OUTDIR / "_guia.md"
 tmp.write_text(md)
 subprocess.run(["pandoc", str(tmp), "-f", "markdown", "-t", "html5", "-s", "--toc", "--toc-depth=3",
                 "--math-method=mathml", "--template", str(Path(__file__).with_name("template.html")),
-                "--metadata", "title=Redes de Comunicação — matéria do 1.º teste",
+                "--metadata", "title=Redes de Comunicação — matéria dos testes (Caps. 1–4)",
                 "-o", str(OUT)], check=True)
 tmp.unlink()
 
@@ -64,7 +64,7 @@ print(f"{OUT.name}: {len(ids)} secções com id")
 
 # PDF: o mesmo texto com o pipeline do resumo (build.sh), sem caixas pratica
 TPL = REDES.parent / "_shared" / "template"
-cab = re.sub(r'title:.*', 'title: "Redes de Comunicação --- matéria do 1.º teste"', frente.group(0)) if frente else ""
+cab = re.sub(r'title:.*', 'title: "Redes de Comunicação --- matéria dos testes (Caps. 1--4)"', frente.group(0)) if frente else ""
 tmpd = Path(tempfile.mkdtemp())
 (tmpd / "guia.md").write_text(cab + md_pdf)
 subprocess.run(["pandoc", str(tmpd / "guia.md"), "-f", "markdown-implicit_figures", "-s",

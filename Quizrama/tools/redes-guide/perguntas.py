@@ -1474,3 +1474,7 @@ for topico, qs in abertas.items():
         f" * Esquema (resposta aberta): [topic, id, enunciadoHtml, null, -1, resoluçãoHtml, notaHtml]\n */\n"
         f"/* eslint-disable */\nconst {var} = [\n{body},\n];\n")
     print(f"{topico + ' (abertas)':28s} {len(qs):3d}")
+
+# ═════════════════════════ 2.º teste: banco próprio (redes2.html) ═════════════════════════
+import sys as _sys
+subprocess.run([_sys.executable, str(Path(__file__).with_name("perguntas2.py"))], check=True)

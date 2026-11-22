@@ -53,6 +53,18 @@ const TOPIC_COLORS = {
   "Parte II · HTTP":               {color:"#c0392b",bg:"transparent"},
   "Parte II · DNS, email e P2P":   {color:"#c0392b",bg:"transparent"},
   "Teste · Modelo 1":              {color:"#8a6d00",bg:"transparent"},
+  // ── Redes de Comunicação · Teste 2 ──
+  "Transporte e UDP":                {color:"#6b4fbf",bg:"transparent"},
+  "Transferência fiável (rdt)":      {color:"#1e7a4c",bg:"transparent"},
+  "Go-Back-N e Selective Repeat":    {color:"#b5651d",bg:"transparent"},
+  "TCP: sequência, ACK e timeout":   {color:"#2f5bd3",bg:"transparent"},
+  "TCP: fluxo e conexões":           {color:"#3b6e8f",bg:"transparent"},
+  "Congestionamento e TCP Reno":     {color:"#b8337a",bg:"transparent"},
+  "Rede: CVs, datagramas e router":  {color:"#9c4221",bg:"transparent"},
+  "IP e fragmentação":               {color:"#5a5fd6",bg:"transparent"},
+  "Exames antigos":                  {color:"#8a6d00",bg:"transparent"},
+  "Parte II · Transporte":           {color:"#c0392b",bg:"transparent"},
+  "Parte II · Rede":                 {color:"#c0392b",bg:"transparent"},
   // ── Tecnologias Web · Teste 1 ──
   "HTML: elementos e estrutura":       {color:"#b5651d",bg:"transparent"},
   "HTML: formulários e tabelas":       {color:"#9c4221",bg:"transparent"},
