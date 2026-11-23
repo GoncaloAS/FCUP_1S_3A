@@ -890,6 +890,8 @@ def md_html(md):
 
 # a figura do gráfico da F7.4 (enunciado)
 shutil.copy(REDES / ".fonte" / "moodle" / "img" / "65437-tcpcc.png", FIG / "reno_f7.png")
+# gráfico do exame 2025/26 (reconstruído em figuras/src/transporte.py)
+subprocess.run(["pdftoppm", "-r", "130", "-png", "-singlefile", str(REDES / "figuras" / "reno_exame25.pdf"), str(FIG / "reno_exame25")], check=True)
 
 F65 = ("<b>Ficha 6, Ex. 5 — Checksums.</b> Um datagrama UDP tem estes 16 bytes (linhas de 32 bits):<br>"
        "<code>01001010 01101010 11011011 00101000</code><br><code>00000000 00010000 00000000 00000000</code><br>"
@@ -913,6 +915,10 @@ C42 = ("<b>Treino — fragmentar um fragmento.</b> Um datagrama de 4000 bytes (I
        "uma ligação com MTU 620.<br><br>")
 F81 = ("<b>Ficha 8, Ex. 1 — De janelas e perdas.</b> TCP Reno em congestion avoidance: a janela (em MSS) varia entre W/2 e W, "
        "quando uma perda a reduz a metade.<br><br>")
+
+EX12 = ("<b>Exame 2025/26, Ex. 12.</b> A figura é a evolução da janela de congestionamento de uma conexão TCP (gráfico "
+        "reconstruído: o original não se vê na foto).<br>"
+        '<img src="assets/guia-redes/reno_exame25.png" alt="janela de congestionamento por RTT" style="max-width:100%"><br>')
 
 TR, RD = "Parte II · Transporte", "Parte II · Rede"
 ABERTAS = [  # (tópico, id, número no SOLUCOES, alínea, enunciado, secção, para lembrar)
@@ -954,6 +960,10 @@ ABERTAS = [  # (tópico, id, número no SOLUCOES, alínea, enunciado, secção, 
   "confirma: offset × 8 + dados do último = dados do original."),
  (RD, "D-F82a", "F8.2", "(a)", "<b>Ficha 8, Ex. 2 — Circuitos virtuais vs. datagramas.</b> (a) Indica vantagens e inconvenientes de cada arquitetura.", "cv",
   "CV: ordem e reserva, mas estado por fluxo; datagramas: simples e robustos, sem garantias."),
+ (TR, "D-EX12", "EX25.12", None, EX12 + "(a) Nos instantes 8, 25, 46 e 52 ocorreram eventos que causaram a alteração da evolução da janela. Para cada um desses instantes, identifique detalhadamente o evento ocorrido, justificando devidamente. (b) Diga, justificando, qual é o valor do limiar (ssThresh) nos instantes 20, 40, 50 e 60. (c) Para cada um dos instantes 5, 20, 50 e 60, diga se o TCP está em modo slow start ou congestion avoidance, justificando.", "reno",
+  "metade = 3 ACKs dup.; 1 = timeout; chegar ao limiar não é perda."),
+ (TR, "D-EX13", "EX25.13", None, "<b>Exame 2025/26, Ex. 13 (2,5 valores).</b> Numa conexão TCP, em determinado instante, os valores estimados do RTT e do seu desvio eram de 20 ms e 5 ms, respectivamente. De seguida, foi recebida uma confirmação de entrega de um segmento, 10 ms depois de esse segmento ter sido enviado. Os parâmetros α (para o RTT) e β (para o desvio) são, respectivamente, α = 0,1 e β = 0,2. (a) Calcule o valor estimado do RTT e do seu desvio no instante imediatamente a seguir à recepção dessa confirmação. (b) Calcule o valor de <i>timeout</i> usado para um segmento enviado logo após a recepção dessa confirmação.", "rtt",
+  "D com o E antigo; timeout = E + 4D."),
  (RD, "D-F82d", "F8.2", "(d)", "<b>Ficha 8, Ex. 2 — Circuitos virtuais vs. datagramas.</b> (d) Para que serve o encaixe do prefixo mais longo? Usa-se nas duas arquiteturas?", "cv",
   "agrupar destinos e escolher o mais específico; só em datagramas."),
 ]
@@ -1013,6 +1023,116 @@ topic("extra2", "Q_R2_EXTRA2", "extra2", [
    "cv", lembrar="QoS por fluxo custa estado por fluxo."),
 ])
 
+# ═════════════════════════ Exame 2025/26 (recurso, parte do 2.º teste; texto oficial, versão B) ═════════════════════════
+topic("exame25", "Q_R2_EX25", "exame25", [
+ Q("XA1", "<b>Exame 2025/26, 1.</b> Por si só, o <i>internet checksum</i> permite",
+   "apenas detectar erros.", ["garantir fiabilidade.", "detectar e corrigir erros.", "apenas corrigir erros."],
+   "O receptor só fica a saber que algo não bate certo. Não sabe <b>que</b> bit mudou (não corrige) e, sem ACKs e retransmissões, não recupera.",
+   ["A fiabilidade precisa também de números de sequência, ACKs, temporizadores e retransmissões. O UDP tem checksum e não é fiável.",
+    "Não indica que bit mudou, por isso não há como corrigir.",
+    "Sem detetar não se corrige, e o checksum não corrige nada."],
+   "udp", lembrar="checksum = só deteção.", original="c"),
+ Q("XA2", "<b>Exame 2025/26, 2.</b> No TCP, o fecho de uma conexão",
+   "inicia-se com o envio de um segmento com a <i>flag</i> FIN activa.",
+   ["é sempre iniciado pelo servidor.", "é sempre iniciado pelo cliente.", "inicia-se com o envio de um segmento com a <i>flag</i> SYN activa."],
+   "Quem quer fechar envia FIN, o outro responde ACK, e depois faz o mesmo no seu sentido.",
+   ["Qualquer dos lados pode fechar primeiro.",
+    "Qualquer dos lados pode fechar primeiro (no HTTP/1.0 é o servidor).",
+    "O SYN é do estabelecimento (three-way handshake)."],
+   "fluxo", lembrar="SYN abre, FIN fecha; qualquer lado pode começar.", original="d"),
+ Q("XA3", "<b>Exame 2025/26, 3.</b> Numa rede baseada em circuitos virtuais, o encaminhamento dos pacotes de dados é feito com base",
+   "em identificadores de circuito virtual.",
+   ["no nome das máquinas de origem e destino.", "nos endereços das máquinas de origem e destino.", "no endereço da máquina de destino."],
+   "Cada pacote leva o número de CV; o router procura (interface de entrada, CV) na tabela e troca-o pelo número de saída.",
+   ["Os nomes são da camada de aplicação (DNS).",
+    "Os endereços completos só são precisos para estabelecer o circuito.",
+    "É a regra das redes de <b>datagramas</b> (Internet)."],
+   "cv", lembrar="CV → número de CV; datagramas → endereço de destino.", original="d"),
+ Q("XA4", "<b>Exame 2025/26, 4.</b> Se uma aplicação demorar muito a ler e processar os dados recebidos numa <i>socket</i> TCP, isso faz entrar em acção o mecanismo",
+   "de controlo de fluxo.", ["AIMD (<i>additive increase, multiplicative decrease</i>).", "de controlo de congestionamento.", "recuperação rápida (<i>fast recovery</i>)."],
+   "O buffer do receptor enche, a RcvWindow anunciada desce e o emissor abranda. É proteção do <b>receptor</b>.",
+   ["O AIMD é a regra da janela de congestionamento: reage a perdas na rede.",
+    "Esse protege a <b>rede</b>; aqui quem está lento é o receptor.",
+    "A recuperação rápida segue-se a um triplo ACK duplicado."],
+   "fluxo", lembrar="receptor lento → controlo de fluxo.", original="c"),
+ Q("XA5", "<b>Exame 2025/26, 5.</b> O objectivo da <i>camada de rede</i> na pilha protocolar TCP/IP é",
+   "transferir pacotes entre máquinas que podem não estar directamente ligadas.",
+   ["definir mensagens trocadas e procedimentos usados por programas distribuídos.",
+    "transferir pacotes apenas entre máquinas adjacentes (i.e., com uma ligação directa entre si).",
+    "estabelecer um canal lógico de comunicação entre processos a correr em máquinas distintas."],
+   "Da máquina de origem à de destino, passando por routers: é comunicação máquina a máquina.",
+   ["É a camada de aplicação.",
+    "É a camada de ligação de dados.",
+    "Entre <b>processos</b> é a camada de transporte."],
+   "rede", lembrar="ligação: vizinhos; rede: máquinas; transporte: processos.", original="b"),
+ Q("XA6", "<b>Exame 2025/26, 6.</b> No <i>go-back-n</i>, quando dispara o temporizador",
+   "são retransmitidos todos os segmentos ainda não confirmados.",
+   ["é retransmitido apenas o último segmento transmitido.", "é retransmitido apenas o primeiro segmento da janela.", "é retransmitido o segmento que tem um número de sequência específico."],
+   "Há um só temporizador (o do mais antigo não confirmado); ao expirar, o emissor volta atrás e reenvia toda a janela enviada e não confirmada.",
+   ["O receptor GBN descartou também tudo o que veio depois da perda; só o último não chega.",
+    "É o que faz o TCP. No GBN reenviam-se todos.",
+    "Um temporizador por segmento, e só esse reenviado, é o Selective Repeat."],
+   "gbnsr", lembrar="GBN reenvia tudo o que falta confirmar; SR só o que expirou.", original="b"),
+ Q("XA7", "<b>Exame 2025/26, 7.</b> Pode implementar-se transporte fiável sobre uma rede como a Internet sem usar",
+   "<i>pipelining</i>.", ["temporizadores.", "confirmações.", "retransmissões."],
+   "O rdt3.0 é fiável e é stop-and-wait. As outras três são indispensáveis com perdas.",
+   ["Sem temporizador, uma perda bloqueava tudo.",
+    "Sem ACKs, o emissor não sabe o que chegou.",
+    "Sem retransmissões, nada perdido se recupera."],
+   "rdt", lembrar="pipelining é desempenho, não fiabilidade.", original="c"),
+ Q("XA8", "<b>Exame 2025/26, 8.</b> Num segmento TCP com dados, o número de sequência indica",
+   "o número do primeiro byte de dados nesse segmento.",
+   ["o número desse segmento.", "o número do último byte de dados nesse segmento.", "o número de segmentos que tinham sido enviados nessa conexão."],
+   "O TCP numera <b>bytes</b>: o segmento leva o número do seu 1.º byte no fluxo. O ACK leva o do próximo byte esperado.",
+   ["O TCP não numera segmentos (o rdt/GBN/SR é que sim).",
+    "É o primeiro. Último byte = seq + comprimento − 1.",
+    "Não conta segmentos."],
+   "tcpseg", lembrar="seq = 1.º byte; ACK = próximo byte esperado.", original="d"),
+ Q("XA9", "<b>Exame 2025/26, 9.</b> A fragmentação IP é necessária para",
+   "poder transmitir numa ligação datagramas maiores do que a sua MTU (<i>Maximum Transmission Unit</i>).",
+   ["diminuir o atraso de processamento de datagramas grandes.",
+    "enviar esses fragmentos por caminhos diferentes, aumentando assim o débito entre o emissor e o receptor.",
+    "partir mensagens demasiado grandes para caberem num segmento TCP."],
+   "Cada ligação tem a sua MTU; se o datagrama não cabe, o router parte-o, e o destino remonta.",
+   ["Pelo contrário: fragmentar e remontar dá mais trabalho.",
+    "Os fragmentos até podem seguir caminhos diferentes, mas não é esse o objetivo.",
+    "Isso é a segmentação do TCP (transporte), pelo MSS."],
+   "ip", lembrar="fragmentação ⇔ datagrama &gt; MTU.", original="a"),
+ Q("XA10", "<b>Exame 2025/26, 10.</b> A principal limitação do <i>Stop-and-Wait</i> é",
+   "poder limitar severamente a taxa de transmissão.",
+   ["retransmitir todos os segmentos na janela em caso de <i>timeout</i>, mesmo que apenas um se tenha perdido.",
+    "não garantir a entrega ordenada dos segmentos.",
+    "não ser capaz de detectar perdas de confirmações."],
+   "Um pacote por RTT: U = (L/R)/(RTT + L/R), muito baixa quando o RTT é grande face a L/R.",
+   ["É a limitação do Go-Back-N; no stop-and-wait só há um segmento em trânsito.",
+    "Garante: só envia o seguinte depois de confirmado o anterior.",
+    "Um ACK perdido provoca timeout e retransmissão (rdt3.0)."],
+   "sw", lembrar="stop-and-wait: correto mas lento.", original="d"),
+ Q("XB9", "<b>3.º teste de 2025/26, 9 (a única que também é matéria deste teste).</b> Na seguinte lista de funções há apenas uma que nunca existe na camada de rede. Identifique-a.",
+   "Controlo de acesso ao meio", ["Encaminhamento", "Reenvio (<i>forwarding</i>) de pacotes", "Estabelecimento de circuitos virtuais"],
+   "Decidir quem transmite num meio partilhado é da camada de <b>ligação de dados</b>. As outras três são as funções da camada de rede (a terceira só em redes de circuitos virtuais).",
+   ["Escolher os caminhos é função da camada de rede.",
+    "Passar o pacote da interface de entrada para a de saída é função da camada de rede.",
+    "Existe em redes como o ATM; a Internet é que não a tem."],
+   "rede", lembrar="rede = encaminhar + reenviar (+ estabelecer CVs).", original="a"),
+ # recurso de fevereiro de 2026: só se conhece o assunto das perguntas (as opções são nossas)
+ Q("XC1", "<b>Saiu em 2025/26 (reconstruída; opções nossas).</b> As duas principais funções da camada de rede são",
+   "reenvio e encaminhamento", ["controlo de fluxo e de congestionamento", "multiplexagem e deteção de erros", "acesso ao meio e encaminhamento"],
+   "Reenvio (local, dentro de um router) e encaminhamento (global, calcular os caminhos).",
+   ["São do transporte (TCP).", "São as funções do UDP, na camada de transporte.", "O acesso ao meio é da camada de ligação."],
+   "rede", lembrar="forwarding + routing."),
+ Q("XC2", "<b>Saiu em 2025/26 (reconstruída; opções nossas).</b> Que função existe tanto no TCP como no UDP?",
+   "deteção de erros", ["controlo de fluxo", "controlo de congestionamento", "estabelecimento de conexão"],
+   "Ambos têm checksum (e multiplexagem por portas). O UDP descarta o que vem errado; o TCP retransmite.",
+   ["Só o TCP (RcvWindow).", "Só o TCP (CongWin).", "Só o TCP (three-way handshake)."],
+   "udp", lembrar="em comum: mux + checksum."),
+ Q("XC3", "<b>Saiu em 2025/26 (reconstruída; opções nossas).</b> No Selective Repeat com números de sequência de 4 bits, o tamanho máximo da janela é",
+   "8", ["4", "15", "16"],
+   "4 bits dão 16 números; a janela pode ter no máximo metade.",
+   ["4 é o número de bits, não a janela.", "15 = 2<sup>4</sup> − 1 é o máximo do <b>Go-Back-N</b>.", "16 é a gama toda: o receptor confundia pacotes novos com repetidos."],
+   "gbnsr", calc=["gama = 2⁴ = 16", "N ≤ 16 / 2 = 8"], lembrar="SR: 2^(k−1); GBN: 2^k − 1."),
+])
+
 # ═════════════════════════ plano de estudo: ordem da matéria, sem dependências para a frente ═════════════════════════
 # Cada tópico: as de escolha múltipla pela ordem em que a matéria se aprende (conceito → regra → conta) e, logo a
 # seguir, as de desenvolvimento (Parte II) que usam essa matéria. Nenhuma pergunta precisa de um tópico posterior.
@@ -1036,9 +1156,15 @@ PLANO = [
  ("09-revisao-exames", "9 · Revisão final: exames antigos",
   "EA1 EA2 EA3 EA4 EA5 EA6 EA7 EA8 EA9 EA10 EA11 EA12", ""),
 ]
+# Perguntas do exame de 2025/26: entram no plano a seguir à pergunta indicada. Ficam à parte do PLANO para a posição
+# da certa nas outras não mudar (o progresso guardado refere-se a ela).
+EXAME = {"FX1": "XC2", "TU9": "XA1", "RD8": "XA10", "RD7": "XA7", "GS4": "XA6", "GS5": "XC3", "TS1": "XA8", "FC7": "XA2",
+         "FC3": "XA4", "RC1": "XA5 XC1", "RC12": "XB9", "RC2": "XA3", "IF9": "XA9",
+         "D-F73d": "D-EX13", "D-F74i": "D-EX12"}
+def com_exame(ids): return [x for i in ids.split() for x in [i] + EXAME.get(i, "").split()]
 POOL = {q["id"]: q for _, _, _, qs in TOPICOS for q in qs}
 ABERTA = {a[1]: a for a in ABERTAS}
-usadas = [i for _, _, mc, ab in PLANO for i in (mc + " " + ab).split()]
+usadas = [i for _, _, mc, ab in PLANO for i in com_exame(mc + " " + ab)]
 assert len(usadas) == len(set(usadas)), "pergunta repetida no plano"
 assert set(usadas) == set(POOL) | set(ABERTA), f"fora do plano: {(set(POOL) | set(ABERTA)) ^ set(usadas)}"
 
@@ -1046,9 +1172,9 @@ def aberta(qid, topico):
     _, _, num, alinea, texto, sec, lembrar = ABERTA[qid]
     if qid == "D-F74":   # a (h) e as leituras do gráfico (c)-(g) vêm juntas
         md = "\n\n".join(f"**{a}** " + alinea_md(num, a) for a in ["(c)", "(d)", "(e)", "(f)", "(g)", "(h)"])
-    elif qid in ("D-F65b", "D-C32b", "D-F81a", "D-F72a", "D-F83c"):   # várias alíneas no mesmo enunciado
+    elif qid in ("D-F65b", "D-C32b", "D-F81a", "D-F72a", "D-F83c", "D-EX12", "D-EX13"):   # várias alíneas no mesmo enunciado
         al = {"D-F65b": ["(a)", "(b)"], "D-C32b": ["(a)", "(b)", "(c)"], "D-F81a": ["(a)", "(b)"],
-              "D-F72a": ["(a)", "(b)"], "D-F83c": ["(b)", "(c)"]}[qid]
+              "D-F72a": ["(a)", "(b)"], "D-F83c": ["(b)", "(c)"], "D-EX12": ["(a)", "(b)", "(c)"], "D-EX13": ["(a)", "(b)"]}[qid]
         md = "\n\n".join(f"**{a}** " + alinea_md(num, a) for a in al)
     else:
         md = alinea_md(num, alinea)
@@ -1059,6 +1185,10 @@ def aberta(qid, topico):
     return [topico, qid, "<b>Desenvolvimento (Parte II).</b> " + texto, None, -1, exp, nota]
 
 rng = random.Random(20261122)
+ex_mc = [i for v in EXAME.values() for i in v.split() if i in POOL]
+ex_pos = [(i + 2) % 4 for i in range(len(ex_mc))]
+random.Random(2526).shuffle(ex_pos)
+EX_POS = dict(zip(ex_mc, ex_pos))
 glob = [0] * 4
 OUT.mkdir(parents=True, exist_ok=True)
 for f in OUT.glob("*.js"): f.unlink()
@@ -1072,7 +1202,11 @@ for n_t, (slug, nome, mc, ab) in enumerate(PLANO, 1):
     resto = sorted(range(4), key=lambda l: (glob[l] + pos.count(l), rng.random()))[: n % 4]
     pos += resto
     rng.shuffle(pos)
-    for p in pos: glob[p] += 1
+    for p in pos: glob[p] += 1   # só as do PLANO
+    onde = dict(zip(mc.split(), pos)) | EX_POS
+    qs = [POOL[i] for i in com_exame(mc)]
+    n = len(qs); pos = [onde[q["id"]] for q in qs]
+    ab = " ".join(com_exame(ab))
     entries = [montar(q, p, nome) for q, p in zip(qs, pos)]
     mais_comprida += sum(len(txt(q["right"])) > max(len(txt(w)) for w in q["wrongs"]) for q in qs)
     entries += [aberta(i, nome) for i in ab.split()]
@@ -1086,7 +1220,7 @@ for n_t, (slug, nome, mc, ab) in enumerate(PLANO, 1):
     variaveis.append(var); ficheiros.append(slug)
     total += n; n_abertas += len(ab.split())
     print(f"{nome:42s} {n:3d} + {len(ab.split())} abertas  A-D: {[pos.count(i) for i in range(4)]}")
-print(f"total {total} + {n_abertas} abertas; certa A-D: {glob}; certa é a mais comprida em {mais_comprida} ({100*mais_comprida/total:.0f}%)")
+print(f"total {total} + {n_abertas} abertas; certa A-D: {[a + ex_pos.count(i) for i, a in enumerate(glob)]}; certa é a mais comprida em {mais_comprida} ({100*mais_comprida/total:.0f}%)")
 assert mais_comprida <= 0.30 * total, "a certa é a opção mais comprida demasiadas vezes"
 
 # junta o banco (pela ordem do plano) e liga os ficheiros no redes2.html

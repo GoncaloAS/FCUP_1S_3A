@@ -33,7 +33,9 @@ O trabalho prático está em `Trabalho/` (enunciado, guia passo a passo, esquele
 (Cap. 3, `Aula_04`) e Camada de Rede até à fragmentação IP inclusive
 (Cap. 4, `Aula_05`, slides 1--36). O endereçamento IPv4 (slide 38 em
 diante: sub-redes, máscaras, DHCP, NAT, ICMP, IPv6), a Ficha 8 Ex. 3e e 4
-e a Ficha 9 são do 3.º teste. Não há teste modelo do 2.º teste.
+e a Ficha 9 são do 3.º teste. Não há teste modelo do 2.º teste; há o
+recurso de 2025/26, parte do 2.º teste (`EX25.x`; fotos em `~/Downloads/testes.zip`,
+falta o Ex. 11 e o gráfico do 12, que foi reconstruído; sem respostas oficiais).
 
 **Convenções dos Cap. 3--4.** Exercícios inventados `C3.x`/`C4.x`;
 escolha múltipla de exames antigos `EA.x` (fonte: `~/Desktop/universidade 2/3ºano/Redes de Comunicação/Testes e Exames/.../RC - múltiplas.pdf`,

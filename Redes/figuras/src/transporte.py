@@ -103,7 +103,7 @@ def handshake():
     fig.tight_layout(); fig.savefig(OUT + "tcp_conexao.pdf", bbox_inches="tight"); plt.close(fig)
 
 
-def reno(nome, janelas, limiares, notas, titulo=None, w=7.5, h=3.4):
+def reno(nome, janelas, limiares, notas, titulo=None, w=7.5, h=3.4, passo=2):
     fig, ax = plt.subplots(figsize=(w, h))
     r = list(range(1, len(janelas) + 1))
     ax.plot(r, janelas, "-o", color=AZ, ms=3.5, lw=1.4, label="CongWin")
@@ -114,7 +114,7 @@ def reno(nome, janelas, limiares, notas, titulo=None, w=7.5, h=3.4):
         ax.annotate(t, xy=(x, y), xytext=(x + 0.4, y + 3), fontsize=8.5, color=CZ,
                     arrowprops=dict(arrowstyle="-", color=CZ, lw=0.6))
     ax.set_xlabel("ronda de transmissão (RTTs)"); ax.set_ylabel("janela (MSS)")
-    ax.set_xticks(range(0, len(janelas) + 2, 2)); ax.grid(alpha=0.3)
+    ax.set_xticks(range(0, len(janelas) + 2, passo)); ax.grid(alpha=0.3)
     if titulo: ax.set_title(titulo, fontsize=10.5, weight="bold")
     fig.tight_layout(); fig.savefig(OUT + nome, bbox_inches="tight"); plt.close(fig)
 
@@ -124,6 +124,10 @@ if __name__ == "__main__":
     # Ficha 7, ex. 4 (sem anotações: é o enunciado)
     f7 = [1, 2, 4, 8, 16, 32] + list(range(33, 43)) + list(range(21, 27)) + [1, 2, 4, 8]
     reno("reno_f7.pdf", f7, None, [], w=7.0, h=3.0)
+    # Exame 2025/26, ex. 12: gráfico reconstruído (o original não se vê na foto); perdas em 8, 25 e 46
+    ex25 = [2**i for i in range(8)] + list(range(64, 81)) + list(range(40, 61)) + [1, 2, 4, 8, 16] + list(range(30, 49))
+    assert len(ex25) == 70
+    reno("reno_exame25.pdf", ex25, None, [], w=7.5, h=3.4, passo=5)
     # Exemplo resolvido: limiar inicial 8, 3 ACKs dup. no fim da ronda 8, timeout no fim da ronda 11
     ex = [1, 2, 4, 8, 9, 10, 11, 12, 6, 7, 8, 1, 2, 4, 5, 6]
     lim = [8] * 8 + [6] * 3 + [4] * 5

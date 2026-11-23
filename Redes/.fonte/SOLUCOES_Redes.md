@@ -3125,3 +3125,57 @@ ACK duplicado, não uma redução.
 **(b) os *routers* guardam informação sobre fluxos individuais** (a
 tabela de CVs). (a): o reenvio usa o número de CV; (c) e (d) são
 propriedades das redes de datagramas.
+
+### EX25.12 --- Controlo de congestionamento (exame 2025/26, 2.ª parte)
+
+Na foto do exame não se vê o gráfico. A figura do quiz foi reconstruída a
+partir dos instantes do enunciado: 1, 2, 4, ..., 128 (RTT 1--8); 64 a 80
+(9--25); 40 a 60 (26--46); 1, 2, 4, 8, 16, 30 (47--52); 31 a 48 (53--70).
+
+#### (a) Eventos nos instantes 8, 25, 46 e 52
+
+- **8: perda por triplo ACK duplicado.** A janela cai de 128 para 64
+  (metade) e passa a crescer linearmente; um *timeout* punha-a a 1.
+- **25: perda por triplo ACK duplicado.** Cai de 80 para 40 e continua
+  em *congestion avoidance*.
+- **46: *timeout*.** A janela cai de 60 para 1 MSS e recomeça em *slow
+  start*; o limiar passa a $60/2 = 30$.
+- **52: a janela atinge o limiar (30).** Não há perda: passa de *slow
+  start* (exponencial) a *congestion avoidance* (linear).
+
+#### (b) Limiar nos instantes 20, 40, 50 e 60
+
+Em cada perda o limiar fica com **metade da janela**, e não muda até à
+perda seguinte:
+
+- 20: perda em 8 com janela 128, limiar **64 MSS**;
+- 40: perda em 25 com janela 80, limiar **40 MSS**;
+- 50 e 60: perda em 46 com janela 60, limiar **30 MSS** nos dois (o
+  evento do instante 52 não é uma perda, não mexe no limiar).
+
+#### (c) Slow start ou congestion avoidance em 5, 20, 50 e 60
+
+- 5: ***slow start*** (a janela duplica a cada RTT: 16 → 32);
+- 20: ***congestion avoidance*** (cresce 1 MSS por RTT, acima do limiar 64);
+- 50: ***slow start*** (depois do *timeout*; janela 8, abaixo do limiar 30);
+- 60: ***congestion avoidance*** (já passou o limiar 30, cresce 1 MSS por RTT).
+
+### EX25.13 --- Timeout (exame 2025/26, 2.ª parte)
+
+$E = 20$ ms, $D = 5$ ms, $S = 10$ ms, $\alpha = 0{,}1$, $\beta = 0{,}2$.
+
+#### (a) RTT estimado e desvio
+
+$$E = (1-\alpha)E + \alpha S = 0{,}9\cdot 20 + 0{,}1\cdot 10 = 18 + 1 = \mathbf{19\ ms}$$
+
+$$D = (1-\beta)D + \beta\,|S - E_{\text{antigo}}| = 0{,}8\cdot 5 + 0{,}2\cdot|10-20| = 4 + 2 = \mathbf{6\ ms}$$
+
+O desvio usa o $E$ **antigo** (20), como na solução oficial da F7.3. Com o
+novo (19) daria 5,8 ms.
+
+#### (b) Timeout
+
+$$\text{timeout} = E + 4D = 19 + 4\cdot 6 = \mathbf{43\ ms}$$
+
+A amostra veio mais rápida do que o esperado e o *timeout* ainda assim subiu
+(era $20 + 4\cdot 5 = 40$): o desvio aumentou, e pesa 4 vezes.
