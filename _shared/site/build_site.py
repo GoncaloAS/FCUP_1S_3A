@@ -55,6 +55,8 @@ EXCLUIR = [
 QUIZZES = {
     "Redes": [
         ("quizrama/redes2.html", "Quiz do 2.º teste", "Transporte e Rede até à fragmentação, com nota /20"),
+        ("ver.html?f=ficheiros/Quizrama/guia_redes_teste2.pdf&d=Redes&t=Guia%20do%202.%C2%BA%20teste",
+         "Guia do 2.º teste em PDF", "a matéria do teste em frases curtas, com receitas e exemplos"),
         ("quizrama/redes.html", "Quiz do 1.º teste", "Capítulos 1–2, com nota /20"),
         ("quizrama/guia_redes_teste1.html", "Guia do 1.º teste", "a matéria, ligada às perguntas"),
         ("ver.html?f=ficheiros/Quizrama/guia_redes_teste1.pdf&d=Redes&t=Guia%20do%201.%C2%BA%20teste",

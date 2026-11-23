@@ -8,6 +8,7 @@ Quizzes de estudo para testes da FCUP: **Sistemas de Operações** (`index.html`
 
 - `redes.html` — 157 perguntas dos Capítulos 1–2 (matéria do 1.º teste), mais a escolha múltipla do teste modelo e treino da Parte II (cálculos e diagramas). Mostra a nota /20 com o desconto de 1/3 por errada.
 - `guia_redes_teste1.html` — a matéria, gerada a partir do resumo de Redes; cada correção liga à secção certa.
+- `guia_redes_teste2.pdf` — guia curto do 2.º teste, em linguagem simples; fonte: `tools/redes-guide/guia2.md` (cobre tudo o que o `redes2.html` pergunta).
 - Para regenerar depois de o resumo mudar:
 
 ```bash

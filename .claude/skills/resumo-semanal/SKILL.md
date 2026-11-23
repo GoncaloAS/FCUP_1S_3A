@@ -184,3 +184,9 @@ Aplica-se a todas as disciplinas.
   Corta-se o que não serve para resolver exercícios (curiosidades,
   exemplos repetidos, notações que o exame não usa); matéria dos slides
   que não entra nos exercícios fica, numa linha, no sítio onde se usa.
+- Guia de um teste (PDF, 2026-11-23): linguagem simples, como a skill
+  `linguagem-simples` do nexus. Uma ideia por frase, até ~15 palavras, voz
+  ativa, uma palavra com um só sentido (tabela das palavras no início).
+  Fica de fora o irrelevante, mas tudo o que o quiz desse teste pergunta tem
+  de lá estar: cruza o guia com todas as perguntas. Quiz novo = guia em PDF
+  novo, com link no site (`QUIZZES` no `build_site.py`).
